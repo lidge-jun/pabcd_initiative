@@ -446,6 +446,23 @@ shape, not more cycles. A full paper-grounded explore-and-select workflow propos
 portfolio, evaluation cascade, restart ladder) is recorded in
 `backlog/260702_explore_select_research.md` — pending adoption via a normal PABCD pass.
 
+### §11.4a Analysis-before-regeneration (DEFAULT, LOOP-REANALYZE-01)
+
+Repair fixes actions; only analysis revises the model that generates them (single- vs
+double-loop learning). In an explore-and-select loop, every generation MUST begin with
+an **analysis deliverable** — not a patch:
+
+1. **Updated problem/opponent model** from the evidence (telemetry, replays, failure
+   deltas): what did the opponent/environment actually do, and what does it imply?
+2. **Capability-gap hypotheses**: what can the artifact not currently *sense* or *do*
+   (e.g. opponent tracking, scouting, income estimation)? A gap hypothesis may propose
+   **expanding the allowed patch surface** — that is a P-level amendment, which is
+   exactly why new capabilities can never emerge from a surface-bounded repair loop.
+
+Candidates are then sourced from these hypotheses (§10 LOOP-CANDIDATE-ANCHOR-01), and
+the next P quotes them (§10 LOOP-CONTINUITY-01). A generation that skips analysis and
+regenerates straight from scores is a repair loop wearing an explore costume.
+
 ### §11.5 Unattended-loop resource policy (DEFAULT)
 
 Goal-mode (unattended) loop-specs must state: tool/credential scope (what the loop may
