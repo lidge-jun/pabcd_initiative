@@ -42,6 +42,16 @@ define *done* for this work, or only *better*?". This applies in HITL and goal m
 alike. An archetype discovered mid-loop — after candidates have already been burned —
 is an Interview failure, not a Build failure.
 
+**Interview may widen, not only narrow** (DEFAULT, INTERVIEW-DIVERGE-01): sometimes the
+truest transfer of intent is "we don't know yet — test both." When a load-bearing
+choice is genuinely uncertain and a spike is cheap, present options as
+`A · B · BOTH (parallel spike, select by evidence)` instead of forcing one pick.
+Generate the option list against typicality bias: the 2-3 options a model volunteers
+are usually one attractor family — deliberately include at least one atypical
+(low-probability) approach. A `BOTH` answer becomes an explore-and-select work-phase
+(§11.4) with the comparison verifier declared in the loop-spec. Divergence seeded at
+Interview is far cheaper than divergence discovered at a plateau.
+
 ## §2. How It Works
 
 PABCD is a forward progression with Interview return.
@@ -114,7 +124,9 @@ the legitimate human-via-CLI free pass, so it is out of scope unless the threat 
 ### P — Plan
 
 If the request has unclear scope or unspecified technology, return to Interview (`orchestrate I`). Within Interview:
-- Present 2–3 options as `<TechName> — <plain explanation>`
+- Present 2–3 options as `<TechName> — <plain explanation>`, including one atypical
+  option; offer `BOTH (parallel spike)` when the choice is uncertain and a spike is
+  cheap (INTERVIEW-DIVERGE-01, §1)
 - Recommend one with project-specific reasoning
 - Confirm once, then proceed
 
