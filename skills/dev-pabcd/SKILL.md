@@ -426,7 +426,10 @@ Classify the work-phase's problem type before choosing the inner loop shape:
   `DONE`.
 
 A repair loop applied to an optimization problem is a category error; the fix is loop
-shape, not more cycles.
+shape, not more cycles. A full paper-grounded explore-and-select workflow proposal
+(LOOP-EXPLORE-SELECT-01: StrategyCard candidates, descriptor archive, opponent
+portfolio, evaluation cascade, restart ladder) is recorded in
+`backlog/260702_explore_select_research.md` — pending adoption via a normal PABCD pass.
 
 ### §11.5 Unattended-loop resource policy (DEFAULT)
 
