@@ -411,86 +411,27 @@ rules when a second domain's evidence contradicts them.
 
 ## §11. Loop-Engineering Alignment
 
-PABCD is the macro loop: phase-level control with gates. Loop engineering (the 2026-named
-discipline of designing the system that prompts, verifies, and repeats — genealogy and
-sources: `backlog/260702_loop_engineering_backlog.md` in the initiative repo) supplies the
-micro-loop rules inside each phase. This section encodes the adopted subset.
+PABCD is the macro loop; loop engineering supplies the micro-loop rules inside each
+phase. **Full rule text: `references/loop-engineering.md`** — read it before running
+any loop/multi-pass or optimization work-phase. Summary index (IDs are canonical):
 
-### §11.1 Loop values (DEFAULT)
-
-- **Feedback must change the next action.** A cycle whose result does not alter the next
-  step is not a loop — it is a retry. Read the failure delta before acting again.
-- **The verifier outranks the prompt.** Prefer deterministic evidence (tests, exit codes,
-  diffs) over model self-assessment; the maker does not grade its own homework when a
-  stronger verifier exists.
-- **Memory lives on disk**, not in the transcript: worklog, devlog, attestations. The
-  next iteration must be able to resume from artifacts alone.
-- **Budget exhaustion ≠ done.** Never report a budget stop as success.
-- **Interview does not "solve" intent transfer** — it produces a testable initial
-  loop-spec. Later evidence may force an Interview return; that return path existing is
-  the design's own admission that intent is refined cyclically, not settled up front.
-
-### §11.2 Terminal-state vocabulary (DEFAULT)
-
-D is the success exit, not the only exit. Reports must name which terminal state the
-close-out actually represents: `DONE` (verified success) · `NOOP` (nothing needed) ·
-`BLOCKED` (external dependency) · `UNSAFE` (needs a human risk decision) · `NEEDS_HUMAN`
-(judgment only the user can make) · `BUDGET_EXHAUSTED` (resources ran out — adopt
-best-so-far and say so). These are agent-recognized report states, not FSM states: the
-FSM still closes via D or `reset`; the D summary states the real terminal state.
-
-### §11.3 Repair-loop discipline (C→B returns)
-
-The B/C inner loop is: implement → run verifier → read the failure delta → repair only
-the failing delta → re-verify.
-
-- **DEFAULT (LOOP-REPAIR-01):** 2 consecutive failed repairs of the same failure → stop
-  patching, enter root-cause mode (`dev-debugging`). 3 → escalate: replan (return to P)
-  or Interview return. "One more attempt" past these thresholds is the doom loop.
-- **HEURISTIC (LOOP-DOOM-01):** 3 attestation failures in the same phase within one
-  work-phase → treat as no-progress and force an Interview return. Self-applied for now;
-  server-side enforcement is recorded as backlog.
-
-### §11.4 Loop archetype by problem type (DEFAULT, LOOP-ARCHETYPE-01)
-
-Classify the work-phase's problem type before choosing the inner loop shape:
-
-- **Spec-satisfaction** — the verifier defines *done* (tests, contracts, tsc). Use the
-  §11.3 repair loop; it converges. Iterate until green.
-- **Open-ended optimization** — the verifier only defines *better* (scores, win rates,
-  adversarial opponents). Repair loops plateau at local optima here: they polish the
-  current strategy instead of finding the missing one. Use an **explore-and-select
-  loop**: generate diverse candidates in parallel (different strategies, not parameter
-  tweaks — LOOP-CANDIDATE-ANCHOR-01 in §10), evaluate all on the same instances, keep
-  best-so-far, regenerate from the winner. Stop on plateau (LOOP-PHASE-DEATH-01) or
-  budget; the exit state is `BUDGET_EXHAUSTED` with the best candidate adopted — not
-  `DONE`.
-
-A repair loop applied to an optimization problem is a category error; the fix is loop
-shape, not more cycles. A full paper-grounded explore-and-select workflow proposal
-(LOOP-EXPLORE-SELECT-01: StrategyCard candidates, descriptor archive, opponent
-portfolio, evaluation cascade, restart ladder) is recorded in
-`backlog/260702_explore_select_research.md` — pending adoption via a normal PABCD pass.
-
-### §11.4a Analysis-before-regeneration (DEFAULT, LOOP-REANALYZE-01)
-
-Repair fixes actions; only analysis revises the model that generates them (single- vs
-double-loop learning). In an explore-and-select loop, every generation MUST begin with
-an **analysis deliverable** — not a patch:
-
-1. **Updated problem/opponent model** from the evidence (telemetry, replays, failure
-   deltas): what did the opponent/environment actually do, and what does it imply?
-2. **Capability-gap hypotheses**: what can the artifact not currently *sense* or *do*
-   (e.g. opponent tracking, scouting, income estimation)? A gap hypothesis may propose
-   **expanding the allowed patch surface** — that is a P-level amendment, which is
-   exactly why new capabilities can never emerge from a surface-bounded repair loop.
-
-Candidates are then sourced from these hypotheses (§10 LOOP-CANDIDATE-ANCHOR-01), and
-the next P quotes them (§10 LOOP-CONTINUITY-01). A generation that skips analysis and
-regenerates straight from scores is a repair loop wearing an explore costume.
-
-### §11.5 Unattended-loop resource policy (DEFAULT)
-
-Goal-mode (unattended) loop-specs must state: tool/credential scope (what the loop may
-touch), token/cost budget, and a wall-clock bound. For C4 surfaces, an unattended loop
-with unstated scope is an ESCALATE-class omission — stop and ask before running it.
+- **§11.1 Loop values (DEFAULT)** — feedback must change the next action; the verifier
+  outranks the prompt; memory lives on disk; budget exhaustion ≠ done; Interview yields
+  a testable loop-spec, not solved intent.
+- **§11.2 Terminal states (DEFAULT)** — D names the real report state: `DONE` · `NOOP` ·
+  `BLOCKED` · `UNSAFE` · `NEEDS_HUMAN` · `BUDGET_EXHAUSTED` (adopt best-so-far and say
+  so). Report states, not FSM states.
+- **§11.3 Repair-loop discipline (LOOP-REPAIR-01 / LOOP-DOOM-01)** — repair only the
+  failing delta; 2 same-failure repairs → root-cause mode; 3 → replan or Interview;
+  3 same-phase attestation failures → forced Interview return.
+- **§11.4 Loop archetype (LOOP-ARCHETYPE-01)** — spec-satisfaction → repair loop;
+  open-ended optimization → explore-and-select (diverse candidates, same-instance
+  evaluation, best-so-far ledger, plateau/budget stop → `BUDGET_EXHAUSTED`). Workflow
+  proposal: `backlog/260702_explore_select_research.md` (LOOP-EXPLORE-SELECT-01).
+- **§11.4a Analysis before regeneration (LOOP-REANALYZE-01)** — every generation opens
+  with an analysis deliverable: updated opponent/problem model + capability-gap
+  hypotheses (a gap may expand the allowed surface via P amendment). Regenerating
+  straight from scores is a repair loop in an explore costume.
+- **§11.5 Unattended-loop resource policy (DEFAULT)** — goal-mode loop-specs state
+  tool/credential scope, token/cost budget, and a wall-clock bound; unstated scope on
+  C4 surfaces is an ESCALATE-class omission.
