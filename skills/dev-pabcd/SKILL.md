@@ -90,7 +90,12 @@ The gate is **form-only**: it checks that the block is well-formed and that `did
 narrative (booleans/placeholders are rejected); C→D additionally requires a non-empty
 `checkOutput` and, if present, `exitCode:0`. It does NOT cross-check the narrative against
 runtime state — the goal is to force a deliberate, specific claim, not to defeat a malicious
-agent. Saying "현재는 B입니다" without running the command does nothing: the state machine only
+agent.
+
+**Evidence pointers (DEFAULT, ATTEST-EVIDENCE-01):** even though the gate checks form
+only, write `did` with artifact pointers — the plan/devlog path, the changed-file list,
+the verify command with its exit code — so a later reader (or a stronger future gate)
+can re-check the claim against the repo instead of trusting the narrative. Saying "현재는 B입니다" without running the command does nothing: the state machine only
 moves on the command.
 
 Threat model = laziness, not malice. Accepted residuals (NOT bugs): a fabricated `did`, the
@@ -130,6 +135,12 @@ Read project docs and dev skills first. Write the complete plan internally, then
 Write a plan with two parts:
 - **Part 1**: Easy explanation — what will be built, in non-developer terms.
 - **Part 2**: Diff-level precision — exact file paths (NEW/MODIFY/DELETE), before/after diffs for MODIFY, complete content for NEW.
+
+**Loop-spec header (DEFAULT, C2+):** open the plan with a compact loop-spec —
+Trigger · Goal (user-visible outcome) · Non-goals · Verifier (the command/gate that
+proves it) · Stop condition · Memory artifact (devlog/worklog path) · Expected terminal
+states (§11.2) · Escalation condition. Goal mode additionally states the §11.5 resource
+scope. This makes the loop contract first-class instead of scattered across the plan.
 
 If anything is unclear, return to Interview (`orchestrate I`) — do NOT ask questions in P.
 
@@ -187,7 +198,8 @@ Implement the plan. You write all code by default. Workers are read-only verifie
 Do not create `structure/` or `devlog/` unless approved in P or explicitly requested by the user.
 
 After implementing, output worker JSON for verification. The worker checks your code exists and integrates cleanly.
-- If NEEDS_FIX → you fix the issues → re-verify
+- If NEEDS_FIX → you fix the issues → re-verify (repair discipline and failure
+  thresholds: §11.3)
 - If DONE → report results to the user
 
 ⛔ Wait for user approval. When approved, advance with the canonical B→C attestation form in §2.1.
@@ -355,3 +367,69 @@ Grounding: observed in a 14-discard optimization plateau where a prefix-only rep
 and a hard draw-protection invariant locked a 3.5/8 score. Single-incident induction —
 treat the constants as starting values, keep the per-domain death log, and revise these
 rules when a second domain's evidence contradicts them.
+
+## §11. Loop-Engineering Alignment
+
+PABCD is the macro loop: phase-level control with gates. Loop engineering (the 2026-named
+discipline of designing the system that prompts, verifies, and repeats — genealogy and
+sources: `backlog/260702_loop_engineering_backlog.md` in the initiative repo) supplies the
+micro-loop rules inside each phase. This section encodes the adopted subset.
+
+### §11.1 Loop values (DEFAULT)
+
+- **Feedback must change the next action.** A cycle whose result does not alter the next
+  step is not a loop — it is a retry. Read the failure delta before acting again.
+- **The verifier outranks the prompt.** Prefer deterministic evidence (tests, exit codes,
+  diffs) over model self-assessment; the maker does not grade its own homework when a
+  stronger verifier exists.
+- **Memory lives on disk**, not in the transcript: worklog, devlog, attestations. The
+  next iteration must be able to resume from artifacts alone.
+- **Budget exhaustion ≠ done.** Never report a budget stop as success.
+- **Interview does not "solve" intent transfer** — it produces a testable initial
+  loop-spec. Later evidence may force an Interview return; that return path existing is
+  the design's own admission that intent is refined cyclically, not settled up front.
+
+### §11.2 Terminal-state vocabulary (DEFAULT)
+
+D is the success exit, not the only exit. Reports must name which terminal state the
+close-out actually represents: `DONE` (verified success) · `NOOP` (nothing needed) ·
+`BLOCKED` (external dependency) · `UNSAFE` (needs a human risk decision) · `NEEDS_HUMAN`
+(judgment only the user can make) · `BUDGET_EXHAUSTED` (resources ran out — adopt
+best-so-far and say so). These are agent-recognized report states, not FSM states: the
+FSM still closes via D or `reset`; the D summary states the real terminal state.
+
+### §11.3 Repair-loop discipline (C→B returns)
+
+The B/C inner loop is: implement → run verifier → read the failure delta → repair only
+the failing delta → re-verify.
+
+- **DEFAULT (LOOP-REPAIR-01):** 2 consecutive failed repairs of the same failure → stop
+  patching, enter root-cause mode (`dev-debugging`). 3 → escalate: replan (return to P)
+  or Interview return. "One more attempt" past these thresholds is the doom loop.
+- **HEURISTIC (LOOP-DOOM-01):** 3 attestation failures in the same phase within one
+  work-phase → treat as no-progress and force an Interview return. Self-applied for now;
+  server-side enforcement is recorded as backlog.
+
+### §11.4 Loop archetype by problem type (DEFAULT, LOOP-ARCHETYPE-01)
+
+Classify the work-phase's problem type before choosing the inner loop shape:
+
+- **Spec-satisfaction** — the verifier defines *done* (tests, contracts, tsc). Use the
+  §11.3 repair loop; it converges. Iterate until green.
+- **Open-ended optimization** — the verifier only defines *better* (scores, win rates,
+  adversarial opponents). Repair loops plateau at local optima here: they polish the
+  current strategy instead of finding the missing one. Use an **explore-and-select
+  loop**: generate diverse candidates in parallel (different strategies, not parameter
+  tweaks — LOOP-CANDIDATE-ANCHOR-01 in §10), evaluate all on the same instances, keep
+  best-so-far, regenerate from the winner. Stop on plateau (LOOP-PHASE-DEATH-01) or
+  budget; the exit state is `BUDGET_EXHAUSTED` with the best candidate adopted — not
+  `DONE`.
+
+A repair loop applied to an optimization problem is a category error; the fix is loop
+shape, not more cycles.
+
+### §11.5 Unattended-loop resource policy (DEFAULT)
+
+Goal-mode (unattended) loop-specs must state: tool/credential scope (what the loop may
+touch), token/cost budget, and a wall-clock bound. For C4 surfaces, an unattended loop
+with unstated scope is an ESCALATE-class omission — stop and ask before running it.

@@ -14,6 +14,10 @@ detail-misses, and the modular router+references architecture.
 - `prompts/freshness-sweep.md` — cron prompt for the recurring multi-cycle PABCD
   freshness sweep (re-verify time-sensitive claims, patch, independently verify,
   emit downstream port backlog).
+- `backlog/` — adoption/backlog records; `260702_loop_engineering_backlog.md` holds the
+  loop-engineering alignment (dev-pabcd §11), the plateau finding, and the future-work
+  table (server-side doom-loop gate, evidence-bound attestation, explore-and-select
+  tooling, downstream ports).
 
 Downstream adaptations of the same principles: `codexclaw/plugins/codexclaw/skills`
 (cxc-* family) and `jawcode/packages/coding-agent/src/defaults/jwc/skills` (+ role
