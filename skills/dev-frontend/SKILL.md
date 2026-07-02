@@ -176,9 +176,9 @@ values and palettes are STYLE_SAMPLE (§1.5); the emoji-as-UI-icon ban is the on
 Read `references/core/anti-slop.md` for full rules. Key standards:
 
 - Treat unexamined default typography as a slop signal. Choose a domain-appropriate stack; Korean-first UI should use CJK-safe fonts and system fallbacks deliberately.
-- Use neutral or intentional color palettes — purple gradients on white are a slop signal
-- **Gradient budget**: max 1 ambient gradient per viewport; gradients on 3+ sibling cards is gradient soup — see `anti-slop.md § Gradient Budget`
+- **Gradient overuse is the #1 AI tell (2026)** — audit gradients first. Budget: max 1 ambient gradient per viewport; gradients on 3+ sibling cards is gradient soup — see `anti-slop.md § Gradient Budget`
 - **One-note theme ban**: full-page single-hue washes (terminal green, cyber cyan, CRT amber) are the dark-mode purple-on-white — neutral dark base + accent on <10% of surface. See `anti-slop.md § One-Note Theme Ban`
+- Use neutral or intentional color palettes — purple gradients on white remain the legacy tell
 - **No self-describing meta copy**: UI text must sell the product, never narrate the mockup, layout, or responsive behavior ("벤토 보드", "다른 배율로 재사용", viewport pill rows) — see `anti-slop.md § Self-Describing Meta Copy`
 - Use asymmetric or purposeful layouts — centered-everything reads as template
 - Vary card sizes, spans, and groupings — equal 3-card grids read as generic

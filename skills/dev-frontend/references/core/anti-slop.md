@@ -36,7 +36,10 @@ Synthesized from taste-skill, redesign-skill, Anthropic frontend-design, and Koo
 ---
 
 ## Banned Color Patterns
-- Purple gradient on white background (the #1 AI tell)
+
+**Gradient overuse is the #1 AI tell of the 2026 generation.** Purple-on-white was the old-generation tell; current models default to gradient soup and single-hue dark washes instead. Audit gradients FIRST in any slop review (see § Gradient Budget and § One-Note Theme Ban below).
+
+- Purple gradient on white background (the legacy #1 tell — still banned)
 - Blue-to-indigo gradient buttons
 - Oversaturated neon accents (keep saturation < 80%)
 - Equally distributed pastel rainbows
