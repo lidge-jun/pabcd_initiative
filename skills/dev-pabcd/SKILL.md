@@ -124,9 +124,15 @@ the legitimate human-via-CLI free pass, so it is out of scope unless the threat 
 ### P — Plan
 
 If the request has unclear scope or unspecified technology, return to Interview (`orchestrate I`). Within Interview:
-- Present 2–3 options as `<TechName> — <plain explanation>`, including one atypical
+- Present 2–3 options as `<Name> — <plain explanation>`, including one atypical
   option; offer `BOTH (parallel spike)` when the choice is uncertain and a spike is
   cheap (INTERVIEW-DIVERGE-01, §1)
+- **Teach the decision space, don't only narrow it** (DEFAULT, INTERVIEW-TEACH-01):
+  intent transfer is bidirectional — a user cannot choose among options they have
+  never seen. Questions that merely confirm details the user already stated are the
+  weak form; the strong form maps the option landscape (research it first when
+  needed) with a trade-off explanation per option, at every load-bearing altitude:
+  stack, architecture, **algorithm/strategy**, data structure, evaluation method.
 - Recommend one with project-specific reasoning
 - Confirm once, then proceed
 
