@@ -116,3 +116,32 @@ Keep two counters per candidate lineage: `no_progress_at_gate` and
 `same_reason_repeats`. Reward depth-first continuation while improving; enforce
 controlled diversification when failure signatures converge. This is the quantitative
 backing for §10 LOOP-PHASE-DEATH-01's N=3 starting value.
+
+## 5. Single-model divergence smoke test (2026-07-02, gpt-5.5 ×17 parallel)
+
+Question: with ONE model (no model-heterogeneity axis), which divergence schema
+actually prevents mode collapse? Task: propose a strategy card (4 behavior axes:
+FIRST_ATTACK, ECONOMY, DENIAL_TARGET, WIN_PLAN) for the NEXT NATION anti-economy
+plateau. 5 conditions, same model (gpt-5.5, effort medium), no web search.
+
+| Condition | Calls | Unique 4-axis tuples | Notes |
+|-----------|-------|---------------------|-------|
+| A. Baseline (identical prompt) | 4 | **2/4** | Total collapse: all early/balanced/eco-denial "contain" family; names Contain/Clamp ×4; one mechanism family |
+| B. Cell assignment (Zwicky/MAP) | 4 | 4/4 (forced) | Guaranteed coverage by construction; in-cell quality held even for the odd cell (turtle+hq-snipe → "Tripwire Turtle Snipe") |
+| C. Objective splitting | 4 | 4/4 | Spontaneous rush/greedy/mid/hq-snipe coverage; 1 of 4 still fell into the baseline attractor family |
+| D. Verbalized Sampling (1 call, 4 cards + probabilities) | 1 | **4/4** | Widest spontaneous coverage — only condition to produce FIRST_ATTACK=none, ECONOMY=turtle, WIN_PLAN=attrition unforced; self-estimated P for the typical answer (0.27-0.42) matched the observed baseline collapse |
+| E. Evidence slicing | 4 | 3/4 | ECONOMY collapsed to balanced ×4, but highest groundedness — each card directly answers its evidence; the diagnosis lane, not the breadth lane |
+
+Attractor check: the baseline mode ("early balanced contain/eco-denial") reappeared
+in C (1/4) and D (P=.27 card) — VS's verbalized probabilities effectively *named* the
+mode the baseline collapsed into.
+
+**Adopted 1-model recipe (DIVERGE-SPEC draft):**
+1. VS first — one call, k cards with probabilities, demand low-P tails (cheapest breadth scan).
+2. Cell-assign the real candidate batch from undercovered axis cells (guaranteed coverage).
+3. Split objectives per cell (optimization pressure per niche; also generates exploiter probes).
+4. Evidence slices once real telemetry exists (grounded refinement, not breadth).
+5. Post-hoc behavior-distance novelty gate (self-reported tags are gameable — final gate must use measured descriptors).
+
+Caveats: n=4/condition, single run, self-reported axis tags, diversity ≠ quality
+(the tournament verifier still owns selection). Smoke-level evidence only.
