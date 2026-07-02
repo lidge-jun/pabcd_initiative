@@ -239,6 +239,14 @@ Summarize the entire flow:
 - List of files changed
 - Any follow-up items
 
+**Pessimistic close-out (DEFAULT, LOOP-PESSIMIST-01):** for loop/multi-pass work, D
+also records the negative delta: what did NOT improve, which hypothesis died this
+cycle, and one sentence answering "what evidence would show the current direction is
+wrong?" — the next P quotes this (§10 LOOP-CONTINUITY-01). Treat D→IDLE→P as a
+**context boundary / bias flush**: the next cycle resumes from disk artifacts
+(worklog, devlog, archive, death log), not from the transcript's accumulated
+assumptions.
+
 State returns to IDLE automatically.
 
 Project root configuration is persistent. D completion resets the PABCD state, but it
