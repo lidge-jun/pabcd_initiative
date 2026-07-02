@@ -36,6 +36,12 @@ Do NOT:
 The `/interview` slash command is a user-facing shortcut that triggers the same transition.
 As the orchestrating agent, always perform the `orchestrate I` transition directly.
 
+**Interview MUST settle two classifications before P** (DEFAULT, INTERVIEW-CLASSIFY-01):
+the work class (dev §0.0) and the **loop archetype** (§11.4) — ask "does a verifier
+define *done* for this work, or only *better*?". This applies in HITL and goal mode
+alike. An archetype discovered mid-loop — after candidates have already been burned —
+is an Interview failure, not a Build failure.
+
 ## §2. How It Works
 
 PABCD is a forward progression with Interview return.
@@ -137,10 +143,19 @@ Write a plan with two parts:
 - **Part 2**: Diff-level precision — exact file paths (NEW/MODIFY/DELETE), before/after diffs for MODIFY, complete content for NEW.
 
 **Loop-spec header (DEFAULT, C2+):** open the plan with a compact loop-spec —
-Trigger · Goal (user-visible outcome) · Non-goals · Verifier (the command/gate that
-proves it) · Stop condition · Memory artifact (devlog/worklog path) · Expected terminal
-states (§11.2) · Escalation condition. Goal mode additionally states the §11.5 resource
-scope. This makes the loop contract first-class instead of scattered across the plan.
+**Loop archetype (§11.4, carried from Interview)** · Trigger · Goal (user-visible
+outcome) · Non-goals · Verifier (the command/gate that proves it, and **what it
+measures**, not only pass/fail) · Stop condition · Memory artifact (devlog/worklog
+path) · Expected terminal states (§11.2) · Escalation condition. Goal mode additionally
+states the §11.5 resource scope. This makes the loop contract first-class instead of
+scattered across the plan.
+
+**When the archetype is open-ended optimization**, the loop-spec MUST additionally
+include a divergence plan (descriptor axes · cell/archetype assignments · candidate
+count · deterministic selection rule · telemetry schema), and **instrumentation
+precedes candidates**: if the verifier only reports win/lose, B's first work item is
+the telemetry, not a candidate. A scalar-only verifier plus discarded candidates is
+the §10 plateau signature reproduced by design.
 
 If anything is unclear, return to Interview (`orchestrate I`) — do NOT ask questions in P.
 
