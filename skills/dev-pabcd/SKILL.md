@@ -52,6 +52,50 @@ are usually one attractor family — deliberately include at least one atypical
 (§11.4) with the comparison verifier declared in the loop-spec. Divergence seeded at
 Interview is far cheaper than divergence discovered at a plateau.
 
+### §1.2 Interview Sub-modes
+
+Interview operates in one of three sub-modes, selected by the user's knowledge level:
+
+**Clarification** (default, existing): user already knows roughly what they want.
+Questions structure goals, constraints, success criteria.
+
+**Catalog Discovery** (`catalog_discovery`): user does not know the option space
+(e.g. "사주 앱 만들고 싶어"). The interviewer presents a versioned option catalog
+(`references/catalog-discovery.yaml`) in explicit stage order:
+
+1. **Stage 1 — Design/UX** (ALWAYS first, most important): use Product-Personality-Selection
+   (dev-uiux-design §1) as step-1 methodology. Present the 6 design dials (mood, lightness,
+   density, shape, typography, motion) with show-then-ask flow: options with trade-offs,
+   then question. Map answers to design tokens. Follow-up refinement uses Korean Request
+   Translation (dev-uiux-design §3), Reference Discovery (§1 Step 6), and Design Read (§2).
+2. **Stage 2 — Domain** (app type): present domain options relevant to the user's stated
+   interest. Domain choice seeds stage-3 derived entries via `implies[]`.
+3. **Stage 3 — Derived axes** (feature, data, security, ops, cost): present ONLY entries
+   whose `derived_from` matches selected stage 1+2 entry IDs, OR whose `auto_activate_rules`
+   keywords match the user's original free-text query. Do NOT dump a flat list of all entries.
+
+Design/UX questions are asked FIRST in every catalog_discovery session — this is the
+load-bearing invariant (DEFAULT, CATALOG-DESIGN-FIRST-01). A conforming consumer MUST
+iterate `axis_order` ascending by stage and MUST NOT present a stage until all earlier
+stages are answered.
+
+Entry rules:
+- `implies[]` chains resolve transitively — if A implies B implies C, all three activate.
+- `conflicts[]` are flagged before the user commits — never silently resolved.
+- The catalog is a DATA STRUCTURE (`references/catalog-discovery.yaml`), not per-session
+  improvisation — do not invent entries not in the catalog.
+
+**Configurator**: after catalog_discovery selections are complete, compile into:
+- PRD (functional + non-functional requirements from selected entries)
+- MVP cut (sort by `cost_class`, cut at the user's stated budget/timeline)
+- Risk register (all `risk_class: high` entries)
+- PABCD plan seed (work class from INTERVIEW-CLASSIFY-01 + loop archetype)
+
+Sub-mode entry heuristic:
+- User states a concrete feature/goal → Clarification
+- User states a vague domain with no tech specifics → Catalog Discovery
+- Explicit user request for either mode → honor it
+
 ## §2. How It Works
 
 PABCD is a forward progression with Interview return.
