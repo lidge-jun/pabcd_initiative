@@ -52,49 +52,40 @@ are usually one attractor family — deliberately include at least one atypical
 (§11.4) with the comparison verifier declared in the loop-spec. Divergence seeded at
 Interview is far cheaper than divergence discovered at a plateau.
 
-### §1.2 Interview Sub-modes
+**Interview sub-modes** (DEFAULT, INTERVIEW-CATALOG-01): pick by the user's knowledge level.
+*Clarification* (existing) — the user already knows roughly what they want; questions structure
+goals, constraints, success criteria. *Catalog Discovery* — the user names a vague domain but no
+features ("사주 앱 만들고 싶어", "뭘 만들지 모르겠어"); see below. *Configurator* — compile the
+selections into a spec. Heuristic: concrete feature/goal → Clarification; vague domain, no tech
+specifics → Catalog Discovery; explicit user request → honor it.
 
-Interview operates in one of three sub-modes, selected by the user's knowledge level:
+**Catalog Discovery — design/UX LEADS** (DEFAULT, CATALOG-DESIGN-FIRST-01): the user cannot choose
+from options they have never seen (the strong form of INTERVIEW-TEACH-01). Present the option
+ontology in `references/catalog-discovery.yaml`. *Hard barrier:* iterate `axis_order` by ascending
+`stage`; do NOT present a stage until every `required` entry of all earlier stages is answered.
+Stage 1 is design, so all six design dials (mood, lightness, density, shape, typography, motion),
+each `required: true`, MUST be answered before any Stage 2 (domain) or Stage 3 (feature/data/
+security/ops/cost) question appears. This is the load-bearing invariant — backend is asked on top
+of design, never before it.
 
-**Clarification** (default, existing): user already knows roughly what they want.
-Questions structure goals, constraints, success criteria.
+- *Design methodology — Product-Personality Selection first* (`design_methodology.primary`, from
+  dev-uiux-design §1): for each design dial show its `question_options` (labels + trade-offs)
+  anchored on familiar products, then ask (present-then-ask, not confirm-what-they-said); refine
+  via the declared `followups` — Korean Request Translation (§3), Reference Discovery (§1 Step 6),
+  Design Read (§2).
+- *Deriving backend questions* — two paths populate Stage 3 from earlier answers, never a flat
+  list: **structural** — a chosen Stage-2 domain entry's `implies[]` plus each Stage-3 entry's
+  `derived_from` (resolve `implies[]` transitively); **keyword** — scan the user's INITIAL
+  free-text request against Stage-3 `auto_activate_rules` (e.g. "사주"/"생년월일" pre-activates
+  `security.pii_protection`). Confirm high-impact activations.
+- The catalog is a DATA STRUCTURE — do not invent entries not in it. The YAML encodes derivation
+  INPUTS + dependency metadata; this prose is the agent procedure that reads it. Automated runtime
+  filtering is out of scope (it would escalate to code).
 
-**Catalog Discovery** (`catalog_discovery`): user does not know the option space
-(e.g. "사주 앱 만들고 싶어"). The interviewer presents a versioned option catalog
-(`references/catalog-discovery.yaml`) in explicit stage order:
-
-1. **Stage 1 — Design/UX** (ALWAYS first, most important): use Product-Personality-Selection
-   (dev-uiux-design §1) as step-1 methodology. Present the 6 design dials (mood, lightness,
-   density, shape, typography, motion) with show-then-ask flow: options with trade-offs,
-   then question. Map answers to design tokens. Follow-up refinement uses Korean Request
-   Translation (dev-uiux-design §3), Reference Discovery (§1 Step 6), and Design Read (§2).
-2. **Stage 2 — Domain** (app type): present domain options relevant to the user's stated
-   interest. Domain choice seeds stage-3 derived entries via `implies[]`.
-3. **Stage 3 — Derived axes** (feature, data, security, ops, cost): present ONLY entries
-   whose `derived_from` matches selected stage 1+2 entry IDs, OR whose `auto_activate_rules`
-   keywords match the user's original free-text query. Do NOT dump a flat list of all entries.
-
-Design/UX questions are asked FIRST in every catalog_discovery session — this is the
-load-bearing invariant (DEFAULT, CATALOG-DESIGN-FIRST-01). A conforming consumer MUST
-iterate `axis_order` ascending by stage and MUST NOT present a stage until all earlier
-stages are answered.
-
-Entry rules:
-- `implies[]` chains resolve transitively — if A implies B implies C, all three activate.
-- `conflicts[]` are flagged before the user commits — never silently resolved.
-- The catalog is a DATA STRUCTURE (`references/catalog-discovery.yaml`), not per-session
-  improvisation — do not invent entries not in the catalog.
-
-**Configurator**: after catalog_discovery selections are complete, compile into:
-- PRD (functional + non-functional requirements from selected entries)
-- MVP cut (sort by `cost_class`, cut at the user's stated budget/timeline)
-- Risk register (all `risk_class: high` entries)
-- PABCD plan seed (work class from INTERVIEW-CLASSIFY-01 + loop archetype)
-
-Sub-mode entry heuristic:
-- User states a concrete feature/goal → Clarification
-- User states a vague domain with no tech specifics → Catalog Discovery
-- Explicit user request for either mode → honor it
+**Configurator**: once selections are complete, compile them (with resolved `implies[]` chains)
+into a spec — PRD sections, an MVP cut ordered by `cost_class`, a risk register of every
+`risk_class: high` entry, and a PABCD plan seed carrying the work class + loop archetype from
+INTERVIEW-CLASSIFY-01.
 
 ## §2. How It Works
 
