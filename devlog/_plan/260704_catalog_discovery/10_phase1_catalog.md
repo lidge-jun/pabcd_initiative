@@ -133,14 +133,80 @@ entries:
     risk_class: high
     cost_class: 2
     auto_activate_rules: ["생년월일", "birth", "사주", "personal"]
-  - id: security.auth              # login/session
-  - id: data.retention_policy      # 파기/보존
-  - id: data.user_generated        # UGC
-  - id: feature.payments           # implies security.pci
-  - id: feature.notifications      # implies ops.scheduled_jobs
-  - id: ops.scheduled_jobs         # cron
-  - id: ops.admin_review           # moderation/approval
-  - id: cost.infra_complexity      # roll-up flag
+  - id: security.auth
+    axis: security
+    stage: 3
+    derived_from: [domain.marketplace, domain.dashboard, domain.booking, domain.community, domain.internal_tool]
+    label: {ko: "로그인/인증", en: "Authentication"}
+    teach_text: {ko: "사용자가 계정으로 로그인해야 하면 인증 시스템이 필요합니다.", en: "..."}
+    risk_class: medium
+    cost_class: 2
+    auto_activate_rules: ["로그인", "회원", "login", "auth"]
+  - id: data.retention_policy
+    axis: data
+    stage: 3
+    derived_from: [security.pii_protection]
+    label: {ko: "데이터 보존/파기 정책", en: "Data Retention"}
+    teach_text: {ko: "수집한 개인정보를 언제까지 보관하고 언제 삭제할지 규칙이 필요합니다.", en: "..."}
+    risk_class: high
+    cost_class: 1
+    auto_activate_rules: ["탈퇴", "파기", "retention"]
+  - id: data.user_generated
+    axis: data
+    stage: 3
+    derived_from: [domain.community]
+    label: {ko: "사용자 생성 콘텐츠", en: "User-Generated Content"}
+    teach_text: {ko: "사용자가 글/사진/리뷰를 올리면 저장·검수·삭제 정책이 필요합니다.", en: "..."}
+    risk_class: medium
+    cost_class: 2
+    auto_activate_rules: ["게시판", "리뷰", "댓글", "UGC"]
+  - id: feature.payments
+    axis: feature
+    stage: 3
+    derived_from: [domain.marketplace]
+    label: {ko: "결제", en: "Payments"}
+    teach_text: {ko: "돈을 받거나 보내려면 결제 시스템(PG)과 보안 인증이 필요합니다.", en: "..."}
+    implies: [security.auth]
+    risk_class: high
+    cost_class: 3
+    auto_activate_rules: ["결제", "구매", "payment", "subscription"]
+  - id: feature.notifications
+    axis: feature
+    stage: 3
+    derived_from: [domain.booking, domain.content_service]
+    label: {ko: "알림", en: "Notifications"}
+    teach_text: {ko: "사용자에게 푸시 알림/이메일/문자를 보내는 기능입니다.", en: "..."}
+    implies: [ops.scheduled_jobs]
+    risk_class: low
+    cost_class: 2
+    auto_activate_rules: ["알림", "notification", "push"]
+  - id: ops.scheduled_jobs
+    axis: ops
+    stage: 3
+    derived_from: [feature.notifications, data.retention_policy]
+    label: {ko: "예약 백그라운드 작업", en: "Scheduled Jobs"}
+    teach_text: {ko: "정해진 시간에 자동 실행되는 작업 (매일 운세 알림, 데이터 정리 등).", en: "..."}
+    risk_class: low
+    cost_class: 2
+    auto_activate_rules: ["cron", "매일", "정기"]
+  - id: ops.admin_review
+    axis: ops
+    stage: 3
+    derived_from: [domain.community, domain.marketplace]
+    label: {ko: "관리자 검수/승인", en: "Admin Review"}
+    teach_text: {ko: "콘텐츠나 거래를 관리자가 검토·승인하는 플로우입니다.", en: "..."}
+    risk_class: low
+    cost_class: 2
+    auto_activate_rules: ["검수", "승인", "moderation"]
+  - id: cost.infra_complexity
+    axis: cost
+    stage: 3
+    derived_from: [domain.ai_agent]
+    label: {ko: "인프라 복잡도", en: "Infrastructure Complexity"}
+    teach_text: {ko: "AI 모델이나 대용량 데이터를 쓰면 서버 비용과 복잡도가 올라갑니다.", en: "..."}
+    risk_class: medium
+    cost_class: 3
+    auto_activate_rules: ["AI", "GPU", "모델"]
 ```
 
 Full file: ~14 design + domain + derived entries, each with the full field set from the
