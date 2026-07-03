@@ -9,7 +9,7 @@ directly to the dev-uiux-design Product-Personality-Selection methodology.
 
 ## Part 2 — Diff-level precision
 
-### MODIFY: `skills/dev-pabcd/SKILL.md` (Interview section, after INTERVIEW-TEACH-01)
+### MODIFY: `skills/dev-pabcd/SKILL.md` (Interview section, after INTERVIEW-DIVERGE-01 block, ~line 54)
 
 Insert a new `### §1.2 Interview Sub-modes` block. Content:
 
@@ -32,8 +32,11 @@ Questions structure goals, constraints, success criteria.
 2. **Stage 2 — Domain** (app type): present domain options relevant to the user's stated
    interest. Domain choice seeds stage-3 derived entries via `auto_activate_rules`.
 3. **Stage 3 — Derived axes** (feature, data, security, ops, cost): present ONLY entries
-   whose `derived_from` or `auto_activate_rules` match the user's stage 1+2 answers.
-   Do NOT dump a flat list of all entries.
+   whose `derived_from` matches the user's selected stage 1+2 entry IDs, OR whose
+   `auto_activate_rules` keywords match the user's original free-text query (e.g.
+   "사주" in the query matches `auto_activate_rules: ["사주"]` on security.pii_protection).
+   Two matching paths: ID-based (derived_from) and keyword-based (auto_activate_rules
+   scanned against the user's initial request text). Do NOT dump a flat list of all entries.
 
 Entry rules:
 - Design/UX questions are asked FIRST in every catalog_discovery session — this is the
