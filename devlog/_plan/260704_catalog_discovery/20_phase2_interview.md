@@ -9,58 +9,52 @@ directly to the dev-uiux-design Product-Personality-Selection methodology.
 
 ## Part 2 — Diff-level precision
 
-### MODIFY: `skills/dev-pabcd/SKILL.md` (Interview section, after INTERVIEW-DIVERGE-01 block, ~line 54)
+### MODIFY: `skills/dev-pabcd/SKILL.md` (§1, bold-lead paragraph AFTER INTERVIEW-DIVERGE-01, ~line 53)
 
-Insert a new `### §1.2 Interview Sub-modes` block. Content:
+Insert a bold-lead paragraph matching §1's existing style (NOT a `### §1.2` heading — audit
+fix #4). Content (revised per Phase-2 audit cxr-mr5d3n7i-wsw402, GATE was REJECT):
 
 ```markdown
-### §1.2 Interview Sub-modes
+**Catalog Discovery sub-mode** (DEFAULT, INTERVIEW-CATALOG-01 / CATALOG-DESIGN-FIRST-01):
+when the user names a vague domain but not features ("사주 앱 만들고 싶어", "뭘 만들지 모르겠어"),
+they cannot choose from options they have never seen (the strong form of INTERVIEW-TEACH-01).
+Enter `catalog_discovery` and present the option ontology in `references/catalog-discovery.yaml`.
 
-Interview operates in one of three sub-modes, selected by user's knowledge level:
+*Design/UX LEADS — hard barrier.* Iterate `axis_order` by ascending `stage`; do NOT present a
+stage until every `required` entry of all earlier stages is answered. Stage 1 is design, so all
+six design dials (mood, lightness, density, shape, typography, motion), each `required: true`,
+MUST be answered before any Stage 2 (domain) or Stage 3 (feature/data/security/ops/cost) question
+appears. This is the load-bearing invariant — backend is asked on top of design, never before it.
 
-**Clarification** (default, existing): user already knows roughly what they want.
-Questions structure goals, constraints, success criteria.
+*Design methodology — Product-Personality Selection first* (`design_methodology.primary`, from
+dev-uiux-design): for each design dial show its `question_options` (labels + trade-offs) anchored
+on familiar products, then ask (present-then-ask, not confirm-what-they-said); refine via the
+declared `followups` (Korean-adjective→token, reference discovery, Design Read).
 
-**Catalog Discovery** (`catalog_discovery`): user does not know the option space
-(e.g. "사주 앱 만들고 싶어"). The interviewer presents a versioned option catalog
-(`references/catalog-discovery.yaml`) in explicit stage order:
+*Deriving the backend questions* — two matching paths populate Stage 3 from earlier answers, never a
+flat list: (a) **structural** — a chosen Stage-2 domain entry's `implies[]` plus each Stage-3 entry's
+`derived_from` (resolve `implies[]` transitively); (b) **keyword** — scan the user's INITIAL free-text
+request against Stage-3 `auto_activate_rules` (e.g. "사주"/"생년월일" pre-activates
+`security.pii_protection`). Confirm high-impact activations; the catalog is a DATA STRUCTURE — do not
+invent entries not in it.
 
-1. **Stage 1 — Design/UX** (ALWAYS first, most important): use Product-Personality-Selection
-   (dev-uiux-design) as step-1 methodology. Present the 6 design dials (mood, lightness,
-   density, shape, typography, motion) with show-then-ask flow: options + trade-offs,
-   then question. Map answers to design tokens.
-2. **Stage 2 — Domain** (app type): present domain options relevant to the user's stated
-   interest. Domain choice seeds stage-3 derived entries via `auto_activate_rules`.
-3. **Stage 3 — Derived axes** (feature, data, security, ops, cost): present ONLY entries
-   whose `derived_from` matches the user's selected stage 1+2 entry IDs, OR whose
-   `auto_activate_rules` keywords match the user's original free-text query (e.g.
-   "사주" in the query matches `auto_activate_rules: ["사주"]` on security.pii_protection).
-   Two matching paths: ID-based (derived_from) and keyword-based (auto_activate_rules
-   scanned against the user's initial request text). Do NOT dump a flat list of all entries.
+*Configurator step.* Once selections are complete, compile them (with resolved `implies[]` chains)
+into a spec: PRD sections, an MVP cut ordered by `cost_class`, a risk register of every
+`risk_class: high` entry, and a PABCD plan seed carrying the work class + loop archetype from
+INTERVIEW-CLASSIFY-01.
 
-Entry rules:
-- Design/UX questions are asked FIRST in every catalog_discovery session — this is the
-  load-bearing invariant (DEFAULT, CATALOG-DESIGN-FIRST-01).
-- `implies[]` chains are resolved transitively — if A implies B implies C, all three
-  are selected when A is chosen.
-- `conflicts[]` are flagged before the user commits — never silently resolved.
-- The catalog is a DATA STRUCTURE (`references/catalog-discovery.yaml`), not per-session
-  improvisation — do not invent entries not in the catalog.
-
-**Configurator**: after catalog_discovery selections are complete, compile into:
-- PRD (functional + non-functional requirements from selected entries)
-- MVP cut (sort by cost_class, cut at the user's stated budget/timeline)
-- Risk register (all risk_class=high entries)
-- PABCD plan seed (work class from INTERVIEW-CLASSIFY-01 + loop archetype)
-
-Sub-mode entry heuristic:
-- User states a concrete feature/goal → Clarification (existing)
-- User states a vague domain with no tech specifics → Catalog Discovery
-- Explicit user request for either mode → honor it
+*Scope.* The YAML encodes derivation INPUTS + dependency metadata; this prose is the agent
+procedure that reads it. Automated runtime filtering is out of scope (it would escalate to code).
 ```
+
+Audit fixes folded: #1 hard `axis_order` barrier wording; #2 dropped `conflicts[]` (not in YAML);
+#4 bold-lead paragraph not `§1.2` heading; #5 correct semantics — Stage-2 seeds via
+`implies`/`derived_from` (structural), `auto_activate_rules` = keyword match on the INITIAL query.
 
 ### Verifier (Phase 2)
 - `grep -c "CATALOG-DESIGN-FIRST-01" skills/dev-pabcd/SKILL.md` → ≥1
 - `grep -c "catalog-discovery.yaml" skills/dev-pabcd/SKILL.md` → ≥1
-- `grep -cE "cli-jaw|codex|codexclaw" skills/dev-pabcd/SKILL.md` → 0 (agent-neutral)
-- Prose check: "ALWAYS first" appears in the design/UX stage description
+- `grep -cE "cli-jaw|codexclaw" skills/dev-pabcd/SKILL.md` → 0 (agent-neutral; baseline 0)
+- Prose check: "hard barrier" + "MUST be answered before" present (design-first barrier)
+- Field fidelity: every backticked field name in the block exists in catalog-discovery.yaml
+  (no `conflicts`)

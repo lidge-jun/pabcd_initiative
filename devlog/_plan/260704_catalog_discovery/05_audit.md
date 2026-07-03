@@ -19,3 +19,22 @@ Consumer conformance must be explicit: Stage 1 design completes before any domai
 question, and the verifier checks entry stages match `axis_order`.
 
 All fixes are prose/data/verifier only — no scope expansion to runtime code.
+
+---
+
+# Phase 2 Plan Audit — record
+
+Auditor: codexray / Codex gpt-5.5 xhigh, read-only (job cxr-mr5d3n7i-wsw402).
+
+## Gate: REJECT → plan revised to auditor-specified target state
+
+| # | Finding | Verdict | Fix applied to 20_phase2_interview.md |
+|---|---|---|---|
+| 1 | design-first wording weak | BLOCKER | Hard barrier: iterate axis_order ascending; no stage shown until earlier `required` entries answered; all 6 design dials before Stage 2/3. |
+| 2 | `conflicts[]` referenced, YAML has none | CONCERN | Dropped the conflicts rule. |
+| 3 | agent-neutral | PASS | Insertion adds 0 host-CLI tokens (baseline 0); verifier prose kept OUT of SKILL.md. |
+| 4 | lone `### §1.2` heading odd | CONCERN | Use bold-lead paragraph matching §1 style. |
+| 5 | domain-seeding semantics wrong | BLOCKER | Corrected: Stage-2 seeds via `implies`+`derived_from` (structural); `auto_activate_rules` = keyword match on INITIAL query only. |
+
+Single most important fix (applied): hard `axis_order` barrier + correct
+implies/derived_from/auto_activate_rules semantics.
