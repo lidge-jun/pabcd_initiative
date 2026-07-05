@@ -7,6 +7,14 @@ detail-misses, and the modular router+references architecture.
 - `skills/` — the 13-skill dev family, snapshotted from `cli-jaw/skills_ref` at the
   2026-07-02 75-grade upgrade (router diets, sourced 2026 currency, freshness
   stamps, AI-era gates), then made **agent-neutral**: no host-CLI commands —
+  Hardened 2026-07-05 (`devlog/_plan/260705_difflevel_roadmap_default/`, ported to
+  cli-jaw/codexclaw/jawcode): de-branded ("Jawdev" removed; the routine is anonymous
+  rules, not an opt-in style) and five rules added — DIFFLEVEL-ROADMAP-01 (multi-phase
+  ⇒ first P writes every phase doc to diff-level), PHASE-SPLIT-01 (dependency-order
+  phases; effort bucketing forbidden), LEXICO-SPLIT-01 (numbered docs; research ≠
+  implementation design), UNIT-RESIDENCE-01 (all work lives in a unit; C0-C1 leaves a
+  numbered record doc), SOT-SYNC-01 (find general SoT docs first; patch them in the
+  same unit at C; recommend creating one if absent).
   `orchestrate <phase>` maps to whatever FSM/delegation surface the runtime has
   (or heuristic worklog attestations when none exists; see the Runtime adapter
   note in `skills/dev-pabcd/SKILL.md`). This is a COPY — cli-jaw's `skills_ref`
