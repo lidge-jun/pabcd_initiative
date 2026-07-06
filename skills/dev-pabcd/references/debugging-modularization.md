@@ -9,8 +9,8 @@
 
 | Harness | Location | Status |
 | --- | --- | --- |
-| codexclaw | `plugins/codexclaw/skills/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07, 9 runtimes + 1 tool) |
-| cli-jaw | `skills_ref/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07, 9 runtimes + 1 tool, synced) |
+| codexclaw | `plugins/codexclaw/skills/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07, 9 runtimes + js/ framework tier + 1 tool) |
+| cli-jaw | `skills_ref/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07, 9 runtimes + js/ framework tier + 1 tool, synced) |
 | jawcode | n/a (fork upstream) | NOT STARTED (9 runtimes available for port) — port when jawcode's dev-debugging gains references |
 
 ## Structure Contract
@@ -19,9 +19,18 @@
 references/
   runtimes/
     node.md     # Node.js / tsx / Bun / Deno
+    js/         # JS framework tier (node.md is the hub)
+      nextjs-react.md   # Next.js 16 / React 19 / RSC
+      vite-vitest.md    # Vite 8 / Vitest 4 / HMR / build failures
+      node-backend.md   # Express 5 / Fastify 5 / NestJS 11
     python.md   # CPython 3.9+
     rust.md     # cargo / tokio
     go.md       # Delve / pprof
+    c-cpp.md    # sanitizers / GDB / LLDB / Valgrind
+    jvm.md      # jcmd / JFR / JDWP / Kotlin / GraalVM
+    swift.md    # LLDB / Instruments / simulator CLI
+    ruby.md     # debug gem / rdbg / Rails
+    beam.md     # IEx / Observer / :dbg / recon
   tools/
     playwright.md   # browser-surface deterministic repro
 ```
