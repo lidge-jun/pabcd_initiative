@@ -9,9 +9,9 @@
 
 | Harness | Location | Status |
 | --- | --- | --- |
-| codexclaw | `plugins/codexclaw/skills/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07) |
-| cli-jaw | `skills_ref/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07, synced from codexclaw) |
-| jawcode | n/a (fork upstream) | NOT STARTED — port when jawcode's dev-debugging gains references |
+| codexclaw | `plugins/codexclaw/skills/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07, 9 runtimes + 1 tool) |
+| cli-jaw | `skills_ref/dev-debugging/references/runtimes/` + `tools/` | SHIPPED (2026-07-07, 9 runtimes + 1 tool, synced) |
+| jawcode | n/a (fork upstream) | NOT STARTED (9 runtimes available for port) — port when jawcode's dev-debugging gains references |
 
 ## Structure Contract
 
