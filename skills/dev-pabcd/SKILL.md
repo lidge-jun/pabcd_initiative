@@ -441,6 +441,14 @@ Rules:
 - Resolve all relative repo paths (`src/...`, `tests/...`, `structure/...`, `skills_ref/...`) against `Project root`.
 - If `Project root` is unknown, STOP and ask before dispatching.
 
+### §6.1 Structure map before deep search (repo-map capability)
+
+When entering unfamiliar C2+ territory, prefer a ranked structure map over blind
+grep-walking: run the runtime's `map` command (`cxc map` / `cli-jaw map` / `jwc map`,
+or the runtime's equivalent) on the target dir to see which files own which symbols,
+then narrow with grep/ast-grep. On-demand only — never a whole-repo preload. Full
+contract + per-harness port sites: `references/repo-map-capability.md`.
+
 ## §7. Shared Plan (auto-injected)
 
 When P completes, the plan is saved to the **worklog `## Plan` section** (single source of truth) and kept in `ctx.plan`. No project-root file is created.
