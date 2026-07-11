@@ -208,6 +208,18 @@
         "year": 2019,
         "relevance": "소스 코드 커플링과 런타임 커플링의 비교 — coupling-taxonomy.md의 8가지 유형 분류 근거."
       }
+    ],
+    "official_guides": [
+      {
+        "title": "madge — Circular Dependency Detector",
+        "url": "https://github.com/pahen/madge",
+        "desc": "JavaScript/TypeScript 순환 의존성 시각화 및 탐지 도구."
+      },
+      {
+        "title": "pydeps — Python Module Dependency Visualizer",
+        "url": "https://github.com/thebjorn/pydeps",
+        "desc": "Python 모듈 의존성 그래프 생성 도구."
+      }
     ]
   },
   {
@@ -414,6 +426,13 @@
         "url": "https://arxiv.org/abs/2307.08177",
         "relevance": "LLM 설명이 코드 리뷰 중 개발자 이해도에 미치는 영향 (ICSE 2024)."
       }
+    ],
+    "official_guides": [
+      {
+        "title": "Google Engineering Practices — Code Review",
+        "url": "https://google.github.io/eng-practices/review/",
+        "desc": "Google의 코드 리뷰 가이드: 리뷰어와 작성자의 행동 규범."
+      }
     ]
   },
   {
@@ -590,6 +609,18 @@
         "title": "A Survey on Software Fault Localization (Wong et al.)",
         "year": 2016,
         "relevance": "스펙트럼 기반, 돌연변이 기반, 통계적 결함 위치 추정의 포괄적 서베이."
+      }
+    ],
+    "official_guides": [
+      {
+        "title": "Chrome DevTools Documentation",
+        "url": "https://developer.chrome.com/docs/devtools",
+        "desc": "Chrome DevTools 공식 가이드: 네트워크, 성능, 메모리 디버깅."
+      },
+      {
+        "title": "Node.js Debugging Guide",
+        "url": "https://nodejs.org/en/learn/getting-started/debugging",
+        "desc": "Node.js 공식 디버깅 가이드: --inspect, Chrome DevTools 연동."
       }
     ]
   },
@@ -936,6 +967,23 @@
         "url": "https://arxiv.org/abs/2406.13631",
         "relevance": "LLM/비전/확산 모델의 UI 생성 서베이와 다양성/동질성 트레이드오프."
       }
+    ],
+    "official_guides": [
+      {
+        "title": "web.dev — Core Web Vitals",
+        "url": "https://web.dev/articles/vitals",
+        "desc": "Google의 Core Web Vitals(LCP/INP/CLS) 공식 가이드."
+      },
+      {
+        "title": "MDN — Accessibility (ARIA)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA",
+        "desc": "ARIA 역할, 속성, 상태의 공식 참조 문서."
+      },
+      {
+        "title": "Can I Use",
+        "url": "https://caniuse.com/",
+        "desc": "브라우저 호환성 데이터. CSS/JS 기능의 지원 현황 확인."
+      }
     ]
   },
   {
@@ -1042,6 +1090,13 @@
         "year": 2010,
         "relevance": "build-verify-deploy 파이프라인과 자동화된 게이트."
       }
+    ],
+    "official_guides": [
+      {
+        "title": "Codexclaw PABCD FSM Source",
+        "url": "https://github.com/lidge-jun/codexclaw",
+        "desc": "PABCD 상태 머신의 구현 소스 코드."
+      }
     ]
   },
   {
@@ -1118,6 +1173,18 @@
         "year": 2024,
         "url": "https://arxiv.org/abs/2401.06391",
         "relevance": "레포 수준 코드 생성에서 LLM에게 자동완성 도구를 사용하도록 가르치는 연구."
+      }
+    ],
+    "official_guides": [
+      {
+        "title": "Turborepo Documentation",
+        "url": "https://turbo.build/repo/docs",
+        "desc": "모노레포 빌드 시스템 공식 가이드."
+      },
+      {
+        "title": "Nx Documentation",
+        "url": "https://nx.dev/getting-started/intro",
+        "desc": "모노레포 개발 도구 공식 가이드."
       }
     ]
   },
@@ -1416,6 +1483,23 @@
         "url": "https://arxiv.org/abs/1506.02629",
         "relevance": "홀드아웃 데이터를 재사용하면서 적응적 과적합을 방지하는 방법."
       }
+    ],
+    "official_guides": [
+      {
+        "title": "Vitest Documentation",
+        "url": "https://vitest.dev/",
+        "desc": "Vite 네이티브 테스트 프레임워크 공식 가이드."
+      },
+      {
+        "title": "Playwright Documentation",
+        "url": "https://playwright.dev/",
+        "desc": "크로스 브라우저 E2E 테스트 프레임워크 공식 가이드."
+      },
+      {
+        "title": "pytest Documentation",
+        "url": "https://docs.pytest.org/",
+        "desc": "Python 테스트 프레임워크 공식 가이드."
+      }
     ]
   },
   {
@@ -1522,6 +1606,23 @@
         "year": 2025,
         "url": "https://arxiv.org/abs/2509.19163",
         "relevance": "전문가 기반 AI 슬롭 분류 체계와 해석 가능한 평가 차원 개발."
+      }
+    ],
+    "official_guides": [
+      {
+        "title": "Material Design 3",
+        "url": "https://m3.material.io/",
+        "desc": "Google Material Design 3 디자인 시스템 가이드."
+      },
+      {
+        "title": "Apple Human Interface Guidelines",
+        "url": "https://developer.apple.com/design/human-interface-guidelines",
+        "desc": "Apple의 플랫폼별 UX 디자인 가이드라인."
+      },
+      {
+        "title": "Figma Design Systems",
+        "url": "https://www.figma.com/best-practices/components-styles-and-shared-libraries/",
+        "desc": "디자인 시스템 컴포넌트 구성 베스트 프랙티스."
       }
     ]
   }
