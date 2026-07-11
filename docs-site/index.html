@@ -171,6 +171,51 @@
       판단은 모델 능력이 복리로 쌓이는 곳에 놓고, 불변식은 확률적 판단이 용납되지 않는 곳에 놓는다.
       이것이 "느슨한 하네스가 단단한 하네스를 이긴다"보다 정직하고, 근거가 실제로 지지하는 주장이다.
     </blockquote>
+
+    <h3 style="margin-top:2rem">AGENTS.md가 아니라 스킬인 이유</h3>
+    <p>AGENTS.md 연구(<a href="https://arxiv.org/abs/2602.11988" target="_blank"
+    rel="noopener">arXiv:2602.11988</a>)의 핵심 발견은 이렇다: 레포에 놓인 정적
+    컨텍스트 파일은 에이전트 행동을 실제로 바꾸지만, 추론 비용이 ~20% 증가하고
+    작업 성공률은 유의미하게 올라가지 않았다. 에이전트는 시킨 대로 더 많이 탐색하고,
+    더 많이 테스트하고, 언급된 도구를 더 자주 썼다. 하지만 그 추가 순종이 결과를
+    개선하지 못했다 &mdash; <strong>순종적 낭비(obedient waste)</strong>다.</p>
+
+    <p>PABCD는 이 문제를 세 가지 구조적 차이로 해결한다:</p>
+
+    <table class="rules">
+      <thead><tr><th></th><th>AGENTS.md (정적 컨텍스트)</th><th>PABCD 스킬 (워크플로우 중심)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="key">로딩</td>
+          <td>매 턴마다 전체 파일이 컨텍스트에 포함</td>
+          <td>trigger/surface 기반 점진 로딩. C0/C1은 references를 건너뛴다. 타이포 수정에 OWASP를 읽지 않는다.</td>
+        </tr>
+        <tr>
+          <td class="key">구식 정보</td>
+          <td>파일이 업데이트되지 않으면 구식 정보가 그대로 주입</td>
+          <td><code>last-verified</code> 날짜 스탬프 + 모든 외부 의존 결정에 search 스킬 경유 강제. "기억에 의존하지 말고 현재 문서를 확인하라."</td>
+        </tr>
+        <tr>
+          <td class="key">깊이 조절</td>
+          <td>없음 &mdash; 같은 지시가 모든 작업에 적용</td>
+          <td>C0-C5 분류기가 작업 위험도에 비례하는 프로세스 깊이를 선택. 같은 스킬 세트가 타이포부터 인증 시스템까지 다른 깊이로 적용된다.</td>
+        </tr>
+        <tr>
+          <td class="key">모듈 경계</td>
+          <td>단일 파일, 내부 구조 없음</td>
+          <td>13개 스킬 &times; 모듈 references. dev-backend은 C2에서 crud-api.md 하나로 충분하고, C3+에서만 api-design.md와 architecture.md를 로드한다.</td>
+        </tr>
+        <tr>
+          <td class="key">외부 검증</td>
+          <td>파일 내용이 곧 진실</td>
+          <td>search 스킬의 "snippets are not evidence" 불변식. Tier 1(발견) &rarr; Tier 2(원문 증명) 분리. 스킬 내 주장도 외부 검증 대상이다.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:1rem">요약하면: AGENTS.md는 에이전트에게 읽을 책을 주는 것이고, PABCD 스킬은
+    에이전트가 지금 하는 작업에 맞는 장(chapter)만 펼쳐주는 것이다. 순종적 낭비를 피하려면
+    규율의 <strong>한계 가치</strong>가 높아야 하고, 그건 관련 없는 규율을 로드하지 않는 것에서 시작한다.</p>
   </div>
 </section>
 
