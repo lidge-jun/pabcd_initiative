@@ -336,6 +336,18 @@ def build_skill_pages():
             parts.append(f'<div class="evidence"><strong>왜 별도 모듈인가</strong><br>{htmlmod.escape(rationale)}</div>')
         
 
+
+        # LLM failure modes
+        llm_modes = meta.get("llm_failure_modes", "")
+        if llm_modes:
+            # Split on \n\n for paragraphs
+            paras = llm_modes.split("\n\n")
+            parts.append('<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>')
+            for p in paras:
+                if p.strip():
+                    parts.append(f'<p>{htmlmod.escape(p.strip())}</p>')
+            parts.append('</div>')
+        
         # real-world problems (2026)
         problems = meta.get("real_world_problems", [])
         if problems:

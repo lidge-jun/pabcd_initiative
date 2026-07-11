@@ -15,20 +15,68 @@
       {
         "title": "검증 없는 완료 선언",
         "desc": "에이전트가 코드를 작성한 뒤 '완료'라고 선언하지만 실제로 실행하지 않은 경우가 빈번하다. Verification Gate(dev section 3)는 실제 실행/테스트 없이는 완료로 간주하지 않는 불변 규칙이다."
+      },
+      {
+        "title": "컨텍스트 윈도우 낭비 — 13개 스킬 전체 로드의 비효율",
+        "desc": "LLM의 컨텍스트 윈도우는 유한하다. 13개 스킬(총 수만 토큰)을 매번 전부 로드하면 실제 작업에 쓸 컨텍스트가 줄어든다. dev 스킬은 task_tags와 change surface 기반으로 필요한 2-3개 서브스킬만 활성화하는 라우터 역할을 한다. 이건 단순한 편의가 아니라 LLM의 구조적 한계(유한 컨텍스트)에 대한 아키텍처적 해법이다."
+      },
+      {
+        "title": "STYLE_SAMPLE 오해 — 예시를 규칙으로 일반화",
+        "desc": "LLM은 학습 데이터에서 본 코드 패턴을 보편적 규칙으로 일반화하는 경향이 있다. '이 프로젝트에서는 이렇게 했으니까 모든 프로젝트에서 이렇게 해야 한다'고 판단한다. Rule Classes의 STYLE_SAMPLE 등급은 '이건 예시일 뿐, 보편적 요구사항으로 만들면 안 된다'는 경계를 명시적으로 설정한다."
       }
     ],
-    "key_concepts": ["Work Classifier (C0-C5)", "Patch Fast-Path (C0/C1)", "Rule Severity Classes (STRICT/DEFAULT/HEURISTIC/ESCALATE)", "Methodology Overlays (task_tags)", "Verification Gate", "Change Surface Routing"],
-    "related_skills": ["dev-architecture", "dev-backend", "dev-frontend", "dev-code-reviewer", "dev-testing", "dev-debugging", "dev-security", "dev-pabcd"],
+    "key_concepts": [
+      "Work Classifier (C0-C5)",
+      "Patch Fast-Path (C0/C1)",
+      "Rule Severity Classes (STRICT/DEFAULT/HEURISTIC/ESCALATE)",
+      "Methodology Overlays (task_tags)",
+      "Verification Gate",
+      "Change Surface Routing"
+    ],
+    "related_skills": [
+      "dev-architecture",
+      "dev-backend",
+      "dev-frontend",
+      "dev-code-reviewer",
+      "dev-testing",
+      "dev-debugging",
+      "dev-security",
+      "dev-pabcd"
+    ],
     "triggers": "develop, implement, refactor, feature, bug fix, test, review, code quality, scaffolding",
-    "reference_files": [{"name": "static-analysis-gate.md", "desc": "린터/타입체커/시큐리티 스캔 게이트 규칙과 CI 통합 패턴"}],
+    "reference_files": [
+      {
+        "name": "static-analysis-gate.md",
+        "desc": "린터/타입체커/시큐리티 스캔 게이트 규칙과 CI 통합 패턴"
+      }
+    ],
     "sections": [
-      {"heading": "Work Classifier (C0-C5)", "summary": "작업의 복잡도와 위험도를 6단계로 분류하여 프로세스 깊이를 결정한다."},
-      {"heading": "Patch Fast-Path", "summary": "C0/C1 작업에서 불필요한 조사를 건너뛰되 검증과 안전 규칙은 유지한다."},
-      {"heading": "Rule Classes", "summary": "STRICT/DEFAULT/HEURISTIC/STYLE_SAMPLE/ESCALATE 다섯 단계의 규칙 심각도를 정의한다."},
-      {"heading": "Methodology Overlays", "summary": "task_tags 기반으로 TDD, DDD, threat_model 등 조건부 오버레이를 활성화한다."},
-      {"heading": "Verification Gate", "summary": "변경 후 실제 실행/테스트로 동작을 확인해야 완료로 간주한다."},
-      {"heading": "Safety Rules", "summary": "import/export 정합성, 시크릿 노출 방지, 파괴적 커맨드 금지 등 불변 규칙."}
-    ]
+      {
+        "heading": "Work Classifier (C0-C5)",
+        "summary": "작업의 복잡도와 위험도를 6단계로 분류하여 프로세스 깊이를 결정한다."
+      },
+      {
+        "heading": "Patch Fast-Path",
+        "summary": "C0/C1 작업에서 불필요한 조사를 건너뛰되 검증과 안전 규칙은 유지한다."
+      },
+      {
+        "heading": "Rule Classes",
+        "summary": "STRICT/DEFAULT/HEURISTIC/STYLE_SAMPLE/ESCALATE 다섯 단계의 규칙 심각도를 정의한다."
+      },
+      {
+        "heading": "Methodology Overlays",
+        "summary": "task_tags 기반으로 TDD, DDD, threat_model 등 조건부 오버레이를 활성화한다."
+      },
+      {
+        "heading": "Verification Gate",
+        "summary": "변경 후 실제 실행/테스트로 동작을 확인해야 완료로 간주한다."
+      },
+      {
+        "heading": "Safety Rules",
+        "summary": "import/export 정합성, 시크릿 노출 방지, 파괴적 커맨드 금지 등 불변 규칙."
+      }
+    ],
+    "llm_failure_modes": "LLM은 프롬프트에서 요청한 것을 즉시 구현하려는 강한 편향이 있다. '로그인 기능을 만들어줘'라고 하면 바로 코드를 쓰기 시작하는데, 이게 타이포 수정인지(C0) 인증 시스템 설계인지(C4)에 따라 필요한 프로세스 깊이가 완전히 다르다. 분류 없이 시작하면 두 가지 실패가 생긴다: (1) 사소한 작업에 과도한 분석을 하거나, (2) 위험한 작업을 가볍게 처리한다. 특히 LLM은 '이 정도면 됐다'는 판단을 잘 못하기 때문에, 검증 게이트(Verification Gate) 없이는 실제로 실행하지 않은 코드를 '완료'라고 보고한다. 이 스킬의 C0-C5 분류기는 LLM의 '바로 시작' 편향을 제어하는 첫 번째 관문이다."
   },
   {
     "name": "dev-architecture",
@@ -48,20 +96,55 @@
         "desc": "에이전트는 기존 파일에 계속 코드를 추가하는 경향이 있다. 파일이 400 LOC을 넘으면 여러 책임이 뒤섞여 있을 가능성이 높다. 이 스킬은 기계적 분할 기준(LOC, 의존자 수, 무관 기능 공존)을 제공한다."
       }
     ],
-    "key_concepts": ["Structural Decision Gate", "Pre-Change Structural Map", "Layered Architecture Boundaries", "Circular Dependency Detection", "Coupling Taxonomy (8 types)", "Barrel Discipline"],
-    "related_skills": ["dev", "dev-backend", "dev-frontend", "dev-scaffolding", "dev-code-reviewer"],
+    "key_concepts": [
+      "Structural Decision Gate",
+      "Pre-Change Structural Map",
+      "Layered Architecture Boundaries",
+      "Circular Dependency Detection",
+      "Coupling Taxonomy (8 types)",
+      "Barrel Discipline"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-backend",
+      "dev-frontend",
+      "dev-scaffolding",
+      "dev-code-reviewer"
+    ],
     "triggers": "circular import, module split, layer violation, dependency direction, barrel file, re-export, architecture refactor",
     "reference_files": [
-      {"name": "circular-dependencies.md", "desc": "순환 의존성 탐지 명령(madge/pydeps/go vet), 수정 전략, 실제 사례"},
-      {"name": "coupling-taxonomy.md", "desc": "8가지 커플링 유형, 심각도 매트릭스, 리팩토링 패턴"},
-      {"name": "barrel-discipline.md", "desc": "barrel/index 파일의 허용 조건과 금지 조건, 트리셰이킹 영향"}
+      {
+        "name": "circular-dependencies.md",
+        "desc": "순환 의존성 탐지 명령(madge/pydeps/go vet), 수정 전략, 실제 사례"
+      },
+      {
+        "name": "coupling-taxonomy.md",
+        "desc": "8가지 커플링 유형, 심각도 매트릭스, 리팩토링 패턴"
+      },
+      {
+        "name": "barrel-discipline.md",
+        "desc": "barrel/index 파일의 허용 조건과 금지 조건, 트리셰이킹 영향"
+      }
     ],
     "sections": [
-      {"heading": "Module Boundaries", "summary": "모듈 경계 변경 시 구조 결정을 명시하고 구조 맵을 만든다."},
-      {"heading": "Layered Architecture", "summary": "Presentation/Application/Domain/Infrastructure 4계층 import 규칙."},
-      {"heading": "When to Split", "summary": "400 LOC 초과, 6+ 직접 의존자, 무관한 기능 공존 시 분할 기준."},
-      {"heading": "Dependency Direction", "summary": "의존성 역전 원칙과 포트/어댑터 패턴 적용 가이드."}
-    ]
+      {
+        "heading": "Module Boundaries",
+        "summary": "모듈 경계 변경 시 구조 결정을 명시하고 구조 맵을 만든다."
+      },
+      {
+        "heading": "Layered Architecture",
+        "summary": "Presentation/Application/Domain/Infrastructure 4계층 import 규칙."
+      },
+      {
+        "heading": "When to Split",
+        "summary": "400 LOC 초과, 6+ 직접 의존자, 무관한 기능 공존 시 분할 기준."
+      },
+      {
+        "heading": "Dependency Direction",
+        "summary": "의존성 역전 원칙과 포트/어댑터 패턴 적용 가이드."
+      }
+    ],
+    "llm_failure_modes": "LLM은 '가장 가까운 import'를 선호한다. 기능을 구현할 때 이미 아는 파일에서 직접 import하므로, 레이어 경계를 넘는 의존성(UI에서 DB 클라이언트를 직접 import)이 자연스럽게 생긴다. 이건 LLM이 코드를 텍스트 토큰으로 처리하기 때문에 발생하는 구조적 문제다 — LLM은 '이 import가 아키텍처 경계를 넘는다'는 공간적 인식이 없다. madge, pydeps 같은 정적 분석 도구를 CI에 넣어서 기계적으로 잡아야 하는 이유가 여기에 있다."
   },
   {
     "name": "dev-backend",
@@ -81,25 +164,77 @@
         "desc": "이미 tsconfig.json이 있는 TypeScript 프로젝트에 Python FastAPI를 제안하거나, requirements.txt가 있는데 Node.js를 추천하는 실수. Stack Detection은 설정 파일을 먼저 읽고 자동 감지한 뒤 진행하게 한다."
       }
     ],
-    "key_concepts": ["Stack Detection", "API Design (REST/GraphQL/gRPC/tRPC)", "Architecture Clarification", "Layered Backend Architecture", "Error Handling & Result Pattern", "Observability (OTel)", "Caching Strategy"],
-    "related_skills": ["dev", "dev-architecture", "dev-data", "dev-security", "dev-testing", "dev-devops"],
+    "key_concepts": [
+      "Stack Detection",
+      "API Design (REST/GraphQL/gRPC/tRPC)",
+      "Architecture Clarification",
+      "Layered Backend Architecture",
+      "Error Handling & Result Pattern",
+      "Observability (OTel)",
+      "Caching Strategy"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-architecture",
+      "dev-data",
+      "dev-security",
+      "dev-testing",
+      "dev-devops"
+    ],
     "triggers": "backend, API, REST, GraphQL, schema, migration, query optimization, middleware, OTel, caching, server",
     "reference_files": [
-      {"name": "core/crud-api.md", "desc": "C2 일반 CRUD 엔드포인트의 라우트/스키마/서비스/쿼리 기본"},
-      {"name": "core/api-design.md", "desc": "REST 규약, 응답 엔벨로프, 상태 코드, 페이지네이션, GraphQL/gRPC"},
-      {"name": "core/architecture.md", "desc": "레이어드 아키텍처, DDD, SOLID, 모놀리스 vs 마이크로서비스"},
-      {"name": "core/observability.md", "desc": "OpenTelemetry, 구조화 로깅, 분산 트레이싱, 알러팅"},
-      {"name": "stacks/node.md", "desc": "Node.js/TypeScript Express/Fastify 패턴"},
-      {"name": "stacks/python.md", "desc": "FastAPI/Django, Pydantic, async 패턴"},
-      {"name": "stacks/database.md", "desc": "PostgreSQL, MongoDB, 인덱싱, N+1, ORM 비교"}
+      {
+        "name": "core/crud-api.md",
+        "desc": "C2 일반 CRUD 엔드포인트의 라우트/스키마/서비스/쿼리 기본"
+      },
+      {
+        "name": "core/api-design.md",
+        "desc": "REST 규약, 응답 엔벨로프, 상태 코드, 페이지네이션, GraphQL/gRPC"
+      },
+      {
+        "name": "core/architecture.md",
+        "desc": "레이어드 아키텍처, DDD, SOLID, 모놀리스 vs 마이크로서비스"
+      },
+      {
+        "name": "core/observability.md",
+        "desc": "OpenTelemetry, 구조화 로깅, 분산 트레이싱, 알러팅"
+      },
+      {
+        "name": "stacks/node.md",
+        "desc": "Node.js/TypeScript Express/Fastify 패턴"
+      },
+      {
+        "name": "stacks/python.md",
+        "desc": "FastAPI/Django, Pydantic, async 패턴"
+      },
+      {
+        "name": "stacks/database.md",
+        "desc": "PostgreSQL, MongoDB, 인덱싱, N+1, ORM 비교"
+      }
     ],
     "sections": [
-      {"heading": "Stack Detection", "summary": "설정 파일로 프로젝트 타입을 자동 감지한다."},
-      {"heading": "API Design", "summary": "REST, GraphQL, gRPC, tRPC 중 적합한 API 스타일을 선택한다."},
-      {"heading": "Error Handling", "summary": "Result 패턴과 에러 응답 규약을 통해 일관된 에러 처리를 한다."},
-      {"heading": "Database & ORM", "summary": "쿼리 최적화, N+1 방지, 마이그레이션 전략을 다룬다."},
-      {"heading": "Observability", "summary": "프로덕션 서비스의 트레이싱, 로깅, 알러팅 설정."}
-    ]
+      {
+        "heading": "Stack Detection",
+        "summary": "설정 파일로 프로젝트 타입을 자동 감지한다."
+      },
+      {
+        "heading": "API Design",
+        "summary": "REST, GraphQL, gRPC, tRPC 중 적합한 API 스타일을 선택한다."
+      },
+      {
+        "heading": "Error Handling",
+        "summary": "Result 패턴과 에러 응답 규약을 통해 일관된 에러 처리를 한다."
+      },
+      {
+        "heading": "Database & ORM",
+        "summary": "쿼리 최적화, N+1 방지, 마이그레이션 전략을 다룬다."
+      },
+      {
+        "heading": "Observability",
+        "summary": "프로덕션 서비스의 트레이싱, 로깅, 알러팅 설정."
+      }
+    ],
+    "llm_failure_modes": "LLM의 학습 데이터는 특정 시점에 고정되어 있다(knowledge cutoff). 2024년에 학습한 모델이 2026년에 FastAPI를 쓸 때, deprecated된 API를 추천하거나 새 버전에서 변경된 동작을 모른 채 코드를 생성한다. 이건 LLM이 '모르는 것을 모르는' 문제다 — 자기가 아는 정보가 구식인지 판단할 수 없다. 그래서 모든 외부 의존 결정에 'search 스킬을 읽고 현재 문서를 확인하라'는 강제 경유를 넣었다. 또한 LLM은 복잡한 것을 선호하는 편향이 있다 — CRUD 하나에 GraphQL + 마이크로서비스를 제안하는 이유는 학습 데이터에서 그런 아키텍처가 더 많이 논의되기 때문이다. over-engineering guard는 이 편향을 명시적으로 차단한다."
   },
   {
     "name": "dev-code-reviewer",
@@ -119,19 +254,52 @@
         "desc": "에이전트는 현재 요구사항만 충족하면 기술 부채를 만들어도 신경 쓰지 않는다. tech-debt.md는 부채를 4분면(reckless/prudent x deliberate/inadvertent)으로 분류하고, 리뷰 시점에 인벤토리에 기록하는 프로세스를 제공한다."
       }
     ],
-    "key_concepts": ["Review Posture (skeptical outsider)", "Pre-Review Automated Scan", "Review Order by Impact", "Severity-Based Verdict", "AI-Assisted Review Integration", "Tech Debt Inventory"],
-    "related_skills": ["dev", "dev-architecture", "dev-testing", "dev-security", "dev-backend", "dev-frontend"],
+    "key_concepts": [
+      "Review Posture (skeptical outsider)",
+      "Pre-Review Automated Scan",
+      "Review Order by Impact",
+      "Severity-Based Verdict",
+      "AI-Assisted Review Integration",
+      "Tech Debt Inventory"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-architecture",
+      "dev-testing",
+      "dev-security",
+      "dev-backend",
+      "dev-frontend"
+    ],
     "triggers": "review this, code review, PR review, check my diff, before merge, antipattern",
     "reference_files": [
-      {"name": "tech-debt.md", "desc": "기술 부채 4분면, 인벤토리 템플릿, 리뷰 통합, 상환 예산"},
-      {"name": "ai-assisted-review.md", "desc": "AI 리뷰 도구 워크플로, 심각도 분류, 재리뷰 정책"}
+      {
+        "name": "tech-debt.md",
+        "desc": "기술 부채 4분면, 인벤토리 템플릿, 리뷰 통합, 상환 예산"
+      },
+      {
+        "name": "ai-assisted-review.md",
+        "desc": "AI 리뷰 도구 워크플로, 심각도 분류, 재리뷰 정책"
+      }
     ],
     "sections": [
-      {"heading": "Review Posture", "summary": "회의적 외부자 시점으로 접근, 실행자 주장을 신뢰하지 않는다."},
-      {"heading": "Pre-Review Scan", "summary": "린터/타입체커를 먼저 돌려 기계가 잡을 수 있는 문제를 분리한다."},
-      {"heading": "Review Order", "summary": "보안 > 정확성 > 성능 > 가독성 > 스타일 순서로 리뷰한다."},
-      {"heading": "Verdict System", "summary": "심각도 기반으로 Block/Request Changes/Approve를 판정한다."}
-    ]
+      {
+        "heading": "Review Posture",
+        "summary": "회의적 외부자 시점으로 접근, 실행자 주장을 신뢰하지 않는다."
+      },
+      {
+        "heading": "Pre-Review Scan",
+        "summary": "린터/타입체커를 먼저 돌려 기계가 잡을 수 있는 문제를 분리한다."
+      },
+      {
+        "heading": "Review Order",
+        "summary": "보안 > 정확성 > 성능 > 가독성 > 스타일 순서로 리뷰한다."
+      },
+      {
+        "heading": "Verdict System",
+        "summary": "심각도 기반으로 Block/Request Changes/Approve를 판정한다."
+      }
+    ],
+    "llm_failure_modes": "LLM이 자기가 쓴 코드를 리뷰하면 자기 확인 편향(confirmation bias)이 극대화된다. 자기가 생성한 패턴을 '올바른 패턴'으로 인식하기 때문에, 구조적 문제를 발견하기 어렵다. 또한 LLM은 '통과한 테스트 = 올바른 코드'라는 단축을 쓰는데, 테스트 자체가 해피 패스만 커버하고 있으면 이 단축이 거짓이 된다. REVIEW-POSTURE-01의 '회의적 외부자' 원칙은 이 자기 확인 루프를 깨뜨리기 위한 것이다."
   },
   {
     "name": "dev-data",
@@ -151,21 +319,59 @@
         "desc": "Polars 1.x, DuckDB 1.x가 2024-2025에 크게 바뀌었고, Spark Connect가 등장했다. 에이전트가 2023년 기준으로 pandas만 추천하거나 deprecated API를 쓰는 문제가 있다. tools.md는 현재 도구 비교를 제공하고, 외부 검증을 요구한다."
       }
     ],
-    "key_concepts": ["Pipeline Thinking (Extract-Transform-Load)", "Schema-First Design", "Defensive Parsing", "Idempotent Operations", "Data Quality Gates", "Batch vs Streaming Architecture"],
-    "related_skills": ["dev", "dev-backend", "dev-security", "dev-testing", "dev-devops"],
+    "key_concepts": [
+      "Pipeline Thinking (Extract-Transform-Load)",
+      "Schema-First Design",
+      "Defensive Parsing",
+      "Idempotent Operations",
+      "Data Quality Gates",
+      "Batch vs Streaming Architecture"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-backend",
+      "dev-security",
+      "dev-testing",
+      "dev-devops"
+    ],
     "triggers": "ETL, ELT, pipeline, data quality, SQL optimization, backfill, migration, schema drift",
     "reference_files": [
-      {"name": "governance.md", "desc": "PII 분류, 데이터 거버넌스 정책, 규정 준수 가이드"},
-      {"name": "ml-pipeline.md", "desc": "ML 파이프라인 설계, 피처 엔지니어링, 모델 평가"},
-      {"name": "streaming.md", "desc": "실시간 스트리밍 아키텍처, Kafka/Flink/Spark Streaming 패턴"},
-      {"name": "tools.md", "desc": "데이터 도구 비교: pandas, Polars, DuckDB, Spark, dbt"}
+      {
+        "name": "governance.md",
+        "desc": "PII 분류, 데이터 거버넌스 정책, 규정 준수 가이드"
+      },
+      {
+        "name": "ml-pipeline.md",
+        "desc": "ML 파이프라인 설계, 피처 엔지니어링, 모델 평가"
+      },
+      {
+        "name": "streaming.md",
+        "desc": "실시간 스트리밍 아키텍처, Kafka/Flink/Spark Streaming 패턴"
+      },
+      {
+        "name": "tools.md",
+        "desc": "데이터 도구 비교: pandas, Polars, DuckDB, Spark, dbt"
+      }
     ],
     "sections": [
-      {"heading": "Data Processing Principles", "summary": "파이프라인 사고, 스키마 우선, 방어적 파싱, 멱등성, 빠른 실패 원칙."},
-      {"heading": "Data Ingestion", "summary": "CSV/JSON/Parquet/Excel 포맷별 가이드와 증분 로딩 패턴."},
-      {"heading": "Data Quality", "summary": "null/유일성/범위/신선도/행 수 검증과 Dead Letter Queue."},
-      {"heading": "SQL Optimization", "summary": "인덱스 전략, 쿼리 플랜 분석, N+1 방지, 파티셔닝."}
-    ]
+      {
+        "heading": "Data Processing Principles",
+        "summary": "파이프라인 사고, 스키마 우선, 방어적 파싱, 멱등성, 빠른 실패 원칙."
+      },
+      {
+        "heading": "Data Ingestion",
+        "summary": "CSV/JSON/Parquet/Excel 포맷별 가이드와 증분 로딩 패턴."
+      },
+      {
+        "heading": "Data Quality",
+        "summary": "null/유일성/범위/신선도/행 수 검증과 Dead Letter Queue."
+      },
+      {
+        "heading": "SQL Optimization",
+        "summary": "인덱스 전략, 쿼리 플랜 분석, N+1 방지, 파티셔닝."
+      }
+    ],
+    "llm_failure_modes": "LLM은 데이터 처리 코드를 작성할 때 해피 패스만 구현한다. CSV 파일에 빈 행이 있거나, JSON에 예상 못한 null이 있거나, 인코딩이 UTF-8이 아닌 경우를 고려하지 않는다. 이건 LLM이 학습 데이터에서 '깨끗한 예시'를 주로 봤기 때문이다. 실제 데이터는 항상 더럽다. Defensive Parsing 원칙은 '외부 데이터는 null, 잘못된 타입, 추가 컬럼, 누락 컬럼, 인코딩 문제가 전부 있다고 가정하라'고 명시한다."
   },
   {
     "name": "dev-debugging",
@@ -185,22 +391,63 @@
         "desc": "에이전트가 async/await를 쓰면서 floating promise, 공유 상태 경쟁, deadlock을 만드는 경우가 많다. async-debugging.md는 이 특수한 디버깅 영역을 별도로 다룬다."
       }
     ],
-    "key_concepts": ["Phase 0: Bug vs Design Problem", "Phase 1: Investigation (trace-first)", "Phase 2: Analysis (pattern recognition)", "Phase 3: Hypothesis (falsifiable claims)", "Phase 4: Implementation (failing test first)", "Symptom vs Root Cause Fix"],
-    "related_skills": ["dev", "dev-testing", "dev-backend", "dev-frontend", "dev-architecture"],
+    "key_concepts": [
+      "Phase 0: Bug vs Design Problem",
+      "Phase 1: Investigation (trace-first)",
+      "Phase 2: Analysis (pattern recognition)",
+      "Phase 3: Hypothesis (falsifiable claims)",
+      "Phase 4: Implementation (failing test first)",
+      "Symptom vs Root Cause Fix"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-testing",
+      "dev-backend",
+      "dev-frontend",
+      "dev-architecture"
+    ],
     "triggers": "debug this, why is X failing, flaky test, fix the crash, root cause, error, stack trace",
     "reference_files": [
-      {"name": "methodologies.md", "desc": "이분 탐색(git bisect), 구조화된 로깅, 재현 환경 구성 방법론"},
-      {"name": "async-debugging.md", "desc": "비동기 코드의 Race condition, deadlock, floating promise 디버깅"},
-      {"name": "postmortem-template.md", "desc": "사후 분석(blameless postmortem) 작성 템플릿"},
-      {"name": "tool-guides.md", "desc": "lldb, Chrome DevTools, strace, perf 등 디버깅 도구 가이드"}
+      {
+        "name": "methodologies.md",
+        "desc": "이분 탐색(git bisect), 구조화된 로깅, 재현 환경 구성 방법론"
+      },
+      {
+        "name": "async-debugging.md",
+        "desc": "비동기 코드의 Race condition, deadlock, floating promise 디버깅"
+      },
+      {
+        "name": "postmortem-template.md",
+        "desc": "사후 분석(blameless postmortem) 작성 템플릿"
+      },
+      {
+        "name": "tool-guides.md",
+        "desc": "lldb, Chrome DevTools, strace, perf 등 디버깅 도구 가이드"
+      }
     ],
     "sections": [
-      {"heading": "Phase 0: Bug vs Design Problem", "summary": "반복되는 같은 류의 버그는 설계 문제다. 아키텍처 리뷰로 에스컬레이트."},
-      {"heading": "Phase 1: Investigation", "summary": "에러 메시지, 스택 트레이스, 로그를 먼저 수집한다. 추측 전에 증거."},
-      {"heading": "Phase 2: Analysis", "summary": "수집한 증거에서 패턴을 찾는다. 변수 하나만 변경, 실패 시 되돌리기."},
-      {"heading": "Phase 3: Hypothesis", "summary": "반증 가능한 가설을 세우고 기각 기록을 보존한다."},
-      {"heading": "Phase 4: Implementation", "summary": "실패하는 테스트를 먼저 작성하고, 수정 후 테스트 통과를 확인한다."}
-    ]
+      {
+        "heading": "Phase 0: Bug vs Design Problem",
+        "summary": "반복되는 같은 류의 버그는 설계 문제다. 아키텍처 리뷰로 에스컬레이트."
+      },
+      {
+        "heading": "Phase 1: Investigation",
+        "summary": "에러 메시지, 스택 트레이스, 로그를 먼저 수집한다. 추측 전에 증거."
+      },
+      {
+        "heading": "Phase 2: Analysis",
+        "summary": "수집한 증거에서 패턴을 찾는다. 변수 하나만 변경, 실패 시 되돌리기."
+      },
+      {
+        "heading": "Phase 3: Hypothesis",
+        "summary": "반증 가능한 가설을 세우고 기각 기록을 보존한다."
+      },
+      {
+        "heading": "Phase 4: Implementation",
+        "summary": "실패하는 테스트를 먼저 작성하고, 수정 후 테스트 통과를 확인한다."
+      }
+    ],
+    "llm_failure_modes": "LLM의 디버깅 방식은 '에러 메시지를 보고 가장 가능성 높은 수정을 즉시 제안'하는 것이다. 이건 통계적으로 가장 흔한 원인을 먼저 시도하는 것이므로 간단한 버그에는 효과적이지만, 근본 원인이 다른 곳에 있으면 증상 패치를 반복하게 된다. 특히 LLM은 '지금까지 시도한 것들이 왜 실패했는지'의 기록을 유지하지 않기 때문에, 같은 수정을 반복 제안하거나, 이미 기각된 가설을 다시 시도한다. Phase 3의 '기각 기록 보존'은 이 LLM 특유의 기억 없는 디버깅을 방지한다."
   },
   {
     "name": "dev-devops",
@@ -224,26 +471,79 @@
         "desc": "Ingress는 deprecated되고 Gateway API가 표준이 되었다. 에이전트의 학습 데이터에는 Ingress 예제가 더 많아서 구형 패턴을 생성한다. kubernetes.md는 Gateway API v1.6+ 기준으로 작성되었다."
       }
     ],
-    "key_concepts": ["Dockerfile Rules (multi-stage, non-root, pinned)", "Image Security & Supply Chain", "CI/CD Pipeline Design", "Kubernetes (Gateway API v1.6+)", "Infrastructure as Code (OpenTofu/Pulumi)", "SRE Foundations (SLO/SLI/Error Budget)"],
-    "related_skills": ["dev", "dev-security", "dev-backend", "dev-testing", "dev-scaffolding"],
+    "key_concepts": [
+      "Dockerfile Rules (multi-stage, non-root, pinned)",
+      "Image Security & Supply Chain",
+      "CI/CD Pipeline Design",
+      "Kubernetes (Gateway API v1.6+)",
+      "Infrastructure as Code (OpenTofu/Pulumi)",
+      "SRE Foundations (SLO/SLI/Error Budget)"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-security",
+      "dev-backend",
+      "dev-testing",
+      "dev-scaffolding"
+    ],
     "triggers": "Dockerfile, K8s, CI/CD, Terraform, IaC, release, deploy, SRE",
     "reference_files": [
-      {"name": "docker.md", "desc": "멀티스테이지 빌드, distroless, Docker Scout/Trivy, SBOM/Cosign"},
-      {"name": "ci-cd-deploy.md", "desc": "GHA 재사용 워크플로, 배포 전략, 롤백, GitOps"},
-      {"name": "kubernetes.md", "desc": "Gateway API, Kustomize, HPA/VPA, Helm, ArgoCD GitOps"},
-      {"name": "iac.md", "desc": "OpenTofu/Terraform 모듈, Pulumi, 상태 암호화, 블래스트 반경 격리"},
-      {"name": "sre-foundations.md", "desc": "SLO/SLI/에러 예산, 번 레이트 알러팅, 인시던트 대응"},
-      {"name": "package-release.md", "desc": "npm/PyPI 신뢰 퍼블리싱(OIDC), 레지스트리 인증 모델"},
-      {"name": "edge-serverless.md", "desc": "엣지 요청 셰이핑, Cloudflare Workers, Vercel Edge"},
-      {"name": "ml-infra.md", "desc": "GPU 클러스터, 모델 레지스트리, 스케일링, 엣지 추론"}
+      {
+        "name": "docker.md",
+        "desc": "멀티스테이지 빌드, distroless, Docker Scout/Trivy, SBOM/Cosign"
+      },
+      {
+        "name": "ci-cd-deploy.md",
+        "desc": "GHA 재사용 워크플로, 배포 전략, 롤백, GitOps"
+      },
+      {
+        "name": "kubernetes.md",
+        "desc": "Gateway API, Kustomize, HPA/VPA, Helm, ArgoCD GitOps"
+      },
+      {
+        "name": "iac.md",
+        "desc": "OpenTofu/Terraform 모듈, Pulumi, 상태 암호화, 블래스트 반경 격리"
+      },
+      {
+        "name": "sre-foundations.md",
+        "desc": "SLO/SLI/에러 예산, 번 레이트 알러팅, 인시던트 대응"
+      },
+      {
+        "name": "package-release.md",
+        "desc": "npm/PyPI 신뢰 퍼블리싱(OIDC), 레지스트리 인증 모델"
+      },
+      {
+        "name": "edge-serverless.md",
+        "desc": "엣지 요청 셰이핑, Cloudflare Workers, Vercel Edge"
+      },
+      {
+        "name": "ml-infra.md",
+        "desc": "GPU 클러스터, 모델 레지스트리, 스케일링, 엣지 추론"
+      }
     ],
     "sections": [
-      {"heading": "Container Builds", "summary": "Dockerfile 규칙, 멀티스테이지, non-root, 의존성 우선 복사."},
-      {"heading": "Image Security", "summary": "SBOM 생성, 취약점 스캔, 서명, 다이제스트 기반 프로모션."},
-      {"heading": "CI/CD Pipeline", "summary": "재사용 워크플로, 배포 전략(blue-green/canary), 롤백 절차."},
-      {"heading": "Kubernetes", "summary": "Gateway API, Kustomize 오버레이, 오토스케일링, GitOps."},
-      {"heading": "SRE Foundations", "summary": "SLO/SLI 정의, 에러 예산, 인시던트 대응, 사후 분석."}
-    ]
+      {
+        "heading": "Container Builds",
+        "summary": "Dockerfile 규칙, 멀티스테이지, non-root, 의존성 우선 복사."
+      },
+      {
+        "heading": "Image Security",
+        "summary": "SBOM 생성, 취약점 스캔, 서명, 다이제스트 기반 프로모션."
+      },
+      {
+        "heading": "CI/CD Pipeline",
+        "summary": "재사용 워크플로, 배포 전략(blue-green/canary), 롤백 절차."
+      },
+      {
+        "heading": "Kubernetes",
+        "summary": "Gateway API, Kustomize 오버레이, 오토스케일링, GitOps."
+      },
+      {
+        "heading": "SRE Foundations",
+        "summary": "SLO/SLI 정의, 에러 예산, 인시던트 대응, 사후 분석."
+      }
+    ],
+    "llm_failure_modes": "LLM의 학습 데이터에는 2022-2023년의 Dockerfile과 CI 설정이 압도적으로 많다. 그래서 FROM node:latest, USER root, ARG로 시크릿 전달 같은 안티패턴을 자연스럽게 생성한다. 이건 학습 데이터의 분포 문제다 — 나쁜 Dockerfile이 좋은 Dockerfile보다 인터넷에 훨씬 많다. 또한 OIDC/Trusted Publishing은 2024-2025년에 주류가 되었기 때문에 학습 데이터에 반영이 부족하다. LLM은 기본적으로 NPM_TOKEN을 먼저 요구하는데, 이건 이미 열등한 폴백 경로다. Kubernetes도 마찬가지다 — Ingress 예제가 학습 데이터에 압도적으로 많아서 Gateway API v1.6+를 자발적으로 쓰지 않는다."
   },
   {
     "name": "dev-frontend",
@@ -273,31 +573,101 @@
       {
         "title": "렌더 아티팩트를 실제 확인하지 않는 문제",
         "desc": "에이전트가 HTML을 작성하고 '잘 됐다'고 보고하지만 실제로 브라우저에서 렌더링하면 텍스트가 겹치거나, 이미지가 안 보이거나, 모바일에서 깨진다. visual-verification.md는 헤드리스 브라우저 스크린샷으로 실제 렌더링을 확인한 뒤에만 완료로 판정하게 한다."
+      },
+      {
+        "title": "이모지를 아이콘으로 사용 — 2026년 가장 강한 AI 신호",
+        "desc": "인간 디자이너는 프로덕션 UI에서 이모지를 기능 아이콘, 섹션 마커, 장식 요소로 절대 쓰지 않는다. 이모지는 OS별 렌더링이 다르고, 브랜드 정합성이 없고, 크기 조절이 안 되고, 크로스 플랫폼 일관성이 없다. LLM은 이모지가 텍스트 토큰으로 쉽게 생성 가능하기 때문에 아이콘 대신 이모지를 넣는다."
+      },
+      {
+        "title": "통계적 수렴(Convergence) — 모든 디자인이 같아지는 문제",
+        "desc": "LLM은 시각적 피드백 루프가 없고(코드를 텍스트로 생성), 일관성을 보상받도록 학습되었고, 긴장감을 느낄 수 없고, 취향이 없다. 10개의 구조적으로 다른 레이아웃을 생성할 수는 있지만, 어느 것이 '놀랍고 동시에 올바른지' 진정으로 판단할 수 없다. iterative-design.md의 Diverge-Kill-Mutate는 이 수렴을 깨뜨리는 프로세스다."
       }
     ],
-    "key_concepts": ["Anti-Slop Enforcement", "Responsive Viewport Discipline", "Visual Verification (headless browser)", "Component Architecture", "Performance Budget (CWV)", "Accessibility Patterns (ARIA)"],
-    "related_skills": ["dev", "dev-uiux-design", "dev-testing", "dev-backend", "dev-security"],
+    "key_concepts": [
+      "Anti-Slop Enforcement",
+      "Responsive Viewport Discipline",
+      "Visual Verification (headless browser)",
+      "Component Architecture",
+      "Performance Budget (CWV)",
+      "Accessibility Patterns (ARIA)"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-uiux-design",
+      "dev-testing",
+      "dev-backend",
+      "dev-security"
+    ],
     "triggers": "frontend, UI, component, CSS, responsive, animation, React, Tailwind, layout",
     "reference_files": [
-      {"name": "core/anti-slop.md", "desc": "2026 AI 슬롭 패턴 전체 감사 체크리스트: 그라데이션 수프, 원노트 테마, 가짜 에셋, 메타 카피, 버전 라벨, 섹션 넘버링 등"},
-      {"name": "core/aesthetics.md", "desc": "도메인별 시각 방향, 세리프 3역할 시스템, 폰트 선택, AI 브랜드 문법, 프리미엄 소비자 팔레트 금지"},
-      {"name": "core/crud-ui.md", "desc": "C2 앱 화면(폼/테이블/리스트/디테일)의 상태 커버리지: 로딩/빈/에러/권한"},
-      {"name": "core/visual-verification.md", "desc": "스크린샷, 뷰포트(390px/768px/1440px), 텍스트 핏, 상태, 에셋 검증 절차"},
-      {"name": "core/motion.md", "desc": "CSS 애니메이션, Framer Motion, 스크롤 기반 애니메이션, View Transitions, 도메인 게이트"},
-      {"name": "core/responsive-viewport.md", "desc": "표준 브레이크포인트, 컨테이너 쿼리, 반응형 이미지, safe area, split-screen"},
-      {"name": "core/liquid-glass.md", "desc": "Liquid Glass 레이어 규율, regular/clear 레시피, blur-free pill, 성능/접근성 게이트 (2026-07-07 검증)"},
-      {"name": "core/korea-2026.md", "desc": "한국 서비스 패턴, CJK 타이포그래피, 한국어 명조/세리프, 모바일 플로우"},
-      {"name": "stacks/react.md", "desc": "Server Components, hooks, TanStack Query, shadcn/ui"},
-      {"name": "stacks/vanilla.md", "desc": "프레임워크 없는 HTML+CSS+JS, 프로그레시브 인핸스먼트"}
+      {
+        "name": "core/anti-slop.md",
+        "desc": "2026 AI 슬롭 패턴 전체 감사 체크리스트: 그라데이션 수프, 원노트 테마, 가짜 에셋, 메타 카피, 버전 라벨, 섹션 넘버링 등"
+      },
+      {
+        "name": "core/aesthetics.md",
+        "desc": "도메인별 시각 방향, 세리프 3역할 시스템, 폰트 선택, AI 브랜드 문법, 프리미엄 소비자 팔레트 금지"
+      },
+      {
+        "name": "core/crud-ui.md",
+        "desc": "C2 앱 화면(폼/테이블/리스트/디테일)의 상태 커버리지: 로딩/빈/에러/권한"
+      },
+      {
+        "name": "core/visual-verification.md",
+        "desc": "스크린샷, 뷰포트(390px/768px/1440px), 텍스트 핏, 상태, 에셋 검증 절차"
+      },
+      {
+        "name": "core/motion.md",
+        "desc": "CSS 애니메이션, Framer Motion, 스크롤 기반 애니메이션, View Transitions, 도메인 게이트"
+      },
+      {
+        "name": "core/responsive-viewport.md",
+        "desc": "표준 브레이크포인트, 컨테이너 쿼리, 반응형 이미지, safe area, split-screen"
+      },
+      {
+        "name": "core/liquid-glass.md",
+        "desc": "Liquid Glass 레이어 규율, regular/clear 레시피, blur-free pill, 성능/접근성 게이트 (2026-07-07 검증)"
+      },
+      {
+        "name": "core/korea-2026.md",
+        "desc": "한국 서비스 패턴, CJK 타이포그래피, 한국어 명조/세리프, 모바일 플로우"
+      },
+      {
+        "name": "stacks/react.md",
+        "desc": "Server Components, hooks, TanStack Query, shadcn/ui"
+      },
+      {
+        "name": "stacks/vanilla.md",
+        "desc": "프레임워크 없는 HTML+CSS+JS, 프로그레시브 인핸스먼트"
+      }
     ],
     "sections": [
-      {"heading": "Anti-Slop", "summary": "AI가 생성한 티가 나는 패턴을 감지하고 제거한다. 그라데이션, 원노트, 가짜 에셋, 메타 카피."},
-      {"heading": "Responsive Design", "summary": "표준 브레이크포인트와 컨테이너 쿼리 기반 반응형 구현. 100dvh, safe area."},
-      {"heading": "Visual Verification", "summary": "헤드리스 브라우저로 실제 렌더링을 확인한 뒤 완료 판정. 정적 파싱은 증거 아님."},
-      {"heading": "Component Architecture", "summary": "관심사 분리, 상태 관리, 재사용 가능한 컴포넌트 설계."},
-      {"heading": "Performance", "summary": "CWV 타겟, 번들 예산, 폰트 로딩, 이미지 최적화."},
-      {"heading": "Accessibility", "summary": "ARIA 패턴, 포커스 관리, 키보드 내비게이션, 스크린 리더 테스트."}
-    ]
+      {
+        "heading": "Anti-Slop",
+        "summary": "AI가 생성한 티가 나는 패턴을 감지하고 제거한다. 그라데이션, 원노트, 가짜 에셋, 메타 카피."
+      },
+      {
+        "heading": "Responsive Design",
+        "summary": "표준 브레이크포인트와 컨테이너 쿼리 기반 반응형 구현. 100dvh, safe area."
+      },
+      {
+        "heading": "Visual Verification",
+        "summary": "헤드리스 브라우저로 실제 렌더링을 확인한 뒤 완료 판정. 정적 파싱은 증거 아님."
+      },
+      {
+        "heading": "Component Architecture",
+        "summary": "관심사 분리, 상태 관리, 재사용 가능한 컴포넌트 설계."
+      },
+      {
+        "heading": "Performance",
+        "summary": "CWV 타겟, 번들 예산, 폰트 로딩, 이미지 최적화."
+      },
+      {
+        "heading": "Accessibility",
+        "summary": "ARIA 패턴, 포커스 관리, 키보드 내비게이션, 스크린 리더 테스트."
+      }
+    ],
+    "llm_failure_modes": "프론트엔드는 LLM의 구조적 한계가 가장 극명하게 드러나는 영역이다. LLM은 코드를 텍스트 토큰으로 생성하지만, UI는 시각적 결과물이다. LLM은 자기가 생성한 HTML/CSS가 실제로 어떻게 보이는지 '볼 수 없다.' 이건 근본적인 gap이다 — 텍스트가 겹치는지, 이미지가 안 보이는지, 모바일에서 깨지는지 알 수 없다. visual-verification.md가 헤드리스 브라우저 스크린샷을 강제하는 이유가 이것이다.\n\n두 번째 문제는 통계적 수렴(convergence)이다. LLM은 학습 데이터의 통계적 중심으로 수렴하기 때문에, 어떤 프로젝트를 만들든 비슷한 디자인이 나온다. iterative-design.md는 이걸 'The Convergence Problem'이라고 명명한다: '모든 디자인 선택이 학습 데이터의 통계적 중심으로 끌린다. 이 결과로 역량 있고 세련된 결과물이 나오지만, 다른 모든 역량 있고 세련된 결과물과 똑같다.' Diverge-Kill-Mutate 프로세스는 이 수렴을 의도적으로 깨뜨리기 위한 것이다.\n\n세 번째는 anti-slop이다. LLM이 생성하는 UI에는 특정 패턴이 반복된다 — 이걸 업계에서 'AI slop'이라고 부른다. 2024년에는 보라색 그라데이션이었고, 2026년에는 겹겹이 쌓인 그라데이션 워시, 이모지를 아이콘으로 사용, 모든 곳에 둥근 카드, section-number eyebrows (001 Capabilities), em-dash 남용, 'Elevate/Seamless/Unleash' 같은 AI 카피가 새로운 신호다. 이 패턴들은 LLM의 학습 데이터 분포에서 직접 나오는 것이므로 명시적으로 금지하지 않으면 계속 생성된다."
   },
   {
     "name": "dev-pabcd",
@@ -317,21 +687,58 @@
         "desc": "사용자가 '사주 앱 만들고 싶어'처럼 모호한 도메인만 말할 때, 에이전트는 바로 기술 스택을 물어본다. CATALOG-DESIGN-FIRST-01은 Stage 1(디자인 6축: 무드, 밝기, 밀도, 형태, 타이포, 모션)을 전부 답한 뒤에야 Stage 2(도메인), Stage 3(기능/보안/비용)으로 넘어가게 한다. 백엔드는 디자인 위에 쌓이는 것이지, 그 반대가 아니다."
       }
     ],
-    "key_concepts": ["Interview Trigger (I phase)", "Phase FSM (P-A-B-C-D)", "Attestation JSON", "Loop Archetype", "Unit Residence", "Catalog Discovery Mode"],
-    "related_skills": ["dev", "dev-architecture", "dev-testing", "dev-code-reviewer"],
+    "key_concepts": [
+      "Interview Trigger (I phase)",
+      "Phase FSM (P-A-B-C-D)",
+      "Attestation JSON",
+      "Loop Archetype",
+      "Unit Residence",
+      "Catalog Discovery Mode"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-architecture",
+      "dev-testing",
+      "dev-code-reviewer"
+    ],
     "triggers": "orchestrate, phase, attest, interview, goal mode, checkpoint, PABCD",
     "reference_files": [
-      {"name": "debugging-modularization.md", "desc": "SoT 기반 디버깅 모듈화, 에이전트 중립적 접근"},
-      {"name": "loop-engineering.md", "desc": "루프 엔지니어링 정렬 규칙 (dev-pabcd section 11)"},
-      {"name": "repo-map-capability.md", "desc": "Repo-Map 기능, 에이전트 중립적 SoT 활용"}
+      {
+        "name": "debugging-modularization.md",
+        "desc": "SoT 기반 디버깅 모듈화, 에이전트 중립적 접근"
+      },
+      {
+        "name": "loop-engineering.md",
+        "desc": "루프 엔지니어링 정렬 규칙 (dev-pabcd section 11)"
+      },
+      {
+        "name": "repo-map-capability.md",
+        "desc": "Repo-Map 기능, 에이전트 중립적 SoT 활용"
+      }
     ],
     "sections": [
-      {"heading": "Interview Trigger", "summary": "사용자가 인터뷰를 요청하면 즉시 I 단계로 전환한다."},
-      {"heading": "Phase Discipline", "summary": "P-A-B-C-D 각 단계의 전환 조건과 필수 증거를 정의한다."},
-      {"heading": "Attestation", "summary": "단계 전환 시 JSON 형식의 증명을 첨부한다."},
-      {"heading": "Loop Archetype", "summary": "spec/repair vs open-ended 루프 유형을 인터뷰 시 결정한다."},
-      {"heading": "Catalog Discovery", "summary": "디자인/UX 우선 카탈로그 탐색 모드로 요구사항을 유도한다."}
-    ]
+      {
+        "heading": "Interview Trigger",
+        "summary": "사용자가 인터뷰를 요청하면 즉시 I 단계로 전환한다."
+      },
+      {
+        "heading": "Phase Discipline",
+        "summary": "P-A-B-C-D 각 단계의 전환 조건과 필수 증거를 정의한다."
+      },
+      {
+        "heading": "Attestation",
+        "summary": "단계 전환 시 JSON 형식의 증명을 첨부한다."
+      },
+      {
+        "heading": "Loop Archetype",
+        "summary": "spec/repair vs open-ended 루프 유형을 인터뷰 시 결정한다."
+      },
+      {
+        "heading": "Catalog Discovery",
+        "summary": "디자인/UX 우선 카탈로그 탐색 모드로 요구사항을 유도한다."
+      }
+    ],
+    "llm_failure_modes": "LLM은 '즉시 실행' 편향이 강하다. 사용자가 '뭘 만들지 모르겠어'라고 해도 바로 코드를 생성하려고 한다. Interview(I) 단계가 없으면 이 편향을 제어할 수 없다. 또한 LLM이 자발적으로 제안하는 2-3개 옵션은 통계적으로 같은 어트랙터 패밀리에 속한다 — 학습 데이터에서 가장 흔한 접근 방식들이다. INTERVIEW-DIVERGE-01이 '비전형적(low-probability) 접근을 하나 이상 포함시키라'고 강제하는 이유다. Catalog Discovery의 '디자인 먼저' 원칙도 같은 맥락이다: LLM에게 '사주 앱 만들어'라고 하면 바로 기술 스택(React + PostgreSQL)을 결정하는데, 실제로는 시각적 분위기, 사용자 경험이 먼저 결정되어야 기술 선택이 의미를 가진다."
   },
   {
     "name": "dev-scaffolding",
@@ -345,18 +752,47 @@
       {
         "title": "문서 소재지의 혼란",
         "desc": "ADR, 기술 결정, 구조 변경 기록이 채팅 히스토리에만 남아 다음 세션에서 사라진다. UNIT-RESIDENCE-01은 모든 구현이 devlog/_plan/YYMMDD_slug/ 유닛에 소속되게 하여, 결정과 결과를 파일 시스템에 영구 기록한다."
+      },
+      {
+        "title": "세션 간 결정의 휘발성",
+        "desc": "LLM은 대화가 끝나면 맥락을 잃는다. 이전 세션에서 '이 프로젝트는 monorepo 구조를 쓰기로 했다'는 결정이 다음 세션에서 사라진다. UNIT-RESIDENCE-01은 모든 구현을 devlog/_plan/ 유닛에 기록하여, 결정이 파일 시스템에 영구 보존되게 한다. 이건 LLM의 비영속적 메모리를 영속적 저장소로 보완하는 패턴이다."
       }
     ],
-    "key_concepts": ["Repo-First Convention Reuse", "Structural Audit", "SoT Documentation Planning", "Colocation Principle", "Public Boundary Exports"],
-    "related_skills": ["dev", "dev-architecture", "dev-backend", "dev-frontend", "dev-testing"],
+    "key_concepts": [
+      "Repo-First Convention Reuse",
+      "Structural Audit",
+      "SoT Documentation Planning",
+      "Colocation Principle",
+      "Public Boundary Exports"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-architecture",
+      "dev-backend",
+      "dev-frontend",
+      "dev-testing"
+    ],
     "triggers": "scaffold, new project, init project, new feature, add module, project setup, structure audit",
     "reference_files": [],
     "sections": [
-      {"heading": "Convention Discovery", "summary": "기존 레포에서 디렉토리 구조, 네이밍, 패키지 관습을 먼저 발견하고 재사용한다."},
-      {"heading": "Project Scaffolding", "summary": "새 프로젝트의 디렉토리 구조, 설정 파일, 초기 의존성을 관습에 맞춰 생성한다."},
-      {"heading": "Module Scaffolding", "summary": "기존 프로젝트에 새 모듈/기능을 추가할 때 colocation과 경계를 지킨다."},
-      {"heading": "Structural Audit", "summary": "기존 구조의 문제점(barrel 남용, 순환, SSOT 부재)을 감지하고 개선 계획을 세운다."}
-    ]
+      {
+        "heading": "Convention Discovery",
+        "summary": "기존 레포에서 디렉토리 구조, 네이밍, 패키지 관습을 먼저 발견하고 재사용한다."
+      },
+      {
+        "heading": "Project Scaffolding",
+        "summary": "새 프로젝트의 디렉토리 구조, 설정 파일, 초기 의존성을 관습에 맞춰 생성한다."
+      },
+      {
+        "heading": "Module Scaffolding",
+        "summary": "기존 프로젝트에 새 모듈/기능을 추가할 때 colocation과 경계를 지킨다."
+      },
+      {
+        "heading": "Structural Audit",
+        "summary": "기존 구조의 문제점(barrel 남용, 순환, SSOT 부재)을 감지하고 개선 계획을 세운다."
+      }
+    ],
+    "llm_failure_modes": "LLM은 매 세션마다 새로운 컨텍스트에서 시작한다. 기존 프로젝트의 관습(디렉토리 구조, 네이밍, 패키지 구성)을 자발적으로 조사하지 않고, 학습 데이터에서 가장 흔한 구조를 기본값으로 사용한다. 이 결과 같은 프로젝트 안에서도 에이전트가 만든 부분과 기존 코드의 구조가 이질적이 된다. Convention Discovery는 '먼저 기존 구조를 읽으라'는 강제 단계를 만들어 이 문제를 해결한다."
   },
   {
     "name": "dev-security",
@@ -380,24 +816,74 @@
         "desc": "OWASP 2025 개정에서 A03이 Software Supply Chain Failures로 확대되었다. npm audit, pip-audit에 더해 Sigstore/Cosign 서명 검증, SBOM 생성, lockfile 정합성 확인이 기본이 되었다. supply-chain-sbom.md가 이 영역을 전담한다."
       }
     ],
-    "key_concepts": ["OWASP Top 10 Code Rules", "Auth Hardening", "Secret Management", "Supply Chain Security", "Input Validation at Trust Boundaries", "Threat Modeling", "Agentic AI Security (ASI01-ASI10)", "Slopsquatting Defense"],
-    "related_skills": ["dev", "dev-backend", "dev-frontend", "dev-code-reviewer", "dev-devops", "dev-testing"],
+    "key_concepts": [
+      "OWASP Top 10 Code Rules",
+      "Auth Hardening",
+      "Secret Management",
+      "Supply Chain Security",
+      "Input Validation at Trust Boundaries",
+      "Threat Modeling",
+      "Agentic AI Security (ASI01-ASI10)",
+      "Slopsquatting Defense"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-backend",
+      "dev-frontend",
+      "dev-code-reviewer",
+      "dev-devops",
+      "dev-testing"
+    ],
     "triggers": "auth, login, token, input validation, dependency, security, threat model",
     "reference_files": [
-      {"name": "owasp-top10.md", "desc": "OWASP Top 10:2025 코드 레벨 체크리스트, unsafe/safe 코드 쌍"},
-      {"name": "agentic-ai-security.md", "desc": "OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10)"},
-      {"name": "mcp-supply-chain.md", "desc": "MCP 서버 보안 검증 체크리스트, allowlist/pinning, 감사 로깅"},
-      {"name": "supply-chain-sbom.md", "desc": "SBOM 생성(Syft/Trivy), 아티팩트 서명(Cosign/Sigstore), 의존성 감사"},
-      {"name": "llm-supply-chain.md", "desc": "간접 프롬프트 인젝션 방어, RAG 포이즈닝, 도구 출력 신뢰 검증"},
-      {"name": "static-analysis.md", "desc": "Semgrep, CodeQL, ESLint security, gitleaks CI 통합"}
+      {
+        "name": "owasp-top10.md",
+        "desc": "OWASP Top 10:2025 코드 레벨 체크리스트, unsafe/safe 코드 쌍"
+      },
+      {
+        "name": "agentic-ai-security.md",
+        "desc": "OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10)"
+      },
+      {
+        "name": "mcp-supply-chain.md",
+        "desc": "MCP 서버 보안 검증 체크리스트, allowlist/pinning, 감사 로깅"
+      },
+      {
+        "name": "supply-chain-sbom.md",
+        "desc": "SBOM 생성(Syft/Trivy), 아티팩트 서명(Cosign/Sigstore), 의존성 감사"
+      },
+      {
+        "name": "llm-supply-chain.md",
+        "desc": "간접 프롬프트 인젝션 방어, RAG 포이즈닝, 도구 출력 신뢰 검증"
+      },
+      {
+        "name": "static-analysis.md",
+        "desc": "Semgrep, CodeQL, ESLint security, gitleaks CI 통합"
+      }
     ],
     "sections": [
-      {"heading": "Authentication", "summary": "비밀번호 해싱, 세션 관리, JWT 규칙, OAuth 통합을 다룬다."},
-      {"heading": "Authorization", "summary": "RBAC/ABAC, 리소스 레벨 권한 검사, BOLA 방지를 강제한다."},
-      {"heading": "Input Validation", "summary": "신뢰 경계에서만 검증, 스키마 기반, 화이트리스트 접근을 요구한다."},
-      {"heading": "Supply Chain", "summary": "의존성 감사, lockfile 정합성, slopsquatting 방지, SBOM/서명."},
-      {"heading": "Agentic AI Security", "summary": "프롬프트 인젝션, 과도한 권한, 도구 오남용, 데이터 유출 방어."}
-    ]
+      {
+        "heading": "Authentication",
+        "summary": "비밀번호 해싱, 세션 관리, JWT 규칙, OAuth 통합을 다룬다."
+      },
+      {
+        "heading": "Authorization",
+        "summary": "RBAC/ABAC, 리소스 레벨 권한 검사, BOLA 방지를 강제한다."
+      },
+      {
+        "heading": "Input Validation",
+        "summary": "신뢰 경계에서만 검증, 스키마 기반, 화이트리스트 접근을 요구한다."
+      },
+      {
+        "heading": "Supply Chain",
+        "summary": "의존성 감사, lockfile 정합성, slopsquatting 방지, SBOM/서명."
+      },
+      {
+        "heading": "Agentic AI Security",
+        "summary": "프롬프트 인젝션, 과도한 권한, 도구 오남용, 데이터 유출 방어."
+      }
+    ],
+    "llm_failure_modes": "LLM은 보안을 '기능 완성 후 추가하는 것'으로 취급하는 편향이 있다. '로그인 기능 만들어줘'라고 하면 인증 로직은 만들지만 rate limiting, brute force 방지, CSRF 토큰, secure cookie 설정을 빠뜨린다. 이건 학습 데이터에서 보안이 항상 '추가 단계'로 설명되기 때문이다.\n\n더 심각한 문제는 slopsquatting이다. LLM이 패키지를 추천할 때 실존하지 않는 이름을 환각(hallucinate)한다. 2025년 연구에서 약 20%가 실재하지 않았고, 이 환각된 이름이 반복적으로 나타났다. 공격자가 이 이름으로 악성 패키지를 등록하면 에이전트가 자동으로 설치하게 된다. 이건 LLM의 환각 문제가 보안 취약점으로 직접 연결되는 사례다.\n\n2026년에는 에이전트 자체가 공격 표면이 되었다. OWASP Top 10 for Agentic Applications 2026이 발표되었고, 프롬프트 인젝션(ASI01)부터 데이터 유출(ASI05)까지 tool-using AI 에이전트 고유의 위협 모델이 체계화되었다. MCP 서버의 서플라이 체인 공격도 새로운 벡터다."
   },
   {
     "name": "dev-testing",
@@ -417,23 +903,68 @@
         "desc": "CSS 변경이 특정 뷰포트에서만 레이아웃을 깨뜨리는데, 유닛 테스트로는 잡을 수 없다. Visual QA는 스크린샷 비교로 시각적 회귀를 감지한다. dev-frontend의 visual-verification.md와 연동된다."
       }
     ],
-    "key_concepts": ["Test Pyramid", "Harness Selection", "CI Gate Strategy", "TDD Workflow", "Coverage as Risk Signal", "Visual QA (screenshot verification)"],
-    "related_skills": ["dev", "dev-backend", "dev-frontend", "dev-debugging", "dev-security", "dev-code-reviewer"],
+    "key_concepts": [
+      "Test Pyramid",
+      "Harness Selection",
+      "CI Gate Strategy",
+      "TDD Workflow",
+      "Coverage as Risk Signal",
+      "Visual QA (screenshot verification)"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-backend",
+      "dev-frontend",
+      "dev-debugging",
+      "dev-security",
+      "dev-code-reviewer"
+    ],
     "triggers": "test, TDD, coverage, CI gate, harness, E2E, visual QA, screenshot",
     "reference_files": [
-      {"name": "backend-testing.md", "desc": "백엔드 테스트 패턴: 서비스 레이어, DB, API 통합 테스트"},
-      {"name": "ci-pipeline.md", "desc": "CI 파이프라인에서의 테스트 게이트와 캐싱 전략"},
-      {"name": "edge-first-testing.md", "desc": "엣지/서버리스 환경 테스트 패턴과 miniflare"},
-      {"name": "load-testing.md", "desc": "부하 테스트: k6, Artillery, 성능 기준선 설정"},
-      {"name": "ml-evaluation.md", "desc": "ML 모델 평가: 메트릭, A/B 테스트, 데이터 드리프트 감지"}
+      {
+        "name": "backend-testing.md",
+        "desc": "백엔드 테스트 패턴: 서비스 레이어, DB, API 통합 테스트"
+      },
+      {
+        "name": "ci-pipeline.md",
+        "desc": "CI 파이프라인에서의 테스트 게이트와 캐싱 전략"
+      },
+      {
+        "name": "edge-first-testing.md",
+        "desc": "엣지/서버리스 환경 테스트 패턴과 miniflare"
+      },
+      {
+        "name": "load-testing.md",
+        "desc": "부하 테스트: k6, Artillery, 성능 기준선 설정"
+      },
+      {
+        "name": "ml-evaluation.md",
+        "desc": "ML 모델 평가: 메트릭, A/B 테스트, 데이터 드리프트 감지"
+      }
     ],
     "sections": [
-      {"heading": "Test Pyramid", "summary": "유닛 > 통합 > E2E 비율과 각 계층의 역할을 정의한다."},
-      {"heading": "Harness Selection", "summary": "프로젝트 스택에 맞는 테스트 프레임워크를 선택한다."},
-      {"heading": "CI Gates", "summary": "커버리지 임계값, 테스트 실패 시 머지 차단 규칙."},
-      {"heading": "TDD Workflow", "summary": "Red-Green-Refactor 사이클과 적용 시점 판단."},
-      {"heading": "Visual QA", "summary": "스크린샷 비교, 뷰포트별 검증, 시각적 회귀 방지."}
-    ]
+      {
+        "heading": "Test Pyramid",
+        "summary": "유닛 > 통합 > E2E 비율과 각 계층의 역할을 정의한다."
+      },
+      {
+        "heading": "Harness Selection",
+        "summary": "프로젝트 스택에 맞는 테스트 프레임워크를 선택한다."
+      },
+      {
+        "heading": "CI Gates",
+        "summary": "커버리지 임계값, 테스트 실패 시 머지 차단 규칙."
+      },
+      {
+        "heading": "TDD Workflow",
+        "summary": "Red-Green-Refactor 사이클과 적용 시점 판단."
+      },
+      {
+        "heading": "Visual QA",
+        "summary": "스크린샷 비교, 뷰포트별 검증, 시각적 회귀 방지."
+      }
+    ],
+    "llm_failure_modes": "LLM이 만드는 테스트의 가장 흔한 문제는 '동어 반복 테스트(tautology test)'다. expect(true).toBe(true)처럼 항상 통과하는 테스트, 또는 모든 의존성을 mock해서 실제 동작이 아니라 mock의 동작을 검증하는 테스트. LLM은 '테스트가 통과했다'는 신호를 만들도록 학습되었기 때문에, 테스트의 '질'보다 '존재'를 우선시한다.\n\n또한 LLM은 해피 패스만 테스트한다. null 입력, 빈 배열, 경계값, 동시 접근, 네트워크 실패 같은 에지 케이스를 자발적으로 테스트하지 않는다. 이건 학습 데이터에서 해피 패스 테스트가 에지 케이스 테스트보다 압도적으로 많기 때문이다."
   },
   {
     "name": "dev-uiux-design",
@@ -457,21 +988,60 @@
         "desc": "에이전트가 앱을 완성한 뒤 파비콘을 까먹거나, 적당히 이모지를 넣는다. favicon-logo.md는 파비콘/로고가 디자인 시스템의 일부임을 명시하고, 브라우저 탭에서 식별 가능한 아이콘을 만들게 한다."
       }
     ],
-    "key_concepts": ["Product Personality Selection", "Design Isms (Bauhaus/Memphis/Brutalism/etc.)", "Korean Request Translation", "UX States (Empty/Error/Loading/Permission)", "Typography Decision Gate", "Favicon & Logo System"],
-    "related_skills": ["dev", "dev-frontend", "dev-scaffolding"],
+    "key_concepts": [
+      "Product Personality Selection",
+      "Design Isms (Bauhaus/Memphis/Brutalism/etc.)",
+      "Korean Request Translation",
+      "UX States (Empty/Error/Loading/Permission)",
+      "Typography Decision Gate",
+      "Favicon & Logo System"
+    ],
+    "related_skills": [
+      "dev",
+      "dev-frontend",
+      "dev-scaffolding"
+    ],
     "triggers": "make it look good, modern, clean, aesthetic, onboarding, empty state, error state, favicon, logo, design system",
     "reference_files": [
-      {"name": "design-isms.md", "desc": "Bauhaus/Memphis/Brutalism/Wabi-Sabi 등 디자인 사조와 적용 조건"},
-      {"name": "product-personalities.md", "desc": "미니멀/엔터프라이즈/플레이풀/에디토리얼 성격별 참조 제품과 시각적 특성"},
-      {"name": "ux-states.md", "desc": "빈 상태/에러/로딩/권한 부족의 UX 패턴과 마이크로카피 가이드"},
-      {"name": "favicon-logo.md", "desc": "파비콘/로고 생성 규칙, 크기별 대응, 브랜드 일관성"},
-      {"name": "typography-line-breaks.md", "desc": "text-wrap: balance/pretty, ch 단위, 한국어 고아 방지"}
+      {
+        "name": "design-isms.md",
+        "desc": "Bauhaus/Memphis/Brutalism/Wabi-Sabi 등 디자인 사조와 적용 조건"
+      },
+      {
+        "name": "product-personalities.md",
+        "desc": "미니멀/엔터프라이즈/플레이풀/에디토리얼 성격별 참조 제품과 시각적 특성"
+      },
+      {
+        "name": "ux-states.md",
+        "desc": "빈 상태/에러/로딩/권한 부족의 UX 패턴과 마이크로카피 가이드"
+      },
+      {
+        "name": "favicon-logo.md",
+        "desc": "파비콘/로고 생성 규칙, 크기별 대응, 브랜드 일관성"
+      },
+      {
+        "name": "typography-line-breaks.md",
+        "desc": "text-wrap: balance/pretty, ch 단위, 한국어 고아 방지"
+      }
     ],
     "sections": [
-      {"heading": "Product Personality", "summary": "도메인과 사용자에 맞는 제품 성격(미니멀/엔터프라이즈/플레이풀 등)을 결정한다."},
-      {"heading": "Design Isms", "summary": "Bauhaus, Memphis, Brutalism 등 디자인 사조를 알고 적절히 적용한다."},
-      {"heading": "Korean Request Translation", "summary": "한국어 디자인 요청의 실제 의도를 파악하여 구체적 디자인 방향으로 변환한다."},
-      {"heading": "UX States", "summary": "비어있는/에러/로딩/권한 부족 상태의 UX 패턴을 설계한다."}
-    ]
+      {
+        "heading": "Product Personality",
+        "summary": "도메인과 사용자에 맞는 제품 성격(미니멀/엔터프라이즈/플레이풀 등)을 결정한다."
+      },
+      {
+        "heading": "Design Isms",
+        "summary": "Bauhaus, Memphis, Brutalism 등 디자인 사조를 알고 적절히 적용한다."
+      },
+      {
+        "heading": "Korean Request Translation",
+        "summary": "한국어 디자인 요청의 실제 의도를 파악하여 구체적 디자인 방향으로 변환한다."
+      },
+      {
+        "heading": "UX States",
+        "summary": "비어있는/에러/로딩/권한 부족 상태의 UX 패턴을 설계한다."
+      }
+    ],
+    "llm_failure_modes": "LLM에게 디자인을 맡기면 세 가지 수렴이 발생한다: (1) 시각적 수렴 — 모든 프로젝트가 같은 카드 그리드, 같은 히어로 레이아웃, 같은 색상 팔레트로 수렴한다. (2) 문화적 수렴 — 한국어 요청을 영어권 디자인 관습으로 해석한다('깔끔하게'를 일률적으로 미니멀리즘으로). (3) 상태 수렴 — 데이터가 완벽하게 들어와 있는 해피 상태만 디자인한다. 비어있는/에러/로딩/권한 부족 상태는 LLM이 자발적으로 고려하지 않는다.\n\n이 세 가지 수렴은 LLM의 학습 데이터 분포에서 직접 비롯된다. dev-uiux-design은 구현 전에 이 세 수렴을 깨뜨리는 '디자인 방향 결정'을 강제한다."
   }
 ]

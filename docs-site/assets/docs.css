@@ -267,3 +267,29 @@ details > :not(summary) { padding: 0 16px; }
   line-height: 1.65;
   color: var(--ink-soft);
 }
+
+/* LLM failure mode analysis */
+.llm-analysis {
+  margin: 20px 0 28px;
+  padding: 16px 20px;
+  background: #f9f6f0;
+  border-left: 3px solid var(--ink);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.llm-analysis strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+.llm-analysis p {
+  margin: 0 0 10px;
+  color: var(--ink-soft);
+}
+.llm-analysis p:last-child {
+  margin-bottom: 0;
+}

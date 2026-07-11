@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-testing/SKILL.md" target="_blank" rel="noopener">skills/dev-testing/SKILL.md</a></p>
 <p class="lede">Testing and QA router: strategy, harness choice, CI gates, TDD, and coverage.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>테스트 없는 코드는 &#x27;동작하는 것 같다&#x27;에 머물고, 리팩토링이나 기능 추가 때 회귀를 잡지 못한다. AI 에이전트는 특히 얕은 해피패스 테스트만 작성하거나 실제 동작을 검증하지 않는 가짜 테스트를 만드는 경향이 있다. 이 스킬은 테스트 피라미드, 하니스 선택, CI 게이트, 커버리지 기준을 체계적으로 제공하여 변경의 위험도에 비례하는 검증을 보장한다.</div>
+<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
+<p>LLM이 만드는 테스트의 가장 흔한 문제는 &#x27;동어 반복 테스트(tautology test)&#x27;다. expect(true).toBe(true)처럼 항상 통과하는 테스트, 또는 모든 의존성을 mock해서 실제 동작이 아니라 mock의 동작을 검증하는 테스트. LLM은 &#x27;테스트가 통과했다&#x27;는 신호를 만들도록 학습되었기 때문에, 테스트의 &#x27;질&#x27;보다 &#x27;존재&#x27;를 우선시한다.</p>
+<p>또한 LLM은 해피 패스만 테스트한다. null 입력, 빈 배열, 경계값, 동시 접근, 네트워크 실패 같은 에지 케이스를 자발적으로 테스트하지 않는다. 이건 학습 데이터에서 해피 패스 테스트가 에지 케이스 테스트보다 압도적으로 많기 때문이다.</p>
+</div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>에이전트가 만드는 가짜 테스트</strong><p>에이전트는 &#x27;테스트를 작성했습니다&#x27;라고 보고하지만, 실제로는 항상 통과하는 tautology 테스트(expect(true).toBe(true))이거나, 실제 동작을 검증하지 않는 mock만 잔뜩 있는 테스트를 만든다. 이 스킬은 테스트가 실제로 검증하는 것이 무엇인지 명시하게 한다.</p></div>
 <div class="problem-card"><strong>하니스 선택의 혼란</strong><p>에이전트가 프로젝트에 이미 Jest가 설정되어 있는데 Vitest를 새로 설치하거나, Playwright가 있는데 Cypress를 추가한다. Harness Selection은 기존 프로젝트의 테스트 인프라를 먼저 감지하고 활용하게 한다.</p></div>

@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/SKILL.md" target="_blank" rel="noopener">skills/dev-uiux-design/SKILL.md</a></p>
 <p class="lede">UI/UX design direction: visual judgment, design isms, product personality, UX states.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트에게 &#x27;멋지게 만들어&#x27;라고 하면 매번 비슷한 그라데이션, 둥근 카드, 보라색 팔레트가 나온다. 디자인 판단은 도메인, 사용자, 맥락에 따라 달라져야 하는데, 구현 스킬(<a href="../../pages/skills/dev-frontend.html">dev-frontend</a>)만으로는 이 판단이 빠진다. 이 스킬은 디자인 방향을 먼저 결정하고, 그 방향에 맞는 구체적인 타이포/색상/레이아웃을 설정한 뒤 <a href="../../pages/skills/dev.html">dev</a>-frontend에 구현을 넘긴다.</div>
+<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
+<p>LLM에게 디자인을 맡기면 세 가지 수렴이 발생한다: (1) 시각적 수렴 — 모든 프로젝트가 같은 카드 그리드, 같은 히어로 레이아웃, 같은 색상 팔레트로 수렴한다. (2) 문화적 수렴 — 한국어 요청을 영어권 디자인 관습으로 해석한다(&#x27;깔끔하게&#x27;를 일률적으로 미니멀리즘으로). (3) 상태 수렴 — 데이터가 완벽하게 들어와 있는 해피 상태만 디자인한다. 비어있는/에러/로딩/권한 부족 상태는 LLM이 자발적으로 고려하지 않는다.</p>
+<p>이 세 가지 수렴은 LLM의 학습 데이터 분포에서 직접 비롯된다. <a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a>은 구현 전에 이 세 수렴을 깨뜨리는 &#x27;디자인 방향 결정&#x27;을 강제한다.</p>
+</div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>한국어 디자인 요청의 번역 손실</strong><p>&#x27;깔끔하게 해줘&#x27;라는 요청은 미니멀리즘인지, 화이트 스페이스 정리인지, 타이포 개선인지 맥락에 따라 다르다. Korean Request Translation(section 3)은 흔한 한국어 디자인 요청을 구체적인 디자인 방향으로 변환하는 사전을 제공한다.</p></div>
 <div class="problem-card"><strong>모든 프로젝트가 같은 성격으로 수렴</strong><p>에이전트는 SaaS 대시보드와 게임 랜딩 페이지에 같은 디자인을 적용한다. Product Personality Selection은 도메인별 성격(미니멀/엔터프라이즈/플레이풀/에디토리얼)을 먼저 결정하게 한다. <a href="../../pages/skills/dev-uiux-design-product-personalities.html">product-personalities.md</a>에 구체적인 참조 제품과 시각적 특성이 정리되어 있다.</p></div>

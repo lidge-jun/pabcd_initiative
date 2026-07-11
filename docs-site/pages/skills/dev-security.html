@@ -106,6 +106,11 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-security/SKILL.md" target="_blank" rel="noopener">skills/dev-security/SKILL.md</a></p>
 <p class="lede">Security as a build constraint: OWASP, auth hardening, secrets, supply chain.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>보안은 기능 완성 후 덧붙이는 감사가 아니라 빌드 시점의 제약 조건이다. AI 에이전트가 편의를 위해 하드코딩한 시크릿, 검증 없는 사용자 입력, 권한 없는 리소스 접근을 만들면 프로덕션에서 즉각 취약점이 된다. 이 스킬은 OWASP Top 10을 코드 레벨 규칙으로 변환하여, 인증/인가/입력 검증/시크릿 관리를 코딩 시점에 강제한다.</div>
+<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
+<p>LLM은 보안을 &#x27;기능 완성 후 추가하는 것&#x27;으로 취급하는 편향이 있다. &#x27;로그인 기능 만들어줘&#x27;라고 하면 인증 로직은 만들지만 rate limiting, brute force 방지, CSRF 토큰, secure cookie 설정을 빠뜨린다. 이건 학습 데이터에서 보안이 항상 &#x27;추가 단계&#x27;로 설명되기 때문이다.</p>
+<p>더 심각한 문제는 slopsquatting이다. LLM이 패키지를 추천할 때 실존하지 않는 이름을 환각(hallucinate)한다. 2025년 연구에서 약 20%가 실재하지 않았고, 이 환각된 이름이 반복적으로 나타났다. 공격자가 이 이름으로 악성 패키지를 등록하면 에이전트가 자동으로 설치하게 된다. 이건 LLM의 환각 문제가 보안 취약점으로 직접 연결되는 사례다.</p>
+<p>2026년에는 에이전트 자체가 공격 표면이 되었다. OWASP Top 10 for Agentic Applications 2026이 발표되었고, 프롬프트 인젝션(ASI01)부터 데이터 유출(ASI05)까지 tool-using AI 에이전트 고유의 위협 모델이 체계화되었다. MCP 서버의 서플라이 체인 공격도 새로운 벡터다.</p>
+</div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>Slopsquatting — AI가 환각한 패키지명을 공격자가 등록</strong><p>2025년 연구에서 LLM이 추천한 패키지의 약 20%가 실재하지 않았고, 환각된 패키지명이 반복적으로 나타났다. 공격자가 이 이름을 npm/PyPI에 등록하면 에이전트가 악성 패키지를 설치한다. section 6.5의 slopsquatting gate는 모든 AI 추천 의존성에 실존 여부와 유지보수 상태를 확인하게 한다.</p></div>
 <div class="problem-card"><strong>OWASP Agentic Top 10 (2026) — 에이전트 고유의 보안 위협</strong><p>tool-using AI 에이전트는 프롬프트 인젝션(ASI01), 과도한 권한(ASI02), 도구 오남용(ASI04), 데이터 유출(ASI05) 같은 고유한 공격 표면을 가진다. <a href="../../pages/skills/dev-security-agentic-ai-security.html">agentic-ai-security.md</a>는 OWASP Top 10 for Agentic Applications 2026의 ASI01-ASI10을 에이전트 규칙으로 매핑한다.</p></div>

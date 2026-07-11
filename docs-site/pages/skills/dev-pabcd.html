@@ -106,6 +106,9 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-pabcd/SKILL.md" target="_blank" rel="noopener">skills/dev-pabcd/SKILL.md</a></p>
 <p class="lede">PABCD orchestration workflow for interview, phases, attest, and checkpoints.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>PABCD는 codexclaw의 핵심 개발 방법론이다. 인터뷰(I)로 요구사항을 정리하고, 계획(P) &gt; 감사(A) &gt; 구현(B) &gt; 점검(C) &gt; 완료(D)의 5단계를 FSM으로 관리한다. 이 스킬이 없으면 에이전트는 요구사항 확인 없이 바로 코딩하거나, 감사 없이 머지하거나, 검증 없이 완료 선언을 한다.</div>
+<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
+<p>LLM은 &#x27;즉시 실행&#x27; 편향이 강하다. 사용자가 &#x27;뭘 만들지 모르겠어&#x27;라고 해도 바로 코드를 생성하려고 한다. Interview(I) 단계가 없으면 이 편향을 제어할 수 없다. 또한 LLM이 자발적으로 제안하는 2-3개 옵션은 통계적으로 같은 어트랙터 패밀리에 속한다 — 학습 데이터에서 가장 흔한 접근 방식들이다. INTERVIEW-DIVERGE-01이 &#x27;비전형적(low-probability) 접근을 하나 이상 포함시키라&#x27;고 강제하는 이유다. Catalog Discovery의 &#x27;디자인 먼저&#x27; 원칙도 같은 맥락이다: LLM에게 &#x27;사주 앱 만들어&#x27;라고 하면 바로 기술 스택(React + PostgreSQL)을 결정하는데, 실제로는 시각적 분위기, 사용자 경험이 먼저 결정되어야 기술 선택이 의미를 가진다.</p>
+</div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>요구사항 누락으로 인한 재작업</strong><p>에이전트가 사용자의 첫 문장만 보고 바로 코딩을 시작하면, 중간에 &#x27;이건 원하는 게 아닌데&#x27;가 반복된다. Interview(I) 단계는 세 가지를 반드시 정하게 한다: 작업 분류(C0-C5), 루프 아키타입(verifier가 done을 정의하는가), 구현 유닛 소속(<a href="../../pages/skills/dev.html">dev</a>log/_plan/YYMMDD_slug/).</p></div>
 <div class="problem-card"><strong>에이전트가 모르는 것을 모르는 문제</strong><p>Interview Diverge(INTERVIEW-DIVERGE-01): 에이전트가 자원하는 2-3개 옵션은 보통 같은 어트랙터 패밀리다. 의도적으로 비전형적(low-probability) 접근을 하나 이상 포함시키고, 불확실하면 &#x27;BOTH (parallel spike, select by evidence)&#x27;를 제안하게 한다.</p></div>

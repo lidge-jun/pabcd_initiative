@@ -106,6 +106,9 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-devops/SKILL.md" target="_blank" rel="noopener">skills/dev-devops/SKILL.md</a></p>
 <p class="lede">Container builds, deploy pipelines, K8s, IaC, SRE, edge/serverless, ML infra.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>인프라 작업은 단일 실수가 프로덕션 전체를 다운시킬 수 있다. unpinned base image, root로 실행되는 컨테이너, 시크릿이 노출된 CI 로그. 이 스킬은 컨테이너 빌드부터 배포 전략, Kubernetes, IaC, SRE까지 인프라 전 영역의 STRICT 규칙을 한곳에 모아서 에이전트가 인프라 작업 시 안전하게 움직이게 한다.</div>
+<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
+<p>LLM의 학습 데이터에는 2022-2023년의 Dockerfile과 CI 설정이 압도적으로 많다. 그래서 FROM node:latest, USER root, ARG로 시크릿 전달 같은 안티패턴을 자연스럽게 생성한다. 이건 학습 데이터의 분포 문제다 — 나쁜 Dockerfile이 좋은 Dockerfile보다 인터넷에 훨씬 많다. 또한 OIDC/Trusted Publishing은 2024-2025년에 주류가 되었기 때문에 학습 데이터에 반영이 부족하다. LLM은 기본적으로 NPM_TOKEN을 먼저 요구하는데, 이건 이미 열등한 폴백 경로다. Kubernetes도 마찬가지다 — Ingress 예제가 학습 데이터에 압도적으로 많아서 Gateway API v1.6+를 자발적으로 쓰지 않는다.</p>
+</div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>OIDC/Trusted Publishing 우선 원칙</strong><p>2025-2026년 npm과 PyPI가 Trusted Publishing(OIDC)을 기본 지원하면서, 장기 토큰(NPM_TOKEN, PYPI_TOKEN)은 보안상 열등한 폴백이 되었다. 에이전트는 관성적으로 토큰을 먼저 요청하는데, <a href="../../pages/skills/dev-devops-package-release.html">package-release.md</a>의 Auth Decision Table은 OIDC를 먼저 시도하고 토큰은 OIDC가 불가능할 때만 쓰게 한다.</p></div>
 <div class="problem-card"><strong>FROM node:latest의 재현 불가능 빌드</strong><p>에이전트가 Dockerfile을 만들 때 FROM node:latest를 쓰면 다음 주에 빌드가 깨진다. section 1.1은 버전+SHA256 다이제스트 고정을 STRICT 규칙으로 강제한다.</p></div>

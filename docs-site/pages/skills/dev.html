@@ -106,10 +106,15 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev/SKILL.md" target="_blank" rel="noopener">skills/dev/SKILL.md</a></p>
 <p class="lede">Universal <a href="../../pages/skills/dev.html">dev</a> discipline: work classifier (C0-C5), overlays, verification gate, safety rules.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트가 모든 작업에 최대 프로세스를 적용하면 사소한 타이포 수정에도 전체 PABCD를 돌리게 된다. 반대로 프로세스 없이 바로 코딩하면 크로스모듈 변경에서 회귀가 터진다. 이 스킬은 모든 코딩 작업의 진입점으로, 작업 깊이를 C0-C5로 분류한 뒤 적절한 서브스킬과 프로세스 깊이를 라우팅한다. &#x27;어디서부터 읽어야 하나&#x27;라는 질문에 대한 답이 이 스킬이다.</div>
+<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
+<p>LLM은 프롬프트에서 요청한 것을 즉시 구현하려는 강한 편향이 있다. &#x27;로그인 기능을 만들어줘&#x27;라고 하면 바로 코드를 쓰기 시작하는데, 이게 타이포 수정인지(C0) 인증 시스템 설계인지(C4)에 따라 필요한 프로세스 깊이가 완전히 다르다. 분류 없이 시작하면 두 가지 실패가 생긴다: (1) 사소한 작업에 과도한 분석을 하거나, (2) 위험한 작업을 가볍게 처리한다. 특히 LLM은 &#x27;이 정도면 됐다&#x27;는 판단을 잘 못하기 때문에, 검증 게이트(Verification Gate) 없이는 실제로 실행하지 않은 코드를 &#x27;완료&#x27;라고 보고한다. 이 스킬의 C0-C5 분류기는 LLM의 &#x27;바로 시작&#x27; 편향을 제어하는 첫 번째 관문이다.</p>
+</div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>프로세스 과잉/부족의 양극단</strong><p>AI 에이전트는 규칙이 없으면 모든 작업에 동일한 깊이를 적용한다. 타이포 수정에 전체 아키텍처 리뷰를 돌리거나, 인증 로직 변경을 한 줄 패치로 끝내는 양극단이 반복된다. C0-C5 분류기는 작업의 실제 위험도에 비례하는 프로세스를 강제한다.</p></div>
 <div class="problem-card"><strong>서브스킬 라우팅 없는 단일 프롬프트의 한계</strong><p>13개 스킬의 전체 내용을 매번 로드하면 컨텍스트 윈도우가 넘친다. dev 스킬은 라우터로서 task_tags와 change surface 기반으로 필요한 서브스킬만 활성화한다. TDD는 testing이 필요한 작업에서만, threat model은 보안 작업에서만 로드된다.</p></div>
 <div class="problem-card"><strong>검증 없는 완료 선언</strong><p>에이전트가 코드를 작성한 뒤 &#x27;완료&#x27;라고 선언하지만 실제로 실행하지 않은 경우가 빈번하다. Verification Gate(dev section 3)는 실제 실행/테스트 없이는 완료로 간주하지 않는 불변 규칙이다.</p></div>
+<div class="problem-card"><strong>컨텍스트 윈도우 낭비 — 13개 스킬 전체 로드의 비효율</strong><p>LLM의 컨텍스트 윈도우는 유한하다. 13개 스킬(총 수만 토큰)을 매번 전부 로드하면 실제 작업에 쓸 컨텍스트가 줄어든다. dev 스킬은 task_tags와 change surface 기반으로 필요한 2-3개 서브스킬만 활성화하는 라우터 역할을 한다. 이건 단순한 편의가 아니라 LLM의 구조적 한계(유한 컨텍스트)에 대한 아키텍처적 해법이다.</p></div>
+<div class="problem-card"><strong>STYLE_SAMPLE 오해 — 예시를 규칙으로 일반화</strong><p>LLM은 학습 데이터에서 본 코드 패턴을 보편적 규칙으로 일반화하는 경향이 있다. &#x27;이 프로젝트에서는 이렇게 했으니까 모든 프로젝트에서 이렇게 해야 한다&#x27;고 판단한다. Rule Classes의 STYLE_SAMPLE 등급은 &#x27;이건 예시일 뿐, 보편적 요구사항으로 만들면 안 된다&#x27;는 경계를 명시적으로 설정한다.</p></div>
 <p><strong>Triggers:</strong> <code>develop, implement, refactor, feature, bug fix, test, review, code quality, scaffolding</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>

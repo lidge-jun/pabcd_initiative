@@ -106,6 +106,9 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-architecture/SKILL.md" target="_blank" rel="noopener">skills/dev-architecture/SKILL.md</a></p>
 <p class="lede">Module boundaries, circular deps, coupling taxonomy, and boundary defenses.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>AI 에이전트는 기능을 빠르게 구현하지만 모듈 경계를 의식하지 않는다. 결과적으로 순환 의존성, 암묵적 커플링, barrel 남용이 쌓여 코드베이스가 리팩토링 불가능한 진흙 덩어리가 된다. 이 스킬은 모듈 분할, 의존성 방향, 레이어 경계를 기계적 규칙으로 강제하여 구조적 부패를 차단한다.</div>
+<div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
+<p>LLM은 &#x27;가장 가까운 import&#x27;를 선호한다. 기능을 구현할 때 이미 아는 파일에서 직접 import하므로, 레이어 경계를 넘는 의존성(UI에서 DB 클라이언트를 직접 import)이 자연스럽게 생긴다. 이건 LLM이 코드를 텍스트 토큰으로 처리하기 때문에 발생하는 구조적 문제다 — LLM은 &#x27;이 import가 아키텍처 경계를 넘는다&#x27;는 공간적 인식이 없다. madge, pydeps 같은 정적 분석 도구를 CI에 넣어서 기계적으로 잡아야 하는 이유가 여기에 있다.</p>
+</div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>에이전트가 만드는 순환 의존성</strong><p>에이전트가 기능을 추가할 때 가장 가까운 파일에서 import하는 습관이 있다. A가 B를, B가 A를 import하는 순환이 생겨도 에러 없이 동작하다가, 번들 크기 폭발이나 런타임 undefined로 나중에 터진다. ARCH-CYCLE-01은 madge/pydeps로 순환을 CI에서 차단한다.</p></div>
 <div class="problem-card"><strong>Barrel 파일의 트리셰이킹 파괴</strong><p>index.ts에서 모든 것을 re-export하는 barrel 패턴은 편리하지만, 웹팩/롤업의 트리셰이킹을 무력화한다. 하나의 유틸을 import하면 barrel 전체가 번들에 포함된다. <a href="../../pages/skills/dev-architecture-barrel-discipline.html">barrel-discipline.md</a>는 barrel이 허용되는 조건과 금지 조건을 명시한다.</p></div>
