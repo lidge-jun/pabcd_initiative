@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-pabcd — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="active">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-pabcd</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-pabcd/SKILL.md</p>
+<p>Structured 5-phase development. Advance only with user approval.</p>
+<p>&gt; <strong>Runtime adapter (agent-neutral):</strong> <code>orchestrate &lt;phase&gt;</code> below means your runtime&#x27;s</p>
+<p>&gt; FSM transition command (any host that persists PABCD state and gates transitions).</p>
+<p>&gt; If your runtime has NO FSM command, keep the state machine in your working notes:</p>
+<p>&gt; announce each transition in your reply and append the attestation JSON to the</p>
+<p>&gt; worklog/devlog — the discipline is identical, only the persistence differs.</p>
+<p>&gt; &quot;Worker dispatch&quot; means spawning a subagent through whatever delegation surface</p>
+<p>&gt; your runtime provides.</p>
+<p>&gt; <strong>C0/C1 work (e.g. small in-place patches):</strong> See <code>dev</code> §0.0 Work Classifier and §0.1 Patch</p>
+<p>&gt; Fast-Path first — full PABCD is mandatory for C4 and conditional for C3, not the baseline for every task.</p>
+<h3 id="1-interview-trigger-must">§1. Interview Trigger (MUST)</h3>
+<p>When the user asks for an interview in any form — &quot;인터뷰하자&quot;, &quot;인터뷰 모드&quot;, &quot;interview&quot;,</p>
+<p>&quot;요구사항 정리&quot;, &quot;스펙 정리해줘&quot;, &quot;뭘 만들어야 하는지 정리&quot;, or any variation — you MUST</p>
+<p>immediately run:</p>
+<p>orchestrate I</p>
+<p>Do NOT:</p>
+<ul>
+<li>Ask clarifying questions in IDLE mode instead of entering Interview</li>
+<li>Use the <code>/interview</code> slash command instead of <code>orchestrate I</code></li>
+<li>Skip Interview and go straight to P for unclear requests</li>
+<li>Forget to run the command — actually execute it (via the host&#x27;s orchestrate surface)</li>
+</ul>
+<p>The <code>/interview</code> slash command is a user-facing shortcut that triggers the same transition.</p>
+<p>As the orchestrating agent, always perform the <code>orchestrate I</code> transition directly.</p>
+<p><strong>Interview MUST settle three things before P</strong> (DEFAULT, INTERVIEW-CLASSIFY-01):</p>
+<p>the work class (dev §0.0), the <strong>loop archetype</strong> (§11.4) — ask &quot;does a verifier</p>
+<p>define *done* for this work, or only *better*?&quot; — and the <strong>unit residence</strong></p>
+<p>(UNIT-RESIDENCE-01, §3.1): which implementation unit (<code>devlog/_plan/YYMMDD_slug/</code>)</p>
+<p>this work belongs to, an existing unit or a new one. This applies in HITL and goal</p>
+<p>mode alike. An archetype discovered mid-loop — after candidates have already been</p>
+<p>burned — is an Interview failure, not a Build failure.</p>
+<p><strong>Interview may widen, not only narrow</strong> (DEFAULT, INTERVIEW-DIVERGE-01): sometimes the</p>
+<p>truest transfer of intent is &quot;we don&#x27;t know yet — test both.&quot; When a load-bearing</p>
+<p>choice is genuinely uncertain and a spike is cheap, present options as</p>
+<p><code>A · B · BOTH (parallel spike, select by evidence)</code> instead of forcing one pick.</p>
+<p>Generate the option list against typicality bias: the 2-3 options a model volunteers</p>
+<p>are usually one attractor family — deliberately include at least one atypical</p>
+<p>(low-probability) approach. A <code>BOTH</code> answer becomes an explore-and-select work-phase</p>
+<p>(§11.4) with the comparison verifier declared in the loop-spec. Divergence seeded at</p>
+<p>Interview is far cheaper than divergence discovered at a plateau.</p>
+<p><strong>Interview sub-modes</strong> (DEFAULT, INTERVIEW-CATALOG-01): pick by the user&#x27;s knowledge level.</p>
+<p>*Clarification* (existing) — the user already knows roughly what they want; questions structure</p>
+<p>goals, constraints, success criteria. *Catalog Discovery* — the user names a vague domain but no</p>
+<p>features (&quot;사주 앱 만들고 싶어&quot;, &quot;뭘 만들지 모르겠어&quot;); see below. *Configurator* — compile the</p>
+<p>selections into a spec. Heuristic: concrete feature/goal → Clarification; vague domain, no tech</p>
+<p>specifics → Catalog Discovery; explicit user request → honor it.</p>
+<p><strong>Catalog Discovery — design/UX LEADS</strong> (DEFAULT, CATALOG-DESIGN-FIRST-01): the user cannot choose</p>
+<p>from options they have never seen (the strong form of INTERVIEW-TEACH-01). Present the option</p>
+<p>ontology in <code>references/catalog-discovery.yaml</code>. *Hard barrier:* iterate <code>axis_order</code> by ascending</p>
+<p><code>stage</code>; do NOT present a stage until every <code>required</code> entry of all earlier stages is answered.</p>
+<p>Stage 1 is design, so all six design dials (mood, lightness, density, shape, typography, motion),</p>
+<p>each <code>required: true</code>, MUST be answered before any Stage 2 (domain) or Stage 3 (feature/data/</p>
+<p>security/ops/cost) question appears. This is the load-bearing invariant — backend is asked on top</p>
+<p>of design, never before it.</p>
+<ul>
+<li>*Design methodology — Product-Personality Selection first* (<code>design_methodology.primary</code>, from</li>
+</ul>
+<p>dev-uiux-design §1): for each design dial show its <code>question_options</code> (labels + trade-offs)</p>
+<p>anchored on familiar products, then ask (present-then-ask, not confirm-what-they-said); refine</p>
+<p>via the declared <code>followups</code> — Korean Request Translation (§3), Reference Discovery (§1 Step 6),</p>
+<p>Design Read (§2).</p>
+<ul>
+<li>*Deriving backend questions* — two paths populate Stage 3 from earlier answers, never a flat</li>
+</ul>
+<p>list: <strong>structural</strong> — a chosen Stage-2 domain entry&#x27;s <code>implies[]</code> plus each Stage-3 entry&#x27;s</p>
+<p><code>derived_from</code> (resolve <code>implies[]</code> transitively); <strong>keyword</strong> — scan the user&#x27;s INITIAL</p>
+<p>free-text request against Stage-3 <code>auto_activate_rules</code> (e.g. &quot;사주&quot;/&quot;생년월일&quot; pre-activates</p>
+<p><code>security.pii_protection</code>). Confirm high-impact activations.</p>
+<ul>
+<li>The catalog is a DATA STRUCTURE — do not invent entries not in it. The YAML encodes derivation</li>
+</ul>
+<p>INPUTS + dependency metadata; this prose is the agent procedure that reads it. Automated runtime</p>
+<p>filtering is out of scope (it would escalate to code).</p>
+<p><strong>Configurator</strong>: once selections are complete, compile them (with resolved <code>implies[]</code> chains)</p>
+<p>into a spec — PRD sections, an MVP cut ordered by <code>cost_class</code>, a risk register of every</p>
+<p><code>risk_class: high</code> entry, and a PABCD plan seed carrying the work class + loop archetype from</p>
+<p>INTERVIEW-CLASSIFY-01.</p>
+<h3 id="2-how-it-works">§2. How It Works</h3>
+<p>PABCD is a forward progression with Interview return.</p>
+<pre><code>IDLE ──→ P ──→ A ──→ B ──→ C ──→ D ──→ IDLE
+         │      │      │      │      │
+        STOP   STOP   STOP   auto   auto
+        wait   wait   wait
+         └──────┴──────┴──────┴──────┘
+                      ↓
+                 I (Interview)
+              context preserved</code></pre>
+<p>You can return to Interview (I) from any phase to clarify requirements. Context (plan, audit status) is preserved.</p>
+<p>To restart from scratch:</p>
+<pre><code>orchestrate reset   → returns to IDLE (context cleared)</code></pre>
+<p>Then re-enter with <code>orchestrate P</code>.</p>
+<p>Transition commands:</p>
+<pre><code>orchestrate I       → enter Interview (from any state, context preserved)
+orchestrate P       → enter Planning (from IDLE or I)
+orchestrate A       → enter Plan Audit (from P only)
+orchestrate B       → enter Build (from A only)
+orchestrate C       → enter Check (from B only)
+orchestrate D       → enter Done (from C only, returns to IDLE)
+orchestrate reset   → return to IDLE (from any state)</code></pre>
+<h4 id="2-1-evidence-gate-forward-transitions">§2.1 Evidence gate (forward transitions)</h4>
+<p>The four forward transitions (P→A, A→B, B→C, C→D) require an <strong>evidence attestation</strong> — a</p>
+<p>real <code>orchestrate</code> command with an <code>--attest</code> JSON, not narration. The host runtime gates the</p>
+<p>agent path (attest-required); a human&#x27;s chat-submitted <code>orchestrate X</code> keeps the free pass.</p>
+<p>P, A, and B also require user approval before advancing; C and D proceed automatically once</p>
+<p>their work is done. In goal mode, §4 rule 4 replaces user approval with evidence-backed</p>
+<p>checkpoints.</p>
+<pre><code>orchestrate A --attest &#x27;{&quot;from&quot;:&quot;P&quot;,&quot;to&quot;:&quot;A&quot;,&quot;did&quot;:&quot;&lt;the concrete plan you wrote: files/surfaces + devlog path&gt;&quot;}&#x27;
+orchestrate B --attest &#x27;{&quot;from&quot;:&quot;A&quot;,&quot;to&quot;:&quot;B&quot;,&quot;did&quot;:&quot;&lt;who audited the plan + the verdict&gt;&quot;}&#x27;
+orchestrate C --attest &#x27;{&quot;from&quot;:&quot;B&quot;,&quot;to&quot;:&quot;C&quot;,&quot;did&quot;:&quot;&lt;what you built + who verified it&gt;&quot;}&#x27;
+orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quot;D&quot;,&quot;did&quot;:&quot;&lt;what you checked&gt;&quot;,&quot;checkOutput&quot;:&quot;&lt;paste the real tsc/test tail&gt;&quot;,&quot;exitCode&quot;:0}&#x27;</code></pre>
+<p>The gate is <strong>form-only</strong>: it checks that the block is well-formed and that <code>did</code> is a real</p>
+<p>narrative (booleans/placeholders are rejected); C→D additionally requires a non-empty</p>
+<p><code>checkOutput</code> and, if present, <code>exitCode:0</code>. It does NOT cross-check the narrative against</p>
+<p>runtime state — the goal is to force a deliberate, specific claim, not to defeat a malicious</p>
+<p>agent.</p>
+<p><strong>Evidence pointers (DEFAULT, ATTEST-EVIDENCE-01):</strong> even though the gate checks form</p>
+<p>only, write <code>did</code> with artifact pointers — the plan/devlog path, the changed-file list,</p>
+<p>the verify command with its exit code — so a later reader (or a stronger future gate)</p>
+<p>can re-check the claim against the repo instead of trusting the narrative. Saying &quot;현재는 B입니다&quot; without running the command does nothing: the state machine only</p>
+<p>moves on the command.</p>
+<p>Threat model = laziness, not malice. Accepted residuals (NOT bugs): a fabricated <code>did</code>, the</p>
+<p>hidden <code>--force</code> emergency hatch, a <code>pendingAttestation</code> emitted in a prior turn, and an agent</p>
+<p>that deliberately strips its own boss token to pose as a human. Closing the last one would risk</p>
+<p>the legitimate human-via-CLI free pass, so it is out of scope unless the threat model expands.</p>
+<h3 id="3-phases">§3. Phases</h3>
+<h4 id="p-plan">P — Plan</h4>
+<p>If the request has unclear scope or unspecified technology, return to Interview (<code>orchestrate I</code>). Within Interview:</p>
+<ul>
+<li>Present 2–3 options as <code>&lt;Name&gt; — &lt;plain explanation&gt;</code>, including one atypical</li>
+</ul>
+<p>option; offer <code>BOTH (parallel spike)</code> when the choice is uncertain and a spike is</p>
+<p>cheap (INTERVIEW-DIVERGE-01, §1)</p>
+<ul>
+<li><strong>Teach the decision space, don&#x27;t only narrow it</strong> (DEFAULT, INTERVIEW-TEACH-01):</li>
+</ul>
+<p>intent transfer is bidirectional — a user cannot choose among options they have</p>
+<p>never seen. Questions that merely confirm details the user already stated are the</p>
+<p>weak form; the strong form maps the option landscape (research it first when</p>
+<p>needed) with a trade-off explanation per option, at every load-bearing altitude:</p>
+<p>stack, architecture, <strong>algorithm/strategy</strong>, data structure, evaluation method.</p>
+<ul>
+<li>Recommend one with project-specific reasoning</li>
+<li>Confirm once, then proceed</li>
+</ul>
+<p>For broad changes or unfamiliar repositories, P phase MUST include:</p>
+<ul>
+<li>Compact tree of the current repository shape</li>
+<li>Detected repo conventions: docs, plans, architecture notes, source-of-truth logs, naming, tests</li>
+<li>Whether existing <code>structure/</code>, <code>devlog/</code>, <code>docs/</code>, <code>plans/</code>, or equivalent logs were read and will be reused</li>
+<li>Whether <code>structure/</code> or <code>devlog/</code> is proposed</li>
+<li>The SoT sync target (SOT-SYNC-01): which general source-of-truth doc</li>
+</ul>
+<p>(<code>structure/</code>, architecture/INDEX docs) this unit will patch in C — or, if the</p>
+<p>repo has none, the plan recommends creating one (dev-scaffolding §2.1)</p>
+<p>Do not create new project-level source-of-truth folders during B unless approved in P or explicitly requested by the user.</p>
+<p>For every planned conditional path (error handler, fallback, retry, cache, guard,</p>
+<p>feature-gated branch, threshold behavior), the plan&#x27;s accept criteria name its</p>
+<p><strong>activation scenario</strong>: how C will trigger the condition and what observable effect</p>
+<p>proves the path ran (C-ACTIVATION-GROUNDING-01, §3 C).</p>
+<p>Design phases before mapping them to PABCD. **Slice and order phases by</p>
+<p>dependency/architecture structure (STRICT, PHASE-SPLIT-01)** — the orthodox</p>
+<p>unlimited-time build order: foundations (schema, contracts, core data flow) → core</p>
+<p>capabilities → integration → hardening/polish — so each phase consumes the verified</p>
+<p>output of the previous one. DB/API/UI/test work inside a phase are subtasks, not</p>
+<p>top-level phases by default, and every phase must still close with something</p>
+<p>independently verifiable (build, tests, or a demonstrable surface). Effort-based</p>
+<p>bucketing is FORBIDDEN: never split or order phases by estimated effort or payoff</p>
+<p>speed — no &quot;quick win vs heavy&quot; buckets, no impact/effort matrices, no time-boxed</p>
+<p>slices. Phase boundaries encode the system&#x27;s build order, not the schedule. A simple</p>
+<p>task can finish in one PABCD with several small phases; larger work splits into</p>
+<p>multiple PABCD passes — one full P→A→B→C→D per work-phase, closed by D and</p>
+<p>re-entered at P for the next work-phase (see Terminology / Rule 4).</p>
+<p>Read project docs and dev skills first. Write the complete plan internally, then report it simply — like a developer reporting to the CEO.</p>
+<p>Write a plan with two parts:</p>
+<ul>
+<li><strong>Part 1</strong>: Easy explanation — what will be built, in non-developer terms.</li>
+<li><strong>Part 2</strong>: Diff-level precision — exact file paths (NEW/MODIFY/DELETE), before/after diffs for MODIFY, complete content for NEW.</li>
+</ul>
+<p><strong>Loop-spec header (DEFAULT, C2+):</strong> open the plan with a compact loop-spec —</p>
+<p><strong>Loop archetype (§11.4, carried from Interview)</strong> · Trigger · Goal (user-visible</p>
+<p>outcome) · Non-goals · Verifier (the command/gate that proves it, and **what it</p>
+<p>measures**, not only pass/fail) · Stop condition · Memory artifact (devlog/worklog</p>
+<p>path) · Expected terminal states (§11.2) · Escalation condition. Goal mode additionally</p>
+<p>states the §11.5 resource scope. This makes the loop contract first-class instead of</p>
+<p>scattered across the plan.</p>
+<p><strong>When the archetype is open-ended optimization</strong>, the loop-spec MUST additionally</p>
+<p>include a divergence plan (descriptor axes · cell/archetype assignments · candidate</p>
+<p>count · deterministic selection rule · telemetry schema), and **instrumentation</p>
+<p>precedes candidates**: if the verifier only reports win/lose, B&#x27;s first work item is</p>
+<p>the telemetry, not a candidate. A scalar-only verifier plus discarded candidates is</p>
+<p>the §10 plateau signature reproduced by design.</p>
+<p>If anything is unclear, return to Interview (<code>orchestrate I</code>) — do NOT ask questions in P.</p>
+<h4 id="3-1-implementation-unit-documents">§3.1 Implementation-Unit Documents</h4>
+<p>Full documentation routine (P concretizes the docs, A audits them as a hard gate, D</p>
+<p>archives to <code>_fin/</code>, plus the mainstream design-doc/RFC translation table):</p>
+<p><code>dev-scaffolding/references/implementation-log.md</code>.</p>
+<p><strong>Difflevel roadmap plan (STRICT, DIFFLEVEL-ROADMAP-01):</strong> for any multi-phase unit</p>
+<p>(2+ work-phases), the FIRST P — or the dedicated design-only Phase-0 pass (§5) —</p>
+<p>must deliver the entire roadmap concretized: <code>00_plan.md</code> (objective, constraints,</p>
+<p>dependency-ordered work-phase map) PLUS every phase&#x27;s decade doc written to full</p>
+<p>diff-level precision (exact paths, NEW/MODIFY/DELETE, before/after diffs) — each one</p>
+<p>a copy-paste-executable PRD, not an outline. Scaffolding empty decade files to &quot;fill</p>
+<p>per cycle&quot; does NOT satisfy this rule. Each later cycle&#x27;s P starts from its</p>
+<p>pre-written doc: re-verify it against the current codebase (stale check — earlier</p>
+<p>phases may have moved lines, signatures, or files), amend the doc, then execute.</p>
+<p>LOOP-CONTINUITY-01 (§10) applies on top.</p>
+<p><strong>Lexicographic separation (STRICT, LEXICO-SPLIT-01):</strong> every document in a unit</p>
+<p>carries a numeric lexicographic prefix — bare semantic filenames (<code>PLAN.md</code>,</p>
+<p><code>DIFF_PLAN.md</code>, <code>PHASES.md</code>, <code>RCA.md</code>, an unnumbered <code>mvpplan/</code>-style folder) are an</p>
+<p>A-phase FAIL, not a style nit. Research/spec material (00-range) and implementation</p>
+<p>phase designs (decade ranges) are SEPARATE documents: no diffs inside a research</p>
+<p>doc, no survey prose padding a phase doc — a document that mixes both fails the</p>
+<p>audit.</p>
+<p><strong>Unit residence (STRICT, UNIT-RESIDENCE-01):</strong> every piece of development work</p>
+<p>belongs to an implementation unit (<code>devlog/_plan/YYMMDD_slug/</code>). Ceremony scales</p>
+<p>with class (§9); residence does not. C0-C1 fast-path work skips the PABCD ceremony</p>
+<p>but MUST leave a numbered record doc in its owning unit — next free index in the</p>
+<p>matching decade, e.g. <code>40_hotfix_dropdown_crash.md</code> — stating what changed, why the</p>
+<p>fast path applied (class call), and the verification evidence. No owning unit →</p>
+<p>create a minimal unit folder holding only that record. Interview settles residence</p>
+<p>before P (§1).</p>
+<p>Devlog plan artifacts use decade-range numbering to separate concerns:</p>
+<table class="rules"><tbody>
+<tr><th>Range</th><th>Purpose</th><th>Examples</th></tr>
+<tr><th>00–09</th><th>Research, specs, MOC</th><th><code>00_plan.md</code>, <code>01_api-survey.md</code>, <code>02_competitor-analysis.md</code></th></tr>
+<tr><th>10–19</th><th>Phase 1</th><th><code>10_phase1-auth-module.md</code>, <code>11_phase1-db-schema.md</code></th></tr>
+<tr><th>20–29</th><th>Phase 2</th><th><code>20_phase2-frontend.md</code></th></tr>
+<tr><th>30–39</th><th>Phase 3</th><th>...</th></tr>
+</tbody></table>
+<p>Rules:</p>
+<ul>
+<li>00-range durable research is <strong>mandatory for C4</strong>, and for C3 only when state must persist</li>
+</ul>
+<p>across turns/agents, public contract or architecture decisions need durable audit, or the</p>
+<p>user/repo already uses devlog planning for that task; optional for C0-C2 and</p>
+<p>low-persistence C3 (a response-level plan is enough — but the work still leaves its</p>
+<p>numbered record in a unit, UNIT-RESIDENCE-01).</p>
+<ul>
+<li>Default: sequential within decade (<code>00</code>, <code>01</code>, <code>02</code>...).</li>
+<li>Overflow (&gt;10 docs in a range): use sub-index (<code>00_0_name.md</code>, <code>00_1_name.md</code>).</li>
+<li>NEVER use bare filenames like <code>PLAN.md</code>, <code>DIFF_PLAN.md</code>, <code>PHASES.md</code>, <code>RCA.md</code>.</li>
+</ul>
+<p>Present to the user:</p>
+<ol>
+<li>Part 1 summary (≤5 sentences) + diagram + devlog file path</li>
+<li>&quot;Is there any business logic I must not decide alone?&quot; and &quot;Is this direction correct?&quot;</li>
+</ol>
+<p>⛔ Present the plan. Revise on feedback.</p>
+<p>When user approves, advance with the canonical P→A attestation form in §2.1.</p>
+<h4 id="a-plan-audit">A — Plan Audit</h4>
+<p>Spawn a worker to audit the plan (not code). The worker verifies:</p>
+<ul>
+<li>All file paths and imports in the plan actually exist</li>
+<li>Function signatures match real code</li>
+<li>No integration risks</li>
+<li>Existing source-of-truth docs/logs were read when present</li>
+<li>No new <code>structure/</code>, <code>devlog/</code>, docs, or AGENTS files are introduced without user approval</li>
+<li>New JS/TS files follow TypeScript preference rules unless the plan states why JS is required</li>
+<li>New TypeScript is strict-compatible or limitations are stated</li>
+<li>New devlog phase documents use the numbered lexicographic filename convention;</li>
+</ul>
+<p>bare-named or research/implementation-mixed docs are a FAIL (LEXICO-SPLIT-01).</p>
+<ul>
+<li>Multi-phase units satisfy DIFFLEVEL-ROADMAP-01: every roadmap phase has a</li>
+</ul>
+<p>diff-level decade doc (no outline-only or missing phases), and the phase map is</p>
+<p>dependency-ordered, not effort-bucketed (PHASE-SPLIT-01).</p>
+<ul>
+<li>For each conditional path the plan adds: the trigger is reachable at all from</li>
+</ul>
+<p>states the system actually visits (callers exist, preconditions can co-occur,</p>
+<p>upstream code does not consume the trigger first), and the plan names its</p>
+<p>activation scenario (C-ACTIVATION-GROUNDING-01). An unreachable-by-construction</p>
+<p>branch is a plan blocker, not a C-phase discovery.</p>
+<p>Output worker JSON for the audit. Review results when they come back.</p>
+<ul>
+<li>If FAIL → fix the plan → output worker JSON again to re-audit</li>
+<li>If PASS → report results to the user</li>
+</ul>
+<p>⛔ Wait for user approval. When approved, advance with the canonical A→B attestation form in §2.1.</p>
+<h4 id="b-build">B — Build</h4>
+<p>Implement the plan. You write all code by default. Workers are read-only verifiers unless dispatched with <code>--mutable</code> (see Pitfalls).</p>
+<p>Do not create <code>structure/</code> or <code>devlog/</code> unless approved in P or explicitly requested by the user.</p>
+<p>After implementing, output worker JSON for verification. The worker checks your code exists and integrates cleanly.</p>
+<ul>
+<li>If NEEDS_FIX → you fix the issues → re-verify (repair discipline and failure</li>
+</ul>
+<p>thresholds: §11.3)</p>
+<ul>
+<li>If DONE → report results to the user</li>
+</ul>
+<p>⛔ Wait for user approval. When approved, advance with the canonical B→C attestation form in §2.1.</p>
+<h4 id="c-check">C — Check</h4>
+<p>Final sanity check:</p>
+<ol>
+<li>Verify all files saved and consistent</li>
+<li>Run <code>npx tsc --noEmit</code> (if TypeScript project)</li>
+<li><strong>SoT sync (DEFAULT, SOT-SYNC-01):</strong> locate the repo&#x27;s general source-of-truth</li>
+</ol>
+<p>docs (<code>structure/</code>, architecture/INDEX docs) — found in P, patched HERE so SoT</p>
+<p>and code never diverge silently; if the repo has none, recommend creating one</p>
+<p>(dev-scaffolding §2.1) in the D summary</p>
+<ol>
+<li>Report completion summary</li>
+</ol>
+<p><strong>DEFAULT (C-RENDER-GROUNDING-01):</strong> when the work-phase produces an artifact whose</p>
+<p>correctness only shows when run or rendered (HTML page, SVG, game, UI, chart,</p>
+<p>animation, script with observable visual/interactive output), C MUST include a</p>
+<p>render-grounding loop before C→D: (1) <strong>RUN</strong> it in its natural execution</p>
+<p>environment — headless-browser screenshot for web, SVG→PNG render, execute scripts,</p>
+<p>drive games/wizards until the first interactive state change; (2) <strong>OBSERVE</strong> the</p>
+<p>output — actually read the screenshot/console back; a produced-but-unread screenshot</p>
+<p>is not observation; (3) <strong>FIX</strong> what the observation reveals, then re-run and</p>
+<p>re-observe. Trigger on artifact type + change (&quot;could this look or behave wrong in a</p>
+<p>way that only shows when it runs?&quot;), never on task depth alone. Stop after ONE clean</p>
+<p>observation; re-render only after a change. Well-formed (tsc/lint/parse passing) is</p>
+<p>not correct — static gates do not satisfy this rule. Defaults (HEURISTIC — deviate</p>
+<p>with a stated reason): 1280x720 viewport; stateful artifacts driven until the first</p>
+<p>interactive state change. Evidence scales with class: C2-C3 record the observation</p>
+<p>in the attestation narrative; C4 (STRICT) additionally persists the screenshot to</p>
+<p>the devlog. The render observation is valid <code>checkOutput</code> evidence for C→D and the</p>
+<p><code>did</code> must reference it. Excluded: pure logic/config/prose covered by its own test</p>
+<p>suite. (Adopted 2026-07-05 from fablize verification-grounding; devlog</p>
+<p><code>260705_pabcd_render_grounding</code>.)</p>
+<p><strong>DEFAULT (C-ACTIVATION-GROUNDING-01):</strong> the conditional-path sibling of render</p>
+<p>grounding. When the work-phase adds or changes a code path that only runs under a</p>
+<p>trigger condition absent from the default/happy path — error handlers, fallbacks,</p>
+<p>retries, caches, guards, feature-gated branches, mode switches, migration handlers,</p>
+<p>threshold behaviors — C MUST include activation evidence before C→D: (1) <strong>TRIGGER</strong></p>
+<p>the condition for real (a test or scenario that drives it, a fixture crossing the</p>
+<p>threshold, fault injection); (2) <strong>OBSERVE</strong> the new path execute with its intended</p>
+<p>effect (hit assertion, log/debug line, counter, or trace — read back, not just</p>
+<p>produced); (3) <strong>FIX</strong> and re-trigger if the observation contradicts intent. &quot;All</p>
+<p>tests green&quot; does not satisfy this rule when no test drives the trigger; a branch</p>
+<p>nobody can show firing is unverified regardless of suite status. Two loud signals</p>
+<p>mandate this check retroactively: a change whose observable output is byte-identical</p>
+<p>to baseline everywhere (presume the path is dead; instrument before concluding &quot;no</p>
+<p>effect&quot;), and a close-out claim of &quot;handled/defended/falls back&quot; with no fired-path</p>
+<p>artifact behind it. The activation observation is valid <code>checkOutput</code> evidence for</p>
+<p>C→D and the <code>did</code> must reference it. Excluded: unconditional straight-line changes</p>
+<p>fully exercised by existing coverage. P names the activation scenario for each such</p>
+<p>path in the accept criteria; the A reviewer checks trigger reachability (callers</p>
+<p>exist, preconditions can co-occur, upstream code does not consume the trigger</p>
+<p>first) — an unreachable-by-construction branch is a plan blocker, not a C-phase</p>
+<p>discovery. For score-optimization loops, LOOP-MECHANISM-PROOF-01 /</p>
+<p>LOOP-RESIDUAL-TRACE-01 (§10) apply on top. (Adopted 2026-07-06 from a contest-bot</p>
+<p>incident: an endgame branch shipped inside a passing combo while structurally</p>
+<p>unreachable — its solo ablation was baseline-exact and no gate asked &quot;did it</p>
+<p>fire?&quot;; codexclaw devlog <code>260706_loop_mechanism_research</code>.)</p>
+<p>Long external gates (CI runs, deploys): do not block the turn polling — register a</p>
+<p>runtime-owned background task/watcher and end the turn (the runtime re-invokes you on</p>
+<p>completion and PABCD state persists across turns); if your runtime has no background</p>
+<p>tasks, poll at a sensible interval. Local tsc/tests stay blocking.</p>
+<p>When done, advance with the canonical C→D attestation form in §2.1; C→D uniquely requires a pasted check tail.</p>
+<h4 id="d-done">D — Done</h4>
+<p>Summarize the entire flow:</p>
+<ul>
+<li>What was planned (P), audited (A), built (B), checked (C)</li>
+<li>List of files changed</li>
+<li>Any follow-up items</li>
+</ul>
+<p><strong>Pessimistic close-out (DEFAULT, LOOP-PESSIMIST-01):</strong> for loop/multi-pass work, D</p>
+<p>also records the negative delta: what did NOT improve, which hypothesis died this</p>
+<p>cycle, and one sentence answering &quot;what evidence would show the current direction is</p>
+<p>wrong?&quot; — the next P quotes this (§10 LOOP-CONTINUITY-01). Treat D→IDLE→P as a</p>
+<p><strong>context boundary / bias flush</strong>: the next cycle resumes from disk artifacts</p>
+<p>(worklog, devlog, archive, death log), not from the transcript&#x27;s accumulated</p>
+<p>assumptions.</p>
+<p>State returns to IDLE automatically.</p>
+<p>Project root configuration is persistent. D completion resets the PABCD state, but it</p>
+<p>does not clear the configured project root; unset it only when the</p>
+<p>user explicitly asks to unset the project root.</p>
+<h3 id="4-rules">§4. Rules</h3>
+<ol>
+<li>One phase per response (the gate-and-wait turn boundary; canonical approval rule in §2.1).</li>
+</ol>
+<p>Goal-mode exception: when a goal is active this does not permit ending a turn before D</p>
+<p>when more PABCD-phases remain in the current cycle — keep going P→A→B→C→D, then close D</p>
+<p>and re-enter P for the next work-phase.</p>
+<ol>
+<li>Sequence: P → A → B → C → D. Use <code>orchestrate reset</code> to restart.</li>
+<li>Workers verify (read-only). You write all code directly in B.</li>
+<li>Goal-mode precedence: when a jaw goal is active (dev §0.4), use §2.1 with</li>
+</ol>
+<p>evidence-backed checkpoints (your runtime&#x27;s goal-checkpoint command, or a worklog checkpoint entry) instead of user approval. Phase order,</p>
+<p>audit conditions, and verification intensity are unchanged.</p>
+<p>Gate quick-reference (strict vs goal mode):</p>
+<table class="rules"><tbody>
+<tr><th>Gate</th><th>Strict PABCD</th><th>Goal mode</th></tr>
+<tr><th>P→A, A→B, B→C</th><th>user approval + <code>--attest</code></th><th>evidence-backed checkpoint + <code>--attest</code></th></tr>
+<tr><th>C→D</th><th>auto + <code>--attest</code> w/ <code>checkOutput</code>/<code>exitCode</code></th><th>same</th></tr>
+<tr><th>Turn boundary</th><th>one phase per response</th><th>continue P→D within the cycle</th></tr>
+</tbody></table>
+<h3 id="5-terminology-work-phase-vs-pabcd-phase">§5. Terminology: work-phase vs PABCD-phase</h3>
+<ul>
+<li><strong>work-phase</strong>: one outcome slice of a larger goal (e.g. &quot;Phase 3: Management API&quot;). A</li>
+</ul>
+<p>multi-phase goal has several work-phases done in sequence.</p>
+<ul>
+<li><strong>PABCD-phase</strong>: one of the letters P/A/B/C/D inside a single orchestration cycle.</li>
+</ul>
+<p>Work-phases need not be slices of one feature: successive cycles in the SAME session</p>
+<p>may target completely different features or plans under the same goal</p>
+<p>(LOOP-UNIT-CHAIN-01). &quot;This needs its own PABCD&quot; is a plan statement — append the unit</p>
+<p>to the slice map/goalplan (P-phase amendment) and run it as the next cycle, never a</p>
+<p>reason to end the goal or defer to a new session.</p>
+<p><strong>Invariant: one work-phase = one full PABCD cycle.</strong> Run P→A→B→C→D for a work-phase, close</p>
+<p>D (state → IDLE), then run <code>orchestrate P</code> to start the next work-phase. Do NOT run</p>
+<p>B for several work-phases back-to-back, and do NOT commit a work-phase out of B without</p>
+<p>passing C and D. Depth scales per work-phase class (see &quot;PABCD Depth by Work Class&quot;), but</p>
+<p>the P→D <strong>sequence</strong> is never skipped for a work-phase.</p>
+<p><strong>Loop / multi-pass tasks</strong>: a &quot;loop&quot;/&quot;루프&quot; request (or work too large for one cycle) runs</p>
+<p>as MULTIPLE PABCD passes — one per work-phase. Pre-plan the full slice map and WRITE</p>
+<p>all per-phase decade docs (10_phase1, 20_phase2, ...) to diff-level up front</p>
+<p>(DIFFLEVEL-ROADMAP-01, §3.1) — scaffolding empty files is not pre-planning. Each</p>
+<p>later cycle&#x27;s P re-verifies its pre-written doc against the current codebase and</p>
+<p>amends it before building. The first pass MAY be a design-only PABCD pass (Phase 0):</p>
+<p>a code-free whole-system design/documentation cycle that produces exactly this</p>
+<p>difflevel roadmap before the first implementation work-phase.</p>
+<p>The slice map is APPEND-friendly (LOOP-UNIT-CHAIN-01): an independent unit discovered</p>
+<p>mid-loop — including a feature unrelated to the current slice — becomes a NEW</p>
+<p>work-phase appended to the map via a P-phase amendment, then runs as the next cycle in</p>
+<p>the same session.</p>
+<p><strong>Faithful execution (anti-skip)</strong>: do the real work of each PABCD-phase — P writes the</p>
+<p>real diff-level plan, A really dispatches the audit, B really implements AND verifies, C</p>
+<p>really runs tsc/tests/scrutiny, D really summarizes with evidence. Advancing the state is</p>
+<p>NOT the same as doing the phase; never rubber-stamp a phase to move on.</p>
+<h3 id="6-repository-root-contract">§6. Repository Root Contract</h3>
+<p>Before writing a PABCD plan or dispatching a subagent, determine the actual</p>
+<p>working repository root with <code>pwd -P</code> from the target repo.</p>
+<p>If the host runtime injects the project root (e.g. Codex <code>cwd</code>, or a <code>Project root</code></p>
+<p>header), use that value directly. Otherwise resolve via <code>pwd -P</code> from the target repo.</p>
+<p>Setting the project root prevents confusion between the agent&#x27;s state directory and the</p>
+<p>actual codebase.</p>
+<p>Every A/B phase worker-dispatch task body MUST begin with:</p>
+<pre><code>Project root: /absolute/path/to/current/repo</code></pre>
+<p>Rules:</p>
+<ul>
+<li><code>Project root</code> must be the current working repository, not the agent home directory.</li>
+<li>Never let workers infer the repo root from the agent home directory, <code>process.cwd()</code>, or a worker temp directory.</li>
+<li>Resolve all relative repo paths (<code>src/...</code>, <code>tests/...</code>, <code>structure/...</code>, <code>skills_ref/...</code>) against <code>Project root</code>.</li>
+<li>If <code>Project root</code> is unknown, STOP and ask before dispatching.</li>
+</ul>
+<h4 id="6-1-structure-map-before-deep-search-repo-map-capability">§6.1 Structure map before deep search (repo-map capability)</h4>
+<p>When entering unfamiliar C2+ territory, prefer a ranked structure map over blind</p>
+<p>grep-walking: run the runtime&#x27;s <code>map</code> command (<code>cxc map</code> / <code>cli-jaw map</code> / <code>jwc map</code>,</p>
+<p>or the runtime&#x27;s equivalent) on the target dir to see which files own which symbols,</p>
+<p>then narrow with grep/ast-grep. On-demand only — never a whole-repo preload. Full</p>
+<p>contract + per-harness port sites: <code>references/repo-map-capability.md</code>.</p>
+<h3 id="7-shared-plan-auto-injected">§7. Shared Plan (auto-injected)</h3>
+<p>When P completes, the plan is saved to the <strong>worklog <code>## Plan</code> section</strong> (single source of truth) and kept in <code>ctx.plan</code>. No project-root file is created.</p>
+<ul>
+<li>In A and B, inject the full plan body at the top of every worker-dispatch task under <code>## Approved Plan</code> (FSM runtimes may auto-inject).</li>
+<li>Workers never read a plan file. Your task body should contain only the actual audit/verify instruction — the plan is prepended for you.</li>
+<li>Example dispatch task: &quot;Project root: /absolute/path/to/current/repo</li>
+</ul>
+<p>Audit: verify the imports in ...&quot;` — no &quot;read the plan&quot; line needed.</p>
+<h4 id="7-1-parallel-dispatch-isolation-specialists-decorrelated-review">§7.1 Parallel dispatch: isolation, specialists, decorrelated review</h4>
+<ul>
+<li><strong>DEFAULT (DISPATCH-ISOLATION-01):</strong> Parallel workers in the same work-phase are</li>
+</ul>
+<p>context-isolated by default: each dispatch names an explicit access list — which</p>
+<p>prior outputs (paths or pasted excerpts) this worker may read — and nothing else</p>
+<p>from peer lanes is visible. Never expose one lane&#x27;s in-progress trajectory or</p>
+<p>draft output to another outside the access list: the first finished trajectory</p>
+<p>otherwise steers every later lane into redundant agreement (orchestration</p>
+<p>collapse) and the parallelism buys nothing. Durable cross-cycle artifacts</p>
+<p>(worklog plan, devlog, D summaries) stay shared. Widening an access list is a</p>
+<p>stated decision in the dispatch task, not a default.</p>
+<ul>
+<li><strong>HEURISTIC (SPECIALIST-CRUX-01):</strong> When P or A identifies a narrow crux outside</li>
+</ul>
+<p>the main line&#x27;s domain — a derivation, a protocol subtlety, a domain constant, a</p>
+<p>security property — dispatch a specialist lane to re-derive that crux from first</p>
+<p>principles before merging the work that depends on it. The specialist&#x27;s return</p>
+<p>names its assumptions, the derivation or trace, and the exact decision its</p>
+<p>verdict changes.</p>
+<ul>
+<li><strong>HEURISTIC (REVIEW-DECORRELATE-01):</strong> When the runtime offers more than one</li>
+</ul>
+<p>model family, run the A reviewer — and any §11.3 clean-slate re-examination after</p>
+<p>repeated failed repairs — on a different model family than the one that produced</p>
+<p>the plan or build. Same-family reviewers share blind spots; decorrelating the</p>
+<p>reviewer is the cheapest independence upgrade available.</p>
+<p>(Adopted 2026-07-07 from the Sakana Fugu learned-orchestrator report,</p>
+<p>arXiv:2606.21228 — its trained orchestrators converged on intra-workflow isolation</p>
+<p>with explicit access lists, crux-matched aggregation, cross-model builder/verifier</p>
+<p>alternation, and specialist first-principles re-derivation; devlog</p>
+<p><code>260707_fugu_orchestration_adoption</code>.)</p>
+<h3 id="8-pitfalls">§8. Pitfalls</h3>
+<h4 id="delegation-trap">Delegation Trap</h4>
+<ul>
+<li>B phase: <strong>Boss writes all code by default</strong>. Workers are READ-ONLY verifiers.</li>
+<li>💡 To let a worker write, dispatch it explicitly write-capable with a bounded scope (e.g. a <code>--mutable</code>-style flag or write-capable subagent type).</li>
+<li>⛔ Without <code>--mutable</code>: <code>&quot;implement the feature&quot;</code>, <code>&quot;write the code&quot;</code>, <code>&quot;create the file&quot;</code> are forbidden.</li>
+<li>✅ Always allowed: <code>&quot;verify src/x.ts compiles&quot;</code>, <code>&quot;check integration of Y&quot;</code>, <code>&quot;report DONE or NEEDS_FIX&quot;</code>.</li>
+</ul>
+<h4 id="context-drift">Context Drift</h4>
+<ul>
+<li>If a worker says *&quot;I&#x27;ll proceed based on my assumption of the plan&quot;* → STOP. Verify the dispatch went through the orchestration path that injects the plan (or re-send with the plan prepended).</li>
+<li>Never let workers reconstruct the plan from a short task description.</li>
+</ul>
+<h4 id="phase-skip">Phase Skip</h4>
+<ul>
+<li>A (audit) is <strong>mandatory for C4</strong>, and for C3 when public contract, architecture,</li>
+</ul>
+<p>persistence, cross-agent, or cross-session risk exists; use a micro-audit for C2 and</p>
+<p>optional audit for C0-C1 (see <code>dev</code> §0.0 for classes).</p>
+<ul>
+<li>B verification is never &quot;skippable&quot;. Untested code is not &quot;done&quot; — but verification</li>
+</ul>
+<p>intensity scales with the work class (PABCD-AUTO-01).</p>
+<ul>
+<li>The orchestrator does not enforce these gates today — YOU do.</li>
+</ul>
+<h3 id="9-pabcd-depth-by-work-class">§9. PABCD Depth by Work Class</h3>
+<table class="rules"><tbody>
+<tr><th>Class</th><th>Plan (P)</th><th>Audit (A)</th><th>Build (B)</th><th>Check (C)</th><th>Record (D)</th></tr>
+<tr><th>C0-C1</th><th>None/inline</th><th>Optional</th><th>Direct fix</th><th>Smallest proof</th><th>One-line summary as a numbered record doc in the owning unit (UNIT-RESIDENCE-01)</th></tr>
+<tr><th>C2</th><th>Compact plan</th><th>Micro-audit</th><th>Boss writes, focused tests</th><th>Targeted gate</th><th>Summary</th></tr>
+<tr><th>C3</th><th>Compact or full PABCD plan depending on persistence/risk</th><th>Required when public contract, architecture, persistence, cross-agent, or cross-session risk exists; otherwise focused audit</th><th>Boss writes, employees verify only when useful</th><th>Affected suite + docs consistency when docs/contracts changed</th><th>Summary + evidence; durable record only when state must persist</th></tr>
+<tr><th>C4</th><th>Full PABCD plan (mandatory)</th><th>Required, independent</th><th>Boss writes, employee verifies</th><th>Full relevant gates</th><th>Durable risk/approval/evidence record</th></tr>
+<table class="rules"><tbody>
+<tr><th>C5</th><th>Interview/research first</th><th>—</th><th>—</th><th>—</th><th>Reclassify, then follow the new class</th></tr>
+</tbody></table>
+<p>Render-artifact work-phases add C-RENDER-GROUNDING-01 (§3 C) to the Check column at</p>
+<p>C2+; C4 escalates its evidence to STRICT (persisted screenshot).</p>
+<h3 id="10-optimization-loop-meta-rules-plateau-discipline">§10. Optimization-Loop Meta-Rules (plateau discipline)</h3>
+<p>These rules apply to score/objective-maximization loops and repeated PABCD passes where</p>
+<p>candidates are being discarded by evidence gates. Gate validity itself is owned by</p>
+<p><code>dev-testing</code> §9.5 Limited-Oracle / Score-Objective Evaluation.</p>
+<ul>
+<li><strong>DEFAULT (LOOP-PHASE-DEATH-01):</strong> Track each discarded candidate&#x27;s killing PABCD-phase</li>
+</ul>
+<p>(P/A/B/C/D) and change class: parameter-tweak, branch-toggle, state-space redesign, or</p>
+<p>evaluator change. After N consecutive same-phase, same-class deaths (starting value</p>
+<p>N=3 — HEURISTIC, tune per domain), the next work-phase MUST target the killing</p>
+<p>mechanism itself, usually the evaluation gate, not another candidate of that class.</p>
+<p>Repeated D-evidence collapses mean the gate, not the candidates, is probably the</p>
+<p>bottleneck.</p>
+<ul>
+<li><strong>STRICT (LOOP-CONTINUITY-01):</strong> P must begin by quoting the previous cycle&#x27;s D</li>
+</ul>
+<p>conclusions and next-direction. A new candidate that contradicts the recorded</p>
+<p>next-direction requires an explicit stated reason.</p>
+<ul>
+<li><strong>DEFAULT (LOOP-CANDIDATE-ANCHOR-01):</strong> For score/objective-maximization work, source</li>
+</ul>
+<p>divergence candidates from domain-state evidence such as logs, trajectories, and</p>
+<p>opponent/instance analysis, not only from existing code parameters. If every candidate</p>
+<p>is a threshold, guard, or suppression tweak on existing levers, treat that as</p>
+<p>parameter-space anchoring and regenerate from the state space.</p>
+<ul>
+<li><strong>HEURISTIC (LOOP-INSTANCE-CHECK-01):</strong> Check whether evaluation instances are fixed and</li>
+</ul>
+<p>enumerable: fixed opponents, fixed test maps, fixed graders. If yes, per-instance</p>
+<p>specialization such as fingerprint plus playbook is a legitimate, evaluable widening</p>
+<p>move; consider it before generic-strategy tweaks.</p>
+<ul>
+<li><strong>DEFAULT (LOOP-MECHANISM-PROOF-01):</strong> A candidate whose value is a new</li>
+</ul>
+<p>branch/mechanism must carry activation evidence from the instances it targets — a</p>
+<p>counter, debug line, or trace showing the branch actually FIRED — before adoption.</p>
+<p>Aggregate score movement is not activation proof: in a multi-feature combo, a dead</p>
+<p>mechanism hides behind the other features&#x27; gains. The loud special case is a</p>
+<p>zero-delta ablation: if the single-feature candidate scores exactly baseline on the</p>
+<p>instances it was built to flip, presume the mechanism never ran and instrument</p>
+<p>before combining or discarding.</p>
+<ul>
+<li><strong>DEFAULT (LOOP-RESIDUAL-TRACE-01):</strong> A residual failure carried through D needs a</li>
+</ul>
+<p>mechanism-level explanation (which branches fired, which did not, and why the</p>
+<p>outcome followed) or the explicit label <code>unexplained</code>. A plausible story about the</p>
+<p>opponent/environment is not an explanation unless the trace confirms our own</p>
+<p>relevant mechanism armed and acted. The pessimistic D record quotes this trace,</p>
+<p>not the story.</p>
+<ul>
+<li><strong>HEURISTIC (LOOP-PEER-CONTRAST-01):</strong> When an external artifact — a peer&#x27;s bot, a</li>
+</ul>
+<p>reference solution, a competitor run — achieves the objective on the same fixed</p>
+<p>instance we fail, the next generation&#x27;s first analysis deliverable is a behavioral</p>
+<p>diff of the two traces (what they did that we did not), before any new candidate.</p>
+<p>This is the cheapest capability-gap detector available and outranks another round</p>
+<p>of parameter candidates (LOOP-CANDIDATE-ANCHOR-01).</p>
+<ul>
+<li><strong>HEURISTIC (LOOP-FANOUT-TIMING-01):</strong> Spend parallel fan-out late, not early.</li>
+</ul>
+<p>While coarse levers still move the metric, stay single-track (N=1); once coarse</p>
+<p>levers stabilize or plateau and the search shifts to fine-grained candidates,</p>
+<p>parallel candidate lanes and specialist re-derivation start paying for their</p>
+<p>cost. Fan-out also buys outcome consistency (cross-run variance reduction), not</p>
+<p>only peak score — weigh both when deciding. (Adopted 2026-07-07 from Sakana</p>
+<p>Fugu, arXiv:2606.21228: orchestration gains on a 123-experiment autonomous</p>
+<p>training loop concentrated after mid-run, once coarse configuration search gave</p>
+<p>way to fine optimizer/schedule tuning.)</p>
+<p>Grounding: observed in a 14-discard optimization plateau where a prefix-only replay gate</p>
+<p>and a hard draw-protection invariant locked a 3.5/8 score; the mechanism-proof trio was</p>
+<p>grounded 2026-07-06 by a second incident in the same domain (a dead endgame branch</p>
+<p>adopted inside a passing combo; codexclaw devlog <code>260706_loop_mechanism_research</code>).</p>
+<p>Two-incident induction now — keep the per-domain death log and revise when a new</p>
+<p>domain&#x27;s evidence contradicts these rules.</p>
+<h3 id="11-loop-engineering-alignment">§11. Loop-Engineering Alignment</h3>
+<p>PABCD is the macro loop; loop engineering supplies the micro-loop rules inside each</p>
+<p>phase. <strong>Full rule text: <code>references/loop-engineering.md</code></strong> — read it before running</p>
+<p>any loop/multi-pass or optimization work-phase. Summary index (IDs are canonical):</p>
+<ul>
+<li><strong>§11.1 Loop values (DEFAULT)</strong> — feedback must change the next action; the verifier</li>
+</ul>
+<p>outranks the prompt; memory lives on disk; budget exhaustion ≠ done; context pressure</p>
+<p>≠ budget exhaustion (checkpoint durable state and continue — never close a goal over</p>
+<p>&quot;context is getting large&quot;); Interview yields a testable loop-spec, not solved intent.</p>
+<ul>
+<li><strong>§11.2 Terminal states (DEFAULT)</strong> — D names the real report state: <code>DONE</code> · <code>NOOP</code> ·</li>
+</ul>
+<p><code>BLOCKED</code> · <code>UNSAFE</code> · <code>NEEDS_HUMAN</code> · <code>BUDGET_EXHAUSTED</code> (adopt best-so-far and say</p>
+<p>so). Report states, not FSM states.</p>
+<ul>
+<li><strong>§11.3 Repair-loop discipline (LOOP-REPAIR-01 / LOOP-DOOM-01)</strong> — repair only the</li>
+</ul>
+<p>failing delta; 2 same-failure repairs → root-cause mode; 3 → replan or Interview;</p>
+<p>3 same-phase attestation failures → forced Interview return.</p>
+<ul>
+<li><strong>§11.4 Loop archetype (LOOP-ARCHETYPE-01)</strong> — spec-satisfaction → repair loop;</li>
+</ul>
+<p>open-ended optimization → explore-and-select (diverse candidates, same-instance</p>
+<p>evaluation, best-so-far ledger, plateau/budget stop → <code>BUDGET_EXHAUSTED</code>). Workflow</p>
+<p>proposal: <code>backlog/260702_explore_select_research.md</code> (LOOP-EXPLORE-SELECT-01).</p>
+<ul>
+<li><strong>§11.4a Analysis before regeneration (LOOP-REANALYZE-01)</strong> — every generation opens</li>
+</ul>
+<p>with an analysis deliverable: updated opponent/problem model + capability-gap</p>
+<p>hypotheses (a gap may expand the allowed surface via P amendment). Regenerating</p>
+<p>straight from scores is a repair loop in an explore costume.</p>
+<ul>
+<li><strong>§11.5 Unattended-loop resource policy (DEFAULT)</strong> — goal-mode loop-specs state</li>
+</ul>
+<p>tool/credential scope, token/cost budget, and a wall-clock bound; unstated scope on</p>
+<p>C4 surfaces is an ESCALATE-class omission.</p>
+<ul>
+<li><strong>§11.6 Continuation doctrine (DEFAULT, LOOP-CONTINUE-01):</strong> the loop keeps the</li>
+</ul>
+<p>turn alive; the agent decides what &quot;remaining work&quot; means. Rules: (a) do not</p>
+<p>redefine the objective downward — success criteria from P/goalplan are the bar;</p>
+<p>(b) audit completion against current repo state, not memory — a remembered &quot;it</p>
+<p>passed&quot; is not evidence; (c) read durable state first (worklog, goalplan,</p>
+<p><code>ledger.jsonl</code>) before planning the next pass; (d) IDLE is not the end while work</p>
+<p>remains — if unmet criteria remain under an active goal, start the next work-phase</p>
+<p>at P; (e) work-phases chain HETEROGENEOUS units in one session</p>
+<p>(LOOP-UNIT-CHAIN-01) — an independent feature discovered mid-loop is appended to</p>
+<p>the plan and started at P, not deferred to a new session or used to justify</p>
+<p>closing the goal.</p>
+<ul>
+<li><strong>§11.7 Divergence/collapse (DEFAULT):</strong> PABCD is convergence-first by default.</li>
+</ul>
+<p>Divergence is a mode for the open-ended-optimization archetype, not a standing</p>
+<p>habit. Entry: deliberate in HITL (I/P when intent is open, approach uncertain, or</p>
+<p>user asks to compare), or automatically prompted in goal mode when a maximize</p>
+<p>objective records non-improving metrics (plateau detection). When ON: record at</p>
+<p>least two candidates with search provenance; collapse early at P for spec work</p>
+<p>(pass/fail), late at D for metric work (local metric can deceive). After the</p>
+<p>plateau breaks or a candidate is kept/discarded, turn it off and return to N=1.</p>
+<p>Divergence never bypasses human confirmation in HITL; in goal mode the hook can</p>
+<p>only keep the turn alive and tell the agent to re-plan.</p>
+<ul>
+<li><strong>§11.8 Divergence cost tiers (DEFAULT, DIVERGE-TIER-01):</strong> divergence defaults to</li>
+</ul>
+<p>conceptual candidates. Tier 0 inline brainstorm (no dispatch); Tier 1 conceptual</p>
+<p>candidate docs — 2-3 parallel candidate lanes, one-page docs each (research</p>
+<p>read-only, doc write scoped to the plan archive), mandatory front-matter</p>
+<p>(assumptions/risks/kill-criteria/evidence-needed) plus per-candidate provenance</p>
+<p>(§11.7 search provenance, or a repo-evidence path for codebase-grounded</p>
+<p>candidates — an explicit §11.8 amendment); the collapse owner critiques directly,</p>
+<p>cross-critique is not a gate; Tier 2 implementation spike only when the choice is</p>
+<p>load-bearing AND candidates genuinely conflict AND judgment needs running code</p>
+<p>(0-1 per unit, recorded P-level decision). Tier inflation and tier deflation are</p>
+<p>both violations.</p>
+<ul>
+<li><strong>§11.9 Crux-matched collapse (DEFAULT, COLLAPSE-AGGREGATOR-01):</strong> collapse and</li>
+</ul>
+<p>synthesis ownership follows the disputed crux. When parallel candidates disagree,</p>
+<p>the synthesis verdict comes from whoever is strongest on the domain of the</p>
+<p>disagreement — dispatch a crux-matched aggregator lane when the collapse owner is</p>
+<p>not. A fixed aggregator caps the exercise at that aggregator&#x27;s own ceiling for</p>
+<p>the domain. The collapse record names each candidate&#x27;s partial correctness, each</p>
+<p>candidate&#x27;s failure mode, and why the winner&#x27;s evidence resolves the crux.</p>
+<p>Full rules: <code>references/loop-engineering.md</code>.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

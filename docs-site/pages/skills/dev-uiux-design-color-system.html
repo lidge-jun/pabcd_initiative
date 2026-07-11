@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>color-system — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>color-system</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/color-system.md</p>
+<h3 id="1-color-palette-generation">1. Color Palette Generation</h3>
+<p>When the user provides a brand color (or you need to generate a palette from scratch), follow this method.</p>
+<h4 id="from-brand-color-to-full-palette">From Brand Color to Full Palette</h4>
+<ol>
+<li><strong>Start with the brand hex.</strong> Compute OKLCH values for precise perceptual steps.</li>
+<li><strong>Generate the scale</strong> (50–900) by adjusting lightness while preserving hue and saturation:</li>
+<ul>
+<li>50: background tint (lightness ~97%)</li>
+<li>100–200: hover/pressed states</li>
+<li>300: borders</li>
+<li>400: disabled text</li>
+<li>500: brand primary (the input color)</li>
+<li>600–700: text on light backgrounds</li>
+<li>800–900: heading text, dark surfaces</li>
+</ul>
+</ol>
+<ol>
+<li><strong>Add semantic colors:</strong></li>
+<ul>
+<li>Success: green-based (hue ~145°)</li>
+<li>Warning: amber-based (hue ~45°)</li>
+<li>Danger: red-based (hue ~25°)</li>
+<li>Info: blue-based (hue ~220°)</li>
+<li>Generate each as a 50–900 scale.</li>
+</ul>
+</ol>
+<ol>
+<li><strong>Neutral ramp:</strong> Pick a subtle hue bias from the brand color. Apply it at very low chroma (0.005–0.01) across the gray scale. This gives &quot;warm grays&quot; or &quot;cool grays&quot; that feel cohesive with the brand.</li>
+</ol>
+<h4 id="practitioner-notes-hue-budget-tinted-neutrals-verified-2026-07-07">Practitioner Notes — Hue Budget &amp; Tinted Neutrals (verified 2026-07-07)</h4>
+<p>Field-tested extensions to the method above (Korean designer community;</p>
+<p>evidence: repo <code>devlog/_fin/260707_liquid_glass_motion_trends/000_research.md</code> §2):</p>
+<ul>
+<li><strong>Hue budget:</strong> most &quot;AI-generated frontend looks off&quot; complaints trace to</li>
+</ul>
+<p>too many meaning-carrying hues (Von Restorff effect: emphasize everything,</p>
+<p>emphasize nothing). Semantic colors (success/warn/danger/info) + bg + text</p>
+<p>already spend most of the budget — new UI meaning should come from the</p>
+<p>existing scales&#x27; lightness/chroma/alpha steps, not a new hue.</p>
+<ul>
+<li><strong>Tinted neutrals:</strong> pure <code>#000</code> backgrounds and pure <code>#FFFFFF</code> surfaces</li>
+</ul>
+<p>read flat and strain eyes; production dark modes are rarely pure black.</p>
+<p>Bias black slightly red or blue, bias white slightly yellow for warmth —</p>
+<p>this is the same low-chroma neutral-ramp rule applied to the extremes.</p>
+<ul>
+<li><strong>Brand-first theming:</strong> decide icon/logo/symbol identity first (or</li>
+</ul>
+<p>together with the UI), then derive the app theme from the brand color via</p>
+<p>the scale above — the brand-in-theme IS the frontend color principle.</p>
+<ul>
+<li><strong>Tools:</strong> see the vetted toolbox below.</li>
+</ul>
+<h4 id="color-toolbox-2026-maintenance-checked-2026-07-07">Color Toolbox 2026 (maintenance-checked 2026-07-07)</h4>
+<p>Reach for the right tool by job, not by habit:</p>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Use when</th><th>Status</th></tr>
+<tr><th>tweakcn (tweakcn.com)</th><th>shadcn/ui + Tailwind v4 theme editing/export (OKLCH/HSL)</th><th>active (repo 2026-06)</th></tr>
+<tr><th>OKLCH Picker (oklch.com)</th><th>precise OKLCH picking, hex conversion, gamut checks</th><th>active (2026-07)</th></tr>
+<tr><th>Harmonizer (harmonizer.evilmartians.com)</th><th>generating OKLCH UI palettes with APCA-minded contrast</th><th>active (2026-04)</th></tr>
+<tr><th>Leonardo (leonardocolor.io)</th><th>adaptive, accessibility-aware design-system scales + token export</th><th>active (Adobe, 2026-05)</th></tr>
+<table class="rules"><tbody>
+<tr><th>Radix Colors (radix-ui.com/colors)</th><th>prebuilt accessible app scales — strong neutral/accent pairs</th><th>stable (2025-12)</th></tr>
+<tr><th>Adobe Color (color.adobe.com)</th><th>fast ideation, harmonies, extract-from-image, non-engineer collab</th><th>live</th></tr>
+<tr><th>Coolors (coolors.co)</th><th>rapid palette gacha, quick exports</th><th>live</th></tr>
+<tr><th>APCA calc (apcacontrast.com) + Atmos checker (atmos.style/contrast-checker)</th><th>perceptual contrast checks alongside WCAG</th><th>active</th></tr>
+</tbody></table>
+<p>Judgment: for SYSTEM-quality palettes start from OKLCH tools (Picker →</p>
+<p>Harmonizer/Leonardo/Radix); use Adobe/Coolors for ideation only; for</p>
+<p>shadcn/Tailwind v4 projects finish in tweakcn. Huetone is stale (2023) —</p>
+<p>learning reference only. Contrast stance: **WCAG 2.2 is the compliance gate;</p>
+<p>APCA is advisory** until WCAG 3 (Working Draft as of 2026-07-07) settles.</p>
+<p>Implementation mechanics (token layering, oklch() fallbacks, color-mix(),</p>
+<p>light-dark(), Tailwind/shadcn wiring):</p>
+<p><code>dev-frontend/references/core/color-system.md</code>.</p>
+<h4 id="dark-mode-token-derivation">Dark Mode Token Derivation</h4>
+<ul>
+<li>Do NOT simply invert lightness values. Dark mode has its own logic.</li>
+<li>Elevation = brightness: higher surfaces are lighter (900→800→700 for bg→surface→elevated).</li>
+<li>Text: use 100–200 range (not pure white — <code>#e5e5e5</code> or <code>#f5f5f5</code>).</li>
+<li>Borders: use 700–800 range at low opacity.</li>
+<li>Accent colors: may need chroma adjustment for dark backgrounds (slightly more saturated).</li>
+</ul>
+<h4 id="accessible-pair-generation">Accessible Pair Generation</h4>
+<p>For every text-on-background combination, verify:</p>
+<ul>
+<li>Normal text (&lt; 24px): 4.5:1 contrast ratio minimum (WCAG AA).</li>
+<li>Large text (≥ 24px or bold ≥ 18.5px): 3:1 minimum.</li>
+<li>Interactive components: 3:1 against adjacent colors.</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

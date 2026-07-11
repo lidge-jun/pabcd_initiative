@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backend Testing Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Backend Testing Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-testing/references/backend-testing.md</p>
+<h2 id="backend-testing-patterns">Backend Testing Patterns</h2>
+<p>&gt; Deep reference for <code>dev-testing</code> §2 Backend &amp; API Testing.</p>
+<h3 id="1-vitest-service-layer-pattern">1. Vitest Service Layer Pattern</h3>
+<pre><code>import { describe, it, expect, vi } from &#x27;vitest&#x27;;
+import { InvoiceService } from &#x27;../src/services/invoice.service&#x27;;
+
+describe(&#x27;InvoiceService.finalize&#x27;, () =&gt; {
+  it(&#x27;marks invoice paid and emits a domain event&#x27;, async () =&gt; {
+    const repo = {
+      getById: vi.fn().mockResolvedValue({ id: &#x27;inv_1&#x27;, status: &#x27;draft&#x27;, amount: 5000 }),
+      save: vi.fn().mockResolvedValue(undefined),
+    };
+    const events = { publish: vi.fn().mockResolvedValue(undefined) };
+    const service = new InvoiceService({ repo, events });
+
+    const result = await service.finalize(&#x27;inv_1&#x27;);
+
+    expect(result.status).toBe(&#x27;paid&#x27;);
+    expect(repo.save).toHaveBeenCalledWith(expect.objectContaining({ status: &#x27;paid&#x27; }));
+    expect(events.publish).toHaveBeenCalledWith(&#x27;invoice.paid&#x27;, expect.any(Object));
+  });
+});</code></pre>
+<h3 id="2-pytest-fixture-pattern">2. pytest Fixture Pattern</h3>
+<pre><code>import pytest
+from unittest.mock import AsyncMock
+from app.services.invoice_service import InvoiceService
+
+@pytest.fixture
+def repo():
+    fake = AsyncMock()
+    fake.get_by_id.return_value = {&quot;id&quot;: &quot;inv_1&quot;, &quot;status&quot;: &quot;draft&quot;, &quot;amount&quot;: 5000}
+    return fake
+
+@pytest.fixture
+def events():
+    return AsyncMock()
+
+@pytest.mark.asyncio
+async def test_finalize_marks_invoice_paid(repo, events):
+    service = InvoiceService(repo=repo, events=events)
+
+    result = await service.finalize(&quot;inv_1&quot;)
+
+    assert result[&quot;status&quot;] == &quot;paid&quot;
+    repo.save.assert_awaited_once()
+    events.publish.assert_awaited_once()</code></pre>
+<h3 id="3-database-testing-with-testcontainers">3. Database Testing with Testcontainers</h3>
+<h4 id="typescript">TypeScript</h4>
+<pre><code>import { PostgreSqlContainer } from &#x27;@testcontainers/postgresql&#x27;;
+
+let pg: Awaited&lt;ReturnType&lt;PostgreSqlContainer[&#x27;start&#x27;]&gt;&gt;;
+
+beforeAll(async () =&gt; {
+  pg = await new PostgreSqlContainer(&#x27;postgres:16-alpine&#x27;).start();
+  process.env.DATABASE_URL = pg.getConnectionUri();
+  await runMigrations(process.env.DATABASE_URL!);
+});
+
+afterAll(async () =&gt; {
+  await pg.stop();
+});</code></pre>
+<h4 id="python">Python</h4>
+<pre><code>import pytest
+from testcontainers.postgres import PostgresContainer
+
+@pytest.fixture(scope=&quot;session&quot;)
+def pg_url():
+    with PostgresContainer(&quot;postgres:16-alpine&quot;) as container:
+        yield container.get_connection_url()
+
+@pytest.fixture(scope=&quot;session&quot;, autouse=True)
+async def migrated_db(pg_url):
+    await run_migrations(pg_url)</code></pre>
+<p>Use a real DB for migrations, transactions, unique constraints, foreign keys, ORM query translation, and pagination semantics.</p>
+<h3 id="4-api-harness-examples">4. API Harness Examples</h3>
+<h4 id="supertest">Supertest</h4>
+<pre><code>import request from &#x27;supertest&#x27;;
+
+it(&#x27;returns the shared error envelope&#x27;, async () =&gt; {
+  const response = await request(app).post(&#x27;/api/login&#x27;).send({ email: &#x27;bad&#x27; });
+  expect(response.status).toBe(400);
+  expect(response.body).toMatchObject({
+    success: false,
+    error: { code: &#x27;VALIDATION_ERROR&#x27; },
+    meta: expect.any(Object),
+  });
+});</code></pre>
+<h4 id="httpx">httpx</h4>
+<pre><code>@pytest.mark.asyncio
+async def test_login_returns_shared_error_envelope(client):
+    response = await client.post(&#x27;/api/login&#x27;, json={&quot;email&quot;: &quot;bad&quot;})
+    body = response.json()
+    assert response.status_code == 400
+    assert body[&quot;success&quot;] is False
+    assert body[&quot;error&quot;][&quot;code&quot;] == &quot;VALIDATION_ERROR&quot;
+    assert body[&quot;meta&quot;]</code></pre>
+<h3 id="5-mock-vs-real-decision-matrix">5. Mock vs Real Decision Matrix</h3>
+<table class="rules"><tbody>
+<tr><th>Dependency</th><th>Preferred Choice</th><th>Why</th><th>Acceptable Fallback</th></tr>
+<tr><th>Pure domain helper</th><th>real</th><th>fast and deterministic</th><th>none needed</th></tr>
+<tr><th>Repository during service test</th><th>fake / stub</th><th>isolate orchestration</th><th>framework mock</th></tr>
+<tr><th>Real SQL behavior</th><th>Testcontainers DB</th><th>catches schema drift</th><th>in-memory DB only if semantics match</th></tr>
+<tr><th>External HTTP API</th><th>recorded response / fake server</th><th>deterministic and cheap</th><th>mock adapter</th></tr>
+<table class="rules"><tbody>
+<tr><th>Queue / pubsub boundary</th><th>fake adapter + retry assertions</th><th>verify interaction and payload</th><th>framework mock</th></tr>
+<tr><th>Clock / UUID</th><th>fake clock / injected generator</th><th>stable determinism</th><th>monkeypatch</th></tr>
+</tbody></table>
+<h3 id="6-practical-rules">6. Practical Rules</h3>
+<ul>
+<li>Prefer factories over long inline objects.</li>
+<li>Keep fixtures local unless many tests truly share them.</li>
+<li>Roll back DB state between tests when possible.</li>
+<li>Assert machine-readable error codes, not only text messages.</li>
+<li>Pair backend API tests with contract verification when frontend depends on payload shape.</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

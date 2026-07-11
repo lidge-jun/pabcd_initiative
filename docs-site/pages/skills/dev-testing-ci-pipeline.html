@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CI Pipeline Templates — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>CI Pipeline Templates</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-testing/references/ci-pipeline.md</p>
+<h2 id="ci-pipeline-templates">CI Pipeline Templates</h2>
+<p>&gt; Deep reference for <code>dev-testing</code> §5 CI Pipeline Integration.</p>
+<h3 id="1-node-js-workflow-template">1. Node.js Workflow Template</h3>
+<pre><code>name: node-test
+on:
+  push:
+  pull_request:
+concurrency:
+  group: node-test-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+  test:
+    needs: quality
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: { node-version: [22, 24], shard: [1, 2, 3] }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: ${{ matrix.node-version }}, cache: npm }
+      - run: npm ci
+      - run: npx vitest run --coverage --shard=${{ matrix.shard }}/3
+      - run: npm run test:contract
+  e2e:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test</code></pre>
+<h3 id="2-python-workflow-template">2. Python Workflow Template</h3>
+<pre><code>name: python-test
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [&quot;3.11&quot;, &quot;3.12&quot;, &quot;3.13&quot;]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: pip install -r requirements-dev.txt
+      - run: pytest --cov --cov-report=xml -n auto
+      - run: pytest tests/contracts -q
+      - run: pip-audit --strict</code></pre>
+<h3 id="3-matrix-parallelization">3. Matrix / Parallelization</h3>
+<table class="rules"><tbody>
+<tr><th>Axis</th><th>Include When</th><th>Example</th></tr>
+<tr><th>runtime versions</th><th>library or SDK compatibility matters</th><th>Node 22/24, Python 3.11-3.13</th></tr>
+<tr><th>OS</th><th>native modules or CLI behavior matter</th><th>ubuntu + macOS</th></tr>
+<tr><th>shards</th><th>suites exceed CI budget</th><th><code>1/4..4/4</code></th></tr>
+</tbody></table>
+<pre><code>npx vitest run --shard=2/4
+npx playwright test --shard=2/4 --workers=4
+pytest -n auto --dist=loadgroup</code></pre>
+<h3 id="4-coverage-reporting-integration">4. Coverage Reporting Integration</h3>
+<ul>
+<li>publish <code>lcov.info</code> or <code>coverage.xml</code></li>
+<li>upload junit / XML results for annotations</li>
+<li>keep contract reports separate from unit coverage</li>
+<li>fail the build when thresholds or diff coverage drop</li>
+</ul>
+<h3 id="5-flaky-test-quarantine-strategy">5. Flaky Test Quarantine Strategy</h3>
+<ol>
+<li>detect the flaky test by exact name</li>
+<li>move it to a quarantine tag or job</li>
+<li>keep quarantine non-blocking but visible</li>
+<li>assign an owner and removal deadline</li>
+<li>restore only after repeated green runs</li>
+</ol>
+<table class="rules"><tbody>
+<tr><th>Signal</th><th>Action</th></tr>
+<tr><th>intermittent timeout</th><th>replace implicit timing with deterministic waits</th></tr>
+<tr><th>order-dependent failure</th><th>reset shared state or fixture leakage</th></tr>
+<tr><th>CI-only HTTP failure</th><th>remove live network dependency</th></tr>
+<tr><th>snapshot variance</th><th>stabilize fonts, time, locale, and dynamic regions</th></tr>
+</tbody></table>
+<h3 id="6-recommended-job-order">6. Recommended Job Order</h3>
+<pre><code>quality
+→ backend / unit / integration
+→ contract
+→ e2e
+→ security
+→ coverage aggregation</code></pre>
+<h3 id="7-release-runtime-vs-compatibility-matrix">7. Release Runtime vs Compatibility Matrix</h3>
+<p>Use the release runtime required by the publish mechanism for release jobs. For</p>
+<p>example, npm Trusted Publishing requires a modern Node/npm pair, so release</p>
+<p>examples should use Node 22 unless the project has a newer declared baseline.</p>
+<p>Keep compatibility testing separate from release publishing:</p>
+<table class="rules"><tbody>
+<tr><th>Matrix</th><th>Purpose</th><th>Example</th></tr>
+<tr><th>Release runtime</th><th>Runtime used to build and publish artifacts</th><th>Node 22 for npm Trusted Publishing</th></tr>
+<tr><th>Compatibility runtime</th><th>Extra supported versions the package promises to run on</th><th>Node 20 only when a project explicitly carries legacy/EOL support</th></tr>
+<tr><th>OS smoke</th><th>Platform behavior for native modules, CLIs, installers, or shell shims</th><th>ubuntu, macOS, Windows for declared support</th></tr>
+</tbody></table>
+<p>Do not put legacy/EOL runtimes in generic release examples. If a project still</p>
+<p>supports Node 20, label that lane as legacy compatibility and keep publish jobs</p>
+<p>on the release runtime required by the registry or deployment target.</p>
+<h3 id="8-cli-release-smoke-matrix">8. CLI Release Smoke Matrix</h3>
+<p>For CLI packages or native modules, matrix only the platforms the project</p>
+<p>declares or the release claims to support. A Linux-only package does not need a</p>
+<p>Windows smoke, but a cross-platform CLI claim needs runner evidence for each</p>
+<p>declared platform.</p>
+<p>Minimum smoke:</p>
+<ol>
+<li>Install the packed artifact or published package.</li>
+<li>Resolve the binary path.</li>
+<li>Run <code>--version</code>.</li>
+<li>Run <code>--help</code>.</li>
+<li>Run one safe non-destructive command that touches platform-sensitive paths</li>
+</ol>
+<p>when the release depends on those paths.</p>
+<p>CI matrix proof is enough for pure library/import behavior. For desktop,</p>
+<p>installer, profile, permission, PATH, shell-shim, or visible OS behavior that CI</p>
+<p>cannot observe, hand off to <code>dev-devops/references/cross-platform-release.md</code>.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

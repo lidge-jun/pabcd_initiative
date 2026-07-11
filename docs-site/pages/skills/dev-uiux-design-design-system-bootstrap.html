@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>design-system-bootstrap — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>design-system-bootstrap</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/design-system-bootstrap.md</p>
+<h3 id="13-design-system-bootstrap">13. Design System Bootstrap</h3>
+<p>When starting a new project or establishing a design system, use this token architecture template.</p>
+<h4 id="token-template">Token Template</h4>
+<pre><code>:root {
+  /* Spacing (4px base) */
+  --space-0: 0; --space-1: 4px; --space-2: 8px; --space-3: 12px;
+  --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+
+  /* Radius */
+  --radius-none: 0; --radius-sm: 4px; --radius-md: 8px;
+  --radius-lg: 12px; --radius-xl: 16px; --radius-full: 9999px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 2px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+
+  /* Timing — canonical values in Motion Tokens below */
+  --duration-fast: 150ms; --duration-normal: 250ms; --duration-slow: 400ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Typography */
+  --font-sans: &#x27;Geist&#x27;, system-ui, -apple-system, sans-serif;  /* Never default to Inter — see SKILL.md font rules */
+  --font-mono: &#x27;Geist Mono&#x27;, &#x27;SF Mono&#x27;, monospace;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem;
+  --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 2rem;
+}</code></pre>
+<h4 id="component-hierarchy">Component Hierarchy</h4>
+<ul>
+<li><strong>Atoms:</strong> Button, Input, Badge, Avatar, Icon, Toggle, Checkbox, Radio</li>
+<li><strong>Molecules:</strong> Form Field (label + input + error), Card, Menu Item, Search Bar, Stat Card</li>
+<li><strong>Organisms:</strong> Navigation Bar, Sidebar, Data Table, Form Section, Modal/Dialog, Command Palette</li>
+</ul>
+<h4 id="motion-tokens">Motion Tokens</h4>
+<pre><code>:root {
+  /* Easing */
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Duration */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-glacial: 600ms;
+
+  /* Composed */
+  --transition-default: var(--duration-normal) var(--ease-default);
+  --transition-enter: var(--duration-normal) var(--ease-out);
+  --transition-exit: var(--duration-fast) var(--ease-in);
+}</code></pre>
+<h4 id="z-index-scale">Z-Index Scale</h4>
+<pre><code>:root {
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-toast: 600;
+  --z-tooltip: 700;
+  --z-max: 9999;          /* debug overlays only */
+}</code></pre>
+<ul>
+<li>Never use raw z-index numbers — always token reference</li>
+<li><code>z-max</code> reserved for dev tools</li>
+<li>Modal backdrop = <code>--z-modal - 1</code> (399)</li>
+</ul>
+<h4 id="breakpoint-tokens">Breakpoint Tokens</h4>
+<pre><code>/* Reference values — use in @media or container queries */
+--bp-sm: 640px;
+--bp-md: 768px;
+--bp-lg: 1024px;
+--bp-xl: 1280px;
+--bp-2xl: 1536px;</code></pre>
+<p>Note: CSS custom properties cannot be used in <code>@media</code> queries directly. These are reference values for documentation and JS usage. For CSS, use raw values with a comment referencing the token name.</p>
+<h4 id="token-naming-convention">Token Naming Convention</h4>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>Example</th><th>Use</th></tr>
+<tr><th>Semantic</th><th><code>--color-text-primary</code>, <code>--spacing-section</code></th><th>Component usage</th></tr>
+<tr><th>Scale</th><th><code>--space-4</code>, <code>--radius-lg</code></th><th>Design system primitives</th></tr>
+<tr><th>Composed</th><th><code>--transition-enter</code> = <code>duration + ease</code></th><th>Shorthand combinations</th></tr>
+</tbody></table>
+<p>Semantic tokens reference scale tokens. Components use semantic tokens. Never reference scale tokens directly in components.</p>
+<h4 id="extending-existing-systems-shadcn-ui">Extending Existing Systems (shadcn/ui)</h4>
+<ul>
+<li>Inspect existing installed components before adding new ones.</li>
+<li>Use the project&#x27;s <code>components.json</code>, aliases, tokens, and registry conventions.</li>
+<li>Do not hallucinate components — verify against local source.</li>
+<li>New components must use the same token variables as existing ones.</li>
+</ul>
+<h4 id="design-md-format">DESIGN.md Format</h4>
+<p>A project-root <code>DESIGN.md</code> persists design tokens and decisions across sessions. Structure:</p>
+<pre><code># Design System — [Project Name]
+
+## Tokens
+&lt;!-- Paste the Token Template and Motion Tokens from above --&gt;
+
+## Colors
+&lt;!-- Semantic color palette: --color-text-primary, --color-bg-surface, etc. --&gt;
+
+## Components
+&lt;!-- Component inventory with variants and states --&gt;
+
+## Rules
+&lt;!-- Project-specific constraints: font stacks, icon system, motion policy --&gt;</code></pre>
+<p>Keep <code>DESIGN.md</code> under 300 lines. Reference it from SKILL.md routing table, not inline.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

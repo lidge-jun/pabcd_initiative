@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monorepo Tooling — Turborepo vs Nx (2026) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Monorepo Tooling — Turborepo vs Nx (2026)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-scaffolding/references/monorepo-tooling.md</p>
+<h2 id="monorepo-tooling-turborepo-vs-nx-2026">Monorepo Tooling — Turborepo vs Nx (2026)</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: Turborepo 2.x, Nx 21.x</p>
+<p>When to read: Setting up or optimizing a monorepo build system</p>
+<p>Canonical owner: dev-scaffolding</p>
+<p>Cross-ref: <code>dev-architecture</code> (module boundaries, dependency rules), <code>dev-devops</code> (CI optimization)</p>
+<h3 id="1-decision-table-turborepo-vs-nx">1. Decision Table: Turborepo vs Nx</h3>
+<table class="rules"><tbody>
+<tr><th>Factor</th><th>Turborepo 2.x</th><th>Nx 21.x</th></tr>
+<tr><th><strong>Philosophy</strong></th><th>Build orchestrator — minimal, fast, zero-config start</th><th>Full platform — graph analysis, code generation, migrations</th></tr>
+<tr><th><strong>Setup complexity</strong></th><th>Low — <code>npx turbo init</code>, works with existing package.json scripts</th><th>Medium — <code>npx create-nx-workspace</code>, opinionated project structure</th></tr>
+<tr><th><strong>Task graph</strong></th><th>Inferred from <code>package.json</code> scripts + <code>turbo.json</code> pipeline</th><th>Explicit project graph with <code>project.json</code> or inferred from <code>package.json</code></th></tr>
+<tr><th><strong>Remote cache</strong></th><th>Vercel Remote Cache (free tier) or self-hosted (Turborepo server)</th><th>Nx Cloud (free tier) or self-hosted (Nx Powerpack)</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Code generation</strong></th><th>None built-in — use custom scripts</th><th>Built-in generators (<code>nx generate</code>), community plugins</th></tr>
+<tr><th><strong>Migrations</strong></th><th>Manual — update <code>turbo.json</code> and scripts</th><th>Automated migrations (<code>nx migrate</code>) across framework versions</th></tr>
+<tr><th><strong>IDE support</strong></th><th>Standard — relies on TypeScript project references</th><th>Nx Console extension for VSCode/WebStorm</th></tr>
+<tr><th><strong>Affected analysis</strong></th><th>Basic — file hash comparison</th><th>Advanced — project graph + file dependency analysis</th></tr>
+<tr><th><strong>Bundle size impact</strong></th><th>None — CLI tool only, not in app bundle</th><th>None — CLI tool only</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Community</strong></th><th>Vercel ecosystem, simpler community</th><th>Larger plugin ecosystem, enterprise adoption</th></tr>
+</tbody></table>
+<p><strong>Decision guide:</strong></p>
+<tr><th>Situation</th><th>Choose</th><th>Why</th></tr>
+<tr><th>Small-medium monorepo (2-10 packages), existing npm scripts</th><th>Turborepo</th><th>Minimal config, works with existing setup</th></tr>
+<table class="rules"><tbody>
+<tr><th>Large monorepo (10+ packages), need code generation and migrations</th><th>Nx</th><th>Full platform features justify the complexity</th></tr>
+<tr><th>Vercel deployment</th><th>Turborepo</th><th>Native integration, zero-config remote cache</th></tr>
+<tr><th>Enterprise with strict dependency boundaries</th><th>Nx</th><th>Module boundary enforcement, project graph constraints</th></tr>
+<tr><th>AI agent operating on monorepo</th><th>Either — see §2</th><th>Both support <code>affected</code> filtering; Nx gives richer graph data</th></tr>
+</tbody></table>
+<h3 id="2-task-graph-for-ai-agents">2. Task Graph for AI Agents</h3>
+<p>AI agents benefit from predictable, deterministic task execution:</p>
+<table class="rules"><tbody>
+<tr><th>Capability</th><th>How to Use</th><th>Turborepo</th><th>Nx</th></tr>
+<tr><th>Run only affected</th><th><code>turbo run test --filter=...[HEAD~1]</code></th><th><code>nx affected -t test</code></th><th>Both support; Nx is more granular</th></tr>
+<tr><th>Dependency graph</th><th><code>turbo run build --graph</code></th><th><code>nx graph</code></th><th>Both generate; Nx provides interactive UI</th></tr>
+<tr><th>Parallel execution</th><th>Automatic based on graph</th><th>Automatic based on graph</th><th>Both parallelize independent tasks</th></tr>
+<tr><th>Cache hit detection</th><th><code>turbo run build --dry</code></th><th><code>nx run-many -t build --dry-run</code></th><th>Check cache status before running</th></tr>
+<table class="rules"><tbody>
+<tr><th>Task targeting</th><th><code>turbo run test --filter=@scope/pkg</code></th><th><code>nx run @scope/pkg:test</code></th><th>Target specific package tasks</th></tr>
+</tbody></table>
+<p>Rules for AI agents working in monorepos:</p>
+<ul>
+<li>Always use <code>--affected</code> or <code>--filter</code> to scope work — never run all tasks across all packages.</li>
+<li>Check cache status with dry-run before executing — avoid redundant work.</li>
+<li>Use the dependency graph to determine build order — do not guess.</li>
+<li>When modifying shared packages, verify downstream consumers with affected analysis.</li>
+</ul>
+<pre><code># Turborepo: run tests only for packages affected by recent changes
+turbo run test --filter=...[HEAD~1]
+
+# Nx: same concept
+nx affected -t test --base=HEAD~1
+
+# Turborepo: visualize task graph
+turbo run build --graph
+
+# Nx: interactive dependency graph
+nx graph</code></pre>
+<h3 id="3-synthetic-monorepos-nx">3. Synthetic Monorepos (Nx)</h3>
+<p>Nx can manage projects that are not traditional npm workspaces:</p>
+<table class="rules"><tbody>
+<tr><th>Use Case</th><th>Setup</th><th>When Useful</th></tr>
+<tr><th>Polyglot repo (TS + Python + Go)</th><th>Nx with custom executors per language</th><th>CI orchestration across language boundaries</th></tr>
+<tr><th>Non-package directories as projects</th><th><code>project.json</code> in each directory</th><th>Legacy repos being incrementally monorepo-ified</th></tr>
+<tr><th>Virtual packages</th><th><code>nx.json</code> defines implicit dependencies</th><th>Documentation, infrastructure-as-code alongside app code</th></tr>
+</tbody></table>
+<p>Rules:</p>
+<ul>
+<li>Use synthetic projects only when the alternative is a custom build system.</li>
+<li>Each synthetic project must have explicit <code>targets</code> in <code>project.json</code> — implicit conventions break for non-standard layouts.</li>
+<li>Test that <code>nx affected</code> correctly identifies synthetic project dependencies before relying on it.</li>
+</ul>
+<h3 id="4-ci-optimization">4. CI Optimization</h3>
+<table class="rules"><tbody>
+<tr><th>Technique</th><th>Turborepo</th><th>Nx</th><th>Impact</th></tr>
+<tr><th>Remote cache</th><th><code>TURBO_TOKEN</code> + <code>TURBO_TEAM</code> env vars</th><th><code>NX_CLOUD_ACCESS_TOKEN</code> env var</th><th>60-90% CI time reduction on cache hit</th></tr>
+<tr><th>Affected only</th><th><code>--filter=...[base..head]</code></th><th><code>--base=base --head=head</code></th><th>Skip unchanged packages entirely</th></tr>
+<tr><th>Parallel tasks</th><th>Default (based on CPU cores)</th><th><code>--parallel=N</code></th><th>Saturate CI runner CPU</th></tr>
+<tr><th>Distributed execution</th><th>Vercel Remote Cache shares across runners</th><th>Nx Agents distribute tasks across machines</th><th>For very large monorepos (50+ packages)</th></tr>
+</tbody></table>
+<pre><code># GitHub Actions — Turborepo with remote cache
+- name: Build affected
+  run: turbo run build test lint --filter=...[origin/main...HEAD]
+  env:
+    TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
+# GitHub Actions — Nx with affected
+- name: Build affected
+  run: npx nx affected -t build test lint --base=origin/main
+  env:
+    NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Always set up remote cache — local-only cache does not help CI.</li>
+<li>CI must use <code>affected</code> filtering with the merge base as reference.</li>
+<li>Cache keys must include OS, Node version, and lockfile hash.</li>
+<li>Periodically verify cache correctness by running a full build (weekly or on release branches).</li>
+</ul>
+<h3 id="5-anti-patterns">5. Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Running all tasks in CI</th><th>30-minute CI on a 2-line change</th><th>Use <code>affected</code> / <code>--filter</code> (§4)</th></tr>
+<tr><th>No remote cache</th><th>Every CI run rebuilds from scratch</th><th>Configure Vercel/Nx Cloud or self-hosted cache (§4)</th></tr>
+<tr><th>Circular package dependencies</th><th>Build fails unpredictably, task graph errors</th><th>Enforce boundaries with <code>@nx/enforce-module-boundaries</code> or <code>turbo</code> pipeline ordering</th></tr>
+<tr><th>Mixing Turborepo and Nx in same repo</th><th>Conflicting task runners, cache confusion</th><th>Choose one — see §1 decision table</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>*</code> dependencies between workspace packages</th><th>Phantom version resolution, non-deterministic builds</th><th>Use <code>workspace:*</code> protocol or exact version pins</th></tr>
+</tbody></table>
+<h3 id="pre-flight">Pre-flight</h3>
+<ul>
+<li>[ ] Monorepo tool chosen with documented rationale (§1)</li>
+<li>[ ] Remote cache configured and verified in CI (§4)</li>
+<li>[ ] <code>affected</code> filtering used in CI pipeline — no full-repo runs on PRs (§4)</li>
+<li>[ ] Package dependency graph has no circular dependencies</li>
+<li>[ ] AI agents use <code>affected</code>/<code>filter</code> and dry-run before executing tasks (§2)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog Discovery Port — Spec &amp; Slice Map — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Catalog Discovery Port — Spec &amp; Slice Map</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/_plan/260704_catalog_port/00_spec.md</p>
+<h2 id="catalog-discovery-port-spec-slice-map">Catalog Discovery Port — Spec &amp; Slice Map</h2>
+<p>Date: 2026-07-04</p>
+<p>Goal: Port design/UX-first Catalog Discovery to all 3 downstream harnesses.</p>
+<p>Predecessor: <code>devlog/_plan/260704_catalog_discovery/</code> (canonical implementation complete, verified).</p>
+<p>Port rule: README.md — &quot;Ports are adapted, never blind-copied.&quot;</p>
+<h3 id="loop-spec-header">Loop-spec header</h3>
+<ul>
+<li><strong>Loop archetype</strong>: spec/repair (verifier defines done — each port must reference the</li>
+</ul>
+<p>catalog, enforce design-first ordering in its host idiom, and pass no-cross-contamination check).</p>
+<ul>
+<li><strong>Trigger</strong>: user goal — port catalog_discovery to cli-jaw, jawcode, opencodex.</li>
+<li><strong>Goal</strong>: each harness can run a catalog_discovery interview with design/UX leading.</li>
+<li><strong>Non-goals</strong>: no new GUI components; no runtime catalog filtering engine; no changes to</li>
+</ul>
+<p>the canonical pabcd_initiative source (already done).</p>
+<ul>
+<li><strong>Verifier</strong>: per-repo: (a) catalog file exists at correct path, (b) interview/skill prose</li>
+</ul>
+<p>references catalog and declares design-first, (c) no foreign host-CLI tokens</p>
+<p>(each repo only uses its own idiom), (d) TypeScript compiles where applicable.</p>
+<ul>
+<li><strong>Stop condition</strong>: all 3 ports pass their verifiers.</li>
+<li><strong>Memory artifact</strong>: this folder.</li>
+<li><strong>Expected terminal states</strong>: DONE | BLOCKED (repo structure changed upstream).</li>
+</ul>
+<h3 id="work-phase-slice-map">Work-phase slice map</h3>
+<table class="rules"><tbody>
+<tr><th>Phase</th><th>Repo</th><th>Outcome</th><th>Verifier</th></tr>
+<tr><th>1</th><th>cli-jaw</th><th>FSM I-state prompt hook + catalog YAML + orchestration.md update</th><th>tsc + grep checks</th></tr>
+<tr><th>2</th><th>jawcode</th><th>jaw-interview SKILL.md catalog mode + auto-research variant + catalog YAML</th><th>grep + no tsc (prompt-only)</th></tr>
+<tr><th>3</th><th>opencodex</th><th>structure/ doc referencing catalog for downstream consumers</th><th>file exists + content check</th></tr>
+</tbody></table>
+<p>Phase docs: <code>10_phase1_cli_jaw.md</code>, <code>20_phase2_jawcode.md</code>, <code>30_phase3_opencodex.md</code>.</p>
+<h2 id="unit-files">Other files in this unit</h2>
+<ul>
+<li>Phase 1 — cli-jaw port <span class="refnote">(10_phase1_cli_jaw.md)</span></li>
+<li>Phase 2 — jawcode port <span class="refnote">(20_phase2_jawcode.md)</span></li>
+<li>Phase 3 — opencodex port <span class="refnote">(30_phase3_opencodex.md)</span></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

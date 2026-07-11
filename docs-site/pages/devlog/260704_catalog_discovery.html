@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog Discovery — Spec &amp; Slice Map (design/UX-first) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Catalog Discovery — Spec &amp; Slice Map (design/UX-first)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/_plan/260704_catalog_discovery/00_spec.md</p>
+<h2 id="catalog-discovery-spec-slice-map-design-ux-first">Catalog Discovery — Spec &amp; Slice Map (design/UX-first)</h2>
+<p>Date: 2026-07-04</p>
+<p>Goal: design/UX-first Catalog Discovery interview mode in the canonical PABCD skills.</p>
+<p>Predecessor design: <code>devlog/260704_catalog_discovery_design.md</code> (3-employee discussion synthesis).</p>
+<h3 id="loop-spec-header">Loop-spec header</h3>
+<ul>
+<li><strong>Loop archetype</strong>: spec/repair (a verifier defines *done* — the catalog + interview</li>
+</ul>
+<p>section must satisfy schema + design-first ordering checks; not open-ended optimization).</p>
+<ul>
+<li><strong>Trigger</strong>: user goal — add catalog_discovery mode, design/UX leading.</li>
+<li><strong>Goal (user-visible outcome)</strong>: an author/agent running the PABCD Interview on a novice</li>
+</ul>
+<p>(&quot;사주 앱 만들고 싶어&quot;) is guided design/UX-FIRST through a versioned option catalog,</p>
+<p>and downstream (security/data/ops/feature) questions are DERIVED from the design+domain</p>
+<p>choices — not asked in a flat undifferentiated list.</p>
+<ul>
+<li><strong>Non-goals</strong>: no host-CLI code, no runtime engine, no GUI build, no downstream repo edits</li>
+</ul>
+<p>(this pass is canonical-source only; ports tracked separately in backlog).</p>
+<ul>
+<li><strong>Verifier</strong>: (a) YAML parses (<code>python3 -c &quot;import yaml,sys; yaml.safe_load(...)&quot;</code>),</li>
+</ul>
+<p>(b) schema-consistency check — every <code>implies</code>/<code>conflicts</code>/<code>derived_from</code> id resolves to a</p>
+<p>real entry; design axis entries exist for all 6 dials; <code>axis_order</code> lists design first,</p>
+<p>(c) prose-consistency — dev-pabcd Interview section references the catalog file and the</p>
+<p>design-first ordering; (d) saju dry-run doc shows design questions asked before</p>
+<p>security/data questions. Measures: referential integrity + ordering correctness, not just</p>
+<p>&quot;file exists&quot;.</p>
+<ul>
+<li><strong>Stop condition</strong>: all 3 work-phases pass their verifier; goal objective&#x27;s 3 deliverables exist.</li>
+<li><strong>Memory artifact</strong>: this folder + <code>devlog/260704_catalog_discovery_design.md</code>.</li>
+<li><strong>Expected terminal states</strong>: DONE (all deliverables + verifiers green) | BLOCKED (schema</li>
+</ul>
+<p>can&#x27;t express design-first derivation cleanly) | NEEDS_HUMAN (business ambiguity in axis semantics).</p>
+<ul>
+<li><strong>Escalation</strong>: if design-first derivation needs a runtime engine to be meaningful (i.e.</li>
+</ul>
+<p>static YAML can&#x27;t encode it), stop and surface — that would change scope to code.</p>
+<h3 id="core-architectural-decision-design-ux-leads">Core architectural decision: design/UX LEADS</h3>
+<p>The user&#x27;s hint is the load-bearing constraint: **design/UX is the most important axis; the</p>
+<p>backend (security/data/ops) asks its questions BASED ON the design+domain answers.** This is</p>
+<p>encoded three ways so it survives prompt drift:</p>
+<ol>
+<li><strong><code>axis_order</code> (data)</strong>: catalog declares an explicit stage order —</li>
+</ol>
+<p><code>stage 1: design → stage 2: domain(app-type) → stage 3: derived (feature/data/security/ops/cost)</code>.</p>
+<p>Design is stage 1, always first.</p>
+<ol>
+<li><strong><code>derived_from</code> (data)</strong>: stage-3 entries carry <code>derived_from: [design.*, domain.*]</code> so the</li>
+</ol>
+<p>configurator can PRIORITIZE/FILTER them from earlier answers instead of dumping a flat list.</p>
+<ol>
+<li><strong>Interview prose (skill)</strong>: the catalog_discovery sub-mode explicitly asks design/UX first,</li>
+</ol>
+<p>wired to dev-uiux-design Product-Personality-Selection as the step-1 methodology.</p>
+<h3 id="work-phase-slice-map-one-full-pabcd-pass-each-design-pass-already-done">Work-phase slice map (one full PABCD pass each, design pass already done)</h3>
+<table class="rules"><tbody>
+<tr><th>Phase</th><th>Outcome unit</th><th>Deliverable</th><th>Verifier</th></tr>
+<tr><th><strong>0 (done)</strong></th><th>Design synthesis</th><th><code>devlog/260704_catalog_discovery_design.md</code></th><th>committed (82ab348)</th></tr>
+<tr><th><strong>1</strong></th><th>Versioned catalog exists, design-first</th><th><code>skills/dev-pabcd/references/catalog-discovery.yaml</code></th><th>YAML parse + schema-integrity script</th></tr>
+<tr><th><strong>2</strong></th><th>Interview uses catalog design-first</th><th><code>skills/dev-pabcd/SKILL.md</code> Interview section: catalog_discovery + configurator sub-modes</th><th>prose references catalog + design-first ordering; agent-neutral (no host-CLI)</th></tr>
+<tr><th><strong>3</strong></th><th>Design-first flow proven</th><th><code>devlog/_plan/260704_catalog_discovery/30_saju_dryrun.md</code></th><th>walkthrough shows design Qs before security/data Qs</th></tr>
+</tbody></table>
+<p>Phase docs: <code>10_phase1_catalog.md</code>, <code>20_phase2_interview.md</code>, <code>30_saju_dryrun.md</code>.</p>
+<h3 id="terminal-state-honesty">Terminal-state honesty</h3>
+<p>Each phase&#x27;s D records what did NOT get proven and what would falsify the design-first claim.</p>
+<h2 id="unit-files">Other files in this unit</h2>
+<ul>
+<li>Phase 1 Plan Audit — record <span class="refnote">(05_audit.md)</span></li>
+<li>Phase 1 — Catalog data structure (design/UX-first) <span class="refnote">(10_phase1_catalog.md)</span></li>
+<li>Phase 2 — Interview section update (design/UX-first catalog_discovery mode) <span class="refnote">(20_phase2_interview.md)</span></li>
+<li>Phase 3 — Saju Persona Dry-Run Walkthrough <span class="refnote">(30_saju_dryrun.md)</span></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

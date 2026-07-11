@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debugging Methodologies Reference — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Debugging Methodologies Reference</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-debugging/references/methodologies.md</p>
+<h2 id="debugging-methodologies-reference">Debugging Methodologies Reference</h2>
+<p>Core structured approaches for isolating root causes. Choose based on the</p>
+<p>nature of the bug. These methods are complementary — combine them.</p>
+<p>---</p>
+<h3 id="five-whys">Five Whys</h3>
+<p>Iterative causal analysis. Ask &quot;why&quot; at each level until you reach a systemic</p>
+<p>root cause that, if fixed, prevents the entire class of bug.</p>
+<p><strong>When to Use</strong>: Bug has a clear symptom but unclear cause. Post-incident analysis.</p>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li>State the symptom precisely: &quot;Users get 500 errors on /api/checkout&quot;</li>
+<li>Ask: Why? — &quot;The payment service throws NullPointerException&quot;</li>
+<li>Ask: Why? — &quot;The <code>card</code> field is null when passed to the charge function&quot;</li>
+<li>Ask: Why? — &quot;The frontend form submits before card tokenization completes&quot;</li>
+<li>Ask: Why? — &quot;The submit button is enabled before the async token callback fires&quot;</li>
+<li>Root cause: Missing guard — submit should be disabled until tokenization resolves</li>
+</ol>
+<p><strong>Exit Condition</strong>: You reach a cause that is (a) actionable, (b) systemic (not</p>
+<p>a one-off mistake), and (c) within your control to fix.</p>
+<p><strong>Anti-pattern</strong>: Stopping too early (&quot;because the developer made a mistake&quot;)</p>
+<p>or going too deep (&quot;because JavaScript is single-threaded&quot;). Stop at the first</p>
+<p>actionable systemic fix.</p>
+<p>---</p>
+<h3 id="binary-search-bisection">Binary Search / Bisection</h3>
+<p>Halve the search space repeatedly to isolate the exact point of failure.</p>
+<p><strong>When to Use</strong>: Regression (it used to work). Large codebase or long history.</p>
+<p><strong>Steps — git bisect (temporal)</strong>:</p>
+<ol>
+<li>Identify a known-good commit and a known-bad commit</li>
+<li><code>git bisect start &amp;&amp; git bisect bad &amp;&amp; git bisect good &lt;sha&gt;</code></li>
+<li>Git checks out the midpoint — test it</li>
+<li>Mark <code>git bisect good</code> or <code>git bisect bad</code></li>
+<li>Repeat until the first bad commit is found</li>
+<li><code>git bisect reset</code> to return to your branch</li>
+</ol>
+<p><strong>Steps — code bisection (spatial)</strong>:</p>
+<ol>
+<li>Identify the full path from input to failure</li>
+<li>Add a diagnostic check at the midpoint of the path</li>
+<li>If data is correct at midpoint: bug is downstream. If wrong: upstream.</li>
+<li>Repeat on the failing half until you isolate the exact transformation</li>
+</ol>
+<p><strong>Exit Condition</strong>: Single commit or single code transformation identified as the cause.</p>
+<p><strong>Anti-pattern</strong>: Skipping steps by guessing (&quot;it&#x27;s probably in the last 3</p>
+<p>commits&quot;). Let the bisection narrow it — guessing defeats the purpose.</p>
+<p>---</p>
+<h3 id="differential-diagnosis">Differential Diagnosis</h3>
+<p>Enumerate possible causes, then eliminate each with evidence.</p>
+<p><strong>When to Use</strong>: Multiple plausible causes. Non-obvious failures.</p>
+<p>Complex systems with many interacting components.</p>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li>List ALL plausible causes (aim for 5-10). Do not self-censor unlikely ones.</li>
+<li>For each cause, identify a test that would confirm or eliminate it</li>
+<li>Run the cheapest/fastest tests first</li>
+<li>Cross off eliminated causes with the evidence that eliminated them</li>
+<li>Remaining cause with supporting evidence = your hypothesis</li>
+</ol>
+<p><strong>Template</strong>:</p>
+<table class="rules"><tbody>
+<tr><th>#</th><th>Possible Cause</th><th>Test</th><th>Result</th><th>Status</th></tr>
+<tr><th>1</th><th>DB connection timeout</th><th>Check connection pool metrics</th><th>Pool at 2/20</th><th>Eliminated</th></tr>
+<tr><th>2</th><th>Bad input data</th><th>Log raw request body</th><th>Contains null <code>user_id</code></th><th>Confirmed</th></tr>
+<tr><th>3</th><th>Race condition</th><th>Add artificial delay</th><th>Not reproducible with delay</th><th>Eliminated</th></tr>
+</tbody></table>
+<p><strong>Exit Condition</strong>: One cause remains with positive evidence confirming it.</p>
+<p><strong>Anti-pattern</strong>: Fixating on the first plausible cause without testing the</p>
+<p>others. Confirmation bias is the enemy — seek to eliminate, not confirm.</p>
+<p>---</p>
+<h3 id="subtraction-debugging">Subtraction Debugging</h3>
+<p>Remove components until you reach the minimal reproduction case.</p>
+<p><strong>When to Use</strong>: Bug in complex system with many interacting parts. You cannot</p>
+<p>trace the cause forward — instead, simplify until only the cause remains.</p>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li>Start with the full broken system</li>
+<li>Remove one component/module/feature (comment out, disable, mock)</li>
+<li>Does the bug still occur? If yes: removed component is innocent. If no: it&#x27;s involved.</li>
+<li>Restore that component, remove the next one</li>
+<li>Once you identify the guilty component, repeat inside it at a finer granularity</li>
+</ol>
+<p><strong>Exit Condition</strong>: Minimal reproduction — smallest possible code that still</p>
+<p>exhibits the bug. Often 5-20 lines.</p>
+<p><strong>Anti-pattern</strong>: Removing multiple things at once (can&#x27;t tell which mattered).</p>
+<p>Giving up too early (&quot;it&#x27;s too interconnected to simplify&quot;).</p>
+<p>---</p>
+<h3 id="rubber-duck-debugging">Rubber Duck Debugging</h3>
+<p>Explain the problem aloud (or in writing) in simple terms to expose hidden assumptions.</p>
+<p><strong>When to Use</strong>: Stuck for &gt;15 minutes. Going in circles. &quot;I&#x27;ve tried everything.&quot;</p>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li>State what the code is SUPPOSED to do, step by step</li>
+<li>State what it ACTUALLY does, step by step</li>
+<li>At each step, verify: does reality match expectation?</li>
+<li>The step where your explanation falters is where the bug lives</li>
+</ol>
+<p><strong>Exit Condition</strong>: You find the gap between your mental model and reality.</p>
+<p><strong>Anti-pattern</strong>: Skipping the &quot;what it actually does&quot; part and only describing</p>
+<p>intent. The value is in forcing yourself to verify each assumption.</p>
+<p>---</p>
+<h3 id="systematic-logging">Systematic Logging</h3>
+<p>Strategic placement of structured logs at system boundaries to trace data flow.</p>
+<p><strong>When to Use</strong>: Multi-layer systems. Bugs that only appear in production or</p>
+<p>under specific conditions. When you cannot attach a debugger.</p>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li>Identify all component boundaries the data crosses</li>
+<li>At each boundary, log: input, output, timing, error context</li>
+<li>Use structured format (JSON or tagged) so logs are filterable</li>
+<li>Run the failing scenario once</li>
+<li>Read logs to identify the boundary where data becomes incorrect</li>
+</ol>
+<p><strong>Template — what to log at each boundary</strong>:</p>
+<pre><code>[timestamp] [component] [operation]
+  INPUT:   {the data entering this layer}
+  OUTPUT:  {the data leaving this layer}
+  TIMING:  {duration in ms}
+  CONTEXT: {request-id, user-id, environment}
+  ERROR:   {if applicable: message + stack}</code></pre>
+<p><strong>Exit Condition</strong>: You identify the exact boundary where correct input</p>
+<p>produces incorrect output.</p>
+<p><strong>Anti-pattern</strong>: Logging everything (noise drowns signal). Log at boundaries</p>
+<p>only, not inside tight loops. Remove diagnostic logging after the bug is fixed.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

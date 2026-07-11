@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OWASP Top 10:2025 — Unsafe and Safe Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>OWASP Top 10:2025 — Unsafe and Safe Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-security/references/owasp-top10.md</p>
+<h2 id="owasp-top-10-2025-unsafe-and-safe-patterns">OWASP Top 10:2025 — Unsafe and Safe Patterns</h2>
+<p>Last reviewed: 2026-07-02</p>
+<p>Use this reference when a change touches auth, data access, secrets, templates, dependencies, CI, or production configuration.</p>
+<p>Each section gives a problem statement, one unsafe pattern, one safe pattern, and a concrete checklist.</p>
+<p>JavaScript and TypeScript are primary examples.</p>
+<p>Python appears where it clarifies a common secondary stack.</p>
+<h3 id="a01-broken-access-control">A01: Broken Access Control</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>A caller is authenticated but can act outside their intended scope.</p>
+<p>Typical failures include reading another tenant&#x27;s record, escalating privileges through hidden fields, or calling an admin-only route with a regular session.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>app.get(&#x27;/api/orders/:id&#x27;, requireUser, async (req, res) =&gt; {
+  const order = await db.order.findUnique({ where: { id: req.params.id } });
+  res.json(order);
+});</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>app.get(&#x27;/api/orders/:id&#x27;, requireUser, async (req, res) =&gt; {
+  const order = await db.order.findFirst({
+    where: { id: req.params.id, tenantId: req.user.tenantId },
+  });
+  if (!order) return res.status(404).json({ error: &#x27;Not found&#x27; });
+  res.json(order);
+});</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Enforce authorization for every read, write, export, and delete.</li>
+<li>[ ] Scope database access by tenant, owner, or role.</li>
+<li>[ ] Default deny when the rule is unclear.</li>
+<li>[ ] Never trust hidden form fields, query parameters, or client-side role flags.</li>
+</ul>
+<h3 id="a02-security-misconfiguration">A02: Security Misconfiguration</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>The app is correct in source code but unsafe in runtime configuration.</p>
+<p>Typical failures include debug mode in production, wildcard CORS, public cloud buckets, verbose stack traces, and unneeded network exposure.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>DEBUG = True
+ALLOWED_HOSTS = [&quot;*&quot;]
+CORS_ALLOW_ALL_ORIGINS = True
+SECURE_SSL_REDIRECT = False</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>DEBUG = False
+ALLOWED_HOSTS = [&quot;api.example.com&quot;]
+CORS_ALLOWED_ORIGINS = [&quot;https://app.example.com&quot;]
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Debug mode is disabled outside local development.</li>
+<li>[ ] CORS and host allowlists are explicit.</li>
+<li>[ ] Error pages do not expose stack traces to clients.</li>
+<li>[ ] Unused ports, services, and admin routes are disabled.</li>
+</ul>
+<h3 id="a03-software-supply-chain-failures">A03: Software Supply Chain Failures</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>The app becomes unsafe because the build pipeline, dependency graph, or release process is compromised.</p>
+<p>This includes poisoned transitive packages, mutable CI actions, unsigned artifacts, and unreviewed dependency jumps.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>- uses: actions/checkout@v4
+- run: npm install
+- run: npm test
+- run: npm publish</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>permissions:
+  contents: read
+  id-token: write
+steps:
+  - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+  - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
+    with:
+      node-version: &#x27;22&#x27;
+      registry-url: https://registry.npmjs.org
+  - run: npm ci
+  - run: npm audit --audit-level=high
+  - run: npx license-checker --production
+  - run: npm test
+  - run: npm publish --provenance</code></pre>
+<p>For full npm trusted-publishing workflow shape, read <code>../../dev-devops/references/package-release.md</code>.</p>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Commit and honor the lockfile with <code>npm ci</code>, <code>pip-compile</code>, <code>poetry lock</code>, or equivalent.</li>
+<li>[ ] Pin CI actions to commit SHA, not mutable tags.</li>
+<li>[ ] Run dependency audit in CI and fail on high or critical findings.</li>
+<li>[ ] Track artifact provenance, SBOM, and release ownership.</li>
+</ul>
+<h3 id="a04-cryptographic-failures">A04: Cryptographic Failures</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>Sensitive data is exposed because encryption, hashing, key management, or transport security is weak.</p>
+<p>Common failures are home-grown crypto, raw password hashing, storing tokens in browser storage, and exposing secrets in URLs.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>import crypto from &#x27;node:crypto&#x27;;
+
+const passwordHash = crypto.createHash(&#x27;sha256&#x27;).update(password).digest(&#x27;hex&#x27;);
+localStorage.setItem(&#x27;access_token&#x27;, token);</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>import argon2 from &#x27;argon2&#x27;;
+
+const passwordHash = await argon2.hash(password, { type: argon2.argon2id });
+res.cookie(&#x27;refresh_token&#x27;, refreshToken, {
+  httpOnly: true,
+  secure: true,
+  sameSite: &#x27;strict&#x27;,
+  path: &#x27;/auth/refresh&#x27;,
+});</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Use <code>argon2id</code> or <code>bcrypt</code> for passwords, never generic hash functions.</li>
+<li>[ ] Enforce HTTPS and HSTS in production.</li>
+<li>[ ] Store browser session tokens in secure cookies, not <code>localStorage</code>.</li>
+<li>[ ] Keep keys in Vault, KMS, or environment delivery, not source files.</li>
+</ul>
+<h3 id="a05-injection">A05: Injection</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>Untrusted input is interpreted as code, query syntax, shell syntax, template syntax, or HTML.</p>
+<p>This includes SQL injection, command injection, NoSQL injection, template injection, and stored or reflected XSS.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>const user = await db.$queryRawUnsafe(
+  `SELECT id, email FROM users WHERE email = &#x27;${req.query.email}&#x27;`
+);
+const html = `&lt;div&gt;${req.body.bio}&lt;/div&gt;`;</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>const user = await db.$queryRaw`
+  SELECT id, email FROM users WHERE email = ${req.query.email}
+`;
+const safeBio = DOMPurify.sanitize(req.body.bio);
+const html = `&lt;div&gt;${safeBio}&lt;/div&gt;`;</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Use parameterized queries or ORM query builders.</li>
+<li>[ ] Never pass user input into <code>eval</code>, shell strings, or template engines unsafely.</li>
+<li>[ ] Sanitize rich text before rendering and defend it with CSP.</li>
+<li>[ ] Validate allowlists for filenames, sort keys, and command arguments.</li>
+</ul>
+<h3 id="a06-insecure-design">A06: Insecure Design</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>The app ships a fundamentally unsafe flow even when the code is clean.</p>
+<p>Examples include password reset without rate limits, multi-tenant data export without ownership checks, and agent tools with unrestricted file or network access.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>app.post(&#x27;/admin/invite&#x27;, requireUser, async (req, res) =&gt; {
+  await inviteAdmin(req.body.email);
+  res.sendStatus(204);
+});</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>app.post(&#x27;/admin/invite&#x27;, requireUser, requireRole(&#x27;owner&#x27;), async (req, res) =&gt; {
+  await ensureStepUpAuth(req.user.id, req.headers[&#x27;x-reauth-token&#x27;]);
+  await inviteAdmin(req.body.email);
+  res.sendStatus(204);
+});</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Write the threat model before implementing the flow.</li>
+<li>[ ] Name assets, attacker, trust boundary, and blast radius.</li>
+<li>[ ] Require step-up auth for admin, payout, and identity changes.</li>
+<li>[ ] Design file upload, payment, and export flows before coding them.</li>
+</ul>
+<h3 id="a07-authentication-failures">A07: Authentication Failures</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>The login and session system is weak enough to be bypassed, guessed, replayed, or abused.</p>
+<p>Examples include weak password policy, infinite login attempts, long-lived bearer tokens, URL-based session IDs, and missing session revocation.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>session[&quot;user_id&quot;] = user.id
+response.set_cookie(&quot;session&quot;, session_id)
+return {&quot;token&quot;: create_token(user.id, ttl_days=30)}</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>response.set_cookie(
+    &quot;refresh_token&quot;,
+    refresh_token,
+    httponly=True,
+    secure=True,
+    samesite=&quot;Strict&quot;,
+    path=&quot;/auth/refresh&quot;,
+)
+return {&quot;access_token&quot;: create_access_token(user.id, ttl_minutes=15)}</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Rate limit login, password reset, and MFA verification.</li>
+<li>[ ] Use short-lived access tokens and rotated refresh tokens.</li>
+<li>[ ] Revoke sessions on password change and suspicious reuse.</li>
+<li>[ ] Return generic auth failure messages to block user enumeration.</li>
+</ul>
+<h3 id="a08-software-and-data-integrity-failures">A08: Software and Data Integrity Failures</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>Trusted code, configuration, or data is modified without validation.</p>
+<p>Examples include unsigned webhooks, unsafe deserialization, trusting client-generated totals, and loading deployment artifacts without integrity checks.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>app.post(&#x27;/webhooks/stripe&#x27;, express.json(), async (req, res) =&gt; {
+  await processStripeEvent(req.body);
+  res.sendStatus(200);
+});</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>app.post(&#x27;/webhooks/stripe&#x27;, express.raw({ type: &#x27;application/json&#x27; }), async (req, res) =&gt; {
+  const signature = req.header(&#x27;stripe-signature&#x27;) ?? &#x27;&#x27;;
+  const event = stripe.webhooks.constructEvent(req.body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
+  await processStripeEvent(event);
+  res.sendStatus(200);
+});</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Verify webhook signatures before parsing trusted business events.</li>
+<li>[ ] Reject unsafe deserialization formats for untrusted input.</li>
+<li>[ ] Recompute server-side prices, permissions, and transitions.</li>
+<li>[ ] Track integrity of build artifacts and releases.</li>
+</ul>
+<h3 id="a09-security-logging-and-monitoring-failures">A09: Security Logging and Monitoring Failures</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>The system either misses important security events or logs them in a harmful way.</p>
+<p>Common failures include no audit trail, no request correlation, no alerting, and logging raw tokens or PII.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>logger.info(&#x27;login_failed&#x27;, {
+  email: req.body.email,
+  password: req.body.password,
+  authHeader: req.headers.authorization,
+});</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>logger.warn(&#x27;login_failed&#x27;, {
+  requestId: req.id,
+  emailHash: hashIdentifier(req.body.email),
+  ip: req.ip,
+  reason: &#x27;invalid_credentials&#x27;,
+});</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Log auth failures, admin actions, permission denials, and secret-rotation events.</li>
+<li>[ ] Redact tokens, cookies, passwords, raw PII, and payment values.</li>
+<li>[ ] Propagate <code>requestId</code> or trace IDs through services.</li>
+<li>[ ] Alert on replay storms, brute force, signature failures, and repeated access denials.</li>
+</ul>
+<h3 id="a10-mishandling-of-exceptional-conditions">A10: Mishandling of Exceptional Conditions</h3>
+<h4 id="the-problem">The Problem</h4>
+<p>Errors, timeouts, null cases, and partial failures reveal data or produce unsafe side effects.</p>
+<p>Typical failures include stack traces sent to clients, double-charged payments after retries, partial writes, and retry loops that amplify incidents.</p>
+<h4 id="unsafe-pattern">Unsafe Pattern</h4>
+<pre><code>@app.post(&quot;/payouts&quot;)
+def create_payout():
+    payout = payout_service.send(request.json)
+    return {&quot;status&quot;: &quot;ok&quot;, &quot;payout&quot;: payout}</code></pre>
+<h4 id="safe-pattern">Safe Pattern</h4>
+<pre><code>@app.post(&quot;/payouts&quot;)
+def create_payout():
+    try:
+        payout = payout_service.send(request.json, idempotency_key=request.headers[&quot;Idempotency-Key&quot;])
+        return {&quot;status&quot;: &quot;ok&quot;, &quot;payout_id&quot;: payout.id}
+    except DomainError:
+        return {&quot;error&quot;: &quot;Unable to process payout&quot;}, 400</code></pre>
+<h4 id="checklist">Checklist</h4>
+<ul>
+<li>[ ] Return safe client errors and keep stack traces server-side.</li>
+<li>[ ] Use idempotency for payment, payout, and external side-effect operations.</li>
+<li>[ ] Define retry behavior for queues, webhooks, and third-party calls.</li>
+<li>[ ] Test timeout, race, duplicate, and partial-failure scenarios.</li>
+</ul>
+<h3 id="frontend-security-reminders">Frontend Security Reminders</h3>
+<p>Frontend work is not exempt from these categories.</p>
+<p>When a feature includes browser code, apply these mappings:</p>
+<ul>
+<li>A02: CSP, CORS, cookie flags, and dependency configuration.</li>
+<li>A04: token storage and transport rules.</li>
+<li>A05: React auto-escaping, <code>dangerouslySetInnerHTML</code>, DOM sanitization, URL construction, and client-side template safety.</li>
+<li>A08: webhook dashboards, signed payload displays, and user-visible state that must come from server-verified values.</li>
+<li>A09: redact analytics payloads, replay tools, and client error reports.</li>
+</ul>
+<h3 id="review-shortcut">Review Shortcut</h3>
+<p>When time is tight, review in this order:</p>
+<ol>
+<li>A01 authorization and tenancy boundaries.</li>
+<li>A05 injection surfaces and unsafe rendering.</li>
+<li>A07 token, cookie, and reset flow.</li>
+<li>A03 dependency and CI integrity.</li>
+<li>A09 logging and audit behavior.</li>
+</ol>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Package Release — Trusted Publishing &amp; Registry Auth — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Package Release — Trusted Publishing &amp; Registry Auth</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/package-release.md</p>
+<h2 id="package-release-trusted-publishing-registry-auth">Package Release — Trusted Publishing &amp; Registry Auth</h2>
+<p>Last reviewed: 2026-07-02</p>
+<p>Applies to: npm, PyPI, Bun-to-npm, Homebrew, crates.io, RubyGems, Go modules, GHCR, Docker Hub</p>
+<p>When to read: Package publishing, release auth, downstream distribution, CLI package release</p>
+<p>Canonical owner: dev-devops package-release guidance</p>
+<p>Cross-ref: read <code>../../dev-security/references/supply-chain-sbom.md</code> for SBOM/signing depth.</p>
+<p>---</p>
+<h3 id="1-release-auth-decision-table">§1 Release Auth Decision Table</h3>
+<p>Pick the publish path by ecosystem and artifact type before asking for tokens.</p>
+<table class="rules"><tbody>
+<tr><th>Target</th><th>Default path</th><th>Token fallback</th></tr>
+<tr><th>npm public package</th><th>npm Trusted Publishing/OIDC from GitHub-hosted Actions; use Node 22 and npm 11.5.1+</th><th><code>NPM_TOKEN</code> only when OIDC is unsupported, rejected, or explicitly not configured</th></tr>
+<tr><th>PyPI package</th><th>PyPI Trusted Publisher/OIDC with <code>pypa/gh-action-pypi-publish@release/v1</code></th><th><code>PYPI_TOKEN</code> only when Trusted Publisher is unsupported, rejected, or explicitly not configured</th></tr>
+<tr><th>Bun project publishing to npm</th><th>Install/test/build with Bun; publish public npm packages with <code>npm publish</code> unless Bun OIDC support is proven in current docs</th><th><code>NPM_CONFIG_TOKEN</code> only for explicit <code>bun publish</code> fallback</th></tr>
+<tr><th>Homebrew Formula/Cask</th><th>Downstream channel after canonical upstream release exists</th><th>GitHub/token auth only for tap automation; never replaces upstream provenance</th></tr>
+<table class="rules"><tbody>
+<tr><th>crates.io</th><th>Trusted Publishing/OIDC when configured</th><th>crates.io API token only when trusted publishing is unavailable</th></tr>
+<tr><th>RubyGems</th><th>Trusted Publishing/OIDC with <code>rubygems/release-gem</code> when configured</th><th><code>RUBYGEMS_API_KEY</code> only when trusted publishing is unavailable</th></tr>
+<tr><th>Go modules</th><th>VCS tag release; no central registry publish token</th><th>Host credentials only for creating tags/releases</th></tr>
+<tr><th>GHCR</th><th>GitHub Actions <code>GITHUB_TOKEN</code> with <code>packages: write</code> for repository packages</th><th>PAT only for cross-repo/private cases that <code>GITHUB_TOKEN</code> cannot cover</th></tr>
+<tr><th>Docker Hub</th><th>Docker access token via <code>docker/login-action</code></th><th>No OIDC default for ordinary Docker Hub push; use least-scoped token</th></tr>
+</tbody></table>
+<h3 id="2-auth-model-classes">§2 Auth Model Classes</h3>
+<table class="rules"><tbody>
+<tr><th>Class</th><th>Examples</th><th>Rule</th></tr>
+<tr><th>Registry-native trusted publishing</th><th>npm, PyPI, RubyGems, crates.io</th><th>Prefer OIDC/trusted publishing before long-lived tokens</th></tr>
+<tr><th>Cloud IAM federation</th><th>AWS ECR, Google Artifact Registry, Azure Container Registry</th><th>OIDC authenticates to cloud IAM; registry push uses cloud-issued temporary credentials</th></tr>
+<tr><th>Repository-scoped CI token</th><th>GHCR through <code>GITHUB_TOKEN</code></th><th>Prefer built-in short-lived CI token when it has enough scope</th></tr>
+<tr><th>VCS tag release</th><th>Go modules</th><th>Verify tags and module paths, not registry credentials</th></tr>
+<table class="rules"><tbody>
+<tr><th>Long-lived registry token</th><th>Docker Hub, unsupported fallback cases</th><th>Require explicit justification, least scope, and rotation owner</th></tr>
+</tbody></table>
+<h3 id="3-npm-trusted-publishing">§3 npm Trusted Publishing</h3>
+<p>Default for public npm packages released from GitHub Actions:</p>
+<pre><code>name: publish
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: &#x27;22&#x27;
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm publish --provenance</code></pre>
+<p>Rules:</p>
+<ul>
+<li>State in prose that npm Trusted Publishing requires Node 22.14+ and npm</li>
+</ul>
+<p>11.5.1+.</p>
+<ul>
+<li>Use GitHub-hosted runners unless the current npm docs support the alternate</li>
+</ul>
+<p>runner.</p>
+<ul>
+<li>Do not ask for <code>NPM_TOKEN</code> until trusted publishing is unsupported or rejected.</li>
+<li>For private dependency install inside Docker builds, use BuildKit secrets;</li>
+</ul>
+<p>that is not the same as public package publishing.</p>
+<h3 id="4-pypi-trusted-publisher">§4 PyPI Trusted Publisher</h3>
+<p>Default for PyPI release from GitHub Actions:</p>
+<pre><code>name: publish
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: &#x27;3.13&#x27;
+      - run: python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Do not pass username/password/API token in the trusted-publisher job.</li>
+<li>Prefer a GitHub Environment for publish approval and PyPI publisher binding.</li>
+<li>If using <code>uv publish</code> inside a trusted publisher environment, credentials do</li>
+</ul>
+<p>not need to be set; token auth is a non-trusted fallback.</p>
+<h3 id="5-bun-to-npm">§5 Bun-to-npm</h3>
+<p>Use Bun for project-native install, test, and build:</p>
+<pre><code>- uses: oven-sh/setup-bun@v2
+- run: bun install --frozen-lockfile
+- run: bun test
+- run: bun run build</code></pre>
+<p>For public npm registry publishing with OIDC, switch to Node/npm for the publish</p>
+<p>step unless current Bun docs prove equivalent trusted-publishing support:</p>
+<pre><code>- uses: actions/setup-node@v4
+  with:
+    node-version: &#x27;22&#x27;
+    registry-url: https://registry.npmjs.org
+- run: npm publish --provenance</code></pre>
+<p><code>bun publish</code> is acceptable only for dry-run/package inspection or for an</p>
+<p>explicit token fallback path after documenting why npm Trusted Publishing is not</p>
+<p>used.</p>
+<h3 id="6-downstream-and-container-channels">§6 Downstream and Container Channels</h3>
+<table class="rules"><tbody>
+<tr><th>Channel</th><th>Guidance</th></tr>
+<tr><th>Homebrew</th><th>Downstream distribution after canonical artifact exists; read <code>homebrew.md</code> for Formula/Cask detail</th></tr>
+<tr><th>GHCR</th><th>Use <code>GITHUB_TOKEN</code> with <code>packages: write</code> for same-repo packages</th></tr>
+<tr><th>Docker Hub</th><th>Use Docker access token; rotate and scope it because ordinary Docker Hub push is token-first</th></tr>
+<tr><th>ECR/GAR/ACR</th><th>Treat as cloud IAM federation, not registry-native trusted publishing</th></tr>
+</tbody></table>
+<h3 id="7-release-proof-bundle">§7 Release Proof Bundle</h3>
+<p>Every package-release answer should collect:</p>
+<ul>
+<li>registry and artifact type;</li>
+<li>chosen auth model and fallback reason if a token is used;</li>
+<li>release runtime version and compatibility matrix distinction;</li>
+<li>provenance/SBOM/signing evidence or explicit reason it does not apply;</li>
+<li>install smoke command for published package or packed artifact;</li>
+<li>downstream channel alignment when Homebrew, containers, or tags are involved.</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

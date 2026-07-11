@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-code-reviewer — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="active">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-code-reviewer</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-code-reviewer/SKILL.md</p>
+<h2 id="dev-code-reviewer-code-review-guide">Dev-Code-Reviewer — Code Review Guide</h2>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong>Always read <code>dev/SKILL.md</code> first</strong> for project-wide conventions before applying review rules.</p>
+<p>Systematic code review patterns for finding real issues, not bikeshedding.</p>
+<h3 id="review-posture-review-posture-01">Review Posture (REVIEW-POSTURE-01)</h3>
+<p>Review as a skeptical, independent outsider. Executor claims, passing tests, AI summaries, and user-facing &quot;done&quot; prose are untrusted until you confirm them yourself. Inspect artifacts before believing them; a green run you did not read is not evidence.</p>
+<h3 id="when-to-activate">When to Activate</h3>
+<ul>
+<li>Reviewing code changes (own or others&#x27;)</li>
+<li>Receiving code review feedback</li>
+<li>Assessing code quality before merge</li>
+<li>Evaluating pull requests or diffs</li>
+<li>Pre-refactoring quality baseline check</li>
+</ul>
+<p>---</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/tech-debt.md</code></th><th>Tech debt inventory or paydown</th><th>Debt quadrant, inventory template, review integration, paydown budget</th></tr>
+<tr><th><code>references/ai-assisted-review.md</code></th><th>Using AI review tools in PR workflow</th><th>AI review workflow, severity classification, re-review policy, exclusions, metrics</th></tr>
+</tbody></table>
+<h3 id="external-current-review-evidence">External/current review evidence</h3>
+<p>For dependency CVEs, release-note claims, package maintainer/source checks,</p>
+<p>provider behavior, or other current/public evidence used in a review, read the</p>
+<p>active <code>search</code> skill and follow its query-rewrite, source-fetch, and</p>
+<p>evidence-status rules. Browser fetch/open/text/get-dom/snapshot is downstream</p>
+<p>verification after candidate URLs exist, not a raw-query search substitute.</p>
+<p>---</p>
+<h3 id="1-code-review-process">1. Code Review Process</h3>
+<h4 id="pre-review-checklist">Pre-Review Checklist</h4>
+<p>Before reviewing any code, verify:</p>
+<ul>
+<li>[ ] Build passes (no compile/type errors)</li>
+<li>[ ] Tests pass (all green)</li>
+<li>[ ] PR/diff description explains <strong>what</strong> changed and <strong>why</strong></li>
+<li>[ ] Diff is reasonable size (&lt;500 changed lines — split larger PRs)</li>
+</ul>
+<h4 id="automated-pre-scan-run-before-manual-review">Automated Pre-Scan (Run Before Manual Review)</h4>
+<p>Before reading a single line of code, run automated tools on changed files:</p>
+<p>Run project-native linters, type checker, and tests before reviewing.</p>
+<p><strong>Pre-Scan Rules:</strong></p>
+<ol>
+<li><strong>Critical/error findings → block review.</strong> Don&#x27;t waste human review cycles on machine-detectable problems.</li>
+<li><strong>Warnings → note for review, don&#x27;t block.</strong> Mention in review but don&#x27;t make them blocking.</li>
+<li><strong>Tool findings go first</strong> in review output, before manual findings.</li>
+<li><strong>No tool available?</strong> Skip gracefully — pre-scan is additive, not a gate.</li>
+</ol>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Catches</th><th>Misses</th><th>Key Rules</th></tr>
+<tr><th>ESLint/Ruff</th><th>Style, simple bugs, import issues</th><th>Architecture, business logic</th><th><code>import/no-cycle</code>, <code>no-unused-vars</code>, <code>no-floating-promises</code>, <code>complexity</code></th></tr>
+<tr><th>tsc/mypy</th><th>Type errors, null safety</th><th>Runtime behavior, performance</th><th><code>strict</code>, <code>noImplicitAny</code>, <code>strictNullChecks</code></th></tr>
+<tr><th>Semgrep</th><th>Injection, auth bypass, SSRF</th><th>Complex multi-step vulnerabilities</th><th><code>javascript.lang.security.audit.sqli</code></th></tr>
+<tr><th>npm audit/pip-audit</th><th>Known CVEs in deps</th><th>Zero-day, license issues</th><th>—</th></tr>
+</tbody></table>
+<p><strong>Separation of concerns:</strong> Tools catch patterns; humans catch intent. Focus manual review on architecture, correctness, and business logic that tools cannot evaluate.</p>
+<h4 id="review-order-by-impact-not-preference">Review Order (by impact, not preference)</h4>
+<ol>
+<li><strong>Architecture</strong> — Does the approach make sense? Right layer? Right abstraction? Is this the right place for this code?</li>
+<li><strong>Correctness</strong> — Logic errors, edge cases, off-by-one, null/undefined handling, error paths</li>
+<li><strong>Security</strong> — Input validation, injection risks, auth checks, secrets exposure</li>
+<li><strong>Performance</strong> — N+1 queries, unbounded collections, missing indexes, unnecessary computation</li>
+<li><strong>Maintainability</strong> — Naming, structure, complexity, test coverage, documentation</li>
+<li><strong>Style</strong> — Last priority. Don&#x27;t bikeshed formatting when there are real issues.</li>
+</ol>
+<p>Delegation: coupling classification belongs to <code>dev-architecture</code> §3; boundary and validation-location findings belong to <code>dev-architecture</code> §4.</p>
+<h4 id="review-mindset">Review Mindset</h4>
+<ul>
+<li><strong>Be specific.</strong> &quot;This could fail&quot; → &quot;This throws if <code>user</code> is null on line 42&quot;</li>
+<li><strong>Suggest, don&#x27;t demand.</strong> Unless it&#x27;s a security or correctness issue.</li>
+<li><strong>Explain why.</strong> Not just &quot;change X to Y&quot; but &quot;X causes N+1 queries because...&quot;</li>
+<li><strong>Acknowledge good work.</strong> If a complex problem is solved elegantly, say so briefly.</li>
+</ul>
+<h4 id="output-contract-review-output-01">Output Contract (REVIEW-OUTPUT-01)</h4>
+<p>Tool findings go first; then manual findings sorted <code>Critical &gt; High &gt; Medium &gt; Low &gt; Style</code>; then a dedicated <code>blocking_issues</code> block; verdict last. Every finding carries a concrete <code>trigger</code>, <code>impact</code>, and <code>path:line</code> (FAMILY-CITE-01). Do not file pre-existing debt unless the patch worsened it. When a change introduces a value/type/message crossing a module boundary, trace the consumer side before declaring it correct.</p>
+<h4 id="regression-false-confidence-tests-review-regress-01">Regression &amp; false-confidence tests (REVIEW-REGRESS-01)</h4>
+<p>Run a dedicated pass: what previously-working behavior can now break, and do the tests cover that surface? Flag deletion-only &quot;fixes&quot;, tautological tests, tests that merely mirror the implementation, and scope-drift abstractions added beyond the request.</p>
+<p>---</p>
+<h3 id="2-quality-thresholds">2. Quality Thresholds</h3>
+<p>Flag these during review:</p>
+<table class="rules"><tbody>
+<tr><th>Issue</th><th>Threshold</th><th>Severity</th></tr>
+<tr><th>Long function</th><th>&gt;50 lines</th><th>Medium</th></tr>
+<tr><th>Large file</th><th>&gt;400 lines</th><th>Medium; apply <code>dev-architecture</code> §1 canonical split rule</th></tr>
+<tr><th>God class</th><th>&gt;20 methods</th><th>High</th></tr>
+<tr><th>Too many parameters</th><th>&gt;5</th><th>Medium</th></tr>
+<table class="rules"><tbody>
+<tr><th>Deep nesting</th><th>&gt;4 levels</th><th>Medium</th></tr>
+<tr><th>High cyclomatic complexity</th><th>&gt;10 branches</th><th>High</th></tr>
+<tr><th>Missing error handling</th><th>any unhandled async</th><th>High</th></tr>
+<tr><th>Hardcoded secrets</th><th>API keys, passwords in source</th><th><strong>Critical</strong></th></tr>
+<tr><th>SQL injection</th><th>string concatenation in queries</th><th><strong>Critical</strong></th></tr>
+<table class="rules"><tbody>
+<tr><th>Debug statements</th><th>console.log, debugger left in</th><th>Low</th></tr>
+<tr><th>TODO/FIXME</th><th>unresolved in production code</th><th>Low</th></tr>
+<tr><th>TypeScript <code>any</code></th><th>bypassing type safety</th><th>Medium</th></tr>
+</tbody></table>
+<h4 id="file-size-guidance">File Size Guidance</h4>
+<p>Canonical rule imported from <code>dev-architecture</code> §1: <strong>&gt;400 LOC -&gt; split (DEFAULT)</strong>.</p>
+<table class="rules"><tbody>
+<tr><th>Range</th><th>Interpretation</th></tr>
+<tr><th>200-400 lines</th><th>Healthy — easy to navigate and review</th></tr>
+<tr><th>400-500 lines</th><th>Should split unless the author states a concrete reason</th></tr>
+<tr><th>&gt;500 lines</th><th>Blocking review finding unless already being split in this diff</th></tr>
+</tbody></table>
+<h4 id="review-verdict">Review Verdict</h4>
+<table class="rules"><tbody>
+<tr><th>Indicator</th><th>Verdict</th><th>Action</th></tr>
+<tr><th>No high/critical issues</th><th>✅ Approve</th><th>Merge</th></tr>
+<tr><th>Only Medium/Low/Style issues</th><th>🔧 Approve with suggestions</th><th>Fix non-blocking items before/after merge</th></tr>
+<tr><th>Any unresolved High issue</th><th>⚠️ Request changes</th><th>Author must address before merge</th></tr>
+<tr><th>Any critical issue</th><th>🚫 Block</th><th>Cannot merge until resolved</th></tr>
+</tbody></table>
+<p>Deterministic blocker semantics (REVIEW-BLOCK-01): any unresolved Critical or High blocks the merge. Medium may pass only when explicitly judged non-blocking; Style never affects the verdict.</p>
+<p>---</p>
+<h3 id="3-common-antipatterns">3. Common Antipatterns</h3>
+<h4 id="structural">Structural</h4>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>God class</th><th>One class does everything</th><th>Split by single responsibility</th></tr>
+<tr><th>Long method</th><th>Function does 5+ distinct things</th><th>Extract named helper functions</th></tr>
+<tr><th>Deep nesting</th><th>4+ levels of if/for/try</th><th>Guard clauses, early returns, extraction</th></tr>
+<tr><th>Feature envy</th><th>Method uses another object&#x27;s data more than its own</th><th>Move method to the data owner</th></tr>
+<table class="rules"><tbody>
+<tr><th>Shotgun surgery</th><th>One change requires edits in 10+ files</th><th>Consolidate related logic</th></tr>
+</tbody></table>
+<h4 id="dead-code">Dead Code</h4>
+<tr><th>Pattern</th><th>Detection</th><th>Fix</th></tr>
+<tr><th>Unreachable code after return/throw</th><th><code>no-unreachable</code>, compiler warnings</th><th>Delete the dead branch</th></tr>
+<table class="rules"><tbody>
+<tr><th>Unused imports / variables</th><th><code>no-unused-vars</code>, <code>@typescript-eslint/no-unused-vars</code></th><th>Remove</th></tr>
+<tr><th>Commented-out code blocks</th><th>Manual review</th><th>Delete — use version control history</th></tr>
+<tr><th>Unused exports</th><th><code>ts-prune</code>, <code>knip</code>, grep for import sites</th><th>Remove export; delete if no internal use</th></tr>
+<tr><th>Stale feature-flagged code</th><th>Check flag status in flag service</th><th>Remove dead branch and the flag check</th></tr>
+</tbody></table>
+<p>Dead code is a maintenance tax — remove rather than comment out.</p>
+<h4 id="logic">Logic</h4>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Boolean blindness</th><th><code>doThing(true, false, true)</code></th><th>Named options object or enum</th></tr>
+<tr><th>Stringly typed</th><th><code>status === &#x27;actve&#x27;</code> (typo = silent bug)</th><th>Define enum or union type</th></tr>
+<tr><th>Magic numbers</th><th><code>if (retries &gt; 3)</code></th><th>Named constant: <code>MAX_RETRIES = 3</code></th></tr>
+<tr><th>Primitive obsession</th><th>Passing 5 related strings around</th><th>Create a data object/type</th></tr>
+<table class="rules"><tbody>
+<tr><th>Direct mutation</th><th><code>user.name = &#x27;x&#x27;</code>, <code>arr.push(y)</code></th><th>Immutable: <code>{...obj, name: &#x27;x&#x27;}</code>, <code>[...arr, y]</code></th></tr>
+<tr><th>Missing boundary validation</th><th>Business logic handles raw user input</th><th>Delegate placement to <code>dev-architecture</code> §4; schema/content depth to <code>dev-security</code></th></tr>
+</tbody></table>
+<h4 id="security">Security</h4>
+<p>Security review items are canonical in §3.5. Use that checklist for hardcoded</p>
+<p>secrets, injection, validation, auth, authorization, and logging findings.</p>
+<h4 id="performance">Performance</h4>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>N+1 queries</th><th>Loop → query per item</th><th>Batch fetch with <code>WHERE IN (...)</code></th></tr>
+<tr><th>Unbounded collections</th><th><code>.all()</code> without LIMIT</th><th>Always paginate or set max</th></tr>
+<tr><th>Missing index</th><th>Slow repeated lookups on same column</th><th>Add database index</th></tr>
+<tr><th>Premature optimization</th><th>Complex caching for 10 rows</th><th>Profile first, optimize second</th></tr>
+</tbody></table>
+<h4 id="async">Async</h4>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Floating promise</th><th><code>doAsync()</code> without <code>await</code></th><th>Always <code>await</code> or handle rejection</th></tr>
+<tr><th>Callback hell</th><th>4+ nested callbacks</th><th>Refactor to async/await</th></tr>
+<tr><th>Missing timeout</th><th>External call can hang forever</th><th>Set timeout on all network calls</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-5-security-review-quick-check">3.5 Security Review Quick-Check</h3>
+<p>For <strong>every review</strong>, scan for these OWASP-aligned red flags. Delegate to <code>dev-security/SKILL.md</code> for deep analysis.</p>
+<h4 id="must-check-every-pr">Must-Check (Every PR)</h4>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>Red Flag</th><th>Severity</th></tr>
+<tr><th>Hardcoded secrets</th><th><code>apiKey = &quot;sk-...&quot;</code>, DB URLs in source</th><th><strong>Critical</strong></th></tr>
+<tr><th>SQL/NoSQL injection</th><th>String concatenation in queries</th><th><strong>Critical</strong></th></tr>
+<tr><th>Missing input validation</th><th>User input passed to logic without schema check</th><th><strong>High</strong></th></tr>
+<tr><th>Missing auth check</th><th>Endpoint accessible without authentication</th><th><strong>High</strong></th></tr>
+<table class="rules"><tbody>
+<tr><th>BOLA (Broken Object Auth)</th><th>No ownership check on object access (<code>/users/:id</code> without verifying caller owns resource)</th><th><strong>High</strong></th></tr>
+<tr><th>Secrets in logs</th><th><code>console.log(req.body)</code> leaking tokens/passwords</th><th><strong>High</strong></th></tr>
+</tbody></table>
+<h4 id="check-when-relevant">Check When Relevant</h4>
+<tr><th>Check</th><th>When</th><th>Red Flag</th></tr>
+<table class="rules"><tbody>
+<tr><th>SSRF</th><th>External URL from user input</th><th>No URL allowlist, no domain validation</th></tr>
+<tr><th>Path traversal</th><th>File path from user input</th><th>No path sanitization, <code>../</code> not blocked</th></tr>
+<tr><th>Mass assignment</th><th>Object spread into DB model</th><th><code>Object.assign(model, req.body)</code> without allowlist</th></tr>
+<tr><th>Dep vulnerabilities</th><th>New dependencies added</th><th>No <code>npm audit</code>/<code>pip-audit</code> run</th></tr>
+<tr><th>Lockfile changes</th><th><code>package-lock.json</code> modified</th><th>Unexpected dependency resolution changes</th></tr>
+</tbody></table>
+<p>&gt; <strong>Deep security analysis</strong> → invoke <code>dev-security/SKILL.md</code>. This checklist catches surface-level issues during code review; <code>dev-security</code> provides OWASP Top 10 depth, ASVS checklists, and static analysis integration.</p>
+<p>---</p>
+<h3 id="3-6-performance-review-quick-check">3.6 Performance Review Quick-Check</h3>
+<p>Scan every PR for these common performance pitfalls:</p>
+<h4 id="database-api">Database &amp; API</h4>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr>
+<tr><th>N+1 queries</th><th>Loop containing DB call or API fetch</th><th>Batch with <code>WHERE IN (...)</code> or DataLoader</th></tr>
+<tr><th>Missing pagination</th><th><code>.findAll()</code> or <code>SELECT *</code> without LIMIT</th><th>Add cursor-based or offset pagination</th></tr>
+<tr><th>Missing index</th><th>New WHERE/JOIN column without index</th><th><code>CREATE INDEX</code> on filtered/joined columns</th></tr>
+<tr><th>Unbounded query</th><th>No LIMIT on user-facing list endpoints</th><th>Always set max page size</th></tr>
+</tbody></table>
+<h4 id="frontend-specific">Frontend-Specific</h4>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr>
+<tr><th>Unnecessary re-renders</th><th>State updates in parent causing child re-render cascade</th><th><code>React.memo</code>, <code>useMemo</code>, extract state down</th></tr>
+<tr><th>Bundle size impact</th><th>New large dependency (&gt;50KB gzipped)</th><th>Check <code>bundlephobia.com</code>, consider alternatives or lazy loading</th></tr>
+<tr><th>Missing <code>key</code> prop</th><th>List rendering without stable keys</th><th>Use unique ID, never array index for dynamic lists</th></tr>
+<tr><th>Unoptimized images</th><th>Large images without <code>next/image</code>, <code>loading=&quot;lazy&quot;</code>, or srcset</th><th>Use framework image optimization</th></tr>
+</tbody></table>
+<h4 id="general">General</h4>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr>
+<tr><th>Missing timeout</th><th>External HTTP call without timeout</th><th>Set timeout on all network requests</th></tr>
+<tr><th>Sync blocking</th><th>CPU-intensive work on main thread/event loop</th><th>Offload to worker/queue</th></tr>
+<tr><th>Memory leak</th><th>Event listeners/subscriptions without cleanup</th><th>Add cleanup in <code>useEffect</code> return / <code>finally</code> block</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="4-receiving-code-review">4. Receiving Code Review</h3>
+<h4 id="the-response-pattern">The Response Pattern</h4>
+<p>When receiving review feedback:</p>
+<ol>
+<li><strong>READ</strong> — Complete feedback without reacting immediately</li>
+<li><strong>UNDERSTAND</strong> — Restate the technical requirement in your own words</li>
+<li><strong>VERIFY</strong> — Check the suggestion against codebase reality (does it apply here?)</li>
+<li><strong>EVALUATE</strong> — Is it technically sound for THIS codebase, not just in theory?</li>
+<li><strong>RESPOND</strong> — Technical acknowledgment or reasoned pushback</li>
+<li><strong>IMPLEMENT</strong> — One item at a time, test each change</li>
+</ol>
+<h4 id="when-to-push-back">When to Push Back</h4>
+<p>Push back when:</p>
+<ul>
+<li>Suggestion breaks existing functionality (test it)</li>
+<li>Reviewer lacks full context of the current architecture</li>
+<li>Violates YAGNI — feature is unused (grep the codebase to verify)</li>
+<li>Technically incorrect for this technology stack</li>
+<li>Conflicts with established architectural decisions</li>
+</ul>
+<p><strong>How:</strong> Use technical reasoning. Reference working tests, existing code, or documented decisions. Never push back emotionally — always with evidence.</p>
+<h4 id="implementation-order-multi-item-feedback">Implementation Order (multi-item feedback)</h4>
+<ol>
+<li><strong>Clarify ALL unclear items FIRST</strong> — don&#x27;t implement based on partial understanding</li>
+<li>Blocking issues (security, data loss, broken functionality)</li>
+<li>Simple fixes (typos, missing imports, naming)</li>
+<li>Complex fixes (refactoring, logic changes)</li>
+<li>Test EACH fix individually. Verify no regressions after each.</li>
+</ol>
+<h4 id="acknowledging-feedback">Acknowledging Feedback</h4>
+<pre><code>✅ &quot;Fixed. Changed X to use parameterized query.&quot;
+✅ &quot;Good catch — the null check was missing. Added guard on line 42.&quot;
+✅ Just fix it and show the result in code.
+
+❌ &quot;You&#x27;re absolutely right!&quot;
+❌ &quot;Great point! Thanks for catching that!&quot;
+❌ Any performative agreement without verification</code></pre>
+<p>---</p>
+<h3 id="5-requesting-code-review">5. Requesting Code Review</h3>
+<h4 id="when-to-request">When to Request</h4>
+<table class="rules"><tbody>
+<tr><th>Situation</th><th>Priority</th></tr>
+<tr><th>Before merge to main</th><th><strong>Mandatory</strong></th></tr>
+<tr><th>After major feature completion</th><th><strong>Mandatory</strong></th></tr>
+<tr><th>Before large refactoring</th><th><strong>Mandatory</strong></th></tr>
+<tr><th>After complex bug fix</th><th>Recommended</th></tr>
+<table class="rules"><tbody>
+<tr><th>When stuck on approach</th><th>Recommended</th></tr>
+<tr><th>Small config/docs changes</th><th>Skip unless impactful</th></tr>
+</tbody></table>
+<h4 id="how-to-request">How to Request</h4>
+<ol>
+<li>Ensure build passes and all tests are green</li>
+<li>Identify the diff range (base commit → head commit)</li>
+<li>Provide a summary: what was implemented, what it should do, areas to focus on</li>
+<li>Keep the diff &lt;500 lines. Split larger changes into reviewable chunks.</li>
+</ol>
+<h4 id="acting-on-feedback">Acting on Feedback</h4>
+<table class="rules"><tbody>
+<tr><th>Severity</th><th>Action</th></tr>
+<tr><th>Critical</th><th>Fix immediately, re-request review</th></tr>
+<tr><th>High</th><th>Fix before proceeding to next task</th></tr>
+<tr><th>Medium</th><th>Fix before merge, can continue other work</th></tr>
+<tr><th>Low</th><th>Note for later, apply if trivial</th></tr>
+<table class="rules"><tbody>
+<tr><th>Style</th><th>Apply if trivial, otherwise defer to team conventions</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="6-sub-agent-review-mode">6. Sub-Agent Review Mode</h3>
+<p>Parallelize review only when domain breadth exceeds one reviewer&#x27;s context (e.g., frontend + backend + infra in a single diff, or when the diff spans too many unrelated domains for a single pass). Each sub-agent receives its file subset, the review process from sections 1-5, and outputs structured findings. The orchestrator deduplicates, normalizes severity, and presents a unified review.</p>
+<h4 id="ai-tool-integration-awareness-verified-2026-07-02">AI Tool Integration Awareness (verified 2026-07-02)</h4>
+<p>When external AI review tools are available, coordinate — don&#x27;t duplicate:</p>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Strengths</th><th>Use When</th><th>Agent Focus Shifts To</th></tr>
+<tr><th><strong>GitHub Copilot Code Review</strong></th><th>Full repo context, multi-model, auto-fix PRs</th><th>PR review on GitHub</th><th>Architecture, business logic, domain correctness</th></tr>
+<tr><th><strong>CodeRabbit</strong></th><th>40+ linters, learnable preferences, low false-positive</th><th>Team with <code>.coderabbit.yml</code> configured</th><th>Cross-service impact, subtle logic errors</th></tr>
+<tr><th><strong>Cursor Bugbot</strong></th><th>Diff-focused bug hunting in Cursor PR flow</th><th>Cursor-based teams</th><th>Intent, architecture, exploitability</th></tr>
+<tr><th><strong>Graphite AI Reviews (Diamond)</strong></th><th>Stacked-PR-aware AI review</th><th>Graphite stacked workflow</th><th>Cross-stack consistency</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>SonarQube (+AI capabilities)</strong></th><th>Enterprise SAST, tech debt tracking, security depth</th><th>Regulated environments, existing setup</th><th>Review findings, add context tools miss</th></tr>
+<tr><th><strong>Manual agent review</strong></th><th>Full codebase understanding, intent verification</th><th>No external tools, offline, sensitive code</th><th>Everything — full §1-5 process</th></tr>
+</tbody></table>
+<p><strong>Coordination rules:</strong></p>
+<ul>
+<li>If an external AI tool already reviewed the PR, <strong>read its findings first</strong>, then focus</li>
+</ul>
+<p>manual review on what tools cannot do: architectural fit, business intent, cross-system impact.</p>
+<ul>
+<li><strong>STRICT (REVIEW-AI-EVIDENCE-01):</strong> AI review findings are evidence to inspect, not</li>
+</ul>
+<p>authority — de-duplicate, reproduce, and severity-normalize them before inclusion.</p>
+<p>Published evaluation of AI reviewers shows frequent misses on critical vulnerabilities</p>
+<p>(SQLi/XSS/deserialization) with low-severity skew, so AI output never replaces the</p>
+<p>§3.5 security pass (source: arXiv:2509.13650, checked 2026-07-02).</p>
+<p>---</p>
+<h3 id="7-reviewing-ai-generated-code">7. Reviewing AI-Generated Code</h3>
+<p>AI-authored diffs have distinct failure modes. Run this pass IN ADDITION to §1-3 when</p>
+<p>the diff is substantially AI-generated (agent commits, Copilot/Cursor bulk changes):</p>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>AI failure mode</th><th>Action</th></tr>
+<tr><th>Invented APIs</th><th>Plausible-but-nonexistent methods/options</th><th>Verify each unfamiliar API against the installed version&#x27;s docs</th></tr>
+<tr><th>Hallucinated dependencies</th><th>Package names that don&#x27;t exist (slopsquatting attack surface)</th><th>Verify existence/maintainer/provenance before install — gate owned by <code>dev-security</code> §6.5</th></tr>
+<tr><th>Missing authz edges</th><th>Happy-path handlers without ownership checks</th><th>Trace every new endpoint against §3.5 BOLA check</th></tr>
+<tr><th>Shallow/mirroring tests</th><th>Tests restating the implementation, tautologies</th><th>Apply REVIEW-REGRESS-01; require behavior-level assertions</th></tr>
+<table class="rules"><tbody>
+<tr><th>Test-induced defense</th><th>Production guards added to satisfy unrealistic tests</th><th>Delegate to <code>dev-testing</code> §6.7 detection table</th></tr>
+<tr><th>Scope drift</th><th>Abstractions/refactors beyond the request</th><th>Flag; one logical change per PR (dev §1)</th></tr>
+</tbody></table>
+<p><strong>Agentic/security review trigger (DEFAULT):</strong> if a PR adds MCP servers, tools, agents,</p>
+<p>RAG components, persistent memory, delegated credentials, or autonomous actions, invoke</p>
+<p><code>dev-security</code> and map risks to the OWASP LLM Top 10 (2025) and the OWASP Top 10 for</p>
+<p>Agentic Applications 2026.</p>
+<p>---</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-code-reviewer-ai-assisted-review.html">AI-Assisted Code Review</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer-tech-debt.html">Tech Debt Inventory &amp; Paydown</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

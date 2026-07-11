@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML Model Evaluation — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>ML Model Evaluation</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-testing/references/ml-evaluation.md</p>
+<h2 id="ml-model-evaluation">ML Model Evaluation</h2>
+<p><strong>Last reviewed</strong>: 2026-06-16</p>
+<p><strong>Applies to</strong>: Python (DeepEval 2.x, RAGAS 0.2+, MLflow 3.x), LLM and classical ML evaluation</p>
+<p><strong>When to read</strong>: Model evaluation strategy, LLM quality gates, CI eval integration, <code>task_tags: ml</code></p>
+<p><strong>Canonical owner</strong>: <code>dev-testing</code> — evaluation methodology, CI integration, quality gates</p>
+<p><strong>Non-goals</strong>: Model training (→ <code>dev-data/references/ml-pipeline.md</code>), model serving (→ <code>dev-backend/references/core/ml-serving.md</code>), prompt design (→ <code>dev-backend/references/core/llm-integration.md</code>)</p>
+<p>---</p>
+<h3 id="1-evaluation-strategy">§1 Evaluation Strategy</h3>
+<h4 id="three-stage-pipeline">Three-Stage Pipeline</h4>
+<table class="rules"><tbody>
+<tr><th>Stage</th><th>When</th><th>Purpose</th><th>Gate</th></tr>
+<tr><th><strong>Offline eval</strong></th><th>Pre-deploy</th><th>Benchmark on held-out test set</th><th>Score ≥ threshold → CI pass</th></tr>
+<tr><th><strong>CI gate</strong></th><th>Every PR</th><th>Automated regression check</th><th>No metric regression &gt; tolerance</th></tr>
+<tr><th><strong>Online A/B</strong></th><th>Post-deploy</th><th>Real-user impact measurement</th><th>Statistical significance → full rollout</th></tr>
+</tbody></table>
+<pre><code>Code change → Offline eval (CI) → Deploy canary → Online A/B → Full rollout
+                    ↓ fail                          ↓ fail
+              Block merge                    Rollback canary</code></pre>
+<p><strong>Rule</strong>: No model reaches production without passing all three stages. Offline eval is the minimum; skip online A/B only for non-user-facing models (batch pipelines).</p>
+<p>---</p>
+<h3 id="2-llm-evaluation">§2 LLM Evaluation</h3>
+<h4 id="llm-as-judge">LLM-as-Judge</h4>
+<p>Use a stronger model to evaluate a weaker model&#x27;s output:</p>
+<pre><code>from deepeval import evaluate
+from deepeval.metrics import (
+    AnswerRelevancyMetric,
+    FaithfulnessMetric,
+    ContextualRelevancyMetric,
+)
+from deepeval.test_case import LLMTestCase
+
+test_case = LLMTestCase(
+    input=&quot;What is the refund policy?&quot;,
+    actual_output=model_response,
+    expected_output=&quot;Refunds within 30 days of purchase.&quot;,
+    retrieval_context=[retrieved_chunk_1, retrieved_chunk_2],
+)
+
+metrics = [
+    AnswerRelevancyMetric(threshold=0.7, model=&quot;gpt-4o&quot;),
+    FaithfulnessMetric(threshold=0.8, model=&quot;gpt-4o&quot;),
+    ContextualRelevancyMetric(threshold=0.6, model=&quot;gpt-4o&quot;),
+]
+
+results = evaluate(test_cases=[test_case], metrics=metrics)</code></pre>
+<h4 id="rag-evaluation-ragas">RAG Evaluation (RAGAS)</h4>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>What It Measures</th><th>Threshold</th></tr>
+<tr><th><strong>Faithfulness</strong></th><th>Is the answer grounded in retrieved context?</th><th>≥0.8</th></tr>
+<tr><th><strong>Answer relevancy</strong></th><th>Does the answer address the question?</th><th>≥0.7</th></tr>
+<tr><th><strong>Context precision</strong></th><th>Are retrieved chunks relevant?</th><th>≥0.6</th></tr>
+<tr><th><strong>Context recall</strong></th><th>Are all needed facts retrieved?</th><th>≥0.7</th></tr>
+</tbody></table>
+<pre><code>from ragas import evaluate as ragas_evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_precision
+
+dataset = {  # HuggingFace Dataset format
+    &quot;question&quot;: questions,
+    &quot;answer&quot;: model_answers,
+    &quot;contexts&quot;: retrieved_contexts,
+    &quot;ground_truth&quot;: expected_answers,
+}
+
+results = ragas_evaluate(
+    dataset=dataset,
+    metrics=[faithfulness, answer_relevancy, context_precision],
+)
+# results → DataFrame with per-sample scores</code></pre>
+<h4 id="evaluation-dataset-management">Evaluation Dataset Management</h4>
+<table class="rules"><tbody>
+<tr><th>Practice</th><th>Why</th></tr>
+<tr><th>Curate ≥100 test cases per task</th><th>Statistical reliability</th></tr>
+<tr><th>Include adversarial examples (10-20%)</th><th>Probe failure modes</th></tr>
+<tr><th>Version eval datasets alongside code</th><th>Reproducible eval runs</th></tr>
+<tr><th>Rotate human-reviewed examples quarterly</th><th>Prevent eval set overfitting</th></tr>
+<table class="rules"><tbody>
+<tr><th>Separate eval set from few-shot examples</th><th>No data leakage</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-classical-ml-metrics">§3 Classical ML Metrics</h3>
+<tr><th>Task</th><th>Primary Metric</th><th>Secondary</th><th>When to Use</th></tr>
+<table class="rules"><tbody>
+<tr><th>Binary classification</th><th>F1 / PR-AUC</th><th>ROC-AUC, precision, recall</th><th>Imbalanced classes → PR-AUC</th></tr>
+<tr><th>Multi-class classification</th><th>Macro-F1</th><th>Per-class F1, confusion matrix</th><th>Always report per-class</th></tr>
+<tr><th>Regression</th><th>RMSE</th><th>MAE, R², MAPE</th><th>RMSE for optimization, MAE for interpretation</th></tr>
+<tr><th>Ranking</th><th>NDCG@k</th><th>MRR, MAP</th><th>Search, recommendations</th></tr>
+<tr><th>Clustering</th><th>Silhouette score</th><th>Calinski-Harabasz</th><th>When ground truth unavailable</th></tr>
+</tbody></table>
+<h4 id="metric-selection-rule">Metric Selection Rule</h4>
+<pre><code>IF   classes imbalanced (&gt;10:1)  → PR-AUC + per-class F1 (never accuracy alone)
+IF   regression with outliers    → MAE (robust) over RMSE
+IF   ranking/retrieval           → NDCG@k where k matches UX (e.g., k=10 for search)</code></pre>
+<p>---</p>
+<h3 id="4-ci-integration">§4 CI Integration</h3>
+<h4 id="eval-gate-in-github-actions">Eval Gate in GitHub Actions</h4>
+<pre><code># .github/workflows/ml-eval.yml
+name: ML Evaluation Gate
+
+on:
+  pull_request:
+    paths: [&quot;models/**&quot;, &quot;prompts/**&quot;, &quot;src/ml/**&quot;]
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest  # or self-hosted GPU runner
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run evaluation suite
+        run: |
+          python -m pytest tests/eval/ \
+            --tb=short \
+            -v \
+            --junitxml=eval-results.xml
+
+      - name: Check regression
+        run: |
+          python scripts/check_eval_regression.py \
+            --baseline=eval-baseline.json \
+            --current=eval-results.json \
+            --tolerance=0.02  # Block if any metric drops &gt;2%
+
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: eval-results/</code></pre>
+<h4 id="regression-detection-pattern">Regression Detection Pattern</h4>
+<pre><code># scripts/check_eval_regression.py
+import json, sys
+
+def check_regression(baseline_path: str, current_path: str, tolerance: float):
+    baseline = json.loads(open(baseline_path).read())
+    current = json.loads(open(current_path).read())
+
+    regressions = []
+    for metric, base_val in baseline.items():
+        curr_val = current.get(metric, 0)
+        if base_val - curr_val &gt; tolerance:
+            regressions.append(
+                f&quot;{metric}: {base_val:.4f} → {curr_val:.4f} &quot;
+                f&quot;(Δ={curr_val - base_val:+.4f}, tolerance={tolerance})&quot;
+            )
+
+    if regressions:
+        print(&quot;❌ Regression detected:&quot;)
+        for r in regressions:
+            print(f&quot;  {r}&quot;)
+        sys.exit(1)
+    else:
+        print(&quot;✅ All metrics within tolerance&quot;)</code></pre>
+<p>---</p>
+<h3 id="5-anti-patterns">§5 Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Accuracy as sole metric for imbalanced data</th><th>95% accuracy with 0% minority recall</th><th>PR-AUC + per-class F1 (§3)</th></tr>
+<tr><th>No eval dataset versioning</th><th>&quot;Scores improved&quot; but eval set changed</th><th>Version alongside code (§2)</th></tr>
+<tr><th>Manual-only LLM evaluation</th><th>Inconsistent, slow, not scalable</th><th>LLM-as-judge + RAGAS (§2)</th></tr>
+<tr><th>Same data for few-shot and eval</th><th>Inflated scores</th><th>Strict separation</th></tr>
+<table class="rules"><tbody>
+<tr><th>No regression gate in CI</th><th>Silent quality degradation</th><th>Automated eval gate (§4)</th></tr>
+<tr><th>Single-metric threshold</th><th>Model good at average, bad at edges</th><th>Multi-metric + adversarial cases (§2)</th></tr>
+<tr><th>Eval only at release</th><th>Late discovery of regressions</th><th>Eval on every PR touching model/prompt code</th></tr>
+</tbody></table>
+<h3 id="pre-flight-checklist">Pre-flight Checklist</h3>
+<p>Before merging model or prompt changes:</p>
+<ul>
+<li>[ ] Offline eval run completed with current eval dataset version logged</li>
+<li>[ ] All metrics above configured thresholds (no single-metric pass)</li>
+<li>[ ] Regression check passed (no metric dropped &gt; tolerance vs baseline)</li>
+<li>[ ] Adversarial test cases included (≥10% of eval set)</li>
+<li>[ ] Eval dataset versioned and not overlapping with training/few-shot data</li>
+<li>[ ] CI eval gate configured for paths touching model/prompt code</li>
+<li>[ ] For LLM changes: faithfulness ≥0.8, relevancy ≥0.7 (RAGAS/DeepEval)</li>
+<li>[ ] Eval report artifact uploaded and linked in PR</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

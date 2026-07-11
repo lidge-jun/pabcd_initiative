@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Render-Artifact Verification Grounding for PABCD C Phase — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Render-Artifact Verification Grounding for PABCD C Phase</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md</p>
+<h2 id="render-artifact-verification-grounding-for-pabcd-c-phase">Render-Artifact Verification Grounding for PABCD C Phase</h2>
+<table class="rules"><tbody>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><th>Date</th><th>2026-07-05</th></tr>
+<tr><th>Status</th><th>Proposed</th></tr>
+<tr><th>Provenance</th><th><a href="https://github.com/fivetaku/fablize">fivetaku/fablize</a> (MIT), pack: <a href="https://github.com/fivetaku/fablize/blob/main/packs/verification-grounding-pack.txt"><code>packs/verification-grounding-pack.txt</code></a></th></tr>
+<tr><th>Transfer evidence</th><th>Fable-vs-Opus controlled A/B comparison graded this procedure as transferable/verified; adoption-candidate #3 from the fablize review</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="1-problem-statement">1. Problem Statement</h3>
+<p>The PABCD C phase (dev-pabcd SKILL.md section 3, &quot;C -- Check&quot;) currently gates on:</p>
+<ol>
+<li>File consistency</li>
+<li><code>npx tsc --noEmit</code> (TypeScript projects)</li>
+<li>Structure-doc updates</li>
+<li>Completion summary</li>
+</ol>
+<p>These gates verify <strong>well-formedness</strong> (syntax, types, structure) but not</p>
+<p><strong>behavioral correctness</strong> of render artifacts. An HTML page, SVG chart, game UI,</p>
+<p>or animation can pass tsc and all static checks while being visually broken at</p>
+<p>runtime: overlapping elements, blank canvas, console errors swallowed by the build,</p>
+<p>CSS that renders nothing in a real viewport.</p>
+<p>The fablize pack articulates the core distinction: *&quot;A static parse confirms the</p>
+<p>file is well-formed -- it does NOT confirm the artifact looks or behaves correctly.</p>
+<p>Well-formed and correct are different claims.&quot;*</p>
+<p>Today, C→D attestation requires <code>checkOutput</code> (a pasted tsc/test tail) and</p>
+<p><code>exitCode:0</code>, but nothing proves the artifact was actually **rendered and</p>
+<p>observed**. A developer who writes a chart component, sees tsc pass, and ships</p>
+<p>without ever opening the page is exhibiting the same gap this rule closes.</p>
+<p>---</p>
+<h3 id="2-proposal-rule-text-insert-ready">2. Proposal: Rule Text (insert-ready)</h3>
+<p>The following rule is designed for insertion into dev-pabcd/SKILL.md section 3</p>
+<p>&quot;C -- Check&quot;, after the existing four-step checklist and before the <code>bgtask</code></p>
+<p>paragraph about long external gates.</p>
+<pre><code>**DEFAULT (C-RENDER-GROUNDING-01):** When the work-phase produces an artifact whose
+correctness can only be confirmed by running or rendering it (HTML page, SVG, game,
+UI, chart, animation, script with observable visual/interactive output), C phase MUST
+include a render-grounding loop before C-&gt;D attestation:
+
+1. **RUN** the artifact in its natural execution environment. Web artifacts: headless
+   browser screenshot (Playwright, Chrome `--headless --screenshot`), or serve and
+   navigate. SVG: render to PNG. Scripts: execute and capture stdout/stderr.
+   Animations/games: drive far enough that motion/state actually starts.
+2. **OBSERVE** the output. Read the screenshot back (a produced-but-unread screenshot
+   is not observation). Check the console for runtime errors. Confirm layout,
+   visibility, and behavior match intent.
+3. **FIX** any defect the observation reveals, then re-run and re-observe.
+
+Trigger condition: &quot;Could this artifact look wrong or behave wrong in a way that
+only shows when it runs?&quot; If yes, the grounding loop applies.
+
+Stop condition: one clean observation of the rendered output is enough. Re-render
+only after a change (each defect gets one fix and one re-check). Do not accumulate
+redundant observations of unchanged state -- the goal is &quot;I saw it work,&quot; not &quot;I
+checked it N times.&quot;
+
+Defaults (HEURISTIC -- deviate with a stated reason): web screenshots at 1280x720;
+stateful artifacts (games, wizards) are driven until the first interactive state
+change is observed. Evidence depth scales with work class: C2-C3 record the
+observation as attestation narrative; C4 (STRICT) additionally persists the
+screenshot file to the devlog.
+
+The observation screenshot/output becomes valid `checkOutput` evidence in the C-&gt;D
+attestation. When this rule applies, the attestation `did` field must reference the
+render observation (e.g. &quot;screenshot confirmed layout renders correctly at 1280x720,
+no console errors&quot;).
+
+This rule does NOT replace test/tsc gates; it supplements them for the render
+modality. Pure logic, configuration, and prose artifacts that have their own test
+suite are excluded -- for those, the existing spec-satisfaction gate suffices.</code></pre>
+<p><strong>Rule ID:</strong> <code>DEFAULT, C-RENDER-GROUNDING-01</code></p>
+<p>---</p>
+<h3 id="3-scope-guard">3. Scope Guard</h3>
+<h4 id="trigger-by-work-class">Trigger by work class</h4>
+<table class="rules"><tbody>
+<tr><th>Class</th><th>Render grounding applicability</th></tr>
+<tr><th>C0-C1</th><th>Already satisfied by &quot;smallest proof&quot; if the proof IS a render observation. No additional ceremony required -- if you opened it and saw it work, that counts.</th></tr>
+<tr><th>C2</th><th>Applies when the work-phase outcome IS a render artifact (the &quot;targeted gate&quot; row). Skip for backend-only C2.</th></tr>
+<tr><th>C3-C4</th><th>Mandatory when the work-phase outcome includes any render artifact.</th></tr>
+</tbody></table>
+<h4 id="over-gating-prevention">Over-gating prevention</h4>
+<p>Fablize measured ~1/3 false-positive nags on its *stop gate* when it fired on task</p>
+<p>depth alone (deep-classified turns that changed nothing were still told to &quot;add</p>
+<p>observable proof&quot;; see <code>scripts/gate/verify_state.py</code> comments and</p>
+<p><code>docs/MEASUREMENT_PROTOCOL.md</code> in the fablize repo). The transferable lesson: gate on</p>
+<p>what actually happened, not on how the task was classified. This rule therefore</p>
+<p>triggers on <strong>artifact type + change</strong>, not on task complexity:</p>
+<ul>
+<li>Trigger: the diff introduces or modifies a file whose correctness requires</li>
+</ul>
+<p>rendering (HTML, SVG, canvas JS, CSS that defines layout, game logic, animation</p>
+<p>keyframes, chart data bindings).</p>
+<ul>
+<li>No trigger: backend services, CLI tools with text output already captured by test</li>
+</ul>
+<p>gates, config files, documentation, pure TypeScript logic with unit tests.</p>
+<p>---</p>
+<h3 id="4-integration-points">4. Integration Points</h3>
+<h4 id="anchor-in-dev-pabcd-skill-md-section-3-c">Anchor in dev-pabcd/SKILL.md section 3 C</h4>
+<p>Insert after the existing numbered checklist (lines 276-280 of the initiative</p>
+<p>copy at <code>pabcd_initiative/skills/dev-pabcd/SKILL.md</code>; lines 213-217 in the</p>
+<p>cli-jaw copy at <code>~/.cli-jaw/skills_ref/dev-pabcd/SKILL.md</code>):</p>
+<pre><code>### C — Check
+Final sanity check:
+1. Verify all files saved and consistent
+2. Run `npx tsc --noEmit` (if TypeScript project)
+3. Update project structure docs if applicable
+4. Report completion summary</code></pre>
+<p>The new rule block goes immediately after item 4, before the paragraph beginning</p>
+<p>&quot;Long external gates (CI runs, deploys) inside cli-jaw...&quot;</p>
+<h4 id="dev-testing-cross-reference">dev-testing cross-reference</h4>
+<p>Add a one-line pointer in dev-testing/SKILL.md section 1.4 &quot;Harness Selector&quot; table:</p>
+<pre><code>| rendered artifact (visual) | render-grounding loop (dev-pabcd C-RENDER-GROUNDING-01) | static parse alone |</code></pre>
+<p>This aligns with the existing row pattern: Problem | Primary Harness | Avoid.</p>
+<h4 id="c-d-attestation-interaction">C-&gt;D attestation interaction</h4>
+<p>The C→D attestation form (section 2.1) already accepts freeform <code>checkOutput</code>. When</p>
+<p>C-RENDER-GROUNDING-01 applies, the render observation (screenshot path, console</p>
+<p>output, or description of what was observed) becomes the <code>checkOutput</code> value. No</p>
+<p>schema change needed -- the existing form accommodates it. The <code>did</code> field should</p>
+<p>mention the render observation alongside any tsc/test results.</p>
+<p>---</p>
+<h3 id="5-non-goals">5. Non-Goals</h3>
+<ul>
+<li><strong>No hook/enforcement layer.</strong> Automated enforcement (observation ledger, CI-gated</li>
+</ul>
+<p>screenshot diffing) is adoption-candidate #1 from the fablize review, tracked</p>
+<p>separately. This rule is agent-self-applied, same as existing C-phase gates.</p>
+<ul>
+<li><strong>No style/creativity injection.</strong> Fablize ships neither: style mimicry was graded</li>
+</ul>
+<p>negligible/unverified (not shipped), and open-ended creative detail was graded as</p>
+<p>model capability, not transferable procedure. This rule is purely a verification</p>
+<p>modality -- it does not prescribe aesthetic standards.</p>
+<ul>
+<li><strong>No visual regression baseline system.</strong> Establishing golden-screenshot baselines</li>
+</ul>
+<p>and pixel-diff CI gates is out of scope (belongs in dev-testing if adopted later).</p>
+<p>---</p>
+<h3 id="6-open-questions-resolved-user-interview-2026-07-05">6. Open Questions — RESOLVED (user interview, 2026-07-05)</h3>
+<ol>
+<li><strong>Viewport size</strong>: HEURISTIC default 1280x720; the agent may deviate with a stated</li>
+</ol>
+<p>reason. Not a hard DEFAULT — artifact diversity outranks uniformity.</p>
+<ol>
+<li><strong>Evidence persistence</strong>: attestation narrative is sufficient for C2-C3. C4</li>
+</ol>
+<p>escalates to STRICT: the observation screenshot is persisted to the devlog for</p>
+<p>durable audit. (Combined resolution with Q4.)</p>
+<ol>
+<li><strong>Drive depth for stateful artifacts</strong>: HEURISTIC default — drive until the first</li>
+</ol>
+<p>interactive state change is observed (game started, first wizard transition);</p>
+<p>deviate with a stated reason.</p>
+<ol>
+<li><strong>STRICT for C4</strong>: yes — persisted screenshot evidence required at C4, DEFAULT</li>
+</ol>
+<p>(narrative) for C2-C3. Matches the section 9 depth-by-class scaling.</p>
+<p>Enforcement-layer decisions from the same interview (deployment scope, soft-warning</p>
+<p>gate mode) are recorded in the sibling doc <code>01_harness_porting.md</code> section 6. Note:</p>
+<p>the enforcement decision supersedes this doc&#x27;s section 5 first bullet — a soft-warning</p>
+<p>enforcement layer WILL ship in the same pass (all three harnesses), so &quot;no</p>
+<p>hook/enforcement layer&quot; now reads &quot;no BLOCKING enforcement layer&quot;.</p>
+<p>---</p>
+<h3 id="7-adoption-checklist">7. Adoption Checklist</h3>
+<ul>
+<li>[x] Finalize rule text after open-question resolution (2026-07-05, WP1)</li>
+<li>[x] Insert C-RENDER-GROUNDING-01 into <code>dev-pabcd/SKILL.md</code> section 3 C — initiative + instance copies done (WP1); cli-jaw repo copy in WP2</li>
+<li>[x] Add harness-selector row to <code>dev-testing/SKILL.md</code> section 1.4 — initiative + instance copies done (WP1); cli-jaw repo copy in WP2</li>
+<li>[x] Update section 9 depth table in dev-pabcd to note render grounding in the C column for C2-C4 (footnote under table, both copies, WP1)</li>
+<li>[ ] Add a worked example to <code>dev-pabcd/references/</code> showing attestation with render evidence</li>
+<li>[ ] Verify the rule does not conflict with existing <code>dev-frontend</code> visual-testing guidance</li>
+<li>[ ] Test with a real C3 render-artifact work-phase (end-to-end dry run)</li>
+</ul>
+<h2 id="unit-files">Other files in this unit</h2>
+<ul>
+<li>Harness Porting Guide: C-RENDER-GROUNDING-01 <span class="refnote">(01_harness_porting.md)</span></li>
+<li>WP1 — Rule Finalization + Skill-Text Port (initiative + instance copies) <span class="refnote">(10_wp1_skill_text_port.md)</span></li>
+<li>WP2-4 — Three-Repo Port (cli-jaw / codexclaw / jawcode), Parallel <span class="refnote">(20_wp2-4_three_repo_port.md)</span></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

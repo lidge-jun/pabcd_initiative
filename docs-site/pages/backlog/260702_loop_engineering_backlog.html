@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loop-Engineering Alignment Backlog — 2026-07-02 — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Loop-Engineering Alignment Backlog — 2026-07-02</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: backlog/260702_loop_engineering_backlog.md</p>
+<h2 id="loop-engineering-alignment-backlog-2026-07-02">Loop-Engineering Alignment Backlog — 2026-07-02</h2>
+<p>Record of the PABCD × loop-engineering investigation (three independent lanes:</p>
+<p>Claude Fable 5 web research, ChatGPT 5.5 Pro session, Codex gpt-5.5 xhigh repo-grounded</p>
+<p>research) and the resulting adoption/backlog split. The adopted subset now lives in</p>
+<p><code>skills/dev-pabcd/SKILL.md</code> §11; everything else is future work tracked here.</p>
+<h3 id="1-genealogy-for-the-eventual-write-up">1. Genealogy (for the eventual write-up)</h3>
+<p>Loop engineering was not born in June 2026 — it was *named* then. Simon Willison framed</p>
+<p>&quot;designing agentic loops&quot; as a critical skill in September 2025; the June 2026 cluster is</p>
+<p>Peter Steinberger (&quot;design loops that prompt your agents&quot;) → Boris Cherny (&quot;my job is to</p>
+<p>write loops&quot;) → Addy Osmani&#x27;s explainer that fixed the name, then press amplification and</p>
+<p>an arXiv position paper formalizing a loop spec as trigger · goal · verification ·</p>
+<p>stopping rule · memory.</p>
+<p>Sources:</p>
+<ul>
+<li>https://simonwillison.net/2025/Sep/30/designing-agentic-loops/</li>
+<li>https://addyosmani.com/blog/loop-engineering/ (also https://addyo.substack.com/p/loop-engineering)</li>
+<li>https://www.businessinsider.com/what-are-loops-ai-engineering-tips-2026-6</li>
+<li>https://arxiv.org/abs/2607.00038</li>
+<li>https://www.anthropic.com/engineering/building-effective-agents</li>
+<li>https://developers.openai.com/cookbook/examples/codex/using_goals_in_codex</li>
+</ul>
+<p>Three-lane consensus verdict: PABCD is a macro-loop instance of loop engineering with</p>
+<p>precursor-like qualities (independently derived from a failure thesis: intent loss,</p>
+<p>runaway &quot;go&quot;, stale knowledge, hallucinated builds, compounding bias). The HITL→HOTL</p>
+<p>shift (checkpoint approvals → Interview-front-loaded <code>/goal</code>) is *enabled* by model</p>
+<p>capability gains but *justified* only by a strong external verification loop —</p>
+<p>capability is a necessary condition, not the whole cause.</p>
+<h3 id="2-the-plateau-finding-900-nypc-mushroom-next-nation">2. The plateau finding (900-nypc-mushroom / NEXT NATION)</h3>
+<p>Concrete counterexample to &quot;just run more PABCD cycles&quot;: the NEXT NATION bot beats</p>
+<p>reference and rush opponents across map sizes but plateaus against a strong economy</p>
+<p>opponent on small maps (2W 4D 4L at N=51). The tournament verifier is deterministic and</p>
+<p>perfect, yet C→B repair cycles cannot close the gap — the verifier says *losing*, never</p>
+<p>*why*, and repair rings only produce local tweaks (hill climbing) on the existing</p>
+<p>strategy. Return loops are corrective, not generative: they cannot inject the missing</p>
+<p>strategic concept.</p>
+<p>Adopted consequence (<code>dev-pabcd</code> §11.4, LOOP-ARCHETYPE-01): classify the problem type</p>
+<p>before choosing loop shape —</p>
+<ul>
+<li><strong>Spec-satisfaction</strong> (verifier defines *done*) → repair loop; converges.</li>
+<li><strong>Open-ended optimization</strong> (verifier defines only *better*) → explore-and-select</li>
+</ul>
+<p>loop: parallel diverse candidates → same-instance evaluation → keep best-so-far →</p>
+<p>regenerate from winner; stop on plateau or budget; exit is <code>BUDGET_EXHAUSTED</code> with</p>
+<p>best candidate adopted, never <code>DONE</code>.</p>
+<p>What breaks plateaus (ranked): (1) diversity injection — candidate strategies sourced</p>
+<p>from domain-state evidence, not parameter space (extends §10 LOOP-CANDIDATE-ANCHOR-01);</p>
+<p>(2) knowledge front-loading at P/Interview (playbooks, domain theory — the proactive</p>
+<p>counterpart to reactive repair); (3) a stronger generator (frontier API raises each</p>
+<p>candidate&#x27;s ceiling but, inside an unchanged repair ring, still plateaus).</p>
+<p>Open research lane (dispatched 2026-07-02, spark ×3 + ChatGPT Pro session continuation):</p>
+<p>paper-grounded methods for the explore-and-select loop — LLM-guided evolutionary search</p>
+<p>(FunSearch/AlphaEvolve line), quality-diversity (MAP-Elites), population self-play and</p>
+<p>opponent modeling, plateau/no-progress detection and exploration scheduling. Results to</p>
+<p>be appended here.</p>
+<h3 id="3-adopted-in-this-pass-skills-dev-pabcd-11-p-2-1-insertions">3. Adopted in this pass (skills/dev-pabcd §11 + P/§2.1 insertions)</h3>
+<ul>
+<li>Loop-spec header in P for C2+ (trigger/goal/non-goals/verifier/stop/memory/terminal</li>
+</ul>
+<p>states/escalation; + resource scope in goal mode).</p>
+<ul>
+<li>Attestation evidence pointers (ATTEST-EVIDENCE-01): <code>did</code> carries artifact pointers</li>
+</ul>
+<p>(paths, changed files, command + exit code) even though the server gate stays</p>
+<p>form-only.</p>
+<ul>
+<li>Loop values (§11.1): feedback must change the next action; verifier &gt; prompt; memory</li>
+</ul>
+<p>on disk; budget ≠ done; Interview yields a testable loop-spec, not solved intent.</p>
+<ul>
+<li>Terminal-state vocabulary (§11.2): DONE/NOOP/BLOCKED/UNSAFE/NEEDS_HUMAN/</li>
+</ul>
+<p>BUDGET_EXHAUSTED — skill-level (agent-recognized), per the design decision to keep the</p>
+<p>server thin (threat model = laziness, not malice).</p>
+<ul>
+<li>Repair-loop discipline (§11.3): repair-only-the-failing-delta; 2 fails → root-cause</li>
+</ul>
+<p>mode; 3 → replan/Interview; LOOP-DOOM-01 no-progress heuristic (3 same-phase</p>
+<p>attestation failures → forced Interview return, self-applied).</p>
+<ul>
+<li>Loop archetype split (§11.4) and unattended-loop resource policy (§11.5).</li>
+</ul>
+<h3 id="4-future-work-not-in-this-pass">4. Future work (not in this pass)</h3>
+<table class="rules"><tbody>
+<tr><th>Item</th><th>Where</th><th>Notes</th></tr>
+<tr><th>Server-side doom-loop gate</th><th>cli-jaw FSM</th><th>Count same-phase attestation failures per work-phase; N=3 → forced <code>orchestrate I</code>. Mechanical counting only — semantics stay in the skill.</th></tr>
+<tr><th>Evidence-bound attestation (phase-specific artifact checks: diff exists, plan path resolves, checkOutput parsed)</th><th>cli-jaw FSM</th><th>Upgrade path from form-only; keep the human free pass.</th></tr>
+<tr><th>Explore-and-select tooling</th><th>cli-jaw / project harnesses</th><th>Candidate matrix runner (parallel strategy variants × same seeds), best-so-far ledger, plateau detector wired to §10 death log.</th></tr>
+<tr><th>Worktree isolation for parallel candidates/checkers</th><th>runtime-specific</th><th>Osmani loop primitive; needed once B parallelism is real.</th></tr>
+<table class="rules"><tbody>
+<tr><th>Verifier ladder codification (deterministic → artifact → independent agent → human → model-judge+rubric)</th><th>dev-testing</th><th>GPT Pro proposal; dev-testing §9.5 is the natural owner.</th></tr>
+<tr><th>Downstream ports of this delta</th><th>codexclaw <code>plugins/codexclaw/skills/</code>, jawcode <code>packages/coding-agent/src/defaults/jwc/skills/</code></th><th>Per freshness-sweep propagation rules: adapt, never blind-copy, fork&#x27;s own gates, local commits only. Dispatched 2026-07-02.</th></tr>
+<tr><th>Observability for loops (where time/tokens go per phase)</th><th>cli-jaw dashboard</th><th>Currently a blind spot; harness-engineering sources treat it as a core layer.</th></tr>
+</tbody></table>
+<h3 id="5-rejected-deferred-framings">5. Rejected / deferred framings</h3>
+<ul>
+<li>&quot;Frontier API solves the plateau&quot; — rejected as stated; adopted as component (3) of</li>
+</ul>
+<p>the plateau-breaking triad in §2 above.</p>
+<ul>
+<li>&quot;Intent transfer is solved by Interview&quot; — reframed per Codex lane: Interview produces</li>
+</ul>
+<p>a testable initial loop-spec; the Interview-return path is the mechanism for cyclic</p>
+<p>refinement (now §11.1 last bullet).</p>
+<ul>
+<li>Server-enforced terminal states — deferred by design decision (skill-level only).</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

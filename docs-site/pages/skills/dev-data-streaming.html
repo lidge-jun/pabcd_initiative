@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Streaming &amp; Event-Driven Data Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Streaming &amp; Event-Driven Data Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-data/references/streaming.md</p>
+<h2 id="streaming-event-driven-data-patterns">Streaming &amp; Event-Driven Data Patterns</h2>
+<p><strong>Last reviewed</strong>: 2026-07-02</p>
+<p>Kafka patterns, stream processing selection, and CDC integration.</p>
+<p>---</p>
+<h3 id="kafka-configuration-essentials">Kafka Configuration Essentials</h3>
+<h4 id="topic-design">Topic Design</h4>
+<ul>
+<li>Partition count = expected peak throughput ÷ single-partition throughput</li>
+<li>Avoid &gt;50 partitions per topic unless proven necessary</li>
+<li>Use Schema Registry (Avro/Protobuf) for backwards-compatible schema evolution</li>
+<li>Naming: <code>{domain}.{entity}.{event}</code> (e.g., <code>commerce.orders.created</code>)</li>
+</ul>
+<h4 id="delivery-semantics">Delivery Semantics</h4>
+<table class="rules"><tbody>
+<tr><th>Semantic</th><th>Config</th><th>Use Case</th></tr>
+<tr><th>At-most-once</th><th><code>acks=0</code></th><th>Metrics, logs (loss acceptable)</th></tr>
+<tr><th>At-least-once</th><th><code>acks=all</code> + idempotent consumer</th><th>Default for most pipelines</th></tr>
+<tr><th>Exactly-once</th><th><code>enable.idempotence=true</code> + transactional API</th><th>Financial, billing, inventory</th></tr>
+</tbody></table>
+<h4 id="producer-tuning">Producer Tuning</h4>
+<ul>
+<li><code>batch.size</code>: 16-64KB for throughput (default 16KB)</li>
+<li><code>linger.ms</code>: 5-50ms to allow batching</li>
+<li><code>compression.type</code>: <code>lz4</code> (speed) or <code>zstd</code> (ratio)</li>
+<li>Always enable <code>enable.idempotence=true</code></li>
+</ul>
+<h4 id="consumer-patterns">Consumer Patterns</h4>
+<ul>
+<li>Prefer cooperative rebalancing (<code>partition.assignment.strategy=cooperative-sticky</code>)</li>
+<li>Commit offsets after processing, not before</li>
+<li>Monitor consumer lag via Prometheus metrics</li>
+</ul>
+<p>---</p>
+<h3 id="change-data-capture-cdc">Change Data Capture (CDC)</h3>
+<p>Use <strong>Debezium</strong> for database → Kafka streaming:</p>
+<pre><code>PostgreSQL (WAL) → Debezium Connector → Kafka Topic → Consumer/Flink/Spark</code></pre>
+<ul>
+<li>Captures INSERT, UPDATE, DELETE as events with before/after state</li>
+<li>No application code changes needed — reads from database WAL</li>
+<li>Supports PostgreSQL, MySQL, MongoDB, SQL Server</li>
+</ul>
+<p>---</p>
+<h3 id="stream-processing-selection">Stream Processing Selection</h3>
+<table class="rules"><tbody>
+<tr><th>Need</th><th>Choose</th></tr>
+<tr><th>Ultra-low latency (&lt;100ms) + complex state</th><th>Apache Flink</th></tr>
+<tr><th>Existing Spark infrastructure + can tolerate &gt;1s</th><th>Spark Structured Streaming</th></tr>
+<tr><th>Simple transforms, data stays in Kafka</th><th>Kafka Streams (no extra cluster)</th></tr>
+<tr><th>Latency &gt;1min acceptable</th><th>Batch with frequent scheduling</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="windowing-patterns">Windowing Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Window Type</th><th>Use Case</th><th>Example</th></tr>
+<tr><th><strong>Tumbling</strong></th><th>Fixed, non-overlapping intervals</th><th>1-minute aggregation buckets</th></tr>
+<tr><th><strong>Sliding</strong></th><th>Overlapping intervals</th><th>5-min window sliding every 1 min</th></tr>
+<tr><th><strong>Session</strong></th><th>Activity-based, gap-defined</th><th>User session grouped by inactivity gap</th></tr>
+</tbody></table>
+<p>Handle <strong>late data</strong> with watermarks: define maximum acceptable lateness, drop or route late events to dead-letter.</p>
+<p>---</p>
+<h3 id="batch-vs-streaming-decision-refinement">Batch vs Streaming Decision Refinement</h3>
+<pre><code>Is real-time insight required?
+├── Latency &lt;100ms + complex joins/aggregations → Flink
+├── Latency &lt;1s + existing Spark cluster → Spark Structured Streaming
+├── Latency &lt;1s + Kafka-only transforms → Kafka Streams
+├── Latency 1-60s + simple enrichment → Kafka consumer with micro-batch
+└── Latency &gt;60s → Batch (Airflow/Dagster scheduled jobs)</code></pre>
+<p><strong>Default to batch.</strong> Only add streaming when latency requirements genuinely demand it. Streaming adds complexity in:</p>
+<ul>
+<li>State management (checkpointing, recovery)</li>
+<li>Error handling (dead-letter queues, poison pills)</li>
+<li>Testing (hard to reproduce timing-dependent bugs)</li>
+<li>Monitoring (consumer lag, backpressure)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

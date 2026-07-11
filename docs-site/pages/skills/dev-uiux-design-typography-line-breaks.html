@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typography Line Breaks — Design Judgment Guide — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Typography Line Breaks — Design Judgment Guide</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/typography-line-breaks.md</p>
+<h2 id="typography-line-breaks-design-judgment-guide">Typography Line Breaks — Design Judgment Guide</h2>
+<p>When to apply text wrapping control, how to evaluate line break quality, and what to check during visual verification.</p>
+<p>Read <code>dev-frontend/references/core/typography-wrapping.md</code> for the CSS implementation.</p>
+<p>---</p>
+<h3 id="1-the-problem">1. The Problem</h3>
+<p>AI-generated and unreviewed web pages share a common tell: <strong>uncontrolled text wrapping</strong>. Headings break at arbitrary points, creating orphaned words, lopsided rags, and awkward visual rhythm.</p>
+<p><strong>Before (slop):</strong></p>
+<pre><code>Connects to what you
+already run                    ← &quot;already run&quot; orphaned, feels broken</code></pre>
+<p><strong>After (controlled):</strong></p>
+<pre><code>Connects to what
+you already run                ← Balanced, intentional</code></pre>
+<p>The difference is subtle but immediately signals whether a page was designed or merely generated.</p>
+<p>---</p>
+<h3 id="when-each-tool-applies">When Each Tool Applies</h3>
+<table class="rules"><tbody>
+<tr><th>Element</th><th>Tool</th><th>Rationale</th></tr>
+<tr><th>Hero headline</th><th><code>text-wrap: balance</code> + <code>max-width: 40-45ch</code></th><th>High-visibility, must look intentional on every viewport</th></tr>
+<tr><th><strong>Hero subtitle/description</strong></th><th><strong><code>text-wrap: balance</code></strong> + <code>max-width: 35-40ch</code></th><th><strong>Short descriptor — <code>pretty</code> is insufficient at 1-2 lines</strong></th></tr>
+<tr><th>Section title</th><th><code>text-wrap: balance</code> + <code>max-width: 50-55ch</code></th><th>Consistency across sections</th></tr>
+<tr><th>Card title</th><th><code>text-wrap: balance</code> + <code>max-width: 30-35ch</code></th><th>Tight containers need compact control</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Card description (1-3 lines)</strong></th><th><strong><code>text-wrap: balance</code></strong> + <code>max-width: 30-35ch</code></th><th><strong>Short descriptor — orphans extremely visible in small containers</strong></th></tr>
+<tr><th><strong>Caption / label text</strong></th><th><strong><code>text-wrap: balance</code></strong> + <code>max-width: 25-30ch</code></th><th><strong>Short descriptor — same reason</strong></th></tr>
+<tr><th>Body paragraph (4+ lines)</th><th><code>text-wrap: pretty</code> + <code>max-width: 65ch</code></th><th>Orphan prevention at paragraph end</th></tr>
+<tr><th>CTA/button label</th><th>Manual — keep to 1 line</th><th>Never let a CTA break across lines</th></tr>
+<tr><th>Navigation links</th><th>No wrapping needed</th><th>Always single-line</th></tr>
+<table class="rules"><tbody>
+<tr><th>Stat label</th><th><code>max-width: 20ch</code></th><th>Keep compact under the number</th></tr>
+<tr><th>Badge/tag text</th><th><code>white-space: nowrap</code></th><th>Never wrap</th></tr>
+</tbody></table>
+<h4 id="short-descriptors-the-missing-category">Short Descriptors — The Missing Category</h4>
+<p>Text that is <strong>1-3 lines long</strong> is neither a heading nor a body paragraph. Examples:</p>
+<ul>
+<li>Hero subtitle / description</li>
+<li>Card description / preview text</li>
+<li>Product one-liner</li>
+<li>Testimonial snippet</li>
+<li>Feature description under an icon</li>
+</ul>
+<p><strong>Rule: Short descriptors MUST use <code>text-wrap: balance</code>, not <code>pretty</code>.</strong></p>
+<p><code>text-wrap: pretty</code> optimizes the last few lines of long paragraphs. On 1-2 line text, the algorithm has nothing to redistribute — orphans pass through unchanged. <code>balance</code> distributes characters evenly across ALL lines, which is exactly what short text needs.</p>
+<p><strong>Before (pretty on short text — orphan passes through):</strong></p>
+<pre><code>마다가스카르 바닐라 시럽과 벨벳 스팀밀크의 조
+화.                                              ← &quot;화.&quot; orphaned</code></pre>
+<p><strong>After (balance on short text — redistributed):</strong></p>
+<pre><code>마다가스카르 바닐라 시럽과
+벨벳 스팀밀크의 조화.                             ← balanced</code></pre>
+<p>---</p>
+<h3 id="heading-break-quality-criteria">Heading Break Quality Criteria</h3>
+<p>When reviewing a heading visually, check:</p>
+<ol>
+<li><strong>No orphaned single word</strong> — The last line should have at least 2 words (or ~33% of the longest line&#x27;s length)</li>
+<li><strong>Balanced distribution</strong> — Line lengths should be roughly equal, not one long line + one short stub</li>
+<li><strong>Semantic grouping</strong> — Breaks should happen between thought units, not in the middle of a phrase</li>
+<li><strong>Viewport resilience</strong> — The heading should look good at 390px, 768px, 1024px, AND 1440px, and at ARBITRARY widths between them (drag-resize / split-screen check — see the dynamic rewrap layer below)</li>
+<li><strong>Language-aware</strong> — Korean (한글) headings with <code>word-break: keep-all</code> to prevent mid-word breaks</li>
+</ol>
+<p><strong>Bad breaks (cut mid-phrase):</strong></p>
+<pre><code>Everything you check in Datadog, without leaving
+vim                                               ← orphan</code></pre>
+<p><strong>Good breaks (between thought units):</strong></p>
+<pre><code>Everything you check in Datadog,
+without leaving vim                               ← balanced, semantic</code></pre>
+<p>---</p>
+<h3 id="dynamic-rewrap-judgment-verified-2026-07-07">Dynamic Rewrap Judgment (verified 2026-07-07)</h3>
+<p>Text must break at natural phrase boundaries at ANY width, not just canonical</p>
+<p>breakpoints — containers resize continuously (drag-resizable panels,</p>
+<p>split-screen halves, foldables, mobile URL-bar dvh changes, container-query</p>
+<p>crossings). Judgment layer on top of the criteria above:</p>
+<ul>
+<li>Breaks are chosen by the browser at render width; a heading that breaks</li>
+</ul>
+<p>semantically at 390/768/1024/1440 can still orphan at 700px. Judge text in</p>
+<p>CONTAINERS (sidebar, modal, half-window), not only device presets.</p>
+<ul>
+<li>Prefer break-opportunity control (<code>keep-all</code>, <code>balance</code>, <code>max-width</code> in</li>
+</ul>
+<p><code>ch</code>) over width-specific hacks (<code>&lt;br&gt;</code>, manual media-query text swaps) —</p>
+<p>hacks guarantee bad breaks at in-between widths.</p>
+<ul>
+<li>Korean note: <code>text-wrap</code> only chooses among EXISTING break opportunities;</li>
+</ul>
+<p>with <code>keep-all</code>, opportunities are 어절 boundaries — verify long 어절 and</p>
+<p>mixed ko/Latin strings don&#x27;t overflow narrow chips/buttons.</p>
+<ul>
+<li>Mechanics + verification checklist (container-width sweep, dvh/zoom,</li>
+</ul>
+<p>overflow asserts): <code>dev-frontend/references/core/typography-wrapping.md</code></p>
+<p>§ Dynamic-Viewport Verification and</p>
+<p><code>dev-frontend/references/core/responsive-viewport.md</code> (container queries,</p>
+<p>split-screen band).</p>
+<h3 id="visual-verification-additions">Visual Verification Additions</h3>
+<p>Add these checks to the UX pre-flight:</p>
+<ul>
+<li>[ ] Hero headline renders balanced on desktop (1440px) AND mobile (390px)</li>
+<li>[ ] No heading has an orphaned single word on the last line</li>
+<li>[ ] Section titles do not exceed 55ch per line</li>
+<li>[ ] Body paragraphs do not exceed 65ch per line</li>
+<li>[ ] CTA buttons do not break across lines at any viewport</li>
+<li>[ ] Korean headlines preserve word integrity (no mid-syllable breaks)</li>
+<li>[ ] <code>text-wrap: balance</code> is applied to all headings globally</li>
+</ul>
+<p>---</p>
+<h3 id="common-mistakes">Common Mistakes</h3>
+<table class="rules"><tbody>
+<tr><th>Mistake</th><th>Why it happens</th><th>Fix</th></tr>
+<tr><th>Using <code>&lt;br&gt;</code> for line breaks</th><th>Works at one viewport, breaks at others</th><th>Use <code>text-wrap: balance</code> instead</th></tr>
+<tr><th><code>max-width</code> in <code>px</code></th><th>Doesn&#x27;t adapt to font size changes</th><th>Use <code>ch</code> units</th></tr>
+<tr><th>No <code>max-width</code> on headings</th><th>Lines stretch full container width</th><th>Add <code>max-width: 45-55ch</code></th></tr>
+<tr><th><code>text-wrap: balance</code> on body text</th><th>Performance cost, limited to ~6 lines</th><th>Use <code>text-wrap: pretty</code> for paragraphs</th></tr>
+<table class="rules"><tbody>
+<tr><th>Ignoring mobile line breaks</th><th>Heading looks good on desktop but orphans on mobile</th><th>Test at 390px</th></tr>
+<tr><th>Same <code>max-width</code> for all heading levels</th><th>Different font sizes produce different visual widths</th><th>Scale <code>max-width</code> by heading level</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="korean-typography-notes">Korean Typography Notes</h3>
+<pre><code>[lang=&quot;ko&quot;] {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+[lang=&quot;ko&quot;] h1, [lang=&quot;ko&quot;] h2 {
+  text-wrap: balance;
+  word-break: keep-all;
+}</code></pre>
+<p><code>word-break: keep-all</code> is critical for Korean — without it, browsers break Hangul at any syllable boundary, creating unreadable mid-word splits.</p>
+<h4 id="korean-orphan-criteria-mandatory">Korean Orphan Criteria (MANDATORY)</h4>
+<p>Korean text with <code>word-break: keep-all</code> prevents mid-word breaks but creates a specific orphan pattern: the last word gets pushed to a new line alone. This is especially visible with verb endings.</p>
+<p><strong>Korean last-line minimum:</strong> The last line must contain at least <strong>4 characters (2 syllable blocks)</strong> or <strong>33% of the longest line&#x27;s width</strong>. A line with only &quot;합니다.&quot;, &quot;화.&quot;, &quot;입니다.&quot;, or any 1-3 character fragment is ALWAYS wrong.</p>
+<p><strong>Common Korean orphan patterns (all failures):</strong></p>
+<pre><code>직접 로스팅한 싱글 오리진 원두와 제철 디저트를 매일 준비
+합니다.           ← FAIL: &quot;합니다.&quot; alone (3 chars + punctuation)
+
+마다가스카르 바닐라 시럽과 벨벳 스팀밀크의 조
+화.               ← FAIL: &quot;화.&quot; alone (1 char + punctuation)
+
+16시간 저온 추출 콜드브루에 부드러운 우유를 더했습니
+다.               ← FAIL: &quot;다.&quot; alone (1 char + punctuation)</code></pre>
+<p><strong>Fix priority for Korean short text:</strong></p>
+<ol>
+<li>Use <code>text-wrap: balance</code> (not <code>pretty</code>) — this alone fixes most cases</li>
+<li>If <code>balance</code> still orphans, adjust <code>max-width</code> by ±2-3ch to shift the break point</li>
+<li>As last resort, rewrite the copy to avoid the orphan</li>
+</ol>
+<p><strong><code>text-wrap: pretty</code> does NOT solve Korean orphans in short text.</strong> The <code>pretty</code> algorithm targets the last 4-8 lines of long paragraphs. On 1-3 line Korean text, it has no effect — the orphan passes through unchanged. This is the single most common Korean typography failure in AI-generated pages.</p>
+<h4 id="webkit-line-clamp-conflict"><code>-webkit-line-clamp</code> Conflict</h4>
+<p><code>-webkit-line-clamp</code> (used for &quot;show 2 lines with ellipsis&quot;) <strong>disables <code>text-wrap</code> entirely</strong>. The browser switches to a legacy layout mode where <code>balance</code> and <code>pretty</code> have no effect.</p>
+<p>If you need line clamping AND orphan control:</p>
+<ul>
+<li>Accept that clamped text will have uncontrolled wrapping, OR</li>
+<li>Set <code>max-width</code> carefully so the natural break avoids orphans, OR</li>
+<li>Use JavaScript-based truncation that preserves <code>text-wrap</code></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

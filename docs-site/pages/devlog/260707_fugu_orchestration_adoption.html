@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>260707 Fugu Orchestration Adoption — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>260707 Fugu Orchestration Adoption</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/_plan/260707_fugu_orchestration_adoption/000_fugu_adoption.md</p>
+<h2 id="260707-fugu-orchestration-adoption">260707 Fugu Orchestration Adoption</h2>
+<p>Source: Sakana Fugu Technical Report, arXiv:2606.21228v1 (2026-06-19). Learned</p>
+<p>orchestrator models (Fugu = hidden-state single-worker router; Fugu-Ultra =</p>
+<p>Conductor-style GRPO-trained workflow generator) over a frontier worker pool</p>
+<p>(GPT-5.5, Opus 4.8, Gemini 3.1). Analysis method: two parallel gpt-5.5 subagent</p>
+<p>reads (technical deep-dive + PABCD transfer mapping, artifacts at</p>
+<p><code>/tmp/arxiv2606/analysis_technical.md</code> and</p>
+<p><code>/tmp/arxiv2606/analysis_pabcd_transfer.md</code>) cross-checked by a direct main-agent</p>
+<p>read of the full paper text.</p>
+<h3 id="why-these-mechanisms-transfer">Why these mechanisms transfer</h3>
+<p>Fugu&#x27;s value is trained routing, which a static skill cannot replicate. What DOES</p>
+<p>transfer is what its trained orchestrators converged on behaviorally — the paper</p>
+<p>documents the converged policies with concrete incidents:</p>
+<ul>
+<li><strong>Intra-workflow isolation via access lists</strong> (paper §3.2.2): without isolation,</li>
+</ul>
+<p>the first agent to touch the environment &quot;sets the trajectory for all future</p>
+<p>agents&quot; — they name it orchestration collapse. Access lists make peer-output</p>
+<p>visibility an explicit, per-dispatch decision; cross-workflow shared memory stays</p>
+<p>on so lanes do not re-discover artifacts.</p>
+<ul>
+<li><strong>Crux-matched aggregation</strong> (paper §4.4): tree topologies picked the aggregator</li>
+</ul>
+<p>by the disputed domain (Gemini for trivia synthesis, GPT for a spectral-number</p>
+<p>derivation) and the paper argues fixed-aggregator systems are capped at the</p>
+<p>aggregator&#x27;s own ceiling.</p>
+<ul>
+<li><strong>Cross-model builder/verifier alternation</strong> (paper §4.4): GPT-as-builder with</li>
+</ul>
+<p>Opus dispatched at critical debugging moments; a clean-slate GPT pass broke an</p>
+<p>Opus dead-end on a SWE Bench Pro OTP bug (root cause was client-side concurrency,</p>
+<p>not the server path Opus tunneled into). Different model families decorrelate</p>
+<p>blind spots.</p>
+<ul>
+<li><strong>Specialist first-principles re-derivation</strong> (paper §4.4 FEAL differential</li>
+</ul>
+<p>cryptanalysis): after Opus built the attack, GPT was tasked as a math specialist</p>
+<p>to re-derive the differential constant bit-by-bit before adoption.</p>
+<ul>
+<li><strong>Late-stage fan-out gains</strong> (paper §4.3.1 AutoResearch, 123 experiments x 3</li>
+</ul>
+<p>seeds): orchestration was &quot;competitive early... pulls ahead after mid-training,&quot;</p>
+<p>i.e. once coarse configuration search shifted to fine optimizer/schedule tuning;</p>
+<p>it also reduced cross-seed variance.</p>
+<h3 id="adopted-rules">Adopted rules</h3>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Tag</th><th>Placement</th></tr>
+<tr><th>DISPATCH-ISOLATION-01</th><th>DEFAULT</th><th>dev-pabcd §7.1 (canonical, cli-jaw); codexclaw Delegation Model</th></tr>
+<tr><th>SPECIALIST-CRUX-01</th><th>HEURISTIC</th><th>same</th></tr>
+<tr><th>REVIEW-DECORRELATE-01</th><th>HEURISTIC</th><th>same</th></tr>
+<tr><th>LOOP-FANOUT-TIMING-01</th><th>HEURISTIC</th><th>§10 Optimization-Loop Meta-Rules (all three)</th></tr>
+<table class="rules"><tbody>
+<tr><th>COLLAPSE-AGGREGATOR-01</th><th>DEFAULT</th><th>§11.9 (canonical bullet, cli-jaw section); codexclaw Meta-Rules</th></tr>
+</tbody></table>
+<p>Single-source induction caveat: all five rules are grounded in one vendor report</p>
+<p>whose qualitative examples are curated. Tags were chosen accordingly (three</p>
+<p>HEURISTIC, two DEFAULT where the paper gives a mechanism-level failure mode:</p>
+<p>orchestration collapse, fixed-aggregator ceiling). Revise when a second domain&#x27;s</p>
+<p>evidence contradicts them.</p>
+<h3 id="explicitly-not-adopted">Explicitly NOT adopted</h3>
+<ul>
+<li>Hidden-state routing head, soft-label SFT routing, sep-CMA-ES, GRPO Conductor:</li>
+</ul>
+<p>require trained models and reward infrastructure; no static analogue.</p>
+<ul>
+<li>Model-brand role bindings (&quot;GPT builds, Opus debugs, Gemini aggregates&quot;): roles</li>
+</ul>
+<p>come from current observed capability evidence, never hard-coded brands.</p>
+<ul>
+<li>Single-interface abstraction hiding orchestration: PABCD&#x27;s value is visible</li>
+</ul>
+<p>phase discipline and attested evidence; hiding the process would invert it.</p>
+<ul>
+<li>Workflow depth cap (&lt;=5 steps) and quality/latency mode split: already covered</li>
+</ul>
+<p>by DIVERGE-TIER-01 and C0-C5 class scaling.</p>
+<h3 id="patch-map-2026-07-07">Patch map (2026-07-07)</h3>
+<ul>
+<li><code>pabcd_initiative/skills/dev-pabcd/SKILL.md</code> — new §7.1, §10 bullet, §11.9</li>
+</ul>
+<p>bullet; README hardening line.</p>
+<ul>
+<li><code>cli-jaw/skills_ref/dev-pabcd/SKILL.md</code> — new §7.1 (generalizes §11.8 star</li>
+</ul>
+<p>topology to all parallel dispatch), §10 bullet, new §11.9 section.</p>
+<ul>
+<li><code>codexclaw/plugins/codexclaw/skills/pabcd/SKILL.md</code> — three Delegation Model</li>
+</ul>
+<p>bullets, two Optimization-Loop Meta-Rules bullets; record at codexclaw devlog</p>
+<p><code>260707_fugu_orchestration_adoption/000_record.md</code>.</p>
+<h3 id="follow-ups">Follow-ups</h3>
+<ul>
+<li>jawcode port: no dev-pabcd doc there; fold the five rules into</li>
+</ul>
+<p><code>packages/coding-agent/src/defaults/jwc/skills/{team,plan,goal}</code> phrasing.</p>
+<ul>
+<li><code>references/loop-engineering.md</code> (canonical + codexclaw): sync §11.9 and the</li>
+</ul>
+<p>fan-out timing rule into the full-rules reference on its next touch.</p>
+<ul>
+<li>cxc-loop skill (codexclaw): mirror COLLAPSE-AGGREGATOR-01 into its</li>
+</ul>
+<p>divergence/collapse section on next touch.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

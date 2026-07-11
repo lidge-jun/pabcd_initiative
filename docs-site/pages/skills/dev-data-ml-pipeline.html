@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML Pipeline Engineering — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>ML Pipeline Engineering</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-data/references/ml-pipeline.md</p>
+<h2 id="ml-pipeline-engineering">ML Pipeline Engineering</h2>
+<p><strong>Last reviewed</strong>: 2026-06-16</p>
+<p><strong>Applies to</strong>: Python (MLflow 3.x, Dagster 1.9+, DVC 3.x), GPU training (PyTorch 2.6+)</p>
+<p><strong>When to read</strong>: ML training pipelines, experiment tracking, feature stores, data versioning, <code>task_tags: ml</code></p>
+<p><strong>Canonical owner</strong>: <code>dev-data</code> — pipeline orchestration, data versioning, feature engineering</p>
+<p><strong>Non-goals</strong>: Model serving (→ <code>dev-backend/references/core/ml-serving.md</code>), LLM integration (→ <code>dev-backend/references/core/llm-integration.md</code>), model evaluation (→ <code>dev-testing/references/ml-evaluation.md</code>)</p>
+<p>---</p>
+<h3 id="1-ml-pipeline-principles">§1 ML Pipeline Principles</h3>
+<table class="rules"><tbody>
+<tr><th>Principle</th><th>What It Means</th></tr>
+<tr><th><strong>Reproducibility</strong></th><th>Same code + same data + same config = same model. Pin library versions, fix random seeds, log all hyperparameters.</th></tr>
+<tr><th><strong>Version everything</strong></th><th>Code (git), data (DVC/Delta), models (MLflow registry), configs (hydra/yaml in repo).</th></tr>
+<tr><th><strong>Experiment tracking</strong></th><th>Every training run logged with metrics, params, artifacts. No &quot;which run was that?&quot; moments.</th></tr>
+<tr><th><strong>Idempotent pipelines</strong></th><th>Re-running a pipeline stage with same inputs produces same outputs. Use content-addressable caching.</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Fail fast</strong></th><th>Validate data schema and distributions BEFORE training. Don&#x27;t waste GPU hours on bad data.</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="2-experiment-tracking">§2 Experiment Tracking</h3>
+<tr><th>Platform</th><th>Best For</th><th>Hosting</th><th>2026 Status</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>MLflow 3.x</strong></th><th>Full lifecycle (track → register → serve)</th><th>Self-hosted / Databricks</th><th>✅ Default — unified API, broad ecosystem</th></tr>
+<tr><th><strong>W&amp;B (Weights &amp; Biases)</strong></th><th>Rich visualization, team collaboration</th><th>Cloud (free tier) / self-hosted</th><th>✅ Best UI, expensive at scale</th></tr>
+<tr><th><strong>Dagster+</strong></th><th>Pipeline-integrated tracking</th><th>Dagster Cloud / self-hosted</th><th>✅ If already using Dagster for orchestration</th></tr>
+</tbody></table>
+<h4 id="mlflow-3-x-tracking-pattern">MLflow 3.x Tracking Pattern</h4>
+<pre><code>import mlflow
+
+mlflow.set_tracking_uri(&quot;http://mlflow.internal:5000&quot;)
+mlflow.set_experiment(&quot;recommender-v2&quot;)
+
+with mlflow.start_run(run_name=&quot;baseline-transformer&quot;):
+    mlflow.log_params({
+        &quot;model&quot;: &quot;transformer&quot;,
+        &quot;lr&quot;: 1e-4,
+        &quot;batch_size&quot;: 64,
+        &quot;epochs&quot;: 50,
+        &quot;data_version&quot;: &quot;v2.3.1&quot;,  # DVC tag or Delta version
+    })
+
+    for epoch in range(50):
+        metrics = train_one_epoch(model, train_loader)
+        mlflow.log_metrics(metrics, step=epoch)
+
+        if epoch % 10 == 0:
+            # Checkpoint every 10 epochs
+            mlflow.pytorch.log_model(model, f&quot;checkpoint-{epoch}&quot;)
+
+    # Log final model to registry
+    mlflow.pytorch.log_model(
+        model,
+        &quot;model&quot;,
+        registered_model_name=&quot;recommender&quot;,
+    )
+    mlflow.log_artifact(&quot;configs/train.yaml&quot;)</code></pre>
+<h4 id="decision-rule">Decision Rule</h4>
+<pre><code>IF   need full lifecycle (track + register + deploy)  → MLflow 3.x
+IF   team wants rich dashboards + collaboration       → W&amp;B (log to both if needed)
+IF   pipeline orchestration already in Dagster         → use Dagster+ tracking</code></pre>
+<p>---</p>
+<h3 id="3-feature-store">§3 Feature Store</h3>
+<table class="rules"><tbody>
+<tr><th>Platform</th><th>Online Serving</th><th>Offline Training</th><th>2026 Status</th></tr>
+<tr><th><strong>Feast 0.40+</strong></th><th>Redis, DynamoDB, PostgreSQL</th><th>BigQuery, Snowflake, file</th><th>✅ Default — open source, flexible</th></tr>
+<tr><th><strong>Tecton</strong></th><th>Managed low-latency</th><th>Managed</th><th>✅ Enterprise, expensive</th></tr>
+<tr><th><strong>Custom</strong></th><th>Redis/PostgreSQL</th><th>SQL warehouse</th><th>⚠️ Only if &lt;10 features</th></tr>
+</tbody></table>
+<h4 id="feast-pattern">Feast Pattern</h4>
+<pre><code>from feast import FeatureStore
+
+store = FeatureStore(repo_path=&quot;feature_repo/&quot;)
+
+# Offline: training data retrieval (point-in-time correct)
+training_df = store.get_historical_features(
+    entity_df=entity_df,  # DataFrame with entity keys + timestamps
+    features=[
+        &quot;user_features:purchase_count_30d&quot;,
+        &quot;user_features:avg_session_duration&quot;,
+        &quot;item_features:category_embedding&quot;,
+    ],
+).to_df()
+
+# Online: real-time serving
+features = store.get_online_features(
+    features=[&quot;user_features:purchase_count_30d&quot;],
+    entity_rows=[{&quot;user_id&quot;: &quot;abc123&quot;}],
+).to_dict()</code></pre>
+<h4 id="when-to-use-a-feature-store">When to Use a Feature Store</h4>
+<table class="rules"><tbody>
+<tr><th>Condition</th><th>Feature Store?</th></tr>
+<tr><th>Same features used in training AND serving</th><th>✅ Yes — prevents train/serve skew</th></tr>
+<tr><th>&gt;20 ML features shared across models</th><th>✅ Yes — single source of truth</th></tr>
+<tr><th>&lt;10 features, single model</th><th>❌ Overkill — compute inline</th></tr>
+<tr><th>Real-time features from streaming sources</th><th>✅ Yes — Feast + Kafka materialization</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="4-training-pipeline-orchestration">§4 Training Pipeline Orchestration</h3>
+<h4 id="dagster-dag-pattern">Dagster DAG Pattern</h4>
+<pre><code>from dagster import asset, define_asset_job, Definitions
+import mlflow
+
+@asset
+def raw_data():
+    &quot;&quot;&quot;Extract raw data from source.&quot;&quot;&quot;
+    return pd.read_parquet(&quot;s3://data/raw/events.parquet&quot;)
+
+@asset
+def processed_data(raw_data):
+    &quot;&quot;&quot;Validate schema, clean, feature-engineer.&quot;&quot;&quot;
+    validated = validate_schema(raw_data, expected_schema)
+    cleaned = remove_outliers(validated)
+    return engineer_features(cleaned)
+
+@asset
+def trained_model(processed_data):
+    &quot;&quot;&quot;Train model with experiment tracking.&quot;&quot;&quot;
+    with mlflow.start_run():
+        model = train(processed_data)
+        metrics = evaluate(model, test_split(processed_data))
+        mlflow.log_metrics(metrics)
+        mlflow.pytorch.log_model(model, &quot;model&quot;,
+            registered_model_name=&quot;my-model&quot;)
+    return model
+
+training_job = define_asset_job(&quot;training_pipeline&quot;,
+    selection=[&quot;raw_data&quot;, &quot;processed_data&quot;, &quot;trained_model&quot;])
+
+defs = Definitions(
+    assets=[raw_data, processed_data, trained_model],
+    jobs=[training_job],
+)</code></pre>
+<h4 id="gpu-resource-management">GPU Resource Management</h4>
+<table class="rules"><tbody>
+<tr><th>Practice</th><th>Why</th></tr>
+<tr><th>Request specific GPU type in job config</th><th>Avoid training on wrong GPU (A10G vs H100)</th></tr>
+<tr><th>Set <code>CUDA_VISIBLE_DEVICES</code></th><th>Prevent multi-tenant GPU conflicts</th></tr>
+<tr><th>Checkpoint every N epochs</th><th>Resume after preemption; don&#x27;t lose hours of work</th></tr>
+<tr><th>Use mixed precision (<code>torch.amp</code>)</th><th>2× speedup, half memory — no quality loss on modern GPUs</th></tr>
+<table class="rules"><tbody>
+<tr><th>Set <code>max_epochs</code> + early stopping</th><th>Prevent runaway training costs</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="5-data-versioning">§5 Data Versioning</h3>
+<tr><th>Tool</th><th>Best For</th><th>2026 Status</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>DVC 3.x</strong></th><th>File-based datasets (images, CSVs, Parquet)</th><th>✅ Default — git-like workflow</th></tr>
+<tr><th><strong>Delta Lake 3.x</strong></th><th>Tabular data, time travel, ACID transactions</th><th>✅ Best for data lake/warehouse</th></tr>
+<tr><th><strong>LakeFS</strong></th><th>Git-like branching for data lakes</th><th>✅ Advanced — multi-branch experimentation</th></tr>
+</tbody></table>
+<h4 id="dvc-workflow">DVC Workflow</h4>
+<pre><code># Track a large dataset
+dvc add data/training/images/
+git add data/training/images.dvc .gitignore
+git commit -m &quot;data: add training images v1&quot;
+git tag data-v1.0
+
+# Reproduce pipeline
+dvc repro  # Runs only changed stages (content-addressable)
+
+# Switch to a different data version
+git checkout data-v2.0
+dvc checkout  # Pulls the matching data version from remote</code></pre>
+<h4 id="version-linking-checklist">Version Linking Checklist</h4>
+<ul>
+<li>[ ] Every training run logs <code>data_version</code> (DVC tag or Delta version) in experiment tracker</li>
+<li>[ ] Model registry entry includes data version used for training</li>
+<li>[ ] Promotion to production requires matching data version documented</li>
+<li>[ ] Data schema changes trigger model retraining CI job</li>
+</ul>
+<p>---</p>
+<h3 id="6-anti-patterns">§6 Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Training without experiment tracking</th><th>&quot;Which hyperparams worked?&quot; — nobody knows</th><th>MLflow/W&amp;B from day one (§2)</th></tr>
+<tr><th>Unversioned training data</th><th>Non-reproducible models</th><th>DVC or Delta Lake (§5)</th></tr>
+<tr><th>Feature computation in both training and serving code</th><th>Train/serve skew, silent accuracy drops</th><th>Feature store (§3)</th></tr>
+<tr><th>No checkpointing</th><th>Lost GPU hours on preemption</th><th>Checkpoint every N epochs (§4)</th></tr>
+<table class="rules"><tbody>
+<tr><th>Manual GPU allocation</th><th>Resource conflicts, idle GPUs</th><th>Job scheduler with GPU requests (§4)</th></tr>
+<tr><th><code>pip install</code> without pinned versions</th><th>&quot;Works on my machine&quot; failures</th><th><code>uv.lock</code> or <code>requirements.txt</code> with exact pins</th></tr>
+<tr><th>Training on full data without validation split</th><th>Overfitting, no early stopping signal</th><th>Always hold out validation + test splits</th></tr>
+</tbody></table>
+<h3 id="pre-flight-checklist">Pre-flight Checklist</h3>
+<p>Before running ML training:</p>
+<ul>
+<li>[ ] Experiment tracker configured and logging params/metrics/artifacts</li>
+<li>[ ] Training data versioned (DVC tag or Delta version recorded)</li>
+<li>[ ] Data schema validated before training starts</li>
+<li>[ ] Checkpointing configured (frequency, storage location)</li>
+<li>[ ] GPU resources explicitly requested (type, count, memory)</li>
+<li>[ ] Reproducibility: random seeds fixed, library versions pinned</li>
+<li>[ ] Pipeline is idempotent — re-run produces same output</li>
+<li>[ ] Model registry configured for promotion workflow (staging → production)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

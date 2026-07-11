@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo Trust Sections — Design Patterns &amp; Judgment — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Logo Trust Sections — Design Patterns &amp; Judgment</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/logo-trust-sections.md</p>
+<h2 id="logo-trust-sections-design-patterns-judgment">Logo Trust Sections — Design Patterns &amp; Judgment</h2>
+<p>Design guidance for integration/partner/client logo sections. These are trust signals, not UI components.</p>
+<p>Read <code>dev-frontend/references/core/logo-sections.md</code> for the CSS implementation.</p>
+<p>Read <code>dev-frontend/references/core/brand-asset-sourcing.md</code> for SVG sourcing.</p>
+<p>---</p>
+<h3 id="purpose">Purpose</h3>
+<p>Logo sections serve ONE job: <strong>social proof</strong>. They answer: &quot;Who else uses this?&quot;</p>
+<p>They are NOT:</p>
+<ul>
+<li>Navigation (users don&#x27;t click them)</li>
+<li>Feature lists (no detailed info needed)</li>
+<li>Calls to action (no conversion expected)</li>
+<li>Interactive components (no hover/click feedback expected)</li>
+</ul>
+<p>Design them as passive, ambient trust signals. Like a restaurant displaying a Michelin star — you notice it, you don&#x27;t interact with it.</p>
+<p>---</p>
+<h3 id="pattern-decision-table">Pattern Decision Table</h3>
+<table class="rules"><tbody>
+<tr><th>Situation</th><th>Pattern</th><th>Rationale</th></tr>
+<tr><th>3-6 recognizable logos</th><th>Static flex row, centered</th><th>Clean, scannable, no animation needed</th></tr>
+<tr><th>8-15 logos</th><th>Single-row marquee</th><th>Avoids orphan cells, shows volume</th></tr>
+<tr><th>15+ logos</th><th>Dual-row opposing marquee</th><th>Shows scale, feels dynamic</th></tr>
+<tr><th>Logos link to case studies</th><th>Static grid, clickable</th><th>Links add value, hover justified</th></tr>
+<table class="rules"><tbody>
+<tr><th>Premium/enterprise feel</th><th>Static grid, generous spacing</th><th>Motion can feel unserious</th></tr>
+<tr><th>Startup/modern SaaS feel</th><th>Marquee, fast but smooth</th><th>Energy matches brand</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="anti-patterns-do-not">Anti-Patterns (Do NOT)</h3>
+<h4 id="1-individual-hover-effects-on-non-clickable-logos">1. Individual hover effects on non-clickable logos</h4>
+<p>Users hover, expect a click target, find nothing. Trust signals should never feel broken.</p>
+<h4 id="2-css-grid-with-orphan-cells">2. CSS Grid with orphan cells</h4>
+<p>One logo alone on the last row looks broken. Use flexbox or marquee instead.</p>
+<h4 id="3-generic-stroke-icons-instead-of-brand-marks">3. Generic stroke icons instead of brand marks</h4>
+<p>Use actual brand SVGs from Simple Icons, SVGL, or press kits. See <code>brand-asset-sourcing.md</code>.</p>
+<h4 id="4-colorful-logos-clashing-with-each-other">4. Colorful logos clashing with each other</h4>
+<p>Multiple full-color logos fight for attention. Apply uniform grayscale treatment.</p>
+<p>---</p>
+<h3 id="visual-treatment">Visual Treatment</h3>
+<p><strong>Default state:</strong> All logos monochrome, dimmed, uniform height (28-32px).</p>
+<p><strong>Dark mode:</strong> Invert for visibility with <code>brightness(1.2) invert(1)</code>.</p>
+<p><strong>Consistent sizing:</strong> Set a uniform <code>height</code> and let <code>width: auto</code> maintain aspect ratios. Do NOT stretch logos.</p>
+<p>---</p>
+<h3 id="placement-on-page">Placement on Page</h3>
+<table class="rules"><tbody>
+<tr><th>Position</th><th>Effectiveness</th><th>Notes</th></tr>
+<tr><th>Below hero, above fold</th><th>Highest</th><th>Immediate credibility before scroll</th></tr>
+<tr><th>Near pricing/CTA</th><th>High</th><th>Reduces purchase anxiety</th></tr>
+<tr><th>Mid-page section break</th><th>Medium</th><th>Trust reinforcement during consideration</th></tr>
+<tr><th>Footer area</th><th>Low</th><th>Afterthought feel</th></tr>
+</tbody></table>
+<p><strong>Best practice:</strong> Place near the primary conversion point (pricing, sign-up, CTA). &quot;Trusted by&quot; directly above the CTA is a strong pattern.</p>
+<p>---</p>
+<h3 id="marquee-speed-guidelines">Marquee Speed Guidelines</h3>
+<table class="rules"><tbody>
+<tr><th>Speed</th><th>Duration</th><th>Feel</th><th>Use</th></tr>
+<tr><th>Very slow</th><th>50-60s</th><th>Calm, premium</th><th>Enterprise, finance</th></tr>
+<tr><th>Slow</th><th>30-40s</th><th>Professional</th><th>General SaaS</th></tr>
+<tr><th>Medium</th><th>20-30s</th><th>Energetic</th><th>Startups, dev tools</th></tr>
+<tr><th>Fast</th><th>&lt;15s</th><th>Cheap, frantic</th><th><strong>Avoid</strong></th></tr>
+</tbody></table>
+<p><code>linear</code> timing function only — no easing. Constant speed feels intentional; eased motion feels like a carousel.</p>
+<p>---</p>
+<h3 id="accessibility-requirements">Accessibility Requirements</h3>
+<ul>
+<li>[ ] <code>aria-label</code> on marquee container: &quot;Trusted by leading companies&quot;</li>
+<li>[ ] Duplicate logos get <code>aria-hidden=&quot;true&quot;</code> and empty <code>alt=&quot;&quot;</code></li>
+<li>[ ] <code>prefers-reduced-motion: reduce</code> stops all animation</li>
+<li>[ ] Sufficient contrast between logos and background</li>
+<li>[ ] Logos have meaningful <code>alt</code> text (first set only)</li>
+<li>[ ] Pause-on-hover behavior for marquee</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

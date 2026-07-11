@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debugging Modularization (SoT, agent-neutral) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Debugging Modularization (SoT, agent-neutral)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-pabcd/references/debugging-modularization.md</p>
+<h2 id="debugging-modularization-sot-agent-neutral">Debugging Modularization (SoT, agent-neutral)</h2>
+<p>&gt; Source-of-truth contract for runtime-specific debugging references shared across</p>
+<p>&gt; the pabcd_initiative harnesses (codexclaw, cli-jaw, jawcode). This file names the</p>
+<p>&gt; structure and content contract; each harness ships the references in its own</p>
+<p>&gt; skill directory.</p>
+<h3 id="status">Status</h3>
+<table class="rules"><tbody>
+<tr><th>Harness</th><th>Location</th><th>Status</th></tr>
+<tr><th>codexclaw</th><th><code>plugins/codexclaw/skills/dev-debugging/references/runtimes/</code> + <code>tools/</code></th><th>SHIPPED (2026-07-07, 9 runtimes + js/ framework tier + 1 tool)</th></tr>
+<tr><th>cli-jaw</th><th><code>skills_ref/dev-debugging/references/runtimes/</code> + <code>tools/</code></th><th>SHIPPED (2026-07-07, 9 runtimes + js/ framework tier + 1 tool, synced)</th></tr>
+<tr><th>jawcode</th><th>n/a (fork upstream)</th><th>NOT STARTED (9 runtimes available for port) — port when jawcode&#x27;s dev-debugging gains references</th></tr>
+</tbody></table>
+<h3 id="structure-contract">Structure Contract</h3>
+<pre><code>references/
+  runtimes/
+    node.md     # Node.js / tsx / Bun / Deno
+    js/         # JS framework tier (node.md is the hub)
+      nextjs-react.md   # Next.js 16 / React 19 / RSC
+      vite-vitest.md    # Vite 8 / Vitest 4 / HMR / build failures
+      node-backend.md   # Express 5 / Fastify 5 / NestJS 11
+    python.md   # CPython 3.9+
+    rust.md     # cargo / tokio
+    go.md       # Delve / pprof
+    c-cpp.md    # sanitizers / GDB / LLDB / Valgrind
+    jvm.md      # jcmd / JFR / JDWP / Kotlin / GraalVM
+    swift.md    # LLDB / Instruments / simulator CLI
+    ruby.md     # debug gem / rdbg / Rails
+    beam.md     # IEx / Observer / :dbg / recon
+  tools/
+    playwright.md   # browser-surface deterministic repro</code></pre>
+<p>Each runtime file MUST include: Phase 0 environment detection, attach/launch</p>
+<p>recipes, the runtime&#x27;s debugging hierarchy (lightest tool first), a</p>
+<p>silent-failure pattern table, and a cleanup section. Lineage: lazycodex</p>
+<p><code>debugging/references/runtimes/</code> + gpt-5.5 Tier-2 external research round.</p>
+<h3 id="slop-cleanup-checklist-review-slop-01">Slop Cleanup Checklist (REVIEW-SLOP-01)</h3>
+<p>Shipped in <code>dev-code-reviewer</code> SKILL.md on both codexclaw and cli-jaw. 9</p>
+<p>categories adapted from lazycodex <code>remove-ai-slops</code>: stylistic (obvious</p>
+<p>comments, over-defensive, excessive complexity), structural (needless</p>
+<p>abstraction, boundary violations, oversized &gt;250L as smell not mandate),</p>
+<p>hidden cost (perf equivalences, scope leaks), coverage (missing behavior</p>
+<p>tests). Safety invariant: green tests before removing code.</p>
+<h3 id="sources">Sources</h3>
+<ul>
+<li>lazycodex <code>debugging/references/runtimes/{node,python,rust,go}.md</code></li>
+<li>lazycodex <code>remove-ai-slops/SKILL.md</code> (9-category taxonomy)</li>
+<li>gpt-5.5 research round (2026-07-07): Node 22+ inspect-wait, Python 3.14</li>
+</ul>
+<p>PEP 768, Vitest 4 debugging, Miri/tokio-console, Delve/pprof, Playwright</p>
+<p>agent integration</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

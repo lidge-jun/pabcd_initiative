@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UX Preflight Checklist — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>UX Preflight Checklist</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/ux-preflight.md</p>
+<h2 id="ux-preflight-checklist">UX Preflight Checklist</h2>
+<p>Run this checklist <strong>before delivery</strong> of any UI feature. Each item is a binary pass/fail.</p>
+<p>---</p>
+<h3 id="state-coverage">State Coverage</h3>
+<table class="rules"><tbody>
+<tr><th>State</th><th>Check</th><th>Pass?</th></tr>
+<tr><th>Empty</th><th>First-time user sees helpful guidance, not a blank screen</th><th></th></tr>
+<tr><th>Loading</th><th>Skeleton or spinner matches final layout shape</th><th></th></tr>
+<tr><th>Error</th><th>User knows what failed AND how to recover</th><th></th></tr>
+<tr><th>Partial</th><th>Mixed loaded/pending content is visually coherent</th><th></th></tr>
+<table class="rules"><tbody>
+<tr><th>Success</th><th>Confirmation is visible without being disruptive</th><th></th></tr>
+<tr><th>Offline</th><th>Graceful degradation or clear &quot;offline&quot; indicator</th><th></th></tr>
+</tbody></table>
+<h3 id="onboarding">Onboarding</h3>
+<ul>
+<li>[ ] First-run experience guides without blocking</li>
+<li>[ ] Progressive disclosure: advanced features hidden until needed</li>
+<li>[ ] Empty states include a clear primary action (&quot;Create your first...&quot;)</li>
+<li>[ ] No dead-end screens (every state has a next action)</li>
+</ul>
+<h3 id="error-states">Error States</h3>
+<ul>
+<li>[ ] Error messages are specific (not &quot;Something went wrong&quot;)</li>
+<li>[ ] Recovery action is available (retry, go back, contact support)</li>
+<li>[ ] Form errors appear inline, not only as toast/alert</li>
+<li>[ ] Network errors distinguish timeout from server error</li>
+</ul>
+<h3 id="loading-states">Loading States</h3>
+<ul>
+<li>[ ] Skeleton loaders match actual content layout</li>
+<li>[ ] No layout shift when content loads</li>
+<li>[ ] Long operations show progress (determinate &gt; indeterminate)</li>
+<li>[ ] Optimistic UI used where safe (toggling, starring, archiving)</li>
+</ul>
+<h3 id="interaction-feedback">Interaction Feedback</h3>
+<ul>
+<li>[ ] Every clickable element has hover + active states</li>
+<li>[ ] Destructive actions require confirmation</li>
+<li>[ ] Undo available for reversible actions</li>
+<li>[ ] Focus states visible for keyboard navigation</li>
+</ul>
+<h3 id="responsive-verification">Responsive Verification</h3>
+<ul>
+<li>[ ] Test at 390px (mobile), 768px (tablet), 1440px (desktop)</li>
+<li>[ ] No horizontal scroll at any viewport</li>
+<li>[ ] Touch targets ≥ 44px on mobile</li>
+<li>[ ] Navigation is accessible at all breakpoints</li>
+</ul>
+<h3 id="typography">Typography</h3>
+<ul>
+<li>[ ] Headings render balanced (no orphaned single word)</li>
+<li>[ ] Body text max-width ≤ 65ch</li>
+<li>[ ] Line height comfortable for body (1.5-1.7) and headings (1.1-1.3)</li>
+<li>[ ] CJK text uses <code>word-break: keep-all</code> where appropriate</li>
+</ul>
+<h3 id="accessibility-minimum">Accessibility Minimum</h3>
+<ul>
+<li>[ ] All images have meaningful <code>alt</code> text (or <code>alt=&quot;&quot;</code> for decorative)</li>
+<li>[ ] Color contrast passes WCAG AA (4.5:1 text, 3:1 large text)</li>
+<li>[ ] Skip-to-content link present</li>
+<li>[ ] Forms have associated labels</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

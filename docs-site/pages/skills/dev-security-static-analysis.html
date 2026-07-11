@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Static Analysis and Security Tooling — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Static Analysis and Security Tooling</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-security/references/static-analysis.md</p>
+<h2 id="static-analysis-and-security-tooling">Static Analysis and Security Tooling</h2>
+<p>Last reviewed: 2026-07-02</p>
+<p>Security tooling belongs inside the development loop: write code, scan locally, fix findings, scan again, then let CI enforce the same baseline.</p>
+<h3 id="tool-matrix">Tool Matrix</h3>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Primary Use</th><th>Best For</th></tr>
+<tr><th>Semgrep</th><th>Pattern-based SAST</th><th>Fast feedback and custom secure-coding rules</th></tr>
+<tr><th>CodeQL</th><th>Semantic analysis</th><th>Data-flow issues and GitHub code scanning</th></tr>
+<tr><th><code>eslint-plugin-security</code></th><th>JS and TS lint-time rules</th><th>Eval, regex, child process, object injection warnings</th></tr>
+<tr><th><code>npm audit</code></th><th>Node dependency audit</th><th>Registry-known package vulnerabilities</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>pip-audit</code></th><th>Python dependency audit</th><th>Pinned dependency vulnerability checks</th></tr>
+<tr><th>Bandit</th><th>Python code scanning</th><th>Deserialization, subprocess, weak crypto</th></tr>
+<tr><th>gitleaks</th><th>Secret scanning</th><th>Keys, tokens, passwords in working tree and history</th></tr>
+</tbody></table>
+<h3 id="semgrep">Semgrep</h3>
+<pre><code>semgrep --config=auto .
+semgrep --config=p/owasp .
+semgrep --config=p/trailofbits .</code></pre>
+<p>Custom rule example:</p>
+<pre><code>rules:
+  - id: no-raw-query-unsafe
+    message: Avoid unsafe raw SQL execution.
+    languages: [javascript, typescript]
+    severity: ERROR
+    patterns:
+      - pattern: $DB.$QUERY($SQL)
+      - metavariable-regex:
+          metavariable: $QUERY
+          regex: &#x27;.*Unsafe$&#x27;</code></pre>
+<h3 id="codeql">CodeQL</h3>
+<pre><code>name: codeql
+on:
+  pull_request:
+  push:
+    branches: [main, agent]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2 (unverified)
+      - uses: github/codeql-action/init@6bb031f19398d5e737441fa72f52dc95012a9e8a # v3.28.16 (unverified)
+        with:
+          languages: javascript-typescript, python, go
+      - uses: github/codeql-action/autobuild@6bb031f19398d5e737441fa72f52dc95012a9e8a # v3.28.16 (unverified)
+      - uses: github/codeql-action/analyze@6bb031f19398d5e737441fa72f52dc95012a9e8a # v3.28.16 (unverified)</code></pre>
+<h3 id="eslint-security-plugin">ESLint Security Plugin</h3>
+<pre><code>npm install --save-dev eslint-plugin-security</code></pre>
+<pre><code>module.exports = {
+  extends: [&#x27;eslint:recommended&#x27;],
+  plugins: [&#x27;security&#x27;],
+  rules: {
+    &#x27;security/detect-eval-with-expression&#x27;: &#x27;error&#x27;,
+    &#x27;security/detect-child-process&#x27;: &#x27;warn&#x27;,
+    &#x27;security/detect-non-literal-fs-filename&#x27;: &#x27;warn&#x27;,
+  },
+};</code></pre>
+<h3 id="dependency-audits">Dependency Audits</h3>
+<pre><code>npm audit --audit-level=high
+pip-audit
+python -m bandit -q -r .
+govulncheck ./...</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Fail CI on high or critical findings unless an exception is documented.</li>
+<li>Prefer upgrades, pins, or package replacement over suppressing the alert.</li>
+<li>Re-run audits after dependency changes, not only before release.</li>
+</ul>
+<h3 id="bandit">Bandit</h3>
+<pre><code>bandit -q -r .
+bandit -q -r app tests scripts</code></pre>
+<h3 id="gitleaks">Gitleaks</h3>
+<pre><code>gitleaks detect --source=. --no-git
+gitleaks protect --staged --verbose</code></pre>
+<p>Use <code>detect</code> for repository scans and <code>protect --staged</code> in hooks.</p>
+<h3 id="pre-commit-hook">Pre-commit Hook</h3>
+<p>Use a repo-local hook when pre-commit is not standardized.</p>
+<pre><code>#!/usr/bin/env bash
+set -euo pipefail
+
+gitleaks protect --staged --verbose
+semgrep --config=auto .
+if [ -f package.json ]; then
+  npm audit --audit-level=high
+fi
+if [ -f requirements.txt ] || [ -f pyproject.toml ]; then
+  pip-audit
+  bandit -q -r .
+fi</code></pre>
+<h3 id="github-actions-security-pipeline">GitHub Actions Security Pipeline</h3>
+<pre><code>name: security
+on:
+  pull_request:
+  push:
+    branches: [agent]
+
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2 (unverified)
+      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2 (unverified)
+        if: hashFiles(&#x27;package-lock.json&#x27;) != &#x27;&#x27;
+        with:
+          node-version: &#x27;22&#x27;
+      - uses: actions/setup-python@42375524ce98b5c2f38de1235a9ff8635e4d5d80 # v5.1.0 (unverified)
+        if: hashFiles(&#x27;requirements.txt&#x27;, &#x27;pyproject.toml&#x27;) != &#x27;&#x27;
+        with:
+          python-version: &#x27;3.12&#x27;
+      - run: npm ci
+        if: hashFiles(&#x27;package-lock.json&#x27;) != &#x27;&#x27;
+      - run: npm audit --audit-level=high
+        if: hashFiles(&#x27;package-lock.json&#x27;) != &#x27;&#x27;
+      - run: python -m pip install pip-audit bandit semgrep
+        if: hashFiles(&#x27;requirements.txt&#x27;, &#x27;pyproject.toml&#x27;) != &#x27;&#x27;
+      - run: pip-audit
+        if: hashFiles(&#x27;requirements.txt&#x27;, &#x27;pyproject.toml&#x27;) != &#x27;&#x27;
+      - run: bandit -q -r .
+        if: hashFiles(&#x27;requirements.txt&#x27;, &#x27;pyproject.toml&#x27;) != &#x27;&#x27;
+      - run: semgrep --config=auto .
+      - run: gitleaks detect --source=. --no-git</code></pre>
+<h3 id="recommended-gate-by-stack">Recommended Gate by Stack</h3>
+<ul>
+<li>JavaScript and TypeScript: ESLint security plugin, Semgrep, <code>npm audit</code>, gitleaks.</li>
+<li>Python: Bandit, Semgrep, <code>pip-audit</code>, gitleaks.</li>
+<li>Go: <code>govulncheck</code>, Semgrep, gitleaks.</li>
+<li>Polyglot repositories: CodeQL plus the language-native tools above.</li>
+</ul>
+<p>Use this file with <code>dev-testing</code> for blocking CI gates and with <code>dev-code-reviewer</code> for review-start criteria.</p>
+<h3 id="2026-landscape-update-verified-2026-07-02">2026 Landscape Update (verified 2026-07-02)</h3>
+<ul>
+<li><code>returntocorp/semgrep-action</code> is deprecated (stated by the repo) — run Semgrep</li>
+</ul>
+<p>natively in CI (<code>semgrep ci</code>).</p>
+<ul>
+<li><strong>Opengrep</strong> is an active LGPL-2.1 community fork of Semgrep CE (Jan 2025, 10+</li>
+</ul>
+<p>vendor consortium): restores cross-file taint analysis and Windows support removed</p>
+<p>from CE; ~weekly releases. Choose Opengrep for fully-open-source engines; Semgrep</p>
+<p>platform for the commercial rule/taint stack.</p>
+<ul>
+<li>Complement <code>npm audit</code> with <strong>osv-scanner</strong> for cross-ecosystem dependency checks.</li>
+</ul>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Source</th><th>Checked</th></tr>
+<tr><th>semgrep-action deprecated</th><th>https://github.com/returntocorp/semgrep-action</th><th>2026-07-02</th></tr>
+<tr><th>Opengrep fork status/governance</th><th>https://www.opengrep.dev/ ; https://semgrep.dev/docs/faq/comparisons/opengrep</th><th>2026-07-02</th></tr>
+<tr><th>osv-scanner scope</th><th>https://google.github.io/osv-scanner/</th><th>2026-07-02</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

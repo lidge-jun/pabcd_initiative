@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML Infrastructure — GPU Clusters, Model Registry, Serving — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>ML Infrastructure — GPU Clusters, Model Registry, Serving</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/ml-infra.md</p>
+<h2 id="ml-infrastructure-gpu-clusters-model-registry-serving">ML Infrastructure — GPU Clusters, Model Registry, Serving</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: NVIDIA GPU clusters, model serving platforms, MLOps</p>
+<p>When to read: ML infrastructure provisioning or model deployment</p>
+<p>Canonical owner: dev-devops (infra layer); dev-backend owns API/serving code patterns</p>
+<p>---</p>
+<h3 id="1-gpu-cluster-management">§1 GPU Cluster Management</h3>
+<h4 id="node-selection">Node Selection</h4>
+<table class="rules"><tbody>
+<tr><th>GPU</th><th>VRAM</th><th>Best For</th><th>K8s Resource</th></tr>
+<tr><th>A100 (40/80GB)</th><th>40-80GB</th><th>Training, large model inference</th><th><code>nvidia.com/gpu: 1</code></th></tr>
+<tr><th>H100 (80GB)</th><th>80GB</th><th>Large-scale training, HPC</th><th><code>nvidia.com/gpu: 1</code></th></tr>
+<tr><th>L4 (24GB)</th><th>24GB</th><th>Inference, cost-efficient</th><th><code>nvidia.com/gpu: 1</code></th></tr>
+<tr><th>T4 (16GB)</th><th>16GB</th><th>Light inference, dev/test</th><th><code>nvidia.com/gpu: 1</code></th></tr>
+</tbody></table>
+<h4 id="k8s-gpu-scheduling">K8s GPU Scheduling</h4>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-server
+spec:
+  template:
+    spec:
+      containers:
+        - name: server
+          image: model-server@sha256:abc123
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+              memory: &quot;32Gi&quot;
+            requests:
+              nvidia.com/gpu: 1
+              memory: &quot;16Gi&quot;
+      nodeSelector:
+        accelerator: nvidia-l4
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule</code></pre>
+<h4 id="cost-optimization">Cost Optimization</h4>
+<table class="rules"><tbody>
+<tr><th>Strategy</th><th>Detail</th></tr>
+<tr><th>Spot/preemptible</th><th>Training workloads (checkpointed)</th></tr>
+<tr><th>Right-sizing</th><th>Match GPU VRAM to model size</th></tr>
+<tr><th>Time-sharing</th><th>NVIDIA MPS for small inference models</th></tr>
+<tr><th>Autoscaling</th><th>Scale-to-zero with KEDA for inference</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="2-model-registry">§2 Model Registry</h3>
+<h4 id="registry-selection">Registry Selection</h4>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Best For</th><th>Key Feature</th></tr>
+<tr><th>MLflow Model Registry</th><th>General MLOps</th><th>Versioning, staging, lineage</th></tr>
+<tr><th>Weights &amp; Biases</th><th>Experiment tracking + registry</th><th>Artifacts, sweeps, reports</th></tr>
+<tr><th>HuggingFace Hub</th><th>Open-source models, LoRA adapters</th><th>Model cards, datasets</th></tr>
+<tr><th>SageMaker Model Registry</th><th>AWS-native MLOps</th><th>Approval workflows</th></tr>
+</tbody></table>
+<h4 id="model-versioning-contract">Model Versioning Contract</h4>
+<pre><code>models/
+  payments-fraud-detector/
+    v1.0.0/
+      model.onnx
+      config.json
+      metrics.json     # eval metrics at registration
+      requirements.txt # inference dependencies
+    v1.1.0/
+      ...</code></pre>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>SemVer</th><th>Major = breaking API change, Minor = improved metrics, Patch = fix</th></tr>
+<tr><th>Immutable</th><th>Once registered, never overwrite — create new version</th></tr>
+<tr><th>Metrics</th><th>Eval metrics recorded at registration time</th></tr>
+<tr><th>Lineage</th><th>Link to training run, dataset version, code commit</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-model-serving-patterns">§3 Model Serving Patterns</h3>
+<h4 id="serving-architecture-decision">Serving Architecture Decision</h4>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>When</th><th>Tool</th></tr>
+<tr><th>REST/gRPC API</th><th>Low-medium throughput, general models</th><th>FastAPI, TorchServe, Triton</th></tr>
+<tr><th>Batch inference</th><th>Large dataset, latency-tolerant</th><th>Spark, Ray, SageMaker Batch</th></tr>
+<tr><th>Streaming</th><th>Real-time features, event-driven</th><th>Kafka + model sidecar</th></tr>
+<tr><th>Edge inference</th><th>Latency-critical, privacy-sensitive</th><th>ONNX Runtime, TF Lite, Core ML</th></tr>
+</tbody></table>
+<h4 id="k8s-serving-with-scale-to-zero">K8s Serving with Scale-to-Zero</h4>
+<pre><code># KEDA ScaledObject for inference service
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: model-server-scaler
+spec:
+  scaleTargetRef:
+    name: model-server
+  minReplicaCount: 0  # scale to zero when idle
+  maxReplicaCount: 10
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus:9090
+        metricName: http_requests_total
+        query: rate(http_requests_total{service=&quot;model-server&quot;}[2m])
+        threshold: &quot;10&quot;
+  cooldownPeriod: 300  # 5min before scale-down</code></pre>
+<h4 id="health-checks-for-model-servers">Health Checks for Model Servers</h4>
+<pre><code># FastAPI model server health
+@app.get(&quot;/health&quot;)
+async def health():
+    return {&quot;status&quot;: &quot;ok&quot;, &quot;model_loaded&quot;: model is not None}
+
+@app.get(&quot;/ready&quot;)
+async def ready():
+    # Verify model can actually inference
+    try:
+        _ = model.predict(dummy_input)
+        return {&quot;status&quot;: &quot;ready&quot;}
+    except Exception as e:
+        return JSONResponse({&quot;status&quot;: &quot;not_ready&quot;, &quot;error&quot;: str(e)}, status_code=503)</code></pre>
+<p>---</p>
+<h3 id="4-edge-inference-triage">§4 Edge Inference Triage</h3>
+<h4 id="decision-cloud-vs-edge-inference">Decision: Cloud vs Edge Inference</h4>
+<table class="rules"><tbody>
+<tr><th>Factor</th><th>Cloud</th><th>Edge</th></tr>
+<tr><th>Latency requirement</th><th>&gt;100ms acceptable</th><th>&lt;50ms required</th></tr>
+<tr><th>Model size</th><th>&gt;1GB</th><th>&lt;500MB (quantized)</th></tr>
+<tr><th>Privacy</th><th>Data can leave device</th><th>Data must stay on device</th></tr>
+<tr><th>Connectivity</th><th>Reliable network</th><th>Intermittent/offline</th></tr>
+<table class="rules"><tbody>
+<tr><th>Update frequency</th><th>Frequent model updates</th><th>Infrequent, versioned</th></tr>
+</tbody></table>
+<h4 id="edge-model-optimization-pipeline">Edge Model Optimization Pipeline</h4>
+<pre><code>Full model (PyTorch/TF)
+  → Export to ONNX
+  → Quantize (INT8/FP16)
+  → Optimize (ONNX Runtime, TensorRT, Core ML)
+  → Package with inference runtime
+  → Deploy to edge device</code></pre>
+<h4 id="runtime-selection">Runtime Selection</h4>
+<table class="rules"><tbody>
+<tr><th>Runtime</th><th>Platform</th><th>Best For</th></tr>
+<tr><th>ONNX Runtime</th><th>Cross-platform</th><th>General inference, web</th></tr>
+<tr><th>TensorRT</th><th>NVIDIA GPU</th><th>GPU-optimized inference</th></tr>
+<tr><th>Core ML</th><th>Apple devices</th><th>iOS/macOS on-device</th></tr>
+<tr><th>TF Lite</th><th>Mobile/embedded</th><th>Android, IoT</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="5-mlops-platform-patterns">§5 MLOps Platform Patterns</h3>
+<h4 id="training-pipeline">Training Pipeline</h4>
+<pre><code>Data versioning (DVC/LakeFS)
+  → Feature engineering (dbt/Spark)
+  → Training (distributed, GPU cluster)
+  → Evaluation (automated metrics + human review)
+  → Registration (model registry)
+  → Deployment (CI/CD → serving infra)
+  → Monitoring (data drift, model performance)</code></pre>
+<h4 id="monitoring">Monitoring</h4>
+<table class="rules"><tbody>
+<tr><th>Signal</th><th>What to Watch</th><th>Alert On</th></tr>
+<tr><th>Data drift</th><th>Feature distribution shift</th><th>KL divergence &gt; threshold</th></tr>
+<tr><th>Model performance</th><th>Accuracy, F1, latency</th><th>Degradation from baseline</th></tr>
+<tr><th>Prediction distribution</th><th>Output class balance</th><th>Unexpected shift</th></tr>
+<tr><th>Infrastructure</th><th>GPU utilization, memory, throughput</th><th>Saturation &gt; 90%</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="6-anti-patterns">§6 Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>GPU always-on for batch</th><th>Burning money when idle</th><th>Scale-to-zero with KEDA</th></tr>
+<tr><th>No model versioning</th><th>Can&#x27;t rollback, can&#x27;t reproduce</th><th>Model registry with SemVer</th></tr>
+<tr><th>Training on spot without checkpoints</th><th>Lost hours of compute</th><th>Checkpoint every N steps</th></tr>
+<tr><th>Serving without health checks</th><th>Silent model loading failures</th><th><code>/health</code> + <code>/ready</code> endpoints</th></tr>
+<table class="rules"><tbody>
+<tr><th>No data drift monitoring</th><th>Silent accuracy degradation</th><th>Automated drift detection</th></tr>
+<tr><th>One-size GPU</th><th>Overpaying for inference</th><th>Right-size: L4/T4 for inference, A100/H100 for training</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

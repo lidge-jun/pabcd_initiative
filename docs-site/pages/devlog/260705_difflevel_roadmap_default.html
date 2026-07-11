@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>00_plan — Implementation-unit discipline as the harness default (de-branded, strict) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/_fin/260705_difflevel_roadmap_default/00_plan.md</p>
+<h2 id="00-plan-implementation-unit-discipline-as-the-harness-default-de-branded-strict">00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</h2>
+<p>Date: 2026-07-05 (rev 3 — scope expanded to 4-harness roadmap by user directive)</p>
+<p>Unit: <code>devlog/_plan/260705_difflevel_roadmap_default/</code></p>
+<p>Class: C3 (cross-agent contract change to the canonical methodology spec; durable audit trail required)</p>
+<h3 id="loop-spec">Loop-spec</h3>
+<ul>
+<li><strong>Loop archetype</strong>: spec-satisfaction (verifier defines done)</li>
+<li><strong>Trigger</strong>: user interview 2026-07-05 — the harness spec does not enforce the</li>
+</ul>
+<p>difflevel-plan routine; agents keep producing research-only units, effort-bucketed</p>
+<p>phase splits, bare-named plan files, and undocumented small work. Root causes: the</p>
+<p>routine is branded (&quot;Jawdev style&quot;) and therefore opt-in; deferred concretization</p>
+<p>(&quot;fill per cycle&quot;) is the default; no effort-bucketing ban; unit residence gated on</p>
+<p>work class.</p>
+<ul>
+<li><strong>Goal</strong>: any agent following the pabcd_initiative skill family must, without being</li>
+</ul>
+<p>asked: (1) treat implementation-unit documentation as the unbranded DEFAULT process,</p>
+<p>(2) for multi-phase work produce the full roadmap with EVERY phase doc at diff-level</p>
+<p>up front, dependency-ordered, (3) never write bare-named or mixed research/implementation</p>
+<p>docs, (4) leave a numbered record in a unit for ALL work, down to C0 hotfixes.</p>
+<ul>
+<li><strong>Non-goals</strong>: FSM/server code changes; renumbering existing unit folders;</li>
+</ul>
+<p>blind-copying text across harnesses (each port adapts to that repo&#x27;s conventions).</p>
+<ul>
+<li><strong>Verifier</strong>:</li>
+<ul>
+<li><code>grep -ric jawdev skills/</code> → 0 hits (full de-brand)</li>
+<li><code>DIFFLEVEL-ROADMAP-01</code> / <code>PHASE-SPLIT-01</code> / <code>LEXICO-SPLIT-01</code> / <code>UNIT-RESIDENCE-01</code></li>
+</ul>
+</ul>
+<p>present at definition site (dev-pabcd §3.1/§3) and at every consumer touchpoint</p>
+<p>listed in 10_phase1</p>
+<ul>
+<ul>
+<li><code>grep -rn &quot;fill per cycle&quot; skills/</code> → 0; <code>grep -n &quot;scaffold per-phase decade docs&quot; skills/dev-pabcd/SKILL.md</code> → 0</li>
+<li>independent A-phase audit (opus-4-6 per user instruction) + B read-back</li>
+</ul>
+<li><strong>Stop condition</strong>: all MODIFY blocks in <code>10_phase1_harness_patch.md</code> applied and</li>
+</ul>
+<p>verified; no files outside the 4 listed touched.</p>
+<ul>
+<li><strong>Memory artifact</strong>: this unit folder.</li>
+<li><strong>Expected terminal states</strong>: DONE, or NEEDS_HUMAN if a gate decision is rejected.</li>
+<li><strong>Escalation condition</strong>: any patch target text no longer matches (files drifted).</li>
+</ul>
+<h3 id="evidence-baseline-why-the-harness-fails-today">Evidence baseline (why the harness fails today)</h3>
+<ol>
+<li><strong>Branding = opt-in escape hatch</strong>: <code>dev-scaffolding/SKILL.md</code> gates the routine on</li>
+</ol>
+<p>&quot;The user asks for Jawdev/Lidge-style structure&quot; (3 places). A named style invites</p>
+<p>&quot;the user didn&#x27;t ask for that style&quot; as a skip reason.</p>
+<ol>
+<li><strong>Deferred concretization is the default</strong>: <code>implementation-log.md</code> L37-38 &quot;written</li>
+</ol>
+<p>in P of ITS cycle (pre-scaffold … fill per cycle)&quot;; <code>dev-pabcd</code> §5 &quot;scaffold</p>
+<p>per-phase decade docs up front&quot; — empty scaffolds satisfy the letter of the rule.</p>
+<ol>
+<li><strong>No effort-bucketing ban</strong>: 0 grep hits across the skill family.</li>
+<li><strong>Unit residence gated on class</strong>: <code>implementation-log.md</code> &quot;C0-C2 work does not get</li>
+</ol>
+<p>a unit folder&quot;; <code>dev</code> §0.1 keeps change documentation only &quot;when a worklog/changelog</p>
+<p>file is provided&quot;.</p>
+<ol>
+<li><strong>Field evidence</strong> (opus-4-6 scan of 12 recent units, 2026-07-05): newest unit</li>
+</ol>
+<p><code>codexclaw/…/260705_hook_diet_skill_implicit</code> = master plan + 6 research docs,</p>
+<p>0 phase docs, 0 diff markers; bare-name violations still occur</p>
+<p>(<code>chatcli/devlog/_plan/mvpplan/</code>, historical <code>PLAN.md</code>/<code>DIFF_PLAN.md</code>).</p>
+<p>Good exemplar for the target state: <code>260703_gui_production_hardening</code></p>
+<p>(8 phase docs, 27 NEW/MODIFY/DELETE blocks).</p>
+<ol>
+<li><strong>Downstream reference survey</strong> (for later port units, out of scope here):</li>
+</ol>
+<p>cli-jaw skills_ref has identical weaknesses incl. the 3 opt-in gates; codexclaw</p>
+<p>partial (decade numbering present, no upfront/ban rules); jawcode jwc family has</p>
+<p>no implementation-unit concept at all (6 skills, no devlog/numbering rules).</p>
+<h3 id="interview-decisions-2026-07-05-binding">Interview decisions (2026-07-05, binding)</h3>
+<ol>
+<li><strong>Depth</strong>: ALL phases fully diff-level up front; later cycles&#x27; P does a stale</li>
+</ol>
+<p>re-verify of the pre-written doc, never writes it fresh.</p>
+<ol>
+<li><strong>Split criterion</strong>: dependency/architecture order (foundations → core →</li>
+</ol>
+<p>integration → hardening). Effort bucketing FORBIDDEN.</p>
+<ol>
+<li><strong>Nature of fix</strong>: harness spec improvement — the spec text enforces this, not</li>
+</ol>
+<p>per-request triggers.</p>
+<ol>
+<li><strong>Scope (rev 3, supersedes rev 1-2)</strong>: full 4-harness roadmap in THIS unit —</li>
+</ol>
+<p>Phase 1 pabcd_initiative (canonical), then cli-jaw, jawcode, codexclaw, each</p>
+<p>adapted to its own conventions, INCLUDING system-prompt and hook/config surfaces</p>
+<p>that inject planning/devlog rules, not only skill files.</p>
+<ol>
+<li><strong>De-brand</strong>: remove the &quot;Jawdev&quot; name entirely; the routine becomes anonymous</li>
+</ol>
+<p>STRICT rules — a named style is skippable, a rule is not. Interview phase also</p>
+<p>settles unit residence, not just class/archetype.</p>
+<ol>
+<li><strong>Lexicographic strictness</strong>: bare plan filenames are an A-phase FAIL; research</li>
+</ol>
+<p>(00-range) and implementation phase designs (decade ranges) are strictly separate</p>
+<p>documents.</p>
+<ol>
+<li><strong>Universal unit residence</strong>: every piece of work lands in an implementation unit.</li>
+</ol>
+<p>Ceremony scales down (C0/C1 skip PABCD), residence never does — a hotfix leaves a</p>
+<p>numbered record doc (e.g. <code>40_hotfix_slug.md</code>) in its owning unit stating what was</p>
+<p>done and why the fast path applied.</p>
+<ol>
+<li><strong>SoT sync (rev 4)</strong>: before patching a repo, FIND its general source-of-truth</li>
+</ol>
+<p>docs (<code>structure/</code>, architecture/INDEX) first; units that change</p>
+<p>architecture/contracts patch the SoT doc in the SAME unit (C gate); if the repo</p>
+<p>has no SoT doc, RECOMMEND creating one.</p>
+<h3 id="new-rule-ids-introduced">New rule IDs introduced</h3>
+<table class="rules"><tbody>
+<tr><th>ID</th><th>Class</th><th>One-line summary</th><th>Definition site</th></tr>
+<tr><th>DIFFLEVEL-ROADMAP-01</th><th>STRICT</th><th>Multi-phase unit ⇒ first P writes EVERY phase doc to diff-level (copy-paste PRD); later P = stale re-verify + amend</th><th>dev-pabcd §3.1</th></tr>
+<tr><th>PHASE-SPLIT-01</th><th>STRICT</th><th>Phases sliced/ordered by dependency/architecture; effort bucketing (quick-win/heavy, impact-effort) forbidden</th><th>dev-pabcd §3 P</th></tr>
+<tr><th>LEXICO-SPLIT-01</th><th>STRICT</th><th>Every unit doc numbered (lexicographic); bare names FAIL the audit; research and implementation designs never mix in one doc</th><th>dev-pabcd §3.1</th></tr>
+<tr><th>UNIT-RESIDENCE-01</th><th>STRICT</th><th>All work belongs to an implementation unit; C0-C1 skip ceremony but MUST leave a numbered record doc</th><th>dev-pabcd §3.1</th></tr>
+<table class="rules"><tbody>
+<tr><th>SOT-SYNC-01</th><th>DEFAULT</th><th>Find the repo&#x27;s general SoT docs first; patch them in the same unit at C; recommend creating one if absent</th><th>dev-pabcd §3 C / dev-scaffolding §2.1</th></tr>
+</tbody></table>
+<h3 id="work-phase-map-dependency-ordered">Work-phase map (dependency-ordered)</h3>
+<p>Order rationale: canonical rule text must land first (Phase 1 defines the rule IDs</p>
+<p>and wording every port adapts); cli-jaw is the live-deploy source the user works in</p>
+<p>daily (Phase 2); codexclaw already partially adopts the routine so its port is a</p>
+<p>delta (Phase 3); jawcode lacks the concept entirely and needs the largest adapted</p>
+<p>surface, informed by all prior ports (Phase 4). One full PABCD cycle per phase.</p>
+<table class="rules"><tbody>
+<tr><th>Phase</th><th>Doc</th><th>Outcome</th><th>Verifier</th></tr>
+<tr><th>1</th><th><code>10_phase1_harness_patch.md</code></th><th>pabcd_initiative: 4 files patched — rule definitions (dev-pabcd), routine spec (implementation-log), scaffolding consumer (dev-scaffolding), router fast-path (dev); de-branded and hardened</th><th>grep assertions above + read-back audit</th></tr>
+<tr><th>2</th><th><code>20_phase2_cli_jaw.md</code></th><th>cli-jaw: same contract ported into <code>skills_ref</code> + any system-prompt/hook surface that injects planning rules, per cli-jaw conventions</th><th>per-doc grep assertions + read-back audit</th></tr>
+<tr><th>3</th><th><code>30_phase3_codexclaw.md</code></th><th>codexclaw: cxc/pabcd skill family + plugin hooks/prompt surfaces hardened (delta port — partial adoption exists)</th><th>per-doc grep assertions + read-back audit</th></tr>
+<tr><th>4</th><th><code>40_phase4_jawcode.md</code></th><th>jawcode: jwc skill family + role agent prompts/defaults gain the implementation-unit contract (largest adaptation)</th><th>per-doc grep assertions + read-back audit</th></tr>
+</tbody></table>
+<p>Docs 20/30/40 are written to diff-level in THIS first P (DIFFLEVEL-ROADMAP-01),</p>
+<p>from per-repo touchpoint inventories (opus-4-6 agents, exact paths + verbatim</p>
+<p>quotes). A audits in two rounds: round 1 = 00+10 (canonical), round 2 = 20/30/40</p>
+<p>once the inventories land. Later cycles&#x27; P re-verifies each pre-written doc for</p>
+<p>staleness before B, per the rule itself.</p>
+<h3 id="risks">Risks</h3>
+<ul>
+<li><strong>Semantic reversal (carried from rev 1)</strong>: PHASE-SPLIT-01 replaces the</li>
+</ul>
+<p>&quot;user-visible outcome unit&quot; default and deletes &quot;Do not plan a whole database/API</p>
+<p>foundation as one PABCD before any usable outcome exists.&quot; Intentional (user: 정석 /</p>
+<p>unlimited-time process); mitigated by &quot;every phase closes verifiable&quot;.</p>
+<ul>
+<li><strong>Doc staleness</strong>: all-upfront diffs go stale as earlier phases land. Accepted;</li>
+</ul>
+<p>mitigated by mandatory stale re-verify in each later cycle&#x27;s P.</p>
+<ul>
+<li><strong>Record-doc overhead</strong>: UNIT-RESIDENCE-01 adds one small numbered doc per hotfix.</li>
+</ul>
+<p>Accepted by user (rev-2 interview); the rule text keeps the record minimal</p>
+<p>(what/why-fast-path/evidence — not ceremony docs).</p>
+<ul>
+<li><strong>Cross-repo reference drift</strong>: downstream harnesses still reference &quot;§3.1 Jawdev</li>
+</ul>
+<p>Document Numbering&quot; by its old heading; those repos are out of scope and will be</p>
+<p>fixed in their own port units. Within THIS repo all internal references are updated</p>
+<p>in the same patch.</p>
+<h3 id="attestation-log">Attestation log</h3>
+<ul>
+<li>2026-07-05 P (rev 1): plan written; FSM server down (&quot;port undefined&quot;) — per the</li>
+</ul>
+<p>agent-neutral runtime adapter, transition announced in reply and attested here.</p>
+<p><code>{&quot;from&quot;:&quot;I&quot;,&quot;to&quot;:&quot;P&quot;,&quot;did&quot;:&quot;interview settled 4 binding decisions; wrote 00_plan.md + 10_phase1_harness_patch.md with 8 MODIFY blocks at diff-level&quot;}</code></p>
+<ul>
+<li>2026-07-05 P (rev 2): user feedback expanded scope within the repo (de-brand,</li>
+</ul>
+<p>LEXICO-SPLIT-01, UNIT-RESIDENCE-01); downstream survey attached as evidence; both</p>
+<p>plan docs rewritten.</p>
+<ul>
+<li>2026-07-05 P (rev 3) + P→A: user approved and expanded scope to the 4-harness</li>
+</ul>
+<p>roadmap (&quot;pabcd 돌고 첫번째는 initiative에만, 그다음 cli-jaw/jawcode/codexclaw 전부,</p>
+<p>시스템 프롬프트·hook 설정 포함&quot;). FSM server still down — attested here per the</p>
+<p>runtime adapter.</p>
+<p><code>{&quot;from&quot;:&quot;P&quot;,&quot;to&quot;:&quot;A&quot;,&quot;did&quot;:&quot;rev-3 plan: 00_plan.md 4-phase dependency-ordered map + 10_phase1_harness_patch.md (4 files, 21 diff-level blocks); dispatched opus-4-6 audit (round 1: 00+10) and 3 parallel opus-4-6 port-touchpoint inventories for phases 2-4 docs&quot;}</code></p>
+<ul>
+<li>2026-07-05 A round 1 (phase 1): opus-4-6 audit verdict <strong>PASS</strong>, 0 blockers, 3 warns</li>
+</ul>
+<p>+ 1 note. All warns incorporated into the plan as blocks 1.6 (§9 depth-table record</p>
+<p>cell), 3.10 (folder-approval gate exemption), and a fixed verification grep. Note</p>
+<p>(self-compliance: A entered before 20/30/40 existed) acknowledged — round 2 audits</p>
+<p>those docs before any phase 2-4 B.</p>
+<p><code>{&quot;from&quot;:&quot;A&quot;,&quot;to&quot;:&quot;B&quot;,&quot;did&quot;:&quot;opus-4-6 worker audited 00_plan.md + 10_phase1_harness_patch.md against repo: PASS with 3 warns, all folded into plan rev 3 (blocks 1.6/3.10 + grep fix)&quot;}</code></p>
+<ul>
+<li>2026-07-05 B (phase 1): all 23 blocks applied to the 4 target files</li>
+</ul>
+<p>(skills/dev-pabcd/SKILL.md, skills/dev-scaffolding/references/implementation-log.md,</p>
+<p>skills/dev-scaffolding/SKILL.md, skills/dev/SKILL.md). Doc deviations (audit warns)</p>
+<p>were edited into 10_phase1 BEFORE coding past them, per the routine.</p>
+<p><code>{&quot;from&quot;:&quot;B&quot;,&quot;to&quot;:&quot;C&quot;,&quot;did&quot;:&quot;applied 23 MODIFY blocks across 4 skill files in pabcd_initiative; plan doc amended first (blocks 1.6/3.10)&quot;}</code></p>
+<ul>
+<li>2026-07-05 C (phase 1): verification greps all green —</li>
+</ul>
+<p>`jawdev hits: 0 files · DIFFLEVEL dev-pabcd:3 · LEXICO dev-pabcd:2 · UNIT-RES dev-pabcd:4 ·</p>
+<p>PHASE-SPLIT dev-pabcd:2 · UNIT-RES impl-log:2 · UNIT-RES dev-scaffolding:2 · UNIT-RES dev:1 ·</p>
+<p>fill-per-cycle:0 · pre-scaffold:0 · scaffold-EOL dev-pabcd:0`</p>
+<p><code>{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quot;D&quot;,&quot;did&quot;:&quot;ran the 10_phase1 verification grep suite&quot;,&quot;checkOutput&quot;:&quot;jawdev:0 files; DIFFLEVEL:3; LEXICO:2; UNIT-RES:4/2/2/1; PHASE-SPLIT:2; fill-per-cycle:0; pre-scaffold:0; scaffold-EOL:0&quot;,&quot;exitCode&quot;:0}</code></p>
+<ul>
+<li>2026-07-05 D (phase 1): <strong>DONE</strong>. Planned (rev 1-3 interview-driven), audited</li>
+</ul>
+<p>(round-1 PASS + warns), built (23 blocks), checked (grep suite green). Changed:</p>
+<p>4 skill files. Negative delta / pessimistic close-out: the FSM server being down</p>
+<p>means no server-side gate exercised these attestations — they are worklog-only;</p>
+<p>evidence that the direction is wrong would be a future unit where all-upfront</p>
+<p>diff docs went stale faster than the stale-recheck could absorb. Next: phases 2-4</p>
+<p>port docs (20/30/40) authored + audited, then one PABCD cycle per port.</p>
+<ul>
+<li>2026-07-05 P (port docs) + A round 2: three opus-4-6 authors wrote 20/30/40 from</li>
+</ul>
+<p>the patched canonical + direct repo inspection; three independent auditors ran per</p>
+<p>doc. Verdicts: cli-jaw <strong>FAIL</strong> (3 blockers: file-count header, JDS-003 rename</p>
+<p>missing from test rewrite, verification-count self-inconsistency), codexclaw</p>
+<p><strong>FAIL</strong> (1 blocker: &quot;fill per cycle&quot; verification self-hit — the prohibition</p>
+<p>sentence trips its own anti-regression grep), jawcode <strong>PASS</strong> (2 warns: dropped</p>
+<p>PHASE-SPLIT subtask/closure clause, contradictory snapshot-test verification</p>
+<p>line). Cross-cutting lesson: two of three ports independently dropped the same</p>
+<p>canonical subtask/closure clause — flagged for future rule-sync tooling.</p>
+<p>FAIL → fix → re-audit loop dispatched (fix all three docs; re-audit the two</p>
+<p>FAILs), per the A-phase repair rule.</p>
+<ul>
+<li>2026-07-05 A round 3: fix agents resolved all findings (cli-jaw now 13 files incl.</li>
+</ul>
+<p>structure/ de-brand + HTML-regen deploy note; codexclaw verification self-hit fixed,</p>
+<p>PHASE-SPLIT clause restored, style normalized; jawcode warns applied). Re-audits:</p>
+<p>cli-jaw <strong>PASS</strong> (0 findings), codexclaw <strong>PASS</strong> (0 findings), jawcode PASS carried.</p>
+<p>All three port docs are now approved P artifacts.</p>
+<ul>
+<li>2026-07-05 P amendment (rev 4, user directive): SOT-SYNC-01 added — find general</li>
+</ul>
+<p>SoT docs first, patch them in the same unit at C, recommend creation when absent.</p>
+<p>Blocks 1.7/1.8/2.5/3.11 added to 10_phase1 and applied to canonical (B delta);</p>
+<p>C greps: SOT dev-pabcd 2, dev-scaffolding 1, impl-log 1, jawdev still 0.</p>
+<p>Port docs receive equivalent SOT-SYNC-01 blocks before their B execution.</p>
+<ul>
+<li>2026-07-05 B (phases 2-4, opus-4-6 executors + boss trailing observation):</li>
+<ul>
+<li><strong>cli-jaw</strong>: 13 files (skills_ref ×5 incl. goal, src ×5, test rename</li>
+</ul>
+</ul>
+<p>jawdev→devlog-skill-contract with JDS→DLC ×3, structure ×2). One legit B repair:</p>
+<p>builder.ts guide line shortened to fit test PSC-004&#x27;s 1600-char window (both</p>
+<p>rule IDs kept); plan doc block 6.1 synced to the applied text afterward.</p>
+<p>Gates: tsc exit 0; gate:all 12/12; renamed test 3/3; npm test failures = 2</p>
+<p>pre-existing in untouched files. dev-pabcd skills_ref blocks were pre-applied</p>
+<p>by the parallel render-grounding session — verified verbatim, no conflict.</p>
+<ul>
+<ul>
+<li><strong>codexclaw</strong>: only dev/SKILL.md ×3 needed application (pabcd + dev-scaffolding</li>
+</ul>
+</ul>
+<p>+ implementation-log pre-applied identically by the parallel session). Build 84</p>
+<p>files exit 0; tests 687/687.</p>
+<ul>
+<ul>
+<li><strong>jawcode</strong>: 4 prompt/skill files, zero drift, all 6 blocks verbatim; target</li>
+</ul>
+</ul>
+<p>tests pass (jaw-interview-skill-policy, workflow-surface-orchestrate, snapshots</p>
+<p>29/29); check:ts/test:ts failures all pre-existing in unrelated TS sources.</p>
+<p><code>{&quot;from&quot;:&quot;B&quot;,&quot;to&quot;:&quot;C&quot;,&quot;did&quot;:&quot;three opus-4-6 executors applied 20/30/40 to their repos; boss trail-reviewed every runtime-prompt diff live (state-machine.ts, builder.ts, planaudit.ts, orchestrate-i/p/c.md, structure docs)&quot;}</code></p>
+<ul>
+<li>2026-07-05 C (phases 2-4) + polish (boss, direct):</li>
+<ol>
+<li>jawcode orchestrate-c.md header said &quot;four-stage&quot; while the body numbers</li>
+</ol>
+</ul>
+<p>Stage 1-5 — polished to &quot;five-stage … SoT sync → render grounding</p>
+<p>(conditional) → verdict&quot;; 40_phase4 block 4.1 + greps synced.</p>
+<ol>
+<ol>
+<li>40_phase4 verification self-hits corrected: &quot;fill per cycle&quot;/&quot;quick win&quot;</li>
+</ol>
+</ol>
+<p>expect 1 (the prohibition sentences themselves), not 0.</p>
+<ol>
+<ol>
+<li>20_phase2 block 6.1 After synced to the applied PSC-004-window text</li>
+</ol>
+</ol>
+<p>(doc-code convergence).</p>
+<ol>
+<ol>
+<li>SOT-SYNC-01 dogfood: pabcd_initiative README.md (this repo&#x27;s SoT) patched</li>
+</ol>
+</ol>
+<p>with the 2026-07-05 hardening record. cli-jaw structure/ docs were patched in</p>
+<p>phase 2; codexclaw has no structure/ SoT (recommendation: create one — noted);</p>
+<p>jawcode SoT surfaces are the prompt files themselves.</p>
+<p>Final cross-repo greps: jawdev = 0 on all target surfaces (canonical, cli-jaw</p>
+<p>skills_ref+src+tests+structure, codexclaw skills, jawcode jwc+prompts — the two</p>
+<p>jawcode &quot;hits&quot; are the <code>cliJawDevSkills</code> camelCase template variable, a false</p>
+<p>positive, not the brand); SOT-SYNC-01 present at all five runtime surfaces;</p>
+<p>jawcode header five-stage 1 / three|four-stage 0.</p>
+<p><code>{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quot;D&quot;,&quot;did&quot;:&quot;final cross-repo grep suite + per-repo gates&quot;,&quot;checkOutput&quot;:&quot;jawdev 0/0/0/0 (2 camelCase false positives); SOT-SYNC-01 2/2/1/2/1; five-stage 1, three|four-stage 0; tsc 0, gate:all 12/12, codexclaw 687 pass, jawcode target tests pass&quot;,&quot;exitCode&quot;:0}</code></p>
+<ul>
+<li>2026-07-05 D (unit close-out): <strong>DONE</strong> — all four phases executed and verified.</li>
+</ul>
+<p>Changed: canonical 5 files (4 skills + README SoT), cli-jaw 13, codexclaw 4 (3 by</p>
+<p>parallel session, 1 file this unit&#x27;s executor), jawcode 5 (4 planned + header</p>
+<p>polish). NOT done (user-owned follow-ups): commits in all four repos (working</p>
+<p>trees left dirty for review, per no-proactive-git rule); cli-jaw deploy</p>
+<p>(<code>npm run build</code> + <code>jaw skill sync</code> + server restart) and docs/dev HTML</p>
+<p>regeneration; codexclaw ships on next session load; jawcode on next build.</p>
+<p>Negative delta (pessimistic close-out): FSM server was down the whole unit, so no</p>
+<p>server-side gate exercised any attestation — worklog-only discipline; the</p>
+<p>parallel render-grounding session pre-applying blocks in two repos means our</p>
+<p>&quot;pre-applied&quot; verification trusted verbatim-match, not independent application;</p>
+<p>the <code>cliJawDevSkills</code> variable keeps a case-insensitive jawdev grep from ever</p>
+<p>reaching literal 0 in jawcode. Evidence that would falsify the direction: a</p>
+<p>future multi-phase unit where upfront diff docs went stale faster than the</p>
+<p>stale-recheck absorbed, or record-doc fatigue on C0-C1 hotfixes.</p>
+<h2 id="unit-files">Other files in this unit</h2>
+<ul>
+<li>10_phase1 — Harness patch: de-brand + DIFFLEVEL / PHASE-SPLIT / LEXICO / UNIT-RESIDENCE <span class="refnote">(10_phase1_harness_patch.md)</span></li>
+<li>20_phase2 — cli-jaw port: de-brand + DIFFLEVEL / PHASE-SPLIT / LEXICO / UNIT-RESIDENCE / SOT-SYNC <span class="refnote">(20_phase2_cli_jaw.md)</span></li>
+<li>30_phase3 — Codexclaw port: DIFFLEVEL / PHASE-SPLIT / LEXICO / UNIT-RESIDENCE / SOT-SYNC + de-brand <span class="refnote">(30_phase3_codexclaw.md)</span></li>
+<li>40_phase4 — Jawcode port: implementation-unit discipline into the jwc skill family <span class="refnote">(40_phase4_jawcode.md)</span></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

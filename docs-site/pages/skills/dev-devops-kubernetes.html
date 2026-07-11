@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kubernetes — Deployment &amp; Orchestration Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Kubernetes — Deployment &amp; Orchestration Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/kubernetes.md</p>
+<h2 id="kubernetes-deployment-orchestration-patterns">Kubernetes — Deployment &amp; Orchestration Patterns</h2>
+<p>Last reviewed: 2026-07-02</p>
+<p>Applies to: Kubernetes 1.32+, Gateway API v1.6+</p>
+<p>When to read: K8s deployment tasks</p>
+<p>Canonical owner: dev-devops §3</p>
+<p>---</p>
+<h3 id="1-gateway-api-v1-6-verified-2026-07-02-tcproute-udproute-ga-in-v1-6">§1 Gateway API v1.6+ (verified 2026-07-02; TCPRoute/UDPRoute GA in v1.6)</h3>
+<p>Gateway API is the successor for new Kubernetes traffic routing; Ingress remains GA but feature-frozen.</p>
+<h4 id="role-separation">Role Separation</h4>
+<table class="rules"><tbody>
+<tr><th>Role</th><th>Owns</th><th>Resources</th></tr>
+<tr><th>Platform team</th><th>Cluster-wide infra</th><th><code>GatewayClass</code>, <code>Gateway</code></th></tr>
+<tr><th>App team</th><th>Per-service routing</th><th><code>HTTPRoute</code>, <code>ReferenceGrant</code></th></tr>
+</tbody></table>
+<h4 id="gatewayclass-gateway">GatewayClass + Gateway</h4>
+<pre><code>apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: cloud-lb
+spec:
+  controllerName: example.com/gateway-controller
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: shared-gateway
+  namespace: infra
+spec:
+  gatewayClassName: cloud-lb
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: wildcard-cert</code></pre>
+<h4 id="httproute">HTTPRoute</h4>
+<pre><code>apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: payments-route
+  namespace: payments
+spec:
+  parentRefs:
+    - name: shared-gateway
+      namespace: infra
+  hostnames: [&quot;payments.example.com&quot;]
+  rules:
+    - matches:
+        - path: { type: PathPrefix, value: /api }
+      backendRefs:
+        - name: payments-svc
+          port: 8080
+    - matches:
+        - path: { type: PathPrefix, value: /webhooks }
+      backendRefs:
+        - name: webhooks-svc
+          port: 8081</code></pre>
+<h4 id="referencegrant-cross-namespace">ReferenceGrant (Cross-Namespace)</h4>
+<pre><code>apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-infra-gateway
+  namespace: payments
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: infra
+  to:
+    - group: &quot;&quot;
+      kind: Service</code></pre>
+<h4 id="ingress-gateway-api-migration-checklist">Ingress → Gateway API Migration Checklist</h4>
+<ul>
+<li>[ ] Replace <code>Ingress</code> resources with <code>HTTPRoute</code></li>
+<li>[ ] Move annotations to structured fields (path types, header matches)</li>
+<li>[ ] Set up <code>GatewayClass</code> + <code>Gateway</code> (platform team)</li>
+<li>[ ] Add <code>ReferenceGrant</code> for cross-namespace routes</li>
+<li>[ ] Verify TLS termination on Gateway listener</li>
+<li>[ ] Test with <code>kubectl get httproute -A</code> and verify <code>Accepted</code> condition</li>
+</ul>
+<p>---</p>
+<h3 id="2-kustomize-patterns">§2 Kustomize Patterns</h3>
+<h4 id="directory-structure">Directory Structure</h4>
+<pre><code>apps/
+  payments/
+    base/
+      deployment.yaml
+      service.yaml
+      httproute.yaml
+      kustomization.yaml
+    overlays/
+      dev/
+        kustomization.yaml
+        replicas-patch.yaml
+      staging/
+        kustomization.yaml
+      prod/
+        kustomization.yaml
+        resource-patch.yaml
+platform/
+  gateway/
+    gatewayclass.yaml
+    gateway.yaml
+    kustomization.yaml</code></pre>
+<h4 id="base-kustomization-yaml">Base kustomization.yaml</h4>
+<pre><code>apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - service.yaml
+  - httproute.yaml
+labels:
+  - includeSelectors: true
+    pairs:
+      app: payments</code></pre>
+<h4 id="overlay-example-prod">Overlay Example (prod)</h4>
+<pre><code>apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+patches:
+  - path: resource-patch.yaml
+images:
+  - name: payments
+    newTag: v2.3.1
+    digest: sha256:abc123...
+configMapGenerator:
+  - name: payments-config
+    literals:
+      - LOG_LEVEL=warn
+      - ENVIRONMENT=production</code></pre>
+<h4 id="validation">Validation</h4>
+<pre><code># Preview rendered manifests
+kubectl kustomize overlays/prod
+
+# Dry-run against cluster
+kubectl kustomize overlays/prod | kubectl apply --dry-run=server -f -</code></pre>
+<p>---</p>
+<h3 id="3-resource-management">§3 Resource Management</h3>
+<h4 id="requests-and-limits-guidelines">Requests and Limits Guidelines</h4>
+<table class="rules"><tbody>
+<tr><th>Resource</th><th>Request</th><th>Limit</th><th>Rationale</th></tr>
+<tr><th>CPU</th><th>100m–500m</th><th>2×–4× request</th><th>Allow burst; requests guarantee scheduling</th></tr>
+<tr><th>Memory</th><th>Measured P95 usage</th><th>≈ request (tight)</th><th>OOM-kill on exceed; keep close to request</th></tr>
+</tbody></table>
+<h4 id="hpa-configuration">HPA Configuration</h4>
+<pre><code>apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: payments-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: payments
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: { type: Utilization, averageUtilization: 70 }
+    - type: Pods
+      pods:
+        metric: { name: http_requests_per_second }
+        target: { type: AverageValue, averageValue: &quot;100&quot; }</code></pre>
+<h4 id="vpa-modes">VPA Modes</h4>
+<table class="rules"><tbody>
+<tr><th>Mode</th><th>Behavior</th><th>Use When</th></tr>
+<tr><th>Off</th><th>Recommendations only</th><th>Alongside HPA (don&#x27;t combine on same metric)</th></tr>
+<tr><th>Initial</th><th>Set on pod creation</th><th>New services without usage data</th></tr>
+<tr><th>Auto</th><th>Live updates</th><th>Standalone (no HPA on same resource)</th></tr>
+</tbody></table>
+<h4 id="pdb">PDB</h4>
+<pre><code>apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: payments-pdb
+spec:
+  minAvailable: &quot;50%&quot;
+  selector:
+    matchLabels:
+      app: payments</code></pre>
+<p>---</p>
+<h3 id="4-helm-patterns">§4 Helm Patterns</h3>
+<h4 id="values-separation">Values Separation</h4>
+<pre><code>helm install payments ./chart \
+  -f values.yaml \
+  -f values-prod.yaml \
+  --set image.digest=sha256:abc123</code></pre>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>Version</th><th>Chart version follows SemVer</th></tr>
+<tr><th>Validation</th><th>`helm template --debug \</th><th>kubectl apply --dry-run=client -f -`</th></tr>
+<tr><th>Environment</th><th><code>values-dev.yaml</code>, <code>values-staging.yaml</code>, <code>values-prod.yaml</code></th></tr>
+</tbody></table>
+<h4 id="helm-vs-kustomize-decision">Helm vs Kustomize Decision</h4>
+<table class="rules"><tbody>
+<tr><th>Factor</th><th>Helm</th><th>Kustomize</th></tr>
+<tr><th>Templating</th><th>Rich (<code>{{ .Values }}</code>, conditionals, loops)</th><th>Patch-based (strategic merge)</th></tr>
+<tr><th>Sharing</th><th>Chart repos, versioned packages</th><th>Directory copies</th></tr>
+<tr><th>Complexity</th><th>Higher (template language)</th><th>Lower (YAML patches)</th></tr>
+<tr><th>Best for</th><th>Shared charts, complex config</th><th>Simple overlays, in-house apps</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="5-argocd-gitops-patterns">§5 ArgoCD GitOps Patterns</h3>
+<h4 id="application-crd">Application CRD</h4>
+<pre><code>apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: payments
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/org/deploy.git
+    path: apps/payments/overlays/prod
+    targetRevision: main
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: payments
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true</code></pre>
+<h4 id="sync-waves">Sync Waves</h4>
+<pre><code>metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: &quot;0&quot;  # namespace, configmaps first
+---
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: &quot;1&quot;  # deployments second</code></pre>
+<h4 id="applicationset-multi-env">ApplicationSet (Multi-Env)</h4>
+<pre><code>apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: payments
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+            cluster: dev-cluster
+          - env: prod
+            cluster: prod-cluster
+  template:
+    spec:
+      source:
+        path: &quot;apps/payments/overlays/{{env}}&quot;
+      destination:
+        server: &quot;{{cluster}}&quot;</code></pre>
+<p>---</p>
+<h3 id="6-anti-patterns-detailed">§6 Anti-Patterns (Detailed)</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
+<tr><th><code>Ingress</code> (new projects)</th><th>Feature-frozen; Gateway API (<code>HTTPRoute</code>) is the successor — prefer it for new routing (DEFAULT)</th><th><code>HTTPRoute</code> with structured fields</th></tr>
+<tr><th>No resource limits</th><th>Noisy neighbor; OOM kills random pods</th><th>Always set requests + limits</th></tr>
+<tr><th><code>image: app:latest</code></th><th>Irreproducible; ArgoCD can&#x27;t detect changes</th><th>SHA digest or pinned SemVer</th></tr>
+<tr><th>Single replica (prod)</th><th>Zero availability during updates/failures</th><th>Minimum 2 replicas + PDB</th></tr>
+<table class="rules"><tbody>
+<tr><th>Secrets in ConfigMap</th><th>Base64 is not encryption; exposed in logs</th><th>K8s Secret + External Secrets Operator</th></tr>
+<tr><th><code>kubectl apply</code> from CI</th><th>No audit trail, no drift detection</th><th>GitOps via ArgoCD</th></tr>
+<tr><th>Manual <code>kubectl edit</code></th><th>Drift from desired state</th><th>All changes via Git</th></tr>
+</tbody></table>
+<h3 id="sources-router-currency-claims-checked-2026-07-02">Sources (router currency claims, checked 2026-07-02)</h3>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Source</th></tr>
+<tr><th>Gateway API v1.6.0 (2026-06-29), TCPRoute/UDPRoute GA</th><th>https://github.com/kubernetes-sigs/gateway-api/releases</th></tr>
+<tr><th>Ingress GA-but-frozen, not removed</th><th>https://kubernetes.io/docs/concepts/services-networking/ingress/</th></tr>
+<tr><th>Flagger Gateway API HTTPRoute canaries</th><th>https://docs.flagger.app/tutorials/gatewayapi-progressive-delivery</th></tr>
+<tr><th>Argo Rollouts v1.9.0 (2026-03-20) active</th><th>https://github.com/argoproj/argo-rollouts/releases</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

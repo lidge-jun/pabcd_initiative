@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>responsive-nav — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>responsive-nav</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/responsive-nav.md</p>
+<h3 id="14-responsive-strategy">14. Responsive Strategy</h3>
+<h4 id="canonical-breakpoint-tiers">Canonical Breakpoint Tiers</h4>
+<p>See <code>dev-frontend/references/core/responsive-viewport.md</code> for the canonical T1–T5+ breakpoint table, page containment rules, container query patterns, and split-screen guidance. All responsive references share that single source of truth.</p>
+<h4 id="mobile-first-vs-desktop-first">Mobile-First vs Desktop-First</h4>
+<table class="rules"><tbody>
+<tr><th>Choose Mobile-First When</th><th>Choose Desktop-First When</th></tr>
+<tr><th>Consumer / public-facing product</th><th>Internal tool / admin panel</th></tr>
+<tr><th>Content consumption primary use</th><th>Data-dense productivity tool</th></tr>
+<tr><th>New project (progressive enhancement)</th><th>Existing desktop app adding mobile</th></tr>
+</tbody></table>
+<h4 id="container-queries-split-screen">Container Queries &amp; Split-Screen</h4>
+<p>See <code>dev-frontend/references/core/responsive-viewport.md</code> for canonical container query examples, <code>@container</code> vs <code>@media</code> decision guide, and split-screen/half-window rules. Nav-specific guidance below.</p>
+<p>For navigation components, prefer <code>@container</code> so the same nav adapts in a sidebar, modal, or full-width header without viewport-dependent media queries.</p>
+<h4 id="responsive-navigation-by-density-profile">Responsive Navigation by Density Profile</h4>
+<table class="rules"><tbody>
+<tr><th>Density</th><th>Desktop Navigation</th><th>Mobile Navigation</th></tr>
+<tr><th>D1–D3 (campaign/consumer)</th><th>Horizontal top nav</th><th>Hamburger menu</th></tr>
+<tr><th>D4–D6 (SaaS/productivity)</th><th>Collapsible sidebar (256px→64px)</th><th>Bottom tab bar (4–5 items)</th></tr>
+<tr><th>D7–D8 (ops/developer)</th><th>Fixed sidebar + top breadcrumb</th><th>Sidebar stays, no collapse</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="15-navigation-information-architecture">15. Navigation &amp; Information Architecture</h3>
+<h4 id="sidebar">Sidebar</h4>
+<ul>
+<li>Expanded: 256px fixed width. Collapsed: 64px (icons only).</li>
+<li>Item height: 36px. Horizontal padding: 12px.</li>
+<li>Active state: 8% primary color background + 3px left accent border.</li>
+<li>Transition: 200ms ease-in-out.</li>
+<li>Group sections with subtle separators and 10px uppercase section labels.</li>
+</ul>
+<h4 id="tab-bar-bottom-navigation-mobile">Tab Bar (Bottom Navigation — Mobile)</h4>
+<ul>
+<li>Maximum 5 items. Active item has filled icon + label. Inactive: outline icon only.</li>
+<li>Safe area padding for notch/home-indicator devices.</li>
+<li>Center the primary action if it has elevated importance (FAB pattern).</li>
+</ul>
+<h4 id="command-palette-cmd-k">Command Palette (Cmd+K)</h4>
+<ul>
+<li>Centered modal at 20% from top, max-width 600px.</li>
+<li>Instant search with fuzzy matching.</li>
+<li>Category grouping (Actions, Pages, Settings).</li>
+<li>Recent items shown on empty query.</li>
+<li>Keyboard navigation: arrow keys + Enter.</li>
+</ul>
+<h4 id="breadcrumbs">Breadcrumbs</h4>
+<ul>
+<li>Use for hierarchical navigation deeper than 2 levels.</li>
+<li>Show abbreviated path on mobile (... &gt; Parent &gt; Current).</li>
+<li>Clickable segments except the current page.</li>
+<li>Separator: <code>/</code> or <code>&gt;</code> — pick one and be consistent.</li>
+</ul>
+<h4 id="by-product-surface">By Product Surface</h4>
+<table class="rules"><tbody>
+<tr><th>Surface</th><th>Primary Nav</th><th>Secondary Nav</th><th>Search</th></tr>
+<tr><th>Landing/marketing</th><th>Horizontal top nav</th><th>Footer links</th><th>Not needed</th></tr>
+<tr><th>Consumer app</th><th>Bottom tab bar (mobile), sidebar (desktop)</th><th>In-context navigation</th><th>Optional</th></tr>
+<tr><th>SaaS/productivity</th><th>Collapsible sidebar</th><th>Breadcrumbs + tabs</th><th>Command palette</th></tr>
+<tr><th>Dashboard/ops</th><th>Fixed sidebar</th><th>Tab groups per section</th><th>Always visible search bar</th></tr>
+<table class="rules"><tbody>
+<tr><th>Developer tool</th><th>Sidebar + command palette</th><th>Breadcrumbs</th><th>Prominent Cmd+K</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

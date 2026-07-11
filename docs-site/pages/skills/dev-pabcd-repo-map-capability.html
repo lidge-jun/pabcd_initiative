@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repo-Map Capability (SoT, agent-neutral) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Repo-Map Capability (SoT, agent-neutral)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-pabcd/references/repo-map-capability.md</p>
+<h2 id="repo-map-capability-sot-agent-neutral">Repo-Map Capability (SoT, agent-neutral)</h2>
+<p>&gt; Source-of-truth contract for the &quot;structure map&quot; capability shared across the</p>
+<p>&gt; pabcd_initiative harnesses (codexclaw, cli-jaw, jawcode). This file names WHAT the</p>
+<p>&gt; tool must do and HOW it is surfaced; each harness implements the engine in its own</p>
+<p>&gt; stack (Runtime adapter style — see <code>../SKILL.md</code> Runtime adapter note). When a port</p>
+<p>&gt; drifts from this contract, fix the port or amend this file in the same unit</p>
+<p>&gt; (SOT-SYNC-01). Ports are adapted, never blind-copied.</p>
+<h3 id="why-this-capability-exists">Why this capability exists</h3>
+<p>The pre-edit exploration phase is the real cost of agentic coding: <code>rg</code>/grep answers</p>
+<p>&quot;where is this string&quot; but the agent reconstructs the repo&#x27;s SHAPE by opening files</p>
+<p>every session. A ranked structure map (which files own which symbols, ranked by</p>
+<p>reference gravity) collapses that. External research (2026-07-06, four lanes; see</p>
+<p>codexclaw <code>devlog/_plan/260706_repo_map/00_plan.md</code> Sources) is consistent:</p>
+<ul>
+<li>On-demand, tool-invoked structure maps are the most TOKEN-EFFICIENT exploration aid.</li>
+<li>Whole-repo indexing PRELOADED at session start is the weakest-evidence pattern</li>
+</ul>
+<p>(stale-index problem; abandoned by Claude Code; Aider disables the map for weak</p>
+<p>models). So the map BODY is on-demand only.</p>
+<ul>
+<li>The affordance (telling the agent the tool exists) is the missing link: a map tool</li>
+</ul>
+<p>no model knows about is never used.</p>
+<h3 id="contract-all-ports-must-satisfy">Contract (all ports MUST satisfy)</h3>
+<ol>
+<li><strong>Invocation</strong>: <code>&lt;runtime&gt; map &lt;path&gt; [--budget N]</code> — a stateless one-shot command.</li>
+</ol>
+<p><code>&lt;runtime&gt;</code> = <code>cxc</code> (codexclaw), <code>cli-jaw</code> (cli-jaw), <code>jwc</code> (jawcode).</p>
+<ol>
+<li><strong>Output</strong>: a token-budgeted, file-grouped listing of DEFINITIONS (functions,</li>
+</ol>
+<p>types, classes, exports) with line numbers, ordered by importance (reference</p>
+<p>gravity — PageRank over the symbol-reference graph, or a defensible proxy such as</p>
+<p>ref-count when PageRank is not yet available). Default budget ~4096 tokens.</p>
+<ol>
+<li><strong>Engine</strong>: tree-sitter tag queries (definition/reference capture, Aider-lineage</li>
+</ol>
+<p><code>tags.scm</code>) are the honest engine. ast-grep pattern search is NOT sufficient for</p>
+<p>full symbol enumeration (silent misses). Reuse the repo&#x27;s existing tree-sitter if</p>
+<p>it has one.</p>
+<ol>
+<li><strong>No preload, no server</strong>: never inject the map body into the system prompt; never</li>
+</ol>
+<p>run a daemon/watcher/persistent index. A rebuildable derived cache (e.g. a tags</p>
+<p>cache under the repo&#x27;s scratch dir) is allowed and must be gitignored + wiped by the</p>
+<p>repo&#x27;s reset command.</p>
+<ol>
+<li><strong>Graceful degradation</strong>: missing engine deps print ONE install/enable hint and a</li>
+</ol>
+<p>nonzero exit, never a stack trace. <code>--help</code> works without heavy deps.</p>
+<ol>
+<li><strong>Affordance (the discoverability half)</strong>: the agent MUST be told the tool exists</li>
+</ol>
+<p>through a real enforcement/prompt surface — NOT only a skill the model might not</p>
+<p>read. Acceptable surfaces, in order of the runtime&#x27;s capability:</p>
+<ul>
+<ul>
+<li>a session-start context injection (Codex SessionStart additionalContext), or</li>
+<li>a one-line entry in the coding agent&#x27;s MAIN system prompt near its search/discovery</li>
+</ul>
+</ul>
+<p>guidance, or</p>
+<ul>
+<ul>
+<li>a registered model tool whose description says &quot;run before deep grep in unfamiliar</li>
+</ul>
+</ul>
+<p>code.&quot;</p>
+<p>The affordance is a POINTER (the tool exists, use it on demand), never the map body.</p>
+<p>Gate it on repo size where cheap (skip tiny repos).</p>
+<p>In ADDITION to the primary surface, ship the skill-layer routing affordance</p>
+<p>(secondary, model-autonomous): a MAP-FIRST paragraph in the harness&#x27;s dev</p>
+<p>discipline skill (codexclaw dev §1.5 DEV-MAP-FIRST-01; cli-jaw-skills dev §1.5</p>
+<p>same id) and/or a dedicated skill entry (codexclaw <code>cxc-repo-map</code>; cli-jaw-skills</p>
+<p><code>repo-map</code>) or search-routing table row (jawcode <code>search</code> skill quick reference).</p>
+<p>Skill-layer alone is NOT sufficient (the model might not read it) — it</p>
+<p>complements the primary surface, never replaces it.</p>
+<h3 id="port-sites-status-freshness-sweep-re-checks-this-table">Port sites + status (freshness-sweep re-checks this table)</h3>
+<table class="rules"><tbody>
+<tr><th>Harness</th><th>Engine</th><th>Command site</th><th>Affordance site</th><th>Status</th></tr>
+<tr><th>codexclaw</th><th>vendored RepoMapper (Python, tree-sitter tags + PageRank) + dispatcher bootstrap ladder (env override &gt; <code>uv run</code> &gt; <code>~/.codexclaw/venvs/repomap</code> &gt; bare python3; <code>--help</code> bypasses)</th><th><code>bin/codexclaw.mjs</code> <code>map</code> -&gt; <code>skills/repo-map/scripts/repomap.py</code></th><th>SessionStart hook <code>session-start-announcing-map-affordance.json</code> (cxc-ops); skill layer: <code>cxc-repo-map</code> skill + dev §1.5 DEV-MAP-FIRST-01</th><th>SHIPPED 2026-07-06; bootstrap ladder 2026-07-07 (reference impl)</th></tr>
+<tr><th>cli-jaw</th><th>native TS engine, dep-free v1 (line-scan def extraction + ref-count ranking; PageRank later if needed)</th><th><code>bin/commands/map.ts</code> + <code>bin/cli-jaw.ts</code> case + printHelp</th><th><code>src/prompt/templates/a1-system.md</code> project-discovery §4; skill layer: <code>repo-map</code> skill + registry.json entry + dev §1.5 DEV-MAP-FIRST-01 (edited in the cli-jaw <code>skills_ref/</code> submodule worktree; 228-count bump)</th><th>SHIPPED 2026-07-07 (fixture tests + tsc green; skill layer 2026-07-07)</th></tr>
+<tr><th>jawcode</th><th>NATIVE pi-ast <code>tags.rs</code> (tree-sitter tags query + PageRank in Rust) + <code>#[napi] repo_map</code> + vendored Aider tags.scm (ts/js/tsx/rust)</th><th><code>packages/coding-agent/src/cli.ts</code> <code>map</code> + <code>src/tools/map.ts</code> agent tool in BUILTIN_TOOLS</th><th><code>packages/coding-agent/src/prompts/system/system-prompt.md</code> <code>&lt;ast-tools&gt;</code> <code>{{#has tools &quot;map&quot;}}</code> line; skill layer: <code>search</code> skill quick-reference map row</th><th>SHIPPED 2026-07-07 (cargo test 19 pass incl. tags fixtures; napi rebuilt; fork-delta rows added)</th></tr>
+</tbody></table>
+<h3 id="verification-tiering-per-port">Verification tiering (per port)</h3>
+<p>Match the fixture-verified tier discipline codexclaw used: verify the tag queries</p>
+<p>against real fixtures for that repo&#x27;s PRIMARY languages first (cli-jaw: TS/JS;</p>
+<p>jawcode: TS/JS + Rust), inherit other languages best-effort from the upstream</p>
+<p><code>tags.scm</code> set. Do not claim &quot;all languages&quot; without per-language fixture evidence.</p>
+<h3 id="packaging-note-dependency-bootstrap-ladder-contract-compatible">Packaging note: dependency bootstrap ladder (contract-compatible)</h3>
+<p>When a port&#x27;s engine needs runtime dependencies the host may lack (codexclaw&#x27;s</p>
+<p>Python stack), a bootstrap ladder is the contract-compatible packaging pattern:</p>
+<p>explicit env override first, then a zero-config on-demand resolver (`uv run</p>
+<p>--with-requirements` with the PINNED requirements), then a user-level rebuildable</p>
+<p>venv/cache (opt-in creation when it needs network), and finally the bare</p>
+<p>interpreter whose failure mode is the single install hint (clause 5). The help</p>
+<p>path must bypass the ladder entirely so <code>--help</code> stays dep-free. The venv/cache</p>
+<p>is derived, rebuildable data — never source of truth. Ports with fully native</p>
+<p>engines (cli-jaw TS, jawcode Rust/napi) do not need a ladder.</p>
+<h3 id="subtree-maps-large-monorepos">Subtree maps (large monorepos)</h3>
+<p><code>&lt;runtime&gt; map &lt;path&gt;</code> scopes BOTH the walk and the ranking to the subtree: the</p>
+<p>reference graph (or ref-count) is built only from files under <code>&lt;path&gt;</code>, so</p>
+<p>feature-partitioned monorepos get per-feature maps whose central files are not</p>
+<p>drowned out by global hubs. This is a contract property (clause 1 takes a path,</p>
+<p>clause 2&#x27;s ranking applies to the scanned set), not an optional extra; all three</p>
+<p>ports implement it. Recommend it in affordance wording where space allows</p>
+<p>(&quot;works on subtrees&quot;).</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

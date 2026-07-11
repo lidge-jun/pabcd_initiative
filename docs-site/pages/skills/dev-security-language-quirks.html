@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Language-Specific Security Quirks — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Language-Specific Security Quirks</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-security/references/language-quirks.md</p>
+<h2 id="language-specific-security-quirks">Language-Specific Security Quirks</h2>
+<p>These are the quiet pitfalls that often survive ordinary code review.</p>
+<p>Use this file when the code looks normal but still feels risky.</p>
+<h3 id="javascript-and-typescript">JavaScript and TypeScript</h3>
+<h4 id="1-prototype-pollution-through-object-merge">1. Prototype pollution through object merge</h4>
+<pre><code>const payload = { ...req.body };
+Object.assign(userSettings, payload);</code></pre>
+<p>Validate strictly and copy only approved keys.</p>
+<h4 id="2-eval-and-function-execute-attacker-controlled-code">2. <code>eval</code> and <code>Function</code> execute attacker-controlled code</h4>
+<pre><code>const result = eval(req.query.expression as string);</code></pre>
+<p>Model expressions as data, not executable code.</p>
+<h4 id="3-child-process-exec-injects-shell-syntax">3. <code>child_process.exec</code> injects shell syntax</h4>
+<pre><code>exec(`convert ${req.query.file} output.png`);</code></pre>
+<p>Use <code>execFile</code> or <code>spawn</code> with validated argument arrays.</p>
+<h4 id="4-dangerouslysetinnerhtml-bypasses-jsx-escaping">4. <code>dangerouslySetInnerHTML</code> bypasses JSX escaping</h4>
+<pre><code>&lt;div dangerouslySetInnerHTML={{ __html: userBio }} /&gt;</code></pre>
+<p>Sanitize HTML and use CSP when rich text is intentional.</p>
+<h4 id="5-string-built-sql-bypasses-orm-safety">5. String-built SQL bypasses ORM safety</h4>
+<pre><code>await db.$queryRawUnsafe(`SELECT * FROM users WHERE email = &#x27;${email}&#x27;`);</code></pre>
+<p>Use tagged templates or parameter placeholders.</p>
+<h4 id="6-open-redirects-via-unchecked-urls">6. Open redirects via unchecked URLs</h4>
+<pre><code>res.redirect(String(req.query.next || &#x27;/&#x27;));</code></pre>
+<p>Allow only same-origin or allowlisted relative paths.</p>
+<h4 id="7-implicit-json-serialization-leaks-fields">7. Implicit JSON serialization leaks fields</h4>
+<pre><code>res.json(user);</code></pre>
+<p>Serialize through an explicit DTO that excludes secrets and internal flags.</p>
+<h4 id="8-browser-token-storage-is-reachable-by-xss">8. Browser token storage is reachable by XSS</h4>
+<pre><code>localStorage.setItem(&#x27;access_token&#x27;, token);</code></pre>
+<p>Prefer secure cookies for browser sessions.</p>
+<h4 id="9-regex-denial-of-service-from-user-patterns">9. Regex denial of service from user patterns</h4>
+<pre><code>new RegExp(req.query.pattern as string).test(target);</code></pre>
+<p>Avoid dynamic regex or constrain length and syntax aggressively.</p>
+<h4 id="10-url-construction-can-smuggle-ssrf-targets">10. URL construction can smuggle SSRF targets</h4>
+<pre><code>const url = `https://${req.body.host}/status`;</code></pre>
+<p>Resolve against an allowlist or internal service registry.</p>
+<h3 id="python">Python</h3>
+<h4 id="1-pickle-loads-executes-serialized-code">1. <code>pickle.loads</code> executes serialized code</h4>
+<pre><code>data = pickle.loads(request.data)</code></pre>
+<p>Use JSON, MessagePack with schema validation, or typed parsers.</p>
+<h4 id="2-yaml-load-with-unsafe-loader-is-code-execution">2. <code>yaml.load</code> with unsafe loader is code execution</h4>
+<pre><code>config = yaml.load(raw_text, Loader=yaml.Loader)</code></pre>
+<p>Use <code>yaml.safe_load</code> for untrusted YAML.</p>
+<h4 id="3-subprocess-run-shell-true-injects-shell-commands">3. <code>subprocess.run(..., shell=True)</code> injects shell commands</h4>
+<pre><code>subprocess.run(f&quot;convert {filename} out.png&quot;, shell=True)</code></pre>
+<p>Pass a list with <code>shell=False</code>.</p>
+<h4 id="4-assert-is-not-an-auth-or-validation-check">4. <code>assert</code> is not an auth or validation check</h4>
+<pre><code>assert request.user.is_admin</code></pre>
+<p>Raise explicit exceptions or return explicit HTTP errors.</p>
+<h4 id="5-django-mark-safe-bypasses-output-escaping">5. Django <code>mark_safe</code> bypasses output escaping</h4>
+<pre><code>return mark_safe(user_bio)</code></pre>
+<p>Escape by default and sanitize only approved rich text.</p>
+<h4 id="6-eval-exec-and-ast-literal-eval-on-untrusted-data">6. <code>eval</code>, <code>exec</code>, and <code>ast.literal_eval</code> on untrusted data</h4>
+<pre><code>query = eval(request.args[&quot;filter&quot;])</code></pre>
+<p>Parse into a constrained schema instead.</p>
+<h4 id="7-mass-assignment-through-model-constructors">7. Mass assignment through model constructors</h4>
+<pre><code>user = User(**request.json)</code></pre>
+<p>Bind only the fields the server explicitly accepts.</p>
+<h4 id="8-pandas-query-and-eval-accept-attacker-syntax">8. Pandas <code>query</code> and <code>eval</code> accept attacker syntax</h4>
+<pre><code>df.query(request.args[&quot;where&quot;])</code></pre>
+<p>Build filters from allowed columns and operators.</p>
+<h3 id="sql">SQL</h3>
+<h4 id="1-string-interpolation-is-still-injection">1. String interpolation is still injection</h4>
+<pre><code>SELECT * FROM users WHERE email = &#x27;${email}&#x27;;</code></pre>
+<p>Use parameter placeholders from the driver.</p>
+<h4 id="2-dynamic-order-by-can-be-injected">2. Dynamic <code>ORDER BY</code> can be injected</h4>
+<pre><code>SELECT * FROM orders ORDER BY ${sort};</code></pre>
+<p>Map user choices to an allowlisted column set.</p>
+<h4 id="3-wildcard-search-can-become-data-exfiltration">3. Wildcard search can become data exfiltration</h4>
+<pre><code>WHERE email LIKE &#x27;%&#x27; || :term || &#x27;%&#x27;</code></pre>
+<p>Constrain searchable fields and rate limit broad queries.</p>
+<h4 id="4-tenant-scoping-must-live-in-the-query">4. Tenant scoping must live in the query</h4>
+<pre><code>SELECT * FROM invoices WHERE id = $1;</code></pre>
+<p>Add tenant or owner filters in every access path.</p>
+<h4 id="5-collation-and-case-folding-can-bypass-uniqueness-assumptions">5. Collation and case-folding can bypass uniqueness assumptions</h4>
+<pre><code>SELECT * FROM users WHERE email = $1;</code></pre>
+<p>Normalize canonical values before storage and lookup.</p>
+<h4 id="6-bulk-updates-without-precise-filters-become-integrity-failures">6. Bulk updates without precise filters become integrity failures</h4>
+<pre><code>UPDATE sessions SET revoked = true;</code></pre>
+<p>Require actor, tenant, or token family filters for every destructive statement.</p>
+<h3 id="go">Go</h3>
+<h4 id="1-fmt-sprintf-query-building-is-sql-injection">1. <code>fmt.Sprintf</code> query building is SQL injection</h4>
+<pre><code>query := fmt.Sprintf(&quot;SELECT * FROM users WHERE email = &#x27;%s&#x27;&quot;, email)</code></pre>
+<p>Use <code>db.QueryContext(ctx, ..., email)</code> with parameters.</p>
+<h4 id="2-html-template-and-text-template-are-not-interchangeable">2. <code>html/template</code> and <code>text/template</code> are not interchangeable</h4>
+<pre><code>tmpl := template.Must(texttemplate.New(&quot;page&quot;).Parse(userHTML))</code></pre>
+<p>Use <code>html/template</code> for HTML output and avoid untrusted templates.</p>
+<h4 id="3-missing-defer-cancel-leaks-work-and-weakens-timeouts">3. Missing <code>defer cancel()</code> leaks work and weakens timeouts</h4>
+<pre><code>ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+_ = cancel</code></pre>
+<p>Always <code>defer cancel()</code> immediately.</p>
+<h4 id="4-file-path-joins-can-still-escape-a-base-directory">4. File path joins can still escape a base directory</h4>
+<pre><code>path := filepath.Join(uploadDir, r.FormValue(&quot;name&quot;))</code></pre>
+<p>Clean, validate, and confirm the final path stays within the intended root.</p>
+<h4 id="5-unbounded-json-decoding-accepts-oversized-input">5. Unbounded JSON decoding accepts oversized input</h4>
+<pre><code>decoder := json.NewDecoder(r.Body)</code></pre>
+<p>Wrap the body with <code>http.MaxBytesReader</code> before decoding.</p>
+<p>Use this file together with <code>references/owasp-top10.md</code> A05 when the issue involves input, output, or execution sinks.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

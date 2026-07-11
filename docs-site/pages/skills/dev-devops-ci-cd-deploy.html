@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CI/CD &amp; Deploy — Pipeline &amp; Delivery Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>CI/CD &amp; Deploy — Pipeline &amp; Delivery Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/ci-cd-deploy.md</p>
+<h2 id="ci-cd-deploy-pipeline-delivery-patterns">CI/CD &amp; Deploy — Pipeline &amp; Delivery Patterns</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: GitHub Actions, ArgoCD 2.14+, Argo Rollouts 1.8+</p>
+<p>When to read: Deploy pipeline setup or modification</p>
+<p>Canonical owner: dev-devops §2</p>
+<p>---</p>
+<h3 id="0-release-routing">§0 Release Routing</h3>
+<p>For package publishing and release-auth decisions, read</p>
+<p><code>references/package-release.md</code> before writing workflow YAML.</p>
+<p>For platform engineering, DORA capability framing, or provider-routing breadth,</p>
+<p>read <code>references/platform-engineering.md</code>.</p>
+<p>This file owns deployment pipelines, GitOps promotion, rollback, environments,</p>
+<p>and progressive delivery. <code>package-release.md</code> owns package registry defaults</p>
+<p>such as npm/PyPI trusted publishing, Bun-to-npm decisions, Homebrew as a</p>
+<p>downstream channel, and token fallback boundaries.</p>
+<h3 id="1-gha-reusable-workflow-templates">§1 GHA Reusable Workflow Templates</h3>
+<h4 id="called-workflow-template">Called Workflow (Template)</h4>
+<pre><code># .github/workflows/templates/build-test.yml
+name: Build &amp; Test
+on:
+  workflow_call:
+    inputs:
+      service_name:
+        required: true
+        type: string
+      dockerfile:
+        required: false
+        type: string
+        default: Dockerfile
+    outputs:
+      image_digest:
+        value: ${{ jobs.build.outputs.digest }}
+    secrets:
+      REGISTRY_TOKEN:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      digest: ${{ steps.push.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+      - uses: docker/build-push-action@v6
+        id: push
+        with:
+          push: true
+          file: ${{ inputs.dockerfile }}
+          tags: ghcr.io/${{ github.repository }}/${{ inputs.service_name }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max</code></pre>
+<h4 id="caller-workflow">Caller Workflow</h4>
+<pre><code># .github/workflows/ci.yml
+name: CI
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    uses: ./.github/workflows/templates/build-test.yml
+    with:
+      service: payments
+    secrets: inherit
+
+  deploy-staging:
+    needs: build
+    uses: ./.github/workflows/templates/deploy-gitops.yml
+    with:
+      environment: staging
+      image_digest: ${{ needs.build.outputs.image_digest }}
+    secrets: inherit</code></pre>
+<h4 id="rules">Rules</h4>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>Nesting</th><th>Max 10 levels (GitHub limit)</th></tr>
+<tr><th>Permissions</th><th>Caller cannot escalate called workflow permissions</th></tr>
+<tr><th>Secrets</th><th><code>secrets: inherit</code> or explicit pass; never hardcode</th></tr>
+<tr><th>Pinning</th><th>Pin reusable workflows to SHA or tag: <code>@v2</code> or <code>@sha256:...</code></th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="2-gitops-architecture">§2 GitOps Architecture</h3>
+<h4 id="actions-ci-argocd-cd">Actions = CI, ArgoCD = CD</h4>
+<pre><code>Developer → PR → CI (lint/test/build/scan/push) → merge
+  → CI updates deploy repo (image digest) → ArgoCD detects → sync to cluster</code></pre>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>When</th></tr>
+<tr><th>Single repo</th><th>Small team, 1-3 services</th></tr>
+<tr><th>App + Deploy repo</th><th>Larger teams, separation of CI and deploy config</th></tr>
+</tbody></table>
+<h4 id="digest-based-promotion">Digest-Based Promotion</h4>
+<pre><code># CI updates deploy repo kustomization.yaml
+yq -i &#x27;.images[0].digest = &quot;sha256:abc123...&quot;&#x27; overlays/prod/kustomization.yaml
+git commit -m &quot;promote payments to sha256:abc123&quot;
+git push
+# ArgoCD auto-syncs</code></pre>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Fix</th></tr>
+<tr><th><code>image: app:v2.1</code> (mutable tag)</th><th><code>image: app@sha256:abc123...</code> (immutable digest)</th></tr>
+<tr><th>CI runs <code>kubectl apply</code></th><th>ArgoCD reconciles from Git</th></tr>
+</tbody></table>
+<h4 id="environment-protection">Environment Protection</h4>
+<pre><code># GitHub Environment settings (UI or API)
+environment:
+  name: production
+  protection_rules:
+    required_reviewers: 2
+    prevent_self_review: true
+    wait_timer: 5  # minutes</code></pre>
+<p>---</p>
+<h3 id="3-progressive-delivery">§3 Progressive Delivery</h3>
+<h4 id="argo-rollouts-canary">Argo Rollouts — Canary</h4>
+<pre><code>apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: payments
+spec:
+  replicas: 10
+  strategy:
+    canary:
+      steps:
+        - setWeight: 10
+        - pause: { duration: 5m }
+        - setWeight: 30
+        - pause: { duration: 5m }
+        - setWeight: 60
+        - pause: { duration: 5m }
+      canaryService: payments-canary
+      stableService: payments-stable
+      analysis:
+        templates:
+          - templateName: success-rate
+        startingStep: 2</code></pre>
+<h4 id="argo-rollouts-blue-green">Argo Rollouts — Blue-Green</h4>
+<pre><code>spec:
+  strategy:
+    blueGreen:
+      activeService: payments-active
+      previewService: payments-preview
+      autoPromotionEnabled: false
+      prePromotionAnalysis:
+        templates:
+          - templateName: smoke-test</code></pre>
+<h4 id="flagger">Flagger</h4>
+<pre><code>apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: payments
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: payments
+  service:
+    port: 8080
+  analysis:
+    interval: 1m
+    threshold: 5
+    maxWeight: 50
+    stepWeight: 10
+    metrics:
+      - name: request-success-rate
+        thresholdRange: { min: 99 }
+      - name: request-duration
+        thresholdRange: { max: 500 }</code></pre>
+<h4 id="selection-guide">Selection Guide</h4>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Best For</th><th>Granularity</th></tr>
+<tr><th>Argo Rollouts</th><th>K8s-native canary/blue-green, manual or metric-driven</th><th>Traffic weight steps</th></tr>
+<tr><th>Flagger</th><th>Fully automated analysis + promote/rollback</th><th>Metric-driven auto</th></tr>
+<tr><th>Feature flags</th><th>Code-level, user-segment targeting</th><th>Per-user/segment</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="4-rollback-db-migration">§4 Rollback &amp; DB Migration</h3>
+<h4 id="expand-contract-pattern">Expand-Contract Pattern</h4>
+<pre><code>Phase 1: Add new column (nullable) → deploy code that writes both
+Phase 2: Backfill old data → verify
+Phase 3: Deploy code that reads new column only
+Phase 4: Drop old column</code></pre>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>Forward-only</th><th>Never write <code>down()</code> migrations; use expand-contract</th></tr>
+<tr><th>Backward-compatible</th><th>New code must work with old schema during rollout</th></tr>
+<tr><th>Rollback plan</th><th>Document per-service: what to rollback, how, who</th></tr>
+<tr><th>Time budget</th><th>Every deploy rollback-capable within 5 minutes</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="5-anti-patterns">§5 Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
+<tr><th>Mutable tag deploy</th><th>Can&#x27;t reproduce; ArgoCD drift</th><th>Digest-based promotion</th></tr>
+<tr><th><code>kubectl apply</code> from CI</th><th>No audit trail, manual drift</th><th>GitOps (ArgoCD)</th></tr>
+<tr><th>Manual deployment</th><th>Human error, no rollback path</th><th>Automated pipeline</th></tr>
+<tr><th>No prod approval</th><th>Unreviewed changes hit users</th><th>Environment protection</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>down()</code> migrations</th><th>Rollback breaks forward-deployed code</th><th>Expand-contract</th></tr>
+<tr><th>Deploy without smoke test</th><th>Silent failures</th><th>Post-deploy smoke in pipeline</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

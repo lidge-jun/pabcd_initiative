@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-testing — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="active">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-testing</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-testing/SKILL.md</p>
+<h2 id="testing-qa">Testing &amp; QA</h2>
+<p>Balance: ~40% Backend/API, ~40% Frontend/E2E (Playwright), ~20% Cross-cutting (CI, Security, TDD, Coverage) -- directional guidance, not a hard ratio.</p>
+<p><strong>Scope</strong>: test harnesses, fixtures, mock policy, runners, Playwright, CI gates, coverage. Root-cause analysis and debugging playbooks → <code>dev-debugging</code>.</p>
+<p>This skill activates by change surface when work needs verification depth, regression coverage, or a reproducible test harness.</p>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/core/crud-test-matrix.md</code></th><th>When choosing verification depth for a classified task, or testing a CRUD slice</th><th>Risk-tier minimums, per-operation negatives, UI smoke rule</th></tr>
+<tr><th><code>references/edge-first-testing.md</code></th><th>New unit/service/integration tests for features (skip for regression/contract tests)</th><th>Edge-first principle, test order by change type, 11-class edge matrix</th></tr>
+<tr><th><code>references/backend-testing.md</code></th><th>Backend/API testing</th><th>Supertest patterns, DB fixtures, auth mocking</th></tr>
+<tr><th><code>references/ci-pipeline.md</code></th><th>CI configuration</th><th>GitHub Actions, gates, caching, parallelism</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/load-testing.md</code></th><th>Performance/load testing, C3+ production readiness</th><th>k6/Locust, test types, measure→profile→verify, CI gates</th></tr>
+<tr><th><code>references/ml-evaluation.md</code></th><th>ML model/LLM evaluation, quality gates</th><th>LLM-as-judge, RAGAS, DeepEval, CI eval gate, regression detection. CI eval gates are dataset-versioned + regression-based: pin prompts/models/retrieval config, preserve traces, calibrate judges on golden examples, fail only on meaningful regressions or safety failures</th></tr>
+</tbody></table>
+<p>When tests depend on current external API behavior, provider docs, CI service</p>
+<p>behavior, test-environment versions, dependency audit evidence, or recorded</p>
+<p>mock/fixture sources, read the active <code>search</code> skill and follow its</p>
+<p>source-fetch and evidence-status rules.</p>
+<p>---</p>
+<h3 id="1-test-strategy">1. Test Strategy</h3>
+<h4 id="1-1-models">1.1 Models</h4>
+<table class="rules"><tbody>
+<tr><th>Model</th><th>Best For</th><th>Emphasis</th></tr>
+<tr><th>Test Pyramid</th><th>monoliths, libraries</th><th>speed, isolation</th></tr>
+<tr><th><strong>Testing Trophy</strong></th><th>modern web apps, REST backends</th><th>confidence-to-cost</th></tr>
+<tr><th>Test Honeycomb</th><th>microservices, async systems</th><th>boundary verification</th></tr>
+</tbody></table>
+<h4 id="1-2-recommended-trophy-distribution">1.2 Recommended Trophy Distribution</h4>
+<table class="rules"><tbody>
+<tr><th>Layer</th><th>Default Share</th><th>Typical Tools</th></tr>
+<tr><th>Static analysis</th><th>base layer</th><th><code>tsc</code>, ESLint, mypy, Ruff</th></tr>
+<tr><th>Unit</th><th>~25%</th><th>Vitest, Jest, pytest</th></tr>
+<tr><th><strong>Integration</strong></th><th><strong>~50%</strong></th><th>Supertest, httpx, Testcontainers</th></tr>
+<tr><th>Contract</th><th>~10%</th><th>Pact, OpenAPI validators, Schemathesis</th></tr>
+<table class="rules"><tbody>
+<tr><th>E2E</th><th>~10%</th><th>Playwright</th></tr>
+<tr><th>Manual / exploratory</th><th>~5%</th><th>human review</th></tr>
+<h4 id="1-3-risk-first-priorities">1.3 Risk-First Priorities</h4>
+<ol>
+<li>auth / session / permission boundaries</li>
+<li>money movement, quota, credits</li>
+<li>data mutation and irreversible actions</li>
+<li>file upload / parsing / external webhooks</li>
+<li>shared API contracts used by frontend clients</li>
+<li>error paths, retries, rollback behavior</li>
+</ol>
+<h4 id="1-4-harness-selector">1.4 Harness Selector</h4>
+<table class="rules"><tbody>
+<tr><th>Problem</th><th>Primary Harness</th><th>Avoid</th></tr>
+<tr><th>pure business rule</th><th>unit / service test</th><th>browser test</th></tr>
+<tr><th>route + middleware + serialization</th><th>API integration test</th><th>mocking the route itself</th></tr>
+<tr><th>DB query / migration / transaction</th><th>real DB integration test</th><th>fake repository for SQL correctness</th></tr>
+<tr><th>frontend consuming backend JSON</th><th>contract test</th><th>manual-only verification</th></tr>
+<table class="rules"><tbody>
+<tr><th>rendered critical flow</th><th>Playwright smoke</th><th>asserting internal React state</th></tr>
+<tr><th>rendered artifact (visual correctness)</th><th>render-grounding loop (dev-pabcd C-RENDER-GROUNDING-01)</th><th>static parse / tsc alone</th></tr>
+<h4 id="1-5-general-rules">1.5 General Rules</h4>
+<ul>
+<li>Write tests for <strong>new features, bug fixes, refactors, and behavior changes</strong>.</li>
+<li>Prefer <strong>one behavioral concern per test</strong>.</li>
+<li>Use factories / builders for setup; avoid repeated inline blobs.</li>
+<li>A fast real dependency beats a mock. A mock beats an untested branch.</li>
+<li>If the failure is mysterious, <strong>delegate methodology to <code>dev-debugging</code></strong>, then return here for the regression harness.</li>
+<li><strong>STRICT (TEST-ANTI-FLAKE-01):</strong> A time-based flake is a bug. Do not use sleep-based synchronization, retry-as-fix, or green-on-retry acceptance without a deterministic cause and harness correction.</li>
+<li>Verification depth follows <code>dev</code> §3 <code>DEV-VERIFY-FLOOR-01</code>; CRUD per-operation negative coverage is owned by <code>references/core/crud-test-matrix.md</code>.</li>
+</ul>
+<h4 id="1-5a-limited-oracle-score-objective-evaluation">1.5a Limited-Oracle / Score-Objective Evaluation</h4>
+<p>Use this section when the real evaluator is scarce, paid, rate-limited, or opaque, and</p>
+<p>local tests are proxy metrics for a score/objective. These rules pair with</p>
+<p><code>dev-pabcd</code> §10 Optimization-Loop Meta-Rules (plateau discipline). They were observed in a</p>
+<p>14-discard optimization plateau where a prefix-only replay gate and hard</p>
+<p>draw-protection invariant locked a 3.5/8 score.</p>
+<ul>
+<li><strong>GATE-ORACLE-VALIDITY-01 (STRICT):</strong> When the true evaluator/oracle is</li>
+</ul>
+<p>rate-limited and local metrics are proxies, evaluator validity is a PREREQUISITE</p>
+<p>gate. Before trusting the proxy for accept/reject, quantify historical divergence:</p>
+<p>cases where the proxy said better/equal but the oracle said worse. A proxy with known</p>
+<p>optimistic bias must not be the sole acceptance evidence.</p>
+<ul>
+<li><strong>GATE-PREFIX-HORIZON-01 (DEFAULT):</strong> Replay-based evidence, such as recorded logs or</li>
+</ul>
+<p>scripted opponents, is prefix-valid only. It stops being valid as soon as the</p>
+<p>candidate diverges from the recorded trajectory. Candidates that diverge early need</p>
+<p>live adversarial evaluation with a modeled opponent/environment, not replay-only</p>
+<p>acceptance. State the divergence turn/point whenever citing replay evidence.</p>
+<ul>
+<li><strong>GATE-INVARIANT-EV-01 (DEFAULT):</strong> Every hard invariant in an acceptance gate, meaning</li>
+</ul>
+<p>a metric that must not regress, needs an expected-value justification: the value it</p>
+<p>protects versus the candidate-space it vetoes. If a hard invariant vetoes three or</p>
+<p>more consecutive candidates that target strictly larger gains, downgrade it to a</p>
+<p>soft cost and re-justify or remove it.</p>
+<ul>
+<li><strong>GATE-HOLDOUT-LEAKAGE-01 (DEFAULT):</strong> Fixed evaluation assets - recorded logs, test</li>
+</ul>
+<p>maps, sparring bots, graders, and public oracle outcomes - become training data once</p>
+<p>candidates are repeatedly tuned against them (adaptive reuse overfits the holdout</p>
+<p>itself). Rotate or expand the gate&#x27;s instance set as tuning accumulates, and reserve</p>
+<p>a blind slice (instances never used for candidate selection) as the final acceptance</p>
+<p>check. A candidate that wins only on the tuned set and not on the blind slice is</p>
+<p>gate-overfit, not improved. Grounding: Blum &amp; Hardt, &quot;The Ladder&quot;</p>
+<p>(arXiv:1502.04585); Dwork et al., &quot;The reusable holdout&quot; (arXiv:1506.02629).</p>
+<ul>
+<li><strong>GATE-AGREEMENT-STATS-01 (HEURISTIC):</strong> Calibrate a proxy against the scarce oracle</li>
+</ul>
+<p>with agreement statistics, not correlation alone: sign-discordance rate (proxy said</p>
+<p>better/equal, oracle said worse), mean and worst-case proxy-minus-oracle error, and</p>
+<p>rank agreement on paired decisions (Bland-Altman method-comparison doctrine). Track</p>
+<p>these per scenario family and re-derive them whenever the oracle returns new</p>
+<p>results.</p>
+<h4 id="1-6-property-based-mutation-testing-verified-2026-07-02">1.6 Property-Based &amp; Mutation Testing (verified 2026-07-02)</h4>
+<table class="rules"><tbody>
+<tr><th>Technique</th><th>Use for</th><th>Default tools</th><th>When</th></tr>
+<tr><th>Property-based</th><th>Pure logic, parsers, serializers, state machines, API invariants</th><th>fast-check (TS), Hypothesis (Python)</th><th>DEFAULT for invariant-heavy code</th></tr>
+<tr><th>Mutation</th><th>Judging test-suite strength on critical domain logic, validators, security branches</th><th>Stryker (JS/TS), mutmut (Python)</th><th>Selective, after stable unit/property tests — not every PR</th></tr>
+</tbody></table>
+<ul>
+<li>Vitest 4 is the current runner baseline: Browser Mode is stable (visual regression via</li>
+</ul>
+<p><code>toMatchScreenshot</code>, Playwright trace generation, <code>expect.schemaMatching</code>).</p>
+<p>---</p>
+<h3 id="2-backend-api-testing">2. Backend &amp; API Testing</h3>
+<p>&gt; Deep reference: <code>references/backend-testing.md</code></p>
+<h4 id="2-1-coverage-map">2.1 Coverage Map</h4>
+<table class="rules"><tbody>
+<tr><th>Layer</th><th>Verify</th><th>TypeScript Default</th><th>Python Default</th></tr>
+<tr><th>Service layer</th><th>validation, orchestration, domain errors</th><th>Vitest</th><th>pytest</th></tr>
+<tr><th>API layer</th><th>status, envelope, middleware, auth</th><th>Supertest</th><th>httpx / ASGITransport</th></tr>
+<tr><th>Repository layer</th><th>SQL / ORM correctness</th><th>Testcontainers + real DB</th><th>Testcontainers + real DB</th></tr>
+<tr><th>Background jobs</th><th>idempotency, retry, dead-letter</th><th>Vitest + fake clock</th><th>pytest + monkeypatch</th></tr>
+<h4 id="2-2-mock-strategy-hierarchy">2.2 Mock Strategy Hierarchy</h4>
+<pre><code>real deterministic dependency
+→ Testcontainers / ephemeral infra
+→ recorded responses / thin fake
+→ manual stub / fake
+→ framework mock as last resort</code></pre>
+<h4 id="2-3-service-api-patterns">2.3 Service &amp; API Patterns</h4>
+<p>Mock dependencies at service boundaries. Use Supertest/httpx for route-level integration tests. Match response envelope shape from backend contracts.</p>
+<h4 id="2-4-database-truth-with-testcontainers">2.4 Database Truth with Testcontainers</h4>
+<p>Use a <strong>real database</strong> when verifying migrations, transactions, unique constraints, foreign keys, query translation, and performance-sensitive SQL. Use Testcontainers for real DB truth in correctness-sensitive persistence tests. Start container in beforeAll/fixture setup, capture connection URI.</p>
+<h4 id="2-5-fixture-seed-synchronization">2.5 Fixture / Seed Synchronization</h4>
+<ul>
+<li>Prefer builders / factories over copied JSON snapshots.</li>
+<li>Keep shared contract examples in <code>fixtures/contracts/</code> or equivalent.</li>
+<li>Seed data should expose <strong>stable IDs</strong> used by Playwright smoke flows.</li>
+<li>If frontend mocks drift from backend fixtures, write or update a <strong>contract test first</strong>.</li>
+</ul>
+<p>---</p>
+<h3 id="3-contract-testing">3. Contract Testing</h3>
+<p>Contract tests protect the <strong>frontend↔backend boundary</strong>. They sit between API tests and browser tests.</p>
+<p><strong>Rule</strong>: Playwright proves the experience. Contract tests prove the shared shape.</p>
+<h4 id="3-1-contract-stable-surface">3.1 Contract-Stable Surface</h4>
+<ul>
+<li>response envelope: <code>success</code>, <code>data</code>, <code>error</code>, <code>meta</code></li>
+<li>error taxonomy: HTTP status + machine-readable <code>error.code</code></li>
+<li>pagination fields, auth headers, cookie behavior</li>
+<li><code>requestId</code> propagation</li>
+<li>nullability, timestamps, enums, money serialization</li>
+</ul>
+<h4 id="3-2-contract-options">3.2 Contract Options</h4>
+<table class="rules"><tbody>
+<tr><th>Style</th><th>Best For</th><th>Tooling</th></tr>
+<tr><th>consumer-driven contract</th><th>rapidly changing frontend/backend teams</th><th>Pact</th></tr>
+<tr><th>schema-first contract</th><th>OpenAPI-led backends</th><th>OpenAPI validators, Schemathesis</th></tr>
+<tr><th>type-level contract</th><th>TS monorepos</th><th>shared types / codegen</th></tr>
+<tr><th>full-stack smoke</th><th>final user confidence</th><th>Playwright</th></tr>
+<h4 id="3-3-consumer-contract-typescript-pact-pactv4">3.3 Consumer Contract — TypeScript (Pact / PactV4)</h4>
+<p><code>PactV4</code> (aliased <code>Pact</code>) is the current interface and supports Pact Specification v4;</p>
+<p>treat <code>PactV3</code> as the legacy spec-v3 API. Workflow:</p>
+<ol>
+<li>Define interaction: provider state + request + expected response (matchers for flexible matching)</li>
+<li>Execute test against Pact mock server</li>
+<li>Assert consumer expectations</li>
+<li>Pact file auto-writes to <code>pacts/</code> → publish to broker → provider verifies</li>
+</ol>
+<p>See <code>references/backend-testing.md</code> for a full example.</p>
+<h4 id="3-4-schema-verification">3.4 Schema Verification</h4>
+<p>Use schema-based API testing (Schemathesis) to verify OpenAPI/GraphQL contract</p>
+<p>compliance. (Dredd is legacy/inactive — do not adopt for new projects.)</p>
+<h4 id="3-5-rules">3.5 Rules</h4>
+<ul>
+<li>Contract tests are <strong>strongly recommended</strong> for parallel FE/BE, public APIs, and cross-team contracts.</li>
+<li>E2E success does <strong>not</strong> replace provider verification.</li>
+<li>Store golden examples near the contract, not inside one app only.</li>
+<li>If the shape is intentionally breaking, update the contract first, then all consumers.</li>
+</ul>
+<p>---</p>
+<h3 id="4-playwright-browser-testing">4. Playwright Browser Testing</h3>
+<p>Use Playwright after API and contract tests are already trustworthy. Browser tests should validate rendered flows, accessibility-critical interactions, and real integration seams that lower layers cannot prove alone.</p>
+<p><strong>Helper Scripts Available</strong>:</p>
+<ul>
+<li><code>scripts/with_server.py</code> - Manages server lifecycle (supports multiple servers)</li>
+</ul>
+<p>Run scripts with <code>--help</code> first — treat as black boxes to avoid context window pollution.</p>
+<h4 id="4-1-decision-tree-choosing-your-approach">4.1 Decision Tree: Choosing Your Approach</h4>
+<pre><code>User task → Static HTML? → Read file → find selectors → write Playwright script
+         → Dynamic app? → Server running? → No: `python scripts/with_server.py --help`
+                                           → Yes: Recon-then-action (navigate → screenshot → selectors → act)</code></pre>
+<h4 id="4-2-example-using-with-server-py">4.2 Example: Using with_server.py</h4>
+<pre><code># Single server:
+python scripts/with_server.py --server &quot;npm run dev&quot; --port 5173 -- python your_automation.py
+
+# Multiple servers:
+python scripts/with_server.py \
+  --server &quot;cd backend &amp;&amp; python server.py&quot; --port 3000 \
+  --server &quot;cd frontend &amp;&amp; npm run dev&quot; --port 5173 \
+  -- python your_automation.py</code></pre>
+<h4 id="4-3-reconnaissance-then-action-pattern">4.3 Reconnaissance-Then-Action Pattern</h4>
+<ol>
+<li>Wait for an explicit app-ready signal or locator assertion → 2. Screenshot/inspect DOM → 3. Identify selectors → 4. Execute actions</li>
+</ol>
+<h4 id="4-4-best-practices">4.4 Best Practices</h4>
+<ul>
+<li><strong>Use bundled scripts as black boxes</strong> — run <code>--help</code> first, invoke directly.</li>
+<li>Use <code>sync_playwright()</code> for synchronous scripts; always close the browser.</li>
+<li>Prefer locator-based interactions and web-first assertions: <code>expect(page.get_by_role(&quot;button&quot;, name=&quot;Save&quot;)).to_be_visible()</code>, then <code>click()</code> on that locator.</li>
+<li>Prefer user-facing locators, especially <code>get_by_role()</code> with an accessible name. Use <code>get_by_label()</code>, <code>get_by_placeholder()</code>, or <code>get_by_test_id()</code> when role/name cannot express the target.</li>
+<li>Avoid <code>networkidle</code>, hard sleeps, and <code>wait_for_timeout()</code> in tests. Wait on observable app-ready signals, locator actions, or <code>expect()</code> assertions.</li>
+<li><strong>AI-authored tests (DEFAULT):</strong> Playwright MCP / Test Agents (planner/generator/healer) are generation-and-repair aids only — final acceptance still requires deterministic locators, web-first assertions, traces, and a human-readable failure artifact.</li>
+</ul>
+<h4 id="4-5-reference-files">4.5 Reference Files</h4>
+<ul>
+<li><strong>examples/</strong> - Examples showing common patterns:</li>
+<ul>
+<li><code>element_discovery.py</code> - Discovering buttons, links, and inputs on a page</li>
+<li><code>static_html_automation.py</code> - Using file:// URLs for local HTML</li>
+<li><code>console_logging.py</code> - Capturing console logs during automation</li>
+</ul>
+</ul>
+<h4 id="4-6-browser-testing-rules">4.6 Browser Testing Rules</h4>
+<ul>
+<li>Run <strong>contract tests and API tests first</strong> for broken-data bugs.</li>
+<li>Use Playwright for <strong>rendered truth</strong>, not as a replacement for service tests.</li>
+<li>Prefer one smoke flow per critical path over many brittle micro-flows.</li>
+<li>If a failure looks like data-shape drift, go back to <strong>§2 Backend &amp; API Testing</strong> or <strong>§3 Contract Testing</strong>.</li>
+</ul>
+<p>---</p>
+<h3 id="5-ci-pipeline-integration">5. CI Pipeline Integration</h3>
+<p>&gt; Full workflow templates: <code>references/ci-pipeline.md</code></p>
+<h4 id="5-1-pipeline-order">5.1 Pipeline Order</h4>
+<pre><code>quality (lint / typecheck)
+→ unit + integration tests
+→ contract tests
+→ Playwright E2E
+→ security scan
+→ coverage aggregation + artifacts</code></pre>
+<h4 id="5-2-pipeline-template">5.2 Pipeline Template</h4>
+<p>Structure CI jobs in dependency chain: <code>quality → backend-tests → contract-tests → e2e</code></p>
+<p>Key configuration:</p>
+<ul>
+<li><code>concurrency.cancel-in-progress: true</code> — avoid wasted runs</li>
+<li><code>strategy.fail-fast: false</code> — for matrix builds</li>
+<li>Shard large suites: <code>--shard=${{ matrix.shard }}/N</code></li>
+<li>Install Playwright deps: <code>npx playwright install --with-deps chromium</code></li>
+</ul>
+<p>See <code>references/ci-pipeline.md</code> for full GitHub Actions and GitLab CI templates.</p>
+<h4 id="5-3-matrix-parallelization">5.3 Matrix &amp; Parallelization</h4>
+<table class="rules"><tbody>
+<tr><th>Dimension</th><th>When to Use</th></tr>
+<tr><th>Node / Python version matrix</th><th>packages, SDKs, shared libraries</th></tr>
+<tr><th>OS matrix</th><th>native modules, CLI behavior</th></tr>
+<tr><th>shard matrix</th><th>large suites exceeding CI budget</th></tr>
+<pre><code>npx vitest run --shard=1/4
+npx playwright test --shard=1/4 --workers=4
+pytest -n auto --dist=loadgroup</code></pre>
+<h4 id="5-4-flaky-test-remediation">5.4 Flaky Test Remediation</h4>
+<table class="rules"><tbody>
+<tr><th>Symptom</th><th>First Fix</th></tr>
+<tr><th>passes locally, fails in CI</th><th>deterministic seeds, containerized deps, explicit waits</th></tr>
+<tr><th>order-dependent failure</th><th>reset shared state in fixtures</th></tr>
+<tr><th>green on retry only</th><th>remove wall-clock / random assumptions</th></tr>
+<tr><th>screenshot noise</th><th>stable CI image, mask dynamic regions</th></tr>
+<p>Protocol: detect → quarantine if blocking → assign owner → reinstate after repeated green runs.</p>
+<h4 id="5-5-rules">5.5 Rules</h4>
+<ul>
+<li>Do not let Playwright be the <strong>only</strong> blocking job.</li>
+<li>Contract tests should run <strong>before</strong> browser tests.</li>
+<li>Upload artifacts for failures: coverage, junit, traces, screenshots.</li>
+<li>Fail the build on broken thresholds, not only test exit codes.</li>
+</ul>
+<p>---</p>
+<h3 id="6-tdd-enforcement-mode">6. TDD Enforcement Mode</h3>
+<p>When <code>ENFORCE_TDD=true</code> is set in project instructions or explicitly requested, this section becomes mandatory.</p>
+<h4 id="6-1-red-green-refactor">6.1 RED → GREEN → REFACTOR</h4>
+<ol>
+<li><strong>RED</strong> — write the failing test first and verify it fails for the right reason.</li>
+<li><strong>GREEN</strong> — write the minimum implementation to pass.</li>
+<li><strong>REFACTOR</strong> — clean up after green, then rerun the affected suite.</li>
+</ol>
+<h4 id="6-2-self-audit-checklist">6.2 Self-Audit Checklist</h4>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>Pass Criteria</th></tr>
+<tr><th>Test written before implementation?</th><th>test file added / updated before or with code</th></tr>
+<tr><th>Failure observed before fix?</th><th>red state was actually executed</th></tr>
+<tr><th>Behavior-focused assertions?</th><th>checks outputs, side effects, contracts</th></tr>
+<tr><th>Regression locked in?</th><th>failing case is now protected by a persistent test</th></tr>
+<h4 id="6-3-vertical-tracer-bullet-tdd">6.3 Vertical Tracer-Bullet TDD</h4>
+<p>Prefer one behavior test → minimal implementation → next behavior. Slice by something</p>
+<p>a user, caller, or consuming module can observe, not by horizontal layers such as &quot;DB&quot;,</p>
+<p>&quot;API&quot;, then &quot;UI&quot;. Assert through public interfaces and durable contracts. Retire shallow</p>
+<p>scaffolding tests when a stronger interface or acceptance test covers the same promise.</p>
+<h4 id="6-4-default-style">6.4 Default Style</h4>
+<table class="rules"><tbody>
+<tr><th>Style</th><th>Best For</th></tr>
+<tr><th>London / mockist</th><th>orchestration-heavy boundaries</th></tr>
+<tr><th>Chicago / classicist</th><th>domain logic and transforms</th></tr>
+<tr><th><strong>Hybrid</strong></th><th>most production code</th></tr>
+<p>Default to <strong>Hybrid</strong>: mock external systems, keep internal collaboration real unless it becomes too slow or unstable.</p>
+<h4 id="6-5-boundary-with-dev-debugging">6.5 Boundary with dev-debugging</h4>
+<ul>
+<li><code>dev-testing</code> owns the <strong>regression harness</strong> and enforcement loop.</li>
+<li><code>dev-debugging</code> owns <strong>root-cause methodology</strong> once a failure is mysterious or multi-layered.</li>
+<li>After <code>dev-debugging</code> isolates the cause, come back here to lock it in with tests.</li>
+</ul>
+<p>---</p>
+<h3 id="6-6-ai-assisted-development-regressions">6.6 AI-Assisted Development Regressions</h3>
+<p>When an AI writes and reviews its own code, it carries the same assumptions into both steps. Automated tests break this feedback loop.</p>
+<h4 id="common-ai-regression-patterns">Common AI Regression Patterns</h4>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>Description</th><th>Test Strategy</th></tr>
+<tr><th>Sandbox/production mismatch</th><th>Fix applied to one code path, not both</th><th>Assert same response shape in both modes</th></tr>
+<tr><th>SELECT clause omission</th><th>New field in response but missing from DB query</th><th>Assert all required fields are present and defined</th></tr>
+<tr><th>Error state leakage</th><th>Error set but stale data not cleared</th><th>Assert state cleanup on error transitions</th></tr>
+<tr><th>Missing rollback</th><th>Optimistic UI update without recovery on failure</th><th>Assert state restoration after simulated API error</th></tr>
+</tbody></table>
+<h4 id="regression-naming-convention">Regression Naming Convention</h4>
+<p>Name regression tests with BUG-R{N} convention. Assert all required fields with a loop.</p>
+<h4 id="sandbox-mode-api-testing">Sandbox-Mode API Testing</h4>
+<p>When the project supports a sandbox/mock mode, use it for fast DB-free regression testing:</p>
+<ul>
+<li>Force sandbox mode in test setup: <code>process.env.SANDBOX_MODE = &#x27;true&#x27;</code></li>
+<li>Assert sandbox responses match the same contract as production responses.</li>
+<li>Treat sandbox/production parity as a high-priority regression target.</li>
+<li>In sandbox/spike mode, write tests for bugs found — coverage grows organically. For production refactors, see §1.5 (tests required for behavior changes).</li>
+</ul>
+<p>---</p>
+<h3 id="6-7-test-induced-production-defense-detection">6.7 Test-Induced Production Defense Detection</h3>
+<p><strong>Rule:</strong> Do not add production defensive code solely to satisfy unrealistic tests. A production guard is allowed only when the invalid state can occur at a real boundary or represents an explicit domain rule.</p>
+<table class="rules"><tbody>
+<tr><th>Production change smell</th><th>Likely test problem</th><th>Required action</th></tr>
+<tr><th>Internal <code>if (!x) return</code> added after unit test fails</th><th>Test fixture omitted required field</th><th>Fix fixture factory or test boundary validation</th></tr>
+<tr><th>Required field made optional to satisfy test</th><th>Test is using invalid domain object</th><th>Restore required type and update test data</th></tr>
+<tr><th>Catch-all added so test passes</th><th>Test expects silence instead of failure</th><th>Assert typed error or user-visible failure</th></tr>
+<tr><th>Production default added for impossible state</th><th>Test bypassed constructor/parser</th><th>Use real constructor/parser in test</th></tr>
+<table class="rules"><tbody>
+<tr><th>Private helper exported only for test</th><th>Test is coupled to implementation</th><th>Test public behavior or move helper to test support</th></tr>
+<tr><th>Sleep/retry added only for test flake</th><th>Test lacks deterministic synchronization</th><th>Wait on observable condition or fake clock</th></tr>
+<tr><th><code>NODE_ENV === &quot;test&quot;</code> branch added</th><th>Test-only production behavior</th><th>Remove branch; improve test harness</th></tr>
+</tbody></table>
+<p><strong>Required questions before adding a guard:</strong></p>
+<ol>
+<li>Is the input from an untrusted boundary? → If yes, validate at that boundary</li>
+<li>Can this state happen in production? → If no, fix the test</li>
+<li>What contract allows this value? → Cite schema/type/domain rule</li>
+<li>Would this hide a real bug? → If yes, fail fast instead</li>
+</ol>
+<p><strong>Banned patterns:</strong> <code>process.env.NODE_ENV === &quot;test&quot;</code> branches, silent fallbacks for impossible internal state, making required types optional for mocks, exporting internals only for tests.</p>
+<p><strong>Allowed guards:</strong> Boundary validation (process/network/user/file boundary), backward compatibility (documented old schema), security checks, domain invariants, observed production bug regressions, external dependency adapters.</p>
+<p>---</p>
+<h3 id="7-accessibility-testing">7. Accessibility Testing</h3>
+<h4 id="component-level">Component Level</h4>
+<ul>
+<li>jest-axe / vitest-axe: run axe-core on rendered components</li>
+<pre><code>  import { axe, toHaveNoViolations } from &#x27;jest-axe&#x27;
+  expect.extend(toHaveNoViolations)
+  expect(await axe(container)).toHaveNoViolations()</code></pre>
+</ul>
+<h4 id="page-level">Page Level</h4>
+<ul>
+<li>Playwright a11y assertions:</li>
+<pre><code>  import AxeBuilder from &#x27;@axe-core/playwright&#x27;
+  const results = await new AxeBuilder({ page }).analyze()
+  expect(results.violations).toEqual([])</code></pre>
+</ul>
+<h4 id="ci-pipeline">CI Pipeline</h4>
+<ul>
+<li><strong>Gate order (verified 2026-07-02):</strong> component axe (jest-axe/vitest-axe) → page axe</li>
+</ul>
+<p>(@axe-core/playwright) → keyboard/focus/manual checks. **Blocking gate = zero</p>
+<p>serious/critical axe violations + targeted manual checks.**</p>
+<ul>
+<li>Lighthouse a11y score (≥90) is an advisory route-level smoke signal, NOT the blocking</li>
+</ul>
+<p>gate — Lighthouse itself separates automated scoring from required manual checks.</p>
+<ul>
+<li>Pa11y: page-level scanning for WCAG AA violations</li>
+<li>Run a11y tests on EVERY page route, not just the homepage</li>
+</ul>
+<h4 id="observability-verification">Observability Verification</h4>
+<p>Verify trace propagation in integration tests. Assert that spans appear for critical paths. Check structured log format matches the schema in <code>dev-backend/references/core/observability.md</code>.</p>
+<p>---</p>
+<h3 id="8-security-testing">8. Security Testing</h3>
+<p><strong>→ Delegated</strong>: threat modeling and secure design policy belong to <code>dev-security</code>.</p>
+<p>This section covers the <strong>automated test hooks and CI gates</strong> that enforce those rules.</p>
+<h4 id="8-1-minimum-security-stack">8.1 Minimum Security Stack</h4>
+<pre><code>fast local checks
+→ Semgrep / CodeQL gate
+→ dependency audit
+→ auth / validation regression tests</code></pre>
+<h4 id="8-2-dependency-scanning-commands">8.2 Dependency Scanning Commands</h4>
+<pre><code>npm audit --audit-level=high
+pip-audit --strict --desc</code></pre>
+<h4 id="8-3-semgrep-gate">8.3 Semgrep Gate</h4>
+<p>The <code>returntocorp/semgrep-action</code> wrapper is deprecated (stated by the repo itself) —</p>
+<p>run Semgrep natively in CI:</p>
+<pre><code>semgrep:
+  runs-on: ubuntu-latest
+  container: semgrep/semgrep
+  steps:
+    - uses: actions/checkout@v4
+    - run: semgrep ci --config p/default --config p/javascript --config p/typescript --config p/python</code></pre>
+<p>(Open-source alternative engine: Opengrep, the LGPL-2.1 community fork — see</p>
+<p><code>dev-security/references/static-analysis.md</code>.)</p>
+<h4 id="8-4-security-regressions">8.4 Security Regressions</h4>
+<p>Test missing auth (expect 401) and verify error.code matches contract for every auth-protected endpoint.</p>
+<h4 id="8-5-rules">8.5 Rules</h4>
+<ul>
+<li>dependency audit in CI</li>
+<li>Semgrep or equivalent SAST</li>
+<li>auth / permission regression tests</li>
+<li>validation tests for malicious or malformed input</li>
+<li>a blocking rule for high / critical dependency findings</li>
+</ul>
+<p>---</p>
+<h3 id="9-coverage-quality-gates">9. Coverage &amp; Quality Gates</h3>
+<h4 id="9-1-suggested-thresholds">9.1 Suggested Thresholds</h4>
+<p>These are project/risk-based, not universal minimums. Adjust for your context.</p>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>Suggested Floor</th><th>Ideal</th></tr>
+<tr><th>Line coverage</th><th>70%</th><th>85%+</th></tr>
+<tr><th>Branch coverage</th><th>60%</th><th>80%+</th></tr>
+<tr><th>Function coverage</th><th>80%</th><th>90%+</th></tr>
+<tr><th>Diff coverage</th><th>80%</th><th>90%+</th></tr>
+<h4 id="9-2-outcome-metrics">9.2 Outcome Metrics</h4>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>Target</th></tr>
+<tr><th>Defect detection rate</th><th>&gt; 80%</th></tr>
+<tr><th>Mean time to detect</th><th>&lt; 1 CI run</th></tr>
+<tr><th>Test signal-to-noise</th><th>&gt; 95%</th></tr>
+<tr><th>Contract drift rate</th><th>near 0</th></tr>
+<h4 id="9-3-coverage-workflow">9.3 Coverage Workflow</h4>
+<ol>
+<li>generate coverage reports</li>
+<pre><code>   npm test -- --coverage
+   npx vitest run --coverage
+   pytest --cov --cov-report=xml</code></pre>
+<li>review by priority: auth, payment, mutations, upload, contracts first</li>
+<li>write targeted tests for the gaps</li>
+<li>publish artifacts and fail the merge when thresholds drop</li>
+</ol>
+<h4 id="9-4-quality-gate-checklist">9.4 Quality Gate Checklist</h4>
+<ul>
+<li>[ ] focused unit / service tests</li>
+<li>[ ] API integration tests for changed routes</li>
+<li>[ ] contract tests for shared payload changes</li>
+<li>[ ] Playwright smoke for critical rendered journeys</li>
+<li>[ ] security scan / dependency scan</li>
+<li>[ ] coverage thresholds and diff coverage</li>
+<li>[ ] CI artifacts uploaded for failure analysis</li>
+</ul>
+<h4 id="9-5-limited-oracle-score-objective-evaluation">9.5 Limited-Oracle / Score-Objective Evaluation</h4>
+<p>Use these rules when the true evaluator is scarce or costly and local checks are only</p>
+<p>proxies. PABCD loop response to repeated candidate deaths is owned by <code>dev-pabcd</code> §10</p>
+<p>Optimization-Loop Meta-Rules.</p>
+<ul>
+<li><strong>STRICT (GATE-ORACLE-VALIDITY-01):</strong> When the true evaluator/oracle is rate-limited</li>
+</ul>
+<p>(limited submissions, paid runs) and local metrics are proxies, evaluator validity is a</p>
+<p>prerequisite gate. Before trusting the proxy for accept/reject, quantify historical</p>
+<p>divergence: cases where the proxy said better/equal but the oracle said worse. A proxy</p>
+<p>with known optimistic bias must not be the sole acceptance evidence.</p>
+<ul>
+<li><strong>DEFAULT (GATE-PREFIX-HORIZON-01):</strong> Replay-based evidence (recorded logs, scripted</li>
+</ul>
+<p>opponents) is prefix-valid only; it stops being valid when the candidate diverges from</p>
+<p>the recorded trajectory. Candidates that diverge early need live adversarial evaluation</p>
+<p>through a modeled opponent/environment, not replays. State the divergence turn/point</p>
+<p>when citing replay evidence.</p>
+<ul>
+<li><strong>DEFAULT (GATE-INVARIANT-EV-01):</strong> Every hard invariant in an acceptance gate (a metric</li>
+</ul>
+<p>that must not regress) needs an expected-value justification: protected value versus the</p>
+<p>candidate-space it vetoes. If a hard invariant vetoes 3+ consecutive candidates that</p>
+<p>target strictly larger gains, downgrade it to a soft cost and re-justify or remove.</p>
+<p>Grounding: observed in a 14-discard optimization plateau where a prefix-only replay gate</p>
+<p>and a hard draw-protection invariant locked a 3.5/8 score.</p>
+<p>---</p>
+<h3 id="10-pre-flight-test-checklist">10. Pre-Flight Test Checklist</h3>
+<h4 id="10-1-change-type-routing">10.1 Change-Type Routing</h4>
+<ul>
+<li>[ ] pure business logic change → add / update unit or service tests</li>
+<li>[ ] API or middleware change → add / update API integration tests</li>
+<li>[ ] shared frontend↔backend payload change → add / update contract tests</li>
+<li>[ ] rendered user flow change → add / update Playwright smoke coverage</li>
+<li>[ ] auth / upload / billing / external integration change → add security or edge-case regression coverage</li>
+</ul>
+<h4 id="10-2-harness-readiness">10.2 Harness Readiness</h4>
+<ul>
+<li>[ ] fixtures are deterministic and reusable</li>
+<li>[ ] real dependencies are used where correctness matters</li>
+<li>[ ] Testcontainers are used for DB truth, not mocked SQL</li>
+<li>[ ] external APIs are mocked or recorded intentionally, not accidentally called live</li>
+<li>[ ] <code>ENFORCE_TDD</code> requirements were followed if enabled</li>
+</ul>
+<h4 id="10-3-contract-data-integrity">10.3 Contract &amp; Data Integrity</h4>
+<ul>
+<li>[ ] response envelope remains stable or contract was updated first</li>
+<li>[ ] error codes are asserted, not only HTTP status</li>
+<li>[ ] <code>requestId</code>, pagination, and nullability are verified where relevant</li>
+<li>[ ] frontend fixtures do not drift from backend examples</li>
+</ul>
+<h4 id="10-4-ci-reporting">10.4 CI &amp; Reporting</h4>
+<ul>
+<li>[ ] relevant CI jobs exist and are actually executed</li>
+<li>[ ] sharding / matrix choices match project size</li>
+<li>[ ] flaky failures were investigated instead of blindly retried</li>
+<li>[ ] coverage / junit / trace artifacts are available on failure</li>
+</ul>
+<h4 id="10-5-final-rule-risk-tier">10.5 Final Rule (risk-tier)</h4>
+<p>Verification intensity follows the work class (<code>dev</code> §0.0 / <code>references/core/crud-test-matrix.md</code>):</p>
+<p>for C2 UI work, one focused smoke (manual click-through or one Playwright run) plus targeted</p>
+<p>checks IS a complete story; for C3/C4 or release-sensitive work, a single smoke is not enough —</p>
+<p>run the affected suites and required negatives. Manual/Playwright smoke is a risk-tier rule,</p>
+<p>not a universal blocker.</p>
+<pre><code>unit / service
+→ API integration
+→ contract verification
+→ Playwright smoke
+→ CI gate + coverage + security scan</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-testing-backend-testing.html">Backend Testing Patterns</a></li>
+<li><a href="../../pages/skills/dev-testing-ci-pipeline.html">CI Pipeline Templates</a></li>
+<li><a href="../../pages/skills/dev-testing-edge-first-testing.html">Edge-First Testing Workflow</a></li>
+<li><a href="../../pages/skills/dev-testing-load-testing.html">Load &amp; Performance Testing</a></li>
+<li><a href="../../pages/skills/dev-testing-ml-evaluation.html">ML Model Evaluation</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

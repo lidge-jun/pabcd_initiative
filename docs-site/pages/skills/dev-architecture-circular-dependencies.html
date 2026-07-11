@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Circular Dependency Detection &amp; Resolution — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Circular Dependency Detection &amp; Resolution</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-architecture/references/circular-dependencies.md</p>
+<h2 id="circular-dependency-detection-resolution">Circular Dependency Detection &amp; Resolution</h2>
+<p>Last reviewed: 2026-07-02</p>
+<p>Deep reference for detecting, classifying, and resolving circular dependencies across ecosystems.</p>
+<p>---</p>
+<h3 id="detection-commands">Detection Commands</h3>
+<h4 id="node-js-typescript">Node.js / TypeScript</h4>
+<pre><code># madge — the standard tool for JS/TS circular detection
+npx madge --circular --extensions ts,tsx src/
+npx madge --circular --extensions ts,tsx --image graph.svg src/  # visual graph
+
+# dpdm — faster for single-entry analysis
+npx dpdm --circular --tree false src/index.ts
+
+# ESLint rule (catches at lint time, not just CI)
+# .eslintrc: { &quot;rules&quot;: { &quot;import/no-cycle&quot;: [&quot;error&quot;, { &quot;maxDepth&quot;: 3 }] } }
+
+# dependency-cruiser — most configurable
+npx depcruise --validate .dependency-cruiser.cjs src/</code></pre>
+<h4 id="python">Python</h4>
+<pre><code># pydeps — package-level cycle detection
+pydeps --no-output --show-cycles src/
+
+# importlab — Google&#x27;s import analysis tool
+importlab --trim src/
+
+# Manual: grep for cross-imports
+grep -rn &quot;from.*import&quot; src/ | sort | uniq -d</code></pre>
+<h4 id="go">Go</h4>
+<pre><code># Go compiler catches import cycles at build (always enforced)
+go build ./...  # cycle = compile error
+
+# For analysis without build:
+go vet ./...</code></pre>
+<h4 id="rust">Rust</h4>
+<p>Rust&#x27;s module system prevents circular dependencies at compile time. No detection tooling needed.</p>
+<p>---</p>
+<h3 id="fix-strategies">Fix Strategies</h3>
+<h4 id="strategy-1-interface-extraction">Strategy 1: Interface Extraction</h4>
+<p><strong>When:</strong> Two modules need each other&#x27;s types.</p>
+<pre><code>BEFORE (circular):
+  user.ts imports order.ts (for OrderSummary type)
+  order.ts imports user.ts (for UserInfo type)
+
+AFTER (fixed):
+  types/contracts.ts defines OrderSummary + UserInfo
+  user.ts imports from types/contracts.ts
+  order.ts imports from types/contracts.ts</code></pre>
+<h4 id="strategy-2-dependency-inversion">Strategy 2: Dependency Inversion</h4>
+<p><strong>When:</strong> Module A calls Module B, but B also needs to notify A.</p>
+<pre><code>BEFORE (circular):
+  payment.ts imports notification.ts (to send receipt)
+  notification.ts imports payment.ts (to check payment status)
+
+AFTER (fixed):
+  payment.ts defines PaymentObserver interface
+  notification.ts implements PaymentObserver
+  payment.ts calls observer.onPaymentComplete() — no import of notification</code></pre>
+<h4 id="strategy-3-event-bus-mediator">Strategy 3: Event Bus / Mediator</h4>
+<p><strong>When:</strong> Multiple modules have cross-cutting communication needs.</p>
+<pre><code>BEFORE (circular web):
+  auth -&gt; user -&gt; billing -&gt; auth (cycle)
+
+AFTER (fixed):
+  eventBus.ts (no domain imports)
+  auth emits &#x27;user.authenticated&#x27;
+  user listens &#x27;user.authenticated&#x27;, emits &#x27;user.profile.loaded&#x27;
+  billing listens &#x27;user.profile.loaded&#x27;
+  No module imports another — all communicate via events</code></pre>
+<h4 id="strategy-4-merge-modules">Strategy 4: Merge Modules</h4>
+<p><strong>When:</strong> Two small modules are truly co-dependent and represent one concept.</p>
+<pre><code>BEFORE (circular, both small):
+  validator.ts (50 lines) &lt;-&gt; parser.ts (40 lines)
+
+AFTER (merged):
+  parse-and-validate.ts (90 lines) — single responsibility, no cycle</code></pre>
+<p>---</p>
+<h3 id="common-patterns-resolutions">Common Patterns &amp; Resolutions</h3>
+<table class="rules"><tbody>
+<tr><th>Pattern</th><th>Root Cause</th><th>Resolution</th></tr>
+<tr><th>Model A references Model B and vice versa</th><th>Bidirectional relationship modeled as imports</th><th>Extract shared types to <code>models/types.ts</code></th></tr>
+<tr><th>Service imports Repository that imports Service</th><th>Layering violation</th><th>Repository never imports Service; use events for reverse flow</th></tr>
+<tr><th>Test helper imports source, source imports test util</th><th>Test infrastructure leaks into production</th><th>Move test utils to <code>__test_utils__/</code> outside source tree</th></tr>
+<tr><th>Barrel (index.ts) creates hidden cycle</th><th>Re-export graph hides actual dependencies</th><th>Remove barrel, use direct imports</th></tr>
+<table class="rules"><tbody>
+<tr><th>Monorepo package A depends on B depends on A</th><th>Shared types scattered across packages</th><th>Create <code>@org/contracts</code> package</th></tr>
+<tr><th>Plugin imports host, host imports plugin</th><th>Plugin boundary confused</th><th>Define plugin interface in host; plugin implements without importing host internals</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="verification-after-fix">Verification After Fix</h3>
+<p>After resolving a cycle, always:</p>
+<ol>
+<li>Re-run detection command — must report zero cycles</li>
+<li>Run full test suite — ensure no behavioral regression</li>
+<li>Check bundle size — extraction should not increase bundle</li>
+<li>Review the dependency direction — dependencies point inward toward Domain; outer layers depend on inner layers, never the reverse</li>
+</ol>
+<h3 id="sources">Sources</h3>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Source</th><th>Checked</th></tr>
+<tr><th>madge active (release page reachable)</th><th>https://github.com/pahen/madge/releases</th><th>2026-07-02</th></tr>
+<tr><th>dependency-cruiser active; preferred for enforceable CI rules</th><th>https://github.com/sverweij/dependency-cruiser/releases</th><th>2026-07-02</th></tr>
+<tr><th>eslint-plugin-boundaries active</th><th>https://github.com/javierbrea/eslint-plugin-boundaries/releases</th><th>2026-07-02</th></tr>
+<tr><th>knip for dead files/exports/dependencies</th><th>https://github.com/webpro-nl/knip/releases</th><th>2026-07-02</th></tr>
+<table class="rules"><tbody>
+<tr><th>sherif for monorepo package consistency</th><th>https://github.com/QuiiBz/sherif/releases</th><th>2026-07-02</th></tr>
+<tr><th>Biome noBarrelFile rule</th><th>https://biomejs.dev/linter/rules/no-barrel-file/</th><th>2026-07-02</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

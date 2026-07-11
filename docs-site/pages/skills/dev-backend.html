@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-backend — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="active">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-backend</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-backend/SKILL.md</p>
+<h2 id="dev-backend-production-grade-backend-engineering">Dev-Backend — Production-Grade Backend Engineering</h2>
+<p>Build reliable, secure, and maintainable server-side applications.</p>
+<p>This skill has modular references for specialized guidance — read the relevant ones before coding.</p>
+<p>It activates by change surface whenever work primarily touches APIs, servers, services, jobs, data access, schemas, migrations, or operational backend behavior.</p>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/core/crud-api.md</code></th><th>C2 ordinary CRUD/resource endpoints</th><th>Route/schema/service/query basics, five operations, error+permission mapping</th></tr>
+<tr><th><code>references/core/api-design.md</code></th><th>New/changed API style, or C3+ API work (C2 ordinary slice: <code>crud-api.md</code> alone suffices)</th><th>REST conventions, response envelopes, HTTP status, pagination, GraphQL, gRPC, tRPC</th></tr>
+<tr><th><code>references/core/api-lifecycle.md</code></th><th>API versioning, deprecation, migration</th><th>Versioning strategy, RFC 9745/8594 lifecycle, oasdiff CI gate</th></tr>
+<tr><th><code>references/core/architecture.md</code></th><th>New features at C3+ (C2 ordinary slice: <code>crud-api.md</code> alone suffices)</th><th>Layered architecture, DDD, SOLID, when to split, monolith vs micro</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/core/anti-slop-backend.md</code></th><th>New endpoints, classes, or modules</th><th>Banned patterns: god classes, raw SQL in services, magic numbers, etc.</th></tr>
+<tr><th><code>references/core/observability.md</code></th><th>Production deployments</th><th>OpenTelemetry, structured logging, distributed tracing, alerting</th></tr>
+<tr><th><code>references/core/health-checks.md</code></th><th>Production/long-lived services</th><th>Liveness, readiness, startup probes, dependency checks</th></tr>
+<tr><th><code>references/core/process-isolation.md</code></th><th>CPU-bound or untrusted work</th><th>worker_threads vs child_process vs separate service, communication, resource limits</th></tr>
+<tr><th><code>references/core/caching.md</code></th><th>Performance optimization</th><th>Redis-compatible (Valkey/Redis) patterns, CDN, connection pooling, cache invalidation</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/stacks/node.md</code></th><th>Node.js/TypeScript projects</th><th>Express/Fastify, middleware, Zod validation, ESM, error handling</th></tr>
+<tr><th><code>references/stacks/python.md</code></th><th>Python projects</th><th>FastAPI/Django, Pydantic, async patterns, testing</th></tr>
+<tr><th><code>references/stacks/database.md</code></th><th>Database design/optimization</th><th>PostgreSQL, MongoDB, indexing, N+1, migrations, ORM comparison</th></tr>
+<tr><th><code>references/core/ml-serving.md</code></th><th>ML model deployment, GPU inference</th><th>vLLM/SGLang runtime selection, FastAPI+GPU patterns, dynamic batching, quantization</th></tr>
+<tr><th><code>references/core/llm-integration.md</code></th><th>RAG, LLM API integration, prompt engineering</th><th>Chunking, hybrid search, vector DB, structured output, LangChain/LlamaIndex 2026</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/core/mobile-api.md</code></th><th>Mobile app API patterns</th><th>BFF, push notifications, offline sync, mobile auth, API optimization</th></tr>
+</tbody></table>
+<p>Read <code>api-design.md</code> + <code>anti-slop-backend.md</code> first, then the relevant stack file.</p>
+<p>For C2 ordinary slices, <code>crud-api.md</code> alone suffices; read <code>api-design.md</code>/<code>architecture.md</code> for new API styles or C3+ work.</p>
+<p>When backend decisions depend on current external API docs, API lifecycle</p>
+<p>changes, LLM/RAG provider behavior, dependency freshness, or package/source</p>
+<p>evidence, read the active <code>search</code> skill and follow its query-rewrite,</p>
+<p>source-fetch, and evidence-status rules.</p>
+<p>---</p>
+<h3 id="0-stack-detection-architecture-clarification">0. Stack Detection &amp; Architecture Clarification</h3>
+<h4 id="auto-detect-existing-projects">Auto-detect (existing projects)</h4>
+<table class="rules"><tbody>
+<tr><th>File Found</th><th>Project Type</th></tr>
+<tr><th><code>tsconfig.json</code></th><th>TypeScript (Node)</th></tr>
+<tr><th><code>package.json</code> (no ts)</th><th>JavaScript (Node)</th></tr>
+<tr><th><code>pyproject.toml</code>/<code>requirements.txt</code></th><th>Python</th></tr>
+<tr><th><code>go.mod</code></th><th>Go</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>Cargo.toml</code></th><th>Rust</th></tr>
+</tbody></table>
+<p>If config files exist → detect silently and proceed.</p>
+<h4 id="architecture-clarification-new-or-ambiguous-projects">Architecture Clarification (new or ambiguous projects)</h4>
+<p>When the request has <strong>unspecified technology or unclear scope</strong>, clarify before coding:</p>
+<ol>
+<li><strong>Identify what&#x27;s ambiguous</strong> from this list:</li>
+</ol>
+<table class="rules"><tbody>
+<tr><th>Dimension</th><th>Options to present</th></tr>
+<tr><th>API style</th><th>REST (default) · GraphQL (BFF/mobile) · gRPC (internal microservices) · tRPC (TS monorepo)</th></tr>
+<tr><th>Database</th><th>PostgreSQL (default, ACID) · MongoDB (flexible schema) · SQLite (embedded)</th></tr>
+<tr><th>Auth method</th><th>JWT + refresh (stateless) · Session-based (simple) · OAuth 2.1 (3rd party)</th></tr>
+<tr><th>Realtime</th><th>Not needed (default) · WebSocket · SSE · Polling</th></tr>
+<table class="rules"><tbody>
+<tr><th>Architecture</th><th>Monolith (default) · Modular monolith · Microservices</th></tr>
+</tbody></table>
+<ol>
+<li><strong>Recommend one with reasoning</strong>: cite project context. e.g., &quot;Small team → monolith + PostgreSQL + JWT is the simplest starting point.&quot;</li>
+<li><strong>Over-engineering guard</strong>: A CRUD API *probably* doesn&#x27;t need GraphQL + microservices + event sourcing. Simple → complex, not the reverse.</li>
+<li><strong>One round limit</strong>: 2-3 options → recommend → confirm → proceed.</li>
+</ol>
+<p>If the user already specifies clear tech (e.g. &quot;FastAPI로 REST API 만들어줘&quot;), <strong>skip this entirely</strong>.</p>
+<p><strong>Node/framework defaults (verified 2026-07-02):</strong> production uses Active/Maintenance</p>
+<p>LTS — Node 24 (Active LTS) for new services, Node 22 (Maintenance). Framework: Fastify</p>
+<p>for greenfield Node APIs (schema/Pino/plugin structure); Express 5 for legacy/ecosystem</p>
+<p>compatibility; Hono for edge/serverless/multi-runtime Web-Standards APIs. New TS</p>
+<p>validation baseline is Zod v4 (read the migration guide before upgrading v3 projects).</p>
+<p>Sources: <code>references/stacks/node.md</code> § Sources.</p>
+<p>For new Node backend source files, prefer <code>.ts</code> when the repo supports TypeScript or is greenfield. Inherit <code>dev</code> TypeScript strict-compatibility rules.</p>
+<p>If backend boundaries are unclear, read existing source-of-truth docs/logs first, then document routes, services, repositories, data stores, and runtime commands in the repo&#x27;s existing SOT before broad implementation.</p>
+<p>---</p>
+<h3 id="1-architecture-decision">1. Architecture Decision</h3>
+<p>Before coding, identify the right pattern:</p>
+<table class="rules"><tbody>
+<tr><th>Team Size</th><th>Default Starting Point</th></tr>
+<tr><th>1-3 devs</th><th>Modular monolith</th></tr>
+<tr><th>4-10 devs</th><th>Modular monolith or SOA</th></tr>
+<tr><th>10+ devs</th><th>Consider microservices</th></tr>
+</tbody></table>
+<p><strong>Default to monolith.</strong> Extract only when you have a proven need (different scaling, independent deployment, technology mismatch).</p>
+<p>See <code>references/core/architecture.md</code> for full decision matrices.</p>
+<h4 id="api-protocol-decision">API Protocol Decision</h4>
+<table class="rules"><tbody>
+<tr><th>Protocol</th><th>Choose When</th><th>Avoid When</th></tr>
+<tr><th><strong>REST</strong></th><th>Public/partner APIs, simple CRUD, caching matters</th><th>Clients need flexible data shapes</th></tr>
+<tr><th><strong>GraphQL</strong></th><th>Mobile/BFF client aggregation, multiple resources per request</th><th>Simple CRUD, server-to-server, file uploads</th></tr>
+<tr><th><strong>gRPC</strong></th><th>Internal microservices, high-perf binary, bidirectional streaming</th><th>Browser clients (without gRPC-Web), public APIs</th></tr>
+<tr><th><strong>tRPC</strong> (v11)</th><th>TypeScript shared end-to-end: monorepo, internal tools</th><th>Polyglot environments, public APIs</th></tr>
+</tbody></table>
+<p><strong>Hybrid pattern (verified 2026-07-02):</strong></p>
+<pre><code>Public/Partner → REST (OpenAPI 3.1+; prefer 3.2 where tooling supports it)
+Mobile/Web BFF → GraphQL (client aggregation; Apollo Federation ONLY when multiple
+                 independently-owned subgraphs must compose into a supergraph)
+Internal services → gRPC (Protobuf contracts)
+TS internal tools → tRPC v11 (zero-codegen type safety)</code></pre>
+<p>Deprecations: emit <code>Deprecation</code> (RFC 9745) and optional <code>Sunset</code> (RFC 8594) headers,</p>
+<p>but client adoption is uneven — always pair with OpenAPI/changelog dates and deprecated-</p>
+<p>endpoint traffic dashboards.</p>
+<p>See <code>references/core/api-design.md</code> for protocol-specific patterns.</p>
+<h4 id="long-lived-connection-operation">Long-Lived Connection Operation</h4>
+<p>Rules for SSE, WebSocket, and any connection held open beyond a single request-response cycle.</p>
+<p><strong>Lifecycle Rules:</strong></p>
+<table class="rules"><tbody>
+<tr><th>Parameter</th><th>Default</th><th>Rationale</th></tr>
+<tr><th>Heartbeat interval</th><th>15-30s</th><th>Detect dead connections before TCP timeout (varies by proxy)</th></tr>
+<tr><th>Reconnection backoff</th><th>Exponential 1s-30s with jitter</th><th>Prevent thundering herd on server restart</th></tr>
+<tr><th>Max connection duration</th><th>1h (SSE), 24h (WebSocket)</th><th>Force reconnect to rebalance and prevent memory leaks</th></tr>
+<tr><th>Connections per client</th><th>Cap at 6 (SSE) or 1-2 (WebSocket)</th><th>Browser limits + server memory budget</th></tr>
+</tbody></table>
+<p><strong>Server-Side Requirements:</strong></p>
+<ul>
+<li><strong>Connection registry:</strong> Track all active connections in-memory (Map by client/session ID). Required for graceful drain and debugging.</li>
+<li><strong>Graceful drain on deploy:</strong> Stop accepting new connections → send &quot;reconnect&quot; frame to existing → wait drain timeout → close.</li>
+<li><strong>Memory budget:</strong> Allocate max memory per connection (e.g., 2KB buffer). Monitor total; reject new connections when approaching limit.</li>
+<li><strong>Backpressure:</strong> If client stops consuming, buffer up to N messages then drop oldest or disconnect.</li>
+</ul>
+<p><strong>Pattern — &quot;202 + Job ID&quot; for Long Operations:</strong></p>
+<p>Instead of holding a connection open for a slow operation:</p>
+<pre><code>POST /generate → 202 { jobId: &quot;j_abc123&quot; }
+GET /jobs/j_abc123 → { status: &quot;processing&quot;, progress: 0.6 }
+                   → { status: &quot;complete&quot;, result: {...} }</code></pre>
+<p>Use SSE/WebSocket only for push notifications about job status — not for the operation itself.</p>
+<p><strong>Banned:</strong></p>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Fix</th></tr>
+<tr><th>Unbounded connections (no cap, no registry)</th><th>Connection registry + cap per client + global max</th></tr>
+<tr><th>No heartbeat (rely on TCP keepalive only)</th><th>Application-level heartbeat every 15-30s</th></tr>
+<tr><th>Blocking event loop per connection (sync work in message handler)</th><th>Offload to worker thread or queue; handler stays async</th></tr>
+<tr><th>Holding connection open for &gt;5s synchronous work</th><th>Return 202 + job ID; notify via push when done</th></tr>
+<table class="rules"><tbody>
+<tr><th>No reconnection logic on client side</th><th>Implement exponential backoff with jitter</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="2-layered-architecture-default-allow-serverless-handlers-vertical-slices-and-small-scripts-when-appropriate">2. Layered Architecture (Default; Allow Serverless Handlers, Vertical Slices, and Small Scripts When Appropriate)</h3>
+<pre><code>Routes → Controllers → Services → Repositories → Database
+  │          │             │            │
+  │          │             │            └── Data access only
+  │          │             └── Business logic (validation at controller boundary — service trusts caller per dev-architecture §4)
+  │          └── Parse HTTP, format response
+  └── URL mapping, middleware</code></pre>
+<p><strong>Rules:</strong></p>
+<ul>
+<li>Routes: URL patterns + middleware only. No logic.</li>
+<li>Controllers: parse input, call services, format output. No business rules.</li>
+<li>Services: receive/return plain data (not <code>req</code>/<code>res</code>). All logic here.</li>
+<li>Repositories: abstract DB access. Services access data through repositories only.</li>
+</ul>
+<h4 id="repository-pattern-interface-abstraction">Repository Pattern (Interface Abstraction)</h4>
+<p>Use repository interfaces so services depend on abstractions, enabling mocking and swapping implementations.</p>
+<h4 id="async-task-queue-patterns">Async Task Queue Patterns</h4>
+<p>When work exceeds what an HTTP response cycle should hold open, use a queue.</p>
+<p><strong>Decision: Queue vs Direct:</strong></p>
+<table class="rules"><tbody>
+<tr><th>Condition</th><th>Use Queue</th><th>Use Direct</th></tr>
+<tr><th>Execution time &gt;5s</th><th>Yes</th><th>No</th></tr>
+<tr><th>Must be retryable on failure</th><th>Yes</th><th>No</th></tr>
+<tr><th>Fire-and-forget (caller doesn&#x27;t wait)</th><th>Yes</th><th>No</th></tr>
+<tr><th>&lt;1s, idempotent, caller needs immediate result</th><th>No</th><th>Yes</th></tr>
+<table class="rules"><tbody>
+<tr><th>Real-time user-facing validation</th><th>No</th><th>Yes</th></tr>
+</tbody></table>
+<p><strong>Pattern — Accept, Queue, Notify:</strong></p>
+<pre><code>1. Client  → POST /tasks       → Server validates, enqueues
+2. Server  → 202 { jobId }     → Client receives immediately
+3. Worker  → picks from queue  → executes task
+4. Client  → GET /tasks/{id}   → polls status (or receives webhook/SSE push)
+5. Worker  → completes         → writes result, triggers notification</code></pre>
+<p><strong>Queue Selection Guide:</strong></p>
+<table class="rules"><tbody>
+<tr><th>Queue</th><th>When</th><th>Notes</th></tr>
+<tr><th><strong>BullMQ</strong> (Redis-compatible)</th><th>Node.js, need retries + priorities + rate limiting</th><th>Most mature Node queue; needs Redis/Valkey</th></tr>
+<tr><th><strong>Celery</strong> (Redis/RabbitMQ)</th><th>Python, distributed workers, periodic tasks</th><th>De facto Python standard</th></tr>
+<tr><th><strong>pg-boss</strong> (PostgreSQL)</th><th>Node.js, Postgres is the durable system of record, moderate scale</th><th>No extra infra; SKIP_LOCKED-based</th></tr>
+<tr><th><strong>Simple DB queue</strong> (polling)</th><th>Small scale (&lt;100 jobs/min), any language</th><th><code>status</code> column + <code>SELECT FOR UPDATE SKIP LOCKED</code></th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>SQS / Cloud Tasks</strong></th><th>Serverless, managed, very high scale</th><th>No infra to manage; at-least-once delivery</th></tr>
+<tr><th><strong>Temporal</strong></th><th>Durable multi-step workflows: sagas, human-in-loop, long-running AI/business processes</th><th>Workflow engine, NOT a default queue replacement</th></tr>
+</tbody></table>
+<p><strong>Required Safeguards:</strong></p>
+<tr><th>Safeguard</th><th>Rule</th></tr>
+<table class="rules"><tbody>
+<tr><th>Idempotency key</th><th>Every enqueue call must include a unique idempotency key; dedup on insert</th></tr>
+<tr><th>Dead letter queue (DLQ)</th><th>Failed 3x (configurable) → move to DLQ → alert → manual review</th></tr>
+<tr><th>Max retries</th><th>Set explicit limit (default: 3); exponential backoff between attempts</th></tr>
+<tr><th>Timeout per job</th><th>Every job has a max execution time; kill and retry on exceed</th></tr>
+<tr><th>Visibility timeout</th><th>Lock duration &gt; expected execution time; prevent duplicate processing</th></tr>
+<table class="rules"><tbody>
+<tr><th>Observability</th><th>Emit metrics: queue depth, processing time p95, DLQ size, failure rate</th></tr>
+</tbody></table>
+<p><strong>Banned:</strong></p>
+<tr><th>Banned</th><th>Fix</th></tr>
+<tr><th>Synchronous long operation blocking HTTP response (&gt;5s)</th><th>Enqueue + return 202 + job ID</th></tr>
+<table class="rules"><tbody>
+<tr><th>Queue without DLQ</th><th>Always configure DLQ; alert on DLQ depth &gt; 0</th></tr>
+<tr><th>Infinite retries (no max)</th><th>Set maxRetries=3 with exponential backoff</th></tr>
+<tr><th>No idempotency (duplicate jobs on retry)</th><th>Idempotency key on every enqueue; dedup in worker</th></tr>
+<tr><th>No timeout on job execution</th><th>Set per-job timeout; kill + mark failed on exceed</th></tr>
+<tr><th>Polling without backoff (tight loop)</th><th>Poll with interval (1-5s) or use blocking pop / push notification</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-error-handling">3. Error Handling</h3>
+<table class="rules"><tbody>
+<tr><th>Type</th><th>HTTP</th><th>Log Level</th></tr>
+<tr><th>Validation</th><th>400</th><th>warn</th></tr>
+<tr><th>Authentication</th><th>401</th><th>warn</th></tr>
+<tr><th>Authorization</th><th>403</th><th>warn</th></tr>
+<tr><th>Not found</th><th>404</th><th>info</th></tr>
+<table class="rules"><tbody>
+<tr><th>Conflict</th><th>409</th><th>warn</th></tr>
+<tr><th>Rate limit</th><th>429</th><th>info</th></tr>
+<tr><th>Internal error</th><th>500</th><th>error + stack</th></tr>
+</tbody></table>
+<p>Use a centralized <code>AppError</code> class (DEFAULT — when the repo already has an error convention, follow it instead). Distinguish operational vs programmer errors.</p>
+<h4 id="error-taxonomy-apperror-hierarchy">Error Taxonomy (AppError Hierarchy)</h4>
+<p>Create an AppError base class with statusCode, code, and isOperational properties. Extend for each error type (ValidationError, NotFoundError, etc.).</p>
+<h4 id="result-pattern-conditional">Result Pattern (conditional)</h4>
+<p>Consider the Result/Either pattern (e.g. neverthrow) for recoverable domain errors where explicit error handling improves clarity — adopt it only when the project scope justifies it and the repo doesn&#x27;t already settle error style (HEURISTIC, not a universal requirement).</p>
+<table class="rules"><tbody>
+<tr><th>Library</th><th>When to Use</th></tr>
+<tr><th><strong>neverthrow</strong></th><th>Default choice — small explicit <code>Result&lt;T, E&gt;</code> for recoverable domain errors</th></tr>
+<tr><th><strong>Effect</strong></th><th>Only when the app benefits from a full effect runtime: typed errors, retries, resources, concurrency, tracing, service composition</th></tr>
+</tbody></table>
+<p><strong>Rule:</strong> Use <code>Result</code> where recoverable/domain errors are first-class. Reserve <code>try/catch</code> for error boundaries (middleware, top-level handlers) only.</p>
+<p>---</p>
+<h3 id="4-middleware-execution-order">4. Middleware Execution Order</h3>
+<p>Apply in this sequence (order matters):</p>
+<ol>
+<li>Request ID generation</li>
+<li>Request logging</li>
+<li>Security headers (CORS, CSP, HSTS)</li>
+<li>Rate limiting</li>
+<li>Authentication</li>
+<li>Authorization</li>
+<li>Body parsing</li>
+<li>Input validation (schema)</li>
+<li>Route handler</li>
+<li>Error handler</li>
+<li>Response logging</li>
+</ol>
+<p>---</p>
+<h3 id="5-api-response-contract">5. API Response Contract</h3>
+<p>API endpoints should use a <strong>stable response envelope</strong> (DEFAULT) unless the protocol (GraphQL, gRPC, SSE) defines its own or the repo already has a different established contract — follow the existing contract first. Envelope, OTel, health checks, and deployment-readiness checks are production-surface concerns (<code>dev</code> §0.4 shared definition), conditional by project scope, not universal blockers.</p>
+<p><strong>Rules:</strong></p>
+<ul>
+<li><code>success</code> boolean at top level — never infer from HTTP status alone</li>
+<li><code>error.code</code> is machine-readable (UPPER_SNAKE), <code>error.message</code> is human-readable</li>
+<li><code>meta.requestId</code> on every response — enables cross-service tracing</li>
+<li>Pagination uses cursor-based (<code>after</code>/<code>before</code>) for large datasets, offset-based (<code>page</code>/<code>pageSize</code>) for admin UIs</li>
+<li>Nullability: prefer consistent key presence; omit when sparse payloads are intentional</li>
+<li>Timestamps: ISO 8601 UTC (<code>2024-01-15T09:30:00Z</code>), never Unix epoch in JSON</li>
+<li>Money: integer cents + currency code, never floating point</li>
+</ul>
+<p>See <code>references/core/api-design.md</code> for protocol-specific patterns (REST, GraphQL, gRPC, tRPC).</p>
+<p>---</p>
+<h3 id="6-caching-strategy">6. Caching Strategy</h3>
+<p><strong>Decision rules:</strong></p>
+<ul>
+<li>Say <strong>Redis-compatible</strong>, not Redis-only (verified 2026-07-02): prefer <strong>Valkey</strong></li>
+</ul>
+<p>(Linux Foundation, BSD) for permissive OSS/self-hosted defaults; choose Redis when</p>
+<p>managed-service, module, or license posture justifies it (Redis relicensed 2024;</p>
+<p>Redis 8 added AGPLv3).</p>
+<ul>
+<li>Cache only after correctness is proven on the uncached path.</li>
+<li>Prefer cache-aside by default; use write-through only when strong consistency matters.</li>
+<li>Every key has a namespace, version, stable identifier, TTL, and invalidation trigger.</li>
+<li>Never cache error responses or personalized CDN responses; protect cached PII with encryption and access controls.</li>
+<li>Add stampede protection for hot keys and monitor hit rate, pool exhaustion, and stale-read incidents.</li>
+</ul>
+<p>See <code>references/core/caching.md</code> for TTL guidance, Redis-compatible cache patterns, CDN rules, invalidation triggers, connection pooling, and code examples.</p>
+<p>---</p>
+<h3 id="7-observability-opentelemetry">7. Observability (OpenTelemetry)</h3>
+<p><strong>Decision rules:</strong></p>
+<ul>
+<li>Production services emit traces, metrics, and structured JSON logs with <code>requestId</code>, <code>traceId</code>, and <code>spanId</code>.</li>
+<li><strong>OTel maturity (verified 2026-07-02):</strong> traces and metrics are Stable in JS/Python;</li>
+</ul>
+<p><strong>logs are still Development</strong> — the baseline is trace/span-correlated structured</p>
+<p>logs + OTel traces/metrics; adopt OTel Logs export only where that maturity is acceptable.</p>
+<ul>
+<li>Start with OTel auto-instrumentation, then add custom spans only for business-critical or non-instrumented work.</li>
+<li>Never log PII, secrets, full request/response bodies, or noisy stack traces outside error boundaries.</li>
+<li>Page only on customer-impacting signals tied to SLOs; use warning alerts for capacity trends.</li>
+</ul>
+<p>See <code>references/core/observability.md</code> for OTel setup, structured logging conventions, trace propagation, dashboards, RUM correlation, and alerting guidance.</p>
+<p>---</p>
+<h3 id="8-skeleton-project-evaluation">8. Skeleton Project Evaluation</h3>
+<p>When starting from a template or boilerplate, verify before building on top:</p>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>What to Verify</th></tr>
+<tr><th>Dependencies</th><th>Up-to-date? CVEs? Unnecessary packages?</th></tr>
+<tr><th>Architecture fit</th><th>Does the template&#x27;s structure match your actual needs?</th></tr>
+<tr><th>Auth/security</th><th>Is the auth pattern appropriate for your use case?</th></tr>
+<tr><th>Database</th><th>Is the ORM/query builder suitable for your data model?</th></tr>
+<table class="rules"><tbody>
+<tr><th>Dead code</th><th>Remove unused example routes, models, and middleware</th></tr>
+<tr><th>Config management</th><th>Environment-based config, no hardcoded values</th></tr>
+</tbody></table>
+<p>Treat templates as starting points, not gospel. Strip to essentials, then add what you need.</p>
+<p>---</p>
+<h3 id="9-api-performance-targets-heuristic-defaults-not-universal-slos">9. API Performance Targets (HEURISTIC defaults, not universal SLOs)</h3>
+<p>These are aggressive healthy-service starting budgets. Each product MUST define its own</p>
+<p>SLOs from user journeys and alert on error-budget burn, not raw percentile thresholds</p>
+<p>alone (Google SRE SLO practice; see observability.md Sources).</p>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>Default budget</th><th>Escalation</th></tr>
+<tr><th>p50 response time (reads)</th><th>≤ 50ms</th><th>Profile with tracing</th></tr>
+<tr><th>p95 response time (reads)</th><th>≤ 200ms, alert at &gt;500ms (see observability.md)</th><th>Optimization target</th></tr>
+<tr><th>p95 response time (writes)</th><th>≤ 500ms</th><th>Acceptable for complex writes</th></tr>
+<tr><th>p99 response time</th><th>≤ 1000ms</th><th>Investigate outliers</th></tr>
+<table class="rules"><tbody>
+<tr><th>Error rate</th><th>&lt; 0.1% target, alert at &gt;1% (see observability.md)</th><th>Optimization target</th></tr>
+</tbody></table>
+<ul>
+<li>Measure at the handler level, not including network</li>
+<li>Use <code>Server-Timing</code> header to expose backend timing to frontend</li>
+<li>Log slow queries (&gt; 100ms) with EXPLAIN output</li>
+<li>Connection pool (long-running servers): min = CPU cores, max = CPU cores × 4; for serverless/Lambda use min = 0–2</li>
+</ul>
+<p>API responses that drive UI must include descriptive error messages (not just codes) for screen reader announcement, pagination metadata (total count) for assistive technology, and <code>Content-Language</code> header matching response body language.</p>
+<h3 id="10-seo-support-endpoints">10. SEO Support Endpoints</h3>
+<p>When the app serves web pages (SSR/SSG):</p>
+<ul>
+<li><code>GET /sitemap.xml</code> — dynamic sitemap generation with <code>&lt;lastmod&gt;</code></li>
+<li><code>GET /robots.txt</code> — configurable per-environment (disallow staging/preview)</li>
+<li>Structured data: provide JSON-LD data in API responses when frontend needs it</li>
+<li>Redirect chains: max 1 hop (301 for permanent, 308 for POST-preserving)</li>
+</ul>
+<h3 id="11-deployment-patterns">11. Deployment Patterns</h3>
+<p>Deployment strategy (blue-green, canary, rollback, feature flags) is owned by</p>
+<p><code>dev-devops</code>. This skill owns the <strong>backend contract</strong> that enables safe deploys:</p>
+<ul>
+<li>Database migrations: separate from code deploy, backward-compatible (expand-then-contract).</li>
+<li>Migrations must have a rollback path (down migration or backward-compat contract).</li>
+<li>Feature flags: backend provides the flag-read API; rollout strategy is dev-devops.</li>
+<li>Health endpoints (<code>/health</code>, <code>/ready</code>) gate traffic cuts — see §12 and <code>references/core/health-checks.md</code>.</li>
+</ul>
+<p>---</p>
+<h3 id="12-pre-flight-checklist">12. Pre-Flight Checklist</h3>
+<p>Before delivering:</p>
+<ul>
+<li>[ ] Consistent response envelope on every endpoint</li>
+<li>[ ] Input validation with schema (Zod, Pydantic, etc.)</li>
+<li>[ ] Authentication middleware on protected routes</li>
+<li>[ ] Rate limiting on public endpoints</li>
+<li>[ ] Structured JSON logging with <code>requestId</code> and <code>traceId</code></li>
+<li>[ ] Error handler returns proper HTTP codes via <code>AppError</code> hierarchy</li>
+<li>[ ] No raw SQL in service layer</li>
+<li>[ ] No hardcoded secrets</li>
+<li>[ ] Migrations have a rollback path (down migration or backward-compat contract)</li>
+<li>[ ] Observability: traces and structured logs wired (see <code>references/core/observability.md</code>)</li>
+<li>[ ] Health endpoints: <code>/health</code> (liveness) and <code>/ready</code> (readiness) — see <code>references/core/health-checks.md</code></li>
+<li>[ ] API performance: p95 reads ≤ 200ms, slow queries logged with EXPLAIN (§9)</li>
+<li>[ ] SEO endpoints: sitemap.xml + robots.txt if serving web pages (§10)</li>
+<li>[ ] Security review: delegate to <code>dev-security/SKILL.md</code> for production readiness</li>
+<li>[ ] Stack-specific rules followed (see <code>references/stacks/</code>)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

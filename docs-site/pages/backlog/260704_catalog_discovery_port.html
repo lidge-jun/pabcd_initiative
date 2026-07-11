@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog Discovery Port Record — 2026-07-04 — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Catalog Discovery Port Record — 2026-07-04</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: backlog/260704_catalog_discovery_port.md</p>
+<h2 id="catalog-discovery-port-record-2026-07-04">Catalog Discovery Port Record — 2026-07-04</h2>
+<p>Ported design/UX-first Catalog Discovery (INTERVIEW-CATALOG-01 / CATALOG-DESIGN-FIRST-01)</p>
+<p>from the canonical <code>skills/dev-pabcd/references/catalog-discovery.yaml</code> to all 3 downstream</p>
+<p>harnesses. Each port adapted to its host idiom (README.md: &quot;Ports are adapted, never blind-copied&quot;).</p>
+<h3 id="port-status-per-copy">Port status per copy</h3>
+<table class="rules"><tbody>
+<tr><th>Copy</th><th>Status</th><th>Integration type</th><th>Commit</th></tr>
+<tr><th><strong>pabcd_initiative</strong> (canonical)</th><th>DONE (prior goal)</th><th>YAML + SKILL.md §1 + dry-run</th><th>main, 260704</th></tr>
+<tr><th><strong>cli-jaw</strong></th><th>DONE</th><th>FSM prompt hook (STATE_PROMPTS.I) + OrcContext type + catalog YAML in skills_ref submodule + orchestration.md bullet</th><th>committed, tsc clean</th></tr>
+<tr><th><strong>jawcode</strong></th><th>DONE</th><th>jaw-interview Phase 1.5 + 2 <code>.md</code> skill-fragments (catalog-discovery-axes, auto-research-catalog)</th><th>committed, grep-verified</th></tr>
+<tr><th><strong>opencodex</strong></th><th>DONE</th><th>Process-doc only (<code>structure/07_design-methodology.md</code>) — no runtime, matches infra-plumbing nature</th><th>committed</th></tr>
+</tbody></table>
+<h3 id="adaptation-notes-per-harness">Adaptation notes per harness</h3>
+<h4 id="cli-jaw">cli-jaw</h4>
+<ul>
+<li><strong>Prompt hook</strong>: Catalog Discovery section appended to <code>STATE_PROMPTS.I</code> (I-state prompt string in <code>state-machine.ts</code>). Follows existing conditional-block-in-prompt pattern (like Loop/Multi-Pass detection).</li>
+<li><strong>OrcContext</strong>: 3 optional fields added to <code>interview?</code> type: <code>catalogMode</code>, <code>catalogStage</code>, <code>catalogSelections</code>. Follows existing perspective rotation pattern in <code>getPrefix()</code>.</li>
+<li><strong>Catalog YAML</strong>: placed in <code>skills_ref/dev-pabcd/references/</code> (submodule — committed inside submodule first, then parent). Port header comment added.</li>
+<li><strong>orchestration.md</strong>: 1 bullet added in IPABCD section referencing the sub-mode.</li>
+</ul>
+<h4 id="jawcode">jawcode</h4>
+<ul>
+<li><strong>No <code>.yaml</code> files</strong> — jawcode convention is <code>.md</code> skill-fragments with <code>kind: &quot;skill-fragment&quot;</code> metadata. Catalog data encoded as markdown tables with option details.</li>
+<li><strong>Phase 1.5</strong>: inserted between Phase 1 (init) and Round 0 (topology enumeration gate). Catalog selections feed INTO Round 0 as candidate component list — does not replace the Socratic loop.</li>
+<li><strong>Ambiguity pre-seeding</strong>: catalog answers pre-seed dimension clarity so the Socratic loop starts below 1.0 ambiguity.</li>
+<li><strong>auto-research-catalog.md</strong>: follows <code>auto-research-greenfield.md</code> pattern — spawned read-only architect that returns structured JSON.</li>
+</ul>
+<h4 id="opencodex">opencodex</h4>
+<ul>
+<li><strong>No runtime feature</strong> — opencodex is an LLM proxy with no project concept or interview surface.</li>
+<li><strong>Process-doc</strong>: <code>structure/07_design-methodology.md</code> documents the design-first invariant for contributors adding/redesigning GUI surfaces. References canonical source.</li>
+</ul>
+<h3 id="principle-delta-worth-porting-from-prior-port-record-260703">Principle delta worth porting (from prior port record 260703)</h3>
+<p>Same 3 principles apply:</p>
+<ol>
+<li>Design/UX decisions come before functional/backend decisions (structural, not stylistic).</li>
+<li>The catalog is a data structure, not prompt improvisation — prevents option drop-out.</li>
+<li>Each harness adapts to its own idiom — no blind-copied foreign tokens.</li>
+</ol>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

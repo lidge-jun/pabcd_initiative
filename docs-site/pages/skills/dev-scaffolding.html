@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-scaffolding — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="active">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-scaffolding</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-scaffolding/SKILL.md</p>
+<h2 id="dev-scaffolding">Dev Scaffolding</h2>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>Rules for generating and auditing project structures. Create files directly following these rules. Use the audit script (§12) for verification.</p>
+<p>This skill activates by change surface: new project setup, feature/module scaffolding, structural audits, or documentation scaffolding.</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/implementation-log.md</code></th><th>C3+/multi-phase/cross-session work units</th><th>Full devlog routine: decade-numbered plan folders, P-concretize → A-audit → D-archive loop, mainstream design-doc/RFC mapping</th></tr>
+<tr><th><code>references/api-docs.md</code></th><th>API documentation generation</th><th>OpenAPI 3.1, developer portal, CI doc drift, SDK generation</th></tr>
+<tr><th><code>references/monorepo-tooling.md</code></th><th>Setting up or optimizing monorepo builds</th><th>Turborepo vs Nx 2026 decision table, task graph for AI agents, CI optimization</th></tr>
+</tbody></table>
+<h3 id="external-current-scaffolding-evidence">External/current scaffolding evidence</h3>
+<p>For current generator behavior, template commands, package versions, framework</p>
+<p>recommendations, provider bootstrap docs, or source-sensitive tooling choices,</p>
+<p>read the active <code>search</code> skill and follow its query-rewrite, source-fetch, and</p>
+<p>evidence-status rules. Browser fetch/open/text/get-dom/snapshot is used only</p>
+<p>after candidate URLs exist and the setup claim needs source verification.</p>
+<h3 id="1-the-lidge-standard">1. The Lidge Standard</h3>
+<p>Apply for new projects or when a repo has no clear structural convention of its own; defer to an existing mature convention when one is present (§2). Three pillars:</p>
+<ol>
+<li><strong>Screaming Architecture</strong> — folder names reveal what the app does (<code>stock-price/</code>, <code>auth/</code>, <code>report/</code>)</li>
+<li><strong>Colocation</strong> — related files live together (logic + test + schema in the same folder)</li>
+<li><strong>Public Boundary Export</strong> — each feature/package exposes a single public entry point (<code>index.ts</code>, <code>index.js</code>, <code>__init__.py</code>, or Go package) at its boundary; internal convenience barrels are banned (owned by <code>dev-architecture</code> §5)</li>
+</ol>
+<h3 id="2-existing-repo-first">2. Existing Repo First</h3>
+<p>Before scaffolding inside an existing repo:</p>
+<ol>
+<li>Detect existing architecture, docs, plans, changelog, ADR, agent-context, source-of-truth, and devlog conventions.</li>
+<li>Read existing <code>structure/</code>, <code>devlog/</code>, <code>docs/</code>, <code>plans/</code>, or equivalent source-of-truth logs before proposing new structure.</li>
+<li>Reuse clear conventions instead of imposing the Lidge/source-of-truth default.</li>
+<li>Show a compact tree before broad additions.</li>
+<li>Do not create <code>structure/</code>, <code>devlog/</code>, <code>docs/</code>, <code>AGENTS.md</code>, or similar project-level folders without approval.</li>
+</ol>
+<p>MUST preserve mature repo conventions over the Lidge/source-of-truth default.</p>
+<h3 id="2-1-lightweight-source-of-truth-implementation-unit-devlog">2.1 Lightweight Source of Truth (implementation-unit devlog)</h3>
+<p>The implementation-unit devlog routine (<code>devlog/_plan/</code> units — <code>dev-pabcd</code> §3.1,</p>
+<p>UNIT-RESIDENCE-01) is the DEFAULT for any repo you do development work in — a</p>
+<p>process rule, not a named style to be requested. Propose the <code>structure/</code></p>
+<p>architecture docs when:</p>
+<ul>
+<li>The repo is immature, undocumented, or inconsistent; or</li>
+<li>The user asks for a durable source-of-truth structure; or</li>
+<li>A broad change needs a durable plan/current-architecture record.</li>
+</ul>
+<p>Default proposal:</p>
+<pre><code>structure/
+  README.md              # index of current architecture docs
+  architecture.md        # current system shape, not future wishes
+  conventions.md         # naming, layout, commands, testing
+devlog/
+  _plan/                 # active plans
+  _fin/                  # completed work summaries</code></pre>
+<p>Folder names are advisory. If the repo already has <code>docs/</code>, <code>adr/</code>, <code>plans/</code>, <code>changelog/</code>, or another convention, propose using those instead.</p>
+<p>Also detect optional lightweight source-of-truth files such as <code>CONTEXT.md</code>,</p>
+<p><code>CONTEXT-MAP.md</code>, and <code>docs/adr/</code>. Reuse them when present. Do not create them unless</p>
+<p>the repo already uses that convention or the user approves. Create an ADR only for a</p>
+<p>decision that is hard to reverse, surprising without context, or has a real tradeoff.</p>
+<p><strong>SoT sync (DEFAULT, SOT-SYNC-01):</strong> before patching a repo, FIND its general</p>
+<p>source-of-truth docs first (<code>structure/</code>, <code>architecture.md</code>, INDEX/context docs)</p>
+<p>and read them; any unit that changes architecture, contracts, or structure patches</p>
+<p>the SoT doc in the SAME unit (C gate, dev-pabcd §3 C). If the repo has no SoT doc,</p>
+<p>recommend creating one — once, via the proposal flow above — rather than silently</p>
+<p>working without a source of truth.</p>
+<p>Implementation-unit devlog method:</p>
+<ul>
+<li>Split large work into phase-level documents instead of one huge plan —</li>
+</ul>
+<p>dependency-ordered (PHASE-SPLIT-01), ALL written to diff-level up front</p>
+<p>(DIFFLEVEL-ROADMAP-01; both defined in <code>dev-pabcd</code>).</p>
+<ul>
+<li>Keep diff-level plans in files, not chat: exact paths, NEW/MODIFY/DELETE, before/after diffs for MODIFY, complete content for NEW.</li>
+<li>Keep chat summaries short: explain the phase, show a compact tree/change map, then link the plan file.</li>
+<li>Move completed phase folders to <code>_fin/</code>; keep pending/future work under <code>_plan/</code> or an existing equivalent.</li>
+</ul>
+<p>Phase document naming uses decade-range prefixes (LEXICO-SPLIT-01). For the canonical table (00–09 research, 10–19 Phase 1, etc.), see <code>dev-pabcd/SKILL.md</code> §3.1 Implementation-Unit Documents — that is the single source of truth.</p>
+<ul>
+<li>Plan unit folder: <code>devlog/_plan/YYMMDD_slug/</code></li>
+<li>The numeric prefix is the source of ordering. Never use bare semantic filenames (<code>PLAN.md</code>, <code>DIFF_PLAN.md</code>, <code>PHASES.md</code>, <code>RCA.md</code>).</li>
+<li>When adding a document, scan siblings and choose the next unused prefix in the correct decade.</li>
+</ul>
+<p>Before creating any <code>structure/</code>/<code>devlog/</code> folders, ask concisely: state that no source-of-truth docs were found, show the proposed tree, give a specific recommendation, and confirm you will not create them without approval. This gate governs INTRODUCING the convention to a repo (the first <code>devlog/</code> or <code>structure/</code>); once <code>devlog/_plan/</code> exists, creating unit subfolders — including the minimal record unit mandated by UNIT-RESIDENCE-01 — is routine and needs no approval dialogue.</p>
+<h3 id="2-2-project-skeleton">2.2 Project Skeleton</h3>
+<p>For a new project, propose the source-of-truth structure in the plan.</p>
+<p>If the user explicitly asks for the full source-of-truth standard (§8), create it.</p>
+<p>Otherwise ask once before adding <code>structure/</code> and <code>devlog/</code>.</p>
+<p>When creating an approved new project skeleton, include the source-of-truth and feature-based essentials: <code>AGENTS.md</code> + <code>README.md</code> (context/overview), <code>.env.example</code> + <code>.gitignore</code>, <code>devlog/_plan/</code> + <code>devlog/_fin/</code> (and <code>str_func/</code> only for the full standard, §8), <code>src/</code> with a <code>shared/</code> for truly-shared code, <code>config/</code>, <code>docs/</code>, and <code>tests/e2e/</code>. Then add the language-appropriate package manifest, entry point, language config, and per-feature public boundary exports (per <code>dev-architecture</code> §5; file names from language detection, §3). Defer exact layout to the framework&#x27;s own generator when one exists.</p>
+<h3 id="3-language-detection">3. Language Detection</h3>
+<p>Detect project type from existing files. Priority order:</p>
+<table class="rules"><tbody>
+<tr><th>File Found</th><th>Project Type</th></tr>
+<tr><th><code>tsconfig.json</code></th><th>TypeScript (Node)</th></tr>
+<tr><th><code>package.json</code> (no tsconfig)</th><th>JavaScript (Node)</th></tr>
+<tr><th><code>pyproject.toml</code> or <code>requirements.txt</code></th><th>Python</th></tr>
+<tr><th><code>go.mod</code></th><th>Go</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>Cargo.toml</code></th><th>Rust</th></tr>
+<tr><th>None of the above</th><th>→ Tech Stack Decision (below)</th></tr>
+</tbody></table>
+<p>For greenfield projects, use the Tech Stack Decision process (§3.1) instead of asking &quot;What language?&quot;</p>
+<h3 id="3-1-tech-stack-decision-new-projects">3.1 Tech Stack Decision (New Projects)</h3>
+<p>When creating a new project with no existing framework, guide the user through plain-language choices:</p>
+<ol>
+<li><strong>Type</strong>: What are they building? (static site, interactive app, full-stack service, CLI tool, data pipeline)</li>
+<li><strong>Scale</strong>: How big? (1-3 pages, multi-page, ongoing content, large app)</li>
+<li><strong>Features</strong>: Login needed? Data storage? Real-time?</li>
+</ol>
+<p>Present options as <code>&lt;Framework&gt; — &lt;what it gives you&gt;</code>, recommend one with reasoning, let user pick.</p>
+<p>Match tool complexity to task complexity. Escalate tooling only when justified by user requirements (SEO, CMS, scaling).</p>
+<h3 id="4-fullstack-split-rule">4. Fullstack Split Rule</h3>
+<p>Decide project layout based on runtime:</p>
+<table class="rules"><tbody>
+<tr><th>Scenario</th><th>Layout</th><th>Example</th></tr>
+<tr><th>Single runtime</th><th><code>src/</code> modular</th><th>Next.js, Node CLI + API, Python monolith</th></tr>
+<tr><th>Multiple runtimes</th><th><code>frontend/</code> + <code>backend/</code></th><th>React + FastAPI, Vue + Go API</th></tr>
+<tr><th>Monorepo (3+ apps)</th><th><code>packages/</code> or <code>apps/</code></th><th>Turborepo, Nx</th></tr>
+</tbody></table>
+<p>Each side gets its own package manifest and entry point. Shared types go in root <code>shared/</code> or <code>packages/shared/</code>.</p>
+<h3 id="5-feature-module-rules">5. Feature Module Rules</h3>
+<p>When adding a new feature, create a folder under <code>src/</code> with these files:</p>
+<table class="rules"><tbody>
+<tr><th>Language</th><th>Folder</th><th>Main File</th><th>Test File</th><th>Public boundary export</th></tr>
+<tr><th>JavaScript</th><th><code>kebab-case/</code></th><th><code>name.tool.js</code></th><th><code>name.test.js</code></th><th><code>index.js</code></th></tr>
+<tr><th>TypeScript</th><th><code>kebab-case/</code></th><th><code>name.tool.ts</code></th><th><code>name.test.ts</code></th><th><code>index.ts</code></th></tr>
+<tr><th>Python</th><th><code>kebab-case/</code></th><th><code>name_tool.py</code></th><th><code>test_name.py</code></th><th><code>__init__.py</code></th></tr>
+<tr><th>Go</th><th><code>kebab-case/</code></th><th><code>name.go</code></th><th><code>name_test.go</code></th><th>*(package = boundary)*</th></tr>
+<table class="rules"><tbody>
+<tr><th>Rust</th><th><code>kebab-case/</code></th><th><code>name.rs</code></th><th>inline <code>#[cfg(test)]</code> or <code>tests/</code></th><th><code>lib.rs</code>/parent <code>mod name;</code></th></tr>
+</tbody></table>
+<p>The <code>index.*</code> file is the feature&#x27;s <strong>public boundary export</strong>. Barrel discipline is owned</p>
+<p>by <code>dev-architecture</code> §5: external consumers import this boundary, internal code imports</p>
+<p>sources directly, and convenience-only internal barrels are banned.</p>
+<p>Principle: &quot;flat until you can&#x27;t&quot; — start flat, sub-folder only when a folder becomes hard to scan.</p>
+<h3 id="6-naming-conventions">6. Naming Conventions</h3>
+<table class="rules"><tbody>
+<tr><th>Item</th><th>Rule</th><th>Example</th></tr>
+<tr><th>Folders</th><th>kebab-case</th><th><code>stock-price/</code>, <code>user-auth/</code></th></tr>
+<tr><th>JS/TS files</th><th>kebab-case + suffix</th><th><code>stock-price.tool.ts</code></th></tr>
+<tr><th>Python files</th><th>snake_case + suffix</th><th><code>stock_price_tool.py</code></th></tr>
+<tr><th>Go files</th><th>snake_case</th><th><code>stock_price.go</code></th></tr>
+<table class="rules"><tbody>
+<tr><th>Rust files</th><th>snake_case</th><th><code>stock_price.rs</code></th></tr>
+<tr><th>devlog plan folders</th><th><code>YYMMDD_slug/</code></th><th><code>260510_phase_doc_naming/</code></th></tr>
+<tr><th>devlog phase docs</th><th>decade-prefixed <code>NN_slug.md</code>, <code>00_*</code> is the index</th><th><code>00_plan.md</code>, <code>10_phase1_skill_contract.md</code></th></tr>
+<tr><th>Functions (JS/TS)</th><th>camelCase</th><th><code>getStockPrice()</code></th></tr>
+<tr><th>Functions (Python)</th><th>snake_case</th><th><code>get_stock_price()</code></th></tr>
+<table class="rules"><tbody>
+<tr><th>Functions (Go)</th><th>PascalCase (exported)</th><th><code>GetStockPrice()</code></th></tr>
+<tr><th>Functions (Rust)</th><th>snake_case</th><th><code>get_stock_price()</code></th></tr>
+</tbody></table>
+<h3 id="7-file-suffixes">7. File Suffixes</h3>
+<tr><th>Suffix</th><th>Role</th><th>Languages</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>.tool.ts</code> / <code>.tool.js</code> / <code>_tool.py</code></th><th>Core business logic</th><th>JS/TS/Python</th></tr>
+<tr><th><code>.test.ts</code> / <code>.test.js</code> / <code>test_*.py</code> / <code>_test.go</code></th><th>Tests</th><th>All</th></tr>
+<tr><th><code>.schema.ts</code> / <code>.schema.js</code></th><th>Type/schema definitions</th><th>JS/TS</th></tr>
+<tr><th><code>.route.ts</code> / <code>.route.js</code></th><th>API routes</th><th>JS/TS</th></tr>
+<tr><th><code>.template.md</code></th><th>Templates</th><th>All</th></tr>
+</tbody></table>
+<h3 id="8-str-func-rules">8. str_func Rules</h3>
+<p><code>str_func</code> is part of the full Lidge standard, not the lightweight default.</p>
+<p>Use it when:</p>
+<ul>
+<li>The user explicitly asks for the full Lidge structure.</li>
+<li>The repo already maintains <code>str_func</code> docs.</li>
+<li>A broad feature needs durable module-level function documentation.</li>
+</ul>
+<p>When used:</p>
+<ul>
+<li>One <code>.md</code> file per feature folder (e.g., <code>price.md</code>, <code>auth.md</code>)</li>
+<li>Keep each document concise, bounded, and task-oriented — not padded to a fixed length</li>
+<li>Required sections: File Tree, Module Responsibility, Key Function Signatures, Dependencies, Dependents, Sync Checklist</li>
+<li>Update the corresponding <code>.md</code> whenever a feature is added or modified</li>
+<li>Template: <code>&lt;SKILL_DIR&gt;/assets/str_func_template.md</code></li>
+</ul>
+<p>Do not generate heavy feature docs by default for small or immature repos.</p>
+<p>Prefer lightweight <code>structure/architecture.md</code> and <code>structure/conventions.md</code> first.</p>
+<h3 id="9-split-rules">9. Split Rules</h3>
+<p>Split smells (heuristics, not hard gates):</p>
+<table class="rules"><tbody>
+<tr><th>Condition</th><th>Action</th></tr>
+<tr><th>File grows past ~500 lines</th><th>Split into focused modules within same folder</th></tr>
+<tr><th>Folder becomes hard to scan</th><th>Create sub-folders by responsibility</th></tr>
+<tr><th>Different runtime needed</th><th>Split into <code>frontend/</code> + <code>backend/</code></th></tr>
+<tr><th>3+ apps share code</th><th>Extract to <code>shared/</code> or monorepo <code>packages/</code></th></tr>
+</tbody></table>
+<h3 id="10-cross-cutting-scaffolding">10. Cross-Cutting Scaffolding</h3>
+<h4 id="health-endpoints">Health Endpoints</h4>
+<p>Backend scaffolds should propose health routes (skip if the mature repo already handles health checks per §2):</p>
+<ul>
+<li><code>src/routes/health.ts</code> (or equivalent) — <code>/health</code> (liveness) and <code>/ready</code> (readiness)</li>
+<li>See <code>dev-backend/references/core/health-checks.md</code> for response format</li>
+</ul>
+<h4 id="seo-boilerplate-web-projects">SEO Boilerplate (Web Projects)</h4>
+<p>Web project templates should include:</p>
+<ul>
+<li><code>public/robots.txt</code> with AI crawler allowlist</li>
+<li>Meta tag component with OG defaults</li>
+<li>JSON-LD helper utility</li>
+<li>Sitemap generation (static or dynamic)</li>
+</ul>
+<h4 id="ci-template">CI Template</h4>
+<p>Generate CI config scaffold:</p>
+<pre><code>lint → typecheck → test (unit) → test (integration) → build → deploy (staging)</code></pre>
+<h4 id="security-boilerplate">Security Boilerplate</h4>
+<p>Generate security scaffolding: CSP headers, CORS config, rate limiting middleware, <code>.env.example</code> with placeholder secrets. See <code>dev-security/SKILL.md</code> for full patterns.</p>
+<p>---</p>
+<h3 id="11-documentation-generation">11. Documentation Generation</h3>
+<p>When <code>role=docs</code> or when generating project documentation:</p>
+<h4 id="readme-generation">README Generation</h4>
+<ol>
+<li>Read existing structure (§2 Existing Repo First)</li>
+<li>Generate README with: project purpose, quick start, architecture overview (link to structure/ if present), contribution guide</li>
+<li>Match tone to project maturity: immature repos get setup-heavy READMEs; mature repos get architecture-heavy ones</li>
+</ol>
+<h4 id="api-documentation">API Documentation</h4>
+<ol>
+<li>Scan route files and extract endpoint signatures</li>
+<li>Generate per-endpoint docs: method, path, params, request/response shape, auth requirements</li>
+<li>Place alongside code (colocation) or in <code>docs/api/</code> per project convention</li>
+</ol>
+<h4 id="structure-documentation">Structure Documentation</h4>
+<ol>
+<li>Generate <code>structure/README.md</code> or update existing structure docs</li>
+<li>Include: directory tree, module responsibility map, dependency flow</li>
+<li>Follow source-of-truth conventions (§2.1) when applicable</li>
+</ol>
+<h4 id="devlog-documentation">Devlog Documentation</h4>
+<ol>
+<li>Follow decade numbering (<code>dev-pabcd/SKILL.md</code> §3.1, LEXICO-SPLIT-01): 00-09 research, 10-19 phase 1, etc.</li>
+<li>Each devlog entry: title, date, what changed, why, evidence paths</li>
+<li>Cross-reference related devlog entries within the same _plan/ folder</li>
+</ol>
+<p>---</p>
+<h3 id="12-audit">12. Audit</h3>
+<p>Run the scaffold audit if one is available for the repo (e.g. <code>bash &lt;SKILL_DIR&gt;/scripts/scaffold-audit.sh [project-path]</code>) to check structural compliance. Audit checks should reflect the project&#x27;s own conventions — covering feature-based structure, colocation, public boundary exports (dev-architecture §5), devlog presence, <code>.env</code> safety, file length, and AGENTS.md where those apply.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-scaffolding-api-docs.html">API Documentation Generation</a></li>
+<li><a href="../../pages/skills/dev-scaffolding-implementation-log.html">Implementation Log (devlog) Routine — the documentation loop inside PABCD</a></li>
+<li><a href="../../pages/skills/dev-scaffolding-monorepo-tooling.html">Monorepo Tooling — Turborepo vs Nx (2026)</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

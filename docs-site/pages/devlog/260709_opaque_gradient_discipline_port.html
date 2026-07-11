@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opaque-Surface Gradient Discipline Port — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Opaque-Surface Gradient Discipline Port</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/260709_opaque_gradient_discipline_port.md</p>
+<h2 id="opaque-surface-gradient-discipline-port">Opaque-Surface Gradient Discipline Port</h2>
+<p><strong>Date</strong>: 2026-07-09</p>
+<p><strong>Kind</strong>: SoT reinforcement + downstream port (dev-frontend anti-slop.md + color-system.md)</p>
+<h3 id="trigger">Trigger</h3>
+<p>User flagged the opencodex GUI &quot;Account login&quot; panel (<code>.panel-accent</code>,</p>
+<p><code>opencodex/gui/src/styles.css:175</code>) as tacky: a purple-tinted</p>
+<p><code>linear-gradient(accent-soft -&gt; transparent)</code> wash over an opaque functional</p>
+<p>panel. Three parallel GPT-5.5 explorer lanes researched why this reads dated and</p>
+<p>what premium systems do instead (one lane died on a proxy stream disconnect and</p>
+<p>was respawned as a slim Korean-services lane with live Playwright DOM</p>
+<p>measurements).</p>
+<h3 id="finding-tier-2">Finding (Tier-2)</h3>
+<p>Gradients survive on ambient/expressive/translucent/media surfaces; on opaque</p>
+<p>functional surfaces (cards, panels, sidebars, badges, task UI) the premium</p>
+<p>2025-2026 direction is flat: semantic tint tokens (Primer</p>
+<p><code>--bgColor-accent-muted</code>, Radix accent steps 3-5, shadcn flat <code>--accent</code>),</p>
+<p>border/ring emphasis (Geist, Tailwind), left/top accent bar (Stripe Apps),</p>
+<p>elevation tokens (Primer), or semantic status roles (Atlassian). Korean premium</p>
+<p>services (Toss/Kakao/Naver/Channel Talk/Daangn, live-measured) match: flat</p>
+<p>tint/border on functional panels, gradients only in heroes/illustrations.</p>
+<h3 id="port-status">Port status</h3>
+<table class="rules"><tbody>
+<tr><th>Target</th><th>Files</th><th>Status</th></tr>
+<tr><th>codexclaw</th><th>dev-frontend anti-slop.md (FE-GRADIENT-02 + rescoped &quot;empty flat sections&quot; line), color-system.md (FE-COLOR-ACCENT-SURFACE-01)</th><th>Done</th></tr>
+<tr><th>SoT (pabcd_initiative)</th><th>same two files</th><th>Done — byte-identical to codexclaw</th></tr>
+<tr><th>cli-jaw (cli-jaw-skills)</th><th>same two files</th><th>Done — byte-identical</th></tr>
+<tr><th>jawcode</th><th>—</th><th>N/A (no dev-frontend skill family)</th></tr>
+<table class="rules"><tbody>
+<tr><th>dev-uiux-design (all repos)</th><th>—</th><th>N/A this round: the finding is CSS surface-treatment level (token/fill discipline), owned by dev-frontend; no ism/profile change warranted</th></tr>
+</tbody></table>
+<p>All three copies remain agent-neutral (<code>rg &#x27;ima2|imagegen|view_image|browser:control|cxc-&#x27;</code> = 0</p>
+<p>on SoT/cli-jaw). Both files were byte-identical across repos before the edit, so</p>
+<p>the port is a whole-file byte-sync, no divergence handling needed.</p>
+<h3 id="conflict-resolved">Conflict resolved</h3>
+<p>anti-slop.md previously said &quot;Empty flat sections with no depth -&gt; add</p>
+<p>background imagery, patterns, or gradients&quot;, which contradicted the new rule on</p>
+<p>opaque functional panels. The line is now scoped to marketing/ambient surfaces</p>
+<p>with a pointer to FE-GRADIENT-02.</p>
+<h3 id="demonstration">Demonstration</h3>
+<p>opencodex GUI <code>.panel-accent</code> refit to flat tint + existing border (gradient</p>
+<p>wash removed) — recorded in codexclaw devlog</p>
+<p><code>devlog/_plan/260709_opaque_gradient_discipline/</code> (000 research, 001 Korean</p>
+<p>field measurements).</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

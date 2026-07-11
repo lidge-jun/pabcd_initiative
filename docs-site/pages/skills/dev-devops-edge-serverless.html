@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edge &amp; Serverless — Edge Computing Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Edge &amp; Serverless — Edge Computing Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/edge-serverless.md</p>
+<h2 id="edge-serverless-edge-computing-patterns">Edge &amp; Serverless — Edge Computing Patterns</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: Cloudflare Workers, Vercel Edge Functions, AWS Lambda@Edge</p>
+<p>When to read: Edge/serverless deployment tasks</p>
+<p>Canonical owner: dev-devops</p>
+<p>---</p>
+<h3 id="1-edge-request-shaping">§1 Edge Request Shaping</h3>
+<h4 id="what-belongs-at-the-edge">What Belongs at the Edge</h4>
+<table class="rules"><tbody>
+<tr><th>✅ Edge-appropriate</th><th>❌ Keep at origin</th></tr>
+<tr><th>Auth token validation (JWT verify)</th><th>Auth token issuance (login flow)</th></tr>
+<tr><th>Rate limiting / throttling</th><th>Complex business logic</th></tr>
+<tr><th>Geo-routing / A-B testing</th><th>Database writes</th></tr>
+<tr><th>Response caching / transformation</th><th>Transactions</th></tr>
+<table class="rules"><tbody>
+<tr><th>Bot detection / WAF rules</th><th>Long-running processes</th></tr>
+<tr><th>Request header enrichment</th><th>ML inference (unless edge-optimized)</th></tr>
+<tr><th>Static asset serving</th><th>Stateful sessions</th></tr>
+</tbody></table>
+<h4 id="decision-tree">Decision Tree</h4>
+<pre><code>Request arrives at edge →
+├── Static asset? → Serve from CDN cache
+├── Auth check needed?
+│   ├── JWT verify (stateless) → Edge
+│   └── Session lookup (stateful) → Origin
+├── Rate limit? → Edge (distributed counter)
+├── Geo-specific routing? → Edge
+└── Business logic → Origin</code></pre>
+<p>---</p>
+<h3 id="2-global-api-front-door">§2 Global API Front Door</h3>
+<h4 id="architecture">Architecture</h4>
+<pre><code>User → Edge PoP (nearest) → Auth/rate-limit/cache → Origin region
+         │
+         ├── Cache HIT → respond immediately
+         ├── Auth FAIL → 401 at edge (no origin load)
+         └── PASS → forward to origin with enriched headers</code></pre>
+<h4 id="request-enrichment-headers">Request Enrichment Headers</h4>
+<table class="rules"><tbody>
+<tr><th>Header</th><th>Source</th><th>Purpose</th></tr>
+<tr><th><code>X-Country</code></th><th>Edge geo-IP</th><th>Geo-routing, compliance</th></tr>
+<tr><th><code>X-Device-Type</code></th><th>User-Agent parsing</th><th>Responsive content</th></tr>
+<tr><th><code>X-Request-ID</code></th><th>Edge-generated UUID</th><th>Distributed tracing</th></tr>
+<tr><th><code>X-Edge-PoP</code></th><th>Edge location</th><th>Debugging latency</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>CF-Connecting-IP</code></th><th>Cloudflare</th><th>Real client IP</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-auth-at-edge">§3 Auth at Edge</h3>
+<h4 id="jwt-verification-pattern">JWT Verification Pattern</h4>
+<pre><code>// Cloudflare Workers — JWT verify at edge
+export default {
+  async fetch(request: Request, env: Env): Promise&lt;Response&gt; {
+    const token = request.headers.get(&quot;Authorization&quot;)?.replace(&quot;Bearer &quot;, &quot;&quot;);
+    if (!token) {
+      return new Response(&quot;Unauthorized&quot;, { status: 401 });
+    }
+
+    try {
+      const payload = await verifyJWT(token, env.JWT_PUBLIC_KEY);
+
+      // Enrich headers for origin
+      const enriched = new Request(request, {
+        headers: new Headers({
+          ...Object.fromEntries(request.headers),
+          &quot;X-User-ID&quot;: payload.sub,
+          &quot;X-User-Role&quot;: payload.role,
+        }),
+      });
+
+      return fetch(enriched);
+    } catch {
+      return new Response(&quot;Invalid token&quot;, { status: 401 });
+    }
+  },
+};</code></pre>
+<h4 id="rules">Rules</h4>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>Stateless only</th><th>JWT verify, API key check — no session DB calls</th></tr>
+<tr><th>Fail closed</th><th>Invalid/missing token → 401 at edge</th></tr>
+<tr><th>Clock skew</th><th>Allow 30s tolerance for <code>exp</code> / <code>nbf</code> claims</th></tr>
+<tr><th>Key rotation</th><th>Support multiple public keys (JWKS)</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="4-edge-ai-triage">§4 Edge AI Triage</h3>
+<h4 id="when-to-run-ai-at-edge">When to Run AI at Edge</h4>
+<table class="rules"><tbody>
+<tr><th>✅ Edge AI</th><th>❌ Origin AI</th></tr>
+<tr><th>Classification (&lt;10ms, small model)</th><th>LLM inference (large models)</th></tr>
+<tr><th>Content moderation (text/image)</th><th>Training / fine-tuning</th></tr>
+<tr><th>Semantic cache lookup</th><th>RAG with vector DB</th></tr>
+<tr><th>Request priority scoring</th><th>Complex chain-of-thought</th></tr>
+</tbody></table>
+<h4 id="pattern-semantic-cache-at-edge">Pattern: Semantic Cache at Edge</h4>
+<pre><code>Request → Edge →
+  1. Hash prompt → check KV cache
+  2. Cache HIT → return cached response (sub-5ms)
+  3. Cache MISS → forward to origin LLM → cache response → return</code></pre>
+<p>---</p>
+<h3 id="5-platform-patterns">§5 Platform Patterns</h3>
+<h4 id="cloudflare-workers">Cloudflare Workers</h4>
+<table class="rules"><tbody>
+<tr><th>Feature</th><th>Detail</th></tr>
+<tr><th>Runtime</th><th>V8 isolates (not Node.js)</th></tr>
+<tr><th>Limits</th><th>10ms CPU (free), 30s (paid); 128MB memory</th></tr>
+<tr><th>Storage</th><th>KV (global), R2 (objects), D1 (SQLite), Durable Objects (state)</th></tr>
+<tr><th>Deploy</th><th><code>wrangler deploy</code></th></tr>
+</tbody></table>
+<h4 id="vercel-edge-functions">Vercel Edge Functions</h4>
+<table class="rules"><tbody>
+<tr><th>Feature</th><th>Detail</th></tr>
+<tr><th>Runtime</th><th>Edge Runtime (Web APIs subset)</th></tr>
+<tr><th>Framework</th><th>Next.js <code>export const runtime = &quot;edge&quot;</code></th></tr>
+<tr><th>Limits</th><th>30s execution, 4MB response</th></tr>
+<tr><th>Use case</th><th>Middleware, API routes, ISR</th></tr>
+</tbody></table>
+<h4 id="aws-lambda-edge-cloudfront-functions">AWS Lambda@Edge / CloudFront Functions</h4>
+<table class="rules"><tbody>
+<tr><th>Type</th><th>Limit</th><th>Use Case</th></tr>
+<tr><th>CloudFront Functions</th><th>1ms, 10KB</th><th>Header manipulation, redirects</th></tr>
+<tr><th>Lambda@Edge</th><th>30s (origin), 5s (viewer)</th><th>Auth, dynamic routing</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="6-anti-patterns">§6 Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Database calls from edge</th><th>High latency, connection pool exhaustion</th><th>Cache at edge, query at origin</th></tr>
+<tr><th>Heavy computation at edge</th><th>CPU timeout (10ms limit on CF free)</th><th>Offload to origin or queue</th></tr>
+<tr><th>Stateful sessions at edge</th><th>Inconsistent state across PoPs</th><th>Stateless JWT or edge KV</th></tr>
+<tr><th>No fallback for edge failures</th><th>Users see 500 from edge crash</th><th>Fail-open to origin</th></tr>
+<table class="rules"><tbody>
+<tr><th>Hardcoded edge config</th><th>Can&#x27;t update without redeploy</th><th>Edge KV / feature flags</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

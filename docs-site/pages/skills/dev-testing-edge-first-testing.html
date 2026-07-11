@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edge-First Testing Workflow — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Edge-First Testing Workflow</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-testing/references/edge-first-testing.md</p>
+<h2 id="edge-first-testing-workflow">Edge-First Testing Workflow</h2>
+<h3 id="principle">Principle</h3>
+<p>Write edge case tests BEFORE happy path tests. Most bugs hide at boundaries, not in the golden path. If you only have time for 5 tests, 4 should be edge cases.</p>
+<h3 id="test-order-by-change-type">Test Order by Change Type</h3>
+<table class="rules"><tbody>
+<tr><th>Change Type</th><th>First Tests</th><th>Then</th></tr>
+<tr><th>New API endpoint</th><th>Invalid input, auth failure, rate limit</th><th>Happy path</th></tr>
+<tr><th>Data migration</th><th>Empty table, max-size row, concurrent write</th><th>Normal migration</th></tr>
+<tr><th>UI component</th><th>Empty state, overflow text, disabled state</th><th>Normal render</th></tr>
+<tr><th>Bug fix</th><th>Regression test for the bug</th><th>Related edges</th></tr>
+<table class="rules"><tbody>
+<tr><th>Config change</th><th>Missing value, malformed value, env mismatch</th><th>Default behavior</th></tr>
+<tr><th>Async workflow</th><th>Timeout, partial failure, retry exhaustion</th><th>Successful completion</th></tr>
+</tbody></table>
+<h3 id="edge-case-matrix-11-classes">Edge Case Matrix (11 Classes)</h3>
+<tr><th>Class</th><th>Examples</th></tr>
+<table class="rules"><tbody>
+<tr><th>Boundary</th><th>0, 1, MAX, MAX+1, negative</th></tr>
+<tr><th>Empty</th><th>null, undefined, &quot;&quot;, [], {}</th></tr>
+<tr><th>Type coercion</th><th>&quot;1&quot; vs 1, true vs &quot;true&quot;, NaN</th></tr>
+<tr><th>Concurrency</th><th>Simultaneous writes, read-during-write, lock contention</th></tr>
+<tr><th>Timeout</th><th>Network timeout, DB timeout, queue timeout, graceful vs hard</th></tr>
+<table class="rules"><tbody>
+<tr><th>Permission</th><th>No auth, expired token, wrong role, revoked mid-session</th></tr>
+<tr><th>Encoding</th><th>Unicode, emoji, RTL text, special chars (&amp;, &lt;, &quot;), zero-width</th></tr>
+<tr><th>Size</th><th>Extremely long strings, huge payloads, many items, 0 items</th></tr>
+<tr><th>State</th><th>Uninitialized, mid-transition, corrupted, stale cache</th></tr>
+<tr><th>Order</th><th>Out-of-order events, duplicate events, missing sequence</th></tr>
+<table class="rules"><tbody>
+<tr><th>Environment</th><th>Missing env var, wrong timezone, disk full, DNS failure</th></tr>
+</tbody></table>
+<h3 id="banned-patterns">Banned Patterns</h3>
+<tr><th>Pattern</th><th>Why</th><th>Fix</th></tr>
+<tr><th>Testing only happy path first</th><th>Bugs cluster at boundaries; happy-path-only gives false confidence</th><th>Write edge tests first, happy path last</th></tr>
+<table class="rules"><tbody>
+<tr><th>Mocking the thing you&#x27;re testing</th><th>Proves nothing about real behavior</th><th>Mock dependencies, not the subject</th></tr>
+<tr><th>Tests that pass with any implementation</th><th>Zero signal; test is decorative</th><th>Assert specific outputs for specific inputs</th></tr>
+<tr><th>Copy-paste test with one value changed</th><th>Hides missing edge classes</th><th>Use the 11-class matrix above systematically</th></tr>
+<tr><th>Asserting no error instead of correct result</th><th>Passes on silent wrong output</th><th>Assert the exact expected value</th></tr>
+</tbody></table>
+<h3 id="definition-of-done">Definition of Done</h3>
+<ul>
+<li>Edge coverage &gt;= happy path coverage (measure by test count per class)</li>
+<li>Every class from the matrix above is represented OR explicitly marked N/A with reason</li>
+<li>Regression test exists for every bug fix before the fix is applied</li>
+<li>No test passes when the implementation is deleted or replaced with a stub</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

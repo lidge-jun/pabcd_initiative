@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infrastructure as Code — OpenTofu, Terraform, Pulumi — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Infrastructure as Code — OpenTofu, Terraform, Pulumi</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/iac.md</p>
+<h2 id="infrastructure-as-code-opentofu-terraform-pulumi">Infrastructure as Code — OpenTofu, Terraform, Pulumi</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: OpenTofu 1.9+, Terraform 1.10+, Pulumi 3.x</p>
+<p>When to read: Infrastructure provisioning tasks</p>
+<p>Canonical owner: dev-devops §4</p>
+<p>Cross-ref: read <code>platform-engineering.md</code> for provider-routing breadth,</p>
+<p>platform guardrails, and DORA capability framing before broad IaC refreshes.</p>
+<p>---</p>
+<h3 id="1-opentofu-terraform-patterns">§1 OpenTofu/Terraform Patterns</h3>
+<h4 id="directory-structure">Directory Structure</h4>
+<pre><code>infra/
+  modules/
+    vpc/
+      main.tf
+      variables.tf
+      outputs.tf
+      README.md
+    iam/
+    ecs-service/
+    rds/
+  environments/
+    dev/
+      main.tf
+      terraform.tfvars
+      backend.tf
+    staging/
+      main.tf
+      terraform.tfvars
+      backend.tf
+    prod/
+      main.tf
+      terraform.tfvars
+      backend.tf</code></pre>
+<h4 id="state-management">State Management</h4>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>Remote backend</th><th>S3+DynamoDB, Terraform Cloud, or OpenTofu native</th></tr>
+<tr><th>State isolation</th><th>Separate state per app/layer/env</th></tr>
+<tr><th>Locking</th><th>DynamoDB or backend-native lock</th></tr>
+<tr><th>No local state</th><th>Ever. <code>terraform.tfstate</code> in <code>.gitignore</code></th></tr>
+</tbody></table>
+<h4 id="opentofu-state-encryption">OpenTofu State Encryption</h4>
+<pre><code>terraform {
+  encryption {
+    method &quot;aes_gcm&quot; &quot;default&quot; {
+      keys = key_provider.aws_kms.default
+    }
+    state {
+      method = method.aes_gcm.default
+    }
+    plan {
+      method = method.aes_gcm.default
+    }
+  }
+
+  backend &quot;s3&quot; {
+    bucket         = &quot;myorg-tf-state&quot;
+    key            = &quot;payments/prod/terraform.tfstate&quot;
+    region         = &quot;ap-northeast-2&quot;
+    dynamodb_table = &quot;tf-lock&quot;
+    encrypt        = true
+  }
+}</code></pre>
+<h4 id="blast-radius-isolation">Blast Radius Isolation</h4>
+<pre><code>State boundaries (independent apply):
+├── network/     (VPC, subnets, NAT)
+├── iam/         (roles, policies)
+├── data/        (RDS, ElastiCache)
+├── compute/     (ECS, EKS, Lambda)
+└── monitoring/  (CloudWatch, alarms)</code></pre>
+<p>Each boundary has its own state file. Network changes can&#x27;t accidentally destroy compute.</p>
+<p>---</p>
+<h3 id="2-module-design">§2 Module Design</h3>
+<h4 id="good-module-boundaries">Good Module Boundaries</h4>
+<table class="rules"><tbody>
+<tr><th>Module</th><th>Inputs</th><th>Outputs</th></tr>
+<tr><th><code>vpc</code></th><th>CIDR, AZ count, tags</th><th>vpc_id, subnet_ids, nat_gateway_ids</th></tr>
+<tr><th><code>iam-role</code></th><th>role_name, policy_arns, trust_policy</th><th>role_arn, instance_profile_arn</th></tr>
+<tr><th><code>ecs-service</code></th><th>image, cpu, memory, vpc_id, subnet_ids</th><th>service_arn, task_def_arn, lb_dns</th></tr>
+<tr><th><code>rds</code></th><th>engine, instance_class, vpc_id, subnet_ids</th><th>endpoint, port, secret_arn</th></tr>
+</tbody></table>
+<h4 id="variable-validation">Variable Validation</h4>
+<pre><code>variable &quot;instance_type&quot; {
+  type        = string
+  description = &quot;EC2 instance type — only t3/t4g allowed for cost control&quot;
+  validation {
+    condition     = can(regex(&quot;^(t3|t4g)\\.&quot;, var.instance_type))
+    error_message = &quot;Only t3.* or t4g.* instances are allowed.&quot;
+  }
+}
+
+variable &quot;environment&quot; {
+  type = string
+  validation {
+    condition     = contains([&quot;dev&quot;, &quot;staging&quot;, &quot;prod&quot;], var.environment)
+    error_message = &quot;Environment must be dev, staging, or prod.&quot;
+  }
+}</code></pre>
+<h4 id="module-interface-rules">Module Interface Rules</h4>
+<ul>
+<li>Typed inputs with <code>description</code> and <code>validation</code></li>
+<li>Stable outputs — never expose internal resource IDs that may change</li>
+<li>No implementation leakage — consumers don&#x27;t see internal resources</li>
+<li>README with usage example required</li>
+<li>Composition over monolith: combine small modules, don&#x27;t build one giant module</li>
+</ul>
+<p>---</p>
+<h3 id="3-ci-cd-for-iac">§3 CI/CD for IaC</h3>
+<h4 id="pr-pipeline">PR Pipeline</h4>
+<pre><code>name: Terraform Plan
+on:
+  pull_request:
+    paths: [&quot;infra/**&quot;]
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: opentofu/setup-opentofu@v1
+      - run: tofu init
+        working-directory: infra/environments/${{ matrix.env }}
+      - run: tofu plan -out=tfplan -no-color
+        working-directory: infra/environments/${{ matrix.env }}
+      - run: tofu show -json tfplan &gt; plan.json
+        working-directory: infra/environments/${{ matrix.env }}
+      # Post plan summary as PR comment
+      - uses: borchero/terraform-plan-comment@v2
+        with:
+          plan-file: infra/environments/${{ matrix.env }}/plan.json
+    strategy:
+      matrix:
+        env: [dev, staging, prod]</code></pre>
+<h4 id="apply-rules">Apply Rules</h4>
+<table class="rules"><tbody>
+<tr><th>Environment</th><th>Apply</th><th>Approval</th></tr>
+<tr><th>dev</th><th>Auto on merge</th><th>None</th></tr>
+<tr><th>staging</th><th>Auto on merge</th><th>None</th></tr>
+<tr><th>prod</th><th>Manual trigger</th><th>Required reviewers</th></tr>
+</tbody></table>
+<h4 id="drift-detection">Drift Detection</h4>
+<pre><code># Scheduled — run weekly
+on:
+  schedule:
+    - cron: &quot;0 6 * * 1&quot;  # Monday 6am
+
+jobs:
+  drift:
+    steps:
+      - run: tofu plan -detailed-exitcode
+      # Exit code 2 = changes detected → notify</code></pre>
+<p>---</p>
+<h3 id="4-pulumi-patterns">§4 Pulumi Patterns</h3>
+<h4 id="stack-structure">Stack Structure</h4>
+<pre><code>infra/
+  Pulumi.yaml
+  Pulumi.dev.yaml
+  Pulumi.staging.yaml
+  Pulumi.prod.yaml
+  index.ts</code></pre>
+<h4 id="typescript-example">TypeScript Example</h4>
+<pre><code>import * as aws from &quot;@pulumi/aws&quot;;
+import * as pulumi from &quot;@pulumi/pulumi&quot;;
+
+const config = new pulumi.Config();
+const env = pulumi.getStack();
+
+const vpc = new aws.ec2.Vpc(&quot;main&quot;, {
+  cidrBlock: config.require(&quot;vpcCidr&quot;),
+  tags: { Name: `${env}-vpc`, Environment: env },
+});
+
+export const vpcId = vpc.id;</code></pre>
+<h4 id="pulumi-vs-opentofu-decision">Pulumi vs OpenTofu Decision</h4>
+<table class="rules"><tbody>
+<tr><th>Factor</th><th>OpenTofu</th><th>Pulumi</th></tr>
+<tr><th>Language</th><th>HCL (declarative)</th><th>TS, Python, Go, C#</th></tr>
+<tr><th>State</th><th>S3/Cloud/native encrypted</th><th>Pulumi Cloud or self-managed</th></tr>
+<tr><th>Ecosystem</th><th>Massive provider ecosystem</th><th>Growing; wraps Terraform providers</th></tr>
+<tr><th>Learning curve</th><th>Lower for ops</th><th>Lower for developers</th></tr>
+<table class="rules"><tbody>
+<tr><th>Testing</th><th><code>terraform test</code> (limited)</th><th>Standard test frameworks</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="5-tool-selection-decision-tree">§5 Tool Selection Decision Tree</h3>
+<pre><code>Infrastructure provisioning needed?
+├── Multi-cloud or hybrid?
+│   ├── Yes → OpenTofu (HCL) or Pulumi (TS/Python)
+│   └── No, AWS only
+│       ├── Team prefers programming languages? → AWS CDK or Pulumi
+│       └── Team prefers declarative? → OpenTofu
+│
+├── Existing Terraform codebase?
+│   └── Yes → Continue Terraform or migrate to OpenTofu (drop-in compatible)
+│
+└── Starting fresh?
+    └── OpenTofu recommended (open governance, state encryption, Terraform-compatible)
+
+⚠️ CDKTF is deprecated as of 2025-12-10 (HashiCorp) — repo archived/read-only, no further updates/fixes/compatibility work. Do NOT adopt for new projects.</code></pre>
+<p>---</p>
+<h3 id="6-anti-patterns-detailed">§6 Anti-Patterns (Detailed)</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
+<tr><th>Local state file</th><th>Lost on disk crash; no locking; no team sharing</th><th>Remote backend with locking</th></tr>
+<tr><th>Manual console changes</th><th>Drift; no audit trail; breaks next <code>apply</code></th><th>All changes via code</th></tr>
+<tr><th>Hardcoded values</th><th>Can&#x27;t reuse; env-specific secrets leak</th><th><code>variable</code> + <code>terraform.tfvars</code></th></tr>
+<tr><th>Monolithic main.tf</th><th>1000+ line file; blast radius = everything</th><th>Modular decomposition</th></tr>
+<table class="rules"><tbody>
+<tr><th>CDKTF (new projects)</th><th>Deprecated by HashiCorp</th><th>OpenTofu or Pulumi</th></tr>
+<tr><th>Unpinned versions</th><th>Provider update breaks infra silently</th><th><code>required_providers</code> with <code>~&gt;</code></th></tr>
+<tr><th><code>terraform apply -auto-approve</code> in prod</th><th>No human review</th><th>Manual approval gate</th></tr>
+</tbody></table>
+<h3 id="sources-router-currency-claims-checked-2026-07-02">Sources (router currency claims, checked 2026-07-02)</h3>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Source</th></tr>
+<tr><th>CDKTF deprecated 2025-12-10, archived</th><th>https://developer.hashicorp.com/terraform/cdktf ; https://github.com/hashicorp/terraform-cdk</th></tr>
+<tr><th>OpenTofu v1.12.x, MPL-2.0, Linux Foundation</th><th>https://github.com/opentofu/opentofu/releases ; https://opentofu.org/</th></tr>
+<tr><th>Terraform BSL since 1.6</th><th>https://www.hashicorp.com/en/blog/hashicorp-adopts-business-source-license</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

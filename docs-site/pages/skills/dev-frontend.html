@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-frontend — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="active">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-frontend</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-frontend/SKILL.md</p>
+<h2 id="dev-frontend-domain-correct-frontend-engineering">Dev-Frontend — Domain-Correct Frontend Engineering</h2>
+<p>Build distinctive, production-grade interfaces that fit the product domain, locale, interaction model, and real visual evidence.</p>
+<p>This skill has modular references for specialized guidance — read the relevant ones before coding.</p>
+<p>It activates by change surface whenever the work is primarily frontend, UI, styling, responsive layout, or animation.</p>
+<p>&gt; <strong>Role separation:</strong> For design judgment — typography/color/layout direction, UX decision</p>
+<p>&gt; gates, product personalities, or vague visual briefs — load <code>dev-uiux-design</code> first. This</p>
+<p>&gt; skill implements the chosen direction; <code>dev-uiux-design</code> makes the design decisions.</p>
+<p>&gt; Implementation anti-slop enforcement stays here; design taste/pattern judgment lives there.</p>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/core/crud-ui.md</code></th><th>C2 list/detail/form product screens</th><th>State coverage (loading/empty/error/permission), forms, objective UX gates</th></tr>
+<tr><th><code>references/core/anti-slop.md</code></th><th>New components or UI redesign</th><th>2026 AI slop patterns, Korean slop, oversized text, fake assets, default UI smells</th></tr>
+<tr><th><code>references/core/aesthetics.md</code></th><th>Visual design decisions</th><th>Domain-correct visual direction, typography, color, composition, serif three-role system, expressive/functional layers, AI-brand grammar</th></tr>
+<tr><th><code>references/core/product-density.md</code></th><th>Apps, tools, dashboards</th><th>Density profiles for landing, consumer app, SaaS, ops, finance, devtools</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/core/asset-requirements.md</code></th><th>Any public/product/visual surface</th><th>Required screenshots, images, diagrams, charts, generated bitmaps, or 3D assets, mockup production pipeline</th></tr>
+<tr><th><code>references/core/visual-verification.md</code></th><th>Changes affecting rendered layout</th><th>Screenshot, viewport, text fit, state, asset, and motion verification</th></tr>
+<tr><th><code>references/core/korea-2026.md</code></th><th>Korean-first or Korea-facing UI</th><th>Korean service patterns, CJK typography, formats, mobile flows, Korean serif/myeongjo display</th></tr>
+<tr><th><code>references/core/ux-writing-ko.md</code></th><th>Korean UI copy</th><th>Natural Korean labels, error messages, tone, spacing, punctuation</th></tr>
+<tr><th><code>references/core/soft-3d-asset-gates.md</code></th><th>3D/miniature/character-like visuals</th><th>Toss-style soft 3D vs generic cute asset slop, domain gates</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/core/motion.md</code></th><th>Motion/animation needed</th><th>CSS animations, Framer Motion, scroll-driven, View Transitions, domain gates, organic bg + capsule label, product-led hero motion</th></tr>
+<tr><th><code>references/core/liquid-glass.md</code></th><th>Translucent materials, glass chrome, pill-chip surfaces</th><th>Liquid Glass layer discipline, regular/clear recipes, blur-free pill alternative, perf + a11y gates (verified 2026-07-07)</th></tr>
+<tr><th><code>references/core/iterative-design.md</code></th><th>Multi-round design</th><th>LLM convergence problem, Diverge→Kill→Mutate process, upgrade techniques</th></tr>
+<tr><th><code>references/core/prototype-variants.md</code></th><th>Runnable design variants</th><th><code>?variant=</code> switchers, structurally distinct options, cleanup after winner selection</th></tr>
+<tr><th><code>references/core/typography-wrapping.md</code></th><th>Heading/descriptor text changes</th><th><code>text-wrap: balance/pretty</code>, <strong>short descriptor category</strong> (<code>balance</code> not <code>pretty</code> for 1-3 line text), <code>ch</code> units, rag control, Korean orphan prevention, <code>-webkit-line-clamp</code> conflict</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/core/logo-sections.md</code></th><th>Integration/partner logo display</th><th>Marquee CSS, static grid, orphan cell fix, grayscale treatment, no individual hover</th></tr>
+<tr><th><code>references/core/brand-asset-sourcing.md</code></th><th>Brand logos in UI</th><th>Simple Icons/SVGL sourcing, AI agent strategy, placeholder hierarchy, legal guide</th></tr>
+<tr><th><code>references/core/layout-discipline.md</code></th><th>Landing/marketing pages</th><th>Hero, eyebrow, section repetition, bento, zigzag, <strong>per-section responsive transforms</strong>, hero composition grammar (2026)</th></tr>
+<tr><th><code>references/core/consistency-locks.md</code></th><th>Any multi-section page</th><th>Color, shape, theme consistency per page</th></tr>
+<tr><th><code>references/core/responsive-viewport.md</code></th><th>Layout or breakpoint changes</th><th>Canonical breakpoints, page containment, container queries, responsive images, safe area, split-screen</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/core/mobile-ux.md</code></th><th>Consumer/landing pages with mobile traffic</th><th>Thumb zone, touch targets, sticky CTA, mobile section composition, bottom sheet, portrait media</th></tr>
+<tr><th><code>references/core/seo-baseline.md</code></th><th>Public-facing sites, SSR/SSG</th><th>SEO meta, JSON-LD, robots.txt, GEO strategies, OG/Twitter cards</th></tr>
+<tr><th><code>references/core/a11y-patterns.md</code></th><th>Interactive widgets, modals, forms</th><th>ARIA patterns, focus management, keyboard nav, screen reader testing</th></tr>
+<tr><th><code>references/core/performance-budget.md</code></th><th>Launch / audit</th><th>CWV targets, bundle budgets, font loading, image optimization, build gates, browser connection budgets</th></tr>
+<tr><th><code>references/core/preflight-full.md</code></th><th>Launch / audit</th><th>Full ~40-item pre-flight checklist (router §14 keeps only blocking gates)</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/core/theme-switching.md</code></th><th>Dark mode / theme</th><th>CSS custom properties toggle, FOWT prevention, transition, component checklist</th></tr>
+<tr><th><code>references/core/color-system.md</code></th><th>Color tokens, palettes wiring, theme-ready CSS</th><th>Token layering, <code>oklch()</code> + fallback discipline, <code>color-mix()</code>, <code>light-dark()</code>, Tailwind v4/shadcn wiring, contrast gates (verified 2026-07-07)</th></tr>
+<tr><th><code>references/core/i18n-global.md</code></th><th>Multi-language / RTL</th><th>RTL layout, pluralization, Intl API, locale switching, content expansion</th></tr>
+<tr><th>See also: <code>dev-uiux-design</code> skill</th><th>Vague requests, onboarding, UX states</th><th>Intent discovery, design isms, product personalities, onboarding/empty/error patterns</th></tr>
+<tr><th><code>references/stacks/react.md</code></th><th>React projects</th><th>Server Components, hooks, state, TanStack Query, shadcn/ui, performance</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/stacks/nextjs.md</code></th><th>Next.js projects</th><th>App Router, RSC, image optimization, data fetching, middleware</th></tr>
+<tr><th><code>references/stacks/vanilla.md</code></th><th>HTML+CSS+JS (no framework)</th><th>Zero-dependency, viewport fitting, responsive CSS, progressive enhancement</th></tr>
+<tr><th><code>references/stacks/svelte.md</code></th><th>Svelte/SvelteKit projects</th><th>Svelte 5 Runes, SvelteKit 2 routing/actions, snippets, migration from Svelte 4</th></tr>
+<tr><th><code>references/stacks/mobile-native.md</code></th><th>Native mobile app development</th><th>RN/Expo current pairing, Flutter 3.44, KMP, Swift 6, framework selection</th></tr>
+<tr><th><code>references/stacks/astro.md</code></th><th>Astro projects</th><th>Islands architecture, multi-framework shell, content collections, SSG/SSR/hybrid</th></tr>
+</tbody></table>
+<p>Start with <code>anti-slop.md</code>, <code>aesthetics.md</code>, <code>responsive-viewport.md</code>, and <code>visual-verification.md</code>. Add domain/locale/stack references only when relevant.</p>
+<p>For C2 ordinary app screens (form/table/list/detail), <code>crud-ui.md</code> alone suffices; add the style references above for marketing/visual surfaces or C3+ work.</p>
+<p>When frontend choices depend on current framework, design-system, browser API,</p>
+<p>library behavior, browser-rendered source evidence, or package/source freshness,</p>
+<p>read the active <code>search</code> skill and follow its source-fetch and evidence-status</p>
+<p>rules before treating external material as proof.</p>
+<h4 id="verification-grounding">Verification grounding</h4>
+<p><strong>STRICT:</strong> For render/executable artifacts (HTML, SVG, games, UI, charts),</p>
+<p>run the real renderer: headless browser, screenshot, canvas check, or equivalent.</p>
+<p>Observe the actual output yourself, fix what observation reveals, then re-run.</p>
+<p>Static parsing confirms well-formed files; it does not prove the artifact is</p>
+<p>visually or interactively correct. One clean observation is enough for unchanged</p>
+<p>state; do not re-render unchanged output just to repeat evidence.</p>
+<p>---</p>
+<h3 id="0-frontend-routing">0. Frontend Routing</h3>
+<p>Before designing or coding, classify the work:</p>
+<table class="rules"><tbody>
+<tr><th>Decision</th><th>Options</th><th>Why It Matters</th></tr>
+<tr><th>Product surface</th><th>landing, app, dashboard, AI tool, public service, education, game, creative</th><th>Sets density, typography scale, asset requirements</th></tr>
+<tr><th>Locale</th><th>Korean-first, global/i18n, English-only</th><th>Sets CJK typography, copy, date/number formats</th></tr>
+<tr><th>Density</th><th>campaign, consumer app, productivity, SaaS, ops, finance, developer console</th><th>Prevents landing-page composition inside repeated-work tools</th></tr>
+<tr><th>Asset need</th><th>none, screenshot, product photo, diagram, chart, illustration, soft 3D, game asset</th><th>Prevents asset-free gradient/card UI</th></tr>
+<table class="rules"><tbody>
+<tr><th>Soft 3D/character gate</th><th>not allowed, subtle, primary</th><th>Prevents generic cute 3D/mascot slop</th></tr>
+<tr><th>Motion intensity</th><th>static, feedback-only, expressive, cinematic</th><th>Prevents cinematic motion in utility workflows</th></tr>
+</tbody></table>
+<p>Default rules:</p>
+<ul>
+<li>For apps/tools/dashboards, build the actual working surface first, not a marketing hero.</li>
+<li>For Korean-first work, read <code>korea-2026.md</code> and <code>ux-writing-ko.md</code>.</li>
+<li>For any soft 3D miniature, mascot, chibi, toy-like object, or character-like asset, read <code>soft-3d-asset-gates.md</code>.</li>
+<li>For product/brand/object/place/person pages, use concrete visual assets in the first viewport.</li>
+<li>For finance, government, B2B, admin, auth, security, and developer tools, keep visual warmth restrained and subordinate to clarity.</li>
+<li>Every user-facing decision point must justify its existence — defaults first, one primary action per screen, choices demoted to progressive disclosure; surface-conditional per density profile (<code>dev-uiux-design</code> UX-LAZY-01 owns the gate).</li>
+<li>For text-heavy surfaces (landing, marketing, editorial, public service), apply typography wrapping defaults — see <code>typography-wrapping.md</code>. Dashboard table cells are excluded.</li>
+</ul>
+<p>---</p>
+<h3 id="1-component-identification">1. Component Identification</h3>
+<p>When the user describes UI in vague terms (e.g. &quot;접히는 거&quot;, &quot;팝업 같은 거&quot;):</p>
+<ol>
+<li>Recommend the best-fit component with reasoning: <code>&lt;Name&gt; — &lt;what it does, why it fits&gt;</code></li>
+<li>Confirm, then proceed</li>
+</ol>
+<p>If the user already names a specific component, skip this step.</p>
+<p>Reference: <a href="https://component.gallery/components/">component.gallery/components</a></p>
+<p>For new React/Vue/Svelte/Next UI source files, prefer <code>.tsx</code> or typed component files when the repo supports TypeScript. Inherit <code>dev</code> TypeScript strict-compatibility rules.</p>
+<p>If frontend structure is unclear, read existing source-of-truth docs/logs first, then document pages, components, routes, state stores, and build commands in the repo&#x27;s existing SOT before broad implementation.</p>
+<p>---</p>
+<h3 id="1-5-objective-gates-vs-style-samples">1.5 Objective Gates vs Style Samples</h3>
+<p>Two different kinds of rules live in this skill (see <code>dev</code> §0.2):</p>
+<ul>
+<li><strong>Objective UX gates (STRICT/DEFAULT)</strong> — accessibility baseline (§7, §11), state coverage</li>
+</ul>
+<p>(loading/empty/error/permission), keyboard operability, visible focus, contrast. Missing</p>
+<p>these are review findings.</p>
+<ul>
+<li><strong>Style direction (STYLE_SAMPLE)</strong> — design thinking (§2), aesthetics, density profiles,</li>
+</ul>
+<p>product personalities, preset tokens, and the concrete values in §4-§5 (palettes, font</p>
+<p>choices, pixel max-widths). These illustrate acceptable choices; they are NOT</p>
+<p>requirements, must not override an existing design system (Design System Detection stays</p>
+<p>MANDATORY), and must never be enforced as universal taste (UX-STYLE-01).</p>
+<h3 id="2-design-thinking">2. Design Thinking</h3>
+<p>Before coding, commit to a domain-correct direction:</p>
+<ul>
+<li><strong>Purpose</strong>: What problem does this interface solve? Who uses it?</li>
+<li><strong>Surface</strong>: Is this a working tool, dashboard, public service, AI workflow, game, landing page, or editorial surface?</li>
+<li><strong>Tone</strong>: Pick a specific direction. For product tools this often means quiet, dense, trustworthy, and fast rather than loud.</li>
+<li><strong>Constraints</strong>: Framework, performance budget, accessibility requirements.</li>
+<li><strong>Signature</strong>: What ONE thing will make this unforgettable?</li>
+</ul>
+<p>When user intent is vague (&quot;깔끔하게&quot;, &quot;모던하게&quot;, &quot;just make it look good&quot;), read the <code>dev-uiux-design</code> skill and run the User Intent Discovery Protocol before making routing decisions.</p>
+<p>If the user cannot answer these questions, use the <code>dev-uiux-design</code> skill&#x27;s structured preference elicitation flow. Offer product references (&quot;Notion 느낌? Linear 느낌?&quot;) and visual comparisons.</p>
+<p>Intentionality over intensity. Bold maximalism, refined minimalism, dense utility, and friendly consumer UI can all work when they match the domain.</p>
+<p>---</p>
+<h3 id="3-baseline-configuration">3. Baseline Configuration</h3>
+<p>Adjust these dials based on what&#x27;s being built. Present to user if unclear.</p>
+<table class="rules"><tbody>
+<tr><th>Dial</th><th>Default</th><th>Range</th><th>Meaning</th></tr>
+<tr><th>DESIGN_VARIANCE</th><th>5</th><th>1-10</th><th>1=symmetric utility, 10=asymmetric art</th></tr>
+<tr><th>MOTION_INTENSITY</th><th>4</th><th>1-10</th><th>1=static, 10=cinematic choreography</th></tr>
+<tr><th>VISUAL_DENSITY</th><th>5</th><th>1-10</th><th>1=art gallery airy, 10=cockpit dense</th></tr>
+</tbody></table>
+<p>After Design Read, set dials per <code>dev-uiux-design</code> §2 Dial Setting.</p>
+<p>Product density profile (D1-D8 in <code>references/core/product-density.md</code>) sets component class; VISUAL_DENSITY (1-10) sets spacing within that class. These are orthogonal axes.</p>
+<p>Adapt dynamically based on user requests. Dashboard → density up. Portfolio → variance up. Data tool → motion down.</p>
+<p>Korean app/tool surfaces usually need higher density and clearer hierarchy, not oversized hero text.</p>
+<p>---</p>
+<h3 id="4-implementation">4. Implementation</h3>
+<p>Read <code>references/core/aesthetics.md</code> for full guidelines. Summary:</p>
+<ul>
+<li><strong>Typography</strong>: Use domain-appropriate typography. For Korean-first UIs, prioritize CJK-safe stacks before Latin display fonts. Apply <code>text-wrap: balance</code> on all headings <strong>AND short descriptors</strong> (hero subtitle, card description, caption — anything 1-3 lines). Use <code>text-wrap: pretty</code> only on body paragraphs (4+ lines). <code>pretty</code> has no effect on short text and will leave Korean orphans like &quot;합니다.&quot; or &quot;화.&quot; on a line alone. See <code>typography-wrapping.md</code> for full rules.</li>
+<li><strong>Color</strong>: Max 1 accent. Use neutral bases (Zinc/Slate) with singular high-contrast accent — avoid purple-on-white.</li>
+<li><strong>Layout</strong>: Match the product surface. Avoid centered-card/hero patterns in repeated-use tools.</li>
+<li><strong>Motion</strong>: See <code>references/core/motion.md</code>. One well-choreographed page load &gt; 10 scattered effects.</li>
+<li><strong>Assets</strong>: Use screenshots, product images, diagrams, charts, illustrations, generated bitmaps, or soft 3D only when they add product meaning.</li>
+</ul>
+<p>---</p>
+<h3 id="5-anti-slop-enforcement">5. Anti-Slop Enforcement</h3>
+<p>Rule classes (dev §0.2): items below are DEFAULT — deviate with a stated reason; concrete</p>
+<p>values and palettes are STYLE_SAMPLE (§1.5); the emoji-as-UI-icon ban is the only STRICT item.</p>
+<p>Read <code>references/core/anti-slop.md</code> for full rules. Key standards:</p>
+<ul>
+<li>Treat unexamined default typography as a slop signal. Choose a domain-appropriate stack; Korean-first UI should use CJK-safe fonts and system fallbacks deliberately.</li>
+<li><strong>Gradient overuse is the #1 AI tell (2026)</strong> — audit gradients first. Budget: max 1 ambient gradient per viewport; gradients on 3+ sibling cards is gradient soup — see <code>anti-slop.md § Gradient Budget</code></li>
+<li><strong>One-note theme ban</strong>: full-page single-hue washes (terminal green, cyber cyan, CRT amber) are the dark-mode purple-on-white — neutral dark base + accent on &lt;10% of surface. See <code>anti-slop.md § One-Note Theme Ban</code></li>
+<li>Use neutral or intentional color palettes — purple gradients on white remain the legacy tell</li>
+<li><strong>No self-describing meta copy</strong>: UI text must sell the product, never narrate the mockup, layout, or responsive behavior (&quot;벤토 보드&quot;, &quot;다른 배율로 재사용&quot;, viewport pill rows) — see <code>anti-slop.md § Self-Describing Meta Copy</code></li>
+<li>Use asymmetric or purposeful layouts — centered-everything reads as template</li>
+<li>Vary card sizes, spans, and groupings — equal 3-card grids read as generic</li>
+<li>Bento grids must compose as one interlocking slab: aligned row edges, 1 dominant cell, span tracks content weight, no orphan tail — see <code>layout-discipline.md § Bento Composition</code></li>
+<li>Never reuse the same image twice on one page (hero + crop/zoom tile) — each slot earns distinct content</li>
+<li>Avoid oversized bold hero text inside tools, dashboards, admin, finance flows, and public services</li>
+<li><strong>Hero composition</strong>: the split hero (left bold headline + right boxed screenshot/mockup card) is demoted to paid-conversion LPs; on brand/product homepages the product visual is the stage (full-width, background, or interactive demo), never a right-column card — see <code>layout-discipline.md § Hero Composition Grammar</code></li>
+<li>Avoid asset-free UI: abstract blobs/gradients do not replace real visual evidence</li>
+<li>Avoid generic soft 3D icon packs; soft 3D must be semantic, brand-consistent, and restrained</li>
+<li><strong>NEVER use emoji as UI visual elements</strong> (feature icons, card icons, section markers, buttons) — emoji in production UI is the #1 AI slop signal. Use SVG icons (Lucide/Phosphor/Heroicons). See <code>anti-slop.md § Emoji Slop</code></li>
+<li>Warm beige/cream backgrounds with brass/clay accents are banned as defaults for premium-consumer briefs — see <code>anti-slop.md § Premium-Consumer Palette Ban</code></li>
+<li>Layout monotony (same family repeated, 3+ zigzag sections, overused eyebrows) — see <code>references/core/layout-discipline.md</code></li>
+<li>Color, shape, and theme must be locked per-page and audited before shipping — see <code>references/core/consistency-locks.md</code></li>
+<li>Use off-black (<code>#0a0a0a</code>, <code>#111</code>) — pure <code>#000000</code> lacks depth</li>
+<li><strong>Responsive enforcement</strong>: every multi-column section must declare its mobile/tablet collapse behavior — &quot;it&#x27;ll work at mobile&quot; is not a plan. See <code>responsive-viewport.md</code></li>
+<li><strong>Page containment required</strong>: <code>max-w-[1400px] mx-auto</code> or equivalent wrapper. Content stretching to viewport edges on wide monitors is a layout bug</li>
+<li><strong>Mobile is a different product</strong>: section composition, CTA placement, and interaction model change on mobile — it is NOT just &quot;desktop stacked vertically.&quot; See <code>mobile-ux.md</code></li>
+<li>Use realistic, specific names and brands in placeholder content</li>
+<li>Write original copy — avoid &quot;Elevate&quot;, &quot;Seamless&quot;, &quot;Next-Gen&quot; and similar clichés</li>
+<li>Treat uncontrolled heading line breaks (orphaned single word, no <code>text-wrap</code>, no <code>max-width</code> in <code>ch</code>) as a slop signal — see <code>typography-wrapping.md</code></li>
+<li>Treat short descriptors (hero subtitle, card description, caption) using <code>text-wrap: pretty</code> instead of <code>balance</code> as a slop signal — <code>pretty</code> does nothing on 1-3 line text, especially Korean</li>
+<li>Treat Korean orphan fragments (&quot;합니다.&quot;, &quot;화.&quot;, &quot;입니다.&quot; alone on a line) as a slop signal — always verify Korean text breaks at target viewports</li>
+<li>Treat generic stroke icons as brand logo substitutes as a slop signal — use actual brand SVGs from Simple Icons, SVGL, or press kits. See <code>brand-asset-sourcing.md</code></li>
+</ul>
+<p>---</p>
+<h3 id="6-performance-guardrails">6. Performance Guardrails</h3>
+<ul>
+<li>Animate <code>transform</code> and <code>opacity</code> only — layout properties cause jank</li>
+<li>Grain/noise filters → fixed pseudo-elements only, off scrolling containers</li>
+<li><code>will-change</code> sparingly (remove after animation); z-index only for systemic layers</li>
+<li>Memoize perpetual animations in isolated components</li>
+<li><strong>Browser connection budgets</strong> (≤2 SSE/WS per origin per page, multiplex over</li>
+</ul>
+<p>multiplying, no per-component polling): detail + limits table in</p>
+<p><code>references/core/performance-budget.md</code> (this skill owns browser-side budgets;</p>
+<p>server connection lifecycle is owned by <code>dev-backend</code> §1)</p>
+<p>---</p>
+<h3 id="7-accessibility-baseline">7. Accessibility Baseline</h3>
+<ul>
+<li>Semantic HTML (<code>&lt;button&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>); keyboard navigation for all interactive elements</li>
+<li>WCAG AA minimum (4.5:1 normal text, 3:1 large text); visible focus indicators; <code>prefers-reduced-motion</code></li>
+<li>Skip link; focus never hidden by sticky headers/bars/sheets/overlays</li>
+<li>Icon-only buttons need accessible names; charts/status/loading/AI-streaming states need labels or live regions</li>
+<li>Do not encode meaning by color alone</li>
+<li>Modals, menus, comboboxes, bottom sheets, command palettes: complete keyboard path —</li>
+</ul>
+<p>trap focus, restore on close, Escape; arrow-key navigation; honest <code>aria-expanded</code>/</p>
+<p><code>aria-haspopup</code>/<code>aria-activedescendant</code>; tab order follows visual flow</p>
+<ul>
+<li>Stress-test Korean long labels and screen-reader names; clipped Hangul is a failure</li>
+<li>Pointer targets follow WCAG 2.2 AA target-size (24×24 CSS px minimum with exceptions);</li>
+</ul>
+<p>44×44px is a conservative product baseline, not the legal minimum</p>
+<ul>
+<li>Test with screen reader and keyboard-only navigation; deep patterns → <code>a11y-patterns.md</code></li>
+</ul>
+<p>---</p>
+<h3 id="8-react-behavior-rules-hooks-performance-forms">8. React Behavior Rules (hooks · performance · forms)</h3>
+<p>Full guidance moved to <code>references/stacks/react.md</code> § Behavior Rules. Router decisions:</p>
+<table class="rules"><tbody>
+<tr><th>Decision</th><th>Rule</th></tr>
+<tr><th>New custom hook</th><th>Only when it owns reusable behavior (subscription lifecycle, async state machine, shared form-field behavior) — never a thin <code>useState</code> alias</th></tr>
+<tr><th>Memoization</th><th>Measure first; with React Compiler enabled, remove defensive <code>memo</code>/<code>useMemo</code>/<code>useCallback</code> unless semantics require identity</th></tr>
+<tr><th>Perf strategy</th><th>Pure components, local state, correct state ownership (§12 table), split expensive client islands</th></tr>
+<tr><th>Forms</th><th>Simple → controlled + schema (Zod); complex/multi-step → react-hook-form + resolver; field errors with <code>role=&quot;alert&quot;</code></th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="12-2026-frontend-platform-rules-verified-2026-07-02">12. 2026 Frontend Platform Rules (verified 2026-07-02)</h3>
+<p>Use this section when modernizing or creating React/Next/Vite frontends. Prefer project</p>
+<p>conventions first. Version-detail depth lives in <code>references/stacks/react.md</code> / <code>nextjs.md</code>.</p>
+<h4 id="react-19-2-x-line">React (19.2.x line)</h4>
+<ul>
+<li><strong><code>&lt;Activity&gt;</code></strong> (stable): state-preserving hidden UI (tabs, drawers, route shells) — not for security hiding or active subscriptions.</li>
+<li><strong>useEffectEvent</strong>: non-reactive Effect logic needing latest props/state; never call during render or pass to children.</li>
+<li><strong>Partial Pre-rendering</strong>: static shell + explicit dynamic holes + Suspense; nothing request-specific in the shell.</li>
+<li><strong>React Compiler</strong> (stable, optional): measure before memoizing (§8).</li>
+<li><strong>Performance gate</strong>: inspect React Performance Tracks in Chrome DevTools before adding memoization or blaming rendering.</li>
+</ul>
+<h4 id="next-js-16-x">Next.js (16.x)</h4>
+<ul>
+<li>Turbopack is the default bundler (webpack is opt-in <code>--webpack</code>).</li>
+<li><strong>Cache Components</strong> (<code>cacheComponents: true</code>): dynamic by default; cache only explicit <code>use cache</code> + <code>cacheLife</code> + <code>cacheTag</code>; PPR is expressed through Cache Components (the old <code>experimental.ppr</code> flag is gone).</li>
+<li>Never cache user/session data without a user-scoped cache key.</li>
+<li>Server Actions: validate server-side, authorize against the resource, revalidate affected tags.</li>
+</ul>
+<h4 id="modern-css-baseline-check-before-shipping">Modern CSS (Baseline check before shipping)</h4>
+<p>Prefer native CSS before JS layout observers/animation libraries: container queries,</p>
+<p><code>:has()</code>, subgrid (all Baseline widely-available), View Transitions (same-document,</p>
+<p>Baseline 2025 newly-available — provide fallback for cautious audiences),</p>
+<p><code>text-wrap: balance/pretty</code>, <code>dvh/svh/lvh</code> units, logical properties, shallow CSS</p>
+<p>nesting. <strong>Tailwind v4</strong> (CSS-first config, theme variables). Record Baseline status</p>
+<p>(widely/newly/caution) for each modern feature used and decide fallback per audience.</p>
+<h4 id="build-tools">Build Tools</h4>
+<ul>
+<li><strong>Vite 8</strong>: Rolldown/Oxc is the integrated default bundler (<code>rolldown-vite</code> is only a</li>
+</ul>
+<p>Vite 7 migration bridge). Node 20.19+/22.12+; Baseline target Chrome/Edge 111,</p>
+<p>Firefox 114, Safari 16.4.</p>
+<ul>
+<li>Detect Vite 7 vs 8 before editing config — don&#x27;t assume Rollup/esbuild-era plugins.</li>
+<li>Do not introduce Webpack-era config unless the app is already Webpack-bound.</li>
+</ul>
+<h4 id="agent-visible-runtime-diagnostics-default">Agent-visible runtime diagnostics (DEFAULT)</h4>
+<p>Prefer dev servers that surface browser/runtime errors to the CLI/agent before relying</p>
+<p>on static review: Vite 8 forwards browser console to the dev server (auto-activates for</p>
+<p>coding agents); Next 16 ships DevTools MCP. Wire these before debugging rendered behavior.</p>
+<h4 id="state-classification">State Classification</h4>
+<p>Before adding state, classify it:</p>
+<table class="rules"><tbody>
+<tr><th>State type</th><th>Owner</th><th>Default tool</th></tr>
+<tr><th>render-local UI</th><th>nearest component</th><th><code>useState</code> / <code>useReducer</code></th></tr>
+<tr><th>derived</th><th>render calculation</th><th>expression / <code>useMemo</code> if expensive</th></tr>
+<tr><th>form draft</th><th>form boundary</th><th>native form, React Hook Form, TanStack Form</th></tr>
+<tr><th>server/cache</th><th>server/cache layer</th><th>RSC, Next cache, TanStack Query, SWR</th></tr>
+<table class="rules"><tbody>
+<tr><th>URL/navigation</th><th>router</th><th>path params, search params</th></tr>
+<tr><th>global client UI</th><th>external store</th><th>Zustand, Jotai, context</th></tr>
+<tr><th>optimistic mutation</th><th>mutation boundary</th><th><code>useOptimistic</code>, mutation library</th></tr>
+<tr><th>AI stream</th><th>conversation boundary</th><th>append-only message model + stream status</th></tr>
+</tbody></table>
+<p>Rules: Do not store derived state just to sync with Effect. Do not put server state in Zustand. Do not put URL-shareable state only in component state. Keep optimistic state reversible.</p>
+<h4 id="design-system-detection-mandatory-before-creating-tokens">Design System Detection (MANDATORY — before creating tokens)</h4>
+<p>Before inventing design tokens, check:</p>
+<ol>
+<li>Does the project have an installed design system? (<code>grep -r &quot;material-ui\|@mui\|carbon-components\|@carbon\|@fluentui\|govuk-frontend\|uswds&quot; package.json</code>)</li>
+<li>Does the project have existing tokens? (<code>find . -name &quot;tokens.*&quot; -o -name &quot;theme.*&quot; -o -name &quot;design-system*&quot;</code>)</li>
+<li>Does the brief name a specific design system?</li>
+</ol>
+<p>If YES to any: use the official package. Do not recreate CSS by hand.</p>
+<table class="rules"><tbody>
+<tr><th>System</th><th>Package</th><th>Import</th></tr>
+<tr><th>Material</th><th>@mui/material</th><th><code>import { Button } from &#x27;@mui/material&#x27;</code></th></tr>
+<tr><th>Carbon</th><th>@carbon/react</th><th><code>import { Button } from &#x27;@carbon/react&#x27;</code></th></tr>
+<tr><th>Fluent</th><th>@fluentui/react</th><th><code>import { Button } from &#x27;@fluentui/react-components&#x27;</code></th></tr>
+<tr><th>GOV.UK</th><th>govuk-frontend</th><th><code>import &#x27;govuk-frontend/dist/govuk/all.scss&#x27;</code></th></tr>
+<table class="rules"><tbody>
+<tr><th>USWDS</th><th>@uswds/uswds</th><th><code>import &#x27;@uswds/uswds/css/uswds.css&#x27;</code></th></tr>
+</tbody></table>
+<p>If NO: proceed with <code>dev-uiux-design/references/design-system-bootstrap.md</code>.</p>
+<h4 id="shadcn-ui-and-ai-assisted-ui">shadcn/ui and AI-Assisted UI</h4>
+<ul>
+<li>Inspect existing installed components before adding new ones</li>
+<li>Use project&#x27;s <code>components.json</code>, aliases, tokens, and registry conventions</li>
+<li>Do not hallucinate design-system components; verify against local source</li>
+<li>Remove demo-only copy and unused variants</li>
+</ul>
+<p>For AI-native interfaces (chat, agent, copilot), design explicit states: empty → prompt ready → submitted → streaming → tool call → result → complete → feedback. Never fake streaming, citations, or tool calls.</p>
+<p>---</p>
+<h3 id="13-error-boundaries">13. Error Boundaries</h3>
+<p>Wrap each major section (not the whole app); boundary renders friendly message + retry +</p>
+<p>report link; log to monitoring in <code>componentDidCatch</code>; never show stack traces to users.</p>
+<p>Error hierarchy: field-inline → form-summary → section Error Boundary → page <code>error.tsx</code></p>
+<p>→ root boundary (offline/crash page).</p>
+<p>---</p>
+<h3 id="14-pre-flight-gates">14. Pre-Flight Gates</h3>
+<p>Gates apply to production surfaces (<code>dev</code> §0.4 shared definition); prototypes and</p>
+<p>internal demos are exempt unless production polish is requested.</p>
+<p><strong>Full ~40-item checklist: <code>references/core/preflight-full.md</code></strong> — run it for launches</p>
+<p>and audits. The blocking gates below are the minimum for every production delivery:</p>
+<ul>
+<li>[ ] Design Read declared before code (dev-uiux-design §2); surface/locale/density/asset/motion classified (§0)</li>
+<li>[ ] Anti-slop enforced (§5) — incl. emoji-as-icon ban (STRICT)</li>
+<li>[ ] Loading, empty, and error states provided</li>
+<li>[ ] Accessibility baseline (§7): keyboard path, focus management, contrast, reduced motion</li>
+<li>[ ] Mobile collapse per section type + touch targets ≥44px + <code>min-h-[100dvh]</code> + page containment</li>
+<li>[ ] State classified before adding store/Context/Effect/cache (§12 table)</li>
+<li>[ ] Forms: schema validation + field-level errors (§8)</li>
+<li>[ ] Korean-first UI: CJK typography + <code>word-break: keep-all</code> + orphan screenshot check</li>
+<li>[ ] AI UI states honest: no fake streaming, citations, or tool calls</li>
+<li>[ ] Core Web Vitals are the performance gate (INP ≤200ms field data); Lighthouse</li>
+</ul>
+<p>Performance score is an advisory smoke signal, not the blocker — budgets in <code>performance-budget.md</code></p>
+<ul>
+<li>[ ] Rendered verification run (§ Verification grounding): screenshots at mobile/tablet/desktop</li>
+<li>[ ] Error Boundaries wrap major sections (§13); stack-specific rules followed (<code>references/stacks/</code>)</li>
+</ul>
+<p>---</p>
+<h3 id="15-backend-contract-security-alignment">15. Backend Contract &amp; Security Alignment</h3>
+<table class="rules"><tbody>
+<tr><th>Responsibility</th><th>Owner</th></tr>
+<tr><th>Response envelope shape (<code>success</code>, <code>data</code>, <code>error</code>, <code>meta</code>)</th><th><code>dev-backend</code> defines, <code>dev-testing</code> verifies</th></tr>
+<tr><th>Consumer-side fixture alignment</th><th><strong>Frontend</strong> — keep mocks in sync with <code>fixtures/contracts/</code>; payload changes update contract tests BEFORE merging (<code>dev-testing</code> §3.5)</th></tr>
+<tr><th>Error display mapping</th><th>Frontend maps <code>error.code</code> to messages; never parse <code>error.message</code> for logic</th></tr>
+<tr><th>CSP/XSS/token storage</th><th>Policy: <code>dev-security</code> §5/§2. Frontend implements: no inline scripts/<code>eval</code>; sanitize <code>dangerouslySetInnerHTML</code> (DOMPurify) or avoid; <code>httpOnly</code> cookies over <code>localStorage</code>; never flash protected content</th></tr>
+</tbody></table>
+<p>Playwright smoke validates rendered flows AFTER API + contract tests pass; frontend unit</p>
+<p>tests mock the same envelope shape as <code>dev-backend</code> §5; error-code changes update</p>
+<p>frontend error-mapping tests.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

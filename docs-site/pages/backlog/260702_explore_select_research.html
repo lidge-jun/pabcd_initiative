@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explore-and-Select Loop — Research Results (2026-07-02) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Explore-and-Select Loop — Research Results (2026-07-02)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: backlog/260702_explore_select_research.md</p>
+<h2 id="explore-and-select-loop-research-results-2026-07-02">Explore-and-Select Loop — Research Results (2026-07-02)</h2>
+<p>Appendix to <code>260702_loop_engineering_backlog.md</code> §2 (the plateau finding). Five research</p>
+<p>lanes returned; this doc records the proposed rule, the design skeleton, and the source</p>
+<p>map. Lanes: ChatGPT 5.5 Pro (session continuation), 3× gpt-5.3-codex-spark literature</p>
+<p>sweeps, LazyCodex/OmO-harnessed gpt-5.5 (team-topology question).</p>
+<h3 id="1-proposed-rule-chatgpt-pro-loop-explore-select-01">1. Proposed rule (ChatGPT Pro) — LOOP-EXPLORE-SELECT-01</h3>
+<p>Candidate rule text for a future dev-pabcd revision (currently referenced from §11.4 as</p>
+<p>a pointer; full adoption pending a normal PABCD pass):</p>
+<pre><code>DEFAULT (LOOP-EXPLORE-SELECT-01):
+When LOOP-ARCHETYPE-01 classifies a work-phase as Open-ended optimization
+and PLATEAU fires, do not run another same-class C→B repair. Start a new
+Explore-and-Select PABCD work-phase.
+
+P defines: strategic descriptors, telemetry, candidate budget, archive,
+opponent portfolio, evaluator cascade, selection rule, and terminal states.
+A audits the loop design and verifier, not only the code plan.
+B generates a bounded population of StrategyCard+patch candidates, evaluates
+them on paired instances, admits them to a strategic-diversity archive, and
+promotes only robust finalists.
+C revalidates the selected best-so-far against the fixed verifier, regression
+sentinels, timing, and allowed-surface constraints.
+D reports DONE only if the objective threshold is met; otherwise report
+BUDGET_EXHAUSTED with best-so-far, archive evidence, loss signatures, and the
+next exploration direction.</code></pre>
+<p>Key design elements (full pseudocode in the ChatGPT session,</p>
+<p>https://chatgpt.com/c/6a466d08-a268-83ee-a628-428205a8bd36):</p>
+<ul>
+<li><strong>Unit of evolution = StrategyCard + bounded patch</strong>, never &quot;threshold ±5&quot;. The</li>
+</ul>
+<p>candidate carries archetype, opponent model, strategic hypothesis, expected replay</p>
+<p>signature, predicted vs measured behavior descriptors, and a death log entry.</p>
+<ul>
+<li><strong>Two-layer diversity</strong>: idea diversity (StrategyCards, EoH-style thoughts) ×</li>
+</ul>
+<p>behavior diversity (replay-measured descriptors). A candidate whose measured behavior</p>
+<p>contradicts its claimed strategy is re-archived by measurement or killed.</p>
+<ul>
+<li><strong>MAP-Elites-style archive</strong> keyed by strategic descriptors (pressure_timing,</li>
+</ul>
+<p>economy_posture, map_control, primary_win_plan, opponent_model, map_size_plan) — not</p>
+<p>one leaderboard.</p>
+<ul>
+<li><strong>PSRO-lite opponent portfolio</strong>: fixed opponents + incumbent + 2-4 frozen elites +</li>
+</ul>
+<p>1-3 hand-written exploiters/probes stressing one weakness each.</p>
+<ul>
+<li><strong>Hyperband-style evaluation cascade</strong>: stage0 validity → stage1 cheap target slice</li>
+</ul>
+<p>(+ rush-regression sentinels) → stage2 archive admission → stage3 full tournament for</p>
+<p>top-K only. Novelty is an exploration criterion, never a deployment criterion.</p>
+<ul>
+<li><strong>Plateau = 2+ of</strong>: score_plateau, archive_plateau, loss_signature_plateau,</li>
+</ul>
+<p>death_class_plateau (native §10), anchor_plateau (native §10), budget_plateau.</p>
+<ul>
+<li><strong>Restart ladder</strong>: soft (sample from underfilled cells) → strategic (regenerate from</li>
+</ul>
+<p>replay telemetry) → island (reset worst island) → PSRO (change opponent mix / add</p>
+<p>exploiter) → evaluator (add telemetry — mandatory first step for NEXT NATION, whose</p>
+<p>verifier only says &quot;losing&quot;) → PABCD (back to P/Interview).</p>
+<h3 id="2-team-topology-verdict-lazycodex-lane-gpt-5-5">2. Team-topology verdict (LazyCodex lane, gpt-5.5)</h3>
+<p>Committee (co-writing, consensus) does NOT attack the plateau — it accelerates</p>
+<p>convergence around the incumbent concept; population/league DOES. Division of labor:</p>
+<p>committee for review/postmortem/invariants, population for strategy generation, **solo</p>
+<p>builder for final integration** (the author&#x27;s B-phase distrust survives). Diversity must</p>
+<p>be mechanical: archetype-pinned prompts with *different objectives per archetype*,</p>
+<p>isolated contexts/worktrees, behavior-descriptor novelty gates, deterministic promotion</p>
+<p>(&quot;do not let agents vote&quot;). Supporting evidence: multi-agent debate does not reliably</p>
+<p>beat single agents while model heterogeneity helps (https://arxiv.org/abs/2502.08788);</p>
+<p>LLM conformity to majority answers (https://arxiv.org/abs/2410.12428).</p>
+<h3 id="3-literature-map-spark-lanes-condensed">3. Literature map (spark lanes, condensed)</h3>
+<h4 id="llm-guided-evolutionary-program-search">LLM-guided evolutionary/program search</h4>
+<ul>
+<li>FunSearch — program evolution + external evaluator, island diversity:</li>
+</ul>
+<p>https://www.nature.com/articles/s41586-023-06924-6</p>
+<ul>
+<li>AlphaEvolve — evolvable code blocks, elite archive:</li>
+</ul>
+<p>https://arxiv.org/abs/2506.13131</p>
+<ul>
+<li>EoH — evolve NL &quot;thoughts&quot; + code together: https://arxiv.org/abs/2401.02051</li>
+<li>EoH-S — complementary heuristic *set* (portfolio vs one generic policy):</li>
+</ul>
+<p>https://arxiv.org/abs/2508.03082</p>
+<ul>
+<li>MAP-Elites — quality-diversity archive: https://arxiv.org/abs/1504.04909</li>
+<li>Novelty search (abandoning objectives): https://doi.org/10.1162/EVCO_a_00025</li>
+</ul>
+<h4 id="self-play-population-opponent-modeling">Self-play / population / opponent modeling</h4>
+<ul>
+<li>PSRO original (unified game-theoretic MARL): https://arxiv.org/abs/1711.00832</li>
+<li>PSRO survey (strategy exploration as core difficulty):</li>
+</ul>
+<p>https://arxiv.org/abs/2403.02227</p>
+<ul>
+<li>AlphaStar league + exploiters: https://www.nature.com/articles/s41586-019-1724-z</li>
+<li>TStarBot-X — league training at low compute: https://arxiv.org/abs/2011.13729</li>
+<li>PBT (population-based training): https://arxiv.org/abs/1711.09846</li>
+<li>Meta-game evaluation (seed/map cross-play + bootstrap — directly addresses the</li>
+</ul>
+<p>5-seed × 3-map selection bias): https://arxiv.org/abs/2405.00243</p>
+<h4 id="plateau-detection-restart-exploration-scheduling">Plateau detection / restart &amp; exploration scheduling</h4>
+<ul>
+<li>Hyperband (successive-halving budgets): https://arxiv.org/abs/1603.06560</li>
+<li>Stagnation detection in EAs (raise step size on non-improvement):</li>
+</ul>
+<p>https://arxiv.org/abs/2004.03266</p>
+<ul>
+<li>Bandit multi-start control for local search: https://arxiv.org/abs/1401.3894</li>
+<li>GP-Hedge portfolio allocation: https://arxiv.org/abs/1009.5419</li>
+<li>MAB restart/reset in CDCL SAT: https://arxiv.org/abs/2404.03753 (+ cold restarts:</li>
+</ul>
+<p>https://arxiv.org/abs/2404.16387)</p>
+<ul>
+<li>ME-MAP-Elites (bandit over emitters — widen vs deepen decision):</li>
+</ul>
+<p>https://arxiv.org/abs/2007.05352</p>
+<ul>
+<li>Dominated Novelty Search: https://arxiv.org/abs/2502.00593</li>
+<li>Reflexion (+ known limits): https://arxiv.org/abs/2303.11366 · Self-Refine:</li>
+</ul>
+<p>https://arxiv.org/abs/2303.17651 · Agent-R (loop-break recovery):</p>
+<p>https://arxiv.org/abs/2501.11425</p>
+<h4 id="verification-caveats">Verification caveats</h4>
+<ul>
+<li>Two spark-sourced future-dated arXiv IDs are UNVERIFIED — spot-check before citing:</li>
+</ul>
+<p>https://arxiv.org/abs/2605.28273 (Global PSRO / population exploitability),</p>
+<p>https://arxiv.org/abs/2602.16928 (LLM-discovered MARL algorithms).</p>
+<ul>
+<li>Spark lane 1 occasionally framed the case as the game of Go rather than a Go-language</li>
+</ul>
+<p>bot; method mappings remain valid, wording does not.</p>
+<h3 id="4-operational-counters-lane-3-synthesis">4. Operational counters (lane-3 synthesis)</h3>
+<p>Keep two counters per candidate lineage: <code>no_progress_at_gate</code> and</p>
+<p><code>same_reason_repeats</code>. Reward depth-first continuation while improving; enforce</p>
+<p>controlled diversification when failure signatures converge. This is the quantitative</p>
+<p>backing for §10 LOOP-PHASE-DEATH-01&#x27;s N=3 starting value.</p>
+<h3 id="5-single-model-divergence-smoke-test-2026-07-02-gpt-5-5-17-parallel">5. Single-model divergence smoke test (2026-07-02, gpt-5.5 ×17 parallel)</h3>
+<p>Question: with ONE model (no model-heterogeneity axis), which divergence schema</p>
+<p>actually prevents mode collapse? Task: propose a strategy card (4 behavior axes:</p>
+<p>FIRST_ATTACK, ECONOMY, DENIAL_TARGET, WIN_PLAN) for the NEXT NATION anti-economy</p>
+<p>plateau. 5 conditions, same model (gpt-5.5, effort medium), no web search.</p>
+<table class="rules"><tbody>
+<tr><th>Condition</th><th>Calls</th><th>Unique 4-axis tuples</th><th>Notes</th></tr>
+<tr><th>A. Baseline (identical prompt)</th><th>4</th><th><strong>2/4</strong></th><th>Total collapse: all early/balanced/eco-denial &quot;contain&quot; family; names Contain/Clamp ×4; one mechanism family</th></tr>
+<tr><th>B. Cell assignment (Zwicky/MAP)</th><th>4</th><th>4/4 (forced)</th><th>Guaranteed coverage by construction; in-cell quality held even for the odd cell (turtle+hq-snipe → &quot;Tripwire Turtle Snipe&quot;)</th></tr>
+<tr><th>C. Objective splitting</th><th>4</th><th>4/4</th><th>Spontaneous rush/greedy/mid/hq-snipe coverage; 1 of 4 still fell into the baseline attractor family</th></tr>
+<tr><th>D. Verbalized Sampling (1 call, 4 cards + probabilities)</th><th>1</th><th><strong>4/4</strong></th><th>Widest spontaneous coverage — only condition to produce FIRST_ATTACK=none, ECONOMY=turtle, WIN_PLAN=attrition unforced; self-estimated P for the typical answer (0.27-0.42) matched the observed baseline collapse</th></tr>
+<table class="rules"><tbody>
+<tr><th>E. Evidence slicing</th><th>4</th><th>3/4</th><th>ECONOMY collapsed to balanced ×4, but highest groundedness — each card directly answers its evidence; the diagnosis lane, not the breadth lane</th></tr>
+</tbody></table>
+<p>Attractor check: the baseline mode (&quot;early balanced contain/eco-denial&quot;) reappeared</p>
+<p>in C (1/4) and D (P=.27 card) — VS&#x27;s verbalized probabilities effectively *named* the</p>
+<p>mode the baseline collapsed into.</p>
+<p><strong>Adopted 1-model recipe (DIVERGE-SPEC draft):</strong></p>
+<ol>
+<li>VS first — one call, k cards with probabilities, demand low-P tails (cheapest breadth scan).</li>
+<li>Cell-assign the real candidate batch from undercovered axis cells (guaranteed coverage).</li>
+<li>Split objectives per cell (optimization pressure per niche; also generates exploiter probes).</li>
+<li>Evidence slices once real telemetry exists (grounded refinement, not breadth).</li>
+<li>Post-hoc behavior-distance novelty gate (self-reported tags are gameable — final gate must use measured descriptors).</li>
+</ol>
+<p>Caveats: n=4/condition, single run, self-reported axis tags, diversity ≠ quality</p>
+<p>(the tournament verifier still owns selection). Smoke-level evidence only.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

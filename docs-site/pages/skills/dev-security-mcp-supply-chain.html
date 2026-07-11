@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP &amp; Agentic Skill Supply Chain Security — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>MCP &amp; Agentic Skill Supply Chain Security</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-security/references/mcp-supply-chain.md</p>
+<h2 id="mcp-agentic-skill-supply-chain-security">MCP &amp; Agentic Skill Supply Chain Security</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: MCP 1.x servers, agentic skill registries, tool-using AI agents</p>
+<p>When to read: Adding MCP servers, enabling agent tools, vetting skill packages</p>
+<p>Canonical owner: dev-security</p>
+<p>MCP servers and agentic skills are executable supply chain — treat them with the same rigor as npm packages, not as configuration.</p>
+<p>Cross-ref: <code>dev-security</code> §8 (Agent Configuration Security), <code>references/agentic-ai-security.md</code> (OWASP ASI01-ASI10)</p>
+<h3 id="owasp-references">OWASP References</h3>
+<p><strong>OWASP MCP secure-development and third-party vetting guides (no official &quot;MCP Top 10&quot; is verified; map MCP risks to LLM01/03/06 + Agentic Top 10 ASI02/04/05):</strong></p>
+<table class="rules"><tbody>
+<tr><th>ID</th><th>Risk</th><th>Agent Impact</th></tr>
+<tr><th>MCP-01</th><th>Tool Poisoning</th><th>Malicious MCP tool returns crafted output to hijack agent behavior</th></tr>
+<tr><th>MCP-02</th><th>Excessive Permissions</th><th>MCP server granted broader access than needed</th></tr>
+<tr><th>MCP-03</th><th>Insecure Authentication</th><th>MCP server credentials in plaintext or auto-installed without verification</th></tr>
+<tr><th>MCP-04</th><th>Tool Injection via Prompt</th><th>Untrusted prompt content triggers unintended MCP tool calls</th></tr>
+<table class="rules"><tbody>
+<tr><th>MCP-05</th><th>Data Exfiltration via Tools</th><th>MCP tool sends sensitive data to external endpoints</th></tr>
+</tbody></table>
+<p><strong>OWASP Agentic Skills Top 10</strong> — covered in <code>references/agentic-ai-security.md</code> (ASI01-ASI10). Key overlaps: ASI02 (Tool Misuse), ASI04 (Data Exfiltration), ASI06 (Tool Poisoning/Supply Chain).</p>
+<h3 id="1-mcp-server-vetting-checklist">1. MCP Server Vetting Checklist</h3>
+<p>Before enabling any MCP server, complete this checklist:</p>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>How</th><th>Block if</th></tr>
+<tr><th>Package source verified</th><th>Check npm/PyPI publisher, GitHub repo, commit history</th><th>Anonymous publisher, &lt; 6 months old, no repo link</th></tr>
+<tr><th>Version pinned</th><th><code>&quot;@modelcontextprotocol/server-x&quot;: &quot;1.2.3&quot;</code> not <code>&quot;latest&quot;</code></th><th>Using <code>latest</code>, <code>*</code>, or <code>npx -y</code> auto-install</th></tr>
+<tr><th>Capabilities scoped</th><th>Review <code>tools</code> manifest — does it request only needed capabilities?</th><th>Requests filesystem, network, or shell beyond stated purpose</th></tr>
+<tr><th>No hardcoded secrets</th><th>Check <code>mcp.json</code> for inline API keys or tokens</th><th>Any secret value not using <code>${ENV_VAR}</code> reference</th></tr>
+<table class="rules"><tbody>
+<tr><th>Maintainer active</th><th>Last commit &lt; 6 months, issues responded to</th><th>Abandoned (&gt; 12 months no activity)</th></tr>
+<tr><th>Security advisory check</th><th>Search npm/GitHub advisories for package name</th><th>Known unpatched CVE</th></tr>
+</tbody></table>
+<pre><code>// mcp.json — safe pattern
+{
+  &quot;servers&quot;: {
+    &quot;database&quot;: {
+      &quot;command&quot;: &quot;node&quot;,
+      &quot;args&quot;: [&quot;node_modules/@mcp/postgres-server/dist/index.js&quot;],
+      &quot;env&quot;: {
+        &quot;DATABASE_URL&quot;: &quot;${DATABASE_URL}&quot;  // ✅ env ref, not inline
+      }
+    }
+  }
+}</code></pre>
+<pre><code>// mcp.json — BANNED pattern
+{
+  &quot;servers&quot;: {
+    &quot;database&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@mcp/postgres-server&quot;],  // ❌ auto-install, unpinned
+      &quot;env&quot;: {
+        &quot;DATABASE_URL&quot;: &quot;postgres://user:pass@prod:5432/db&quot;  // ❌ hardcoded secret
+      }
+    }
+  }
+}</code></pre>
+<h3 id="2-skill-allowlist-version-pinning">2. Skill Allowlist &amp; Version Pinning</h3>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Required Practice</th></tr>
+<tr><th>Allowlist</th><th>Maintain explicit list of approved MCP servers and skill packages per project</th></tr>
+<tr><th>Version pin</th><th>Pin exact versions in <code>mcp.json</code> and skill manifests — no <code>latest</code>, no <code>*</code>, no auto-install</th></tr>
+<tr><th>Lockfile</th><th>Include MCP dependency resolution in project lockfile where tooling supports it</th></tr>
+<tr><th>Review on update</th><th>Treat MCP server version bumps as dependency PRs — review changelog and diff</th></tr>
+<table class="rules"><tbody>
+<tr><th>Audit trail</th><th>Log which MCP servers/skills are enabled per environment (dev/staging/prod)</th></tr>
+</tbody></table>
+<pre><code># .mcp-allowlist.yaml — project-level allowlist
+allowed_servers:
+  - name: &quot;@mcp/postgres-server&quot;
+    version: &quot;1.2.3&quot;
+    approved_by: &quot;@security-team&quot;
+    approved_at: &quot;2026-06-01&quot;
+    scope: &quot;database read/write&quot;
+  - name: &quot;@mcp/github-server&quot;
+    version: &quot;2.0.1&quot;
+    approved_by: &quot;@security-team&quot;
+    approved_at: &quot;2026-05-15&quot;
+    scope: &quot;issue read, PR read/write&quot;
+
+blocked_servers:
+  - name: &quot;@mcp/shell-executor&quot;
+    reason: &quot;Unrestricted shell access — use scoped alternatives&quot;</code></pre>
+<h3 id="3-sandbox-isolation">3. Sandbox Isolation</h3>
+<p>Reduce blast radius of any single compromised MCP server:</p>
+<table class="rules"><tbody>
+<tr><th>Control</th><th>Implementation</th></tr>
+<tr><th>Filesystem</th><th>Mount only required directories read-only; write access only to designated output paths</th></tr>
+<tr><th>Network</th><th>Egress filtering — allow only required API endpoints; block arbitrary outbound connections</th></tr>
+<tr><th>Process</th><th>Run MCP servers as unprivileged user/container with no host PID/network namespace access</th></tr>
+<tr><th>Credentials</th><th>Per-server credential scope — each server gets only the secrets it needs, not shared env</th></tr>
+<table class="rules"><tbody>
+<tr><th>Timeout</th><th>Kill MCP server processes that exceed response time limits (default: 30s per tool call)</th></tr>
+<tr><th>Resource</th><th>CPU/memory limits per MCP server process to prevent resource exhaustion</th></tr>
+</tbody></table>
+<pre><code>// Container isolation example
+{
+  &quot;servers&quot;: {
+    &quot;database&quot;: {
+      &quot;command&quot;: &quot;docker&quot;,
+      &quot;args&quot;: [
+        &quot;run&quot;, &quot;--rm&quot;,
+        &quot;--read-only&quot;,
+        &quot;--network=mcp-internal&quot;,      // isolated network
+        &quot;--memory=256m&quot;, &quot;--cpus=0.5&quot;,  // resource limits
+        &quot;-e&quot;, &quot;DATABASE_URL=${DATABASE_URL}&quot;,
+        &quot;mcp-postgres:1.2.3&quot;           // pinned image
+      ]
+    }
+  }
+}</code></pre>
+<h3 id="4-audit-logging">4. Audit Logging</h3>
+<p>Log every MCP tool invocation for forensic reconstruction:</p>
+<table class="rules"><tbody>
+<tr><th>Field</th><th>Required</th><th>Example</th></tr>
+<tr><th>Timestamp</th><th>Yes</th><th><code>2026-06-16T14:30:00Z</code></th></tr>
+<tr><th>Server name</th><th>Yes</th><th><code>@mcp/postgres-server</code></th></tr>
+<tr><th>Tool name</th><th>Yes</th><th><code>query</code></th></tr>
+<tr><th>Input (redacted)</th><th>Yes</th><th><code>SELECT * FROM users WHERE id = ?</code> (params redacted)</th></tr>
+<table class="rules"><tbody>
+<tr><th>Output (truncated)</th><th>Yes</th><th>First 500 chars of response</th></tr>
+<tr><th>Duration</th><th>Yes</th><th><code>120ms</code></th></tr>
+<tr><th>Caller context</th><th>Yes</th><th>Session ID, agent ID, task ID</th></tr>
+<tr><th>Error</th><th>If applicable</th><th>Error message and code</th></tr>
+</tbody></table>
+<p>Rules:</p>
+<ul>
+<li>Redact secrets and PII from logged inputs/outputs.</li>
+<li>Retain logs for minimum 90 days.</li>
+<li>Alert on: tool call failures &gt; 3× baseline rate, calls to blocked tools, calls outside business hours from automated agents.</li>
+<li>Include MCP audit logs in incident response runbooks.</li>
+</ul>
+<h3 id="5-anti-patterns">5. Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th><code>npx -y</code> for MCP servers</th><th>Unpinned, auto-installed, unvetted code runs with agent permissions</th><th>Pin version, install explicitly, vet before enabling</th></tr>
+<tr><th>Shared secrets across MCP servers</th><th>One compromised server exposes all credentials</th><th>Per-server credential scope (§3)</th></tr>
+<tr><th>No MCP server inventory</th><th>Nobody knows which servers are enabled or why</th><th>Maintain allowlist (§2) with approval trail</th></tr>
+<tr><th>Trusting MCP tool output blindly</th><th>Tool poisoning (MCP-01) hijacks agent behavior</th><th>Validate and sanitize MCP tool outputs before acting on them</th></tr>
+<table class="rules"><tbody>
+<tr><th>MCP servers with shell access</th><th>Unrestricted command execution via agent</th><th>Use scoped, purpose-built tools instead of generic shell</th></tr>
+</tbody></table>
+<h3 id="pre-flight">Pre-flight</h3>
+<ul>
+<li>[ ] All MCP servers are on the project allowlist with pinned versions (§2)</li>
+<li>[ ] No hardcoded secrets in <code>mcp.json</code> — all use <code>${ENV_VAR}</code> references (§1)</li>
+<li>[ ] No <code>npx -y</code> auto-install patterns (§1)</li>
+<li>[ ] MCP servers run with least-privilege isolation (§3)</li>
+<li>[ ] Audit logging captures all tool invocations with required fields (§4)</li>
+<li>[ ] MCP server version updates go through dependency review process (§2)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-uiux-design — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="active">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-uiux-design</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-uiux-design/SKILL.md</p>
+<h2 id="ui-ux-design-intent-discovery-patterns-product-vocabulary">UI/UX Design: Intent Discovery, Patterns &amp; Product Vocabulary</h2>
+<p>Activates by change surface when:</p>
+<ul>
+<li>User&#x27;s design direction is vague (&quot;깔끔하게&quot;, &quot;모던하게&quot;, &quot;just make it look good&quot;)</li>
+<li>Building onboarding, empty state, error state, or loading state UI</li>
+<li>User references a product aesthetic (&quot;Notion 느낌&quot;, &quot;Linear처럼&quot;)</li>
+<li>Starting a new design system or generating a color palette</li>
+<li>Choosing layout patterns or navigation architecture</li>
+<li>Setting up favicons, product logos, or brand identity elements</li>
+<li>Handling logo dark mode variants, OG images, or social sharing meta</li>
+</ul>
+<p>Read this before style-specific references when the user cannot articulate a clear design direction.</p>
+<p>For anti-slop detection and banned patterns, defer to <code>dev-frontend/references/core/anti-slop.md</code>.</p>
+<p><strong>Emoji ban (stub):</strong> no emoji as UI visual elements (STRICT). Canonical rule, scope, and exemptions: <code>dev-frontend</code> §5 / <code>dev-frontend/references/core/anti-slop.md § Emoji Slop</code>.</p>
+<p><strong>Role separation:</strong> This skill provides design <strong>judgment</strong> (when/why). <code>dev-frontend</code> provides <strong>implementation</strong> (CSS/HTML how). When both have a reference on the same topic (e.g., typography, logos), read this skill first for the decision, then dev-frontend for the code.</p>
+<p><strong>External/current design evidence:</strong> For live product-reference claims, current</p>
+<p>design-system docs, browser API behavior, accessibility guidance that may have</p>
+<p>changed, or browser-rendered source evidence, read the active <code>search</code> skill and</p>
+<p>follow its query-rewrite, source-fetch, and evidence-status rules. Use browser</p>
+<p>fetch/open/text/get-dom/snapshot only after candidate URLs exist.</p>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong>Rule class note (UX-STYLE-01):</strong> Everything in this skill that expresses taste —</p>
+<p>&gt; product personalities, design-isms, preset tokens, aesthetic vocabulary — is</p>
+<p>&gt; <code>STYLE_SAMPLE</code>: examples to draw from, never universal requirements. Objective UX</p>
+<p>&gt; correctness (state coverage, accessibility, readability) is owned by <code>dev-frontend</code></p>
+<p>&gt; §1.5 and stays STRICT/DEFAULT.</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/design-isms.md</code></th><th>User names a style/movement</th><th>15 design movements with CSS signatures, incl. Liquid Glass + Liquid Editorial default kit (2025-2026) + AI Serif Editorial + Organic Capsule (verified 2026-07-09)</th></tr>
+<tr><th><code>references/design-read-example.md</code></th><th>Learning or reviewing Design Read format</th><th>Filled-in Design Read + dial setting example</th></tr>
+<tr><th><code>references/product-personalities.md</code></th><th>User references a product</th><th>10 product DNA profiles with exact tokens, incl. 2026 AI-product pastel + OpenAI warm-sans organic + Anthropic serif bookish</th></tr>
+<tr><th><code>references/layout-macrostructures.md</code></th><th>Choosing page/component layout</th><th>Component layouts + page-level compositions</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/ux-states.md</code></th><th>Building any stateful UI</th><th>Onboarding, empty, error, loading, progressive disclosure</th></tr>
+<tr><th><code>references/color-system.md</code></th><th>Generating colors/palette</th><th>OKLCH-based palette generation, dark mode, accessibility</th></tr>
+<tr><th><code>references/design-system-bootstrap.md</code></th><th>New project / design system</th><th>Token architecture, component hierarchy, <strong>DESIGN.md format</strong> (google-labs-code/design.md)</th></tr>
+<tr><th><code>references/responsive-nav.md</code></th><th>Responsive or navigation work</th><th>Breakpoints, container queries, nav patterns by density</th></tr>
+<tr><th><code>references/ux-preflight.md</code></th><th><strong>Before delivery</strong></th><th>UX state verification checklist</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/typography-line-breaks.md</code></th><th><strong>Always for text-heavy UI</strong></th><th>Heading break quality, <strong>short descriptor category</strong> (hero subtitle, card desc — use <code>balance</code> not <code>pretty</code>), orphan prevention, <code>ch</code> units, Korean orphan criteria, <code>-webkit-line-clamp</code> conflict</th></tr>
+<tr><th><code>references/favicon-logo.md</code></th><th><strong>Favicon, product logo, or brand identity work</strong></th><th>Favicon file set, SVG dark mode, logo in nav/footer, dark mode variants, OG images, brand tokens, common mistakes</th></tr>
+<tr><th><code>references/logo-trust-sections.md</code></th><th>Integration/partner/client logos</th><th>Marquee vs grid decision, anti-patterns, grayscale treatment, placement</th></tr>
+<tr><th><code>references/visual-hierarchy.md</code></th><th>Any layout / composition decision</th><th>6 levers: size scale, weight contrast, color emphasis, spacing, position, density</th></tr>
+<tr><th><code>references/form-patterns.md</code></th><th>Forms, wizards, auth, file upload</th><th>Validation timing, multi-step, password UX, file upload, search/filter</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/mobile-native-ux.md</code></th><th>Native mobile app UX decisions</th><th>iOS HIG vs Material 3, gestures, deep linking, Korean privacy, app store UX</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="lazy-user-gate-ux-lazy-01-default-ponytail-discipline-applied-to-ux">Lazy-User Gate (UX-LAZY-01, DEFAULT — ponytail discipline applied to UX)</h3>
+<p>Design for the cognitively frugal user: users don&#x27;t read, they scan; they satisfice;</p>
+<p>they will trade choice for one obvious next action. Before shipping any user-facing</p>
+<p>decision point — option, setting, step, confirmation, input field, mode — justify its</p>
+<p>existence the ponytail way, in order:</p>
+<ol>
+<li><strong>Do nothing</strong>: can a correct default remove this decision entirely? (A settings</li>
+</ol>
+<p>page is a collection of defaults you failed to choose.)</p>
+<ol>
+<li><strong>Delete</strong>: does the step/field earn its completion-rate cost? Every added decision</li>
+</ol>
+<p>point taxes conversion and comprehension (Hick&#x27;s law).</p>
+<ol>
+<li><strong>Absorb</strong>: can the system take the complexity instead of the user (Tesler&#x27;s law) —</li>
+</ol>
+<p>auto-detect, infer, remember last choice?</p>
+<ol>
+<li><strong>Demote</strong>: still needed for some users → progressive disclosure (advanced section,</li>
+</ol>
+<p>&quot;more options&quot;), never a top-level fork.</p>
+<p>Every screen has ONE primary action. If two actions compete visually, the design has</p>
+<p>not decided what the screen is for.</p>
+<p><strong>Surface-conditional (do not over-apply):</strong> laziness means *fewer decisions* on</p>
+<p>consumer/one-shot flows (D1-D3), but *fewer repeated motions* on repeated-work tools</p>
+<p>(D4-D8: density, keyboard paths, batch actions — collapsing an expert&#x27;s controls into</p>
+<p>wizards is the inverse failure). Route by the product-density profile first.</p>
+<p><strong>STRICT exemptions (never one-click away):</strong> destructive/irreversible actions,</p>
+<p>consent/privacy/legal choices, payments confirmation, and accessibility affordances</p>
+<p>are never collapsed into magic defaults.</p>
+<h3 id="ux-state-contract-ux-state-01">UX State Contract (UX-STATE-01)</h3>
+<p>For onboarding, empty, loading, error, or progressive-disclosure work, answer the state meaning before styling. Deep patterns live in <code>references/ux-states.md</code>.</p>
+<ul>
+<li>Onboarding teaches the first meaningful action, not the whole product.</li>
+<li>Empty explains why the state exists and names the next action.</li>
+<li>Loading chooses skeleton for known structure, spinner/progress for short unknown waits, and avoids fake completion.</li>
+<li>Error exposes retry, recovery, or escalation; never dead-end the user.</li>
+<li>Progressive disclosure names what stays hidden, why, and where it becomes available.</li>
+</ul>
+<h3 id="ia-chooser-ux-ia-01">IA Chooser (UX-IA-01)</h3>
+<p>Default navigation architecture by work shape; read <code>references/responsive-nav.md</code> for responsive details.</p>
+<table class="rules"><tbody>
+<tr><th>Work shape</th><th>Default IA</th></tr>
+<tr><th>Dense desktop repeated work</th><th>Sidebar + command palette</th></tr>
+<tr><th>Medium sectioned work</th><th>Tabs or segmented navigation</th></tr>
+<tr><th>Mobile-primary consumer flow</th><th>Bottom nav, sheet, or thumb-zone actions</th></tr>
+<tr><th>Wizard/auth/setup</th><th>Stepper or stacked linear flow</th></tr>
+</tbody></table>
+<h3 id="1-user-intent-discovery-protocol">1. User Intent Discovery Protocol</h3>
+<p>When the user&#x27;s design request is vague (&quot;깔끔하게 해줘&quot;, &quot;모던하게&quot;, &quot;just make it look good&quot;), do not produce generic output. Run the compact ambiguity flow (UX-INTENT-01):</p>
+<ol>
+<li>Produce the Design Read from §2 using available signals.</li>
+<li>If one decision still blocks the direction, ask ONE best clarifying fork with binary/ternary choices.</li>
+<li>Proceed from the answer; if the user does not answer and the task can continue, choose the most domain-correct default and state the assumption. On EXPRESSIVE surfaces (landing/consumer/creative/AI-product), that default is the No-Brief Default Direction below (UX-DEFAULT-ISM-01); quiet surfaces keep quiet domain-correct defaults.</li>
+</ol>
+<p>&gt; Skip this section if the user provided explicit design specs or this is a ≤5-line patch.</p>
+<h4 id="no-brief-default-direction-ux-default-ism-01-default-kit-content-style-sample">No-Brief Default Direction (UX-DEFAULT-ISM-01, DEFAULT — kit content STYLE_SAMPLE)</h4>
+<p>This is the UX-INTENT-01 step-3 FALLBACK, never a bypass: it fires only after</p>
+<p>the Design Read and after the one blocking fork is resolved or unanswered, and</p>
+<p>the applied direction is ALWAYS stated as an explicit assumption in the</p>
+<p>deliverable. A named, specific, domain-gated direction replaces generic LLM</p>
+<p>defaults; it must NOT reintroduce generic glassmorphism / centered-card /</p>
+<p>beige-default taste under a new label.</p>
+<p>Default kit for expressive surfaces: <strong>Liquid Editorial</strong> (2026 composite,</p>
+<p>decided 2026-07-07 from Tier-2 trend research — see <code>references/design-isms.md</code></p>
+<p>§1.13 for the full signature):</p>
+<ul>
+<li>Structure: type-led editorial composition (oversized authored headline</li>
+</ul>
+<p>scale, grotesk default, serif display only with editorial rationale per</p>
+<p>UX-TYPE-01), tactile/photographic texture over flat gradient washes,</p>
+<p>asymmetric content-weighted layout.</p>
+<ul>
+<li>Material accent: Liquid Glass or near-opaque pill chrome ONLY on floating</li>
+</ul>
+<p>functional layers (nav/toolbars/chip clusters); pill-chip content units;</p>
+<p>content layer stays solid (<code>dev-frontend</code> FE-LIQUID-LAYER-01).</p>
+<ul>
+<li>Motion: feedback baseline + exactly ONE signature moment</li>
+</ul>
+<p>(pointer-proximity chips or scroll-driven reveal), per motion domain gates.</p>
+<ul>
+<li>Color: OKLCH-derived single accent + tinted neutrals (hue budget,</li>
+</ul>
+<p><code>references/color-system.md</code>).</p>
+<p>Domain gate (STRICT): dashboards, admin, ops, finance, gov, B2B repeated-work</p>
+<p>tools NEVER receive this kit by default — &quot;fancy&quot; never overrides domain</p>
+<p>correctness (§ IA Chooser + <code>dev-frontend</code> product-density profiles).</p>
+<p><strong>Optional deepening:</strong> use the ladder below only when the first fork fails or the user explicitly wants guided exploration.</p>
+<ul>
+<li>Use binary/ternary choices, not open-ended questions.</li>
+<li>Reference known products — users recognize what they want faster than they articulate it.</li>
+<li>If the diagram skill is available, offer: &quot;참고로 스타일 비교를 다이어그램으로 보여드릴 수도 있어요.&quot;</li>
+<li>If the user names a specific product reference, skip remaining steps and map directly via <code>references/product-personalities.md</code>.</li>
+</ul>
+<h4 id="step-1-mood">Step 1 — Mood</h4>
+<p>Ask: &quot;전체적인 분위기가 어떤 느낌이면 좋을까요?&quot; / &quot;What overall feeling should the product have?&quot;</p>
+<table class="rules"><tbody>
+<tr><th>Option</th><th>Signals</th><th>Product References</th></tr>
+<tr><th>전문적/신뢰감 (Professional)</th><th>swiss, flat, restrained</th><th>Linear, Vercel, GitHub</th></tr>
+<tr><th>따뜻한/친근한 (Warm/Friendly)</th><th>rounded, warm-neutrals, illustrations</th><th>Notion, Airbnb, Toss</th></tr>
+<tr><th>고급스러운/세련된 (Premium)</th><th>generous-whitespace, thin-type, restrained-color</th><th>Apple, Stripe, Aesop</th></tr>
+<tr><th>재미있는/활기찬 (Fun/Energetic)</th><th>bright-colors, playful-shapes, bold-type</th><th>Figma, Discord</th></tr>
+<table class="rules"><tbody>
+<tr><th>대담한/독특한 (Bold/Distinctive)</th><th>brutalism, asymmetry, experimental</th><th>Gumroad, Nothing</th></tr>
+</tbody></table>
+<h4 id="step-2-lightness">Step 2 — Lightness</h4>
+<p>Ask: &quot;밝은 화면이 좋으신가요, 어두운 화면이 좋으신가요?&quot; / &quot;Light or dark background?&quot;</p>
+<tr><th>Option</th><th>CSS</th></tr>
+<table class="rules"><tbody>
+<tr><th>밝은 배경 (Light)</th><th><code>bg-white text-gray-900</code></th></tr>
+<tr><th>어두운 배경 (Dark)</th><th><code>bg-gray-950 text-gray-100</code></th></tr>
+<tr><th>둘 다 (Both / auto)</th><th><code>prefers-color-scheme</code> aware</th></tr>
+</tbody></table>
+<h4 id="step-3-density">Step 3 — Density</h4>
+<p>Ask: &quot;화면에 정보가 많이 보이는 게 좋으신가요, 여유롭게 보이는 게 좋으신가요?&quot; / &quot;Dense or spacious?&quot;</p>
+<table class="rules"><tbody>
+<tr><th>Option</th><th>VISUAL_DENSITY</th><th>Tokens</th></tr>
+<tr><th>빽빽하게 (Dense)</th><th>8–10</th><th><code>text-sm py-1 px-2 gap-1</code></th></tr>
+<tr><th>보통 (Normal)</th><th>4–7</th><th><code>text-base py-3 px-4 gap-4</code></th></tr>
+<tr><th>여유롭게 (Spacious)</th><th>1–3</th><th><code>text-lg py-8 px-8 gap-8</code></th></tr>
+</tbody></table>
+<h4 id="step-4-shape">Step 4 — Shape</h4>
+<p>Ask: &quot;모서리가 각진 느낌이 좋으신가요, 둥근 느낌이 좋으신가요?&quot; / &quot;Sharp or rounded?&quot;</p>
+<table class="rules"><tbody>
+<tr><th>Option</th><th>CSS</th><th>Signals</th></tr>
+<tr><th>각진 (Sharp)</th><th><code>rounded-none</code> / 0–2px</th><th>Vercel, brutalism, swiss</th></tr>
+<tr><th>살짝 둥근 (Slightly rounded)</th><th><code>rounded-md</code> / 6–8px</th><th>Linear, Notion, material</th></tr>
+<tr><th>많이 둥근 (Very rounded)</th><th><code>rounded-2xl</code> / 16–24px</th><th>Figma, iOS, Toss</th></tr>
+</tbody></table>
+<h4 id="step-5-viewport-priority">Step 5 — Viewport Priority</h4>
+<p>Ask: &quot;주로 어떤 화면에서 볼 건가요?&quot; / &quot;What&#x27;s the primary viewing device?&quot;</p>
+<table class="rules"><tbody>
+<tr><th>Option</th><th>Responsive Strategy</th><th>Key Constraint</th></tr>
+<tr><th>데스크탑 위주 (Desktop-first)</th><th>Desktop layout → tablet → mobile collapse</th><th>Data density OK, hover interactions OK</th></tr>
+<tr><th>모바일 위주 (Mobile-first)</th><th>Mobile layout → tablet → desktop expansion</th><th>Thumb zone, touch targets, minimal density</th></tr>
+<tr><th>둘 다 중요 (Both equally)</th><th>Design mobile AND desktop as separate compositions, not one adapted from the other</th><th>Most work — section order/composition may differ</th></tr>
+</tbody></table>
+<p>Cross-ref: <code>references/responsive-nav.md</code> for canonical breakpoints and container query patterns, <code>dev-frontend/references/core/mobile-ux.md</code> for mobile-specific composition rules.</p>
+<h4 id="step-6-reference">Step 6 — Reference</h4>
+<p>Ask: &quot;혹시 &#x27;이런 느낌이면 좋겠다&#x27; 하는 사이트나 앱이 있으신가요?&quot; / &quot;Any website or app that feels like what you want?&quot;</p>
+<p>This single question often resolves all ambiguity. If the user names a product, map it via <code>references/product-personalities.md</code>.</p>
+<h4 id="vague-request-disambiguation">Vague Request Disambiguation</h4>
+<p>When the user gives feedback without specifics, translate:</p>
+<table class="rules"><tbody>
+<tr><th>User says</th><th>Action</th></tr>
+<tr><th>&quot;더 좋게&quot; / &quot;make it better&quot;</th><th>Ask: &quot;레이아웃? 색상? 타이포? 여백?&quot; — identify the dimension</th></tr>
+<tr><th>&quot;더 전문적으로&quot; / &quot;more professional&quot;</th><th>Increase whitespace, reduce color count to 2–3, tighten grid alignment</th></tr>
+<tr><th>&quot;더 모던하게&quot; / &quot;more modern&quot;</th><th>Negative letter-spacing on headings, offer dark mode, reduce radius to 8px</th></tr>
+<tr><th>&quot;더 재미있게&quot; / &quot;more exciting&quot;</th><th>Add one bold accent color, increase type contrast, add micro-animation on hover</th></tr>
+<table class="rules"><tbody>
+<tr><th>&quot;너무 심심해&quot; / &quot;too boring&quot;</th><th>Add asymmetric layout, introduce one unexpected element, vary section rhythm</th></tr>
+<tr><th>&quot;너무 복잡해&quot; / &quot;too busy&quot;</th><th>Reduce element count, increase whitespace, limit to 2 colors</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="2-design-read-mandatory-for-new-pages-components-or-layouts-optional-for-5-line-patches-see-dev-0-1-patch-fast-path">2. Design Read (MANDATORY for new pages, components, or layouts. Optional for ≤5-line patches — see dev §0.1 Patch Fast-Path.)</h3>
+<p>Before generating ANY frontend code, produce a Design Read. If the project has a <code>DESIGN.md</code> file, read it first — its tokens and prose override everything below.</p>
+<h4 id="output-format-mini-design-md">Output format (mini DESIGN.md)</h4>
+<p>Filled-in example: <code>references/design-read-example.md</code>.</p>
+<pre><code>---
+name: &lt;project-name&gt;
+colors:
+  primary: &quot;&lt;hex&gt;&quot;
+  accent: &quot;&lt;hex&gt;&quot;
+  background: &quot;&lt;hex&gt;&quot;
+typography:
+  heading: { fontFamily: &lt;font&gt;, fontSize: &lt;size&gt; }
+  body: { fontFamily: &lt;font&gt;, fontSize: &lt;size&gt; }
+---</code></pre>
+<p>Reading this as: &lt;page kind&gt; for &lt;audience&gt;, with a &lt;vibe&gt; language.</p>
+<p>&lt;1-2 sentences: specific reference, not adjectives. &quot;1970s lecture handout&quot; &gt; &quot;modern and clean&quot;&gt;</p>
+<p>Do&#x27;s: &lt;context-specific positive from brief&gt;</p>
+<p>Don&#x27;ts: &lt;context-specific ban from brief&gt;</p>
+<h4 id="signals-to-read">Signals to read</h4>
+<ol>
+<li>Page kind — landing (SaaS/consumer/agency/event), portfolio, redesign, editorial, app UI, tool UI</li>
+<li>Vibe words — what the user said or implied</li>
+<li>Reference signals — URLs, screenshots, brands named</li>
+<li>Audience — B2B procurement vs design-conscious consumer vs recruiter</li>
+<li>Existing brand assets — logo, color, type, photography</li>
+<li>Quiet constraints — accessibility-first, public-sector, regulated, kids</li>
+</ol>
+<h4 id="dial-setting-mandatory-immediately-after-design-read">Dial Setting (MANDATORY — immediately after Design Read)</h4>
+<p>From the Design Read, derive and declare three dials before any code:</p>
+<pre><code>DESIGN_VARIANCE: &lt;1-10&gt;
+MOTION_INTENSITY: &lt;1-10&gt;
+Product density profile: &lt;D1-D8&gt; (see dev-frontend/references/core/product-density.md)
+Reasoning: &lt;one sentence explaining why these values match the brief&gt;</code></pre>
+<p>Inference rules:</p>
+<ul>
+<li>Corporate/gov/utility → VARIANCE 2-4, MOTION 1-3, density D2-D3</li>
+<li>Marketing/landing → VARIANCE 4-7, MOTION 3-5, density D2-D3</li>
+<li>Creative/portfolio/editorial → VARIANCE 6-9, MOTION 4-7, density D1-D3</li>
+<li>Dashboard/SaaS/admin → VARIANCE 2-4, MOTION 1-2, density D4-D5</li>
+<li>&quot;Complex&quot; in brief → increase density profile (functional depth), NOT VARIANCE or MOTION</li>
+<li>&quot;Simple&quot; in brief → decrease all three proportionally</li>
+</ul>
+<p>&quot;복잡하다&quot; = high DESIGN_VARIANCE is WRONG. Complexity means more features/data/flows, not more visual tricks (carousels, parallax, animations).</p>
+<h4 id="anti-default-discipline">Anti-Default Discipline</h4>
+<p>Do not default to: warm beige backgrounds, centered hero, three equal feature cards, generic glassmorphism, Inter + slate-900, card-based everything. These are LLM defaults. Reach past them BASED ON the design read.</p>
+<p>If the brief is ambiguous, ask ONE clarifying question. Not a multi-question dump.</p>
+<h4 id="design-md-persistence">DESIGN.md persistence</h4>
+<p>If the project needs persistent design tokens across sessions, save the Design Read as a full <code>DESIGN.md</code> in the project root. Format spec: <code>references/design-system-bootstrap.md § DESIGN.md Format</code>.</p>
+<p>---</p>
+<h3 id="3-korean-request-translation">3. Korean Request Translation</h3>
+<p>Map common Korean design descriptors to concrete tokens. When the user uses these words, translate before implementing.</p>
+<table class="rules"><tbody>
+<tr><th>Korean</th><th>Literal</th><th>CSS/Token Translation</th></tr>
+<tr><th>깔끔하게</th><th>cleanly</th><th>Generous whitespace (24-48px gaps), strict grid, max 2-3 colors, saturation &lt; 60%, 1px borders or none, 4-8px radius, single font, no/subtle shadows</th></tr>
+<tr><th>모던하게</th><th>modern</th><th>Geometric sans-serif (Geist/Outfit), negative letter-spacing on headings, dark mode or high-contrast light, 8-16px radius, spring micro-interactions</th></tr>
+<tr><th>고급스럽게</th><th>luxurious</th><th>Very generous whitespace (48-96px padding), thin weights (300-400), serif for headings, low-saturation palette, slow animations (800ms+), 0-4px radius</th></tr>
+<tr><th>심플하게</th><th>simply</th><th>Max 3-4 element types per screen, 1-2 colors, single font, 2-3 size steps, hidden/minimal navigation, zero decoration</th></tr>
+<table class="rules"><tbody>
+<tr><th>트렌디하게</th><th>trendy</th><th>Glassmorphism, bento grid, gradient mesh, variable fonts — ask for a reference site</th></tr>
+<tr><th>따뜻하게</th><th>warmly</th><th>Warm hue range (stone/amber/orange), 12-20px radius, warm-tinted shadows rgba(180,140,100,0.1), serif or rounded sans</th></tr>
+<tr><th>차가운</th><th>cold/cool</th><th>Cool grays (slate/zinc), blue-tinted whites, geometric sans, thin weights, 0-8px radius</th></tr>
+<tr><th>감성적으로</th><th>emotionally</th><th>Editorial/lifestyle, serif display + sans body, muted/pastel colors, generous line-height, photography-heavy</th></tr>
+</tbody></table>
+<p><strong>Clarifying questions per term:</strong></p>
+<ul>
+<li>깔끔: &quot;Notion처럼 따뜻한 깔끔함인지, Vercel처럼 차가운 깔끔함인지요?&quot;</li>
+<li>모던: &quot;다크 모드 + 날카로움(Linear)인지, 화이트 + 미니멀(Vercel)인지요?&quot;</li>
+<li>고급: &quot;브랜드 고급감(Apple/Stripe)인지, 패션 럭셔리(Art Deco)인지요?&quot;</li>
+<li>심플: &quot;기능이 적은 건지, 기능은 많지만 화면이 심플해 보이길 원하는 건지요?&quot;</li>
+</ul>
+<p>---</p>
+<h3 id="4-quick-match-table">4. Quick-Match Table</h3>
+<p>Rapid lookup: user word → concrete starting point.</p>
+<table class="rules"><tbody>
+<tr><th>User (KO)</th><th>User (EN)</th><th>Start From</th><th>Dark?</th><th>Radius</th><th>Density</th><th>Font</th></tr>
+<tr><th>깔끔하게</th><th>Clean</th><th>Notion or Vercel</th><th>No</th><th>8px</th><th>4–7</th><th>Geist / Pretendard</th></tr>
+<tr><th>모던하게</th><th>Modern</th><th>Linear or Vercel</th><th>Yes</th><th>6px</th><th>4–7</th><th>Geist / Outfit</th></tr>
+<tr><th>고급스럽게</th><th>Premium</th><th>Apple or Stripe</th><th>Either</th><th>0–4px</th><th>1–3</th><th>Satoshi / system thin-300</th></tr>
+<tr><th>심플하게</th><th>Simple</th><th>Vercel</th><th>Either</th><th>0px</th><th>1–3</th><th>Geist</th></tr>
+<table class="rules"><tbody>
+<tr><th>따뜻하게</th><th>Warm</th><th>Notion or Toss</th><th>No</th><th>12px</th><th>4–7</th><th>Pretendard / Cabinet Grotesk</th></tr>
+<tr><th>재미있게</th><th>Fun</th><th>Figma</th><th>No</th><th>16px+</th><th>4–7</th><th>Custom grotesque</th></tr>
+<tr><th>전문적으로</th><th>Professional</th><th>Linear or GitHub</th><th>Either</th><th>6px</th><th>4–7</th><th>Geist / Outfit</th></tr>
+<tr><th>대담하게</th><th>Bold</th><th>Neobrutalism</th><th>No</th><th>0px</th><th>4–7</th><th>Black 900</th></tr>
+<tr><th>감성적으로</th><th>Aesthetic</th><th>Editorial</th><th>No</th><th>0–4px</th><th>1–3</th><th>Serif display</th></tr>
+<table class="rules"><tbody>
+<tr><th>트렌디하게</th><th>Trendy</th><th>Ask for reference</th><th>Either</th><th>12px</th><th>4–7</th><th>Variable font</th></tr>
+</tbody></table>
+<h4 id="font-selection-guidelines-style-sample">Font Selection Guidelines (STYLE_SAMPLE)</h4>
+<ul>
+<li><strong>Typography stance (UX-TYPE-01)</strong>: sans by default; serif only with brief/brand/editorial rationale. When justified (AI-product/editorial/research/trust surfaces), use the three-role system — display serif at light weights 330-400 + sans UI + mono accent — never serif-everywhere or as a bare AI-premium shortcut (&quot;tasteslop&quot;, 2026); gates in <code>dev-frontend</code> <code>aesthetics.md § Serif Discipline</code>.</li>
+</ul>
+<ul>
+<li><strong>Primary default</strong>: Geist (modern SaaS, Vercel ecosystem)</li>
+<li><strong>Korean-first</strong>: Pretendard — strong Korean-first default (Pretendard Variable</li>
+</ul>
+<p>available); verify brand/product font rules before claiming any specific Korean</p>
+<p>company standard</p>
+<ul>
+<li><strong>Warm/editorial</strong>: Outfit or Cabinet Grotesk</li>
+<li><strong>Premium/luxury</strong>: Satoshi or system thin weights</li>
+<li><strong>Korean serif display</strong>: MaruBuri (Naver 명조/부리) 400-600 for editorial Hangul headlines, paired with Pretendard UI — see <code>dev-frontend</code> <code>korea-2026.md § Korean Serif / Myeongjo Display</code></li>
+<li><strong>Avoid defaulting to Inter</strong> (DEFAULT) — a widely recognized AI-generated-UI tell</li>
+</ul>
+<p>(judgment rule, not a measured fact). Use it when the user requests it or the project</p>
+<p>already uses it.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-uiux-design-color-system.html">color-system</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-design-isms.html">design-isms</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-design-read-example.html">Design Read Example</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-design-system-bootstrap.html">design-system-bootstrap</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-favicon-logo.html">Favicon &amp; Product Logo — Design Judgment &amp; Patterns</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-form-patterns.html">Form Design Patterns</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-layout-macrostructures.html">layout-macrostructures</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-logo-trust-sections.html">Logo Trust Sections — Design Patterns &amp; Judgment</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-mobile-native-ux.html">Mobile Native UX Conventions</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-product-personalities.html">product-personalities</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-responsive-nav.html">responsive-nav</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-typography-line-breaks.html">Typography Line Breaks — Design Judgment Guide</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-ux-preflight.html">UX Preflight Checklist</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-ux-states.html">ux-states</a></li>
+<li><a href="../../pages/skills/dev-uiux-design-visual-hierarchy.html">Visual Hierarchy</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

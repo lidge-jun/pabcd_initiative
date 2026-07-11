@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Load &amp; Performance Testing — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Load &amp; Performance Testing</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-testing/references/load-testing.md</p>
+<h2 id="load-performance-testing">Load &amp; Performance Testing</h2>
+<p>&gt; Deep reference for <code>dev-testing</code> §1.3 risk-first priorities and CI pipeline performance gates.</p>
+<p><strong>Last reviewed</strong>: 2026-06-16</p>
+<p><strong>Applies to</strong>: k6 0.52.x, Locust 2.x, Node 22+, Python 3.12+</p>
+<p><strong>When to read</strong>: <code>task_tags</code> includes <code>performance</code>, <code>load_test</code>, or C3+ production-facing API work</p>
+<p><strong>Canonical owner</strong>: <code>dev-testing</code> — infrastructure-level performance (auto-scaling, resource sizing) → <code>dev-devops</code></p>
+<p>---</p>
+<h3 id="1-when-to-load-test">§1 When to Load Test</h3>
+<p>Load testing is required when <strong>any</strong> of these apply:</p>
+<ul>
+<li>[ ] C3+ classification with production traffic</li>
+<li>[ ] Public API with external consumers</li>
+<li>[ ] Expected traffic spike (launch, campaign, seasonal)</li>
+<li>[ ] Infrastructure migration (DB, CDN, region)</li>
+<li>[ ] Performance SLO defined in product requirements</li>
+</ul>
+<p>Skip for C0–C2 internal tools with &lt;10 concurrent users. Use unit benchmarks (<code>vitest bench</code>, <code>pytest-benchmark</code>) for micro-optimization instead.</p>
+<p>---</p>
+<h3 id="2-tool-selection">§2 Tool Selection</h3>
+<table class="rules"><tbody>
+<tr><th>Criterion</th><th>k6 0.52 ✅</th><th>Locust 2.x ✅</th><th>Artillery 2.x</th></tr>
+<tr><th><strong>Language</strong></th><th>JavaScript/TypeScript</th><th>Python</th><th>YAML + JS hooks</th></tr>
+<tr><th><strong>Protocol</strong></th><th>HTTP, gRPC, WebSocket, browser</th><th>HTTP, custom</th><th>HTTP, WebSocket, Socket.IO</th></tr>
+<tr><th><strong>Distributed</strong></th><th><code>k6 cloud</code> / <code>k6 operator</code> (K8s)</th><th>built-in master/worker</th><th>Artillery Cloud</th></tr>
+<tr><th><strong>CI integration</strong></th><th><code>grafana/setup-k6-action@v1</code></th><th><code>pip install locust</code> + script</th><th><code>npx artillery</code></th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Browser perf</strong></th><th><code>k6/browser</code> (Chromium)</th><th>✕</th><th>✕</th></tr>
+<tr><th><strong>Dashboard</strong></th><th>Grafana Cloud k6 / InfluxDB</th><th>built-in web UI</th><th>Artillery Cloud</th></tr>
+<tr><th><strong>Best for</strong></th><th>JS/TS teams, CI gates, CWV</th><th>Python teams, custom protocols</th><th>YAML-first, quick smoke</th></tr>
+</tbody></table>
+<p><strong>Decision rule</strong>: JS/TS stack → k6. Python stack or custom protocol → Locust. Neither is wrong; pick one and standardize.</p>
+<p><strong>Banned</strong>: Running both k6 and Locust in the same project without a documented reason.</p>
+<p>---</p>
+<h3 id="3-test-types">§3 Test Types</h3>
+<table class="rules"><tbody>
+<tr><th>Type</th><th>Purpose</th><th>When</th><th>VUs</th><th>Duration</th></tr>
+<tr><th><strong>Smoke</strong></th><th>Basic function under minimal load</th><th>Every PR</th><th>1–5</th><th>30s</th></tr>
+<tr><th><strong>Load</strong></th><th>Normal traffic verification</th><th>main merge / nightly</th><th>50–200</th><th>5–10 min</th></tr>
+<tr><th><strong>Stress</strong></th><th>Find breaking point</th><th>Pre-release</th><th>Ramp to limit</th><th>15–30 min</th></tr>
+<tr><th><strong>Spike</strong></th><th>Sudden burst resilience</th><th>Pre-release</th><th>0 → max → 0</th><th>5–10 min</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Soak</strong></th><th>Long-term stability (memory leaks, connection pool)</th><th>Weekly / pre-release</th><th>Normal load</th><th>1–4 hr</th></tr>
+</tbody></table>
+<p>Start with <strong>smoke</strong> in CI. Add load/stress only after smoke is stable.</p>
+<p>---</p>
+<h3 id="4-k6-quick-start">§4 k6 Quick Start</h3>
+<pre><code>import http from &quot;k6/http&quot;;
+import { check, sleep } from &quot;k6&quot;;
+
+export const options = {
+  scenarios: {
+    smoke: {
+      executor: &quot;shared-iterations&quot;,
+      vus: 5,
+      iterations: 50,
+    },
+  },
+  thresholds: {
+    http_req_duration: [&quot;p(95)&lt;300&quot;, &quot;p(99)&lt;500&quot;],
+    http_req_failed: [&quot;rate&lt;0.01&quot;],
+    checks: [&quot;rate==1.0&quot;],
+  },
+};
+
+export default function () {
+  const res = http.get(`${__ENV.BASE_URL}/api/health`);
+  check(res, {
+    &quot;status 200&quot;: (r) =&gt; r.status === 200,
+    &quot;body has status&quot;: (r) =&gt; JSON.parse(r.body).status === &quot;ok&quot;,
+  });
+  sleep(1);
+}</code></pre>
+<ul>
+<li><code>thresholds</code> are the pass/fail gate — without them, the test measures but never judges</li>
+<li><code>checks</code> validate response correctness; <code>thresholds</code> on checks enforce the gate</li>
+<li>Run locally: <code>k6 run --env BASE_URL=http://localhost:3000 tests/perf/smoke.js</code></li>
+<li>Run with cloud dashboard: <code>k6 cloud tests/perf/smoke.js</code> (requires <code>K6_CLOUD_TOKEN</code>)</li>
+</ul>
+<p>---</p>
+<h3 id="5-measure-profile-verify">§5 Measure → Profile → Verify</h3>
+<pre><code>1. Measure    ──→  k6 baseline (smoke → load → record p95/p99/error rate)
+       │
+2. Profile    ──→  identify bottleneck (traces, flame graphs, DB slow query log)
+       │
+3. Optimize   ──→  hypothesis-driven change (N+1 fix, cache, query tune)
+       │
+4. Re-measure ──→  same scenario, compare against baseline
+       │
+5. Gate       ──→  CI threshold pass → merge; fail → block deploy</code></pre>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>&quot;It&#x27;s slow, add cache&quot; without profiling</th><th>Cache added but wrong bottleneck</th><th>Measure first — <code>k6 run</code> → flame graph → then decide</th></tr>
+<tr><th>Screenshot-only results</th><th>No regression detection possible</th><th>Export JSON/HTML report: <code>k6 run --out json=results.json</code></th></tr>
+<tr><th>One-time manual run, no CI</th><th>Performance regresses silently</th><th>Add smoke to PR pipeline (§6)</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="6-ci-integration">§6 CI Integration</h3>
+<pre><code># .github/workflows/performance.yml
+name: Performance
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  smoke:
+    if: github.event_name == &#x27;pull_request&#x27;
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - uses: grafana/run-k6-action@v1
+        with:
+          path: tests/perf/smoke.js
+          flags: --env BASE_URL=http://localhost:3000
+
+  load:
+    if: github.ref == &#x27;refs/heads/main&#x27;
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - uses: grafana/run-k6-action@v1
+        env:
+          K6_CLOUD_TOKEN: ${{ secrets.K6_CLOUD_TOKEN }}
+        with:
+          path: tests/perf/load.js
+          cloud-run-locally: true</code></pre>
+<ul>
+<li><strong>PR</strong>: smoke only (fast, &lt;1 min)</li>
+<li><strong>main merge</strong>: full load test with cloud dashboard</li>
+<li><strong>Release branch</strong>: stress + soak (manual trigger or scheduled)</li>
+<li>Threshold failure = non-zero exit = blocked deploy</li>
+</ul>
+<p><strong>Banned</strong>: Load testing directly against production. Use staging or a dedicated perf environment.</p>
+<p>---</p>
+<h3 id="7-anti-patterns">§7 Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Threshold-free load test</th><th>&quot;We ran k6&quot; but no pass/fail judgment</th><th>Add <code>thresholds</code> with p95/p99/error rate targets</th></tr>
+<tr><th>Production load test</th><th>Degraded user experience, potential outage</th><th>Use staging or isolated perf environment</th></tr>
+<tr><th>Tool salad (k6 + Locust + Artillery in one project)</th><th>Inconsistent results, maintenance burden</th><th>Pick one (§2 decision table), standardize</th></tr>
+<tr><th>Hardcoded URLs in test scripts</th><th>Breaks across environments</th><th>Use <code>__ENV.BASE_URL</code> or equivalent env vars</th></tr>
+<table class="rules"><tbody>
+<tr><th>Ignoring soak tests</th><th>Memory leaks and connection pool exhaustion ship</th><th>Schedule weekly soak on staging</th></tr>
+</tbody></table>
+<h3 id="pre-flight">Pre-flight</h3>
+<p>Before merging a load test change:</p>
+<ul>
+<li>[ ] <code>thresholds</code> defined with p95, p99, and error rate targets</li>
+<li>[ ] Test runs against staging or local — never production</li>
+<li>[ ] <code>BASE_URL</code> parameterized via environment variable</li>
+<li>[ ] CI workflow updated (<code>smoke</code> on PR, <code>load</code> on main)</li>
+<li>[ ] Results exported as JSON/HTML, not screenshots</li>
+<li>[ ] Measure → Profile → Verify loop documented for any optimization claim</li>
+<li>[ ] Cross-ref: <code>dev-devops</code> for infra-level scaling; <code>ci-pipeline.md</code> for pipeline placement</li>
+</ul>
+<p>---</p>
+<h3 id="cross-references">Cross-References</h3>
+<ul>
+<li><code>dev-testing</code> §5 CI Pipeline — pipeline stage ordering</li>
+<li><code>references/ci-pipeline.md</code> — full GHA/GitLab CI templates</li>
+<li><code>dev-backend</code> §9 — p95 SLO definitions and observability</li>
+<li><code>dev-devops</code> — infrastructure-level performance (auto-scaling, resource allocation)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

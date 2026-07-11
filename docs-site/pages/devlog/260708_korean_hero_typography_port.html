@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Korean Hero / Large-Display Typography Port — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Korean Hero / Large-Display Typography Port</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/260708_korean_hero_typography_port.md</p>
+<h2 id="korean-hero-large-display-typography-port">Korean Hero / Large-Display Typography Port</h2>
+<p><strong>Date</strong>: 2026-07-08</p>
+<p><strong>Kind</strong>: SoT reinforcement + downstream port (dev-frontend korea-2026.md + anti-slop.md)</p>
+<h3 id="trigger">Trigger</h3>
+<p>User flagged that oversized bold Korean heroes read as slop specifically in</p>
+<p>Hangul (shown on the GYEOL studio mockup: <code>clamp(..., 10rem)</code> / weight 700 /</p>
+<p><code>line-height: 0.9</code>). Two GPT-5.5 explorers researched how Toss and other premium</p>
+<p>Korean services handle hero typography, with Tier-2 proof (one lane measured</p>
+<p>live pages via Playwright computed style).</p>
+<h3 id="finding-tier-2-measured-2026-07-08">Finding (Tier-2, measured 2026-07-08)</h3>
+<p>Premium Korean services size Korean heroes ~<code>56-72px</code> desktop / ~<code>26-40px</code></p>
+<p>mobile, weight <code>700</code> (not <code>900</code>), line-height <code>1.25-1.4</code> (not <code>0.9</code>), with</p>
+<p><code>word-break: keep-all</code> and manual phrase breaks. <code>900</code> shows up on English</p>
+<p>display / short brand phrases, not long Hangul. Huge bold Hangul reads as a</p>
+<p>heavy graphic mass because each syllable is a dense square block with little</p>
+<p>ascender/descender rhythm (Typotheque, Morisawa). Measured: Toss home</p>
+<p>66px/700/lh1.4, Toss team 72px/700/lh1.3, Daangn 64px/700/lh1.31, Kakao</p>
+<p>70px/700/lh1.27, Woowa Korean 40px/700 (its 900 is English), Naver 32px/600,</p>
+<p>Musinsa 20px/600.</p>
+<h3 id="port-status">Port status</h3>
+<table class="rules"><tbody>
+<tr><th>Target</th><th>Files</th><th>Status</th></tr>
+<tr><th>SoT</th><th><code>pabcd_initiative/.../korea-2026.md</code>, <code>anti-slop.md</code></th><th>Done — added &quot;Korean Hero / Large Display Type&quot; subsection + slop signal</th></tr>
+<tr><th>cli-jaw</th><th><code>cli-jaw-skills/.../korea-2026.md</code>, <code>anti-slop.md</code></th><th>Done — same block (Korean-hero block diff-matches SoT)</th></tr>
+<tr><th>codexclaw</th><th><code>codexclaw/plugins/codexclaw/skills/dev-frontend/.../korea-2026.md</code>, <code>anti-slop.md</code></th><th>Done — same block</th></tr>
+<tr><th>jawcode</th><th>—</th><th>N/A (no dev-frontend skill)</th></tr>
+</tbody></table>
+<p>Note: korea-2026.md and anti-slop.md were already divergent between SoT and</p>
+<p>cli-jaw before this change, so the port adds the SAME new block to each rather</p>
+<p>than byte-syncing whole files. The new Korean-hero block is diff-identical</p>
+<p>across SoT and cli-jaw.</p>
+<h3 id="demonstration">Demonstration</h3>
+<p>The GYEOL studio hero was refixed to the restrained pattern (verified via</p>
+<p>Playwright computed style): desktop <code>74.9px / 700 / line-height 1.16 / keep-all</code>,</p>
+<p>mobile <code>33.6px / 700 / lh 1.16</code>, down from <code>~160px / 700 / lh 0.9</code>. The hero now</p>
+<p>leans on whitespace + imagery + supporting copy instead of a giant Hangul wall.</p>
+<h3 id="sources">Sources</h3>
+<p>Live pages: toss.im, toss.im/team, toss.im/tossface, about.daangn.com,</p>
+<p>kakaocorp.com, woowahan.com, navercorp.com, musinsa.com, dive.hyundaicard.com.</p>
+<p>Type: Typotheque CJK typesetting, Morisawa Hangeul guide, W3C KLREQ, MDN</p>
+<p>word-break/line-break, Pretendard / Wanted Sans / Spoqa / Sandoll (Toss Product</p>
+<p>Sans) docs.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

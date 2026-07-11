@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scroll-Driven Motion Knowledge Port — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Scroll-Driven Motion Knowledge Port</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/260708_scroll_motion_port.md</p>
+<h2 id="scroll-driven-motion-knowledge-port">Scroll-Driven Motion Knowledge Port</h2>
+<p><strong>Date</strong>: 2026-07-08</p>
+<p><strong>Kind</strong>: SoT expansion + downstream port (dev-frontend/motion.md)</p>
+<h3 id="what">What</h3>
+<p><code>dev-frontend/references/core/motion.md</code> gained a scroll-driven effects</p>
+<p>expansion, validated by building and auditing a real cinematic studio landing</p>
+<p>(GYEOL) plus two research passes (5-lane + 2-lane GPT-5.5 explorer surveys,</p>
+<p>source-proofed). New content:</p>
+<ul>
+<li>Scroll-Driven subsections: CSS scroll-driven animations, horizontal</li>
+</ul>
+<p>scroll-in-vertical, sticky card stacking, frame sequence scrolltelling,</p>
+<p>video <code>currentTime</code> scrub, slide/page transitions, text mask &amp; reveal,</p>
+<p>SVG path drawing, Lottie scroll scrub.</p>
+<ul>
+<li>Cinematic Section Transitions (zoom-through/portal, 3D fly-through,</li>
+</ul>
+<p>crossfade/scale-depth, card-to-fullscreen, wipe, pinned timeline).</p>
+<ul>
+<li>Scroll Pattern Decision Tree.</li>
+<li>Frame Sequence Format Guide (WebP/AVIF/JPEG).</li>
+<li><code>prefers-reduced-motion</code>: added the JS SHORT-CIRCUIT rule — CSS overrides</li>
+</ul>
+<p>alone are insufficient; the script must skip building frame arrays, binding</p>
+<p>listeners, and running the update loop, and render a static end state. This</p>
+<p>rule came from an independent audit (reviewer on a different model family)</p>
+<p>of the GYEOL build, where reduced-motion CSS existed but the JS still built</p>
+<p>160 offscreen frames and bound scroll handlers (REVIEW-DECORRELATE-01 catch).</p>
+<h3 id="port-status-sot-then-port-ports-adapted-never-blind-copied">Port status (SoT-then-port; ports adapted, never blind-copied)</h3>
+<table class="rules"><tbody>
+<tr><th>Target</th><th>Path</th><th>Status</th></tr>
+<tr><th>SoT</th><th><code>pabcd_initiative/skills/dev-frontend/references/core/motion.md</code></th><th>Done, agent-neutral (no host-CLI; generic &quot;image-generation tool&quot; / &quot;text-to-video model&quot;; ffmpeg kept as standard)</th></tr>
+<tr><th>cli-jaw</th><th><code>cli-jaw-skills/dev-frontend/references/core/motion.md</code> (deployed via <code>cli-jaw/skills_ref</code> submodule)</th><th>Done, kept in sync with SoT</th></tr>
+<tr><th>codexclaw</th><th><code>codexclaw/plugins/codexclaw/skills/dev-frontend/references/core/motion.md</code></th><th>Done (cxc-flavored: scroll+cinematic already present from prior turns; added the reduced-motion JS rule)</th></tr>
+<tr><th>jawcode</th><th><code>jawcode/packages/coding-agent/src/defaults/jwc/skills</code></th><th>N/A — no dev-frontend skill exists (role skills only: browse/goal/jaw-interview/plan/search/team). Frontend-motion port not applicable; nothing created.</th></tr>
+</tbody></table>
+<h3 id="agent-neutrality">Agent-neutrality</h3>
+<p>SoT + cli-jaw carry zero host-CLI commands (<code>grep -c &#x27;ima2\|cxc &#x27; == 0</code>). The</p>
+<p>codexclaw copy keeps its cxc-flavored research pointers. <code>ffmpeg</code> remains in all</p>
+<p>copies as a standard, non-host tool.</p>
+<h3 id="verification">Verification</h3>
+<ul>
+<li>SoT: 164 -&gt; 415 lines; code fences even (48); diff shows additions only.</li>
+<li>cli-jaw: byte-identical to SoT after port.</li>
+<li>codexclaw: reduced-motion JS rule added; existing scroll/cinematic sections</li>
+</ul>
+<p>untouched.</p>
+<ul>
+<li>Source research: codexclaw <code>devlog/_plan/260708_scroll_driven_effects/</code></li>
+</ul>
+<p>(<code>000_research.md</code>, <code>001_cinematic_transitions.md</code>).</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

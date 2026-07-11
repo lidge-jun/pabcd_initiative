@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supply Chain Security: SBOM, Signing &amp; Dependency Integrity — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Supply Chain Security: SBOM, Signing &amp; Dependency Integrity</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-security/references/supply-chain-sbom.md</p>
+<h2 id="supply-chain-security-sbom-signing-dependency-integrity">Supply Chain Security: SBOM, Signing &amp; Dependency Integrity</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: npm, PyPI, container images, CI/CD pipelines</p>
+<p>When to read: Dependency auditing, release integrity, SBOM generation</p>
+<p>Canonical owner: dev-security</p>
+<p>Cross-ref: <code>dev-devops</code> docker.md §1.3 (container image scanning), <code>dev-security</code> §7 (Static Analysis Integration)</p>
+<p>Package release auth defaults live in <code>dev-devops/references/package-release.md</code>.</p>
+<p>For public package publishing, prefer registry-native trusted publishing/OIDC</p>
+<p>where supported; long-lived publish tokens require an explicit fallback reason.</p>
+<h3 id="1-sbom-generation">1. SBOM Generation</h3>
+<p>A Software Bill of Materials (SBOM) is a machine-readable inventory of every component in a build artifact.</p>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Format</th><th>Use When</th></tr>
+<tr><th>Syft (Anchore)</th><th>CycloneDX, SPDX</th><th>Container images, language packages — broadest format support</th></tr>
+<tr><th>Trivy (Aqua)</th><th>CycloneDX, SPDX</th><th>Combined SBOM + vulnerability scan in one pass</th></tr>
+<tr><th><code>npm sbom</code></th><th>CycloneDX, SPDX</th><th>Node.js projects — built into npm 10+</th></tr>
+<tr><th>CycloneDX CLI</th><th>CycloneDX</th><th>When you need CycloneDX specifically for compliance</th></tr>
+</tbody></table>
+<pre><code># Generate SBOM from container image
+syft myapp:v1.2.3 -o cyclonedx-json &gt; sbom.cdx.json
+
+# Generate SBOM from npm project
+npm sbom --sbom-format cyclonedx
+
+# Combined scan + SBOM
+trivy image myapp:v1.2.3 --format cyclonedx --output sbom.cdx.json</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Generate SBOM for every release artifact (container image, package, binary).</li>
+<li>Store SBOMs alongside release artifacts — they are part of the release, not documentation.</li>
+<li>Use CycloneDX 1.5+ for best tooling support; SPDX 2.3 when required by compliance.</li>
+<li>Regenerate SBOM on every build — do not cache across dependency changes.</li>
+</ul>
+<h3 id="2-artifact-signing-provenance">2. Artifact Signing &amp; Provenance</h3>
+<p>Sign artifacts to prove they came from your CI pipeline, not a compromised mirror:</p>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Signs</th><th>Verification</th></tr>
+<tr><th>Cosign (Sigstore)</th><th>Container images, blobs</th><th><code>cosign verify --key cosign.pub &lt;image&gt;</code></th></tr>
+<tr><th>npm provenance</th><th>npm packages</th><th><code>npm publish --provenance</code> (requires OIDC-capable CI)</th></tr>
+<tr><th>SLSA (Supply-chain Levels for Software Artifacts)</th><th>Build provenance attestation</th><th>Verifiable build metadata: who built, from what source, with what builder</th></tr>
+</tbody></table>
+<pre><code># Sign container image with keyless Cosign (Sigstore)
+cosign sign --yes ghcr.io/org/myapp:v1.2.3
+
+# Verify signature
+cosign verify ghcr.io/org/myapp:v1.2.3 \
+  --certificate-identity=&quot;https://github.com/org/myapp/.github/workflows/release.yml@refs/tags/v1.2.3&quot; \
+  --certificate-oidc-issuer=&quot;https://token.actions.githubusercontent.com&quot;
+
+# npm publish with provenance
+npm publish --provenance</code></pre>
+<table class="rules"><tbody>
+<tr><th>SLSA Level</th><th>Requirement</th><th>Practical Meaning</th></tr>
+<tr><th>Level 1</th><th>Build process documented</th><th>CI config exists and is version-controlled</th></tr>
+<tr><th>Level 2</th><th>Hosted build, signed provenance</th><th>CI generates and signs provenance attestation</th></tr>
+<tr><th>Level 3</th><th>Hardened build platform</th><th>Isolated, ephemeral builders with tamper-evident logs</th></tr>
+</tbody></table>
+<p>Rules:</p>
+<ul>
+<li>Sign all container images pushed to production registries.</li>
+<li>Use keyless signing (Sigstore OIDC) in CI — no long-lived signing keys.</li>
+<li>npm packages from CI should use <code>--provenance</code> for transparent build attestation.</li>
+<li>Verify signatures in deployment pipelines before pulling images.</li>
+<li>Target SLSA Level 2 minimum for production artifacts.</li>
+</ul>
+<h4 id="public-package-trusted-publishing">Public Package Trusted Publishing</h4>
+<p>For public package release from CI, default to registry-native trusted</p>
+<p>publishing/OIDC where the registry supports it:</p>
+<table class="rules"><tbody>
+<tr><th>Registry</th><th>Default</th><th>Token fallback only when</th></tr>
+<tr><th>npm</th><th>npm Trusted Publishing/OIDC with provenance</th><th>Trusted Publishing is unsupported, rejected, or not configured</th></tr>
+<tr><th>PyPI</th><th>PyPI Trusted Publisher/OIDC</th><th>Trusted Publisher is unsupported, rejected, or not configured</th></tr>
+<tr><th>RubyGems</th><th>RubyGems Trusted Publishing/OIDC</th><th>Trusted Publishing is unsupported, rejected, or not configured</th></tr>
+<tr><th>crates.io</th><th>crates.io Trusted Publishing/OIDC when configured</th><th>Trusted Publishing is unavailable for the crate/CI</th></tr>
+</tbody></table>
+<p>Do not ask for <code>NPM_TOKEN</code>, <code>PYPI_TOKEN</code>, <code>RUBYGEMS_API_KEY</code>, or a crates.io API</p>
+<p>token before checking whether a trusted publishing path exists. Token fallback</p>
+<p>must be named in the release proof bundle so reviewers know why OIDC was not</p>
+<p>used.</p>
+<h3 id="3-dependency-pin-audit-ci">3. Dependency Pin &amp; Audit CI</h3>
+<table class="rules"><tbody>
+<tr><th>Practice</th><th>Required</th><th>Tool</th></tr>
+<tr><th>Lockfile committed</th><th>Yes</th><th><code>package-lock.json</code>, <code>bun.lock</code>, <code>poetry.lock</code>, <code>go.sum</code></th></tr>
+<tr><th><code>--frozen-lockfile</code> in CI</th><th>Yes</th><th><code>npm ci</code>, <code>bun install --frozen-lockfile</code>, <code>poetry install --no-update</code></th></tr>
+<tr><th>Dependency audit in CI</th><th>Yes</th><th><code>npm audit</code>, <code>pip-audit</code>, <code>trivy fs .</code>, <code>osv-scanner</code></th></tr>
+<tr><th>Automated update PRs</th><th>Recommended</th><th>Renovate (preferred) or Dependabot with auto-merge for patch/minor</th></tr>
+<table class="rules"><tbody>
+<tr><th>License compliance</th><th>When required</th><th><code>license-checker</code>, <code>pip-licenses</code>, Trivy license scan</th></tr>
+</tbody></table>
+<pre><code># CI dependency audit step (GitHub Actions example)
+- name: Dependency audit
+  run: |
+    npm audit --audit-level=high
+    # or: trivy fs . --severity HIGH,CRITICAL --exit-code 1</code></pre>
+<p>Rules:</p>
+<ul>
+<li>CI must fail on HIGH/CRITICAL vulnerability findings.</li>
+<li>Pin exact versions in lockfile — range specifiers (<code>^</code>, <code>~</code>) in <code>package.json</code> are fine if lockfile is committed and CI uses frozen install.</li>
+<li>Review lockfile diffs in PRs — unexpected resolution changes may indicate supply chain attack.</li>
+<li>Update dependencies at least monthly; security patches within 48 hours of advisory.</li>
+<li>New dependencies require justification — check bundle size, maintenance status, and security history.</li>
+</ul>
+<h3 id="4-anti-patterns">4. Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>No lockfile in repo</th><th>Non-reproducible builds, phantom dependency updates</th><th>Commit lockfile, CI uses <code>--frozen-lockfile</code></th></tr>
+<tr><th><code>npm install</code> in CI instead of <code>npm ci</code></th><th>Lockfile ignored, dependencies can drift</th><th>Use <code>npm ci</code> / <code>bun install --frozen-lockfile</code></th></tr>
+<tr><th>Ignoring <code>npm audit</code> output</th><th>Known vulnerabilities ship to production</th><th>CI fails on HIGH+ findings; track exceptions with expiry</th></tr>
+<tr><th>Unsigned container images</th><th>No provenance verification possible</th><th>Sign with Cosign in CI (§2)</th></tr>
+<table class="rules"><tbody>
+<tr><th>SBOM generated once, never updated</th><th>Stale inventory, false compliance</th><th>Regenerate on every release build (§1)</th></tr>
+<tr><th>Long-lived signing keys</th><th>Key compromise = all artifacts compromised</th><th>Use keyless signing (Sigstore OIDC)</th></tr>
+</tbody></table>
+<h3 id="pre-flight">Pre-flight</h3>
+<ul>
+<li>[ ] SBOM generated for every release artifact in CycloneDX or SPDX format (§1)</li>
+<li>[ ] Container images signed with Cosign/Sigstore in CI (§2)</li>
+<li>[ ] npm packages published with <code>--provenance</code> from CI (§2)</li>
+<li>[ ] Lockfile committed and CI uses frozen install (§3)</li>
+<li>[ ] <code>npm audit</code> / <code>trivy fs</code> runs in CI with HIGH+ failure threshold (§3)</li>
+<li>[ ] Dependency update automation configured (Renovate/Dependabot) (§3)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-debugging — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="active">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-debugging</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-debugging/SKILL.md</p>
+<h2 id="dev-debugging-systematic-root-cause-analysis">Dev-Debugging — Systematic Root Cause Analysis</h2>
+<p>This skill is the <strong>thinking process</strong> for fixing bugs. It activates by change surface for errors and diagnoses, and enforces a structured</p>
+<p>5-phase methodology for every technical issue — test failures, runtime errors,</p>
+<p>build failures, performance regressions, integration bugs.</p>
+<p><strong>Boundary</strong>: This skill covers how to reason about bugs. For test harness,</p>
+<p>reproduction frameworks, and verification tooling, see <code>dev-testing</code>. For</p>
+<p>domain-specific context (API errors, hydration issues, query performance),</p>
+<p>consult <code>dev-backend</code> or <code>dev-frontend</code>.</p>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<pre><code>dev-debugging = root cause methodology (the thinking)
+dev-testing   = test harness for reproducing/verifying (the tooling)
+dev §2        = summary pointer to this skill (the overview)</code></pre>
+<p>---</p>
+<h3 id="core-principle">Core Principle</h3>
+<p>Check if the problem is structural before debugging code.</p>
+<p>Complete root cause investigation before proposing any fix.</p>
+<p>If Phase 1 is not done, keep investigating.</p>
+<p>---</p>
+<h3 id="when-to-activate">When to Activate</h3>
+<ul>
+<li>Test failures, runtime errors, build failures, performance regressions</li>
+<li>Integration issues (API, database, third-party), CI pipeline failures</li>
+<li><strong>Especially</strong>: when under time pressure or when &quot;just one quick fix&quot; seems obvious — that&#x27;s when methodology matters most</li>
+</ul>
+<p>---</p>
+<h3 id="the-phases">The Phases</h3>
+<h4 id="phase-0-is-this-a-bug-or-a-design-problem">Phase 0: Is This a Bug or a Design Problem?</h4>
+<p>Before debugging code, ask: &quot;Could this be a structural/design issue rather</p>
+<p>than a code bug?&quot; Patching symptoms of architectural debt creates an endless</p>
+<p>stream of &quot;bugs&quot; that are really design consequences.</p>
+<p><strong>Decision Tree — escalate to architecture review if any apply:</strong></p>
+<table class="rules"><tbody>
+<tr><th>Signal</th><th>Interpretation</th></tr>
+<tr><th>Same class of bug recurring (3rd time fixing similar issue)</th><th>Design problem — add a constraint at the architecture level</th></tr>
+<tr><th>Bug spans multiple modules / crosses 2+ boundaries</th><th>Boundary/coupling issue — see <code>dev-architecture</code></th></tr>
+<tr><th>Fix would require changing 3+ files simultaneously</th><th>Likely structural — single-responsibility violation</th></tr>
+<tr><th>Symptom appears far from cause (error in UI, root in DB layer)</th><th>Tracing/observability gap — instrument boundaries first</th></tr>
+</tbody></table>
+<p><strong>If structural</strong>: escalate to architecture review. Do not patch the symptom —</p>
+<p>the patch creates the next bug.</p>
+<p><strong>Symptom vs Root Cause Fix:</strong></p>
+<table class="rules"><tbody>
+<tr><th>Symptom</th><th>Likely Patch (wrong)</th><th>Root Cause Fix (right)</th></tr>
+<tr><th>Request timeout</th><th>Increase timeout to 30s</th><th>Add circuit breaker + fallback</th></tr>
+<tr><th>OOM crash</th><th>Increase container memory</th><th>Find and fix the memory leak</th></tr>
+<tr><th>N+1 query performance</th><th>Add a cache layer in front</th><th>Fix the query (eager load / join)</th></tr>
+<tr><th>Duplicate records</th><th>Add unique constraint + rescue</th><th>Fix the race condition that creates duplicates</th></tr>
+<table class="rules"><tbody>
+<tr><th>Flaky test</th><th>Add retry/skip annotation</th><th>Fix shared mutable state between tests</th></tr>
+</tbody></table>
+<p><strong>If none of the above apply</strong> — proceed to Phase 1 (it&#x27;s a code bug, not a</p>
+<p>design problem).</p>
+<p>---</p>
+<h4 id="phase-1-root-cause-investigation">Phase 1: Root Cause Investigation</h4>
+<p><strong>Feedback loop gate:</strong> For UI, browser, TUI, visual, streaming, or agent-output bugs,</p>
+<p>first create a red-capable loop that can fail before the fix: screenshot/assertion,</p>
+<p>recorded terminal bytes, Playwright visual check, log fixture, or a manual repro script</p>
+<p>with explicit pass/fail evidence. Do not patch from screenshots alone when a repeatable</p>
+<p>probe can be built in reasonable time.</p>
+<p><strong>Complete these before attempting any fix:</strong></p>
+<ol>
+<li><strong>Read the full error</strong> — stack trace, line numbers, error code, surrounding</li>
+</ol>
+<p>context. Do not skim. The answer is often in the error message itself.</p>
+<ol>
+<li><strong>Reproduce consistently</strong> — exact steps to trigger the bug. If intermittent,</li>
+</ol>
+<p>document frequency, conditions, and environment state. A bug you cannot</p>
+<p>reproduce is a bug you cannot verify as fixed.</p>
+<ol>
+<li><strong>Check recent changes</strong> — run <code>git log --oneline -10</code> and <code>git diff</code>. Check</li>
+</ol>
+<p>new dependencies, config changes, environment variables. Bugs correlate with</p>
+<p>recent changes most of the time.</p>
+<ol>
+<li><strong>Trace data flow</strong> — where does the bad value originate? Trace backward from</li>
+</ol>
+<p>the failure point through the call stack until you find the source. Follow the</p>
+<p>full causal chain from trigger → boundary → bad state → failure. Removing the</p>
+<p>visible symptom is not a fix unless the defect that creates the bad state is gone.</p>
+<ol>
+<li><strong>Instrument component boundaries</strong> — for multi-layer systems (API → service →</li>
+</ol>
+<p>database, CI → build → deploy), log input/output at each boundary BEFORE</p>
+<p>proposing fixes.</p>
+<ol>
+<li><strong>Trace-first for distributed/async/agent failures (DEFAULT)</strong> — capture the</li>
+</ol>
+<p>evidence trail before hypothesizing: request IDs, OpenTelemetry spans/logs,</p>
+<p>Playwright traces/videos, and exact agent tool transcripts. For order-dependent,</p>
+<p>native, concurrency, or intermittent failures that logs cannot explain, use</p>
+<p>time-travel/replay debugging (Microsoft TTD on Windows, rr on Linux) — see</p>
+<p><code>references/tool-guides.md</code>.</p>
+<pre><code>For EACH component boundary:
+  - Log what data enters the component
+  - Log what data exits the component
+  - Verify environment/config propagation
+Run once → analyze evidence → identify failing layer → investigate THAT layer</code></pre>
+<p>Work through these steps; skip only if clearly irrelevant to the problem at hand.</p>
+<h4 id="phase-2-pattern-analysis">Phase 2: Pattern Analysis</h4>
+<ol>
+<li><strong>Find working examples</strong> — similar working code in the same codebase. If it</li>
+</ol>
+<p>worked before, use <code>git bisect</code> to find the breaking commit (see</p>
+<p><code>references/tool-guides.md</code>).</p>
+<ol>
+<li><strong>Compare systematically</strong> — list every difference between working and broken</li>
+</ol>
+<p>code. No matter how small. Resist assuming &quot;that can&#x27;t matter.&quot;</p>
+<ol>
+<li><strong>Read reference docs completely</strong> — official documentation for the library,</li>
+</ol>
+<p>API, or framework involved. Don&#x27;t skim — read the full relevant section.</p>
+<ol>
+<li><strong>Check known issues</strong> — GitHub Issues, changelogs, migration guides. Someone</li>
+</ol>
+<p>may have hit the same bug. Search with the exact error message.</p>
+<p>When the bug depends on third-party library/API/framework behavior, current</p>
+<p>error workarounds, upstream issues, changelogs, or migration guides, read the</p>
+<p>active <code>search</code> skill and follow its source-fetch and evidence-status rules</p>
+<p>before treating external material as proof.</p>
+<h4 id="phase-3-hypothesis-and-testing">Phase 3: Hypothesis and Testing</h4>
+<ol>
+<li><strong>List competing hypotheses first</strong> — write at least three plausible root-cause</li>
+</ol>
+<p>hypotheses before investigating any single one. Include the evidence that would</p>
+<p>support or reject each hypothesis. If fewer than three are plausible, state why.</p>
+<ol>
+<li><strong>State the leading hypothesis explicitly</strong> — &quot;X is the root cause because</li>
+</ol>
+<p>evidence Y shows Z.&quot; If you can&#x27;t articulate it clearly, you don&#x27;t understand</p>
+<p>it yet.</p>
+<ol>
+<li><strong>Design a test to disprove</strong> — falsification is stronger than confirmation.</li>
+</ol>
+<p>What would you expect to see if your hypothesis is wrong?</p>
+<ol>
+<li><strong>Test one variable</strong> — smallest possible change, one variable at a time.</li>
+</ol>
+<p>Never fix multiple things at once.</p>
+<ol>
+<li><strong>If it fails</strong> → move to another listed hypothesis. Revert the failed change and</li>
+</ol>
+<p>start from clean state. Stacking fixes obscures the root cause.</p>
+<ol>
+<li><strong>Keep the rejection record</strong> — preserve rejected hypotheses and the evidence</li>
+</ol>
+<p>that rejected them. The final report must include them, not just the winning cause.</p>
+<ol>
+<li><strong>Admit ignorance</strong> — &quot;I don&#x27;t understand X&quot; is a valid finding. Research</li>
+</ol>
+<p>further rather than guessing. Record the open question explicitly.</p>
+<h4 id="phase-4-implementation">Phase 4: Implementation</h4>
+<ol>
+<li><strong>Write a failing test first</strong> — the test reproduces the bug. It should fail</li>
+</ol>
+<p>before the fix. Use <code>dev-testing</code> for TDD patterns and test harness setup.</p>
+<ol>
+<li><strong>Make the minimal fix</strong> — address the root cause, not symptoms. One logical</li>
+</ol>
+<p>change only.</p>
+<ol>
+<li><strong>Verify</strong>: the test passes, no regressions (run the full test suite:</li>
+</ol>
+<p><code>npm test</code> / <code>pytest</code> / equivalent).</p>
+<ol>
+<li><strong>Check for similar patterns</strong> — does the same bug class exist elsewhere in</li>
+</ol>
+<p>the codebase? Search for it. Fix all instances, not just the one you found.</p>
+<ol>
+<li><strong>Document</strong> — final report and commit message explain root cause AND fix,</li>
+</ol>
+<p>including rejected hypotheses and rejection evidence. Not &quot;fixed bug&quot;</p>
+<p>but &quot;fix: race condition in session middleware caused by missing await on</p>
+<p>Redis write.&quot;</p>
+<p>---</p>
+<h3 id="red-flags-return-to-phase-1">Red Flags — Return to Phase 1</h3>
+<p>If you catch yourself doing any of these, pause — root cause investigation</p>
+<p>was likely skipped.</p>
+<table class="rules"><tbody>
+<tr><th>Red Flag</th><th>Why It Fails</th></tr>
+<tr><th>&quot;Quick fix for now, investigate later&quot;</th><th>First fix sets the pattern. Tech debt compounds. You won&#x27;t investigate later.</th></tr>
+<tr><th>&quot;Just try changing X and see&quot;</th><th>Guessing guarantees rework. You&#x27;ll be back here within the hour.</th></tr>
+<tr><th>&quot;Add multiple changes, run tests&quot;</th><th>Can&#x27;t isolate cause if multiple variables changed. Revert, change ONE thing.</th></tr>
+<tr><th>&quot;It&#x27;s probably X, let me fix that&quot;</th><th>&quot;Probably&quot; without evidence = Phase 1 not done. Go back and trace it.</th></tr>
+<table class="rules"><tbody>
+<tr><th>&quot;I don&#x27;t fully understand but this might work&quot;</th><th>Seeing symptoms ≠ understanding root cause. Your &quot;fix&quot; hides the real bug.</th></tr>
+<tr><th>&quot;One more fix attempt&quot; (after repeated failures)</th><th>After repeated failures, pause and reassess architecture/assumptions. See escalation below.</th></tr>
+<tr><th>&quot;It works on my machine&quot;</th><th>Reproduce in the SAME environment as the failure. Local success proves nothing.</th></tr>
+<tr><th>&quot;Let me add a try/catch around it&quot;</th><th>Suppressing errors is not fixing them. Find WHY it throws.</th></tr>
+</tbody></table>
+<p><strong>Repeated Failure Rule</strong>: After repeated failed fix attempts, pause entirely.</p>
+<p>Each fix revealing a new problem in a different place is a sign of</p>
+<p><strong>architectural issues</strong>, not simple bugs. Discuss with the user before</p>
+<p>attempting more fixes.</p>
+<p>---</p>
+<h3 id="slop-debugging-patterns">Slop Debugging Patterns</h3>
+<p>Slop debugging is spray-and-pray: guess, patch, pray, repeat.</p>
+<table class="rules"><tbody>
+<tr><th>Instead of…</th><th>Use…</th></tr>
+<tr><th>Proposing fixes before investigation</th><th>Complete Phase 1 checklist first</th></tr>
+<tr><th>&quot;Might be X&quot; without evidence</th><th>&quot;Evidence shows X because [log/trace/diff]&quot;</th></tr>
+<tr><th>Multiple simultaneous changes</th><th>One change at a time, revert between attempts</th></tr>
+<tr><th>Skimming stack traces</th><th>Read every line of stack trace, note line numbers</th></tr>
+<table class="rules"><tbody>
+<tr><th>Silent <code>catch</code> blocks that suppress errors</th><th>Log with context (<code>[module] error.message</code>), re-throw or handle</th></tr>
+<tr><th>Modifying failing tests to pass</th><th>Fix the code, not the test — a failing test is evidence</th></tr>
+<tr><th>Claiming &quot;fixed&quot; without running verification</th><th>Run full test suite, show green output, verify the original symptom</th></tr>
+<tr><th>Copy-pasting a fix without understanding</th><th>Understand why the fix works, then adapt to your codebase</th></tr>
+<tr><th>Suppressive try/catch (catch-and-ignore, catch-and-return-null)</th><th>Fix at the source. Boundary catch with logging/re-throw is fine — see dev-architecture §4.</th></tr>
+<table class="rules"><tbody>
+<tr><th>Guessing at types, nulls, or undefined values</th><th>Add diagnostic logging, inspect actual runtime values</th></tr>
+<tr><th>&quot;It works now&quot; after changing something unrelated</th><th>Correlation ≠ causation — revert the change and test again</th></tr>
+<tr><th>Letting an AI auto-repair loop (test healer, auto-fix) mask the defect</th><th>Agentic repair aids run only AFTER root cause is understood; keep the failing repro as evidence</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="concrete-debugging-scenarios">Concrete Debugging Scenarios</h3>
+<h4 id="scenario-a-api-returns-500">Scenario A: API Returns 500</h4>
+<p>Root cause pattern: Missing input validation lets undefined values propagate into business logic. Instrument controller/service/repository boundaries to find where the bad value enters. Compare with a working endpoint that validates input with a schema. Fix: add schema validation at the entry point, write a test that sends invalid input and expects 400.</p>
+<p>Worked example:</p>
+<pre><code>curl -i -X POST http://localhost:3000/api/orders \
+  -H &#x27;content-type: application/json&#x27; \
+  -d &#x27;{&quot;sku&quot;:&quot;book-1&quot;}&#x27;</code></pre>
+<p>Observed failure:</p>
+<pre><code>HTTP/1.1 500 Internal Server Error
+TypeError: Cannot read properties of undefined (reading &#x27;toFixed&#x27;)
+    at calculateTotal (src/orders/service.ts:42:21)
+    at createOrder (src/orders/controller.ts:27:18)</code></pre>
+<p>Competing hypotheses before narrowing:</p>
+<ol>
+<li>Request validation allows missing <code>quantity</code>.</li>
+<li>Controller mapping drops <code>quantity</code> before service call.</li>
+<li>Repository returns an order row with <code>quantity = null</code>.</li>
+</ol>
+<p>Boundary instrumentation:</p>
+<pre><code>DEBUG=orders:* npm run dev
+curl -s -X POST http://localhost:3000/api/orders \
+  -H &#x27;content-type: application/json&#x27; \
+  -d &#x27;{&quot;sku&quot;:&quot;book-1&quot;}&#x27; | jq .</code></pre>
+<p>Sample log output:</p>
+<pre><code>orders:controller input {&quot;sku&quot;:&quot;book-1&quot;}
+orders:controller mapped {&quot;sku&quot;:&quot;book-1&quot;}
+orders:service input {&quot;sku&quot;:&quot;book-1&quot;}
+orders:repository skipped insert due service error</code></pre>
+<p>Rejections: repository-null is rejected because the repository is never reached.</p>
+<p>Controller-drop is rejected because controller input already lacks <code>quantity</code>.</p>
+<p>Root cause: entry validation accepts a payload missing a required domain field.</p>
+<p>Fix at the entry boundary: schema rejects missing <code>quantity</code>; regression test posts</p>
+<p>the same payload and expects HTTP 400 with a stable <code>error.code</code>.</p>
+<h4 id="scenario-b-react-hydration-mismatch">Scenario B: React Hydration Mismatch</h4>
+<p>Root cause pattern: Server renders a value (e.g., date, locale string) that differs from client-side rendering due to environment differences (UTC vs. local timezone). Compare with components that defer environment-dependent rendering to useEffect. Fix: move environment-dependent formatting into a client component.</p>
+<h4 id="scenario-c-n-1-query-performance">Scenario C: N+1 Query Performance</h4>
+<p>Root cause pattern: List endpoint lazy-loads related records per item (1 query + N queries). Enable query logging to count queries, then compare with an endpoint that uses eager loading. Fix: add include/joinedload, write a test asserting bounded query count.</p>
+<h4 id="scenario-d-flaky-test-intermittent-failure">Scenario D: Flaky Test (Intermittent Failure)</h4>
+<p>Root cause pattern: Test passes in isolation but fails in suite due to shared mutable state (database rows, global variables, uncleared mocks). Compare with stable tests that use transaction rollback in beforeEach/afterEach. Fix: add proper test isolation, then search for other tests missing cleanup.</p>
+<p>---</p>
+<h3 id="when-to-escalate-vs-when-to-keep-digging">When to Escalate vs When to Keep Digging</h3>
+<h4 id="keep-digging-when">Keep Digging When:</h4>
+<ul>
+<li>You have untested hypotheses from Phase 2</li>
+<li>You haven&#x27;t read the full error message or stack trace</li>
+<li>You haven&#x27;t checked recent changes (<code>git log</code>, <code>git diff</code>)</li>
+<li>You haven&#x27;t found working comparison code yet</li>
+<li>The bug is in YOUR code (not a third-party library)</li>
+<li>You still have untested approaches to try</li>
+</ul>
+<h4 id="escalate-when">Escalate When:</h4>
+<ul>
+<li><strong>Repeated fix attempts failed</strong> — likely architectural; needs human judgment</li>
+<li><strong>Undocumented library behavior</strong> — file an issue upstream, work around it</li>
+<li><strong>Environment-specific</strong> — requires access you don&#x27;t have (prod DB, cloud IAM)</li>
+<li><strong>Security-sensitive</strong> — don&#x27;t debug auth/crypto/payment alone; flag for human review</li>
+<li><strong>Multi-team dependency</strong> — bug is in another team&#x27;s service or API contract</li>
+<li><strong>Stalled</strong>: if investigation stalls, reassess approach</li>
+</ul>
+<h4 id="how-to-escalate-well">How to Escalate Well</h4>
+<p>Don&#x27;t just say &quot;I&#x27;m stuck.&quot; Provide: <strong>symptom</strong> (exact error), **reproduction</p>
+<p>steps<strong>, </strong>evidence gathered<strong> (logs, traces, bisect results), </strong>hypotheses</p>
+<p>tested<strong> (including rejected hypotheses and rejection evidence), </strong>remaining hypotheses** (untested),</p>
+<p>and a <strong>recommendation</strong> for next steps.</p>
+<p>---</p>
+<h3 id="post-mortem-discipline">Post-Mortem Discipline</h3>
+<p>After resolving any bug that:</p>
+<ul>
+<li>Was user/customer-impacting</li>
+<li>Took &gt;1 hour to diagnose</li>
+<li>Involved 3+ failed fix attempts (per postmortem-template.md)</li>
+<li>Revealed a systemic issue (same bug class exists elsewhere)</li>
+</ul>
+<p>Fill out <code>references/postmortem-template.md</code> and include it in the PR or commit.</p>
+<p>The goal is <strong>learning, not blame</strong>. Every postmortem must produce at least one</p>
+<p>action item that prevents the same class of bug from recurring.</p>
+<p>---</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/methodologies.md</code></th><th>When choosing a debugging approach</th><th>Five Whys, bisection, differential diagnosis, subtraction, rubber duck, systematic logging</th></tr>
+<tr><th><code>references/async-debugging.md</code></th><th>When debugging concurrency issues</th><th>Race conditions, deadlocks, event loop blocking, promise/callback issues</th></tr>
+<tr><th><code>references/tool-guides.md</code></th><th>When you need stack-specific debugger commands</th><th>Node.js inspector, Python pdb/debugpy, Chrome DevTools, git bisect, database EXPLAIN</th></tr>
+<tr><th><code>references/postmortem-template.md</code></th><th>After resolving a significant incident</th><th>Blameless postmortem template with filled example</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="integration-with-other-skills">Integration with Other Skills</h3>
+<table class="rules"><tbody>
+<tr><th>Skill</th><th>Relationship</th></tr>
+<tr><th><code>dev</code> §2</th><th>Summary of this methodology. This skill is the full version.</th></tr>
+<tr><th><code>dev-testing</code></th><th>Phase 4 &quot;write failing test first&quot; → use <code>dev-testing</code> for test patterns and harness. <code>dev-testing</code> provides the tooling; this skill provides the thinking.</th></tr>
+<tr><th><code>dev-backend</code></th><th>Server-side debugging context: API errors, database issues, middleware chains.</th></tr>
+<tr><th><code>dev-frontend</code></th><th>Client-side debugging context: hydration, rendering, DevTools, layout shifts.</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>dev-code-reviewer</code></th><th>Code review catches bugs before they ship — prevention beats debugging.</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="security-sensitive-bugs">Security-Sensitive Bugs</h3>
+<p>For security-sensitive bugs (auth bypass, data leak, injection), follow the incident response in <code>dev-security/SKILL.md</code> before applying a fix.</p>
+<p>---</p>
+<h3 id="compact-summary">Compact Summary</h3>
+<p>When context is limited, preserve: (1) Phase 0 — is it a bug or a design problem?,</p>
+<p>(2) Core principle — no fixes without root cause,</p>
+<p>(3) phases 0-4 — architecture check → investigate → analyze → hypothesize → implement,</p>
+<p>(4) Repeated Failure Rule — after repeated failures, reassess, (5) one variable at a time,</p>
+<p>(6) evidence over intuition, (7) failing test first.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-debugging-async-debugging.html">Async Debugging Reference</a></li>
+<li><a href="../../pages/skills/dev-debugging-methodologies.html">Debugging Methodologies Reference</a></li>
+<li><a href="../../pages/skills/dev-debugging-postmortem-template.html">Blameless Postmortem Template</a></li>
+<li><a href="../../pages/skills/dev-debugging-tool-guides.html">Debugging Tool Reference</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

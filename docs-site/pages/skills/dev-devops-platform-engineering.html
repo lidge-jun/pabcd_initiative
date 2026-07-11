@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Platform Engineering — DevOps Capability Routing — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Platform Engineering — DevOps Capability Routing</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/platform-engineering.md</p>
+<h2 id="platform-engineering-devops-capability-routing">Platform Engineering — DevOps Capability Routing</h2>
+<p>Last reviewed: 2026-06-21</p>
+<p>Applies to: DevOps capability refresh, platform guardrails, DORA metrics, provider routing, agent automation</p>
+<p>When to read: Broad DevOps refresh, platform engineering decisions, provider-spanning CI/CD/IaC/SRE work</p>
+<p>Canonical owner: dev-devops platform and capability routing</p>
+<p>---</p>
+<h3 id="1-purpose">§1 Purpose</h3>
+<p>Use this reference to route broad DevOps work by capability instead of dumping</p>
+<p>vendor snippets into <code>dev-devops/SKILL.md</code>. Keep the main skill lightweight and</p>
+<p>load detailed references only when the task needs them.</p>
+<h3 id="2-capability-map">§2 Capability Map</h3>
+<table class="rules"><tbody>
+<tr><th>Capability</th><th>Read first</th><th>Evidence to collect</th></tr>
+<tr><th>Continuous integration</th><th><code>dev-testing/references/ci-pipeline.md</code></th><th>lint/type/test/contract/e2e order, artifacts, matrix reasoning</th></tr>
+<tr><th>Continuous delivery/deployment</th><th><code>ci-cd-deploy.md</code></th><th>environments, approvals, rollback, smoke, progressive strategy</th></tr>
+<tr><th>Package release</th><th><code>package-release.md</code></th><th>auth model, provenance, install smoke, token fallback reason</th></tr>
+<tr><th>Cross-platform release</th><th><code>cross-platform-release.md</code></th><th>CI matrix proof and target OS/local proof gaps</th></tr>
+<table class="rules"><tbody>
+<tr><th>Infrastructure as Code</th><th><code>iac.md</code></th><th>state boundary, module ownership, plan/apply gate, drift detection</th></tr>
+<tr><th>Containers</th><th><code>docker.md</code></th><th>base pinning, scan, SBOM, signing, private install secret handling</th></tr>
+<tr><th>Kubernetes</th><th><code>kubernetes.md</code></th><th>Gateway API, rollout, HPA/VPA/PDB, GitOps boundary</th></tr>
+<tr><th>SRE/operations</th><th><code>sre-foundations.md</code></th><th>SLO, burn-rate alert, incident role, recovery evidence</th></tr>
+<tr><th>Supply chain / SLSA</th><th><code>dev-security/references/supply-chain-sbom.md</code></th><th>SBOM, signing, provenance, dependency audit, verification policy</th></tr>
+</tbody></table>
+<h3 id="3-dora-metrics-use">§3 DORA Metrics Use</h3>
+<p>DORA metrics are diagnostic signals, not universal targets.</p>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>Use as</th><th>Avoid</th></tr>
+<tr><th>Change lead time</th><th>Bottleneck detector from commit to production</th><th>Forcing every repo to the same target</th></tr>
+<tr><th>Deployment frequency</th><th>Release-flow health signal</th><th>Treating more deployments as always better</th></tr>
+<tr><th>Failed deployment recovery time</th><th>Recovery and rollback capability check</th><th>Ignoring incident severity/context</th></tr>
+<tr><th>Change fail rate</th><th>Quality and release-risk signal</th><th>Blaming individuals for systemic failure</th></tr>
+<table class="rules"><tbody>
+<tr><th>Deployment rework rate</th><th>Rework/rollback friction signal</th><th>Counting without action items</th></tr>
+</tbody></table>
+<p>When applying DORA, name the project type, release cadence, risk class, and</p>
+<p>operational owner before recommending changes.</p>
+<h3 id="4-platform-engineering-guardrails">§4 Platform Engineering Guardrails</h3>
+<p>Good internal platforms create paved roads without hiding ownership.</p>
+<table class="rules"><tbody>
+<tr><th>Guardrail</th><th>Rule</th></tr>
+<tr><th>Reusable workflows</th><th>Provide defaults, but allow explicit project inputs</th></tr>
+<tr><th>Golden paths</th><th>Include build, test, scan, publish, deploy, rollback, and smoke proof</th></tr>
+<tr><th>Secrets</th><th>Prefer OIDC/federation or short-lived tokens; require justification for long-lived secrets</th></tr>
+<tr><th>Observability</th><th>Emit deploy markers, release metadata, and failure artifacts</th></tr>
+<table class="rules"><tbody>
+<tr><th>Agent automation</th><th>Agents may generate config, but must collect proof and surface human decisions</th></tr>
+<tr><th>Escape hatches</th><th>Document when a project may opt out and what evidence replaces the default</th></tr>
+</tbody></table>
+<p>AI-assisted DevOps amplifies existing system dynamics. Strengthen platform</p>
+<p>guardrails, evidence bundles, and rollback paths before increasing automation.</p>
+<h3 id="5-provider-route-rows">§5 Provider Route Rows</h3>
+<p>Keep provider notes table-only unless a task asks for provider-specific depth.</p>
+<table class="rules"><tbody>
+<tr><th>Provider/platform</th><th>Route</th><th>Do not confuse with</th></tr>
+<tr><th>GitHub Actions</th><th>OIDC, environments, reusable workflows, GitHub Packages</th><th>Registry-native trusted publishing unless the registry supports it</th></tr>
+<tr><th>GitLab CI/CD</th><th>Auto DevOps, review apps, security scanning, environments</th><th>GitHub-only workflow syntax</th></tr>
+<tr><th>Azure DevOps / Azure</th><th>Workload identity federation, environments, ACR</th><th>Generic registry OIDC</th></tr>
+<tr><th>AWS</th><th>IAM OIDC federation, ECR, deployment roles, IaC state</th><th>Long-lived AWS keys in CI</th></tr>
+<table class="rules"><tbody>
+<tr><th>Google Cloud</th><th>Workload Identity Federation, Artifact Registry, deploy targets</th><th>Service account keys by default</th></tr>
+<tr><th>Cloudflare/Vercel</th><th>Edge/serverless deployment, previews, environment bindings</th><th>Container/Kubernetes rollout rules</th></tr>
+</tbody></table>
+<h3 id="6-slsa-and-security-handoff">§6 SLSA and Security Handoff</h3>
+<p><code>dev-devops</code> owns collection of release/deploy proof. <code>dev-security</code> owns</p>
+<p>security policy details.</p>
+<p>DevOps proof should record:</p>
+<ul>
+<li>artifact identity and digest/version;</li>
+<li>builder/workflow identity;</li>
+<li>provenance/SBOM/signing status;</li>
+<li>deploy target and rollback path;</li>
+<li>verification commands and artifacts;</li>
+<li>security exceptions and owners.</li>
+</ul>
+<p>Read <code>dev-security/references/supply-chain-sbom.md</code> for SLSA, SBOM, signing,</p>
+<p>dependency audit, and provenance policy instead of duplicating those rules here.</p>
+<h3 id="7-broad-refresh-checklist">§7 Broad Refresh Checklist</h3>
+<p>Before changing broad DevOps guidance:</p>
+<ol>
+<li>Identify the capability being changed.</li>
+<li>Read the canonical reference in the capability map.</li>
+<li>Check whether <code>dev-testing</code> or <code>dev-security</code> is the owner.</li>
+<li>Keep provider examples as table rows unless provider-specific implementation</li>
+</ol>
+<p>is the task.</p>
+<ol>
+<li>Update <code>dev-devops/SKILL.md</code> only as a route, not as a long example host.</li>
+</ol>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

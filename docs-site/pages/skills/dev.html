@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="active">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev/SKILL.md</p>
+<h2 id="dev-common-development-guidelines">Dev — Common Development Guidelines</h2>
+<p>Rules applied to every sub-agent, regardless of role.</p>
+<h3 id="0-0-work-classifier-c0-c5">§0.0 Work Classifier (C0-C5)</h3>
+<p><strong>Classify every task before choosing process depth</strong> (DEV-CLASS-01). The class selects planning, reading, and verification depth — never apply maximum process by default.</p>
+<table class="rules"><tbody>
+<tr><th>Class</th><th>Name</th><th>Signals</th><th>Default Process</th></tr>
+<tr><th>C0</th><th>Trivial Text</th><th>Typo, comment, copy, log string — zero behavior change</th><th>Direct fix + smallest proof (§0.1)</th></tr>
+<tr><th>C1</th><th>Single-File Local</th><th>One file, local behavior, no new abstractions</th><th>Fast path (§0.1) + targeted check</th></tr>
+<tr><th>C2</th><th>Ordinary Product Slice</th><th>Conventional endpoint, form, table, model, list/detail screen, integration touchpoint</th><th>Compact plan + adjacent convention search + focused tests + micro-audit (orchestration mode)</th></tr>
+<tr><th>C3</th><th>Cross-Domain Feature/Refactor</th><th>Multiple modules, public API, shared types, broad behavior</th><th>Compact or full PABCD depending on persistence/risk; employee audit per <code>dev-pabcd</code> Phase Skip conditions</th></tr>
+<table class="rules"><tbody>
+<tr><th>C4</th><th>High-Risk</th><th>Auth, payments, data deletion, migration, release, permission model, security boundary</th><th>Full PABCD (mandatory) + full relevant gates + durable risk/evidence record</th></tr>
+<tr><th>C5</th><th>Research/Ambiguous</th><th>Unclear requirements, ambiguous user value, unknown territory after one §0 clarification round</th><th>Interview/research first (<code>orchestrate I</code>), then reclassify</th></tr>
+</tbody></table>
+<p><strong>Tie-break (DEFAULT):</strong> when signals match two classes, the higher class wins. A conventional route→service→storage slice still counts as C2 even though it spans files; C3&#x27;s &quot;multiple modules&quot; means crossing a module/package boundary beyond that conventional slice.</p>
+<p><strong>C4-promotion triggers override any fast path</strong> (DEV-ESCALATE-01): security, data</p>
+<p>deletion/migration, destructive ops, public contract change, release surface, permission</p>
+<p>model, new dependency/framework. Any of these promotes the <strong>affected part</strong> of the task</p>
+<p>to C4-level care — split it out rather than inflating the whole slice. Promotion alone</p>
+<p>does not force a user question; stopping to ask is required only for rules individually</p>
+<p>classed <strong>ESCALATE</strong> (§0.2). Classifier eval cases: <code>evals/classifier_cases.json</code> —</p>
+<p>run when tuning trigger/classification behavior; track false promotions and demotions separately.</p>
+<h3 id="0-1-patch-fast-path-c0-c1">§0.1 Patch Fast-Path (C0/C1)</h3>
+<p>For <strong>C0/C1 work</strong> (one file, no new abstractions, local behavior — a ≤5-line</p>
+<p>edit is an example, not a limit):</p>
+<ul>
+<li>Skip: §0.5 convention discovery, §1.5 pre-write search, reference file reading</li>
+<li>Keep: §3 verification gate, §4 change documentation — including the numbered</li>
+</ul>
+<p>record doc in the owning implementation unit, mandatory for ALL work</p>
+<p>(UNIT-RESIDENCE-01, <code>dev-pabcd</code> §3.1), §5 safety rules (imports/exports), §7.2 static analysis</p>
+<ul>
+<li>Role skills: read only the SKILL.md routing table — skip references unless the table explicitly routes to one</li>
+</ul>
+<p>This is scope guidance, not an exemption. Conventions visible in the touched file still apply even when proactive discovery is skipped. Promotion is <strong>behavioral</strong>, not territorial: a patch escalates when it can alter an auth/payment/deletion or other DEV-ESCALATE-01 path — not merely because the file lives there. A zero-behavior edit (comment, typo, log string) inside an auth file stays C0; any edit touching executed logic in such a path is not C0/C1 — reclassify and read the relevant reference.</p>
+<h3 id="0-2-rule-classes">§0.2 Rule Classes</h3>
+<p>Every rule in the dev skill family carries one severity class. When unmarked, treat prohibitions (⛔/MUST/NEVER) as STRICT and everything else as DEFAULT.</p>
+<ul>
+<li><strong>STRICT</strong> — always applies; violating it blocks completion (safety, broken builds, secrets).</li>
+<li><strong>DEFAULT</strong> — apply unless a documented, stated reason says otherwise.</li>
+<li><strong>HEURISTIC</strong> — judgment guide; deviation needs no justification, just awareness.</li>
+<li><strong>STYLE_SAMPLE</strong> — illustrative example or preset only. Examples illustrate acceptable</li>
+</ul>
+<p>choices but MUST NOT become universal requirements (DEV-STYLE-SAMPLE-01).</p>
+<ul>
+<li><strong>ESCALATE</strong> — stop and ask the user before proceeding.</li>
+</ul>
+<h3 id="0-3-methodology-overlays-task-tags">§0.3 Methodology Overlays (task_tags)</h3>
+<p>Methodologies are <strong>conditional overlays, never universal</strong>. They activate via dispatch</p>
+<p><code>task_tags</code>, explicit user request, repo convention, or a matching strict trigger — required</p>
+<p>evidence applies only when the strict trigger applies (low-risk/local work uses the smallest</p>
+<p>proof that validates the claim, with the reduced scope stated).</p>
+<table class="rules"><tbody>
+<tr><th>Tag</th><th>Loads</th><th>Strict trigger</th></tr>
+<tr><th><code>tdd</code> / <code>testing</code></th><th>dev-testing</th><th>User/repo enforces TDD, or regression risk</th></tr>
+<tr><th><code>bdd_acceptance</code></th><th>dev-testing, dev</th><th>Ambiguous acceptance behavior</th></tr>
+<tr><th><code>ddd</code> / <code>clean_arch</code> / <code>hexagonal</code> / <code>architecture</code></th><th>dev-architecture, dev-backend</th><th>Real boundary pressure at C3/C4</th></tr>
+<tr><th><code>vertical_slice</code></th><th>dev-architecture, dev-backend, dev-frontend, dev-testing</th><th>Thin end-to-end slice (C2)</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>adr_rfc</code></th><th>dev-architecture, dev-scaffolding</th><th>Significant decision, domain vocabulary, or ADR source-of-truth work</th></tr>
+<tr><th><code>review</code> / <code>code_review</code></th><th>dev-code-reviewer</th><th>Review requested or C3/C4</th></tr>
+<tr><th><code>threat_model</code> / <code>security</code></th><th>dev-security</th><th>C4 security/data/tooling risk</th></tr>
+<tr><th><code>observability</code> / <code>observability_pipeline</code></th><th>dev-backend (+dev-data)</th><th>Production, incident, release, long-lived runtime</th></tr>
+<tr><th><code>debugging</code> / <code>debugging_rca</code></th><th>dev-debugging</th><th>Repeated failure needs root cause</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>migration_backfill</code></th><th>dev-data, dev-backend, dev-testing</th><th>Production or non-trivial data</th></tr>
+<tr><th><code>product_discovery</code> (+<code>_ui</code>)</th><th>dev (+dev-uiux-design)</th><th>Ambiguous behavior/user value/metric/prototype intent</th></tr>
+<tr><th><code>release_cd</code></th><th>dev-testing, dev-backend, dev-scaffolding, dev-devops</th><th>Release/CI/CD surface</th></tr>
+<tr><th><code>devops</code> / <code>infra</code> / <code>deploy</code></th><th>dev-devops</th><th>Container/K8s/IaC/deploy pipeline/SRE</th></tr>
+<tr><th><code>mobile_native</code></th><th>dev-frontend + dev-uiux-design + dev-backend (refs)</th><th>RN/Flutter/Swift/Kotlin native app</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>ml</code> / <code>ai</code> / <code>llm</code> / <code>rag</code></th><th>dev-backend + dev-data + dev-testing (+dev-devops)</th><th>ML serving, RAG, pipeline, evaluation</th></tr>
+<tr><th><code>frontend_ui</code></th><th>dev-frontend + dev-uiux-design</th><th>UI/design intent or runnable prototype variant work</th></tr>
+<tr><th><code>crud_fullstack</code></th><th>dev-backend, dev-frontend, dev-testing</th><th>Boss/direct planning signal only — when delegating, prefer split roles</th></tr>
+</tbody></table>
+<p>Tags are normalized <code>task_tags</code>, <strong>not</strong> employee <code>role</code> values; the execution role stays</p>
+<p><code>frontend|backend|data|docs</code> (PROMPT-ROUTING-01).</p>
+<p>The boss sets <code>task_tags</code> at dispatch. With no tags, only strict triggers (self-assessed</p>
+<p>by the employee, reduced scope stated) activate overlays — legacy dispatches without the</p>
+<p>field behave identically. <code>task_tags</code> must be an array; a bare string is coerced to a</p>
+<p>single tag, and unknown tags are surfaced in the prompt, not silently dropped.</p>
+<h4 id="ordinary-product-reference-on-demand">Ordinary product reference (on-demand)</h4>
+<p>For C2 ordinary product slices, the recipe lives in</p>
+<p><code>references/product/crud-product-development.md</code> — read it when building a conventional</p>
+<p>feature slice, not for every task.</p>
+<h3 id="0-4-workflow-modes">§0.4 Workflow Modes</h3>
+<p>The same rules flex by execution mode — know which one you are in:</p>
+<p>ordinary chat (direct work, C0-C2 typical) · strict PABCD (<code>orchestrate P/A/B/C/D</code>) ·</p>
+<p>goal mode (self-advancing gates, evidence-backed checkpoints) · isolated employee</p>
+<p>(read-only verifier by default) · mutable employee (<code>--mutable</code>, scoped writes) ·</p>
+<p>read-only review (no mutation, findings only) · docs-only work (no code gates, docs</p>
+<p>consistency checks instead).</p>
+<p>In goal mode, multi-phase / &quot;loop&quot;/&quot;루프&quot; work runs one FULL PABCD cycle per work-phase</p>
+<p>(depth scaled by §0.0 class); after D, re-enter P for the next work-phase. Classify EACH</p>
+<p>work-phase independently — C0-C1 fast-path applies to that work-phase&#x27;s class, not the</p>
+<p>whole goal. Do each PABCD-phase&#x27;s real work; never rubber-stamp a phase to advance.</p>
+<p>Work-phases chain HETEROGENEOUS units: a completely different feature or &quot;the next</p>
+<p>plan&quot; is simply the next cycle at P in the SAME session (LOOP-UNIT-CHAIN-01,</p>
+<p><code>dev-pabcd</code> §5/§11.6) — &quot;needs its own PABCD&quot; never means ending the goal or waiting</p>
+<p>for a new session.</p>
+<p><strong>Production surface (shared definition):</strong> deployed for real users beyond the author;</p>
+<p>prototypes, spikes, and internal demos are not. Skills that scope rules to</p>
+<p>&quot;production-surface&quot; concerns condition on this definition.</p>
+<h3 id="companion-skills">Companion Skills</h3>
+<p>This skill covers universal guidelines. <strong>STRICT (DEV-ROUTE-01):</strong> for domain-specific work, also read the matching role skill&#x27;s <code>SKILL.md</code> before writing code in that domain:</p>
+<table class="rules"><tbody>
+<tr><th>Skill File</th><th>Injected When</th><th>Covers</th></tr>
+<tr><th><code>dev-frontend/SKILL.md</code></th><th><code>role=frontend</code></th><th>UI implementation, responsive, anti-slop</th></tr>
+<tr><th><code>dev-backend/SKILL.md</code></th><th><code>role=backend</code></th><th>API/architecture, data access, ops</th></tr>
+<tr><th><code>dev-data/SKILL.md</code></th><th><code>role=data</code></th><th>Pipelines, data quality, analytics SQL</th></tr>
+<tr><th><code>dev-security/SKILL.md</code></th><th>Security-sensitive code, or <code>security</code>/<code>threat_model</code> task_tags</th><th>OWASP, auth, secrets, supply chain</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>dev-testing/SKILL.md</code></th><th><code>testing</code>/<code>tdd</code> task_tags, or testing phase</th><th>Test strategy, Playwright, contracts, CI</th></tr>
+<tr><th><code>dev-debugging/SKILL.md</code></th><th>Debugging phase (phase 4)</th><th>Root-cause method, instrumentation</th></tr>
+<tr><th><code>dev-code-reviewer/SKILL.md</code></th><th>Any agent, during code review</th><th>Review process, severity, antipatterns</th></tr>
+<tr><th><code>dev-architecture/SKILL.md</code></th><th>Module boundary work, dependency analysis</th><th>Cycles, coupling, barrels, validation placement</th></tr>
+<tr><th><code>dev-uiux-design/SKILL.md</code></th><th>Vague design direction, UX state patterns</th><th>Intent discovery, design vocabulary, UX states</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>dev-scaffolding/SKILL.md</code></th><th>New project/feature setup, structural audit, docs generation</th><th>Lidge Standard, colocation, devlog</th></tr>
+<tr><th><code>dev-pabcd/SKILL.md</code></th><th>Orchestrated multi-phase development</th><th>PABCD phases, gates, attestation</th></tr>
+</tbody></table>
+<h4 id="skill-ownership-map">Skill Ownership Map</h4>
+<p>Each rule area has exactly one canonical owner. Other skills may contain stubs but MUST NOT duplicate canonical content.</p>
+<table class="rules"><tbody>
+<tr><th>Rule Area</th><th>Canonical Owner</th><th>Stub Locations</th></tr>
+<tr><th>Circular dependencies</th><th>dev-architecture</th><th>dev, dev-code-reviewer</th></tr>
+<tr><th>Module boundaries / layers</th><th>dev-architecture</th><th>dev-backend, dev-frontend</th></tr>
+<tr><th>Coupling taxonomy</th><th>dev-architecture</th><th>dev-code-reviewer</th></tr>
+<tr><th>Barrel / re-export</th><th>dev-architecture</th><th>dev-scaffolding</th></tr>
+<table class="rules"><tbody>
+<tr><th>Pre-write search</th><th>dev §1.5</th><th>dev-code-reviewer</th></tr>
+<tr><th>Edge-first testing</th><th>dev-testing §6</th><th>—</th></tr>
+<tr><th>Test-induced defense</th><th>dev-testing §6.7</th><th>dev-code-reviewer</th></tr>
+<tr><th>Boundary-only defense</th><th>dev-architecture §4</th><th>dev-backend, dev-security</th></tr>
+<tr><th>Process isolation</th><th>dev-backend refs/</th><th>dev-code-reviewer</th></tr>
+<table class="rules"><tbody>
+<tr><th>Code quality signals / antipatterns</th><th>dev-code-reviewer §3</th><th>dev §6</th></tr>
+<tr><th>Long-lived connections (server lifecycle)</th><th>dev-backend §1</th><th>dev-frontend</th></tr>
+<tr><th>Browser connection budgets</th><th>dev-frontend refs/performance-budget</th><th>—</th></tr>
+<tr><th>Async task queue</th><th>dev-backend §2</th><th>—</th></tr>
+<tr><th>Debugging methodology</th><th>dev-debugging</th><th>dev-code-reviewer</th></tr>
+<table class="rules"><tbody>
+<tr><th>Data pipeline patterns</th><th>dev-data</th><th>dev-backend</th></tr>
+<tr><th>Design intent discovery</th><th>dev-uiux-design</th><th>dev-frontend</th></tr>
+<tr><th>Project scaffolding / docs</th><th>dev-scaffolding</th><th>dev-pabcd</th></tr>
+<tr><th>Orchestration workflow</th><th>dev-pabcd</th><th>—</th></tr>
+</tbody></table>
+<p>When updating a rule, update the canonical owner first, then verify stubs still point correctly.</p>
+<p><strong>When your task spans multiple domains</strong>, read each relevant skill file before starting.</p>
+<p>---</p>
+<h3 id="family-invariants-apply-to-every-dev-skill">Family Invariants (apply to every <code>dev-*</code> skill)</h3>
+<p><strong>FAMILY-SLOP-01 / FAMILY-CITE-01 / FAMILY-PROOF-01:</strong> no filler, placeholders, fake fallbacks, speculative wrappers, or broad defensive clutter without a named boundary reason; code findings, plans, reviews, contradictions, and verification claims cite exact files/lines or command/artifact evidence; no completion claim without fresh proof from the §3 verification gate.</p>
+<p><strong>FAMILY-FRESH-01 (DEFAULT):</strong> version-pinned or time-sensitive claims live in</p>
+<p><code>references/</code> with a Sources row (URL + checked date); routers carry only a</p>
+<p>frontmatter <code>last-verified</code> stamp. Treat claims older than the stamp as re-verify-first.</p>
+<h3 id="documentation-verification-context7">Documentation Verification (Context7)</h3>
+<p>Before using any external library API, verify current syntax via Context7 MCP</p>
+<p>(<code>resolve-library-id</code> → <code>query-docs</code>). <strong>Verify when:</strong> API not verified this session,</p>
+<p>pinned version, uncertain behavior, or a major release in the past 6 months.</p>
+<p><strong>Skip for:</strong> language built-ins, standard library, syntax verified this session.</p>
+<p>If Context7 is unavailable, fall back to web search for official docs — never rely</p>
+<p>on training data alone for library-specific APIs.</p>
+<h4 id="external-current-evidence">External/current evidence</h4>
+<p>For current versions, release notes, CVEs, package/source checks, or provider behavior,</p>
+<p>read the active <code>search</code> skill and follow its query-rewrite, source-fetch, and</p>
+<p>evidence-status rules. Sub-agents are bound by this policy too — include it in dispatch prompts.</p>
+<p>---</p>
+<h3 id="0-intent-clarification">0. Intent Clarification</h3>
+<p>When a request has <strong>ambiguous scope or unspecified technology</strong>, clarify before coding;</p>
+<p>skip entirely when tech and scope are already clear.</p>
+<ul>
+<li>Present 2-3 options as <code>&lt;TechName&gt; — &lt;plain explanation&gt;</code> with project-relevant</li>
+</ul>
+<p>pros/cons (⚠️ flag risky ones); recommend one citing project context; user decides.</p>
+<ul>
+<li><strong>Over-engineering guard</strong> + <strong>one confirmation round</strong>: options → recommendation → confirm → move on.</li>
+</ul>
+<p>---</p>
+<h3 id="0-5-repository-convention-discovery">0.5 Repository Convention Discovery</h3>
+<p>Before broad changes, inspect existing conventions: source layout (<code>src/</code>, <code>app/</code>,</p>
+<p><code>packages/</code>), source-of-truth docs (<code>structure/</code>, <code>docs/</code>, <code>adr/</code>, <code>devlog/</code>, <code>plans/</code>),</p>
+<p>agent context files (<code>AGENTS.md</code>, <code>CLAUDE.md</code>, tool instruction files), JS/TS setup</p>
+<p>(<code>package.json</code>, <code>tsconfig*</code>, linter config, sibling extensions), and naming/test/</p>
+<p>phase-document patterns (decade numbering — see <code>dev-pabcd</code>).</p>
+<p>MUST follow existing conventions when they are clear.</p>
+<p>MUST read existing <code>structure/</code>, <code>devlog/</code>, or other source-of-truth logs before broad implementation.</p>
+<p>MUST NOT create <code>structure/</code>, <code>devlog/</code>, <code>AGENTS.md</code>, docs folders, or new tooling silently in an existing repo.</p>
+<p>If the repo is immature/undocumented, propose a lightweight source-of-truth structure and ask before creating it.</p>
+<h4 id="broad-change-preview">Broad Change Preview</h4>
+<p><strong>Broad change</strong> = creates/reorganizes directories, touches 5+ files, spans multiple</p>
+<p>top-level packages, adds a feature/module/service, or adds source-of-truth structure.</p>
+<p>Before one, show: detected signals · compact tree (≤40 lines, omit <code>node_modules</code>/<code>dist</code>/</p>
+<p><code>build</code>/<code>.git</code>) · planned edits (files to create/modify) · convention decision (reuse vs ask).</p>
+<p>---</p>
+<h3 id="1-modular-development">1. Modular Development</h3>
+<p>Give every file, function, and class a single, clear responsibility.</p>
+<p><strong>Hard limits (DEFAULT — exceed only with a stated reason):</strong></p>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>Threshold</th><th>Action</th></tr>
+<tr><th>File length</th><th>&gt;400 lines</th><th>Split into focused modules (canonical owner: dev-architecture §1)</th></tr>
+<tr><th>Function length</th><th>&gt;50 lines</th><th>Extract helper functions</th></tr>
+<tr><th>Class methods</th><th>&gt;20 methods</th><th>Split by responsibility</th></tr>
+<tr><th>Nesting depth</th><th>&gt;4 levels</th><th>Flatten with early returns or extraction</th></tr>
+<table class="rules"><tbody>
+<tr><th>Function parameters</th><th>&gt;5</th><th>Use an options/config object</th></tr>
+<tr><th>PR changeset</th><th>&gt;500 lines</th><th>Split into focused PRs</th></tr>
+</tbody></table>
+<h4 id="blast-radius-limits">Blast Radius Limits</h4>
+<p>One logical change per PR/changeset — unrelated cleanup and drive-by refactors go separately.</p>
+<table class="rules"><tbody>
+<tr><th>Change Scope</th><th>Max Blast Radius</th><th>Exceeds →</th></tr>
+<tr><th>Single bug fix</th><th>1–3 files</th><th>Split fix from cleanup</th></tr>
+<tr><th>Feature addition</th><th>1 module/package</th><th>Separate infra from feature</th></tr>
+<tr><th>Refactoring</th><th>Pre-approved scope only</th><th>Get scope approval first</th></tr>
+<tr><th>Dependency upgrade</th><th>Isolated PR</th><th>Never bundle with features</th></tr>
+</tbody></table>
+<p><strong>Rules:</strong></p>
+<ul>
+<li>Use ES Modules in JS/TS projects — CommonJS <code>require()</code> breaks tree-shaking and static analysis.</li>
+<li>One default export per file when it has a primary purpose (JS/TS convention; other languages follow their idioms).</li>
+<li>Follow existing naming/directory conventions; check sibling files before creating new ones.</li>
+<li>Devlog phase documents use decade-range numbering (00-09 research, 10-19 phase 1, …); never bare <code>PLAN.md</code>/<code>PHASES.md</code>/<code>RCA.md</code> (LEXICO-SPLIT-01). Full convention: <code>dev-pabcd</code>.</li>
+</ul>
+<p>---</p>
+<h3 id="1-5-necessity-gate-pre-write-search-obligation">1.5 Necessity Gate &amp; Pre-Write Search Obligation</h3>
+<p><strong>DEV-NECESSITY-01 (DEFAULT — ponytail discipline, verified 2026-07-02):</strong> before writing</p>
+<p>ANY code, check the no-code options in order — do nothing / delete / configure / reuse —</p>
+<p>and state which you rejected and why. Frame tasks exclusions-first (what NOT to add)</p>
+<p>before the goal. Never lazy about STRICT domains: trust boundaries, data loss, security,</p>
+<p>accessibility.</p>
+<p><strong>Rule:</strong> Before creating a new function, helper, type, component, constant, route, fixture, or module, search the codebase for an existing owner or equivalent implementation. No new abstraction may be introduced without search evidence. This section does not apply on the §0.1 fast path (C0/C1 — no new abstractions are being created).</p>
+<p><strong>Read before editing (DEV-READ-FIRST-01).</strong> Any C2+ edit to existing code reads the target file and its direct caller/consumer when the change crosses a boundary before writing. C0/C1 fast path still applies.</p>
+<table class="rules"><tbody>
+<tr><th>Artifact being created</th><th>Required searches</th><th>Preferred outcome</th></tr>
+<tr><th>Function/helper</th><th>Exact name, verb phrase, domain noun</th><th>Extend existing helper or add next to owner</th></tr>
+<tr><th>Type/interface/schema</th><th>Exact type name and shape fields</th><th>Reuse or extend existing contract</th></tr>
+<tr><th>Component</th><th>UI label, route, component name, feature folder</th><th>Modify owning component</th></tr>
+<tr><th>Constant/magic string</th><th>Literal value and semantic name</th><th>Move to existing constants/contract module</th></tr>
+<table class="rules"><tbody>
+<tr><th>Test fixture/factory</th><th>Fixture factory and existing test data</th><th>Extend shared fixture factory</th></tr>
+<tr><th>Route/API client</th><th>Endpoint path, handler name, client wrapper</th><th>Update both server and client owner</th></tr>
+<tr><th>Config/env flag</th><th>Env var prefix and config module</th><th>Add to central config owner</th></tr>
+</tbody></table>
+<p><strong>Banned patterns:</strong></p>
+<ul>
+<li>Creating <code>utils.ts</code>, <code>helpers.ts</code>, or <code>common.ts</code> without owner search</li>
+<li>Duplicating a type because import path was not obvious</li>
+<li>Creating parallel API clients for the same endpoint</li>
+<li>&quot;I could not find it&quot; without showing search terms</li>
+</ul>
+<p><strong>Search evidence required:</strong> When code is changed, include terms searched, files inspected, reuse decision, and new-code justification in the final response.</p>
+<p>---</p>
+<h3 id="2-systematic-debugging">2. Systematic Debugging</h3>
+<p>Investigate the root cause before applying any fix — guessing compounds rework.</p>
+<p>Full methodology (boundary instrumentation, competing hypotheses, postmortem):</p>
+<p><code>dev-debugging/SKILL.md</code> (canonical owner).</p>
+<p><strong>Emergency stop triggers</strong> — any of these means return to root-cause investigation:</p>
+<p>&quot;quick fix now, investigate later&quot; · &quot;just try changing X&quot; · &quot;don&#x27;t fully understand</p>
+<p>but might work&quot; · proposing solutions before investigating · &quot;one more attempt&quot; after</p>
+<p>2+ failures. <strong>3+ failed fixes = architectural problem</strong>: pause, question the pattern</p>
+<p>itself, and discuss with the user before further fixes.</p>
+<p>---</p>
+<h3 id="3-verification-before-completion-strict">3. Verification Before Completion (STRICT)</h3>
+<p>Verify every completion claim with evidence. Run the relevant command fresh, read full output, and confirm the claim matches.</p>
+<p><strong>Verification gate (before any completion claim):</strong></p>
+<ol>
+<li><strong>Identify</strong> — What command proves this claim?</li>
+<li><strong>Run</strong> — Execute fresh (not cached).</li>
+<li><strong>Read</strong> — Full output. Check exit code. Count failures.</li>
+<li><strong>Confirm</strong> — Does the output actually support the claim?</li>
+<li><strong>Report</strong> — State the claim with evidence attached.</li>
+</ol>
+<p><strong>Per-class verification floor (DEV-VERIFY-FLOOR-01):</strong> C0/C1 use the smallest proof; C2 adds focused integration/contract checks for the touched slice; C3 runs affected suites and contract/docs checks; C4 runs full relevant gates plus negative cases and durable evidence.</p>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Requires</th><th>Not Sufficient</th></tr>
+<tr><th>&quot;Tests pass&quot;</th><th>Test command output: 0 failures</th><th>Previous run, &quot;should pass&quot;</th></tr>
+<tr><th>&quot;Build succeeds&quot;</th><th>Build command: exit 0</th><th>&quot;Linter passed&quot;</th></tr>
+<tr><th>&quot;Bug fixed&quot;</th><th>Original symptom verified resolved</th><th>&quot;Code changed, assumed fixed&quot;</th></tr>
+<tr><th>&quot;Feature complete&quot;</th><th>Each requirement checked line-by-line</th><th>&quot;Tests pass&quot;</th></tr>
+<table class="rules"><tbody>
+<tr><th>&quot;Agent completed&quot;</th><th>VCS diff shows actual changes</th><th>Agent report says &quot;success&quot;</th></tr>
+<tr><th>&quot;Regression test works&quot;</th><th>Red-green cycle verified</th><th>Test passes once</th></tr>
+</tbody></table>
+<p><strong>Agent delegation:</strong> When sub-agents report success, verify independently: check VCS diff → verify changes exist → confirm behavior.</p>
+<p><strong>Long external waits:</strong> don&#x27;t block the turn polling CI/deploys/hosted sessions —</p>
+<p>register a runtime-owned background task/watcher and end the turn (the runtime</p>
+<p>re-invokes you on completion); poll at a sensible interval only when no background</p>
+<p>mechanism exists. Local tests/tsc/builds stay blocking.</p>
+<p><strong>Red flags — unverified claims creeping in:</strong> &quot;should&quot;/&quot;probably&quot;/&quot;seems to&quot; ·</p>
+<p>satisfaction before verification · partial/previous-run evidence · trusting agent</p>
+<p>success reports · &quot;just this once&quot;.</p>
+<p>---</p>
+<h3 id="4-change-documentation">4. Change Documentation</h3>
+<p>When a worklog/changelog file is provided, record one factual entry per changed file:</p>
+<p><code>### [filename] — [reason]</code> with <strong>Changes</strong> (what/why), <strong>Impact</strong> (dependent modules),</p>
+<p>and <strong>Verification</strong> (command + result).</p>
+<p>---</p>
+<h3 id="5-safety-rules">5. Safety Rules</h3>
+<ul>
+<li><strong>Preserve existing exports</strong> — other modules may depend on them. Deprecate first if removal is needed.</li>
+<li><strong>Verify imports exist</strong> before adding <code>import</code> statements. Confirm the target file and export are real.</li>
+<li><strong>Externalize configuration</strong> — use config files or environment variables. Place magic strings and numbers in named constants.</li>
+<li><strong>Handle all async errors explicitly</strong> — surface failures at a clear boundary. In JS/TS backend code, the Result pattern (<code>neverthrow</code>) may replace per-call <code>try/catch</code> when failures are surfaced at a verified boundary (see <code>dev-backend/SKILL.md</code> §3). In other cases, use <code>try/catch</code> and log with context (<code>console.error(&#x27;[module]&#x27;, error.message)</code>).</li>
+<li><strong>Confirm before destructive operations (ESCALATE)</strong> — deleting files, dropping tables, resetting state, or clearing caches require explicit user approval.</li>
+</ul>
+<p>---</p>
+<h3 id="6-code-quality-signals-stub">6. Code Quality Signals (stub)</h3>
+<p>Anti-pattern detection (god class, long method, deep nesting, magic numbers, stringly</p>
+<p>typed, missing boundary error handling, floating promises, copy-paste) is canonically</p>
+<p>owned by <code>dev-code-reviewer/SKILL.md</code> §3 — read it when writing or reviewing code.</p>
+<p>Thresholds mirror §1 hard limits; boundary-error placement follows dev-architecture §4.</p>
+<p>---</p>
+<h3 id="7-type-safety-static-analysis">7. Type Safety &amp; Static Analysis</h3>
+<h4 id="7-0-js-ts-source-file-default">7.0 JS/TS Source File Default</h4>
+<p>New JS/TS source files prefer TypeScript (<code>.ts</code>/<code>.tsx</code>) when the repo supports it or</p>
+<p>is greenfield; use <code>.js</code> only for clearly JS-only repos, build constraints, or explicit</p>
+<p>user request. Never introduce TS tooling, convert existing JS, or change <code>tsconfig</code></p>
+<p>without approval. New TypeScript MUST be strict-compatible from the first patch:</p>
+<p>no implicit <code>any</code> (explicit <code>any</code> needs justification), prefer <code>unknown</code> + narrowing,</p>
+<p>type exported params/returns, handle null/undefined deliberately. Verify with the</p>
+<p>project&#x27;s typecheck (or <code>tsc --noEmit</code>); if strict compatibility can&#x27;t be verified, say so.</p>
+<h4 id="7-1-type-annotations">7.1 Type Annotations</h4>
+<p>Add explicit types to all function signatures, return types, and non-trivial variables.</p>
+<p>TypeScript: <code>strict: true</code>, no implicit <code>any</code> (explicit <code>any</code> needs a justification</p>
+<p>comment). Python: hints on all params/returns. Enable the language&#x27;s strict/pedantic</p>
+<p>mode when one exists. Per-language rules table: <code>references/static-analysis-gate.md</code>.</p>
+<h4 id="7-2-static-analysis-gate">7.2 Static Analysis Gate</h4>
+<p>After every code change, run the project&#x27;s static analysis toolchain as part of the</p>
+<p>verification gate (§3) — zero errors on changed files is the floor. Per-toolchain</p>
+<p>commands and the anti-pattern ↔ lint-rule mapping live in</p>
+<p><code>references/static-analysis-gate.md</code>; check project config for the canonical rule set.</p>
+<p>If no tool is configured, recommend one — but do not add tooling without approval.</p>
+<h4 id="7-3-escape-hatches">7.3 Escape Hatches</h4>
+<p>When bypassing the type system is unavoidable: comment why, scope minimally (narrowest</p>
+<p>cast point), prefer assertion functions over raw casts. TS <code>as unknown as T</code> needs a</p>
+<p>linked issue/TODO; Python <code># type: ignore[code]</code> must name the exact error code.</p>
+<p>---</p>
+<h3 id="8-token-budget-awareness">8. Token Budget Awareness</h3>
+<p><strong>Tiered reference loading:</strong> (1) always read injected skills&#x27; SKILL.md routers;</p>
+<p>(2) read <code>references/</code> files only when the task touches that topic; (3) do not</p>
+<p>preload all references (HEURISTIC) — e.g. a caching task reads <code>caching.md</code> only.</p>
+<p><strong>Sub-agents:</strong> each receives its own copy of injected skills — inject only what</p>
+<p>that sub-task needs.</p>
+<p>---</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-static-analysis-gate.html">Static Analysis Gate — Toolchain Commands &amp; Rule Mapping</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Governance — PII, Masking, Compliance — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Data Governance — PII, Masking, Compliance</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-data/references/governance.md</p>
+<h2 id="data-governance-pii-masking-compliance">Data Governance — PII, Masking, Compliance</h2>
+<p><strong>Last reviewed</strong>: 2026-07-02</p>
+<p>Security and privacy patterns for production data pipelines.</p>
+<p>---</p>
+<h3 id="pii-masking-techniques">PII Masking Techniques</h3>
+<table class="rules"><tbody>
+<tr><th>Technique</th><th>Reversible</th><th>Use Case</th></tr>
+<tr><th><strong>Pseudonymization</strong></th><th>Yes (with mapping)</th><th>Analytics needing re-identification</th></tr>
+<tr><th><strong>Anonymization</strong></th><th>No</th><th>Public datasets, research</th></tr>
+<tr><th><strong>Dynamic masking</strong></th><th>N/A (query-time)</th><th>Production DBs with mixed access levels</th></tr>
+<tr><th><strong>Static masking</strong></th><th>No</th><th>Non-production environments (dev/QA)</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Tokenization</strong></th><th>Yes (separate vault)</th><th>Payment data (PCI-DSS), SSNs</th></tr>
+</tbody></table>
+<p><strong>Rule:</strong> Always use static masking for non-production environments. Never copy production PII to dev/staging.</p>
+<p>---</p>
+<h3 id="gdpr-engineering-patterns">GDPR Engineering Patterns</h3>
+<h4 id="right-to-erasure-article-17">Right to Erasure (Article 17)</h4>
+<pre><code>User deletion request
+→ Soft delete in application DB
+→ Batch purge job (after grace period)
+→ Propagate to all downstream stores:
+  ├── Data warehouse (DELETE or partition drop)
+  ├── Data lake (Delta Lake/Iceberg row-level delete)
+  ├── Search indices (Elasticsearch delete-by-query)
+  ├── Caches (Redis DEL)
+  └── Backups (mark for purge at next rotation)</code></pre>
+<h4 id="consent-aware-pipelines">Consent-Aware Pipelines</h4>
+<ul>
+<li>Check consent flags before processing PII columns</li>
+<li>Different processing paths per consent level</li>
+<li>Store consent as versioned events (not mutable flags)</li>
+</ul>
+<h4 id="data-subject-access-request-dsar">Data Subject Access Request (DSAR)</h4>
+<ul>
+<li>Build export endpoint that collects all user data across systems</li>
+<li>Format: JSON or CSV per GDPR Article 20 (data portability)</li>
+<li>Automate where possible — manual DSAR handling doesn&#x27;t scale</li>
+</ul>
+<p>---</p>
+<h3 id="ccpa-additions">CCPA Additions</h3>
+<table class="rules"><tbody>
+<tr><th>CCPA Requirement</th><th>Difference from GDPR</th><th>Engineering Pattern</th></tr>
+<tr><th>Right to opt-out of sale</th><th>No GDPR equivalent</th><th>Boolean <code>do_not_sell</code> flag on user profile; filter in data sharing pipelines</th></tr>
+<tr><th>Financial incentive disclosure</th><th>No GDPR equivalent</th><th>Metadata on loyalty/discount programs linked to data collection</th></tr>
+<tr><th>12-month lookback</th><th>GDPR has no fixed window</th><th>Retain deletion request logs for 12 months</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="row-level-security-rls">Row-Level Security (RLS)</h3>
+<pre><code>Access Control Hierarchy:
+├── Table-level: Can this role access this table?
+├── Column-level: Which columns visible? (mask PII)
+├── Row-level: Which rows visible? (filter by org_id)
+└── Cell-level: Dynamic masking per field per role</code></pre>
+<p><strong>PostgreSQL RLS example:</strong></p>
+<pre><code>ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+CREATE POLICY org_isolation ON orders
+    USING (org_id = current_setting(&#x27;app.current_org_id&#x27;)::int);</code></pre>
+<p><strong>Snowflake dynamic masking:</strong></p>
+<pre><code>CREATE MASKING POLICY email_mask AS (val STRING) RETURNS STRING -&gt;
+  CASE
+    WHEN CURRENT_ROLE() IN (&#x27;ADMIN&#x27;, &#x27;DATA_STEWARD&#x27;) THEN val
+    ELSE REGEXP_REPLACE(val, &#x27;.+@&#x27;, &#x27;***@&#x27;)
+  END;</code></pre>
+<p>---</p>
+<h3 id="data-retention-policy">Data Retention Policy</h3>
+<table class="rules"><tbody>
+<tr><th>Tier</th><th>Retention</th><th>Storage</th><th>Access Pattern</th></tr>
+<tr><th><strong>Hot</strong></th><th>0-90 days</th><th>Primary warehouse</th><th>Real-time queries</th></tr>
+<tr><th><strong>Warm</strong></th><th>90 days - 2 years</th><th>Archive tables / cold storage</th><th>Occasional queries</th></tr>
+<tr><th><strong>Cold</strong></th><th>2-7 years</th><th>Object storage (S3/GCS) Parquet</th><th>Compliance/audit only</th></tr>
+<tr><th><strong>Purge</strong></th><th>Beyond retention</th><th>Permanently deleted</th><th>N/A</th></tr>
+</tbody></table>
+<p>Automate tiering with lifecycle policies. Tag tables with <code>retention_days</code> and <code>data_classification</code> metadata.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

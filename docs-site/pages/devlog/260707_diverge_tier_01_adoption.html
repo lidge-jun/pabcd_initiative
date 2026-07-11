@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/260707_diverge_tier_01_adoption.md</p>
+<h2 id="diverge-tier-01-adoption-divergence-cost-tiers-2026-07-07">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</h2>
+<h3 id="what">What</h3>
+<p>New §11.8 &quot;Divergence cost tiers (DEFAULT, DIVERGE-TIER-01)&quot; added to</p>
+<p><code>skills/dev-pabcd/references/loop-engineering.md</code> (full text) with a summary</p>
+<p>bullet in the <code>skills/dev-pabcd/SKILL.md</code> §11 router. Router-resident §11.6/§11.7</p>
+<p>got stub headers in the reference file so the &quot;canonical full text&quot; claim stays</p>
+<p>honest.</p>
+<h3 id="why">Why</h3>
+<p>Owner interview (codexclaw, 2026-07-07): with near-unlimited subagents the old</p>
+<p>implicit assumption &quot;subagents are expensive, dispatch sparingly&quot; breaks, but the</p>
+<p>binding constraint becomes wall-clock + collapse-owner triage attention. The</p>
+<p>owner rejected a 3-round agent-roundtable design as cost-inflated; the adopted</p>
+<p>shape is conceptual-first divergence with a rare, criteria-gated implementation</p>
+<p>spike. Distilled from the Fable field-guide unknown-discovery practices</p>
+<p>(conceptual prototypes, blindspot passes) without importing model-specific</p>
+<p>behavior.</p>
+<h3 id="genealogy-evidence">Genealogy / evidence</h3>
+<ul>
+<li>Interview + A-gate audit: codexclaw</li>
+</ul>
+<p><code>devlog/_plan/260707_harness_divergence_interview/000_interview_record.md</code>,</p>
+<p><code>010_plan.md</code>, <code>011_audit_synthesis.md</code> (5 reviewer findings accepted; the</p>
+<p>Tier-1 gate was tightened to include per-candidate provenance so §11.8 never</p>
+<p>relaxes §11.7).</p>
+<ul>
+<li>Fable research: codexclaw <code>devlog/_plan/260707_thariq_fable_youtube_plugin_research/</code></li>
+</ul>
+<p>and <code>260707_codex_rs_native_tooling_research/200_fable_loop_adoption.md</code>.</p>
+<h3 id="ports">Ports</h3>
+<p>Same rule id, runtime-adapted wording, shipped in the same pass:</p>
+<ul>
+<li>cli-jaw <code>skills_ref/dev-pabcd/SKILL.md</code> — inline §11.8 after §11.7 (Boss =</li>
+</ul>
+<p>collapse owner, dispatch employees = explorers).</p>
+<ul>
+<li>jawcode <code>packages/coding-agent/src/prompts/jaw/orchestrate-p.md</code> — compact tier</li>
+</ul>
+<p>clause in the loop-spec header divergence bullet.</p>
+<ul>
+<li>codexclaw <code>plugins/codexclaw/skills/loop/SKILL.md</code> — tier bullets in the</li>
+</ul>
+<p>Emergence/Divergence layer (explorer subagents author Tier-1 docs; minds stay</p>
+<p>interview-time contradiction lenses; front-matter lives in the candidate doc,</p>
+<p>the divergence CLI records the archive row alongside).</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

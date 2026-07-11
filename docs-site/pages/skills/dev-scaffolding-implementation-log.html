@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Implementation Log (devlog) Routine — the documentation loop inside PABCD — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Implementation Log (devlog) Routine — the documentation loop inside PABCD</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-scaffolding/references/implementation-log.md</p>
+<h2 id="implementation-log-devlog-routine-the-documentation-loop-inside-pabcd">Implementation Log (devlog) Routine — the documentation loop inside PABCD</h2>
+<p>Canonical spec for the per-implementation-unit documentation routine that rides the</p>
+<p>PABCD cycle. Companion to <code>dev-pabcd/SKILL.md</code> §3.1 (numbering) and</p>
+<p><code>dev-scaffolding/SKILL.md</code> §2.1 (folder proposal rules). Read before any development</p>
+<p>work: unit residence is universal (UNIT-RESIDENCE-01) — the full routine below is for</p>
+<p>C2+/multi-phase work; C0-C1 leaves a numbered record doc (see the last section).</p>
+<h3 id="the-unit-one-implementation-unit-one-plan-folder">The unit: one implementation unit = one plan folder</h3>
+<pre><code>devlog/
+  _plan/
+    YYMMDD_slug/          ← one implementation unit (not one issue, not one commit)
+      00_plan.md          ← master plan: objective, constraints, work-phase map
+      01_research_*.md    ← research/spec docs (00-09 range)
+      10_phase1_*.md      ← phase 1 design at diff-level precision
+      20_phase2_*.md      ← phase 2 ...
+  _fin/                   ← completed units move here (closure record kept, not deleted)</code></pre>
+<p>Numbering: decade ranges separate concerns — <code>00-09</code> research/specs/MOC, <code>10-19</code></p>
+<p>phase 1, <code>20-29</code> phase 2, and so on. Two-digit (<code>00_</code>, <code>10_</code>) is the default; a repo</p>
+<p>may standardize on three digits (<code>000_</code>, <code>010_</code>) — pick ONE per repo and never mix.</p>
+<p>Never bare semantic filenames (<code>PLAN.md</code>, <code>RCA.md</code>) — the numeric prefix is the</p>
+<p>ordering and the audit trail.</p>
+<h3 id="how-the-routine-rides-pabcd-the-loop">How the routine rides PABCD (the loop)</h3>
+<table class="rules"><tbody>
+<tr><th>Phase</th><th>Documentation action</th><th>Gate</th></tr>
+<tr><th>P</th><th>CONCRETIZE: write <code>00_plan.md</code> (objective, measured baseline, dependency-ordered work-phase map, risks) + research docs <code>01+</code>; decade docs for <strong>EVERY roadmap phase</strong> at <strong>diff-level precision</strong> (exact paths, NEW/MODIFY/DELETE, before/after for MODIFY) — DIFFLEVEL-ROADMAP-01</th><th>plan exists as files, not chat</th></tr>
+<tr><th>A</th><th>AUDIT THE DOCS: an independent reviewer checks the plan docs — paths/signatures real, research coverage complete, phases sized, no ownership violations, no contradictions vs research</th><th>FAIL → fix docs → re-audit</th></tr>
+<tr><th>B</th><th>Implementation cites the doc it executes; deviations are edited back into the doc BEFORE coding past them</th><th>doc and code never diverge silently</th></tr>
+<tr><th>C</th><th>Gate results (commands + tails) recorded into the unit; general SoT docs patched to match the change (SOT-SYNC-01 — recommend creating one if absent)</th><th>evidence lives next to the plan</th></tr>
+<table class="rules"><tbody>
+<tr><th>D</th><th>Attestation/summary appended to <code>00_plan.md</code>; on unit completion the folder moves <code>_plan/</code> → <code>_fin/</code></th><th>durable closure record</th></tr>
+</tbody></table>
+<p>Multi-cycle units: one full PABCD per work-phase; ALL phase design docs are written</p>
+<p>to diff-level in the FIRST P (or the design-only Phase-0 pass) —</p>
+<p>DIFFLEVEL-ROADMAP-01. P of each later cycle re-verifies its pre-written doc against</p>
+<p>the current codebase (stale check) and amends it BEFORE building; it never writes</p>
+<p>the doc fresh mid-unit. The attestation log in <code>00_plan.md</code> is the continuity spine</p>
+<p>— each new P quotes the previous D conclusion from it (see <code>dev-pabcd</code> §10</p>
+<p>LOOP-CONTINUITY-01).</p>
+<h3 id="mapping-to-mainstream-developer-practice-translation-table">Mapping to mainstream developer practice (translation table)</h3>
+<p>This routine is NOT an issue tracker. Issues are the industry&#x27;s unit of *tracking*</p>
+<p>(small, cheap, closable); this is the industry&#x27;s unit of *thinking* — the design-doc</p>
+<p>lineage. Mature orgs run BOTH and link them. If a collaborator says &quot;devlog isn&#x27;t</p>
+<p>standard&quot;, translate:</p>
+<table class="rules"><tbody>
+<tr><th>This routine</th><th>Mainstream equivalent</th></tr>
+<tr><th><code>_plan/YYMMDD_slug/</code> unit folder</th><th>Design doc / RFC per feature (Google design docs, Rust RFCs, PEPs)</th></tr>
+<tr><th><code>00-09</code> research docs</th><th>RFC &quot;Motivation / Prior art&quot; sections</th></tr>
+<tr><th>Diff-level phase docs</th><th>Detailed design; kernel patch-series cover letter</th></tr>
+<tr><th>A-phase doc audit</th><th>Design review / RFC final-comment-period — review BEFORE code</th></tr>
+<table class="rules"><tbody>
+<tr><th>Evidence in C, attestation in D</th><th>CI gate records + review sign-off</th></tr>
+<tr><th><code>_fin/</code> closure record</th><th>Shipped postmortem + changelog entry</th></tr>
+<tr><th>Hard-to-reverse decisions</th><th>ADR (see <code>dev-scaffolding</code> §2.1 — separate, immutable)</th></tr>
+<tr><th>Issue/ticket</th><th>Still useful: one issue per unit LINKING to the folder; sub-issues for tracking granularity</th></tr>
+</tbody></table>
+<p>Two deliberate differences from common practice, kept on purpose:</p>
+<ol>
+<li><strong>Diff-level precision in the plan</strong> — most design docs stop at architecture;</li>
+</ol>
+<p>agents execute better from exact-path plans, and the A audit becomes mechanical.</p>
+<ol>
+<li><strong>Docs gate execution</strong> (A before B) — in many teams design review is advisory;</li>
+</ol>
+<p>here it is a hard gate because the executor (an agent) will otherwise</p>
+<p>confidently build from a flawed plan.</p>
+<h3 id="ceremony-scales-residence-does-not">Ceremony scales; residence does not</h3>
+<p>Every piece of work lands in an implementation unit (UNIT-RESIDENCE-01). The full</p>
+<p>routine above (master plan + all-phase diff-level docs + doc audit) is mandatory for</p>
+<p>C4, for any multi-phase unit regardless of class, and for C3 when state must persist</p>
+<p>across turns/agents or contracts/architecture need a durable audit trail. C0-C1</p>
+<p>fast-path work skips the ceremony but still leaves a numbered record doc in its</p>
+<p>owning unit (what changed · why the fast path applied · verification evidence);</p>
+<p>create a minimal unit folder if none exists. Over-documenting small work is process</p>
+<p>slop — but &quot;small&quot; scales the ceremony down, never the record away.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

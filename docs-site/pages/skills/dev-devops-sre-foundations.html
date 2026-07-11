@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SRE Foundations — SLO, Incident Response, Postmortem — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>SRE Foundations — SLO, Incident Response, Postmortem</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/sre-foundations.md</p>
+<h2 id="sre-foundations-slo-incident-response-postmortem">SRE Foundations — SLO, Incident Response, Postmortem</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: Google SRE principles, 2026 observability practices</p>
+<p>When to read: Production operations, incident response, SLO definition</p>
+<p>Canonical owner: dev-devops §5</p>
+<p>Cross-ref: read <code>platform-engineering.md</code> for DORA metrics and platform</p>
+<p>engineering context before broad DevOps capability refreshes.</p>
+<p>---</p>
+<h3 id="1-slo-sli-design-guide">§1 SLO/SLI Design Guide</h3>
+<h4 id="sli-selection-principles">SLI Selection Principles</h4>
+<p>SLIs measure <strong>user experience</strong>, not infrastructure health.</p>
+<table class="rules"><tbody>
+<tr><th>❌ Wrong SLI</th><th>✅ Right SLI</th></tr>
+<tr><th>CPU utilization &lt; 80%</th><th>Request success rate &gt; 99.9%</th></tr>
+<tr><th>Memory free &gt; 2GB</th><th>p99 latency &lt; 500ms</th></tr>
+<tr><th>Disk IOPS &lt; 5000</th><th>Data freshness &lt; 5 minutes</th></tr>
+<tr><th>Pod restart count &lt; 3</th><th>Error rate &lt; 0.1%</th></tr>
+</tbody></table>
+<h4 id="sli-by-service-type">SLI by Service Type</h4>
+<table class="rules"><tbody>
+<tr><th>Service Type</th><th>Recommended SLIs</th></tr>
+<tr><th>Request-driven (API)</th><th>Availability, latency (p50/p95/p99), error rate</th></tr>
+<tr><th>Pipeline/batch</th><th>Freshness, correctness, throughput</th></tr>
+<tr><th>Storage</th><th>Durability, availability, latency</th></tr>
+<tr><th>Streaming</th><th>Throughput, end-to-end latency, message loss rate</th></tr>
+</tbody></table>
+<h4 id="slo-definition">SLO Definition</h4>
+<pre><code># Example SLO definition (documentation format)
+service: payments-api
+slos:
+  - name: availability
+    sli: &quot;successful requests / total requests&quot;
+    target: 99.9%
+    window: 28 days (rolling)
+    error_budget: 0.1% (≈ 40 minutes/28 days)
+
+  - name: latency
+    sli: &quot;requests completing within 500ms / total requests&quot;
+    target: 99.0%
+    window: 28 days (rolling)
+
+  - name: error-rate
+    sli: &quot;5xx responses / total responses&quot;
+    target: &quot;&lt; 0.1%&quot;
+    window: 28 days (rolling)</code></pre>
+<h4 id="population-definition-checklist">Population Definition Checklist</h4>
+<ul>
+<li>[ ] Which endpoints are included? (all API routes? only customer-facing?)</li>
+<li>[ ] Which regions count? (global or per-region SLO?)</li>
+<li>[ ] How are retries handled? (count each attempt or only final result?)</li>
+<li>[ ] Are health checks excluded from SLI calculation?</li>
+<li>[ ] Are internal/admin endpoints excluded?</li>
+</ul>
+<p>---</p>
+<h3 id="2-error-budget-policy">§2 Error Budget Policy</h3>
+<h4 id="3-stage-policy-template">3-Stage Policy Template</h4>
+<pre><code>┌─────────────────────────────────────────────────┐
+│ NORMAL (budget &gt; 50%)                           │
+│ → Standard release velocity                     │
+│ → Routine monitoring                            │
+│ → Normal on-call rotation                       │
+├─────────────────────────────────────────────────┤
+│ ACCELERATED BURN (budget 20-50%)                │
+│ → Heightened alerting thresholds                │
+│ → Reliability triage before new features        │
+│ → Reduced release frequency                    │
+│ → Team standup includes budget status           │
+├─────────────────────────────────────────────────┤
+│ EXHAUSTED (budget ≤ 0%)                         │
+│ → FEATURE FREEZE (security/bugfix only)         │
+│ → Next sprint: reliability work only            │
+│ → Exception requires VP-level approval          │
+│ → Postmortem mandatory for contributing events  │
+└─────────────────────────────────────────────────┘</code></pre>
+<h4 id="escalation-triggers">Escalation Triggers</h4>
+<table class="rules"><tbody>
+<tr><th>Trigger</th><th>Action</th></tr>
+<tr><th>Single incident consumes &gt;20% budget</th><th>Mandatory postmortem + P1 action items</th></tr>
+<tr><th>Two consecutive window misses</th><th>Structural problem; architecture review</th></tr>
+<tr><th>Budget exhausted for 2+ windows</th><th>Executive escalation; team capacity review</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-burn-rate-alerting">§3 Burn-Rate Alerting</h3>
+<h4 id="multi-window-alert-design">Multi-Window Alert Design</h4>
+<p>Traditional threshold alerts fire too often (alert fatigue) or too late.</p>
+<p>Burn-rate alerts use the SLO itself as the reference.</p>
+<table class="rules"><tbody>
+<tr><th>Alert Type</th><th>Burn Rate</th><th>Time to Exhaust</th><th>Window</th><th>Action</th></tr>
+<tr><th>Fast burn</th><th>14.4×</th><th>~2 hours (of 28-day budget)</th><th>1h long, 5m short</th><th><strong>Page</strong> (wake someone up)</th></tr>
+<tr><th>Slow burn</th><th>6×</th><th>~5 days</th><th>6h long, 30m short</th><th><strong>Ticket</strong> (next business day)</th></tr>
+</tbody></table>
+<h4 id="formula">Formula</h4>
+<pre><code>error_rate = errors / total_requests
+burn_rate = error_rate / (1 - SLO)
+
+Alert fires when:
+  burn_rate(short_window) &gt; threshold
+  AND
+  burn_rate(long_window) &gt; threshold</code></pre>
+<h4 id="prometheus-example">Prometheus Example</h4>
+<pre><code># Fast burn alert (page)
+- alert: PaymentsHighBurnRate
+  expr: |
+    (
+      sum(rate(http_requests_total{service=&quot;payments&quot;,code=~&quot;5..&quot;}[5m]))
+      / sum(rate(http_requests_total{service=&quot;payments&quot;}[5m]))
+    ) &gt; 14.4 * (1 - 0.999)
+    AND
+    (
+      sum(rate(http_requests_total{service=&quot;payments&quot;,code=~&quot;5..&quot;}[1h]))
+      / sum(rate(http_requests_total{service=&quot;payments&quot;}[1h]))
+    ) &gt; 14.4 * (1 - 0.999)
+  for: 2m
+  labels:
+    severity: page
+  annotations:
+    summary: &quot;Payments API burning error budget at 14.4x rate&quot;</code></pre>
+<h4 id="anti-patterns">Anti-Patterns</h4>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Fix</th></tr>
+<tr><th>Alert on every 5xx</th><th>Burn-rate multi-window</th></tr>
+<tr><th>Single-window alert</th><th>Dual-window (short AND long)</th></tr>
+<tr><th>No SLO reference in alert</th><th>Alert threshold derived from SLO</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="4-incident-response-playbook">§4 Incident Response Playbook</h3>
+<h4 id="role-definitions">Role Definitions</h4>
+<table class="rules"><tbody>
+<tr><th>Role</th><th>Responsibilities</th></tr>
+<tr><th>IC (Incident Commander)</th><th>Coordinate response, delegate tasks, make decisions</th></tr>
+<tr><th>Primary Responder</th><th>Diagnose and fix; technical execution</th></tr>
+<tr><th>Comms Lead</th><th>Status updates to stakeholders, status page</th></tr>
+<tr><th>Scribe</th><th>Timeline documentation, action item tracking</th></tr>
+</tbody></table>
+<h4 id="incident-lifecycle">Incident Lifecycle</h4>
+<pre><code>0min   Alert fires → acknowledge
+5min   Declare incident → assign IC → open channel
+10min  IC assigns roles → begin diagnosis
+15min  First status update (S1: every 15min, S2: every 30min)
+N min  Stabilize (mitigation &gt; diagnosis during active incident)
+N+M    Root cause identified → permanent fix planned
+5 days Postmortem completed and shared</code></pre>
+<h4 id="severity-definitions">Severity Definitions</h4>
+<table class="rules"><tbody>
+<tr><th>Severity</th><th>Impact</th><th>Response</th></tr>
+<tr><th>S1</th><th>Full service outage, revenue impact</th><th>IC mandatory, 15min updates, all-hands</th></tr>
+<tr><th>S2</th><th>Major feature broken, significant user impact</th><th>IC recommended, 30min updates</th></tr>
+<tr><th>S3</th><th>Partial degradation, workaround available</th><th>Assignee handles, async updates</th></tr>
+</tbody></table>
+<h4 id="key-principle">Key Principle</h4>
+<p>&gt; <strong>Mitigation first, diagnosis second</strong> during active incidents.</p>
+<p>&gt; Stop the bleeding before understanding the wound.</p>
+<p>---</p>
+<h3 id="5-blameless-postmortem-template">§5 Blameless Postmortem Template</h3>
+<pre><code># Postmortem: [Title]
+
+**Date**: YYYY-MM-DD
+**Severity**: S1/S2/S3
+**Duration**: HH:MM (detect → resolve)
+**IC**: @name
+**Author**: @name
+
+## User Impact
+- Affected: N% of users for M minutes
+- Revenue impact: estimated $X (if applicable)
+- Support tickets: N
+
+## Timeline
+| Time (UTC) | Event |
+|-----------|-------|
+| HH:MM | Alert fired: [alert name] |
+| HH:MM | IC assigned, incident channel opened |
+| HH:MM | Root cause identified: [brief] |
+| HH:MM | Mitigation applied: [action] |
+| HH:MM | Service fully restored |
+
+## Detection Gap
+- How could we have detected this sooner?
+- Was monitoring adequate? What was missing?
+
+## Contributing Factors (NOT &quot;Root Cause&quot;)
+1. [Factor 1]: [description]
+2. [Factor 2]: [description]
+
+## What Went Well
+- [positive aspect of the response]
+
+## What Could Be Improved
+- [improvement area]
+
+## Action Items
+| Item | Owner | Due | Priority |
+|------|-------|-----|----------|
+| Add circuit breaker to payment gateway | @engineer | YYYY-MM-DD | P1 |
+| Improve alert coverage for [gap] | @sre | YYYY-MM-DD | P2 |
+| Update runbook with new failure mode | @oncall | YYYY-MM-DD | P2 |</code></pre>
+<h4 id="postmortem-rules">Postmortem Rules</h4>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>Blameless</th><th>Focus on systems, not individuals</th></tr>
+<tr><th>Timeline accuracy</th><th>Use logs/metrics, not memory</th></tr>
+<tr><th>Action items</th><th>Specific, owned, dated, prioritized</th></tr>
+<tr><th>Follow-through</th><th>Review action items in next team sync</th></tr>
+<table class="rules"><tbody>
+<tr><th>Required for</th><th>All S1, all S2, any event consuming &gt;20% error budget</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="6-anti-patterns">§6 Anti-Patterns</h3>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<table class="rules"><tbody>
+<tr><th>Infrastructure-only SLIs</th><th>&quot;Server CPU is fine&quot; while users see errors</th><th>User-experience-based SLIs</th></tr>
+<tr><th>SLO without consequences</th><th>SLO exists on paper but nobody acts on breaches</th><th>Error budget policy with freeze gate</th></tr>
+<tr><th>Too many SLIs (&gt;5/service)</th><th>Dashboard overload, unclear priority</th><th>2-4 meaningful SLIs per service</th></tr>
+<tr><th>Page on every deviation</th><th>Alert fatigue, ignored alerts</th><th>Burn-rate multi-window alerting</th></tr>
+<tr><th>Blame individuals</th><th>Engineers hide mistakes, no systemic improvement</th><th>Blameless postmortem culture</th></tr>
+<table class="rules"><tbody>
+<tr><th>No error budget policy</th><th>SLO violations have no defined response</th><th>Define 3-stage policy</th></tr>
+<tr><th>Postmortem without action items</th><th>Theater; same incidents repeat</th><th>Specific, owned, tracked items</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

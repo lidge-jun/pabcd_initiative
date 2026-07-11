@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docker — Container Build &amp; Security Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Docker — Container Build &amp; Security Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/docker.md</p>
+<h2 id="docker-container-build-security-patterns">Docker — Container Build &amp; Security Patterns</h2>
+<p>Last reviewed: 2026-07-02</p>
+<p>Applies to: Docker 27+, BuildKit, OCI images</p>
+<p>When to read: Container build/deploy tasks</p>
+<p>Canonical owner: dev-devops §1</p>
+<p>Cross-ref: read <code>platform-engineering.md</code> for provider routing and release</p>
+<p>capability framing; read <code>package-release.md</code> for package-registry auth; read</p>
+<p><code>../../dev-security/references/supply-chain-sbom.md</code> for SBOM/signing depth.</p>
+<p>---</p>
+<h3 id="1-multi-stage-build-templates">§1 Multi-Stage Build Templates</h3>
+<h4 id="node-js-bun">Node.js (Bun)</h4>
+<pre><code># syntax=docker/dockerfile:1
+FROM oven/bun:1.2 AS build
+WORKDIR /app
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+COPY . .
+RUN bun run build
+
+FROM gcr.io/distroless/nodejs22-debian12
+COPY --from=build /app/dist /app
+USER nonroot:nonroot
+CMD [&quot;app/server.js&quot;]</code></pre>
+<h4 id="node-js-npm">Node.js (npm)</h4>
+<pre><code>FROM node:22-slim AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts
+COPY . .
+RUN npm run build
+
+FROM gcr.io/distroless/nodejs22-debian12
+COPY --from=build /app/dist /app
+USER nonroot:nonroot
+CMD [&quot;app/server.js&quot;]</code></pre>
+<h4 id="python">Python</h4>
+<pre><code>FROM python:3.13-slim AS build
+WORKDIR /app
+COPY pyproject.toml uv.lock ./
+RUN pip install uv &amp;&amp; uv sync --frozen
+COPY . .
+
+FROM python:3.13-slim
+WORKDIR /app
+COPY --from=build /app/.venv /app/.venv
+COPY --from=build /app /app
+ENV PATH=&quot;/app/.venv/bin:$PATH&quot;
+RUN adduser --system --no-create-home app
+USER app
+CMD [&quot;python&quot;, &quot;-m&quot;, &quot;app&quot;]</code></pre>
+<h4 id="go">Go</h4>
+<pre><code>FROM golang:1.25 AS build
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o /out/app .
+
+FROM gcr.io/distroless/static-debian12
+COPY --from=build /out/app /app
+USER nonroot:nonroot
+ENTRYPOINT [&quot;/app&quot;]</code></pre>
+<p>---</p>
+<h3 id="2-docker-compose-development-patterns">§2 Docker Compose Development Patterns</h3>
+<pre><code>services:
+  app:
+    build: .
+    ports: [&quot;3000:3000&quot;]
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      DATABASE_URL: postgres://app:secret@db:5432/app_dev
+
+  db:
+    image: postgres:17
+    volumes: [pgdata:/var/lib/postgresql/data]
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app_dev
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;pg_isready&quot;, &quot;-U&quot;, &quot;app&quot;]
+      interval: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;redis-cli&quot;, &quot;ping&quot;]
+      interval: 5s
+      retries: 5
+
+volumes:
+  pgdata:</code></pre>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Detail</th></tr>
+<tr><th>Health conditions</th><th><code>depends_on: { condition: service_healthy }</code> — never bare <code>depends_on</code></th></tr>
+<tr><th>Volumes</th><th>Bind mount for source, named volume for DB data</th></tr>
+<tr><th>Networks</th><th><code>internal</code> for DB, <code>default</code> for app (optional explicit separation)</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-image-optimization">§3 Image Optimization</h3>
+<h4 id="base-image-selection-tree">Base Image Selection Tree</h4>
+<table class="rules"><tbody>
+<tr><th>Binary Type</th><th>Base Image</th><th>Size</th></tr>
+<tr><th>Static binary (Go, Rust)</th><th><code>scratch</code> or <code>distroless/static</code></th><th>~2MB</th></tr>
+<tr><th>Node.js</th><th><code>distroless/nodejs22-debian12</code></th><th>~130MB</th></tr>
+<tr><th>Python</th><th><code>python:3.13-slim</code></th><th>~150MB</th></tr>
+<tr><th>General C/C++</th><th><code>distroless/cc-debian12</code></th><th>~20MB</th></tr>
+</tbody></table>
+<h4 id="dockerignore-required-entries">.dockerignore Required Entries</h4>
+<pre><code>.git
+node_modules
+dist/
+coverage/
+.env*
+*.log
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+*.pyc
+.DS_Store
+docker-compose*.yml
+Dockerfile*
+README*</code></pre>
+<h4 id="layer-caching-order">Layer Caching Order</h4>
+<ol>
+<li>Copy dependency manifests (<code>package.json</code>, <code>go.mod</code>, <code>pyproject.toml</code>)</li>
+<li>Install dependencies (cached unless manifests change)</li>
+<li>Copy source code</li>
+<li>Build</li>
+</ol>
+<p>---</p>
+<h3 id="4-security-scanning-ci-pipeline">§4 Security Scanning CI Pipeline</h3>
+<h4 id="trivy">Trivy</h4>
+<pre><code># Scan image — fail on CRITICAL/HIGH
+trivy image --severity CRITICAL,HIGH --exit-code 1 myapp:sha-123
+
+# Generate SBOM
+trivy image --format spdx-json --output sbom.spdx.json myapp:sha-123
+
+# Scan with VEX filter (suppress known false positives)
+trivy image --vex policy.vex.json myapp:sha-123</code></pre>
+<h4 id="docker-scout">Docker Scout</h4>
+<pre><code>docker scout cves myapp:sha-123 --exit-code --only-severity critical,high
+docker scout recommendations myapp:sha-123</code></pre>
+<h4 id="sbom-signing">SBOM + Signing</h4>
+<pre><code># Generate SBOM with Syft
+syft myapp:sha-123 -o spdx-json &gt; sbom.spdx.json
+
+# Sign image with Cosign
+cosign sign --key cosign.key myapp@sha256:abc123...
+
+# Attest SBOM
+cosign attest --predicate sbom.spdx.json --type spdxjson myapp@sha256:abc123...
+
+# Verify
+cosign verify --key cosign.pub myapp@sha256:abc123...</code></pre>
+<p>---</p>
+<h3 id="5-buildkit-secrets">§5 BuildKit Secrets</h3>
+<p>BuildKit secrets are for private dependency install during image builds. Do</p>
+<p>not reuse this pattern as the default for public package publishing. For npm,</p>
+<p>PyPI, Bun-to-npm, Homebrew, and registry publish decisions, read</p>
+<p><code>references/package-release.md</code> first.</p>
+<pre><code># Mount secret at build time — never exposed in image layers
+RUN --mount=type=secret,id=npm_token \
+    NPM_TOKEN=$(cat /run/secrets/npm_token) npm install</code></pre>
+<p>Build command:</p>
+<pre><code>docker build --secret id=npm_token,src=.npmrc .</code></pre>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Fix</th></tr>
+<tr><th><code>ARG NPM_TOKEN=xxx</code></th><th><code>--mount=type=secret</code></th></tr>
+<tr><th><code>COPY .env .</code></th><th>Inject at runtime via env vars</th></tr>
+<tr><th><code>ENV SECRET=xxx</code> in Dockerfile</th><th>Runtime <code>--env</code> or secrets mount</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="6-anti-patterns-detailed">§6 Anti-Patterns (Detailed)</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
+<tr><th><code>FROM node:latest</code></th><th>Irreproducible; breaks on major updates</th><th>Pin: <code>node:22-slim@sha256:...</code></th></tr>
+<tr><th><code>USER root</code> in final image</th><th>Full host-equivalent privileges if container escapes</th><th><code>USER nonroot:nonroot</code> or dedicated user</th></tr>
+<tr><th><code>COPY . .</code> before dependency install</th><th>Every source change invalidates dependency cache</th><th>Copy manifests first, install, then copy source</th></tr>
+<tr><th><code>apt-get install</code> without cleanup</th><th>100MB+ wasted on package cache</th><th><code>--no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*</code></th></tr>
+<table class="rules"><tbody>
+<tr><th>No image scan in CI</th><th>Ship known CVEs to production</th><th>Trivy/Scout gate with <code>--exit-code 1</code></th></tr>
+<tr><th><code>docker push</code> without signing</th><th>No supply chain verification</th><th>Cosign sign + attest</th></tr>
+<tr><th>Multi-purpose single stage</th><th>Build tools in production image</th><th>Multi-stage: build → runtime</th></tr>
+</tbody></table>
+<h3 id="sources-supply-chain-baseline-checked-2026-07-02">Sources (supply-chain baseline, checked 2026-07-02)</h3>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Source</th></tr>
+<tr><th>Distroless active, Debian-based, Cosign keyless-signed</th><th>https://github.com/GoogleContainerTools/distroless</th></tr>
+<tr><th>Chainguard/Wolfi production option (rebuilds, SBOM, SLAs)</th><th>https://edu.chainguard.dev/chainguard/chainguard-images/overview/</th></tr>
+<tr><th>Trivy v0.72.0 (2026-06-30)</th><th>https://github.com/aquasecurity/trivy/releases</th></tr>
+<tr><th>Docker Scout SBOM-based matching</th><th>https://docs.docker.com/scout/</th></tr>
+<table class="rules"><tbody>
+<tr><th>Syft/Grype/Cosign active</th><th>https://github.com/anchore/syft/releases ; https://github.com/anchore/grype/releases ; https://github.com/sigstore/cosign/releases</th></tr>
+<tr><th>DORA 2025: AI as amplifier</th><th>https://dora.dev/research/</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

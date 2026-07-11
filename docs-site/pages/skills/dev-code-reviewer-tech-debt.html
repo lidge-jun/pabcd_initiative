@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tech Debt Inventory &amp; Paydown — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Tech Debt Inventory &amp; Paydown</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-code-reviewer/references/tech-debt.md</p>
+<h2 id="tech-debt-inventory-paydown">Tech Debt Inventory &amp; Paydown</h2>
+<h3 id="1-what-counts-as-tech-debt">1. What Counts as Tech Debt</h3>
+<p>Not all old code is debt. Debt is code that <strong>actively slows current development</strong> or <strong>increases defect risk</strong>.</p>
+<table class="rules"><tbody>
+<tr><th>Is Debt</th><th>Is NOT Debt</th></tr>
+<tr><th>Duplicated validation logic across 4 services</th><th>Old but working utility with no pending changes</th></tr>
+<tr><th>Missing index causing p95 &gt; 2s on a hot query</th><th>Framework version one minor behind latest</th></tr>
+<tr><th>Hardcoded secrets in env setup scripts</th><th>Code style you personally dislike</th></tr>
+<tr><th>Circular dependency blocking tree-shaking</th><th>A function that could theoretically be shorter</th></tr>
+</tbody></table>
+<p>Rule: if nobody will touch the area in the next 6 months, it is not actionable debt — it is legacy.</p>
+<h3 id="2-debt-classification">2. Debt Classification</h3>
+<p>Use the Fowler quadrant to classify before prioritizing:</p>
+<table class="rules"><tbody>
+<tr><th></th><th>Reckless</th><th>Prudent</th></tr>
+<tr><th><strong>Deliberate</strong></th><th>&quot;Ship it, we&#x27;ll fix later&quot; — track immediately, set paydown deadline</th><th>&quot;We know the tradeoff&quot; — document the decision in ADR, schedule review</th></tr>
+<tr><th><strong>Inadvertent</strong></th><th>&quot;What&#x27;s layering?&quot; — training gap, fix + educate</th><th>&quot;Now we know better&quot; — refactor when the area is next touched</th></tr>
+</tbody></table>
+<pre><code># ADR template for prudent-deliberate debt
+## Decision: Accept [describe shortcut]
+## Context: [why this is acceptable now]
+## Consequences: [what breaks if we don&#x27;t pay down by Q+1]
+## Paydown trigger: [metric threshold or calendar date]</code></pre>
+<h3 id="3-inventory-template">3. Inventory Template</h3>
+<p>Track debt in a structured format — spreadsheet, issue tracker, or Markdown table:</p>
+<pre><code>| ID | Location | Category | Impact | Effort | Priority | Owner | Deadline |
+|----|----------|----------|--------|--------|----------|-------|----------|
+| TD-001 | src/auth/legacy-jwt.ts | Security | HIGH | M (2d) | P1 | @backend | 2026-07 |
+| TD-002 | src/api/v1/users.ts:45-120 | Duplication | MEDIUM | S (4h) | P2 | @backend | 2026-08 |
+| TD-003 | shared/validators/ | Coupling | HIGH | L (5d) | P1 | @arch | 2026-07 |</code></pre>
+<p><strong>Priority formula</strong>: <code>Impact × (1 / Effort) × Frequency-of-area-changes</code></p>
+<ul>
+<li>HIGH impact + small effort + frequently changed = P1 (fix now)</li>
+<li>LOW impact + large effort + rarely changed = P4 (monitor only)</li>
+</ul>
+<h3 id="4-review-integration">4. Review Integration</h3>
+<p>During code review, create a debt ticket when:</p>
+<ul>
+<li>[ ] A workaround is introduced with a <code>// TODO</code> or <code>// HACK</code> comment</li>
+<li>[ ] Reviewer spots duplication that cannot be fixed within the current PR scope</li>
+<li>[ ] Test coverage drops below threshold due to &quot;too complex to test&quot; code</li>
+<li>[ ] A dependency is pinned to an EOL version to avoid breakage</li>
+</ul>
+<pre><code># Review comment template
+🏦 **Tech Debt**: [description]
+- Quadrant: [deliberate-prudent | inadvertent-reckless | ...]
+- Impact: [HIGH | MEDIUM | LOW]
+- Suggested paydown: [brief fix approach]
+- Ticket: [link or &quot;created TD-NNN&quot;]</code></pre>
+<p>Do NOT block PRs for pre-existing debt. Tag it, ticket it, move on.</p>
+<h3 id="5-budget-paydown">5. Budget &amp; Paydown</h3>
+<table class="rules"><tbody>
+<tr><th>Strategy</th><th>When to Use</th><th>Rule</th></tr>
+<tr><th><strong>20% rule</strong></th><th>Sustained velocity projects</th><th>Reserve 20% of each sprint for debt paydown</th></tr>
+<tr><th><strong>Boy scout</strong></th><th>Any PR in a debt-heavy area</th><th>Leave the area cleaner than you found it — one small improvement per PR</th></tr>
+<tr><th><strong>Debt sprint</strong></th><th>Debt inventory &gt; 15 P1/P2 items</th><th>Dedicated sprint focused exclusively on debt reduction</th></tr>
+<tr><th><strong>Strangler fig</strong></th><th>Large legacy replacement</th><th>Build new path alongside old, migrate callers incrementally, delete old</th></tr>
+</tbody></table>
+<pre><code>// Boy scout example: extract before adding new feature
+// BEFORE: 200-line function with mixed concerns
+function processOrder(order: Order) { /* validation + pricing + notification */ }
+
+// AFTER: split during feature work
+function validateOrder(order: Order): ValidationResult { /* ... */ }
+function calculatePricing(order: Order): PricingResult { /* ... */ }
+function processOrder(order: Order) {
+  const valid = validateOrder(order);
+  const pricing = calculatePricing(order);
+  // new feature code goes here cleanly
+}</code></pre>
+<h3 id="6-measurement">6. Measurement</h3>
+<p>Track these metrics to detect debt accumulation:</p>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>Tool</th><th>Threshold</th></tr>
+<tr><th>Coupling score</th><th><code>madge --circular</code> / <code>dpdm</code></th><th>0 circular deps</th></tr>
+<tr><th>Cycle time (PR open → merge)</th><th>Git analytics</th><th>&lt; 24h for standard PRs</th></tr>
+<tr><th>Defect density per module</th><th>Issue tracker tags</th><th>Hotspot = 3× average</th></tr>
+<tr><th>Code churn (same file changed &gt; 5× in 30d)</th><th><code>git log --format</code></th><th>Flag for review</th></tr>
+<table class="rules"><tbody>
+<tr><th>TODO/HACK count</th><th>`grep -r &quot;TODO\</th><th>HACK\</th><th>FIXME&quot;`</th><th>Trending down quarter-over-quarter</th></tr>
+</tbody></table>
+<h3 id="7-anti-patterns">7. Anti-Patterns</h3>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>&quot;We&#x27;ll refactor someday&quot; without a ticket</th><th>Debt grows invisibly</th><th>Create TD-NNN ticket at discovery time</th></tr>
+<table class="rules"><tbody>
+<tr><th>Blocking PRs for pre-existing debt</th><th>Review bottleneck, resentment</th><th>Tag + ticket, do not block</th></tr>
+<tr><th>Rewriting from scratch to &quot;fix debt&quot;</th><th>Scope explosion, new bugs</th><th>Strangler fig or incremental refactor</th></tr>
+<tr><th>Counting all old code as debt</th><th>Wasted prioritization effort</th><th>Apply §1 filter: does it slow current work?</th></tr>
+</tbody></table>
+<h3 id="pre-flight">Pre-flight</h3>
+<ul>
+<li>[ ] Debt inventory exists and is current (updated within 30 days)</li>
+<li>[ ] Each P1/P2 item has an owner and deadline</li>
+<li>[ ] Sprint/iteration includes debt budget allocation</li>
+<li>[ ] New debt introduced in PRs is tagged with quadrant classification</li>
+<li>[ ] Metrics from §6 are tracked and reviewed monthly</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

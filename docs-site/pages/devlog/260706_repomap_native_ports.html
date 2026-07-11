@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/_plan/260706_repomap_native_ports/00_spec.md</p>
+<h2 id="00-spec-repo-map-structure-map-tool-sot-native-ports-to-3-harnesses">00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</h2>
+<p>Date: 2026-07-06</p>
+<p>Unit: <code>devlog/_plan/260706_repomap_native_ports/</code></p>
+<p>Class: C3 (cross-harness capability port; each target adapts natively, durable audit trail)</p>
+<h3 id="loop-spec">Loop-spec</h3>
+<ul>
+<li><strong>Loop archetype</strong>: spec-satisfaction (each port has a concrete verifier: the</li>
+</ul>
+<p><code>map</code> command emits a ranked symbol map on a real dir, and the agent is told it exists).</p>
+<ul>
+<li><strong>Trigger</strong>: user directive 2026-07-06. codexclaw shipped <code>cxc map</code> (vendored</li>
+</ul>
+<p>RepoMapper: tree-sitter tags + PageRank) plus a SessionStart affordance. The same</p>
+<p>capability should exist in cli-jaw and jawcode, but as NATIVE implementations that</p>
+<p>fit each repo&#x27;s stack — not a blind copy of the Python vendoring. pabcd_initiative is</p>
+<p>the SoT that holds the tool concept + deployment line so the three stay in sync.</p>
+<ul>
+<li><strong>Goal</strong>: an agent working in ANY of the three harnesses can, without being told,</li>
+</ul>
+<p>learn a structure-map tool exists and run it on demand (<code>&lt;runtime&gt; map &lt;cwd&gt;</code>) before</p>
+<p>deep grep dives in unfamiliar code. Each harness implements the engine in its own</p>
+<p>idiom; the SoT names the contract + affordance, not one shared binary.</p>
+<ul>
+<li><strong>Non-goals</strong>:</li>
+<ul>
+<li>No whole-repo map preload into the system prompt (the map BODY is on-demand only;</li>
+</ul>
+</ul>
+<p>only a one-line POINTER affordance is injected). This is the deliberately-rejected</p>
+<p>session-start-index pattern — evidence in codexclaw <code>devlog/_plan/lazygap/005</code> and</p>
+<p><code>260706_repo_map</code>.</p>
+<ul>
+<ul>
+<li>No single shared binary the three call (they diverge by stack: Python vendor vs</li>
+</ul>
+</ul>
+<p>native pi-ast vs new TS dep). SoT syncs the CONTRACT, not the code.</p>
+<ul>
+<ul>
+<li>No daemon/server/watcher/persistent index in any port (stateless one-shot; a</li>
+</ul>
+</ul>
+<p>rebuildable derived cache is allowed).</p>
+<ul>
+<li><strong>Verifier (per port)</strong>:</li>
+<ul>
+<li><code>&lt;runtime&gt; map &lt;a real source dir&gt;</code> prints a ranked, file-grouped symbol list and</li>
+</ul>
+</ul>
+<p>exits 0; on missing deps it prints one install/again hint, never a stack trace.</p>
+<ul>
+<ul>
+<li>the agent&#x27;s system prompt (or SessionStart affordance) names the tool at a real</li>
+</ul>
+</ul>
+<p>insertion point (evidence: grep the inserted line).</p>
+<ul>
+<ul>
+<li>existing test/build gate of that repo stays green.</li>
+</ul>
+<li><strong>Stop condition</strong>: all three port docs (10/20/30) written to diff-level; SoT tool</li>
+</ul>
+<p>doc committed; no code changed in this unit (this unit is PLAN + SoT text only —</p>
+<p>implementation happens in each downstream repo&#x27;s own unit).</p>
+<ul>
+<li><strong>Memory artifact</strong>: this unit folder.</li>
+<li><strong>Expected terminal states</strong>: DONE (all docs + SoT written, verified present) or</li>
+</ul>
+<p>NEEDS_HUMAN if a per-repo effort/scope decision is rejected.</p>
+<h3 id="the-three-harnesses-are-structurally-different-recon-2026-07-06">The three harnesses are structurally different (recon 2026-07-06)</h3>
+<p>This is the load-bearing finding. A blind copy is impossible; each needs a different</p>
+<p>native shape.</p>
+<table class="rules"><tbody>
+<tr><th>Harness</th><th>Stack</th><th>Map engine path</th><th>Tool surface</th><th>Prompt surface</th></tr>
+<tr><th>codexclaw</th><th>Codex plugin (TS components + Python skill scripts)</th><th>DONE — vendored RepoMapper Python (<code>skills/repo-map/scripts</code>)</th><th><code>cxc map</code> dispatcher + repo-map skill</th><th>SessionStart affordance hook (cxc-ops)</th></tr>
+<tr><th>cli-jaw</th><th>TS/Node/Express client-server; agent = spawned external CLI</th><th>NEW TS engine or external helper (no tree-sitter dep today; has <code>fast-glob</code>, <code>@lezer/highlight</code>)</th><th><code>cli-jaw map</code> CLI command (<code>bin/commands/map.ts</code>); NO model function-tool registry exists</th><th><code>src/prompt/templates/a1-system.md</code> &quot;Project context discovery&quot; section</th></tr>
+<tr><th>jawcode</th><th>TS+Rust monorepo; native pi-ast crate has tree-sitter + ast-grep-core</th><th>NATIVE — add tags-query to <code>crates/pi-ast</code>, expose via <code>pi-natives</code> napi</th><th><code>jwc map</code> CLI (<code>packages/coding-agent/src/cli.ts</code>) + agent tool (<code>src/tools/index.ts</code> registry)</th><th><code>packages/coding-agent/src/prompts/system/system-prompt.md</code> <code>&lt;ast-tools&gt;</code> section</th></tr>
+</tbody></table>
+<h3 id="sot-deployment-line-how-sync-works">SoT deployment line (how sync works)</h3>
+<p><code>skills/dev-scaffolding</code> already owns SOT-SYNC-01: find the general SoT doc, patch it in</p>
+<p>the same unit at C. This unit ADDS a repo-map capability doc to the SoT</p>
+<p>(<code>skills/dev-pabcd/references/repo-map-capability.md</code>, or a new SoT note — see 05) that:</p>
+<ol>
+<li>Names the tool contract (input <code>&lt;cwd&gt;</code>, output ranked symbol map, on-demand, no</li>
+</ol>
+<p>preload, one-line affordance) in agent-neutral terms (Runtime adapter style).</p>
+<ol>
+<li>Lists the three port sites + their status, so a future freshness sweep re-checks all</li>
+</ol>
+<p>three against the SoT contract.</p>
+<p>Downstream repos each get their OWN implementation unit (this unit only writes the plan</p>
+<p>+ SoT text; it does not edit downstream code).</p>
+<h3 id="phase-docs-dependency-ordered-phase-split-01">Phase docs (dependency-ordered, PHASE-SPLIT-01)</h3>
+<ul>
+<li><code>05_sot_capability_doc.md</code> — the SoT capability note + deployment-line table (write first;</li>
+</ul>
+<p>it is the contract the ports satisfy).</p>
+<ul>
+<li><code>10_phase1_cli_jaw.md</code> — cli-jaw native port direction (TS engine choice + CLI + prompt).</li>
+<li><code>20_phase2_jawcode.md</code> — jawcode native port direction (pi-ast tags-query + napi + tool + prompt).</li>
+<li><code>30_phase3_codexclaw_backport.md</code> — reconcile codexclaw (already shipped) against the</li>
+</ul>
+<p>SoT contract; record it as the reference implementation + any drift to fix.</p>
+<h3 id="open-assumptions-carried-to-a">Open assumptions (carried to A)</h3>
+<ul>
+<li>OA1: cli-jaw map engine — pure-TS tree-sitter (<code>web-tree-sitter</code> / <code>tree-sitter</code> napi)</li>
+</ul>
+<p>vs shelling to an external helper vs a lightweight lezer-based symbol scan. 10 proposes;</p>
+<p>user picks at that repo&#x27;s own interview.</p>
+<ul>
+<li>OA2: jawcode ranking — PageRank is net-new (no graph util exists). Options: port a</li>
+</ul>
+<p>small PageRank in Rust (pi-ast) or in TS (coding-agent), or ship defs-only ranking</p>
+<p>(by ref-count) first and add PageRank later. 20 proposes.</p>
+<ul>
+<li>OA3: language scope per port — start with each repo&#x27;s primary languages (cli-jaw: TS;</li>
+</ul>
+<p>jawcode: TS+Rust) rather than all 25, matching codexclaw&#x27;s fixture-verified tiering.</p>
+<h2 id="unit-files">Other files in this unit</h2>
+<ul>
+<li>05_sot_capability_doc — SoT capability note + deployment line <span class="refnote">(05_sot_capability_doc.md)</span></li>
+<li>10_phase1 — cli-jaw native port: `cli-jaw map &lt;cwd&gt;` + prompt affordance <span class="refnote">(10_phase1_cli_jaw.md)</span></li>
+<li>20_phase2 — jawcode NATIVE port: `jwc map &lt;cwd&gt;` on pi-ast tree-sitter <span class="refnote">(20_phase2_jawcode.md)</span></li>
+<li>30_phase3 — codexclaw reconcile: reference impl vs the SoT contract <span class="refnote">(30_phase3_codexclaw_backport.md)</span></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

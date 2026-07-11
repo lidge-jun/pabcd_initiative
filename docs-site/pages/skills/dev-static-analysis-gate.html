@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Static Analysis Gate — Toolchain Commands &amp; Rule Mapping — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Static Analysis Gate — Toolchain Commands &amp; Rule Mapping</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev/references/static-analysis-gate.md</p>
+<h2 id="static-analysis-gate-toolchain-commands-rule-mapping">Static Analysis Gate — Toolchain Commands &amp; Rule Mapping</h2>
+<p>Companion to <code>dev/SKILL.md</code> §7. Read when running the static-analysis part of the</p>
+<p>verification gate or configuring lint/typecheck for a project.</p>
+<h3 id="per-toolchain-gate-commands">Per-Toolchain Gate Commands</h3>
+<table class="rules"><tbody>
+<tr><th>Toolchain</th><th>Command</th><th>Must Pass</th></tr>
+<tr><th>TypeScript</th><th><code>tsc --noEmit</code></th><th>Zero errors</th></tr>
+<tr><th>Python (typed)</th><th><code>mypy .</code> or <code>pyright</code></th><th>Zero errors on changed files</th></tr>
+<tr><th>ESLint / Biome</th><th><code>npx eslint .</code> or <code>npx biome check .</code></th><th>Zero errors</th></tr>
+<tr><th>Go</th><th><code>go vet ./...</code></th><th>Zero issues</th></tr>
+<table class="rules"><tbody>
+<tr><th>Rust</th><th><code>cargo clippy -- -D warnings</code></th><th>Zero warnings</th></tr>
+<tr><th>C#</th><th><code>dotnet build /warnaserror</code></th><th>Zero warnings</th></tr>
+</tbody></table>
+<h3 id="per-language-type-annotation-rules">Per-Language Type Annotation Rules</h3>
+<tr><th>Language</th><th>Rule</th></tr>
+<table class="rules"><tbody>
+<tr><th>TypeScript</th><th><code>strict: true</code> in tsconfig. Avoid implicit <code>any</code>; explicit <code>any</code> requires a line comment with justification.</th></tr>
+<tr><th>Python</th><th>Type hints on all function params and returns (<code>def fetch(url: str) -&gt; Response:</code>).</th></tr>
+<tr><th>Go</th><th>Already enforced by compiler — ensure exported types have doc comments.</th></tr>
+<tr><th>C# / Java</th><th>Use nullability annotations (<code>?</code>, <code>@Nullable</code>). Avoid raw <code>Object</code> or <code>dynamic</code>.</th></tr>
+<tr><th>General</th><th>If the language supports a strict/pedantic mode, enable it.</th></tr>
+</tbody></table>
+<h3 id="common-rule-prose-mapping">Common Rule ↔ Prose Mapping</h3>
+<table class="rules"><tbody>
+<tr><th>Anti-Pattern (prose)</th><th>ESLint / Biome Rule</th></tr>
+<tr><th>Unused variable/import</th><th><code>no-unused-vars</code>, <code>@typescript-eslint/no-unused-vars</code></th></tr>
+<tr><th>Unsafe <code>any</code> type</th><th><code>@typescript-eslint/no-explicit-any</code></th></tr>
+<tr><th>Loose equality (<code>==</code>)</th><th><code>eqeqeq</code></th></tr>
+<tr><th>Circular import</th><th><code>import/no-cycle</code> (ESLint), <code>noBarrelFile</code>/<code>useImportRestrictions</code> (Biome)</th></tr>
+<table class="rules"><tbody>
+<tr><th>Unhandled async</th><th><code>@typescript-eslint/no-floating-promises</code></th></tr>
+<tr><th><code>var</code> usage</th><th><code>no-var</code>, <code>prefer-const</code></th></tr>
+<tr><th>Complex function</th><th><code>complexity</code>, <code>max-depth</code>, <code>max-lines-per-function</code></th></tr>
+</tbody></table>
+<p>This table is not exhaustive — the project&#x27;s own config is the canonical rule set.</p>
+<h3 id="sources">Sources</h3>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Source</th><th>Checked</th></tr>
+<tr><th>Biome barrel-file rule exists (<code>noBarrelFile</code>)</th><th>https://biomejs.dev/linter/rules/no-barrel-file/</th><th>2026-07-02</th></tr>
+<tr><th>ponytail necessity-gate discipline (DEV-NECESSITY-01 source)</th><th>https://github.com/DietrichGebert/ponytail</th><th>2026-07-02</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

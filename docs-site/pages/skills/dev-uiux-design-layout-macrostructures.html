@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>layout-macrostructures — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>layout-macrostructures</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/layout-macrostructures.md</p>
+<h3 id="6-layout-composition-patterns">6. Layout Composition Patterns</h3>
+<p>Select the layout that matches the product surface. Provide the CSS grid template.</p>
+<h4 id="sidebar-content-dashboard-default">Sidebar + Content (Dashboard default)</h4>
+<pre><code>display: grid;
+grid-template-columns: 256px 1fr; /* 64px when collapsed */
+grid-template-rows: auto 1fr;</code></pre>
+<p><strong>Use:</strong> Dashboards, admin panels, docs. <strong>Mobile collapse:</strong> Sidebar becomes hamburger overlay or bottom nav.</p>
+<h4 id="holy-grail-three-column">Holy Grail (Three-column)</h4>
+<pre><code>display: grid;
+grid-template-columns: 200px 1fr 200px;
+grid-template-areas: &quot;header header header&quot; &quot;left main right&quot; &quot;footer footer footer&quot;;</code></pre>
+<p><strong>Use:</strong> Traditional websites with left/right sidebars. <strong>Mobile collapse:</strong> Stack vertically, hide sidebars behind toggles.</p>
+<h4 id="responsive-card-grid">Responsive Card Grid</h4>
+<pre><code>display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 24px;</code></pre>
+<p><strong>Use:</strong> Product listings, galleries, feature grids. <strong>Mobile collapse:</strong> Automatic — 1 col mobile, 2 tablet, 3+ desktop. Zero media queries.</p>
+<h4 id="dashboard-sidebar-metrics-content">Dashboard (Sidebar + Metrics + Content)</h4>
+<pre><code>.shell { display: grid; grid-template-columns: 256px 1fr; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.content { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }</code></pre>
+<p><strong>Metric cards:</strong> Primary number 28-32px, comparison 14px, ONE visual element per card (sparkline OR trend arrow, not both).</p>
+<h4 id="bento-grid">Bento Grid</h4>
+<pre><code>display: grid;
+grid-template-columns: repeat(4, 1fr);
+grid-auto-rows: minmax(180px, auto);
+gap: 16px;
+/* Feature items span 2 cols or 2 rows */</code></pre>
+<p><strong>Use:</strong> Feature showcases, portfolio, marketing sections. <strong>Mobile collapse:</strong> Stack to single column, feature items full-width.</p>
+<h4 id="master-detail">Master-Detail</h4>
+<pre><code>display: grid;
+grid-template-columns: 320px 1fr;</code></pre>
+<p><strong>Use:</strong> Email, chat, file managers, list-with-preview. <strong>Mobile collapse:</strong> List view only, tap opens detail full-screen.</p>
+<p>---</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -313,7 +313,10 @@ Output worker JSON for the audit. Review results when they come back.
 ⛔ Wait for user approval. When approved, advance with the canonical A→B attestation form in §2.1.
 
 ### B — Build
-Implement the plan. You write all code by default. Workers are read-only verifiers unless dispatched with `--mutable` (see Pitfalls).
+Implement the plan. You write code by default and own every verdict; a worker may
+write when its slice passes DISPATCH-ECONOMY-01 (§7.1) and the dispatch is
+explicitly write-capable with a bounded scope (see Pitfalls). Workers without that
+grant are read-only verifiers.
 
 Do not create `structure/` or `devlog/` unless approved in P or explicitly requested by the user.
 
@@ -414,7 +417,8 @@ user explicitly asks to unset the project root.
    when more PABCD-phases remain in the current cycle — keep going P→A→B→C→D, then close D
    and re-enter P for the next work-phase.
 2. Sequence: P → A → B → C → D. Use `orchestrate reset` to restart.
-3. Workers verify (read-only). You write all code directly in B.
+3. Workers verify (read-only) by default; write-capable dispatch follows §7.1
+   DISPATCH-ECONOMY-01. Verdicts stay with you in B.
 4. Goal-mode precedence: when a jaw goal is active (dev §0.4), use §2.1 with
    evidence-backed checkpoints (your runtime's goal-checkpoint command, or a worklog checkpoint entry) instead of user approval. Phase order,
    audit conditions, and verification intensity are unchanged.
@@ -525,18 +529,39 @@ Audit: verify the imports in ..."` — no "read the plan" line needed.
   repeated failed repairs — on a different model family than the one that produced
   the plan or build. Same-family reviewers share blind spots; decorrelating the
   reviewer is the cheapest independence upgrade available.
+- **DEFAULT (DISPATCH-ECONOMY-01):** Decide delegation on three axes —
+  specifiability (can the task packet state its inputs, outputs, and decision
+  boundary completely?), verifiability (can the return be checked mechanically:
+  anchors, figures, reproduction commands?), and judgment ownership
+  (collapse/crux VERDICTS stay with the orchestrating session; re-derivation,
+  standardized implementation, research, and audits are dispatchable). A slice
+  that fails any axis stays with the orchestrator. Complexity or importance is
+  NOT an axis: a hard derivation that passes all three axes is dispatchable
+  (SPECIALIST-CRUX-01 above), and a trivial slice whose packet cannot state its
+  decision boundary is not. Output side: every return receives an
+  accept/reject/merge disposition with a one-line rationale BEFORE the next
+  wave is dispatched (wave-granular allowed). Returns must carry verbatim
+  anchors — file:line quotes, exact figures, URLs — a paraphrase-only summary
+  creates correlated blind spots between orchestrator and reviewer. Prefer
+  batch-waves with a single synthesis over drip-feed spawning. Speculative
+  dispatch of a later phase's work is default-OFF; the one exception is
+  phase-invariant EXTERNAL research (reads no repo state), quarantined as
+  `candidate — unverified` and discarded by default on plan amendment.
 
 (Adopted 2026-07-07 from the Sakana Fugu learned-orchestrator report,
 arXiv:2606.21228 — its trained orchestrators converged on intra-workflow isolation
 with explicit access lists, crux-matched aggregation, cross-model builder/verifier
 alternation, and specialist first-principles re-derivation; devlog
-`260707_fugu_orchestration_adoption`.)
+`260707_fugu_orchestration_adoption`. DISPATCH-ECONOMY-01 adopted 2026-07-11 from
+an adversarial fork-debate + Tier-2 arXiv claim ledger — 10 papers, evidence
+grades recorded; codexclaw devlog `260711_dispatch_economy_docs_site`. jawcode /
+cli-jaw ports pending.)
 
 ## §8. Pitfalls
 
 ### Delegation Trap
-- B phase: **Boss writes all code by default**. Workers are READ-ONLY verifiers.
-- 💡 To let a worker write, dispatch it explicitly write-capable with a bounded scope (e.g. a `--mutable`-style flag or write-capable subagent type).
+- B phase: **Boss writes by default**. Workers are READ-ONLY verifiers unless granted otherwise.
+- 💡 To let a worker write, the slice must pass DISPATCH-ECONOMY-01 (§7.1: specifiable, verifiable, no verdict ownership) AND the dispatch must be explicitly write-capable with a bounded scope (e.g. a `--mutable`-style flag or write-capable subagent type).
 - ⛔ Without `--mutable`: `"implement the feature"`, `"write the code"`, `"create the file"` are forbidden.
 - ✅ Always allowed: `"verify src/x.ts compiles"`, `"check integration of Y"`, `"report DONE or NEEDS_FIX"`.
 
@@ -557,9 +582,9 @@ alternation, and specialist first-principles re-derivation; devlog
 | Class | Plan (P) | Audit (A) | Build (B) | Check (C) | Record (D) |
 |-------|----------|-----------|-----------|-----------|------------|
 | C0-C1 | None/inline | Optional | Direct fix | Smallest proof | One-line summary as a numbered record doc in the owning unit (UNIT-RESIDENCE-01) |
-| C2 | Compact plan | Micro-audit | Boss writes, focused tests | Targeted gate | Summary |
-| C3 | Compact or full PABCD plan depending on persistence/risk | Required when public contract, architecture, persistence, cross-agent, or cross-session risk exists; otherwise focused audit | Boss writes, employees verify only when useful | Affected suite + docs consistency when docs/contracts changed | Summary + evidence; durable record only when state must persist |
-| C4 | Full PABCD plan (mandatory) | Required, independent | Boss writes, employee verifies | Full relevant gates | Durable risk/approval/evidence record |
+| C2 | Compact plan | Micro-audit | Boss-led build, focused tests | Targeted gate | Summary |
+| C3 | Compact or full PABCD plan depending on persistence/risk | Required when public contract, architecture, persistence, cross-agent, or cross-session risk exists; otherwise focused audit | Boss-led build (economy-eligible slices dispatchable, §7.1), employees verify only when useful | Affected suite + docs consistency when docs/contracts changed | Summary + evidence; durable record only when state must persist |
+| C4 | Full PABCD plan (mandatory) | Required, independent | Boss-led build, employee verifies | Full relevant gates | Durable risk/approval/evidence record |
 | C5 | Interview/research first | — | — | — | Reclassify, then follow the new class |
 
 Render-artifact work-phases add C-RENDER-GROUNDING-01 (§3 C) to the Check column at

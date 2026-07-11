@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cross-platform Release — CI Matrix vs Local OS Proof — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Cross-platform Release — CI Matrix vs Local OS Proof</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-devops/references/cross-platform-release.md</p>
+<h2 id="cross-platform-release-ci-matrix-vs-local-os-proof">Cross-platform Release — CI Matrix vs Local OS Proof</h2>
+<p>Last reviewed: 2026-06-21</p>
+<p>Applies to: CLI packages, desktop-affecting releases, browser automation, installers, shell shims</p>
+<p>When to read: Release claims include Linux/macOS/Windows support or local OS behavior</p>
+<p>Canonical owner: dev-devops cross-platform release proof</p>
+<p>---</p>
+<h3 id="1-core-rule">§1 Core Rule</h3>
+<p>CI systems such as GitHub Actions prove behavior inside their runner</p>
+<p>environments. When a release claim depends on cross-platform local behavior that</p>
+<p>CI cannot observe, recommend setting up the required target environment before</p>
+<p>claiming release confidence.</p>
+<p>Do not require direct desktop verification for every release. Require it only</p>
+<p>when the release claim depends on OS-local behavior beyond CI&#x27;s visibility.</p>
+<h3 id="2-evidence-decision-table">§2 Evidence Decision Table</h3>
+<table class="rules"><tbody>
+<tr><th>Release behavior</th><th>CI matrix enough?</th><th>Direct OS/UI verification?</th><th>Proof bundle</th></tr>
+<tr><th>Pure library package</th><th>Usually yes</th><th>No</th><th>Test/import matrix</th></tr>
+<tr><th>CLI binary wrapper/shim</th><th>Yes for core command behavior</th><th>Maybe for PATH/shell integration</th><th>Install, bin resolve, <code>--version</code>, <code>--help</code>, safe command</th></tr>
+<tr><th>Browser automation/profile paths</th><th>Partial</th><th>Yes when local profile/app behavior matters</th><th>Runner smoke plus visible browser/profile proof</th></tr>
+<tr><th>Desktop app or installer</th><th>No</th><th>Yes</th><th>Launch, permission prompt, install/uninstall evidence</th></tr>
+<table class="rules"><tbody>
+<tr><th>Windows PATH/PowerShell/shim</th><th>Partial</th><th>Yes if release claim depends on Windows user behavior</th><th>Windows runner plus Windows App/RDP verification</th></tr>
+<tr><th>macOS TCC/Keychain/app bundle</th><th>Partial</th><th>Yes</th><th>macOS runner plus visible macOS app/session proof</th></tr>
+<tr><th>YAML/cloud-only pipeline change</th><th>Yes</th><th>No</th><th>Static validation, CI dry run, API/provider check</th></tr>
+</tbody></table>
+<h3 id="3-mandatory-environment-prompt">§3 Mandatory Environment Prompt</h3>
+<p>When CI cannot prove required cross-platform local behavior, ask for the target</p>
+<p>environment instead of pretending it was verified.</p>
+<p>Use this shape:</p>
+<p>&gt; This release affects <code>&lt;platform behavior&gt;</code>. CI can cover <code>&lt;runner evidence&gt;</code>,</p>
+<p>&gt; but cannot prove <code>&lt;local behavior&gt;</code>. Please provide or open `&lt;target</p>
+<p>&gt; environment&gt;` if direct verification is required before release.</p>
+<p>Examples:</p>
+<ul>
+<li>macOS runtime, Windows-local PATH/PowerShell behavior matters:</li>
+</ul>
+<p>ask the user to provide Windows App/RDP or another visible Windows</p>
+<p>environment.</p>
+<ul>
+<li>Linux/CI-only runtime, macOS TCC/keychain/app bundle behavior matters:</li>
+</ul>
+<p>ask for a macOS target environment.</p>
+<ul>
+<li>Browser profile or desktop app behavior matters:</li>
+</ul>
+<p>ask for a visible target app/session and use Browser or Computer Use as</p>
+<p>appropriate.</p>
+<h3 id="4-platform-matrix-scope">§4 Platform Matrix Scope</h3>
+<p>Matrix only platforms the project declares or the release claims to support.</p>
+<table class="rules"><tbody>
+<tr><th>Claim</th><th>Minimum evidence</th></tr>
+<tr><th>&quot;Works on Linux&quot;</th><th>Linux runner smoke</th></tr>
+<tr><th>&quot;Works on macOS&quot;</th><th>macOS runner smoke; direct macOS proof if local UI/TCC/app behavior matters</th></tr>
+<tr><th>&quot;Works on Windows&quot;</th><th>Windows runner smoke; direct Windows proof if PATH, shell, registry, or desktop behavior matters</th></tr>
+<tr><th>&quot;Cross-platform CLI&quot;</th><th>Linux + macOS + Windows smoke unless support matrix is narrower</th></tr>
+</tbody></table>
+<h3 id="5-verification-handoff">§5 Verification Handoff</h3>
+<p>Use <code>dev-testing/references/ci-pipeline.md</code> for runner matrix mechanics.</p>
+<p>Use <code>desktop-control</code> or <code>computer-use</code> only when direct visible app/OS proof is</p>
+<p>needed. Do not duplicate desktop tool instructions in this reference.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

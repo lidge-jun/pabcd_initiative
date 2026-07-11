@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Assisted Code Review — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>AI-Assisted Code Review</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-code-reviewer/references/ai-assisted-review.md</p>
+<h2 id="ai-assisted-code-review">AI-Assisted Code Review</h2>
+<p>Last reviewed: 2026-06-16</p>
+<p>Applies to: GitHub Copilot code review, CodeRabbit 2025+, Sourcery 2024+</p>
+<p>When to read: Using AI review tools in PR workflow</p>
+<p>Canonical owner: dev-code-reviewer</p>
+<p>AI review tools augment human reviewers — they do not replace them. Treat AI findings as triage, not verdicts.</p>
+<h3 id="1-workflow-integration">1. Workflow Integration</h3>
+<p>AI review runs as a deterministic gate before human review, not alongside it:</p>
+<pre><code>PR opened
+  → CI (lint + type + test)           # machine gate 1
+  → AI review (Copilot / CodeRabbit)  # machine gate 2
+  → Human review                      # judgment gate
+  → Merge</code></pre>
+<table class="rules"><tbody>
+<tr><th>Phase</th><th>Owner</th><th>Catches</th><th>Misses</th></tr>
+<tr><th>CI gates</th><th>Toolchain</th><th>Syntax, types, lint, test regression</th><th>Logic, architecture, business intent</th></tr>
+<tr><th>AI review</th><th>AI tool</th><th>Pattern bugs, style drift, common vulns, test gaps</th><th>Novel architecture issues, domain intent, subtle security</th></tr>
+<tr><th>Human review</th><th>Engineer/agent</th><th>Architecture, correctness, business logic, security depth</th><th>Repetitive style issues (already caught above)</th></tr>
+</tbody></table>
+<p>Rules:</p>
+<ul>
+<li>AI review must run after CI passes — do not waste AI cycles on code that does not compile.</li>
+<li>AI review output feeds into human review as pre-triage, not as final verdict.</li>
+<li>Human reviewer starts from AI findings, does not re-check what AI already validated.</li>
+<li>If AI review is unavailable or errors out, proceed with human review — AI is additive, not a gate.</li>
+</ul>
+<h3 id="2-severity-classification">2. Severity Classification</h3>
+<p>Not all AI findings deserve human attention:</p>
+<table class="rules"><tbody>
+<tr><th>AI Severity</th><th>Human Action</th><th>Auto-Approve Eligible</th></tr>
+<tr><th>Critical (security, data loss)</th><th>Must address before merge</th><th>No</th></tr>
+<tr><th>High (logic error, missing validation)</th><th>Must address before merge</th><th>No</th></tr>
+<tr><th>Medium (naming, structure, missing test)</th><th>Review and decide</th><th>No</th></tr>
+<tr><th>Low (style, formatting, minor improvement)</th><th>Batch or skip</th><th>Yes — if CI passes and finding is style-only</th></tr>
+<table class="rules"><tbody>
+<tr><th>Suggestion (refactor opportunity)</th><th>Note for future</th><th>Yes — informational only</th></tr>
+</tbody></table>
+<p>Auto-approve conditions (all must be true):</p>
+<ul>
+<li>[ ] Only Low/Suggestion findings</li>
+<li>[ ] CI passes (lint + type + test)</li>
+<li>[ ] No file in security-sensitive paths (<code>auth/</code>, <code>payment/</code>, <code>admin/</code>, <code>middleware/</code>)</li>
+<li>[ ] Diff &lt; 50 lines</li>
+<li>[ ] No new dependency added</li>
+</ul>
+<h3 id="3-ai-generated-code-re-review">3. AI-Generated Code Re-review</h3>
+<p>When AI generates code AND AI reviews it, the feedback loop creates blind spots:</p>
+<table class="rules"><tbody>
+<tr><th>Risk</th><th>Example</th><th>Mitigation</th></tr>
+<tr><th>Shared blind spot</th><th>AI generates N+1 query, AI reviewer misses same pattern</th><th>Human must review AI-generated code with extra scrutiny on performance</th></tr>
+<tr><th>Positive bias</th><th>AI reviewer rates AI-generated code higher than human code</th><th>Treat AI-generated PRs as higher review priority, not lower</th></tr>
+<tr><th>Pattern lock-in</th><th>Same model generates and reviews → no diversity of perspective</th><th>Use different models for generation vs review, or ensure human review</th></tr>
+<tr><th>Test gap</th><th>AI generates code that passes AI-generated tests but misses edge cases</th><th>Human must verify test coverage includes boundary and error cases</th></tr>
+</tbody></table>
+<p>Rules:</p>
+<ul>
+<li>AI-generated code requires the same or stricter review standards as human code.</li>
+<li>When possible, use a different AI model for review than for generation.</li>
+<li>AI-generated test suites must be reviewed for coverage gaps — AI tests tend to test the happy path.</li>
+<li>Never auto-approve AI-generated code, even if AI review finds no issues.</li>
+</ul>
+<h3 id="4-content-exclusion">4. Content Exclusion</h3>
+<p>Exclude these from AI review scope to reduce noise:</p>
+<table class="rules"><tbody>
+<tr><th>Excluded Content</th><th>Reason</th></tr>
+<tr><th>Generated files (<code>*.gen.ts</code>, <code>*.pb.go</code>, OpenAPI output)</th><th>Not human-authored, not human-reviewable</th></tr>
+<tr><th>Vendor / <code>node_modules</code> / lock files</th><th>Managed by package manager</th></tr>
+<tr><th><code>.env.example</code> (but NOT <code>.env</code>)</th><th>Template only; actual secrets must never be in PR</th></tr>
+<tr><th>Large data fixtures (&gt; 500 lines)</th><th>AI review on test data is noise</th></tr>
+<table class="rules"><tbody>
+<tr><th>Binary assets (images, fonts, compiled)</th><th>Not code</th></tr>
+</tbody></table>
+<p>Configure exclusion in <code>.coderabbit.yaml</code>, <code>.copilot-review.yml</code>, or equivalent:</p>
+<pre><code># .coderabbit.yaml example
+reviews:
+  path_filters:
+    - &quot;!**/*.gen.ts&quot;
+    - &quot;!**/vendor/**&quot;
+    - &quot;!**/*.lock&quot;
+    - &quot;!**/fixtures/data/**&quot;</code></pre>
+<h3 id="5-acceptance-metrics">5. Acceptance Metrics</h3>
+<p>Track AI review effectiveness quarterly:</p>
+<table class="rules"><tbody>
+<tr><th>Metric</th><th>Target</th><th>Measurement</th></tr>
+<tr><th>True positive rate</th><th>&gt; 70%</th><th>AI findings confirmed by human reviewer / total AI findings</th></tr>
+<tr><th>False positive rate</th><th>&lt; 30%</th><th>AI findings dismissed by human reviewer / total AI findings</th></tr>
+<tr><th>Coverage additive value</th><th>&gt; 0</th><th>Issues caught by AI that human would have missed (sample audit)</th></tr>
+<tr><th>Review time reduction</th><th>15-30%</th><th>Average human review time with AI vs without</th></tr>
+<table class="rules"><tbody>
+<tr><th>Critical miss rate</th><th>0%</th><th>Critical/High issues merged despite AI review (post-mortem)</th></tr>
+</tbody></table>
+<p>If false positive rate exceeds 40%, tune AI review rules or switch tools — noise erodes trust.</p>
+<h3 id="6-anti-patterns">6. Anti-Patterns</h3>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<table class="rules"><tbody>
+<tr><th>AI review as sole reviewer</th><th>No human eyes on code</th><th>AI is triage, human is verdict</th></tr>
+<tr><th>Auto-merging AI-approved PRs</th><th>Critical issues slip through</th><th>Auto-approve only for Low/Suggestion + strict conditions (§2)</th></tr>
+<tr><th>Same model generates and reviews</th><th>Shared blind spots amplify</th><th>Different models or mandatory human review</th></tr>
+<tr><th>Ignoring AI findings systematically</th><th>Tool becomes shelfware</th><th>Review false positive rate, tune or replace</th></tr>
+<tr><th>AI review on generated code</th><th>Noise flood, no signal</th><th>Exclude generated files (§4)</th></tr>
+</tbody></table>
+<h3 id="pre-flight">Pre-flight</h3>
+<ul>
+<li>[ ] AI review tool configured with correct exclusion paths (§4)</li>
+<li>[ ] Severity mapping matches team&#x27;s merge-blocking policy (§2)</li>
+<li>[ ] Auto-approve conditions are explicit and enforced (§2)</li>
+<li>[ ] AI-generated code review policy is documented and followed (§3)</li>
+<li>[ ] Quarterly metrics review scheduled (§5)</li>
+<li>[ ] Different models used for code generation vs code review where possible</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

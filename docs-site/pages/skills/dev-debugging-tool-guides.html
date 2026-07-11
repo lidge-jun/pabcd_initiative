@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debugging Tool Reference — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Debugging Tool Reference</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-debugging/references/tool-guides.md</p>
+<h2 id="debugging-tool-reference">Debugging Tool Reference</h2>
+<p>Runtime-specific debugging commands and techniques. Consult when you need to</p>
+<p>attach a debugger, profile performance, or hunt regressions.</p>
+<p>---</p>
+<h3 id="node-js-javascript-typescript">Node.js / JavaScript / TypeScript</h3>
+<h4 id="node-js-inspector">Node.js Inspector</h4>
+<pre><code>node --inspect app.js              # attach anytime via chrome://inspect
+node --inspect-brk app.js         # break before first line of user code
+node --inspect-wait app.js        # wait for debugger (Node 22+)
+# Default: ws://127.0.0.1:9229 → open chrome://inspect</code></pre>
+<h4 id="debugging-test-runners-and-frameworks">Debugging Test Runners and Frameworks</h4>
+<pre><code>node --inspect-brk node_modules/.bin/vitest run --single-thread  # Vitest
+node --inspect-brk node_modules/.bin/jest --runInBand             # Jest
+NODE_OPTIONS=&#x27;--inspect&#x27; next dev                                 # Next.js
+node --inspect-brk --loader tsx src/server.ts                     # TypeScript</code></pre>
+<h4 id="console-techniques">Console Techniques</h4>
+<pre><code>console.trace(&#x27;How did we get here?&#x27;);                           // stack trace
+console.dir(complexObject, { depth: 4, colors: true });          // deep inspect
+console.time(&#x27;db-query&#x27;); await db.query(sql); console.timeEnd(&#x27;db-query&#x27;);
+if (suspiciousValue === null) debugger;                          // conditional break
+
+console.group(&#x27;Request Processing&#x27;);                             // group logs
+console.log(&#x27;Input:&#x27;, input);
+console.log(&#x27;Result:&#x27;, result);
+console.groupEnd();</code></pre>
+<h4 id="memory-debugging">Memory Debugging</h4>
+<pre><code>node --inspect --max-old-space-size=4096 app.js  # DevTools Memory tab → snapshots
+node --trace-warnings app.js                     # MaxListeners, unhandled rejections</code></pre>
+<p>---</p>
+<h3 id="python">Python</h3>
+<h4 id="pdb-breakpoint">pdb / breakpoint()</h4>
+<pre><code>def process_data(items):
+    breakpoint()  # drops into interactive pdb (Python 3.7+)
+    return transform(items)
+
+python -m pdb script.py                  # run under debugger
+python -m pdb -c continue script.py     # post-mortem: run until crash</code></pre>
+<h4 id="pdb-commands">pdb Commands</h4>
+<table class="rules"><tbody>
+<tr><th>Command</th><th>Short</th><th>Description</th></tr>
+<tr><th><code>next</code></th><th><code>n</code></th><th>Step over</th></tr>
+<tr><th><code>step</code></th><th><code>s</code></th><th>Step into</th></tr>
+<tr><th><code>continue</code></th><th><code>c</code></th><th>Continue to next breakpoint</th></tr>
+<tr><th><code>print expr</code></th><th><code>p</code></th><th>Evaluate and print</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>list</code> / <code>longlist</code></th><th><code>l</code> / <code>ll</code></th><th>Show source / full function</th></tr>
+<tr><th><code>where</code></th><th><code>w</code></th><th>Show call stack</th></tr>
+<tr><th><code>up</code> / <code>down</code></th><th><code>u</code> / <code>d</code></th><th>Navigate call stack</th></tr>
+<tr><th><code>break file:line</code></th><th><code>b</code></th><th>Set breakpoint</th></tr>
+<tr><th><code>!statement</code></th><th></th><th>Execute Python statement</th></tr>
+</tbody></table>
+<h4 id="pytest-integration">pytest Integration</h4>
+<pre><code>pytest --pdb                        # drop into debugger on first failure
+pytest --lf                         # re-run only last-failed tests
+pytest -vvs --tb=long --showlocals  # verbose with local vars on failure</code></pre>
+<h4 id="structured-logging-not-print">Structured Logging (Not print)</h4>
+<pre><code>import logging
+logging.basicConfig(level=logging.DEBUG,
+    format=&#x27;%(asctime)s [%(name)s] %(levelname)s: %(message)s&#x27;)
+logger = logging.getLogger(__name__)
+
+logger.debug(&#x27;Processing item=%s state=%s&#x27;, item_id, state)
+logger.error(&#x27;Connection failed&#x27;, exc_info=True)  # includes traceback
+# NOT: print(f&quot;item: {item_id}&quot;)  — unstructured, unfilterable</code></pre>
+<h4 id="debugpy-vs-code-remote">debugpy (VS Code Remote)</h4>
+<pre><code>import debugpy
+debugpy.listen((&quot;0.0.0.0&quot;, 5678))
+debugpy.wait_for_client()  # blocks until VS Code attaches</code></pre>
+<p>---</p>
+<h3 id="browser-chrome-devtools">Browser / Chrome DevTools</h3>
+<h4 id="essential-tabs">Essential Tabs</h4>
+<table class="rules"><tbody>
+<tr><th>Tab</th><th>Use For</th></tr>
+<tr><th><strong>Console</strong></th><th>Errors, <code>console.log</code>, live JS</th></tr>
+<tr><th><strong>Sources</strong></th><th>Breakpoints, step debugging, watch expressions</th></tr>
+<tr><th><strong>Network</strong></th><th>API calls, timing, headers, response bodies</th></tr>
+<tr><th><strong>Performance</strong></th><th>CPU profiling, flame charts, long tasks</th></tr>
+<table class="rules"><tbody>
+<tr><th><strong>Memory</strong></th><th>Heap snapshots, detached DOM nodes</th></tr>
+</tbody></table>
+<h4 id="network-tab-debugging">Network Tab Debugging</h4>
+<pre><code>1. Open Network tab → &quot;Preserve log&quot; → filter: XHR / Doc / WS
+2. Click request → Headers (status, auth) → Response (body) → Timing (TTFB)
+3. Right-click → &quot;Copy as cURL&quot; to reproduce in terminal
+4. Throttle dropdown: simulate Slow 3G for loading state testing</code></pre>
+<h4 id="react-devtools">React DevTools</h4>
+<pre><code>1. Components tab: inspect props, state, hooks of any component
+2. Profiler tab: record → interact → stop → see render durations
+3. &quot;Highlight updates&quot; toggle: find unnecessary re-renders
+4. Click component → &quot;rendered by&quot; traces the parent render chain</code></pre>
+<p>---</p>
+<h3 id="git-bisect-regression-hunting">git bisect — Regression Hunting</h3>
+<p>When something &quot;used to work,&quot; <code>git bisect</code> binary-searches commits to find the break.</p>
+<pre><code>git bisect start
+git bisect bad                      # current commit is broken
+git bisect good &lt;known-good-sha&gt;   # this commit worked
+# Git checks out middle commit → test it → mark good/bad → repeat
+git bisect reset                   # return to original branch when done
+
+# Automated (recommended):
+git bisect start HEAD &lt;known-good-sha&gt;
+git bisect run npm test            # git tests each commit automatically</code></pre>
+<p>---</p>
+<h3 id="database-debugging">Database Debugging</h3>
+<pre><code>-- PostgreSQL: see actual execution plan with timings
+EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT)
+SELECT u.*, COUNT(p.id) FROM users u
+LEFT JOIN posts p ON p.user_id = u.id
+WHERE u.active = true GROUP BY u.id;
+-- Look for: Seq Scan on large tables, Nested Loop with high rows, Sort with high memory
+
+-- Find slow queries (requires pg_stat_statements extension)
+SELECT query, calls, mean_exec_time FROM pg_stat_statements
+ORDER BY mean_exec_time DESC LIMIT 10;
+
+-- MySQL: enable slow query log
+SET GLOBAL slow_query_log = &#x27;ON&#x27;;
+SET GLOBAL long_query_time = 1;</code></pre>
+<p>---</p>
+<h3 id="structured-diagnostic-template">Structured Diagnostic Template</h3>
+<p>When instrumenting a multi-layer system, use this format at each boundary:</p>
+<pre><code>// Format: === DIAGNOSTIC: [layer] === INPUT | CONFIG | OUTPUT | STATUS
+console.log(&#x27;=== DIAGNOSTIC: UserService.create ===&#x27;);
+console.log(&#x27;INPUT:&#x27;, JSON.stringify({ email, name }));
+try {
+  const result = await userRepo.create({ email, name });
+  console.log(&#x27;OUTPUT:&#x27;, JSON.stringify(result), &#x27;| STATUS: success&#x27;);
+} catch (err) {
+  console.log(&#x27;STATUS: failure -&#x27;, err.message);
+  throw err;
+}</code></pre>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

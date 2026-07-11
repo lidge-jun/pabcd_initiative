@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blameless Postmortem Template — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Blameless Postmortem Template</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-debugging/references/postmortem-template.md</p>
+<h2 id="blameless-postmortem-template">Blameless Postmortem Template</h2>
+<p>Use after resolving any incident that was customer-impacting, took &gt;1 hour to</p>
+<p>diagnose, involved 3+ failed fix attempts, or revealed a systemic issue.</p>
+<p><strong>Purpose</strong>: Learning, not blame. Produce at least one action item per postmortem.</p>
+<p>---</p>
+<h3 id="incident-title">Incident: [Title]</h3>
+<p><strong>Date</strong>: YYYY-MM-DD | <strong>Duration</strong>: Xh Ym | <strong>Severity</strong>: P0/P1/P2 | <strong>Author</strong>: [name]</p>
+<h4 id="summary">Summary</h4>
+<p>[2-3 sentences: what happened, who was affected, what was the impact]</p>
+<h4 id="timeline">Timeline</h4>
+<table class="rules"><tbody>
+<tr><th>Time</th><th>Event</th></tr>
+<tr><th>HH:MM</th><th>First symptom / detection</th></tr>
+<tr><th>HH:MM</th><th>Investigation started</th></tr>
+<tr><th>HH:MM</th><th>Root cause identified</th></tr>
+<tr><th>HH:MM</th><th>Mitigation applied</th></tr>
+<table class="rules"><tbody>
+<tr><th>HH:MM</th><th>Permanent fix deployed, verified resolved</th></tr>
+</tbody></table>
+<h4 id="root-cause">Root Cause</h4>
+<p>[Be specific — not &quot;server error&quot; but &quot;missing null check in session middleware</p>
+<p>caused TypeError when Redis timed out, returning 500 for all authenticated requests.&quot;]</p>
+<h4 id="contributing-factors">Contributing Factors</h4>
+<ol>
+<li>[Factor that made the bug possible]</li>
+<li>[Factor that delayed detection]</li>
+<li>[Factor that complicated resolution]</li>
+</ol>
+<h4 id="what-went-well-poorly">What Went Well / Poorly</h4>
+<ul>
+<li>Well: [detection speed, collaboration, tooling...]</li>
+<li>Poorly: [delayed detection, wrong hypothesis, missing tooling...]</li>
+</ul>
+<h4 id="action-items">Action Items</h4>
+<table class="rules"><tbody>
+<tr><th>Action</th><th>Owner</th><th>Deadline</th><th>Status</th></tr>
+<tr><th>[Preventive — stop this bug class]</th><th>@name</th><th>YYYY-MM-DD</th><th>⬜</th></tr>
+<tr><th>[Detective — catch it faster]</th><th>@name</th><th>YYYY-MM-DD</th><th>⬜</th></tr>
+</tbody></table>
+<h4 id="lessons-learned">Lessons Learned</h4>
+<p>[What assumption was wrong? How does this change our mental model?]</p>
+<p>---</p>
+<h3 id="example-profile-updates-return-stale-data-for-30-of-users">Example: Profile updates return stale data for 30% of users</h3>
+<p><strong>Date</strong>: 2026-03-15 | <strong>Duration</strong>: 2h 45m | <strong>Severity</strong>: P1 | <strong>Author</strong>: Jun</p>
+<p><strong>Summary</strong>: After deploying v2.4.1, ~30% of users saw stale profile data.</p>
+<p>PUT /api/profile returned 200 correctly, but GET /api/dashboard returned</p>
+<p>pre-update values for users routed to read replicas.</p>
+<table class="rules"><tbody>
+<tr><th>Time</th><th>Event</th></tr>
+<tr><th>14:00</th><th>v2.4.1 deployed</th></tr>
+<tr><th>14:22</th><th>First user report: &quot;My name didn&#x27;t update&quot;</th></tr>
+<tr><th>14:42</th><th>Diagnostic logging → DB query returns stale data</th></tr>
+<tr><th>14:55</th><th>Root cause: dashboard query moved to read replica without consistency</th></tr>
+<table class="rules"><tbody>
+<tr><th>15:05</th><th>Mitigation: route dashboard reads to primary</th></tr>
+<tr><th>16:45</th><th>Fix deployed: read-after-write consistency for profile queries</th></tr>
+</tbody></table>
+<p><strong>Root Cause</strong>: v2.4.1 moved dashboard query to a read replica for performance.</p>
+<p>Replication lag (100-500ms) meant writes hadn&#x27;t propagated when users immediately</p>
+<p>loaded the dashboard.</p>
+<p><strong>Contributing Factors</strong>: (1) No read-after-write consistency policy, (2) No</p>
+<p>integration test for update-then-read, (3) No replication lag alerting.</p>
+<p><strong>Well</strong>: Report triaged in 8 min; boundary logging pinpointed layer fast.</p>
+<p><strong>Poorly</strong>: Change reviewed without considering consistency; no canary deployment.</p>
+<table class="rules"><tbody>
+<tr><th>Action</th><th>Owner</th><th>Status</th></tr>
+<tr><th>Add <code>readFromPrimary</code> for post-write queries</th><th>@backend</th><th>✅</th></tr>
+<tr><th>Integration test: update → read → assert fresh</th><th>@testing</th><th>✅</th></tr>
+<tr><th>Replica lag alert at &gt;1s</th><th>@infra</th><th>⬜</th></tr>
+</tbody></table>
+<p><strong>Lesson</strong>: Moving a query to a replica looked safe (&quot;it&#x27;s just a read&quot;). We didn&#x27;t</p>
+<p>consider the write-then-read sequence. Rule: any read following a user-initiated</p>
+<p>write must use the primary or wait for replica acknowledgment.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

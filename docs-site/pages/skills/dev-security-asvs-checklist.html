@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASVS 5.0.0 Level 1 and Level 2 Pre-Deploy Checklist — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>ASVS 5.0.0 Level 1 and Level 2 Pre-Deploy Checklist</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-security/references/asvs-checklist.md</p>
+<h2 id="asvs-5-0-0-level-1-and-level-2-pre-deploy-checklist">ASVS 5.0.0 Level 1 and Level 2 Pre-Deploy Checklist</h2>
+<p>Use this checklist before deploying any security-sensitive feature.</p>
+<p>Level 1 is the minimum for ordinary authenticated applications.</p>
+<p>Level 2 is required for admin surfaces, multi-tenant systems, PII, payments, file uploads, and internal tools with elevated access.</p>
+<h3 id="v1-architecture-and-design">V1: Architecture and Design</h3>
+<ul>
+<li>[ ] L1: Threat model identifies assets, attacker types, trust boundaries, and blast radius.</li>
+<li>[ ] L1: Security assumptions and external dependencies are documented.</li>
+<li>[ ] L1: High-risk entry points are listed: auth, payments, uploads, admin, webhooks, exports.</li>
+<li>[ ] L2: Abuse cases are defined for admin actions, exports, file uploads, and automation.</li>
+<li>[ ] L2: High-risk workflows require explicit security review before merge.</li>
+<li>[ ] L2: Trust boundaries are reflected in architecture diagrams, sequence docs, or ADRs.</li>
+</ul>
+<h3 id="v2-authentication">V2: Authentication</h3>
+<ul>
+<li>[ ] L1: Passwords are hashed with <code>argon2id</code> or <code>bcrypt</code>.</li>
+<li>[ ] L1: Login, reset, and MFA verification are rate-limited.</li>
+<li>[ ] L1: Auth failures do not reveal whether the account exists.</li>
+<li>[ ] L1: Password reset and magic-link tokens are short-lived.</li>
+<li>[ ] L2: Step-up authentication protects account recovery, role change, and payout change.</li>
+<li>[ ] L2: Password reset tokens are one-time and stored hashed server-side.</li>
+<li>[ ] L2: Sensitive auth events trigger audit logs and optional alerting.</li>
+</ul>
+<h3 id="v3-session-management">V3: Session Management</h3>
+<ul>
+<li>[ ] L1: Session or refresh cookies use <code>httpOnly</code>, <code>secure</code>, and <code>sameSite</code>.</li>
+<li>[ ] L1: Access tokens are short-lived and refresh tokens rotate on use.</li>
+<li>[ ] L1: Logout invalidates the active session server-side.</li>
+<li>[ ] L1: Session identifiers are never placed in URLs.</li>
+<li>[ ] L2: Session family invalidation runs after token reuse, password change, or privilege change.</li>
+<li>[ ] L2: Session scope is bounded by path, audience, and device or risk context where applicable.</li>
+<li>[ ] L2: Concurrency limits or re-auth requirements exist for privileged sessions.</li>
+</ul>
+<h3 id="v4-access-control">V4: Access Control</h3>
+<ul>
+<li>[ ] L1: Every protected route checks authorization, not only authentication.</li>
+<li>[ ] L1: Resource access is scoped by tenant, owner, role, or policy.</li>
+<li>[ ] L1: Hidden fields and client-supplied role flags are ignored.</li>
+<li>[ ] L1: Response serializers exclude admin-only or internal fields.</li>
+<li>[ ] L2: Bulk actions, exports, admin tools, and background jobs re-check authorization.</li>
+<li>[ ] L2: Multi-tenant reads and writes are isolated in the query layer as well as the route layer.</li>
+<li>[ ] L2: Support tooling and back-office actions follow the same policy model.</li>
+</ul>
+<h3 id="v5-validation-sanitization-and-encoding">V5: Validation, Sanitization, and Encoding</h3>
+<ul>
+<li>[ ] L1: All external input is schema-validated at the first trusted boundary.</li>
+<li>[ ] L1: Unknown fields are rejected by default.</li>
+<li>[ ] L1: Output is encoded for the correct sink: HTML, URL, header, log, shell, or SQL parameter.</li>
+<li>[ ] L1: Filenames, sort keys, and enum-like inputs use allowlists.</li>
+<li>[ ] L2: Rich text is sanitized with a maintained sanitizer before rendering.</li>
+<li>[ ] L2: Dangerous sinks such as shell commands, raw SQL, and template execution use allowlists or parameterization only.</li>
+<li>[ ] L2: File parsing, CSV import, and report generation flows validate size, type, and content assumptions.</li>
+</ul>
+<h3 id="v6-stored-cryptography">V6: Stored Cryptography</h3>
+<ul>
+<li>[ ] L1: Sensitive data at rest uses approved platform crypto or managed encryption.</li>
+<li>[ ] L1: Secrets, keys, and certificates are not stored in source control.</li>
+<li>[ ] L1: Production traffic uses TLS and HSTS.</li>
+<li>[ ] L1: Browser session tokens are not stored in <code>localStorage</code>.</li>
+<li>[ ] L2: Key rotation, revocation, and secret ownership are documented and testable.</li>
+<li>[ ] L2: Encryption context, key scope, and data classification are defined for protected data.</li>
+<li>[ ] L2: Emergency key rollover is rehearsed or documented step by step.</li>
+</ul>
+<h3 id="v7-error-handling-and-logging">V7: Error Handling and Logging</h3>
+<ul>
+<li>[ ] L1: Client errors are generic and avoid stack traces or internal identifiers.</li>
+<li>[ ] L1: Security-relevant events are logged with request correlation IDs.</li>
+<li>[ ] L1: Tokens, passwords, cookies, raw PII, and payment values are redacted.</li>
+<li>[ ] L1: Error responses preserve a stable contract for callers.</li>
+<li>[ ] L2: Alerts exist for brute force, repeated auth denial, signature failure, and abnormal webhook activity.</li>
+<li>[ ] L2: Audit logs are retained and access-controlled according to business policy.</li>
+<li>[ ] L2: Incident response owners know where to find redacted logs, traces, and audit records.</li>
+</ul>
+<h3 id="v8-data-protection">V8: Data Protection</h3>
+<ul>
+<li>[ ] L1: Data classification exists for secrets, credentials, PII, and sensitive business data.</li>
+<li>[ ] L1: Only the minimum required data is collected and stored.</li>
+<li>[ ] L1: Non-production data is masked or synthetic when sourced from real users.</li>
+<li>[ ] L1: Data retention has an owner and a stated purpose.</li>
+<li>[ ] L2: Retention, deletion, and right-to-erasure behavior are defined for protected data.</li>
+<li>[ ] L2: Exports, backups, and analytics sinks preserve masking and access control.</li>
+<li>[ ] L2: Payment, identity, and support data have separate access rules where needed.</li>
+</ul>
+<h3 id="v9-api-and-web-security">V9: API and Web Security</h3>
+<ul>
+<li>[ ] L1: CORS is explicit per origin, method, and header; never wildcard in production for credentialed requests.</li>
+<li>[ ] L1: Security headers include CSP, HSTS, <code>nosniff</code>, referrer policy, and frame protection.</li>
+<li>[ ] L1: Webhooks verify signatures before processing.</li>
+<li>[ ] L1: Public endpoints are rate-limited and abuse-aware.</li>
+<li>[ ] L2: File uploads enforce size, type, storage isolation, and authorization on download.</li>
+<li>[ ] L2: Payments use idempotency keys, provider signature verification, and reconciliation checks.</li>
+<li>[ ] L2: Browser code respects CSP, XSS, cookie, and dependency-audit rules.</li>
+</ul>
+<h3 id="release-decision">Release Decision</h3>
+<ul>
+<li>[ ] All applicable Level 1 items pass.</li>
+<li>[ ] All applicable Level 2 items pass for high-risk features.</li>
+<li>[ ] Exceptions are documented with owner, expiration date, and mitigation.</li>
+<li>[ ] Static analysis and secret scanning results are attached to the deploy or PR record.</li>
+<li>[ ] Open findings have a written rationale, follow-up issue, and temporary containment.</li>
+<li>[ ] Deployment notes include rollback steps for auth, payment, upload, and secret-related changes.</li>
+<li>[ ] Monitoring dashboards or alerts are ready before traffic is shifted to the new release.</li>
+</ul>
+<h3 id="evidence-pack">Evidence Pack</h3>
+<ul>
+<li>[ ] Link the threat model or design review that covers the release.</li>
+<li>[ ] Link the CI run that contains SAST, dependency audit, and secret-scan results.</li>
+<li>[ ] Link the test evidence for auth, authorization, upload, payment, or webhook flows touched by the change.</li>
+</ul>
+<p>Use this checklist together with <code>references/owasp-top10.md</code> for code examples and <code>references/static-analysis.md</code> for the enforcement pipeline.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

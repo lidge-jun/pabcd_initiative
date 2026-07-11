@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Favicon &amp; Product Logo — Design Judgment &amp; Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Favicon &amp; Product Logo — Design Judgment &amp; Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/favicon-logo.md</p>
+<h2 id="favicon-product-logo-design-judgment-patterns">Favicon &amp; Product Logo — Design Judgment &amp; Patterns</h2>
+<p>Design guidance for favicons, product logos, and brand identity elements in web applications. Covers decision-making and design rationale.</p>
+<p>Read <code>dev-frontend</code> references for CSS implementation details.</p>
+<p>Read <code>logo-trust-sections.md</code> for partner/client logo bars (separate concern).</p>
+<p>---</p>
+<h3 id="favicon-the-modern-minimum-set">Favicon: The Modern Minimum Set</h3>
+<p>You need <strong>5 image files + 1 manifest</strong>. Everything else is legacy bloat.</p>
+<table class="rules"><tbody>
+<tr><th>File</th><th>Size</th><th>Purpose</th></tr>
+<tr><th><code>favicon.ico</code></th><th>32x32</th><th>Legacy browser fallback</th></tr>
+<tr><th><code>icon.svg</code></th><th>Scalable</th><th>Modern browsers, dark mode via CSS media query</th></tr>
+<tr><th><code>apple-touch-icon.png</code></th><th>180x180</th><th>iOS home screen bookmark</th></tr>
+<tr><th><code>icon-192.png</code></th><th>192x192</th><th>Android home screen, PWA minimum</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>icon-512.png</code></th><th>512x512</th><th>PWA splash screen, install prompt</th></tr>
+</tbody></table>
+<p>Plus <code>site.webmanifest</code> referencing the 192 and 512 PNGs.</p>
+<p><strong>Skip list (2025+):</strong> 96x96, 128x128, 64x64, 144x144, msapplication-TileImage. All obsolete.</p>
+<h4 id="html-head-markup">HTML Head Markup</h4>
+<pre><code>&lt;link rel=&quot;icon&quot; href=&quot;/favicon.ico&quot; sizes=&quot;32x32&quot;&gt;
+&lt;link rel=&quot;icon&quot; href=&quot;/icon.svg&quot; type=&quot;image/svg+xml&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; href=&quot;/apple-touch-icon.png&quot;&gt;
+&lt;link rel=&quot;manifest&quot; href=&quot;/site.webmanifest&quot;&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#4a90d9&quot;&gt;</code></pre>
+<p>Order matters: ICO first (fallback), then SVG (modern browsers pick this).</p>
+<h4 id="web-manifest">Web Manifest</h4>
+<pre><code>{
+  &quot;name&quot;: &quot;App Name&quot;,
+  &quot;short_name&quot;: &quot;App&quot;,
+  &quot;icons&quot;: [
+    { &quot;src&quot;: &quot;/icon-192.png&quot;, &quot;type&quot;: &quot;image/png&quot;, &quot;sizes&quot;: &quot;192x192&quot; },
+    { &quot;src&quot;: &quot;/icon-512.png&quot;, &quot;type&quot;: &quot;image/png&quot;, &quot;sizes&quot;: &quot;512x512&quot; },
+    { &quot;src&quot;: &quot;/icon-mask.png&quot;, &quot;type&quot;: &quot;image/png&quot;, &quot;sizes&quot;: &quot;512x512&quot;, &quot;purpose&quot;: &quot;maskable&quot; }
+  ],
+  &quot;theme_color&quot;: &quot;#4a90d9&quot;,
+  &quot;background_color&quot;: &quot;#ffffff&quot;,
+  &quot;display&quot;: &quot;standalone&quot;
+}</code></pre>
+<h4 id="maskable-icon-android-adaptive">Maskable Icon (Android Adaptive)</h4>
+<p>Android 13+ crops icons into adaptive shapes (circles, squircles). The safe zone is a centered circle with 40% radius of the canvas. In practice: <strong>at least 10% padding on all sides</strong>. Never reuse the standard 512 icon — create a dedicated maskable version. Preview at https://maskable.app.</p>
+<p>---</p>
+<h3 id="svg-favicon-dark-mode">SVG Favicon Dark Mode</h3>
+<p>SVG favicons can embed <code>prefers-color-scheme</code> to adapt automatically:</p>
+<pre><code>&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 128 128&quot;&gt;
+  &lt;style&gt;
+    .logo-fill { fill: #1a1a2e; }
+    @media (prefers-color-scheme: dark) {
+      .logo-fill { fill: #f0f0f0; }
+    }
+  &lt;/style&gt;
+  &lt;circle class=&quot;logo-fill&quot; cx=&quot;64&quot; cy=&quot;64&quot; r=&quot;60&quot; /&gt;
+&lt;/svg&gt;</code></pre>
+<p><strong>Browser support:</strong></p>
+<table class="rules"><tbody>
+<tr><th>Browser</th><th>SVG Favicon</th><th>Dark Mode in SVG</th></tr>
+<tr><th>Chrome 80+</th><th>Yes</th><th>Yes</th></tr>
+<tr><th>Firefox 41+</th><th>Yes</th><th>Yes</th></tr>
+<tr><th>Edge (Chromium)</th><th>Yes</th><th>Yes</th></tr>
+<tr><th>Safari 15+</th><th>Renders SVG</th><th>Does NOT apply embedded <code>@media</code></th></tr>
+</tbody></table>
+<p>Safari caveat: always shows light-mode variant. For Safari dark-mode favicons, swap a PNG via JS <code>matchMedia</code>.</p>
+<p><strong>Rules:</strong></p>
+<ul>
+<li>Always set <code>viewBox</code>. Browsers default to 16x16 without it.</li>
+<li>Keep SVG simple. Complex paths at 16px tab size become noise.</li>
+<li>Test at actual tab size, not at source resolution.</li>
+</ul>
+<p>---</p>
+<h3 id="deriving-a-favicon-from-a-logo">Deriving a Favicon from a Logo</h3>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Rationale</th></tr>
+<tr><th>Use the logomark, not the wordmark</th><th>Text is illegible at 16x16</th></tr>
+<tr><th>Strip to 1-2 elements</th><th>Detail vanishes at small sizes</th></tr>
+<tr><th>Maximum 3 colors (2 is better)</th><th>Color distinction fails at low resolution</th></tr>
+<tr><th>Push contrast hard</th><th>White mark on vivid background holds up better than subtle coloring</th></tr>
+<table class="rules"><tbody>
+<tr><th>Test on dark tab backgrounds</th><th>Dark favicons vanish against dark browser chrome</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="generation-workflow">Generation Workflow</h3>
+<ol>
+<li>Design the icon at 512x512 or as SVG in Figma/Illustrator</li>
+<li>Create the SVG version manually (for dark mode — generators can&#x27;t produce this)</li>
+<li>Run through RealFaviconGenerator for all PNG/ICO sizes</li>
+<li>Create a separate maskable version with safe-zone padding</li>
+<li>Validate with RealFaviconGenerator&#x27;s checker</li>
+</ol>
+<p><strong>Framework-specific:</strong></p>
+<ul>
+<li><strong>Next.js App Router:</strong> Drop <code>favicon.ico</code>, <code>icon.svg</code>, <code>apple-icon.png</code> into <code>app/</code>. Auto-generates <code>&lt;link&gt;</code> tags. For programmatic: export default from <code>app/icon.tsx</code> using <code>ImageResponse</code>.</li>
+<li><strong>Vite/React/Vue:</strong> Place in <code>public/</code>. Reference with absolute paths in <code>index.html</code>.</li>
+</ul>
+<p>---</p>
+<h3 id="product-logo-in-navigation">Product Logo in Navigation</h3>
+<h4 id="sizing">Sizing</h4>
+<table class="rules"><tbody>
+<tr><th>Context</th><th>Height</th><th>Max Width</th></tr>
+<tr><th>Desktop header</th><th>40-48px</th><th>280px</th></tr>
+<tr><th>Mobile header</th><th>32-40px</th><th>160px</th></tr>
+<tr><th>Retina/HiDPI</th><th>2x PNG or SVG</th><th>Same</th></tr>
+</tbody></table>
+<p>Use fixed height + <code>width: auto</code> + <code>max-width</code> constraint. Set explicit <code>width</code> and <code>height</code> attributes on <code>&lt;img&gt;</code> to prevent CLS.</p>
+<h4 id="responsive-collapse">Responsive Collapse</h4>
+<ol>
+<li><strong>Full logo</strong> (mark + wordmark) above 1024px</li>
+<li><strong>Logomark only</strong> at 768-1024px</li>
+<li><strong>Hamburger appears</strong> below 768px, logomark stays</li>
+</ol>
+<h4 id="logo-as-home-link">Logo as Home Link</h4>
+<p>Universal UX convention. Implementation:</p>
+<pre><code>&lt;a href=&quot;/&quot; aria-label=&quot;Homepage&quot;&gt;
+  &lt;img src=&quot;/logo.svg&quot; alt=&quot;Acme Corp&quot; width=&quot;200&quot; height=&quot;48&quot;&gt;
+&lt;/a&gt;</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Left-align (LTR). Always link to <code>/</code>.</li>
+<li>Use SVG for the logo image when possible.</li>
+<li>Click target: minimum 44x44px (WCAG 2.2 AAA). Pad with CSS if the logo is smaller.</li>
+<li>If the logo is the only content identifying the company, <code>alt</code> must name the org.</li>
+<li>If adjacent text already names the org, use <code>alt=&quot;&quot;</code> (decorative).</li>
+</ul>
+<h4 id="inline-svg-logo">Inline SVG Logo</h4>
+<pre><code>&lt;a href=&quot;/&quot;&gt;
+  &lt;svg role=&quot;img&quot; aria-label=&quot;Acme Corp&quot; viewBox=&quot;0 0 200 48&quot;&gt;
+    &lt;title&gt;Acme Corp&lt;/title&gt;
+    &lt;!-- paths --&gt;
+  &lt;/svg&gt;
+&lt;/a&gt;</code></pre>
+<p>---</p>
+<h3 id="dark-mode-logo">Dark Mode Logo</h3>
+<p>Four techniques, ranked by reliability:</p>
+<h4 id="1-separate-variants-most-reliable">1. Separate variants (most reliable)</h4>
+<pre><code>&lt;picture&gt;
+  &lt;source srcset=&quot;/logo-dark.svg&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+  &lt;img src=&quot;/logo-light.svg&quot; alt=&quot;Acme Corp&quot; /&gt;
+&lt;/picture&gt;</code></pre>
+<h4 id="2-svg-embedded-prefers-color-scheme">2. SVG embedded <code>prefers-color-scheme</code></h4>
+<p>Works in <code>&lt;img&gt;</code>, CSS backgrounds, and favicons.</p>
+<pre><code>&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 200 50&quot;&gt;
+  &lt;style&gt;
+    .brand { fill: #1a1a2e; }
+    @media (prefers-color-scheme: dark) {
+      .brand { fill: #f5f5f5; }
+    }
+  &lt;/style&gt;
+  &lt;path class=&quot;brand&quot; d=&quot;...&quot; /&gt;
+&lt;/svg&gt;</code></pre>
+<h4 id="3-svg-currentcolor-monochrome-only">3. SVG <code>currentColor</code> (monochrome only)</h4>
+<pre><code>&lt;svg viewBox=&quot;0 0 100 100&quot;&gt;&lt;path fill=&quot;currentColor&quot; d=&quot;...&quot; /&gt;&lt;/svg&gt;</code></pre>
+<p>Inherits parent&#x27;s CSS <code>color</code>. Only works with inline SVGs, not <code>&lt;img&gt;</code> tags.</p>
+<h4 id="4-css-filter-last-resort">4. CSS <code>filter</code> (last resort)</h4>
+<pre><code>@media (prefers-color-scheme: dark) {
+  .logo img { filter: invert(1) hue-rotate(180deg); }
+}</code></pre>
+<p>Imprecise for multi-color logos. Use only for simple single-color marks.</p>
+<p>---</p>
+<h3 id="logo-in-footer">Logo in Footer</h3>
+<ul>
+<li>Height: <strong>50-75% of header logo</strong> (16-20px if header is 28px)</li>
+<li>Use a monochrome/neutral variant (grayscale or muted)</li>
+<li>Left-aligned or centered, near copyright line</li>
+<li><code>loading=&quot;lazy&quot;</code> if below the fold</li>
+</ul>
+<p>---</p>
+<h3 id="open-graph-social-sharing">Open Graph &amp; Social Sharing</h3>
+<h4 id="required-images">Required Images</h4>
+<table class="rules"><tbody>
+<tr><th>Platform</th><th>Size</th><th>Ratio</th></tr>
+<tr><th>Facebook, LinkedIn, Slack, Discord</th><th>1200x630px</th><th>1.91:1</th></tr>
+<tr><th>X summary_large_image</th><th>1200x630px</th><th>1.91:1</th></tr>
+<tr><th>X summary card</th><th>240x240px min</th><th>1:1</th></tr>
+</tbody></table>
+<p>Keep text/elements within the center 1080x600 safe zone.</p>
+<h4 id="meta-tags">Meta Tags</h4>
+<pre><code>&lt;meta property=&quot;og:image&quot; content=&quot;https://example.com/og-image.png&quot; /&gt;
+&lt;meta property=&quot;og:image:width&quot; content=&quot;1200&quot; /&gt;
+&lt;meta property=&quot;og:image:height&quot; content=&quot;630&quot; /&gt;
+&lt;meta property=&quot;og:image:alt&quot; content=&quot;Acme Corp&quot; /&gt;
+&lt;meta name=&quot;twitter:card&quot; content=&quot;summary_large_image&quot; /&gt;
+&lt;meta name=&quot;twitter:image&quot; content=&quot;https://example.com/og-image.png&quot; /&gt;</code></pre>
+<p>Tags must be server-rendered. Social crawlers do not execute JavaScript.</p>
+<h4 id="schema-org-organization-logo">Schema.org Organization Logo</h4>
+<pre><code>{
+  &quot;@context&quot;: &quot;https://schema.org&quot;,
+  &quot;@type&quot;: &quot;Organization&quot;,
+  &quot;name&quot;: &quot;Acme Corp&quot;,
+  &quot;url&quot;: &quot;https://example.com&quot;,
+  &quot;logo&quot;: { &quot;@type&quot;: &quot;ImageObject&quot;, &quot;url&quot;: &quot;https://example.com/logo.png&quot;, &quot;width&quot;: 600, &quot;height&quot;: 600 }
+}</code></pre>
+<p>Google requires at least 112x112px. Must be crawlable.</p>
+<p>---</p>
+<h3 id="brand-tokens-from-logo">Brand Tokens from Logo</h3>
+<p>Extract the primary brand color from the logo and generate a full scale:</p>
+<p><strong>Primitive tokens</strong> (raw values):</p>
+<pre><code>:root {
+  --color-brand-500: #1a73e8;  /* logo primary color */
+  --color-brand-400: #4a90d9;
+  --color-brand-600: #1557b0;
+}</code></pre>
+<p><strong>Semantic tokens</strong> (usage-based):</p>
+<pre><code>:root {
+  --color-brand-primary:    var(--color-brand-500);
+  --color-brand-hover:      var(--color-brand-600);
+  --color-brand-subtle:     var(--color-brand-400);
+  --color-brand-on-primary: #ffffff;
+}</code></pre>
+<p>Generate the full 50-950 scale using OKLCH for perceptual evenness. Reference: <code>color-system.md</code>.</p>
+<p>---</p>
+<h3 id="empty-state-error-page-logos">Empty State &amp; Error Page Logos</h3>
+<table class="rules"><tbody>
+<tr><th>Context</th><th>Logo Treatment</th></tr>
+<tr><th>404 / 500 error</th><th>Simplified mark, not prominent. Focus is on error message + recovery action.</th></tr>
+<tr><th>Empty state (no data)</th><th>Contextual illustration preferred over logo. Brand presence via nav header.</th></tr>
+<tr><th>First-run / onboarding</th><th>Full logo acceptable as part of welcome.</th></tr>
+<tr><th>Maintenance page</th><th>Full logo + brand colors to reassure users.</th></tr>
+</tbody></table>
+<p>Never place a large isolated logo as the centerpiece of a 404 page — users read it as a dead end. Pair a small mark with clear next-step navigation.</p>
+<p>---</p>
+<h3 id="animated-logo">Animated Logo</h3>
+<p><strong>When appropriate:</strong> App launch/splash (under 3s), page transitions as loading indicator, marketing hero sections.</p>
+<p><strong>When not:</strong> Nav logo on every page load, on scroll, or as persistent decoration.</p>
+<p><strong>Performance:</strong></p>
+<ul>
+<li>Prefer CSS animations (transform, opacity) — GPU-composited.</li>
+<li>Lottie for complex animations adds 50-250KB. Only justified for splash screens.</li>
+<li>Keep animated SVGs under 10KB.</li>
+</ul>
+<p><strong><code>prefers-reduced-motion</code> is mandatory (WCAG 2.1 AA):</strong></p>
+<pre><code>.logo-animated { animation: logo-entrance 1.2s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .logo-animated { animation: none; }
+}</code></pre>
+<p>---</p>
+<h3 id="common-mistakes">Common Mistakes</h3>
+<table class="rules"><tbody>
+<tr><th>Mistake</th><th>Why It Matters</th></tr>
+<tr><th>Blurry favicons</th><th>Scaling 512px to 16px with generic resampling. Generate each size natively or use SVG.</th></tr>
+<tr><th>Missing apple-touch-icon</th><th>iOS shows ugly screenshot clip on home screen save.</th></tr>
+<tr><th>Reusing standard icon as maskable</th><th>Android crops it — logo text gets clipped without safe-zone padding.</th></tr>
+<tr><th>Not testing at actual tab size</th><th>512px preview is meaningless. Test at 16px in real browser tabs.</th></tr>
+<table class="rules"><tbody>
+<tr><th>Forgetting dark mode</th><th>Dark favicon vanishes against dark browser chrome.</th></tr>
+<tr><th>Transparent apple-touch-icon</th><th>iOS replaces transparency with black. Always use solid background.</th></tr>
+<tr><th>Missing <code>sizes</code> attribute</th><th>Browser picks wrong resolution file.</th></tr>
+<tr><th>No explicit width/height on logo <code>&lt;img&gt;</code></th><th>Causes CLS as image loads.</th></tr>
+<tr><th>Over-complex favicon design</th><th>Detailed illustrations at 16px become noise. Simplify ruthlessly.</th></tr>
+<table class="rules"><tbody>
+<tr><th>Stale cached favicons</th><th>Use <code>?v=2</code> query string during rollout, remove after propagation.</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="performance">Performance</h3>
+<ul>
+<li><strong>Cache aggressively:</strong> <code>Cache-Control: public, immutable, max-age=31536000</code> for favicons (rarely change).</li>
+<li><strong>Minify SVG:</strong> SVGO, strip editor metadata. Target under 1KB for favicon SVGs.</li>
+<li><strong>Compress PNG:</strong> pngquant/oxipng. 32x32 should be under 2KB.</li>
+<li><strong>Don&#x27;t serve from a different domain</strong> (extra DNS lookup).</li>
+<li><strong>Don&#x27;t use Base64 data URIs</strong> for favicons (bloats HTML, defeats caching).</li>
+<li><strong>Preload primary favicon</strong> if needed: <code>&lt;link rel=&quot;preload&quot; href=&quot;/icon.svg&quot; as=&quot;image&quot; type=&quot;image/svg+xml&quot;&gt;</code> — but only the primary one.</li>
+<li><strong><code>loading=&quot;lazy&quot;</code></strong> on trust-bar logos below fold, NOT on header logo.</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

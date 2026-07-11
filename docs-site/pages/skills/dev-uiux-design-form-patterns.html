@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form Design Patterns — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Form Design Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/form-patterns.md</p>
+<h2 id="form-design-patterns">Form Design Patterns</h2>
+<p>Validation timing, multi-step wizards, auth forms, file upload, and search/filter.</p>
+<h3 id="validation-timing">Validation Timing</h3>
+<table class="rules"><tbody>
+<tr><th>Strategy</th><th>When</th><th>Use For</th></tr>
+<tr><th><strong>On blur</strong> (default)</th><th>User leaves the field</th><th>Most fields — email, name, phone</th></tr>
+<tr><th><strong>On submit</strong></th><th>Form is submitted</th><th>Short forms (≤ 4 fields), payment</th></tr>
+<tr><th><strong>Real-time</strong></th><th>As user types, debounced 300ms</th><th>Username availability, search</th></tr>
+<tr><th><strong>On blur + on change after first error</strong></th><th>First error on blur, subsequent on keystroke</th><th>Long forms</th></tr>
+</tbody></table>
+<ul>
+<li>Never show errors on empty fields before first interaction</li>
+<li>Error appears below the field, not in a top-level alert</li>
+<li>Error state: red border + error icon + message text (never color alone)</li>
+<li>Success state: green check on field, NOT green border (a11y)</li>
+<li>Clear error when user starts correcting</li>
+</ul>
+<h3 id="multi-step-form-wizard">Multi-Step Form (Wizard)</h3>
+<pre><code>Step Indicator (1/3, 2/3, 3/3)
+├── Step Title
+├── Fields for this step
+├── [Back] [Next / Submit]
+└── Progress bar (optional)</code></pre>
+<ul>
+<li>Step indicator always visible (horizontal bar or numbered pills)</li>
+<li>Back button preserves all entered data</li>
+<li>Validate current step before allowing Next</li>
+<li>Final step shows summary before Submit</li>
+<li>Save partial state to sessionStorage (refresh-safe)</li>
+<li>Mobile: full-width steps, no horizontal scroll for indicator</li>
+<li>Max 5 steps — break longer flows into separate forms</li>
+</ul>
+<h3 id="auth-password-forms">Auth / Password Forms</h3>
+<h4 id="sign-in">Sign In</h4>
+<pre><code>[Email / Username]
+[Password] [Show/Hide toggle]
+[Forgot password?]
+[Sign In]
+[— or —]
+[Social login buttons]</code></pre>
+<h4 id="sign-up">Sign Up</h4>
+<pre><code>[Email]
+[Password] [Strength meter below]
+[Confirm password]
+[Terms checkbox]
+[Sign Up]</code></pre>
+<ul>
+<li>Show/hide toggle as icon button inside the password field</li>
+<li>Strength meter: visual bar (red → yellow → green) + text label</li>
+<ul>
+<li>Weak: &lt; 8 chars or common password</li>
+<li>Medium: 8+ chars, mixed case</li>
+<li>Strong: 12+ chars, mixed case + number + symbol</li>
+</ul>
+<li>Never disable paste on password fields</li>
+<li><code>autocomplete</code>: <code>username</code>, <code>current-password</code>, <code>new-password</code></li>
+<li>Passkey/WebAuthn: offer as primary when supported</li>
+<li>Wrong credentials: &quot;Invalid email or password&quot; (never reveal which)</li>
+</ul>
+<h3 id="file-upload">File Upload</h3>
+<pre><code>[Drop zone: dashed border, icon, &quot;Drag files here or click&quot;]
+[File list: name, size, progress bar, remove]</code></pre>
+<ul>
+<li><code>accept</code> attribute: specify allowed types</li>
+<li>Max file size visible in drop zone text</li>
+<li>Individual progress bar per file</li>
+<li>Preview: thumbnails for images, icon + filename for documents</li>
+<li>Failed files: red highlight + retry button</li>
+<li>Multiple files: drag handles if order matters</li>
+<li>Drop zone is <code>&lt;button&gt;</code> or <code>role=&quot;button&quot;</code>, keyboard-activatable</li>
+<li>Mobile: tap opens file picker, camera option for images</li>
+</ul>
+<h3 id="search-filter">Search / Filter</h3>
+<pre><code>[Search input + icon]
+[Filter pills / dropdown] [Active filter count]
+[Results count: &quot;42 results&quot;]
+[Clear all filters]</code></pre>
+<ul>
+<li>Debounce search input 300ms before querying</li>
+<li>Empty: show suggestions or recent searches</li>
+<li>Filter state reflected in URL query params (shareable, back-button works)</li>
+<li>Loading: skeleton results, not blank screen</li>
+<li>No results: helpful message + suggest clearing filters</li>
+</ul>
+<h3 id="pre-flight">Pre-flight</h3>
+<ul>
+<li>[ ] Validation uses on-blur timing by default</li>
+<li>[ ] Error messages appear below the relevant field</li>
+<li>[ ] Password fields have show/hide toggle and <code>autocomplete</code></li>
+<li>[ ] Multi-step forms preserve data on back/refresh</li>
+<li>[ ] File uploads show individual progress and support drag-and-drop</li>
+</ul>
+<h3 id="cross-references">Cross-references</h3>
+<ul>
+<li>Mobile form rules: <code>dev-frontend/references/core/mobile-ux.md</code></li>
+<li>Validation UX states: <code>ux-states.md</code> §9</li>
+<li>Schema validation: <code>dev-frontend/SKILL.md</code> §10 (Zod + react-hook-form)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

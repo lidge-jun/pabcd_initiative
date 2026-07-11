@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loop-Engineering Alignment — Full Rules (dev-pabcd §11) — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-pabcd/references/loop-engineering.md</p>
+<h2 id="loop-engineering-alignment-full-rules-dev-pabcd-11">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</h2>
+<p>Canonical full text for the §11 stub in <code>../SKILL.md</code>. Rule IDs and section numbers</p>
+<p>are stable; the router keeps a one-line summary per rule and this file holds the</p>
+<p>complete wording. Genealogy and sources: <code>backlog/260702_loop_engineering_backlog.md</code></p>
+<p>in the initiative repo.</p>
+<h3 id="context">Context</h3>
+<p>PABCD is the macro loop: phase-level control with gates. Loop engineering supplies the</p>
+<p>micro-loop rules inside each phase. This file holds the adopted subset in full.</p>
+<h4 id="11-1-loop-values-default">§11.1 Loop values (DEFAULT)</h4>
+<ul>
+<li><strong>Feedback must change the next action.</strong> A cycle whose result does not alter the next</li>
+</ul>
+<p>step is not a loop — it is a retry. Read the failure delta before acting again.</p>
+<ul>
+<li><strong>The verifier outranks the prompt.</strong> Prefer deterministic evidence (tests, exit codes,</li>
+</ul>
+<p>diffs) over model self-assessment; the maker does not grade its own homework when a</p>
+<p>stronger verifier exists.</p>
+<ul>
+<li><strong>Memory lives on disk</strong>, not in the transcript: worklog, devlog, attestations. The</li>
+</ul>
+<p>next iteration must be able to resume from artifacts alone.</p>
+<ul>
+<li><strong>Budget exhaustion ≠ done.</strong> Never report a budget stop as success.</li>
+<li><strong>Context pressure ≠ budget exhaustion.</strong> Compaction is survivable BY DESIGN because</li>
+</ul>
+<p>memory lives on disk: an approaching context limit means checkpoint durable state</p>
+<p>(goalplan, ledger, devlog) and continue after the flush — it is never grounds to close</p>
+<p>the goal, shrink the plan, or report <code>DONE</code>/<code>BUDGET_EXHAUSTED</code>. <code>BUDGET_EXHAUSTED</code></p>
+<p>requires a bound the plan actually stated (tokens, cost, wall-clock).</p>
+<ul>
+<li><strong>Interview does not &quot;solve&quot; intent transfer</strong> — it produces a testable initial</li>
+</ul>
+<p>loop-spec. Later evidence may force an Interview return; that return path existing is</p>
+<p>the design&#x27;s own admission that intent is refined cyclically, not settled up front.</p>
+<h4 id="11-2-terminal-state-vocabulary-default">§11.2 Terminal-state vocabulary (DEFAULT)</h4>
+<p>D is the success exit, not the only exit. Reports must name which terminal state the</p>
+<p>close-out actually represents: <code>DONE</code> (verified success) · <code>NOOP</code> (nothing needed) ·</p>
+<p><code>BLOCKED</code> (external dependency) · <code>UNSAFE</code> (needs a human risk decision) · <code>NEEDS_HUMAN</code></p>
+<p>(judgment only the user can make) · <code>BUDGET_EXHAUSTED</code> (resources ran out — adopt</p>
+<p>best-so-far and say so). These are agent-recognized report states, not FSM states: the</p>
+<p>FSM still closes via D or <code>reset</code>; the D summary states the real terminal state.</p>
+<h4 id="11-3-repair-loop-discipline-c-b-returns">§11.3 Repair-loop discipline (C→B returns)</h4>
+<p>The B/C inner loop is: implement → run verifier → read the failure delta → repair only</p>
+<p>the failing delta → re-verify.</p>
+<ul>
+<li><strong>DEFAULT (LOOP-REPAIR-01):</strong> 2 consecutive failed repairs of the same failure → stop</li>
+</ul>
+<p>patching, enter root-cause mode (<code>dev-debugging</code>). 3 → escalate: replan (return to P)</p>
+<p>or Interview return. &quot;One more attempt&quot; past these thresholds is the doom loop.</p>
+<ul>
+<li><strong>HEURISTIC (LOOP-DOOM-01):</strong> 3 attestation failures in the same phase within one</li>
+</ul>
+<p>work-phase → treat as no-progress and force an Interview return. Self-applied for now;</p>
+<p>server-side enforcement is recorded as backlog.</p>
+<h4 id="11-4-loop-archetype-by-problem-type-default-loop-archetype-01">§11.4 Loop archetype by problem type (DEFAULT, LOOP-ARCHETYPE-01)</h4>
+<p>Classify the work-phase&#x27;s problem type before choosing the inner loop shape:</p>
+<ul>
+<li><strong>Spec-satisfaction</strong> — the verifier defines *done* (tests, contracts, tsc). Use the</li>
+</ul>
+<p>§11.3 repair loop; it converges. Iterate until green.</p>
+<ul>
+<li><strong>Open-ended optimization</strong> — the verifier only defines *better* (scores, win rates,</li>
+</ul>
+<p>adversarial opponents). Repair loops plateau at local optima here: they polish the</p>
+<p>current strategy instead of finding the missing one. Use an **explore-and-select</p>
+<p>loop**: generate diverse candidates in parallel (different strategies, not parameter</p>
+<p>tweaks — LOOP-CANDIDATE-ANCHOR-01 in §10), evaluate all on the same instances, keep</p>
+<p>best-so-far, regenerate from the winner. Stop on plateau (LOOP-PHASE-DEATH-01) or</p>
+<p>budget; the exit state is <code>BUDGET_EXHAUSTED</code> with the best candidate adopted — not</p>
+<p><code>DONE</code>.</p>
+<p>A repair loop applied to an optimization problem is a category error; the fix is loop</p>
+<p>shape, not more cycles. A full paper-grounded explore-and-select workflow proposal</p>
+<p>(LOOP-EXPLORE-SELECT-01: StrategyCard candidates, descriptor archive, opponent</p>
+<p>portfolio, evaluation cascade, restart ladder) is recorded in</p>
+<p><code>backlog/260702_explore_select_research.md</code> — pending adoption via a normal PABCD pass.</p>
+<h4 id="11-4a-analysis-before-regeneration-default-loop-reanalyze-01">§11.4a Analysis-before-regeneration (DEFAULT, LOOP-REANALYZE-01)</h4>
+<p>Repair fixes actions; only analysis revises the model that generates them (single- vs</p>
+<p>double-loop learning). In an explore-and-select loop, every generation MUST begin with</p>
+<p>an <strong>analysis deliverable</strong> — not a patch:</p>
+<ol>
+<li><strong>Updated problem/opponent model</strong> from the evidence (telemetry, replays, failure</li>
+</ol>
+<p>deltas): what did the opponent/environment actually do, and what does it imply?</p>
+<ol>
+<li><strong>Capability-gap hypotheses</strong>: what can the artifact not currently *sense* or *do*</li>
+</ol>
+<p>(e.g. opponent tracking, scouting, income estimation)? A gap hypothesis may propose</p>
+<p><strong>expanding the allowed patch surface</strong> — that is a P-level amendment, which is</p>
+<p>exactly why new capabilities can never emerge from a surface-bounded repair loop.</p>
+<p>Candidates are then sourced from these hypotheses (§10 LOOP-CANDIDATE-ANCHOR-01), and</p>
+<p>the next P quotes them (§10 LOOP-CONTINUITY-01). A generation that skips analysis and</p>
+<p>regenerates straight from scores is a repair loop wearing an explore costume.</p>
+<h4 id="11-4b-mechanism-activation-proof-default-loop-mechanism-proof-01">§11.4b Mechanism activation proof (DEFAULT, LOOP-MECHANISM-PROOF-01)</h4>
+<p>Scores select candidates; only traces verify mechanisms. When a candidate&#x27;s value is a</p>
+<p>new branch (a defense mode, an endgame converter, a special-case handler), adoption</p>
+<p>requires <strong>activation evidence</strong>: a debug counter, stderr line, or replay trace showing</p>
+<p>the branch fired on the instances it was built for, with the intended effect.</p>
+<p>Failure signatures that mandate instrumentation before the next candidate:</p>
+<ul>
+<li><strong>Zero-delta ablation:</strong> the solo candidate scores exactly baseline on its target</li>
+</ul>
+<p>instances. The correct read is &quot;the mechanism probably never ran&quot;, not &quot;the</p>
+<p>mechanism is weak&quot;. A branch that runs and loses moves the metric somewhere</p>
+<p>(different HP, different turn counts); byte-identical outcomes mean dead code path.</p>
+<ul>
+<li><strong>Combo masking:</strong> the mechanism ships inside a multi-feature combo whose aggregate</li>
+</ul>
+<p>score improves. The combo&#x27;s gain proves nothing about THIS branch; without</p>
+<p>activation evidence a dead mechanism rides along and its target failures persist</p>
+<p>as &quot;residual&quot; losses that look opponent-caused.</p>
+<p>Real case (2026-07, NEXT NATION bot): an endgame HP-race branch (bank gold from T150,</p>
+<p>upgrade HQ to win TURN_LIMIT ties) was adopted inside a combo that raised the loss-gate</p>
+<p>1.5 -&gt; 7.5. Its solo ablation had scored baseline-exact 1.5 — recorded as &quot;weak alone&quot;</p>
+<p>and never instrumented. The branch was in fact never arming: two early-return trainers</p>
+<p>drained the bank every turn, and a warriors-at-HQ precondition kept cancelling the</p>
+<p>reserve. The residual draws were attributed to the opponent (&quot;they also stall&quot;) until a</p>
+<p>colleague&#x27;s hand-tuned bot won the same official battle with plain late HQ upgrades.</p>
+<p>One debug stderr line (gold/reserve/atHQ per turn) exposed the leak in minutes; the</p>
+<p>same line at adoption time would have caught it one work-phase earlier.</p>
+<p>Corollary (LOOP-RESIDUAL-TRACE-01): every residual failure carried through D gets a</p>
+<p>mechanism-level trace (&quot;branch X armed at T150, banked 2400 by T174, upgraded&quot;) or the</p>
+<p>explicit label <code>unexplained</code>. Plausible environment stories are hypotheses, not</p>
+<p>evidence. And when a peer artifact achieves the objective on an instance we fail</p>
+<p>(LOOP-PEER-CONTRAST-01), the next generation&#x27;s first deliverable is the behavioral diff</p>
+<p>of the two traces — the peer&#x27;s trace is a free counterexample to the environment story.</p>
+<h4 id="11-5-unattended-loop-resource-policy-default">§11.5 Unattended-loop resource policy (DEFAULT)</h4>
+<p>Goal-mode (unattended) loop-specs must state: tool/credential scope (what the loop may</p>
+<p>touch), token/cost budget, and a wall-clock bound. For C4 surfaces, an unattended loop</p>
+<p>with unstated scope is an ESCALATE-class omission — stop and ask before running it.</p>
+<h4 id="11-6-continuation-doctrine-default-loop-continue-01">§11.6 Continuation doctrine (DEFAULT, LOOP-CONTINUE-01)</h4>
+<p>Exception to this file&#x27;s completeness claim: §11.6 full text currently lives in the</p>
+<p>§11 router index (<code>../SKILL.md</code> §11.6). Stub recorded here so the section sequence</p>
+<p>stays visible from the reference file; consolidation into this file is a pending</p>
+<p>follow-up, not an editorial accident.</p>
+<h4 id="11-7-divergence-collapse-default">§11.7 Divergence/collapse (DEFAULT)</h4>
+<p>Exception to this file&#x27;s completeness claim: §11.7 full text currently lives in the</p>
+<p>§11 router index (<code>../SKILL.md</code> §11.7). §11.8 below refines its cost model; the one</p>
+<p>provenance widening §11.8 makes is named explicitly inside §11.8.</p>
+<h4 id="11-8-divergence-cost-tiers-default-diverge-tier-01">§11.8 Divergence cost tiers (DEFAULT, DIVERGE-TIER-01)</h4>
+<p>Divergence (§11.7) defaults to CONCEPTUAL candidates, not implemented ones. Choose the</p>
+<p>cheapest tier that can kill the wrong option:</p>
+<ul>
+<li><strong>Tier 0 — inline brainstorm.</strong> The planning session itself lists options with</li>
+</ul>
+<p>trade-offs inside the plan/interview. No dispatch. Default for ordinary uncertainty.</p>
+<ul>
+<li><strong>Tier 1 — conceptual candidate docs (the divergence default).</strong> 2-3 parallel</li>
+</ul>
+<p>candidate lanes each produce ONE one-page candidate direction doc (no code, no</p>
+<p>worktrees) with mandatory front-matter: <code>assumptions</code>, <code>risks</code>, <code>kill-criteria</code>,</p>
+<p><code>evidence-needed</code>. Lane research is read-only; the doc itself is written by the</p>
+<p>collapse owner from lane findings, or by a lane worker whose write scope is the</p>
+<p>plan archive — whichever the runtime&#x27;s dispatch doctrine allows. The MAIN session</p>
+<p>(collapse owner) performs critique/triage directly — it holds the most context; a</p>
+<p>separate cross-critique round is waste. Collapse gate: N candidate docs with</p>
+<p>filled front-matter AND per-candidate provenance — search provenance per §11.7</p>
+<p>for externally-sourced candidates; for candidates grounded in the local codebase</p>
+<p>a repo-evidence path is acceptable, an EXPLICIT §11.8 AMENDMENT to §11.7&#x27;s</p>
+<p>search-only wording (named here so the widening is deliberate). The mandatory</p>
+<p>front-matter keeps the gate otherwise stricter than §11.7. Cross-critique rounds</p>
+<p>are NOT a gate condition.</p>
+<ul>
+<li><strong>Tier 2 — implementation spike (rare escalation).</strong> Parallel worktree</li>
+</ul>
+<p>implementations judged by the same verifier, ONLY when both hold: (a) the choice is</p>
+<p>load-bearing and Tier-1 candidates genuinely conflict on it, and (b) judging</p>
+<p>requires running code (performance assumptions, live API contracts, deceptive local</p>
+<p>metrics). Expected frequency: 0-1 per unit. Tier-2 entry is a recorded P-level</p>
+<p>decision.</p>
+<p>Budget rationale: subagent tokens may be near-free, but wall-clock and the collapse</p>
+<p>owner&#x27;s triage attention are not. Tier inflation (defaulting to Tier 2 because</p>
+<p>subagents are cheap) is a discipline violation; so is tier deflation that lets a</p>
+<p>load-bearing conflict collapse from paper arguments alone.</p>
+<p>Unknowns lane: the first Tier-1 dispatch of a research-heavy or unfamiliar-surface</p>
+<p>unit SHOULD be a blindspot/unknowns pass (known unknowns, unknown knowns recoverable</p>
+<p>from references, unknown unknowns from codebase/web search), so candidates are sourced</p>
+<p>from evidence, not parameter tweaks (§10 LOOP-CANDIDATE-ANCHOR-01).</p>
+<p>Topology: explorers neither message each other nor spawn their own workers (star, not</p>
+<p>mesh). Candidate/critique exchange is file-mediated through the unit&#x27;s archive; the</p>
+<p>collapse owner schedules rounds and owns the collapse.</p>
+<p>Genealogy: adopted 2026-07-07 from the codexclaw harness-divergence interview</p>
+<p>(<code>codexclaw devlog/_plan/260707_harness_divergence_interview/</code>), which distilled the</p>
+<p>Fable field-guide unknown-discovery practices into a cost-tiered divergence default.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

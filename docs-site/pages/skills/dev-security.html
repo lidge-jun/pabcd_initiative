@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-security — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="active">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-security</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-security/SKILL.md</p>
+<h2 id="dev-security-production-security-hardening">Dev-Security — Production Security Hardening</h2>
+<p>Treat security as a build constraint, not a cleanup step.</p>
+<p>This skill is the authoritative source for authentication, authorization, input validation, secrets, headers, rate limiting, supply-chain checks, PII handling, and agentic AI safety.</p>
+<p>Validation ownership split: this skill owns <strong>what the validation schema enforces</strong> (content/policy); <strong>placement</strong> (boundary-only validation) is owned by <code>dev-architecture</code> §4.</p>
+<p><code>dev-backend</code> delegates here for policy and verification depth.</p>
+<p><code>dev-frontend</code> remains responsible for UI implementation, but frontend security touchpoints such as CSP compliance, CORS behavior, XSS prevention, and dependency auditing are defined here.</p>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<h3 id="when-to-activate">When to Activate</h3>
+<p>Activate this skill when you are:</p>
+<ul>
+<li>Writing auth, session, cookie, token, password-reset, or OAuth logic.</li>
+<li>Accepting user input from forms, URLs, headers, cookies, webhooks, file uploads, rich text, or AI prompts.</li>
+<li>Handling secrets, credentials, certificates, encryption keys, or third-party API keys.</li>
+<li>Reviewing code for security regressions or production-readiness.</li>
+<li>Auditing dependencies, CI pipelines, or release integrity.</li>
+<li>Designing logging, PII retention, masking, audit trails, or incident response rules.</li>
+<li>Building AI agents, tool-using workflows, or prompt-processing systems.</li>
+</ul>
+<p>Use this skill together with the domain skill, not instead of it:</p>
+<ul>
+<li>API architecture and middleware placement: See <code>dev-backend/SKILL.md</code> §4.</li>
+<li>Frontend rendering patterns and anti-slop UI guardrails: See <code>dev-frontend/SKILL.md</code> §§4-5.</li>
+<li>Test strategy and execution flow: See <code>dev-testing</code>.</li>
+<li>Review severity and review flow: See <code>dev-code-reviewer/SKILL.md</code> §§1-2.</li>
+<li>Data pipeline design: See <code>dev-data/SKILL.md</code> §§2-4.</li>
+</ul>
+<h3 id="threat-model-first">Threat Model First</h3>
+<p>Answer these three questions before implementation:</p>
+<ol>
+<li>What are we protecting?</li>
+<ul>
+<li>Accounts, sessions, payment state, internal admin actions, uploaded files, secrets, PII, audit logs.</li>
+</ul>
+<li>From whom?</li>
+<ul>
+<li>Anonymous users, authenticated users, malicious insiders, compromised browsers, compromised CI, poisoned dependencies, hostile prompts.</li>
+</ul>
+<li>What is the blast radius if this fails?</li>
+<ul>
+<li>One user, one tenant, one environment, all customers, all secrets, all build artifacts.</li>
+</ul>
+</ol>
+<p>Security-sensitive changes must name the trust boundary before coding:</p>
+<ul>
+<li>Browser ↔ API</li>
+<li>Public API ↔ internal service</li>
+<li>App ↔ database</li>
+<li>Agent prompt ↔ tool execution</li>
+<li>CI runner ↔ production artifact</li>
+</ul>
+<p>If the change touches auth, payment, file upload, logging, or PII, write the must-pass checks before coding.</p>
+<p>This skill owns security policy.</p>
+<p>Domain skills own architecture and implementation details.</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/owasp-top10.md</code></th><th>Any security-sensitive code</th><th>OWASP Top 10:2025 with unsafe/safe code pairs and checklists. 2025-delta mode: explicitly check A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions, and SSRF folded into A01 Broken Access Control</th></tr>
+<tr><th><code>references/language-quirks.md</code></th><th>When coding in JS/TS, Python, SQL, or Go</th><th>Per-language pitfalls that scanners and reviewers commonly miss</th></tr>
+<tr><th><code>references/static-analysis.md</code></th><th>Before claiming code is secure</th><th>Semgrep, CodeQL, ESLint security, npm audit, pip-audit, Bandit, gitleaks, CI, pre-commit</th></tr>
+<tr><th><code>references/asvs-checklist.md</code></th><th>Before deploy or release</th><th>ASVS 5.0.0 pre-deploy checklist by chapter (V-shortcodes) and requirement level L1/L2</th></tr>
+<table class="rules"><tbody>
+<tr><th><code>references/agentic-ai-security.md</code></th><th>When building tool-using agents or prompt-driven flows</th><th>OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) mapped to agent rules and safe operating patterns</th></tr>
+<tr><th><code>references/llm-supply-chain.md</code></th><th>When integrating LLMs, RAG pipelines, or consuming tool/agent output</th><th>Indirect prompt injection defense, RAG poisoning controls, tool output trust, CI adversarial tests</th></tr>
+<tr><th><code>references/mcp-supply-chain.md</code></th><th>Adding MCP servers or vetting agent tools</th><th>OWASP MCP secure-development + third-party vetting guides (no official &quot;MCP Top 10&quot; exists — map MCP risks to LLM01/03/06 + Agentic Top 10 ASI02/04/05), server vetting checklist, allowlist/pinning, sandbox, audit logging</th></tr>
+<tr><th><code>references/supply-chain-sbom.md</code></th><th>Dependency auditing or release integrity</th><th>SBOM generation (Syft/Trivy), artifact signing (Cosign/Sigstore), dependency pin &amp; audit CI</th></tr>
+</tbody></table>
+<p>For current CVEs, advisories, package maintainer/source checks, release</p>
+<p>integrity claims, or registry trust changes, read the active <code>search</code> skill and</p>
+<p>follow its query-rewrite, original-source fetch, and evidence-status rules.</p>
+<p>Read only the references relevant to the current task.</p>
+<p>A small CSS change needs no OWASP reference.</p>
+<p>Auth, data access, secrets, file uploads, webhooks, or incident response changes do.</p>
+<h3 id="1-input-validation">1. Input Validation</h3>
+<p>Input validation is the first line of defense.</p>
+<p>Validate at the first trusted boundary, reject unknown fields, enforce limits, and escape or sanitize on output for the target context.</p>
+<p>Client-side validation improves UX only — it is never a security boundary.</p>
+<p><strong>Required rules</strong></p>
+<ul>
+<li>Validate shape, type, format, enum membership, length, and numeric range.</li>
+<li>Reject unknown fields by default.</li>
+<li>Canonicalize before validation when encoding differences matter.</li>
+<li>Distinguish parsing failures from authorization failures.</li>
+<li>Sanitize HTML only when rich text is explicitly allowed.</li>
+<li>Re-validate on the server even when frontend uses the same schema.</li>
+</ul>
+<p>Validate all input at trust boundaries with schema validation (Zod strict, Pydantic <code>extra=&quot;forbid&quot;</code>, or equivalent). Reject unknown fields. For injection cases, rich text, and output encoding, read <code>references/owasp-top10.md</code> A05 and <code>references/language-quirks.md</code>.</p>
+<h3 id="2-authentication-checklist">2. Authentication Checklist</h3>
+<p>Use this checklist for login, session, token, password reset, magic link, OAuth, and admin access:</p>
+<ul>
+<li>[ ] Passwords hashed with <code>argon2id</code> (preferred); <code>scrypt</code> next if unavailable; <code>bcrypt</code> mainly for legacy; PBKDF2 only for FIPS-140 contexts. MD5/SHA1/raw SHA256 never for passwords. (OWASP Password Storage ordering, checked 2026-07-02.)</li>
+<li>[ ] Access tokens are short-lived with reduced scope (RFC 9700). Exact TTLs are risk-based org policy — 15-60 minutes is a common starting range, not a standard-mandated number; cite your policy source.</li>
+<li>[ ] Refresh tokens rotate on use and support family invalidation after reuse detection.</li>
+<li>[ ] Browser tokens live in <code>httpOnly</code>, <code>secure</code>, <code>sameSite</code> cookies; keep session tokens out of <code>localStorage</code>.</li>
+<li>[ ] OAuth uses Authorization Code + PKCE; avoid implicit flow (deprecated, token-in-URL exposure).</li>
+<li>[ ] Sensitive actions such as email change, MFA reset, payout change, and password change require step-up auth.</li>
+<li>[ ] Failed logins are rate-limited and delayed progressively.</li>
+<li>[ ] Session invalidation runs after password reset, password change, and privilege change.</li>
+<li>[ ] Password reset tokens are one-time, short-lived, and stored hashed server-side.</li>
+<li>[ ] Auth errors are generic — avoid revealing whether a specific email exists.</li>
+</ul>
+<p>See <code>references/owasp-top10.md</code> A07 for implementation patterns.</p>
+<p>See <code>references/asvs-checklist.md</code> V2 and V3 before deploy.</p>
+<h3 id="3-authorization-and-sensitive-flows">3. Authorization and Sensitive Flows</h3>
+<p>Authentication says who the caller is.</p>
+<p>Authorization says what the caller may do.</p>
+<p>Security failures happen when a route checks only the first.</p>
+<p><strong>Required rules</strong></p>
+<ul>
+<li>Default deny.</li>
+<li>Enforce RBAC or ABAC before business logic.</li>
+<li>Perform ownership checks on every resource read and write.</li>
+<li>Scope queries by tenant and actor, not only by route.</li>
+<li>Re-check authorization on bulk actions, background jobs, exports, and webhooks.</li>
+<li>Keep internal flags, role names, and hidden fields out of response serializers.</li>
+</ul>
+<p>See <code>references/owasp-top10.md</code> A01 for code pairs.</p>
+<p>See <code>dev-backend/SKILL.md</code> §4 for middleware execution order.</p>
+<h3 id="4-secrets-management">4. Secrets Management</h3>
+<p>Secrets are values that grant access, identity, or decryption capability.</p>
+<p>Treat API keys, database credentials, signing keys, OAuth client secrets, webhook secrets, certificates, and recovery codes as secrets.</p>
+<table class="rules"><tbody>
+<tr><th>Rule</th><th>Required Practice</th></tr>
+<tr><th>Source control</th><th>Commit <code>.env.example</code>, never commit <code>.env</code>, real keys, tokens, or private certs</th></tr>
+<tr><th>Local development</th><th>Load secrets from environment variables or a local secret store</th></tr>
+<tr><th>Production</th><th>Use Vault, cloud secret manager, or KMS-backed delivery</th></tr>
+<tr><th>Rotation</th><th>Document owner, rotation cadence, and emergency revocation path</th></tr>
+<table class="rules"><tbody>
+<tr><th>Logging</th><th>Redact secrets before logs, traces, analytics, error reports, and screenshots</th></tr>
+<tr><th>Testing</th><th>Use dedicated non-production keys with least privilege</th></tr>
+</tbody></table>
+<p>If a repository change touches secrets, run gitleaks before claiming done.</p>
+<p>If a feature adds webhook verification or JWT signing, treat key rollover as part of the feature.</p>
+<p>For scanning recipes, read <code>references/static-analysis.md</code>.</p>
+<p>For agent workflows and exfiltration risk, read <code>references/agentic-ai-security.md</code>.</p>
+<h3 id="5-security-headers">5. Security Headers</h3>
+<p>This skill owns header policy values.</p>
+<p><code>dev-backend</code> owns middleware ordering and integration points.</p>
+<p><strong>Minimum production header baseline</strong></p>
+<ul>
+<li><code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code></li>
+<li><code>Content-Security-Policy</code> with explicit <code>default-src</code>, <code>script-src</code>, <code>style-src</code>, <code>img-src</code>, <code>connect-src</code>, <code>frame-ancestors</code>, and <code>base-uri</code></li>
+<li><code>X-Content-Type-Options: nosniff</code></li>
+<li><code>Referrer-Policy: strict-origin-when-cross-origin</code></li>
+<li><code>Permissions-Policy</code> with unused capabilities disabled</li>
+<li><code>X-Frame-Options: DENY</code> when CSP <code>frame-ancestors</code> is not sufficient for legacy support</li>
+<li><code>Cross-Origin-Opener-Policy</code> and <code>Cross-Origin-Resource-Policy</code> where required by the app</li>
+</ul>
+<p>Apply these via the framework&#x27;s standard header middleware (Helmet for Express, equivalents elsewhere). Exact directive values are environment-specific — CSP especially must be designed around the app&#x27;s real script/style/asset/connect origins, not copied from a template.</p>
+<p><strong>Frontend touchpoints that must stay aligned</strong></p>
+<ul>
+<li>CSP compliance: no inline scripts, no unsafe event handlers, no surprise third-party script injection.</li>
+<li>CORS: explicit origin allowlist and correct credential mode for cookie-based auth.</li>
+<li>Avoid <code>dangerouslySetInnerHTML</code> unless sanitized with a maintained sanitizer and defended by CSP.</li>
+<li>Prefer cookies over browser storage for session tokens.</li>
+</ul>
+<p>See <code>references/owasp-top10.md</code> A02 and A05.</p>
+<p>See <code>dev-frontend/SKILL.md</code> §§5-7 for performance and accessibility guardrails that still apply after security changes.</p>
+<h3 id="6-rate-limiting">6. Rate Limiting</h3>
+<p>Apply rate limiting per IP and, where available, per user, tenant, and credential target.</p>
+<p>Return <code>429 Too Many Requests</code> with <code>Retry-After</code>.</p>
+<p>Log repeated abuse without logging secrets or raw PII.</p>
+<p>Treat the limits below as risk-based starting defaults, not fixed gates — tune them to real traffic, abuse risk, and threat model.</p>
+<table class="rules"><tbody>
+<tr><th>Surface</th><th>Default starting limit</th></tr>
+<tr><th>Login</th><th>~5 requests per minute per IP and account identifier</th></tr>
+<tr><th>Password reset request</th><th>~3 requests per hour per account identifier</th></tr>
+<tr><th>Registration</th><th>~10 requests per hour per IP</th></tr>
+<tr><th>MFA verification</th><th>~10 requests per 10 minutes per session</th></tr>
+<table class="rules"><tbody>
+<tr><th>Public API</th><th>~100 requests per minute per user or API key</th></tr>
+<tr><th>File upload start</th><th>~20 requests per hour per user</th></tr>
+<tr><th>Webhook verification failures</th><th>Alert after burst anomalies and repeated signature failures</th></tr>
+</tbody></table>
+<p>Rate limiting is not only for brute force.</p>
+<p>Use it for enumeration, abuse, accidental loops, webhook replay storms, and AI-triggered runaway automation.</p>
+<h3 id="6-5-slopsquatting-gate-ai-suggested-dependencies-strict">6.5 Slopsquatting Gate — AI-Suggested Dependencies (STRICT)</h3>
+<p>AI-recommended package names are a supply-chain attack surface: 2025 research found</p>
+<p>~20% of LLM-recommended packages in study settings did not exist, and hallucinated</p>
+<p>names recur — attackers register them (slopsquatting). Before adding ANY dependency</p>
+<p>suggested by an AI (including your own suggestions):</p>
+<ul>
+<li>[ ] Package exists on the official registry with real release history (not days old)</li>
+<li>[ ] Maintainer/org and linked source repository are plausible and consistent</li>
+<li>[ ] No install scripts doing network/exec surprises; lockfile diff reviewed</li>
+<li>[ ] Provenance/trusted publishing attestation when the registry supports it (npm/PyPI)</li>
+</ul>
+<p>Cross-refs: reviewer-side check in <code>dev-code-reviewer</code> §7; registry vetting depth in</p>
+<p><code>references/supply-chain-sbom.md</code>.</p>
+<h3 id="7-static-analysis-integration">7. Static Analysis Integration</h3>
+<p>Security claims are incomplete without automated checks.</p>
+<p>At minimum, run the project-native SAST, dependency-audit, and secret-scan tools (e.g. <code>npm audit</code>/<code>pip-audit</code>, <code>semgrep</code>, <code>gitleaks</code>) in local development and CI. Use whatever the repo already standardizes on; exact commands belong in repo docs.</p>
+<p>For CI templates, pre-commit hooks, and tool-specific guidance, read <code>references/static-analysis.md</code>.</p>
+<p>For review gating, combine this with <code>dev-code-reviewer/SKILL.md</code> §§1-2.</p>
+<h3 id="8-agent-configuration-security">8. Agent Configuration Security</h3>
+<p>Agent-authored configuration files create a trust surface distinct from application code.</p>
+<h4 id="configuration-audit-checklist">Configuration Audit Checklist</h4>
+<table class="rules"><tbody>
+<tr><th>File</th><th>Check For</th></tr>
+<tr><th><code>CLAUDE.md</code> / <code>AGENTS.md</code></th><th>Hardcoded secrets, auto-run instructions, prompt injection patterns</th></tr>
+<tr><th><code>settings.json</code></th><th>Overly permissive allow lists (<code>Bash(*)</code>), missing deny lists, dangerous bypass flags</th></tr>
+<tr><th><code>mcp.json</code></th><th>Risky MCP servers, hardcoded env secrets, <code>npx -y</code> supply chain risks</th></tr>
+<tr><th><code>hooks/</code></th><th>Command injection via <code>${file}</code> interpolation, data exfiltration, silent error suppression</th></tr>
+<table class="rules"><tbody>
+<tr><th>Agent definitions</th><th>Unrestricted tool access, prompt injection surface, missing model constraints</th></tr>
+</tbody></table>
+<h4 id="mcp-server-vetting">MCP Server Vetting</h4>
+<p>Before enabling any MCP server:</p>
+<ul>
+<li>Verify the package source and maintainer on npm/PyPI.</li>
+<li>Prefer pinned versions over <code>npx -y</code> auto-install.</li>
+<li>Restrict server capabilities to the minimum required scope.</li>
+<li>Use <code>${ENV_VAR}</code> references for all credentials.</li>
+</ul>
+<h4 id="sandboxing-and-blast-radius-containment">Sandboxing and Blast Radius Containment</h4>
+<p>Reduce the impact of any single compromise:</p>
+<ul>
+<li>Run agent tools with least-privilege filesystem access.</li>
+<li>Scope database credentials to the minimum required tables and operations.</li>
+<li>Isolate CI runners from production secrets using environment separation.</li>
+<li>Use network egress filtering for build and agent environments.</li>
+<li>Prefer ephemeral credentials that expire after the task completes.</li>
+<li>When an agent can execute shell commands, maintain an explicit deny list for destructive operations.</li>
+</ul>
+<h3 id="9-pre-flight-security-checklist">9. Pre-Flight Security Checklist</h3>
+<p>A security-sensitive change is complete only when every applicable item passes.</p>
+<ul>
+<li>[ ] Threat model names assets, attacker, trust boundary, and blast radius.</li>
+<li>[ ] All user input is validated at the first trusted boundary with unknown fields rejected.</li>
+<li>[ ] Authentication covers token TTL, cookie flags, reset flow, and revocation rules.</li>
+<li>[ ] Authorization is enforced per resource, not only per route.</li>
+<li>[ ] Queries, commands, templates, and serializers are protected from injection.</li>
+<li>[ ] Secrets are not committed, logged, embedded in screenshots, or exposed in client bundles.</li>
+<li>[ ] Security headers and CORS are explicit for the deployed environment.</li>
+<li>[ ] File upload, payment, logging, and PII changes pass their must-pass checks from the relevant reference.</li>
+<li>[ ] Rate limiting covers auth, public endpoints, and abuse-prone flows.</li>
+<li>[ ] Static analysis runs clean enough for the repository policy: Semgrep, CodeQL or equivalent, dependency audit, and secret scan.</li>
+<li>[ ] Error handling returns safe client messages and preserves structured server-side diagnostics.</li>
+<li>[ ] ASVS 5.0.0 Level 1 requirements pass for all security-sensitive changes; Level 2 for auth, payments, PII, admin, or multi-tenant flows.</li>
+<li>[ ] Agentic workflows resist prompt injection, tool misuse, exfiltration, and excessive agency (OWASP LLM Top 10 2025 + Top 10 for Agentic Applications 2026).</li>
+<li>[ ] AI-suggested dependencies passed the §6.5 slopsquatting gate.</li>
+</ul>
+<h4 id="must-pass-addenda-for-high-risk-changes">Must-Pass Addenda for High-Risk Changes</h4>
+<p><strong>Logging and PII</strong></p>
+<ul>
+<li>[ ] Raw email, phone number, access token, session cookie, recovery code, and payment data are redacted before logs and traces.</li>
+<li>[ ] Retention and deletion behavior are defined for the new data.</li>
+</ul>
+<p><strong>File Uploads</strong></p>
+<ul>
+<li>[ ] Enforce file type, file size, storage path isolation, malware scanning policy, and download authorization.</li>
+<li>[ ] Validate server-side — the client-provided filename and MIME type are untrusted input.</li>
+</ul>
+<p><strong>Payments</strong></p>
+<ul>
+<li>[ ] Idempotency, webhook signature verification, reconciliation, and failure-state handling are tested.</li>
+<li>[ ] Payment provider secrets stay out of logs, analytics, and client bundles.</li>
+</ul>
+<p>If any item remains unknown, stop, investigate, and resolve the gap before proceeding.</p>
+<h3 id="10-security-ownership-matrix">10. Security Ownership Matrix</h3>
+<p>This matrix clarifies who defines, implements, and verifies each security control across the skill bundle:</p>
+<table class="rules"><tbody>
+<tr><th>Control</th><th>Policy Owner</th><th>Implementation Owner</th><th>Verification Owner</th></tr>
+<tr><th>Input validation schema</th><th><code>dev-security</code> §1</th><th>Domain skill (backend/frontend/data)</th><th><code>dev-testing</code> §2</th></tr>
+<tr><th>Auth flow (login, session, token)</th><th><code>dev-security</code> §2</th><th><code>dev-backend</code> §4 middleware</th><th><code>dev-testing</code> §1.3 risk priorities</th></tr>
+<tr><th>Authorization (RBAC/ABAC)</th><th><code>dev-security</code> §3</th><th><code>dev-backend</code> service layer</th><th><code>dev-testing</code> §2 + <code>dev-code-reviewer</code></th></tr>
+<tr><th>Security headers (CSP, CORS, HSTS)</th><th><code>dev-security</code> §5</th><th><code>dev-backend</code> middleware + <code>dev-frontend</code> compliance</th><th><code>dev-testing</code> + static analysis</th></tr>
+<table class="rules"><tbody>
+<tr><th>Rate limiting</th><th><code>dev-security</code> §6</th><th><code>dev-backend</code> §4 middleware</th><th>Load testing + monitoring</th></tr>
+<tr><th>PII/data classification</th><th><code>dev-security</code> + <code>dev-data</code> §7</th><th><code>dev-data</code> pipeline + <code>dev-backend</code> API</th><th><code>dev-testing</code> + audit logs</th></tr>
+<tr><th>Secrets management</th><th><code>dev-security</code> §4</th><th>All skills (runtime env)</th><th>gitleaks + <code>dev-code-reviewer</code></th></tr>
+<tr><th>Dependency security</th><th><code>dev-security</code> §7</th><th>CI pipeline owner</th><th><code>npm audit</code> / <code>pip-audit</code> in CI</th></tr>
+<tr><th>Agentic AI safety</th><th><code>dev-security</code> refs/agentic-ai</th><th>Agent builder</th><th>Scenario testing (<code>dev-testing</code>)</th></tr>
+</tbody></table>
+<p>Reference this matrix from <code>dev-backend</code> and <code>dev-frontend</code> when ownership is unclear.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-security-agentic-ai-security.html">Agentic AI Security — OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) for Skill Authors and Coding Agents</a></li>
+<li><a href="../../pages/skills/dev-security-asvs-checklist.html">ASVS 5.0.0 Level 1 and Level 2 Pre-Deploy Checklist</a></li>
+<li><a href="../../pages/skills/dev-security-language-quirks.html">Language-Specific Security Quirks</a></li>
+<li><a href="../../pages/skills/dev-security-llm-supply-chain.html">LLM Supply-Chain Security — Prompt Injection, RAG Poisoning, and Tool Output Trust</a></li>
+<li><a href="../../pages/skills/dev-security-mcp-supply-chain.html">MCP &amp; Agentic Skill Supply Chain Security</a></li>
+<li><a href="../../pages/skills/dev-security-owasp-top10.html">OWASP Top 10:2025 — Unsafe and Safe Patterns</a></li>
+<li><a href="../../pages/skills/dev-security-static-analysis.html">Static Analysis and Security Tooling</a></li>
+<li><a href="../../pages/skills/dev-security-supply-chain-sbom.html">Supply Chain Security: SBOM, Signing &amp; Dependency Integrity</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

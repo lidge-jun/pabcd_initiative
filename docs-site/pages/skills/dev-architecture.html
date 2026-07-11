@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev-architecture — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="active">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>dev-architecture</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: skills/dev-architecture/SKILL.md</p>
+<h2 id="dev-architecture-module-boundaries-structural-integrity">Dev-Architecture — Module Boundaries &amp; Structural Integrity</h2>
+<p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong>Always read <code>dev/SKILL.md</code> first</strong> for project-wide conventions before applying architecture rules.</p>
+<p>Enforces architectural rules that prevent structural decay: circular dependencies, implicit coupling, barrel abuse, and misplaced validation. These rules are mechanical — an AI coding agent can follow them without subjective judgment.</p>
+<p>Severity mapping (dev §0.2): <code>Severity: CRITICAL</code>/<code>HIGH</code> ⇒ STRICT; <code>MEDIUM</code> ⇒ DEFAULT.</p>
+<h3 id="modular-references">Modular References</h3>
+<table class="rules"><tbody>
+<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
+<tr><th><code>references/circular-dependencies.md</code></th><th>Detecting or fixing import cycles</th><th>Detection commands (madge/pydeps/go vet), fix strategies, real examples</th></tr>
+<tr><th><code>references/coupling-taxonomy.md</code></th><th>Reviewing code for hidden coupling</th><th>8 coupling types, severity matrix, refactoring patterns, banned review responses</th></tr>
+<tr><th><code>references/barrel-discipline.md</code></th><th>Creating/modifying index/barrel files</th><th>When barrels OK vs banned, tree-shaking impact, safe barrel template</th></tr>
+</tbody></table>
+<h3 id="external-current-architecture-evidence">External/current architecture evidence</h3>
+<p>Architecture rules in this skill are local and mechanical. When an architectural</p>
+<p>decision depends on current framework guidance, cloud/provider reference</p>
+<p>architecture, package deprecation, platform limits, or public source evidence,</p>
+<p>read the active <code>search</code> skill and follow its query-rewrite, source-fetch, and</p>
+<p>evidence-status rules. Use browser verification only after candidate URLs exist.</p>
+<p>---</p>
+<h3 id="1-module-boundaries">1. Module Boundaries</h3>
+<h4 id="structural-decision-gate">Structural Decision Gate</h4>
+<p><strong>Severity: HIGH</strong></p>
+<p><strong>Rule (ARCH-DECISION-01):</strong> When changing module boundaries, seams, layering, shared packages, or public exports above C0/C1 local-patch scope, name the structural decision before editing.</p>
+<p>Required decision record, inline in the plan or in the repo&#x27;s ADR/source-of-truth file:</p>
+<ul>
+<li>Context: what pressure forced the boundary change.</li>
+<li>Rejected alternative: at least one plausible option not chosen, with why.</li>
+<li>Chosen move: split, extract, merge, invert dependency, introduce adapter, or change public export.</li>
+<li>Consequences: new dependency direction, public contract impact, migration cost, and follow-up verification.</li>
+</ul>
+<p>Route durable, surprising, hard-to-reverse, or cross-team choices to the repo&#x27;s ADR/current-architecture source of truth instead of leaving them only in chat. <code>dev-scaffolding</code> owns where those durable docs live; this skill owns the boundary decision content.</p>
+<h4 id="pre-change-structural-map">Pre-Change Structural Map</h4>
+<p><strong>Severity: HIGH</strong></p>
+<p><strong>Rule (ARCH-MAP-01):</strong> Before recommending or applying a split/extract/merge for boundary work above C0/C1, produce a compact structural map from code evidence.</p>
+<p>Map fields:</p>
+<ul>
+<li>Core modules involved.</li>
+<li>Direct dependents and dependencies.</li>
+<li>Current and intended dependency direction.</li>
+<li>Public boundaries touched (<code>index.*</code>, package exports, route/API contracts, CLI entry points).</li>
+</ul>
+<h4 id="layered-architecture-boundaries">Layered Architecture Boundaries</h4>
+<table class="rules"><tbody>
+<tr><th>Layer</th><th>May Import</th><th>MUST NOT Import</th><th>Example</th></tr>
+<tr><th>Presentation (UI/CLI/Controller)</th><th>Application, Domain</th><th>Infrastructure directly</th><th>React component importing DB client</th></tr>
+<tr><th>Application (Use Cases/Services)</th><th>Domain, Ports</th><th>Presentation, Infra adapters</th><th>Service importing React component</th></tr>
+<tr><th>Domain (Entities/Value Objects)</th><th>Nothing (self-contained)</th><th>Any other layer</th><th>Entity importing Express</th></tr>
+<tr><th>Infrastructure (Adapters/DB/HTTP)</th><th>Domain (implements ports)</th><th>Presentation, Application</th><th>DB adapter importing controller</th></tr>
+</tbody></table>
+<h4 id="when-to-split-a-module">When to Split a Module</h4>
+<p>Canonical file-size rule: <strong>&gt;400 LOC -&gt; split (DEFAULT)</strong>. Deviations require a stated reason.</p>
+<table class="rules"><tbody>
+<tr><th>Signal</th><th>Action</th></tr>
+<tr><th>File exceeds 400 LOC</th><th>Split by responsibility (DEFAULT)</th></tr>
+<tr><th>Module has 6+ direct dependents</th><th>Extract shared interface</th></tr>
+<tr><th>Two unrelated features share a file</th><th>Separate into own modules</th></tr>
+<tr><th>Circular import detected</th><th>Extract shared types/interfaces to a third module</th></tr>
+<table class="rules"><tbody>
+<tr><th>Module name contains &quot;and&quot; or &quot;utils&quot;</th><th>Split by actual concern</th></tr>
+<tr><th>3+ apps/services import the same feature folder</th><th>Promote to a monorepo package with its own manifest + public boundary</th></tr>
+<tr><th>Package needs its own release cadence, CI matrix, or version</th><th>Split at package level, not folder level</th></tr>
+</tbody></table>
+<h4 id="banned-patterns">Banned Patterns</h4>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
+<tr><th><code>utils.ts</code> / <code>helpers.ts</code> growing unbounded</th><th>Becomes a coupling magnet</th><th>Split by domain: <code>date-utils.ts</code>, <code>string-format.ts</code></th></tr>
+<tr><th>Cross-layer direct import</th><th>Breaks dependency direction</th><th>Use ports/adapters or event bus</th></tr>
+<tr><th>Shared mutable state between modules</th><th>Hidden temporal coupling</th><th>Pass explicitly or use event system</th></tr>
+<tr><th>God module (20+ exports)</th><th>Everything depends on it</th><th>Extract cohesive sub-modules</th></tr>
+</tbody></table>
+<h4 id="module-ssot-single-source-of-truth">Module SSOT (Single Source of Truth)</h4>
+<p>Every concept, constant, type, or configuration value MUST have exactly one canonical owner module.</p>
+<table class="rules"><tbody>
+<tr><th>Concept</th><th>Canonical Owner</th><th>Consumers Do</th></tr>
+<tr><th>Shared types / interfaces</th><th><code>types/</code> or <code>contracts/</code> module</th><th>Import, never redefine</th></tr>
+<tr><th>Constants / magic values</th><th>Domain-specific constants module</th><th>Import the constant</th></tr>
+<tr><th>Config / env</th><th>Central config module</th><th>Import resolved values</th></tr>
+<tr><th>Validation schemas</th><th>Boundary module (API entry)</th><th>Import schema, don&#x27;t recreate</th></tr>
+<table class="rules"><tbody>
+<tr><th>API contracts</th><th>API layer</th><th>Import types from API module</th></tr>
+</tbody></table>
+<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
+<tr><th>Duplicating a type/constant in a consumer</th><th>Two sources of truth → drift</th><th>Import from canonical owner</th></tr>
+<tr><th>&quot;Local copy for convenience&quot;</th><th>Convenience becomes divergence</th><th>Import the original</th></tr>
+<table class="rules"><tbody>
+<tr><th>Re-deriving a value that has a canonical source</th><th>Silent inconsistency</th><th>Import the derived value or computation</th></tr>
+</tbody></table>
+<h4 id="deep-modules-and-seams">Deep Modules and Seams</h4>
+<p>Use this vocabulary when deciding whether an abstraction earns its keep:</p>
+<tr><th>Term</th><th>Meaning</th></tr>
+<table class="rules"><tbody>
+<tr><th>Module</th><th>A cohesive unit with a named responsibility and public interface</th></tr>
+<tr><th>Interface</th><th>The small surface consumers depend on</th></tr>
+<tr><th>Implementation</th><th>The hidden work behind that surface</th></tr>
+<tr><th>Depth</th><th>Large useful behavior hidden behind a small interface</th></tr>
+<tr><th>Seam</th><th>A boundary where alternative implementations are real or likely</th></tr>
+<table class="rules"><tbody>
+<tr><th>Adapter</th><th>Code translating one external shape into the module&#x27;s interface</th></tr>
+<tr><th>Leverage</th><th>How much change the abstraction absorbs for its callers</th></tr>
+<tr><th>Locality</th><th>How close related behavior stays to its owning concept</th></tr>
+</tbody></table>
+<p>Frontend depth means small props/events hiding complex rendering, state management,</p>
+<p>data transformation, or integration behavior. One adapter usually means hypothetical</p>
+<p>indirection; two adapters, or a near-term second adapter, is evidence of a real seam.</p>
+<p>Do not expose internals only for tests; test through the public interface or add a</p>
+<p>boundary-owned diagnostic hook with production value.</p>
+<p>---</p>
+<h3 id="2-circular-dependency-detection-prevention">2. Circular Dependency Detection &amp; Prevention</h3>
+<p><strong>Severity: CRITICAL</strong></p>
+<p><strong>Rule:</strong> No circular dependency may exist between modules. Every detected cycle MUST be resolved before merge.</p>
+<h4 id="required-agent-workflow">Required Agent Workflow</h4>
+<table class="rules"><tbody>
+<tr><th>Phase</th><th>Required Action</th><th>Pass Condition</th></tr>
+<tr><th>1. Detect</th><th>Run ecosystem-specific detection command</th><th>Command exits clean (no cycles reported)</th></tr>
+<tr><th>2. Classify</th><th>Identify cycle type: direct A&lt;-&gt;B or transitive A-&gt;B-&gt;C-&gt;A</th><th>Type documented</th></tr>
+<tr><th>3. Analyze</th><th>Determine root cause: shared type? callback? event?</th><th>Root interface identified</th></tr>
+<tr><th>4. Fix</th><th>Apply appropriate fix strategy (see references/)</th><th>Detection command passes</th></tr>
+<table class="rules"><tbody>
+<tr><th>5. Verify</th><th>Re-run detection + confirm no regressions</th><th>Zero cycles in report</th></tr>
+</tbody></table>
+<p>Detection commands are ecosystem-specific. See <code>references/circular-dependencies.md</code></p>
+<p>for command templates, examples, and verification details.</p>
+<h4 id="banned-patterns">Banned Patterns</h4>
+<table class="rules"><tbody>
+<tr><th>Banned Pattern</th><th>Why Banned</th><th>Required Fix</th></tr>
+<tr><th>A imports B, B imports A (direct cycle)</th><th>Compile failures, bundler issues, test fragility</th><th>Extract shared interface to C</th></tr>
+<tr><th>Type-only cycle (<code>import type</code> both ways)</th><th>Still signals wrong boundary</th><th>Move shared types to <code>types/</code> module</th></tr>
+<tr><th>Barrel re-export creating hidden cycle</th><th>Index file masks real dependency graph</th><th>Remove barrel, use direct imports</th></tr>
+<tr><th>Lazy import to &quot;break&quot; cycle (<code>require()</code> inside function)</th><th>Hides the problem, breaks tree-shaking</th><th>Fix the architecture, not the symptom</th></tr>
+<table class="rules"><tbody>
+<tr><th>&quot;It works in runtime&quot; as justification</th><th>Fragile, bundler-dependent, blocks refactoring</th><th>Must pass static analysis</th></tr>
+<tr><th>Circular via test file importing source that imports test helper</th><th>Test infra leaking into production graph</th><th>Isolate test helpers in <code>__test_utils__/</code></th></tr>
+</tbody></table>
+<h4 id="fix-guidance">Fix Guidance</h4>
+<tr><th>Situation</th><th>Preferred Fix</th></tr>
+<table class="rules"><tbody>
+<tr><th>Two modules share types</th><th>Extract <code>types.ts</code> or <code>contracts/</code> module both import</th></tr>
+<tr><th>Module A calls back into B</th><th>Dependency inversion: A defines interface, B implements</th></tr>
+<tr><th>Event producer and consumer import each other</th><th>Event bus / mediator pattern</th></tr>
+<tr><th>Circular at package level (monorepo)</th><th>Introduce <code>shared</code> or <code>contracts</code> package</th></tr>
+<tr><th>UI component imports its container</th><th>Lift shared state to context or prop drilling</th></tr>
+<table class="rules"><tbody>
+<tr><th>Service layer cycle</th><th>Extract orchestrator service or use events</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="3-implicit-coupling-taxonomy">3. Implicit Coupling Taxonomy</h3>
+<p><strong>Severity: CRITICAL</strong></p>
+<p><strong>Rule:</strong> Every coupling instance in a code review MUST be classified by type. Coupling severity determines whether the code can merge.</p>
+<h4 id="coupling-types-ordered-by-severity-worst-first">Coupling Types (ordered by severity, worst first)</h4>
+<table class="rules"><tbody>
+<tr><th>#</th><th>Type</th><th>Definition</th><th>Severity</th><th>Fix Pattern</th></tr>
+<tr><th>1</th><th><strong>Content</strong></th><th>Module reaches into another&#x27;s internals</th><th>CRITICAL</th><th>Expose via public API/method</th></tr>
+<tr><th>2</th><th><strong>Common</strong></th><th>Multiple modules share global mutable state</th><th>CRITICAL</th><th>Dependency injection, immutable config</th></tr>
+<tr><th>3</th><th><strong>Control</strong></th><th>Module passes flag to control another&#x27;s logic</th><th>HIGH</th><th>Polymorphism, strategy pattern</th></tr>
+<tr><th>4</th><th><strong>Stamp</strong></th><th>Module passes large struct when only one field needed</th><th>HIGH</th><th>Pass only needed fields</th></tr>
+<table class="rules"><tbody>
+<tr><th>5</th><th><strong>External</strong></th><th>Multiple modules depend on same external format</th><th>HIGH</th><th>Single parser module, shared schema</th></tr>
+<tr><th>6</th><th><strong>Temporal</strong></th><th>Modules must execute in specific order</th><th>MEDIUM</th><th>Make ordering explicit (state machine, builder)</th></tr>
+<tr><th>7</th><th><strong>Sequential</strong></th><th>Output of A is input of B</th><th>LOW</th><th>Document the contract, validate at boundary</th></tr>
+<tr><th>8</th><th><strong>Functional</strong></th><th>Modules share a well-defined interface</th><th>LOW</th><th>This is GOOD coupling — the target state</th></tr>
+</tbody></table>
+<p>See <code>references/coupling-taxonomy.md</code> for examples, detection signals,</p>
+<p>refactoring patterns, and banned review responses.</p>
+<h4 id="review-decision-matrix">Review Decision Matrix</h4>
+<table class="rules"><tbody>
+<tr><th>Severity</th><th>Merge?</th><th>Action Required</th></tr>
+<tr><th>CRITICAL (Content, Common)</th><th>BLOCK</th><th>Must refactor before merge</th></tr>
+<tr><th>HIGH (Control, Stamp, External)</th><th>BLOCK unless justified</th><th>Require tech-debt ticket if merged</th></tr>
+<tr><th>MEDIUM (Temporal)</th><th>Allowed with documentation</th><th>Add ordering comments or state assertions</th></tr>
+<tr><th>LOW (Sequential, Functional)</th><th>ALLOWED</th><th>No action needed</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="4-boundary-only-defensive-programming">4. Boundary-Only Defensive Programming</h3>
+<p><strong>Severity: CRITICAL</strong></p>
+<p><strong>Rule:</strong> Validation and defensive checks belong ONLY at system boundaries. Internal module boundaries MUST trust their callers.</p>
+<p>Ownership split: <strong>placement</strong> (validation happens at the boundary, nowhere else) is owned</p>
+<p>by this section; <strong>what the validation schema enforces</strong> (content/policy) is owned by</p>
+<p><code>dev-security</code> §1.</p>
+<h4 id="validation-location-matrix">Validation Location Matrix</h4>
+<table class="rules"><tbody>
+<tr><th>Location</th><th>Validate?</th><th>Rationale</th><th>Example</th></tr>
+<tr><th>HTTP/API controller input</th><th>YES</th><th>Untrusted external data</th><th>Zod schema, JSON schema</th></tr>
+<tr><th>CLI argument parsing</th><th>YES</th><th>Untrusted user input</th><th>yargs/commander validation</th></tr>
+<tr><th>File system reads</th><th>YES</th><th>External data, may be corrupt</th><th>Parse + validate structure</th></tr>
+<tr><th>Database query results</th><th>YES at ORM-untyped/raw-query boundaries (shape only); NO when a typed schema/ORM guarantees the shape</th><th>Untyped results may drift; typed guarantees are trusted (see Banned Patterns)</th><th>Check raw-query nulls/shape; trust typed ORM results</th></tr>
+<table class="rules"><tbody>
+<tr><th>Message queue consumer</th><th>YES</th><th>Cross-process boundary</th><th>Validate message schema</th></tr>
+<tr><th><strong>Internal function params</strong></th><th><strong>NO</strong></th><th>Caller is trusted code you control</th><th>Type system handles this</th></tr>
+<tr><th><strong>Private method args</strong></th><th><strong>NO</strong></th><th>Same module, same author</th><th>Redundant — types suffice</th></tr>
+<tr><th><strong>Service-to-service in same process</strong></th><th><strong>NO</strong></th><th>In-process calls share type system</th><th>Interface contracts handle this</th></tr>
+</tbody></table>
+<h4 id="banned-patterns">Banned Patterns</h4>
+<table class="rules"><tbody>
+<tr><th>Banned Pattern</th><th>Why Banned</th><th>Fix</th></tr>
+<tr><th><code>if (!param) throw</code> at start of every internal function</th><th>Redundant with type system, clutters code</th><th>Remove — let TypeScript/types enforce</th></tr>
+<tr><th>Runtime type checks in typed language internals</th><th>Duplicates compiler work, adds noise</th><th>Trust the type system</th></tr>
+<tr><th><code>assert(x !== null)</code> in module-internal code</th><th>If x can be null, fix the type; if it can&#x27;t, the assert is noise</th><th>Fix type signature or remove assert</th></tr>
+<tr><th>Validation in domain entity constructor for in-process callers</th><th>Entities should be created from validated data</th><th>Validate at boundary, trust domain layer</th></tr>
+<table class="rules"><tbody>
+<tr><th>Try-catch around every internal call</th><th>Hides bugs, makes debugging harder</th><th>Let errors propagate, catch at boundary</th></tr>
+<tr><th>Null checks after DB query that schema guarantees NOT NULL</th><th>Distrusts your own schema</th><th>Trust schema, validate at migration time</th></tr>
+</tbody></table>
+<h4 id="allowed-defensive-checks-exceptions">Allowed Defensive Checks (Exceptions)</h4>
+<tr><th>Situation</th><th>Why Allowed</th><th>Pattern</th></tr>
+<table class="rules"><tbody>
+<tr><th>Security-critical path (auth, crypto)</th><th>Defense in depth required by policy</th><th>Double-check even internal calls</th></tr>
+<tr><th>Data from deserialization (JSON.parse)</th><th>Runtime data, types lost</th><th>Validate with schema (Zod/io-ts)</th></tr>
+<tr><th>Plugin/extension boundary</th><th>Third-party code, untrusted</th><th>Validate at plugin interface</th></tr>
+<tr><th>Across deployment boundary (microservice call)</th><th>Network = system boundary</th><th>Full validation required</th></tr>
+<tr><th>Feature flags / A-B test paths</th><th>Runtime variation, not type-safe</th><th>Guard with runtime check</th></tr>
+</tbody></table>
+<h4 id="fix-guidance">Fix Guidance</h4>
+<table class="rules"><tbody>
+<tr><th>Smell</th><th>Diagnosis</th><th>Fix</th></tr>
+<tr><th>10+ <code>if (!x) throw</code> in one file</th><th>Over-defensive internal code</th><th>Remove guards, fix types</th></tr>
+<tr><th>Every function starts with parameter validation</th><th>Boundary confusion</th><th>Move all validation to entry point</th></tr>
+<tr><th><code>try { } catch { return null }</code> everywhere</th><th>Error suppression</th><th>Let errors bubble, handle at boundary</th></tr>
+<tr><th><code>typeof x === &#x27;string&#x27;</code> in TypeScript</th><th>Distrusting compiler</th><th>Remove, or fix the type to be accurate</th></tr>
+<table class="rules"><tbody>
+<tr><th>Same validation in controller AND service</th><th>Duplicated boundary</th><th>Validate once at controller, service trusts</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="5-barrel-re-export-discipline">5. Barrel/Re-export Discipline</h3>
+<p><strong>Severity: HIGH</strong></p>
+<p><strong>Rule:</strong> Barrel files (index.ts/index.js/__init__.py) are ONLY allowed at public boundaries — package APIs and feature public boundary exports. Internal convenience barrels are banned.</p>
+<h4 id="barrel-policy-matrix">Barrel Policy Matrix</h4>
+<table class="rules"><tbody>
+<tr><th>Context</th><th>Barrel Allowed?</th><th>Rationale</th></tr>
+<tr><th>Library/package public API (<code>packages/ui/index.ts</code>)</th><th>YES</th><th>Single entry point for consumers</th></tr>
+<tr><th>Framework plugin entry (<code>plugin/index.ts</code>)</th><th>YES</th><th>Plugin contract requires it</th></tr>
+<tr><th>Feature public boundary export (<code>features/auth/index.ts</code> as the feature&#x27;s single external entry)</th><th>YES</th><th>Public Boundary Export (dev-scaffolding §1); external consumers import the boundary</th></tr>
+<tr><th>Feature internal convenience barrel (re-exporting siblings for imports inside the feature)</th><th>NO</th><th>Hides internal structure, breaks tree-shaking</th></tr>
+<table class="rules"><tbody>
+<tr><th>Utility folder (<code>utils/index.ts</code>)</th><th>NO</th><th>Creates coupling magnet</th></tr>
+<tr><th>Component folder re-exporting siblings</th><th>NO</th><th>Direct imports are clearer</th></tr>
+<tr><th>Monorepo package boundary (<code>@org/shared/index.ts</code>)</th><th>YES</th><th>Cross-package contract</th></tr>
+</tbody></table>
+<p>See <code>references/barrel-discipline.md</code> for import examples, tree-shaking</p>
+<p>details, ESLint enforcement, and the safe barrel template.</p>
+<p>---</p>
+<h3 id="6-review-integration">6. Review Integration</h3>
+<h4 id="architecture-review-checklist-for-code-reviewer">Architecture Review Checklist (for code-reviewer)</h4>
+<p>When reviewing any PR that adds/modifies module structure, verify:</p>
+<ul>
+<li>[ ] <strong>No new circular dependencies</strong> — run <code>madge --circular</code> or equivalent</li>
+<li>[ ] <strong>Layer violations</strong> — no upward imports (infra-&gt;domain OK, domain-&gt;infra BLOCKED)</li>
+<li>[ ] <strong>Coupling classified</strong> — any new cross-module dependency has coupling type identified</li>
+<li>[ ] <strong>No CRITICAL/HIGH coupling without justification</strong> — Content/Common/Control coupling blocked</li>
+<li>[ ] <strong>Barrel files</strong> — no new internal barrels; existing public barrels use named exports only</li>
+<li>[ ] <strong>Validation placement</strong> — new validation is at system boundary, not internal functions</li>
+<li>[ ] <strong>Module size</strong> — new/modified modules under 400 LOC</li>
+<li>[ ] <strong>No &quot;utils&quot; growth</strong> — shared code placed in domain-specific module, not catch-all utils</li>
+<li>[ ] <strong>Dependency direction</strong> — dependencies point inward toward Domain: outer layers depend on inner layers (Presentation/Application/Infrastructure -&gt; Domain), and inner layers never import outward</li>
+<li>[ ] <strong>No lazy-import hacks</strong> — no <code>require()</code> inside function body to hide circular deps</li>
+</ul>
+<h4 id="automated-enforcement-ci-recommendations">Automated Enforcement (CI Recommendations)</h4>
+<table class="rules"><tbody>
+<tr><th>Check</th><th>Tool</th><th>CI Command</th></tr>
+<tr><th>Layer/dependency rules (preferred CI gate)</th><th>dependency-cruiser</th><th><code>npx depcruise --validate .dependency-cruiser.cjs src/</code></th></tr>
+<tr><th>Import boundaries</th><th>eslint-plugin-boundaries</th><th>ESLint with boundaries config</th></tr>
+<tr><th>Circular deps (quick visualization)</th><th>madge</th><th><code>npx madge --circular --extensions ts,tsx src/ &amp;&amp; echo &quot;OK&quot;</code></th></tr>
+<tr><th>Barrel abuse</th><th>Biome <code>noBarrelFile</code> or ESLint <code>no-restricted-imports</code></th><th>pattern for internal index files</th></tr>
+<table class="rules"><tbody>
+<tr><th>Dead files/exports/deps</th><th>knip</th><th><code>npx knip</code></th></tr>
+<tr><th>Monorepo package consistency</th><th>sherif</th><th><code>npx sherif</code></th></tr>
+<tr><th>Module size</th><th>custom script</th><th>`find src -name &#x27;*.ts&#x27; -exec wc -l {} + \</th><th>awk &#x27;$1 &gt; 400&#x27;`</th></tr>
+</tbody></table>
+<p>Tool roles verified 2026-07-02 (Sources: <code>references/circular-dependencies.md</code>).</p>
+<p>---</p>
+<h3 id="cross-skill-references">Cross-Skill References</h3>
+<ul>
+<li><strong>Observability</strong>: Trace emission at module boundaries is a production/long-lived-runtime concern (DEFAULT there, not universal). See <code>dev-backend/references/core/observability.md</code> for the canonical OTel setup.</li>
+<li><strong>Security</strong>: Validate at every trust/process/external boundary (HTTP entry, IPC, file/CLI input, third-party responses). Intra-trust-domain module calls follow §4 boundary-only defense — do not re-validate already-trusted data. See <code>dev-security/SKILL.md</code> for input validation and auth patterns.</li>
+</ul>
+<p>---</p>
+<h3 id="quick-decision-trees">Quick Decision Trees</h3>
+<h4 id="should-i-create-a-new-module">&quot;Should I create a new module?&quot;</h4>
+<pre><code>Does the code serve a distinct responsibility? 
+  NO  -&gt; Keep in existing module
+  YES -&gt; Is it used by 3+ other modules?
+    NO  -&gt; Co-locate with primary consumer
+    YES -&gt; Create dedicated module with clear interface</code></pre>
+<h4 id="is-this-coupling-acceptable">&quot;Is this coupling acceptable?&quot;</h4>
+<pre><code>What type? (see taxonomy above)
+  Content/Common -&gt; BLOCK, refactor now
+  Control/Stamp/External -&gt; BLOCK unless tech-debt ticket created
+  Temporal -&gt; ALLOW with documentation
+  Sequential/Functional -&gt; ALLOW</code></pre>
+<h4 id="where-does-this-validation-go">&quot;Where does this validation go?&quot;</h4>
+<pre><code>Is the data source external (HTTP, file, queue, DB, user input)?
+  YES -&gt; Validate here (boundary)
+  NO  -&gt; Is this a security-critical path?
+    YES -&gt; Validate (defense in depth)
+    NO  -&gt; Trust the type system, no validation needed</code></pre>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="../../pages/skills/dev-architecture-barrel-discipline.html">Barrel/Re-export Discipline</a></li>
+<li><a href="../../pages/skills/dev-architecture-circular-dependencies.html">Circular Dependency Detection &amp; Resolution</a></li>
+<li><a href="../../pages/skills/dev-architecture-coupling-taxonomy.html">Implicit Coupling Taxonomy</a></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

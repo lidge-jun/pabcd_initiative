@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>design-isms — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>design-isms</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/design-isms.md</p>
+<h3 id="1-design-ism-vocabulary">1. Design Ism Vocabulary</h3>
+<p>When the user references a design style or movement, or when selecting an aesthetic direction, use this vocabulary. Each ism includes a CSS signature for rapid implementation.</p>
+<h4 id="1-1-flat-design">1.1 Flat Design</h4>
+<p>Minimalist 2D. No shadows, gradients, or textures. Bold saturated solids, clean geometry, ample whitespace.</p>
+<pre><code>background: #3498db; border: none; border-radius: 0-4px; box-shadow: none;
+font-family: system-ui, sans-serif; font-weight: 400-600;</code></pre>
+<p><strong>Use:</strong> Content-heavy, mobile-first, government/public services. <strong>Avoid:</strong> Complex data-dense UI, luxury.</p>
+<h4 id="1-2-material-design">1.2 Material Design</h4>
+<p>Flat + physics-based elevation. Z-axis surfaces with systematic shadows, ripple animations, 8dp grid.</p>
+<pre><code>box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); /* dp=1 */
+border-radius: 4px; transition: box-shadow 0.3s cubic-bezier(0.25,0.8,0.25,1);</code></pre>
+<p><strong>Use:</strong> Cross-platform apps, enterprise SaaS, form-heavy workflows. <strong>Avoid:</strong> Distinctive brand identity, Apple-ecosystem.</p>
+<h4 id="1-3-glassmorphism">1.3 Glassmorphism</h4>
+<p>Frosted-glass with <code>backdrop-filter: blur()</code>, transparency, and subtle borders over colorful backgrounds.</p>
+<pre><code>background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+border: 1px solid rgba(255,255,255,0.2); border-radius: 12px;</code></pre>
+<p><strong>Use:</strong> Over rich backgrounds, navigation overlays, media players, macOS-aligned products. <strong>Avoid:</strong> Plain white backgrounds, text-heavy reading, low-powered devices.</p>
+<h4 id="1-4-neumorphism">1.4 Neumorphism</h4>
+<p>Extruded/inset elements from monochromatic background. Paired light+dark soft shadows. Soft plastic/clay feel.</p>
+<pre><code>background: #e0e0e0;
+box-shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+border-radius: 20px;</code></pre>
+<p><strong>Use:</strong> Smart home dashboards, music players, single-purpose widgets, low-density internal tools. <strong>Avoid:</strong> Accessibility-critical (WCAG fails on low contrast), data-dense, e-commerce.</p>
+<h4 id="1-5-neobrutalism">1.5 Neobrutalism</h4>
+<p>Thick black borders, flat bright backgrounds, no blur, oversized bold type, deliberately raw.</p>
+<pre><code>border: 3px solid #000; background: #ff6b6b;
+box-shadow: 4px 4px 0 #000; border-radius: 0; font-weight: 800-900;</code></pre>
+<p><strong>Use:</strong> Creative agencies, indie products, developer portfolios, youth-facing. <strong>Avoid:</strong> Finance, healthcare, government, enterprise B2B, luxury.</p>
+<h4 id="1-6-claymorphism">1.6 Claymorphism</h4>
+<p>3D clay-like. Thick soft pastel shadows, vibrant rounded elements, cartoon-like inflated depth.</p>
+<pre><code>background: linear-gradient(135deg, #ff6b9d, #feca57);
+box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -5px -5px 15px rgba(255,255,255,0.7);
+border-radius: 25px;</code></pre>
+<p><strong>Use:</strong> Children&#x27;s apps, gamification, onboarding, playful consumer. <strong>Avoid:</strong> Professional tools, finance, healthcare, enterprise.</p>
+<h4 id="1-7-art-deco">1.7 Art Deco</h4>
+<p>Bold geometry, symmetry, metallic finishes, strong vertical emphasis, luxurious ornamentation.</p>
+<pre><code>font-family: &#x27;Playfair Display&#x27;, serif; text-transform: uppercase; letter-spacing: 0.15em;
+color: #c9a96e; background: #1a1a2e; border-radius: 0;</code></pre>
+<p><strong>Use:</strong> Luxury brands, hospitality, jewelry/fashion, event landing pages. <strong>Avoid:</strong> SaaS, developer tools, casual consumer apps.</p>
+<h4 id="1-8-bauhaus">1.8 Bauhaus</h4>
+<p>&quot;Form follows function.&quot; Reductive, geometric, primary colors (red/yellow/blue) + black/white, grid-based asymmetric.</p>
+<pre><code>font-family: &#x27;DM Sans&#x27;, sans-serif; font-weight: 700;
+display: grid; grid-template-columns: 2fr 1fr;
+border: 2px solid #000; border-radius: 0;</code></pre>
+<p><strong>Use:</strong> Design portfolios, museum/gallery sites, educational platforms. <strong>Avoid:</strong> Complex data interfaces, general consumer apps.</p>
+<h4 id="1-9-swiss-international-typographic-style">1.9 Swiss / International Typographic Style</h4>
+<p>Maximum clarity. Grid systems, Helvetica/sans-serif, asymmetric layouts, objective photography, mathematical spacing.</p>
+<pre><code>font-family: &#x27;Helvetica Neue&#x27;, &#x27;Inter&#x27;, sans-serif;
+display: grid; gap: 1.5rem; color: #111; background: #fff;</code></pre>
+<p><strong>Use:</strong> Corporate identities, developer documentation, data dashboards. <strong>Avoid:</strong> Playful consumer products, entertainment.</p>
+<h4 id="1-10-memphis-design">1.10 Memphis Design</h4>
+<p>Anarchic 1980s. Clashing colors, squiggly lines, geometric confetti, deliberately &quot;ugly&quot; compositions.</p>
+<pre><code>background: #ff6b6b; border-radius: 50% 0 50% 0;
+/* SVG confetti/geometric shapes as background-image */</code></pre>
+<p><strong>Use:</strong> Event promotions, youth marketing, creative agency sites, social media graphics. <strong>Avoid:</strong> Professional software, finance, healthcare.</p>
+<h4 id="1-11-skeuomorphism">1.11 Skeuomorphism</h4>
+<p>Real-world materials in digital. Leather, wood, metal textures. Realistic shadows, bevels, highlights.</p>
+<pre><code>background: linear-gradient(to bottom, #e8e8e8, #d0d0d0);
+box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.6);
+border: 1px solid #999; border-radius: 8px;</code></pre>
+<p><strong>Use:</strong> Onboarding for non-technical users, music/audio apps, nostalgic products. <strong>Avoid:</strong> Developer tools, dashboards, SaaS, responsive layouts.</p>
+<h4 id="1-12-liquid-glass-apple-2025-2026">1.12 Liquid Glass (Apple, 2025-2026)</h4>
+<p>Glassmorphism&#x27;s successor as a SYSTEM material, not a card style (Apple HIG</p>
+<p>Materials, verified 2026-07-07). Dynamic translucent layer reserved for</p>
+<p>floating controls/navigation; content scrolls beneath and peeks through.</p>
+<p>Adapts to context and user settings (reduced transparency, increased</p>
+<p>contrast). Two variants: <code>regular</code> (blur + luminosity backing; text-safe)</p>
+<p>and <code>clear</code> (no blur; only over rich media).</p>
+<pre><code>background: color-mix(in oklab, canvas 55%, transparent);
+backdrop-filter: blur(16px) saturate(1.4);
+border: 1px solid rgba(255,255,255,0.18); border-radius: 16px;
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);</code></pre>
+<p><strong>Judgment gate vs 1.3 Glassmorphism:</strong> 1.3 styles individual cards over</p>
+<p>colorful backgrounds; Liquid Glass is a two-layer hierarchy decision —</p>
+<p>functional chrome floats as glass, content NEVER does. If someone asks for</p>
+<p>&quot;glass cards&quot; in the content layer, that is 1.3 (and usually slop); reserve</p>
+<p>Liquid Glass for sticky headers, tab bars, sidebars, floating toolbars,</p>
+<p>players. A blur-free variant (near-opaque pills over photographic/pastel</p>
+<p>washes) delivers the same 2026 language at lower cost.</p>
+<p><strong>Use:</strong> macOS/iOS-aligned products, media-rich consumer apps, floating chrome over scrollable content. <strong>Avoid:</strong> content-layer cards, text-heavy reading surfaces, data-dense dashboards, low-powered targets.</p>
+<p>Implementation recipes, perf budget, and a11y gates: <code>dev-frontend/references/core/liquid-glass.md</code>.</p>
+<h4 id="1-13-liquid-editorial-2026-no-brief-default-kit">1.13 Liquid Editorial (2026 no-brief default kit)</h4>
+<p>The composite kit behind SKILL.md §1 UX-DEFAULT-ISM-01 (decided 2026-07-07</p>
+<p>from Tier-2 trend research: Apple Liquid Glass 2025-06-09 announcement + HIG</p>
+<p>restraint guidance; Figma/Creative Bloq/Fireart 2026 forecasts naming</p>
+<p>expressive typography, tactile anti-AI texture, and authored color as the</p>
+<p>premium direction). Editorial type-led structure carrying a Liquid Glass</p>
+<p>accent layer — the &quot;fancy&quot; lives in the chrome, the authorship in the type.</p>
+<pre><code>/* signature: oversized authored headline + tactile wash + pill chrome */
+h1 { font-size: clamp(2.5rem, 8vw, 6rem); letter-spacing: 0; text-wrap: balance; }
+.wash { background: url(texture-or-photo) / oklch-tinted pastel; }
+.chrome { border-radius: 9999px; background: rgb(255 255 255 / .92); } /* or glass-regular on nav */
+:root { --accent: oklch(0.6 0.2 &lt;one hue&gt;); }</code></pre>
+<p><strong>Use:</strong> no-brief expressive surfaces (landing, consumer, creative, AI-product) as a stated assumption. <strong>Avoid:</strong> any quiet/repeated-work domain; briefs that name another direction; reusing it so uniformly that it becomes the new generic default — vary texture, hue, and the single signature motion per project.</p>
+<p>Related: 1.12 (material rules), <code>product-personalities.md</code> Aside profile (chip vocabulary), <code>dev-frontend</code> <code>liquid-glass.md</code> + <code>motion.md</code> (implementation).</p>
+<p>---</p>
+<h4 id="1-14-ai-serif-editorial-2024-2026-serif-renaissance">1.14 AI Serif Editorial (2024-2026 serif renaissance)</h4>
+<p>The AI-brand serif turn (verified 2026-07-09): display serif at LIGHT weights +</p>
+<p>sans UI + mono technical accent — never &quot;make everything serif&quot;. Measured:</p>
+<p>claude.ai <code>Anthropic Serif</code> 56px/weight 330 (identity by Geist: Styrene +</p>
+<p>Tiempos); Perplexity&#x27;s Comet leads with Editorial New (Studio Freight);</p>
+<p>manus.im Libre Baskerville 36px/400; precedent medium.com GT Super 120px/400 +</p>
+<p>Sohne UI. Semiotics: books/scholarship/human-hand trust against AI coldness,</p>
+<p>often with a warm off-white page metaphor.</p>
+<pre><code>h1, .display { font-family: &quot;Tiempos Headline&quot;, &quot;Editorial New&quot;, &quot;GT Super&quot;, serif;
+  font-weight: 350; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.15; }
+body, button, input { font-family: var(--sans); }  /* UI stays sans */
+code, .meta { font-family: var(--mono); }          /* technical accent */
+:root { --page: #faf9f5; }                          /* warm off-white page */</code></pre>
+<p><strong>Use:</strong> AI-product, research, editorial, publication, trust/human-warmth</p>
+<p>brands WITH real editorial structure (long-form typography, page-like</p>
+<p>surfaces, restrained palette). <strong>Avoid:</strong> dashboards, dense tools, SaaS</p>
+<p>layouts wearing a serif as premium shorthand — that is &quot;tasteslop&quot; (WIRED</p>
+<p>2026-06-05); heavy bold display serif (the pattern is 330-400).</p>
+<p>Related: <code>dev-frontend</code> <code>aesthetics.md § Serif Discipline</code>,</p>
+<p><code>korea-2026.md § Korean Serif / Myeongjo Display</code> (MaruBuri pairing).</p>
+<p>---</p>
+<h4 id="1-15-organic-capsule-openai-announcement-grammar">1.15 Organic Capsule (OpenAI announcement grammar)</h4>
+<p>The OpenAI model-card/hero grammar (in-house Feb-2025 rebrand led by Veit</p>
+<p>Moeller/Shannon Jager; OpenAI Sans by ABC Dinamo; motion/sound by Studio</p>
+<p>Dumbar/DEPT): a soft-focus organic photographic field (natural palettes,</p>
+<p>film grain, some Sora-generated texture) carrying an OPAQUE white capsule</p>
+<p>label with bold warm-sans text. Two strict layers: expressive background</p>
+<p>(no functional text) vs functional capsule/copy (no decoration). Kin to</p>
+<p>Apple&#x27;s WWDC25 capsule system but opaque, not glass.</p>
+<pre><code>.field { background: url(soft-focus-organic.jpg) center/cover; }
+.field::after { content:&quot;&quot;; position:absolute; inset:0; opacity:.15;
+  /* grain: noise image or feTurbulence */ mix-blend-mode: multiply; }
+.capsule { border-radius: 9999px; background: #fff; color: #111;
+  padding: .4em 1em; font-weight: 700; }</code></pre>
+<p><strong>Use:</strong> announcement cards, model/product reveals, campaign heroes for</p>
+<p>warm-tech brands; pairs with restrained type-led pages. <strong>Avoid:</strong> mixing the</p>
+<p>layers (text on raw busy background, texture on the capsule), more than one</p>
+<p>organic field per viewport (gradient/texture budget), tools/dashboards.</p>
+<p>Related: <code>dev-frontend</code> `motion.md § Soft-Focus Organic Background + Capsule</p>
+<p>Label<code>, </code>aesthetics.md § Expressive vs Functional Layers`.</p>
+<p>---</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

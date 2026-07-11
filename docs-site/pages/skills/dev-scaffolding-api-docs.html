@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Documentation Generation — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>API Documentation Generation</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-scaffolding/references/api-docs.md</p>
+<h2 id="api-documentation-generation">API Documentation Generation</h2>
+<h3 id="1-openapi-3-1-generation">1. OpenAPI 3.1 Generation</h3>
+<p>Two approaches — pick one per project and enforce consistently:</p>
+<table class="rules"><tbody>
+<tr><th>Approach</th><th>When to Use</th><th>Tools</th></tr>
+<tr><th><strong>Code-first</strong></th><th>API already exists, types are the source of truth</th><th><code>@nestjs/swagger</code> 8.x, <code>drf-spectacular</code> 0.28+, <code>FastAPI</code> (built-in), <code>tsoa</code> 6.x</th></tr>
+<tr><th><strong>Spec-first</strong></th><th>API contract must be agreed before implementation</th><th><code>openapi-generator-cli</code> 7.x, Stoplight Studio, Redocly CLI</th></tr>
+</tbody></table>
+<pre><code>// Code-first example: NestJS + @nestjs/swagger
+@ApiTags(&#x27;users&#x27;)
+@Controller(&#x27;users&#x27;)
+export class UsersController {
+  @Get(&#x27;:id&#x27;)
+  @ApiOperation({ summary: &#x27;Get user by ID&#x27; })
+  @ApiResponse({ status: 200, type: UserDto })
+  @ApiResponse({ status: 404, description: &#x27;User not found&#x27; })
+  findOne(@Param(&#x27;id&#x27;, ParseUUIDPipe) id: string): Promise&lt;UserDto&gt; {
+    return this.usersService.findOne(id);
+  }
+}</code></pre>
+<pre><code># Code-first example: drf-spectacular
+@extend_schema(
+    responses={200: UserSerializer, 404: ErrorSerializer},
+    tags=[&quot;users&quot;],
+)
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer</code></pre>
+<p><strong>Version pinning</strong>: OpenAPI spec version MUST be <code>3.1.0</code>. Pin generator CLI versions in <code>package.json</code> or CI config — never use <code>@latest</code>.</p>
+<h3 id="2-developer-portal-structure">2. Developer Portal Structure</h3>
+<pre><code>docs/api/
+├── index.html          # Redoc or Scalar UI entry
+├── openapi.yaml        # Generated spec (single source of truth)
+├── guides/
+│   ├── authentication.md
+│   ├── pagination.md
+│   ├── error-handling.md
+│   └── rate-limiting.md
+├── examples/
+│   ├── curl/           # Copy-pasteable curl commands
+│   └── sdk/            # Language-specific snippets
+└── changelog.md        # API-level changelog (not app changelog)</code></pre>
+<table class="rules"><tbody>
+<tr><th>Portal Tool</th><th>License</th><th>Best For</th></tr>
+<tr><th><strong>Scalar</strong> 1.x</th><th>MIT</th><th>Modern UI, try-it-out, OpenAPI 3.1 native</th></tr>
+<tr><th><strong>Redoc</strong> 2.x</th><th>MIT</th><th>Clean reference docs, wide adoption</th></tr>
+<tr><th><strong>Stoplight Elements</strong></th><th>Apache-2.0</th><th>Embedded component, design-system friendly</th></tr>
+</tbody></table>
+<p>MUST include: authentication guide, error code table, rate limit documentation, pagination pattern.</p>
+<h3 id="3-ci-doc-drift-detection">3. CI Doc Drift Detection</h3>
+<p>Spec and implementation MUST stay in sync. Detect drift in CI:</p>
+<pre><code># GitHub Actions example
+- name: Check OpenAPI spec drift
+  run: |
+    # Generate fresh spec from code
+    bun run generate:openapi -- --output /tmp/fresh-spec.yaml
+
+    # Compare against committed spec
+    npx oasdiff diff docs/api/openapi.yaml /tmp/fresh-spec.yaml \
+      --fail-on ERR \
+      --format text
+
+    # Check for breaking changes
+    npx oasdiff breaking docs/api/openapi.yaml /tmp/fresh-spec.yaml \
+      --fail-on ERR</code></pre>
+<table class="rules"><tbody>
+<tr><th>Tool</th><th>Purpose</th><th>Version</th></tr>
+<tr><th><code>oasdiff</code> 1.x</th><th>Diff + breaking change detection</th><th>Pin in CI</th></tr>
+<tr><th><code>spectral</code> 6.x</th><th>OpenAPI linting rules</th><th>Pin in CI</th></tr>
+<tr><th><code>vacuum</code> 0.14+</th><th>Fast OpenAPI linting (Go, faster than spectral)</th><th>Pin in CI</th></tr>
+</tbody></table>
+<pre><code># Spectral linting in CI
+npx spectral lint docs/api/openapi.yaml --ruleset .spectral.yaml --fail-severity warn</code></pre>
+<p>Breaking change policy: removing an endpoint, removing a required response field, or changing a field type is a <strong>breaking change</strong> — requires major version bump and 90-day deprecation notice.</p>
+<h3 id="4-sdk-generation">4. SDK Generation</h3>
+<p>Generate typed clients from the OpenAPI spec — never hand-write API clients:</p>
+<table class="rules"><tbody>
+<tr><th>Language</th><th>Generator</th><th>Output</th></tr>
+<tr><th>TypeScript</th><th><code>openapi-typescript</code> 7.x + <code>openapi-fetch</code> 0.13+</th><th>Zero-runtime types + fetch client</th></tr>
+<tr><th>TypeScript (React Query)</th><th><code>orval</code> 7.x</th><th>React Query hooks + Zod validation</th></tr>
+<tr><th>Python</th><th><code>openapi-python-client</code> 0.22+</th><th>Pydantic models + httpx client</th></tr>
+<tr><th>Go</th><th><code>oapi-codegen</code> 2.x</th><th>Typed structs + chi/echo handlers</th></tr>
+</tbody></table>
+<pre><code># openapi-typescript: generate types from spec
+npx openapi-typescript docs/api/openapi.yaml -o src/api/schema.d.ts
+
+# orval: generate React Query hooks
+npx orval --config orval.config.ts</code></pre>
+<p>SDK generation runs in CI after spec validation passes. Commit generated files — do not generate at runtime.</p>
+<h3 id="5-anti-patterns">5. Anti-Patterns</h3>
+<table class="rules"><tbody>
+<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
+<tr><th>Hand-written API clients</th><th>Drift from spec, type mismatches</th><th>Generate from OpenAPI spec (§4)</th></tr>
+<tr><th>Spec committed but never validated in CI</th><th>Spec rots silently</th><th>Add oasdiff + spectral to CI (§3)</th></tr>
+<tr><th><code>@latest</code> for generator CLIs</th><th>Non-reproducible builds</th><th>Pin exact version in package.json / CI</th></tr>
+<tr><th>API docs on wiki/Notion only</th><th>Docs drift from code within days</th><th>Co-locate in repo, generate from code/spec</th></tr>
+<table class="rules"><tbody>
+<tr><th>Missing error response schemas</th><th>Clients cannot handle errors properly</th><th>Document every 4xx/5xx with response schema</th></tr>
+</tbody></table>
+<h3 id="pre-flight">Pre-flight</h3>
+<ul>
+<li>[ ] OpenAPI spec is version <code>3.1.0</code> and validates with spectral/vacuum</li>
+<li>[ ] CI pipeline includes spec drift detection (oasdiff or equivalent)</li>
+<li>[ ] Breaking change policy is documented and enforced in CI</li>
+<li>[ ] SDK generation is automated from spec, not hand-written</li>
+<li>[ ] Developer portal includes auth guide, error codes, pagination, rate limits</li>
+<li>[ ] Generator CLI versions are pinned (no <code>@latest</code>)</li>
+</ul>
+<h3 id="6-cross-references">6. Cross-References</h3>
+<ul>
+<li><strong>API design patterns</strong>: <code>dev-backend/references/core/api-design.md</code></li>
+<li><strong>API lifecycle &amp; deprecation</strong>: <code>dev-backend/references/core/api-lifecycle.md</code> (Wave 1)</li>
+<li><strong>Health checks</strong>: <code>dev-backend/references/core/health-checks.md</code></li>
+<li><strong>CI/CD pipeline integration</strong>: <code>dev-devops</code> (Wave 2)</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

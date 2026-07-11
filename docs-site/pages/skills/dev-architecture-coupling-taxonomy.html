@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Implicit Coupling Taxonomy — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Implicit Coupling Taxonomy</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-architecture/references/coupling-taxonomy.md</p>
+<h2 id="implicit-coupling-taxonomy">Implicit Coupling Taxonomy</h2>
+<p>Last reviewed: 2026-07-02</p>
+<p>Deep reference for classifying, detecting, and resolving coupling in code reviews.</p>
+<p>---</p>
+<h3 id="the-8-coupling-types">The 8 Coupling Types</h3>
+<h4 id="1-content-coupling-critical">1. Content Coupling (CRITICAL)</h4>
+<p><strong>Definition:</strong> Module directly accesses/modifies another module&#x27;s internal data.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Reading <code>other._privateField</code> (bypassing encapsulation)</li>
+<li>Monkey-patching another module&#x27;s internals</li>
+<li>Directly manipulating another component&#x27;s DOM/state</li>
+</ul>
+<p><strong>Refactoring:</strong> Expose a public method or getter. If no natural API exists, the modules may need to merge.</p>
+<h4 id="2-common-coupling-critical">2. Common Coupling (CRITICAL)</h4>
+<p><strong>Definition:</strong> Multiple modules read/write the same global mutable state.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Global config object mutated by multiple services</li>
+<li>Shared singleton with mutable state</li>
+<li>Module-level <code>let</code> variable imported and modified by others</li>
+</ul>
+<p><strong>Refactoring:</strong> Dependency injection. Pass config explicitly. Use immutable config frozen at startup.</p>
+<h4 id="3-control-coupling-high">3. Control Coupling (HIGH)</h4>
+<p><strong>Definition:</strong> Module passes a flag/enum that controls another module&#x27;s internal logic flow.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><code>processOrder(order, isRetry=true, skipValidation=false)</code></li>
+<li>Boolean parameter that switches between two unrelated behaviors</li>
+<li>Enum that selects internal algorithm</li>
+</ul>
+<p><strong>Refactoring:</strong> Polymorphism. Split into <code>processNewOrder()</code> / <code>retryOrder()</code>. Strategy pattern for algorithm selection.</p>
+<h4 id="4-stamp-coupling-high">4. Stamp Coupling (HIGH)</h4>
+<p><strong>Definition:</strong> Module passes a large data structure when only a small part is needed.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><code>renderHeader(entireUserObject)</code> when only <code>user.name</code> is needed</li>
+<li>Passing full DB row to a function that uses one field</li>
+<li>React component receiving entire store slice as prop</li>
+</ul>
+<p><strong>Refactoring:</strong> Pass only needed fields. Define minimal interface. Destructure at call site.</p>
+<h4 id="5-external-coupling-high">5. External Coupling (HIGH)</h4>
+<p><strong>Definition:</strong> Multiple modules independently depend on the same external data format or protocol.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Two services both parse the same CSV format with inline logic</li>
+<li>Multiple modules assume specific JSON structure from third-party API</li>
+<li>Hardcoded external URL in multiple places</li>
+</ul>
+<p><strong>Refactoring:</strong> Single adapter/parser module. All consumers import the parsed result, not raw external data.</p>
+<h4 id="6-temporal-coupling-medium">6. Temporal Coupling (MEDIUM)</h4>
+<p><strong>Definition:</strong> Modules must execute in a specific (undocumented) order.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><code>init()</code> must be called before <code>process()</code> but nothing enforces this</li>
+<li>Service A must start before Service B</li>
+<li>Config must be loaded before any module initializes</li>
+</ul>
+<p><strong>Refactoring:</strong> State machine (make illegal states unrepresentable). Builder pattern. Explicit initialization chain.</p>
+<h4 id="7-sequential-coupling-low">7. Sequential Coupling (LOW)</h4>
+<p><strong>Definition:</strong> Output of module A feeds directly as input to module B (pipeline).</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>ETL: extract -&gt; transform -&gt; load</li>
+<li>Middleware chain: parse -&gt; validate -&gt; authorize -&gt; handle</li>
+<li>Compiler: lex -&gt; parse -&gt; analyze -&gt; generate</li>
+</ul>
+<p><strong>Refactoring:</strong> Usually acceptable. Document the contract between stages. Validate at stage boundaries.</p>
+<h4 id="8-functional-coupling-low-target-state">8. Functional Coupling (LOW — TARGET STATE)</h4>
+<p><strong>Definition:</strong> Modules interact through well-defined, typed interfaces.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Function call with typed parameters and return value</li>
+<li>Interface implementation</li>
+<li>Event with typed payload</li>
+</ul>
+<p><strong>Refactoring:</strong> No refactoring needed. This is the goal state for all inter-module communication.</p>
+<p>---</p>
+<h3 id="severity-matrix-review-decision">Severity Matrix (Review Decision)</h3>
+<table class="rules"><tbody>
+<tr><th>Severity</th><th>Types</th><th>Merge Decision</th><th>Required Action</th></tr>
+<tr><th>CRITICAL</th><th>Content, Common</th><th>BLOCK</th><th>Refactor before merge. No exceptions.</th></tr>
+<tr><th>HIGH</th><th>Control, Stamp, External</th><th>BLOCK unless justified</th><th>Tech-debt ticket with deadline + reviewer approval</th></tr>
+<tr><th>MEDIUM</th><th>Temporal</th><th>ALLOW with docs</th><th>Add ordering documentation or state assertions</th></tr>
+<tr><th>LOW</th><th>Sequential, Functional</th><th>ALLOW</th><th>No action needed</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="banned-review-responses">Banned Review Responses</h3>
+<p>These responses are NEVER acceptable when coupling is identified:</p>
+<table class="rules"><tbody>
+<tr><th>Banned Response</th><th>Why It&#x27;s Banned</th><th>What To Say Instead</th></tr>
+<tr><th>&quot;It works so it&#x27;s fine&quot;</th><th>Working code can be unmaintainable</th><th>&quot;It works, but this is [type] coupling (severity: X). Must fix / ticket.&quot;</th></tr>
+<tr><th>&quot;We&#x27;ll fix it later&quot; (no ticket)</th><th>&quot;Later&quot; = never in practice</th><th>&quot;Creating ticket [PROJ-XXX] with deadline [date] for decoupling.&quot;</th></tr>
+<tr><th>&quot;It&#x27;s just one place&quot;</th><th>One instance becomes ten within weeks</th><th>&quot;Fix now while blast radius is small.&quot;</th></tr>
+<tr><th>&quot;The tests pass&quot;</th><th>Tests don&#x27;t measure architectural integrity</th><th>&quot;Tests verify behavior, not structure. Static analysis says X.&quot;</th></tr>
+<table class="rules"><tbody>
+<tr><th>&quot;It&#x27;s internal, nobody else uses it&quot;</th><th>Internal coupling compounds fastest</th><th>&quot;Internal coupling is MORE dangerous — harder to detect, easier to spread.&quot;</th></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="detection-signals-during-review">Detection Signals During Review</h3>
+<tr><th>Signal in Code</th><th>Likely Coupling Type</th><th>Investigate</th></tr>
+<table class="rules"><tbody>
+<tr><th>Accessing <code>._private</code> or internal field</th><th>Content</th><th>Encapsulation breach</th></tr>
+<tr><th>Global <code>let</code> / mutable singleton</th><th>Common</th><th>Shared mutable state</th></tr>
+<tr><th>Boolean/enum parameter controlling flow</th><th>Control</th><th>Hidden polymorphism</th></tr>
+<tr><th>Passing full object, using 1-2 fields</th><th>Stamp</th><th>Over-broad interface</th></tr>
+<tr><th>Duplicated parsing logic</th><th>External</th><th>Missing shared adapter</th></tr>
+<table class="rules"><tbody>
+<tr><th>Comment: &quot;must call X before Y&quot;</th><th>Temporal</th><th>Missing state machine</th></tr>
+<tr><th>Pipeline without input validation</th><th>Sequential</th><th>Undocumented contract</th></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

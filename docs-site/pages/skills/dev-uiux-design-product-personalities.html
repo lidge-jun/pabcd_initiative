@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>product-personalities — PABCD Initiative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>product-personalities</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: dev-uiux-design/references/product-personalities.md</p>
+<h3 id="1-product-personality-database">1. Product Personality Database</h3>
+<p>Last reviewed: 2026-07-02 — brand tokens are snapshots; verify against the live product (per search skill) before shipping.</p>
+<p>When the user references a product (&quot;Notion 느낌&quot;, &quot;Linear처럼&quot;), map to these exact design parameters.</p>
+<h4 id="notion">Notion</h4>
+<p><strong>Essence:</strong> Warm minimalism — paper-like, approachable, quietly structured.</p>
+<pre><code>colors: { bg: &quot;#ffffff&quot;, surface: &quot;#f6f5f4&quot;, text: &quot;#000&quot;, secondary: &quot;#787774&quot;, accent: &quot;#097fe8&quot;, border: &quot;#dfdcd9&quot; }
+typography: { font: &quot;Inter (or custom NotionInter)&quot;, heading_weight: 600-700, body_weight: 400, optional_serif: &quot;Lyon Text&quot; }
+spacing: &quot;4px scale (4, 8, 12, 16, 24, 32, 48, 64)&quot;
+radius: &quot;8px elements, 12px cards&quot;
+shadows: &quot;multi-layered soft — rgba(25,25,25,0.027)&quot;
+signature: &quot;off-white surface, serif option for content, hand-drawn illustrations, block-based composition&quot;</code></pre>
+<h4 id="linear">Linear</h4>
+<p><strong>Essence:</strong> Dark precision — engineering-grade, sharp, purple-accented.</p>
+<pre><code>colors: { bg: &quot;#000&quot;, text: &quot;dark-gray-on-black&quot;, accent: &quot;purple gradient&quot; }
+typography: { font: &quot;Inter&quot;, weight: &quot;400-600&quot; }
+spacing: &quot;8px scale (8, 16, 32, 64)&quot;
+radius: &quot;6-8px&quot;
+shadows: &quot;minimal — relies on surface layering&quot;
+signature: &quot;pure black bg, extreme keyboard-first, command palette (Cmd+K), modular components, speed above all&quot;</code></pre>
+<h4 id="figma">Figma</h4>
+<p><strong>Essence:</strong> Bright playground — collaborative, vibrant, tool-as-canvas.</p>
+<pre><code>colors: { chrome: &quot;neutral gray&quot;, content: &quot;colorful&quot;, schemes: &quot;tonal vibrancy, electric pairings&quot; }
+typography: { font: &quot;custom grotesque sans-serif&quot;, styles: &quot;sans, condensed, mono, hand&quot; }
+radius: &quot;8px&quot;
+signature: &quot;infinite canvas metaphor, real-time presence (cursors/avatars), dual-panel (layers left, properties right), abstract playful primitives&quot;</code></pre>
+<h4 id="arc-browser">Arc Browser</h4>
+<p><strong>Essence:</strong> Gradient personality — organic, macOS-native, context-shifting.</p>
+<pre><code>colors: { per_space_gradients: true, work: &quot;linear-gradient(135deg, #667eea, #764ba2)&quot;, personal: &quot;linear-gradient(135deg, #f093fb, #f5576c)&quot; }
+typography: { font: &quot;-apple-system, system-ui&quot; }
+radius: &quot;contextual (--radius-sm, --radius-lg)&quot;
+shadows: &quot;0 4px 24px rgba(0,0,0,0.2)&quot;
+animation: &quot;spring(response: 0.3, dampingFraction: 0.7)&quot;
+signature: &quot;per-Space gradient theming, sidebar replaces tab bar, CSS variables exposed for user theming&quot;</code></pre>
+<h4 id="vercel">Vercel</h4>
+<p><strong>Essence:</strong> Monochrome precision — black, white, Geist, nothing else.</p>
+<pre><code>colors: { bg: &quot;#000&quot;, fg: &quot;#fff&quot;, accent_blue: &quot;#0070F3 (functional only)&quot;, grays: &quot;10-step ramp #F7F7F7→#0A0A0A&quot; }
+typography: { font: &quot;Geist&quot;, mono: &quot;Geist Mono&quot;, letter_spacing: &quot;-0.04em headings, -0.01em body&quot; }
+spacing: &quot;4-8px base, 96-128px section padding&quot;
+radius: &quot;0-4px marketing, 6-8px UI&quot;
+shadows: &quot;minimal or none&quot;
+signature: &quot;almost entirely grayscale, aggressive whitespace, blueprint grid bg, no illustrations, CSS-preferred animations&quot;</code></pre>
+<h4 id="stripe">Stripe</h4>
+<p><strong>Essence:</strong> Gradient elegance — illustrated, polished, technically confident.</p>
+<pre><code>colors: { signature: &quot;purple gradients&quot;, palette: [&quot;blue&quot;, &quot;yellow&quot;, &quot;pink&quot;, &quot;purple&quot;, &quot;orange&quot;, &quot;red&quot;] }
+typography: { weight: 300, style: &quot;sharp, clear, restrained&quot; }
+effects: { hero: &quot;WebGL animated gradient mesh&quot;, illustrations: &quot;telling animations that communicate without copy&quot; }
+signature: &quot;weight-300 type elegance, complementary multi-color gradients, sharp minimal copy, restrained with no frills&quot;</code></pre>
+<h4 id="apple">Apple</h4>
+<p><strong>Essence:</strong> Frosted glass, system font, spacious — hardware-grade polish.</p>
+<pre><code>colors: { bg: &quot;#fff/#000 (light/dark)&quot;, surface: &quot;rgba with context-adaptive opacity&quot;, accent: &quot;system blue&quot; }
+typography: { font: &quot;-apple-system, SF Pro&quot;, weight: &quot;200-800 variable&quot; }
+effects: { liquid_glass: &quot;backdrop-filter: blur(20px); background: rgba(255,255,255,0.3); border: 0.5px solid rgba(255,255,255,0.3)&quot; }
+spacing: &quot;40px+ padding on glass, very generous sections&quot;
+radius: &quot;12-20px&quot;
+signature: &quot;system font, Liquid Glass adapts contextually, specular highlights on motion, generous spacing = luxury&quot;</code></pre>
+<p>Liquid Glass judgment (HIG, verified 2026-07-07): glass is a functional-layer</p>
+<p>material for floating controls/navigation only — never content-layer cards;</p>
+<p><code>regular</code> variant for text-bearing chrome, <code>clear</code> only over rich media; the</p>
+<p>system adapts it to reduced-transparency/contrast settings. Vocabulary:</p>
+<p><code>design-isms.md</code> §1.12; implementation: <code>dev-frontend/references/core/liquid-glass.md</code>.</p>
+<h4 id="aside-2026-ai-product-pastel">Aside (2026 AI-product pastel)</h4>
+<p><strong>Essence:</strong> Apple-circular warmth for AI products — pill chips as content, pastel photography washes, glass feel without blur. (Tokens measured from the live site 2026-07-07; STYLE_SAMPLE.)</p>
+<pre><code>colors: { hero: &quot;sky-photo / soft pastel washes (pink/teal/green/blue) per card&quot;, surface: &quot;near-opaque white rgba(255,255,255,0.92)&quot;, cta: &quot;black pill, white text&quot; }
+typography: { font: &quot;Geist&quot;, headlines: &quot;large sentence-case declaratives ending with a period (&#x27;...but it&#x27;s a browser.&#x27;)&quot; }
+radius: { tiers: &quot;8.4px / 11.2px / 16.8px + 9999px pill class&quot;, page: &quot;22-34px rounded macOS-window container&quot; }
+effects: { glass: &quot;NONE — 0 backdrop-filter site-wide; translucent white pills over rich backgrounds carry the material feel&quot; }
+chips: &quot;prompt strings, scheduling options, bookmarks = pill chips WITH real brand icons; the chip is the primary content unit&quot;
+composition: &quot;full-bleed photo hero + centered copy + one pill CTA + one bordered pill eyebrow; 3-card pastel feature rows with real product screenshots + floating prompt pills&quot;
+signature: &quot;macOS-window page metaphor, chips-as-content, Apple-newsroom copy cadence, warmth without gradients-on-cards&quot;</code></pre>
+<h4 id="openai-2026-warm-sans-organic">OpenAI (2026 warm-sans organic)</h4>
+<p><strong>Essence:</strong> Precise but humane platform — warm geometric sans, huge whitespace, soft natural imagery, opaque capsule labels. (In-house Feb-2025 rebrand + ABC Dinamo type + Studio Dumbar motion; verified 2026-07-09; STYLE_SAMPLE.)</p>
+<pre><code>colors: { base: &quot;off-white / near-black, palette inspired by natural environments&quot;, imagery: &quot;soft-focus landscape/still-life photography + film grain, some AI-generated texture&quot;, accent: &quot;imagery carries color; UI stays neutral&quot; }
+typography: { font: &quot;OpenAI Sans (warm geometric, rounded-approachable) — Geist as open stand-in&quot;, headlines: &quot;large but restrained, generous whitespace over scale&quot; }
+radius: { capsule: &quot;9999px opaque white pills for labels/CTAs&quot;, cards: &quot;20-28px&quot; }
+effects: { glass: &quot;none — opaque capsules over expressive imagery; grain/texture on the background layer only&quot; }
+composition: &quot;centered stacked hero over full-width media; announcement card = organic photographic field + white capsule with model name&quot;
+signature: &quot;blossom mark, expressive/functional layer split, humanized-AI warmth without losing platform precision&quot;</code></pre>
+<h4 id="anthropic-claude-serif-bookish">Anthropic / Claude (serif bookish)</h4>
+<p><strong>Essence:</strong> Research institute as a thoughtful book — serif display at light weights on warm paper tones. (Identity by Geist: Styrene + Tiempos lineage, now custom Anthropic Serif/Sans/Mono; measured live 2026-07-09; STYLE_SAMPLE.)</p>
+<pre><code>colors: { base: &quot;warm off-white/cream page metaphor (#faf9f5-class) + near-black ink&quot;, accent: &quot;muted terracotta/clay used sparingly&quot; }
+typography: { display: &quot;Anthropic Serif 56px/weight 330 (claude.ai), editorial H2 ~68px/400&quot;, ui: &quot;Anthropic Sans 15-16px/500-550&quot;, accent: &quot;Anthropic Mono for technical&quot; }
+radius: { general: &quot;8-12px, quiet&quot; }
+effects: { none: &quot;no glass, no gradients — paper flatness with generous margins&quot; }
+composition: &quot;editorial/institutional opener (text-led mission headline, no hero screenshot); long-form reading surfaces&quot;
+signature: &quot;bookish serif-led trust, three-role type system (serif display + sans UI + mono accent), safety-culture calm&quot;</code></pre>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>
