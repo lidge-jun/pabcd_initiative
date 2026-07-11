@@ -485,6 +485,25 @@ def main():
         html = doc_page_html(name, body_html, page, base="../../")
         (SITE / page).write_text(html, encoding="utf-8")
     
+    # 6b. Rebuild devlog pages with complete NAV
+    devlog_entries_rebuild = build_devlog_pages()
+    
+    # 6c. Rebuild backlog pages with complete NAV
+    backlog_entries_rebuild = build_backlog_pages()
+    
+    # 6d. Rebuild reference pages with complete NAV
+    if REFS_DIR.is_dir():
+        for rf in sorted(REFS_DIR.glob("*.md")):
+            if rf.suffix == ".yaml":
+                continue
+            ref_title, ref_body = read_md(rf)
+            ref_page = f"pages/skills/dev-pabcd-{rf.stem}.html"
+            ref_body_html = f'<p class="refnote">Source: dev-pabcd/references/{rf.name}</p>\n' + md_to_html_simple(ref_body)
+            ref_html = doc_page_html(ref_title, ref_body_html, ref_page, base="../../")
+            (SITE / ref_page).write_text(ref_html, encoding="utf-8")
+    
+    print(f"  Rebuilt with complete NAV: {len(skill_entries)} skills + {len(devlog_entries_rebuild)} devlog + {len(backlog_entries_rebuild)} backlog + {len(ref_entries)} refs")
+    
     # 7. Build search index
     build_search_index(all_pages)
     print(f"  Search index: {len(all_pages)} entries")
