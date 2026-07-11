@@ -66,6 +66,8 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .meta-bar .grow { flex: 1; border-right: none; }
 .meta-bar .right { border-right: none; border-left: 1px solid var(--line); }
+.meta-bar a { color: inherit; text-decoration: none; }
+.meta-bar a:hover { color: var(--accent); }
 @media (max-width: 860px) {
   .meta-bar .hide-m { display: none; }
 }
