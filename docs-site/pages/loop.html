@@ -115,7 +115,7 @@
     인간이 확인하는 일시정지 지점으로 남고, Stop-continuation 훅은 무장하지
     않는다. 자율 실행을 명시적으로 요청받지 않았다면 조용히 goal을 만들지
     말고 HITL에 머무는 것이 규칙이다.</p>
-    <p class="refnote">codexclaw/plugins/codexclaw/skills/loop/SKILL.md:50-56</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/skills/loop/SKILL.md" target="_blank" rel="noopener">codexclaw/plugins/codexclaw/skills/loop/SKILL.md:50-56</a></p>
     <figure class="figure-cut">
       <img class="cutout" src="../assets/cut_gate.webp" alt="게이트 글리프: 두 개의 수직 바를 통과하는 화살표" width="900" height="900" style="max-width:260px">
       <figcaption>Fig.03 — every forward edge passes a gate</figcaption>
@@ -128,25 +128,25 @@
     goalplan이 등장한다: 목표, work-phase, 성공 기준, 체크포인트, 증거,
     인터뷰의 OPEN ASSUMPTIONS, 스티어링 결정, 품질 게이트를 파일로
     명문화한다.</p>
-    <p class="refnote">loop/SKILL.md:57-63 · :169-179 (Contract)</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/loop/SKILL.md" target="_blank" rel="noopener">loop/SKILL.md:57-63</a> · :169-179 (Contract)</p>
     <p>등록도 게이트다: <code>loop init</code> 후 첫 work-phase 전에
     workPhases[]와 criteria[]를 채워야 한다. 빈 init-only 플랜은 validate
     게이트(E8)에서 FAIL하고, 바인딩된 goalplan이 그 게이트를 통과하지 못하는
     동안 <code>update_goal {status:"complete"}</code>는 훅이 거부한다
     (GOAL-COMPLETE-GATE-01) — 미등록 플랜은 완료를 인증할 수 없다.</p>
-    <p class="refnote">loop/SKILL.md:110-114</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/loop/SKILL.md" target="_blank" rel="noopener">loop/SKILL.md:110-114</a></p>
 
     <h2><span class="sec-no">C</span>Stop-continuation — 조용한 종료의 봉인</h2>
     <p>"goal은 만들었는데 PABCD에는 진입하지 않은" 턴은 더 이상 조용히 끝나지
     않는다: ACTIVE goal에 in-flight 사이클이 없으면 Stop 훅이 무장 명령을
     지목하며 바운디드 블록을 건다(GOAL-IDLE-CONTINUE-01).</p>
-    <p class="refnote">loop/SKILL.md:57-63</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/loop/SKILL.md" target="_blank" rel="noopener">loop/SKILL.md:57-63</a></p>
     <p>완료 게이트의 거부 조건은 열거돼 있다: 사이클 진행 중, work-phase
     미완, 기준 미충족, capturedEvidence 없는 met 마크, 빈 미등록 플랜.
     그리고 목표를 아래로 재정의하는 길은 막혀 있다 — P에서 기록된 성공
     기준이 기준선이고, 루프를 빠져나가려고 스코프를 줄이는 편집은
     LOOP-CONTINUE-01 위반으로 ledger에 그대로 보인다.</p>
-    <p class="refnote">loop/SKILL.md:118-130 · :268-269</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/loop/SKILL.md" target="_blank" rel="noopener">loop/SKILL.md:118-130</a> · :268-269</p>
 
     <h2><span class="sec-no">D</span>발산과 수렴 — 모드는 선언된다</h2>
     <p>PABCD는 기본이 수렴이다: 평범한 빌드/버그픽스 goal은 전략 하나를 잡고
@@ -155,10 +155,10 @@
     모드에서 maximize 목적 함수가 비개선 지표를 기록하고 Stop 훅이
     objective-plateau 지시문을 낼 때 자동으로 제안된다. 모드는 collapse
     지점(P 또는 D)과 사유까지 명시해 기록된다.</p>
-    <p class="refnote">loop/SKILL.md:373-378 · :390 (divergence mode --collapse P|D --reason)</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/loop/SKILL.md" target="_blank" rel="noopener">loop/SKILL.md:373-378</a> · :390 (divergence mode --collapse P|D --reason)</p>
     <p>이 페이지들이 그 계약의 산출물이다: 이 유닛 자체가 HOTL goalplan 아래
     4개 work-phase로 돌았고, 모든 전이는 attest 증거를 실었다.</p>
-    <p class="refnote">codexclaw/devlog/_plan/260711_dispatch_economy_docs_site/ (unit ledger)</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/devlog/_plan/260711_dispatch_economy_docs_site/ (unit ledger)" target="_blank" rel="noopener">codexclaw/devlog/_plan/260711_dispatch_economy_docs_site/ (unit ledger)</a></p>
   </div>
 </section>
 

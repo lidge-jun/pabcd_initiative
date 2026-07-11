@@ -117,7 +117,7 @@
     <p>방법론이 상대하는 위협은 악의가 아니라 태만이다. 에이전트는 거짓말을
     하려고 검증을 건너뛰는 게 아니라, 완료를 선언하는 쪽이 항상 더 쉽기
     때문에 건너뛴다.</p>
-    <p class="refnote">"Threat model = laziness, not malice." — pabcd_initiative/skills/dev-pabcd/SKILL.md:154</p>
+    <p class="refnote"><a href="skills/dev-pabcd.html">"Threat model = laziness, not malice." — pabcd_initiative/skills/dev-pabcd/SKILL.md:154</a></p>
     <p>기록된 사례: 세션 019f4407에서 에이전트는 goal을 만들고 PABCD에는
     한 번도 진입하지 않은 채, 자신의 REMAINING 목록을 출력하면서 goal을 두 번
     self-complete 했다. Stop 훅은 한 번도 막지 않았다 — IDLE 상태에서 가드가
@@ -126,15 +126,15 @@
     file), agent self-completed the goal twice while printing its own
     REMAINING list. Stop hook never blocked once — guard 2a released silently
     at IDLE."
-    <span class="src">codexclaw/devlog/_plan/260709_loop_enforcement/000_diagnosis_and_patch.md:6-8</span></div>
+    <span class="src"><a href="https://github.com/lidge-jun/codexclaw/blob/main/devlog/_plan/260709_loop_enforcement/000_diagnosis_and_patch.md" target="_blank" rel="noopener">codexclaw/devlog/_plan/260709_loop_enforcement/000_diagnosis_and_patch.md:6-8</a></span></div>
     <p>이 사건의 봉인이 GOAL-COMPLETE-GATE-01이다: PABCD 사이클이 진행 중이거나
     goalplan이 완결 게이트를 통과하지 못하면 <code>update_goal
     {status:"complete"}</code> 호출 자체가 거부된다.</p>
-    <p class="refnote">GOAL-COMPLETE-GATE-01 — codexclaw/devlog/_plan/260709_loop_enforcement/000_diagnosis_and_patch.md:23-24</p>
+    <p class="refnote">GOAL-COMPLETE-GATE-01 — <a href="https://github.com/lidge-jun/codexclaw/blob/main/devlog/_plan/260709_loop_enforcement/000_diagnosis_and_patch.md" target="_blank" rel="noopener">codexclaw/devlog/_plan/260709_loop_enforcement/000_diagnosis_and_patch.md:23-24</a></p>
     <p>같은 계열의 더 미묘한 실패가 "보지 않은 완료"다. tsc가 통과하고 테스트가
     초록불이어도, 렌더된 화면을 한 번도 열어보지 않고 차트 컴포넌트를 배포하는
     개발자와 같은 갭이 에이전트에게도 있다.</p>
-    <p class="refnote">"nothing proves the artifact was actually rendered and observed" — pabcd_initiative/devlog/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md:31-34</p>
+    <p class="refnote"><a href="devlog/260705_pabcd_render_grounding.html">"nothing proves the artifact was actually rendered and observed" — pabcd_initiative/devlog/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md:31-34</a></p>
 
     <h2><span class="sec-no">B</span>사건이 규칙이 된 경로 — NEXT NATION</h2>
     <p>가장 비싼 수업은 게임 봇에서 왔다. 엔드게임 HP 레이스 브랜치가 조합
@@ -147,67 +147,67 @@
     never instrumented. The branch was in fact never arming: two early-return
     trainers drained the bank every turn, and a warriors-at-HQ precondition
     kept cancelling the reserve."
-    <span class="src">pabcd_initiative/skills/dev-pabcd/references/loop-engineering.md:109-115</span></div>
+    <span class="src"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-pabcd/references/loop-engineering.md" target="_blank" rel="noopener">pabcd_initiative/skills/dev-pabcd/references/<a href="../pages/skills/dev-pabcd-loop-engineering.html">loop-engineering.md:109-115</a></a></span></div>
     <p>진단 비용은 우스울 만큼 쌌다. 턴마다 gold/reserve/atHQ를 찍는 stderr 한
     줄이 누수를 몇 분 만에 드러냈다 — 채택 시점에 같은 줄이 있었다면 한
     work-phase 먼저 잡혔을 것이다.</p>
-    <p class="refnote">loop-engineering.md:116-117 — "the same line at adoption time would have caught it one work-phase earlier."</p>
+    <p class="refnote"><a href="../pages/skills/dev-pabcd-loop-engineering.html">loop-engineering.md:116-117</a> — "the same line at adoption time would have caught it one work-phase earlier."</p>
     <p>여기서 일반화된 실패 서명이 zero-delta ablation이다: 단독 ablation이
     베이스라인과 바이트 단위로 같은 점수라면 "메커니즘이 약하다"가 아니라
     "메커니즘이 아예 실행되지 않았다"로 읽어야 한다.</p>
-    <p class="refnote">loop-engineering.md:100-103 — "byte-identical outcomes mean dead code path."</p>
+    <p class="refnote"><a href="../pages/skills/dev-pabcd-loop-engineering.html">loop-engineering.md:100-103</a> — "byte-identical outcomes mean dead code path."</p>
     <p>이 사건은 규칙 패밀리 하나를 통째로 낳았다: C-ACTIVATION-GROUNDING-01
     (조건부 경로는 C에서 trigger+observe 증거 필요, P가 활성화 시나리오를
     명명, A가 트리거 도달 가능성을 검사)과 LOOP-MECHANISM-PROOF-01 /
     LOOP-RESIDUAL-TRACE-01 / LOOP-PEER-CONTRAST-01, 그리고 dev-testing의
     GATE-HOLDOUT-LEAKAGE-01 / GATE-AGREEMENT-STATS-01.</p>
-    <p class="refnote">incident -&gt; rules: pabcd_initiative/README.md:18-24 (2026-07-06 activation-evidence pack)</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/incident -&gt; rules: README.md (2026-07-06 activation-evidence pack)" target="_blank" rel="noopener">incident -&gt; rules: pabcd_initiative/README.md:18-24 (2026-07-06 activation-evidence pack)</a></p>
     <p>이 실패 클래스는 우리만의 것이 아니다. 외부 연구 레인이 찾은 Harbor
     사례(arXiv 2604.20938)는 feature-gate 뒤에서 카운터가 hard-zero인 두
     메커니즘 — 기록은 되지만 결코 조회되지 않는 reflection — 을 보고한다.
     우리 HP 레이스 사건과 정확히 같은 모양이다.</p>
-    <p class="refnote">codexclaw/devlog/_fin/260706_loop_mechanism_research/000_plan.md:48-50 — "EXACT match to our hp-race incident"</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/devlog/_fin/260706_loop_mechanism_research/000_plan.md — "EXACT match to our hp-race incident"" target="_blank" rel="noopener">codexclaw/devlog/_fin/260706_loop_mechanism_research/000_plan.md:48-50 — "EXACT match to our hp-race incident"</a></p>
 
     <h2><span class="sec-no">C</span>게임 개발이 앞당긴 문제들</h2>
     <p>게임 프로젝트는 에이전트 약점의 조기 경보기였다. 로컬 지표와 진짜
     목적 함수의 갭: NYPC NEXT NATION 봇은 로컬 셀프플레이 96%+를 찍으면서
     공식 저지에서 3.5/8에 멈춰 있었다. 루프는 경쟁 접근을 생성하지도, 진짜
     목적 함수 위에서 경주시키지도, 정체 구간에서 탐색을 주입하지도 않았다.</p>
-    <p class="refnote">codexclaw/devlog/_fin/260701_emergence_harness/000_INDEX.md:21-24</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/devlog/_fin/260701_emergence_harness/000_INDEX.md" target="_blank" rel="noopener">codexclaw/devlog/_fin/260701_emergence_harness/000_INDEX.md:21-24</a></p>
     <p>"PABCD 사이클을 더 돌리면 된다"는 믿음의 반례도 게임에서 나왔다.
     결정론적이고 완벽한 토너먼트 검증기가 있어도, C→B 수리 사이클은 강한 경제
     상대와의 갭을 닫지 못했다 — 검증기는 지고 있다고만 말하지, 왜 지는지는
     말하지 않기 때문이다. 수리 링은 기존 전략 위의 국소 튜닝(hill climbing)만
     생산한다.</p>
-    <p class="refnote">pabcd_initiative/backlog/260702_loop_engineering_backlog.md:34-40 (2W 4D 4L at N=51)</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/backlog/260702_loop_engineering_backlog.md (2W 4D 4L at N=51)" target="_blank" rel="noopener">pabcd_initiative/backlog/260702_loop_engineering_backlog.md:34-40 (2W 4D 4L at N=51)</a></p>
     <p>시각 상태 검증 규율도 같은 뿌리다. HTML 페이지, SVG 차트, 게임 UI는
     tsc와 정적 검사를 전부 통과하면서 런타임에 시각적으로 깨져 있을 수 있다 —
     겹친 요소, 빈 캔버스, 빌드가 삼킨 콘솔 에러.</p>
-    <p class="refnote">pabcd_initiative/devlog/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md:22-25</p>
+    <p class="refnote"><a href="devlog/260705_pabcd_render_grounding.html">pabcd_initiative/devlog/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md:22-25</a></p>
     <p>비결정성에는 고정 시드 선별로 답했다: 후보들을 워크트리에서 같은
     고정 시드 하니스에 태워 metric-best만 남긴다. 선택 기준은 언제나 고정 시드
     진짜 지표이지, "더 똑똑해 보인다"가 아니다.</p>
-    <p class="refnote">codexclaw/devlog/_fin/260701_emergence_harness/006_divergence_gating_and_selection.md:68-73</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/devlog/_fin/260701_emergence_harness/006_divergence_gating_and_selection.md" target="_blank" rel="noopener">codexclaw/devlog/_fin/260701_emergence_harness/006_divergence_gating_and_selection.md:68-73</a></p>
     <p>컨텍스트 붕괴는 별도의 축이다. 019f4407은 "컨텍스트가 커진다"를 이유로
     goal을 닫았다 — 교리는 정반대를 명한다: 컨텍스트 압박은 예산 소진이
     아니라 체크포인트 신호다. 기억은 디스크(goalplan, ledger, devlog)에 살고,
     연속성은 채팅 히스토리가 아니라 파일에 산다.</p>
-    <p class="refnote">loop-engineering.md:23-27 · 000_diagnosis_and_patch.md:51-53 · 005_loop_continuation_patterns.md:24-25</p>
+    <p class="refnote"><a href="../pages/skills/dev-pabcd-loop-engineering.html">loop-engineering.md:23-27</a> · 000_diagnosis_and_patch.md:51-53 · 005_loop_continuation_patterns.md:24-25</p>
 
     <h2><span class="sec-no">D</span>왜 FSM + attestation인가</h2>
     <p>네 개의 전진 전이(P→A, A→B, B→C, C→D)는 전부 증거 attestation을
     요구한다 — 서술이 아니라 <code>--attest</code> JSON을 실은 실제
     orchestrate 명령. 호스트 런타임이 에이전트 경로를 게이트하고, 인간의 채팅
     명령은 free pass를 유지한다.</p>
-    <p class="refnote">pabcd_initiative/skills/dev-pabcd/SKILL.md:128-130</p>
+    <p class="refnote"><a href="skills/dev-pabcd.html">pabcd_initiative/skills/dev-pabcd/SKILL.md:128-130</a></p>
     <p>게이트는 정직하게도 form-only다: 블록이 well-formed인지, did가 진짜
     서사인지 검사할 뿐 런타임 상태와 대조하지 않는다. 목표는 악의적 에이전트를
     이기는 것이 아니라, 신중하고 구체적인 주장을 강제하는 것이다.</p>
-    <p class="refnote">pabcd_initiative/skills/dev-pabcd/SKILL.md:142-146</p>
+    <p class="refnote"><a href="skills/dev-pabcd.html">pabcd_initiative/skills/dev-pabcd/SKILL.md:142-146</a></p>
     <p>그리고 그 주장에는 이빨이 있다: 트리거를 구동하는 테스트가 없다면 "모든
     테스트 초록불"은 이 규칙을 만족시키지 못한다. 아무도 발화를 보여줄 수 없는
     브랜치는 스위트 상태와 무관하게 미검증이다.</p>
-    <p class="refnote">pabcd_initiative/skills/dev-pabcd/SKILL.md:365-367</p>
+    <p class="refnote"><a href="skills/dev-pabcd.html">pabcd_initiative/skills/dev-pabcd/SKILL.md:365-367</a></p>
   </div>
 </section>
 

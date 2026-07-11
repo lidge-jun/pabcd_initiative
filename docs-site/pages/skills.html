@@ -113,7 +113,7 @@
     <p class="lede">라우터 다이어트: 각 SKILL.md는 트리거와 최소 규칙만 싣고,
     깊은 레시피는 references/로 밀어낸다. 읽지 않은 규칙은 없는 규칙이므로,
     분할 기준은 주제가 아니라 "언제 읽히는가"다.</p>
-    <p class="refnote">"the FSM-driven workflow (PABCD state machine + attestation), the dev skill family that catches LLM detail-misses, and the modular router+references architecture" — pabcd_initiative/README.md:3-5</p>
+    <p class="refnote"><a href="../index.html">"the FSM-driven workflow (PABCD state machine + attestation), the dev skill family that catches LLM detail-misses, and the modular router+references architecture" — pabcd_initiative/README.md:3-5</a></p>
 
     <h2><span class="sec-no">A</span>13-스킬 패밀리</h2>
     <p>정본(canonical) 패밀리는 pabcd_initiative/skills/의 13개다: 범용
@@ -123,7 +123,7 @@
     포트는 개수가 다를 수 있다 — codexclaw 플러그인은 dev 접두 폴더가
     15개(dev-diagram-viewer 추가, dev-pabcd는 pabcd/로 이동)인데, 이는
     어댑트 포팅이지 정본 로스터가 아니다.</p>
-    <p class="refnote">pabcd_initiative/README.md:7-8 · roster: ls pabcd_initiative/skills/</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/README.md · roster: ls skills/" target="_blank" rel="noopener">pabcd_initiative/README.md:7-8 · roster: ls pabcd_initiative/skills/</a></p>
     <table class="rules">
       <thead><tr><th>스킬</th><th>한 줄 목적 (SKILL.md 원문)</th></tr></thead>
       <tbody>
@@ -142,7 +142,7 @@
         <tr><td class="key">dev-uiux-design</td><td>"Design judgment for vague briefs, UX states, typography, layout, logos, and brands."</td></tr>
       </tbody>
     </table>
-    <p class="refnote">각 행: pabcd_initiative/skills/*/SKILL.md:5 (short-description) 원문 인용 — 13개 파일 전수 실존 확인</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/각 행: skills/*/SKILL.md (short-description) 원문 인용 — 13개 파일 전수 실존 확인" target="_blank" rel="noopener">각 행: pabcd_initiative/skills/*/SKILL.md:5 (short-description) 원문 인용 — 13개 파일 전수 실존 확인</a></p>
 
     <h2><span class="sec-no">B</span>라우터 + references — 점진 공개</h2>
     <p>모놀리스가 실패하는 이유는 컨텍스트가 예산이기 때문이다. 계층형 로딩
@@ -150,25 +150,25 @@
     주제를 건드릴 때만 열며, 전체 preload는 금지된다. 캐싱 작업이면
     caching.md만 읽는 식이다. 서브에이전트에게도 그 하위 과업에 필요한 것만
     주입한다.</p>
-    <p class="refnote">pabcd_initiative/skills/dev/SKILL.md:408-413 (§8 Token Budget Awareness, tiered reference loading)</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev/SKILL.md (§8 Token Budget Awareness, tiered reference loading)" target="_blank" rel="noopener">pabcd_initiative/skills/dev/SKILL.md:408-413 (§8 Token Budget Awareness, tiered reference loading)</a></p>
     <p>라우터는 얇게 유지된다: 버전 고정이나 시간 민감 주장은 references/에
     Sources 행(URL + 확인 날짜)과 함께 살고, 라우터는 frontmatter의
     last-verified 스탬프만 진다(FAMILY-FRESH-01).</p>
-    <p class="refnote">pabcd_initiative/skills/dev/SKILL.md:176-178</p>
+    <p class="refnote"><a href="skills/dev.html">pabcd_initiative/skills/dev/SKILL.md:176-178</a></p>
     <p>라우팅 자체는 선택이 아니라 의무다: 해당 표면의 코드를 쓰기 전에 그
     dev-* 라우터의 SKILL.md를 반드시 읽는다(DEV-ROUTE-01, STRICT). 역할
     스킬을 받은 서브에이전트는 라우팅 테이블만 읽고, 테이블이 명시적으로
     가리킬 때만 reference를 연다.</p>
-    <p class="refnote">codexclaw/plugins/codexclaw/skills/dev/SKILL.md:135-138 · :47</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/skills/dev/SKILL.md ·" target="_blank" rel="noopener">codexclaw/plugins/codexclaw/skills/dev/SKILL.md:135-138 · :47</a></p>
     <p>가시성도 2계층이다: 암묵 노출 집합은 {dev, search, interview, pabcd,
     recall, loop, dev-frontend, dev-uiux-design}뿐이고, 나머지 dev-* 라우터는
     전부 on-demand — 명시 멘션, 트리거 매치, 또는 dev 라우팅으로만 로드된다.</p>
-    <p class="refnote">codexclaw/plugins/codexclaw/skills/dev/SKILL.md:184</p>
+    <p class="refnote"><a href="skills/dev.html">codexclaw/plugins/codexclaw/skills/dev/SKILL.md:184</a></p>
 
     <h2><span class="sec-no">C</span>2026-07-05 하드닝 — 다섯 규칙</h2>
     <p>de-branding("Jawdev" 제거 — 루틴은 opt-in 스타일이 아니라 익명 규칙)과
     함께 다섯 규칙이 추가됐다.</p>
-    <p class="refnote">pabcd_initiative/README.md:10-17</p>
+    <p class="refnote"><a href="../index.html">pabcd_initiative/README.md:10-17</a></p>
     <table class="rules">
       <thead><tr><th>규칙</th><th>내용</th><th class="hide-m">앵커</th></tr></thead>
       <tbody>
@@ -185,7 +185,7 @@
     사소한 텍스트부터 C4 고위험(Full PABCD 의무), C5 연구/모호(인터뷰·연구
     먼저, 그 후 재분류)까지 — 최대 프로세스를 기본값으로 적용하지 않는다.
     스킬 분할과 같은 원리다: 규율의 비용은 위험에 비례해야 한다.</p>
-    <p class="refnote">pabcd_initiative/skills/dev/SKILL.md:14-27 (§0.0 Work Classifier)</p>
+    <p class="refnote"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev/SKILL.md (§0.0 Work Classifier)" target="_blank" rel="noopener">pabcd_initiative/skills/dev/SKILL.md:14-27 (§0.0 Work Classifier)</a></p>
   </div>
 </section>
 
