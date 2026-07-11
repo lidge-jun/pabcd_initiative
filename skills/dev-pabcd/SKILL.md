@@ -31,7 +31,7 @@ Do NOT:
 - Ask clarifying questions in IDLE mode instead of entering Interview
 - Use the `/interview` slash command instead of `orchestrate I`
 - Skip Interview and go straight to P for unclear requests
-- Forget to run the command — actually execute it in Bash
+- Forget to run the command — actually execute it (via the host's orchestrate surface)
 
 The `/interview` slash command is a user-facing shortcut that triggers the same transition.
 As the orchestrating agent, always perform the `orchestrate I` transition directly.
@@ -126,8 +126,8 @@ orchestrate reset   → return to IDLE (from any state)
 ### §2.1 Evidence gate (forward transitions)
 
 The four forward transitions (P→A, A→B, B→C, C→D) require an **evidence attestation** — a
-real `orchestrate` command with an `--attest` JSON, not narration. The server gates the
-agent (identified by its boss token); a human's `/orchestrate X` keeps the free pass.
+real `orchestrate` command with an `--attest` JSON, not narration. The host runtime gates the
+agent path (attest-required); a human's chat-submitted `orchestrate X` keeps the free pass.
 P, A, and B also require user approval before advancing; C and D proceed automatically once
 their work is done. In goal mode, §4 rule 4 replaces user approval with evidence-backed
 checkpoints.
@@ -183,6 +183,11 @@ For broad changes or unfamiliar repositories, P phase MUST include:
   repo has none, the plan recommends creating one (dev-scaffolding §2.1)
 
 Do not create new project-level source-of-truth folders during B unless approved in P or explicitly requested by the user.
+
+For every planned conditional path (error handler, fallback, retry, cache, guard,
+feature-gated branch, threshold behavior), the plan's accept criteria name its
+**activation scenario**: how C will trigger the condition and what observable effect
+proves the path ran (C-ACTIVATION-GROUNDING-01, §3 C).
 
 Design phases before mapping them to PABCD. **Slice and order phases by
 dependency/architecture structure (STRICT, PHASE-SPLIT-01)** — the orthodox
@@ -295,6 +300,11 @@ Spawn a worker to audit the plan (not code). The worker verifies:
 - Multi-phase units satisfy DIFFLEVEL-ROADMAP-01: every roadmap phase has a
   diff-level decade doc (no outline-only or missing phases), and the phase map is
   dependency-ordered, not effort-bucketed (PHASE-SPLIT-01).
+- For each conditional path the plan adds: the trigger is reachable at all from
+  states the system actually visits (callers exist, preconditions can co-occur,
+  upstream code does not consume the trigger first), and the plan names its
+  activation scenario (C-ACTIVATION-GROUNDING-01). An unreachable-by-construction
+  branch is a plan blocker, not a C-phase discovery.
 
 Output worker JSON for the audit. Review results when they come back.
 - If FAIL → fix the plan → output worker JSON again to re-audit
@@ -343,6 +353,32 @@ the devlog. The render observation is valid `checkOutput` evidence for C→D and
 `did` must reference it. Excluded: pure logic/config/prose covered by its own test
 suite. (Adopted 2026-07-05 from fablize verification-grounding; devlog
 `260705_pabcd_render_grounding`.)
+
+**DEFAULT (C-ACTIVATION-GROUNDING-01):** the conditional-path sibling of render
+grounding. When the work-phase adds or changes a code path that only runs under a
+trigger condition absent from the default/happy path — error handlers, fallbacks,
+retries, caches, guards, feature-gated branches, mode switches, migration handlers,
+threshold behaviors — C MUST include activation evidence before C→D: (1) **TRIGGER**
+the condition for real (a test or scenario that drives it, a fixture crossing the
+threshold, fault injection); (2) **OBSERVE** the new path execute with its intended
+effect (hit assertion, log/debug line, counter, or trace — read back, not just
+produced); (3) **FIX** and re-trigger if the observation contradicts intent. "All
+tests green" does not satisfy this rule when no test drives the trigger; a branch
+nobody can show firing is unverified regardless of suite status. Two loud signals
+mandate this check retroactively: a change whose observable output is byte-identical
+to baseline everywhere (presume the path is dead; instrument before concluding "no
+effect"), and a close-out claim of "handled/defended/falls back" with no fired-path
+artifact behind it. The activation observation is valid `checkOutput` evidence for
+C→D and the `did` must reference it. Excluded: unconditional straight-line changes
+fully exercised by existing coverage. P names the activation scenario for each such
+path in the accept criteria; the A reviewer checks trigger reachability (callers
+exist, preconditions can co-occur, upstream code does not consume the trigger
+first) — an unreachable-by-construction branch is a plan blocker, not a C-phase
+discovery. For score-optimization loops, LOOP-MECHANISM-PROOF-01 /
+LOOP-RESIDUAL-TRACE-01 (§10) apply on top. (Adopted 2026-07-06 from a contest-bot
+incident: an endgame branch shipped inside a passing combo while structurally
+unreachable — its solo ablation was baseline-exact and no gate asked "did it
+fire?"; codexclaw devlog `260706_loop_mechanism_research`.)
 
 Long external gates (CI runs, deploys): do not block the turn polling — register a
 runtime-owned background task/watcher and end the turn (the runtime re-invokes you on
@@ -397,6 +433,12 @@ Gate quick-reference (strict vs goal mode):
   multi-phase goal has several work-phases done in sequence.
 - **PABCD-phase**: one of the letters P/A/B/C/D inside a single orchestration cycle.
 
+Work-phases need not be slices of one feature: successive cycles in the SAME session
+may target completely different features or plans under the same goal
+(LOOP-UNIT-CHAIN-01). "This needs its own PABCD" is a plan statement — append the unit
+to the slice map/goalplan (P-phase amendment) and run it as the next cycle, never a
+reason to end the goal or defer to a new session.
+
 **Invariant: one work-phase = one full PABCD cycle.** Run P→A→B→C→D for a work-phase, close
 D (state → IDLE), then run `orchestrate P` to start the next work-phase. Do NOT run
 B for several work-phases back-to-back, and do NOT commit a work-phase out of B without
@@ -411,6 +453,10 @@ later cycle's P re-verifies its pre-written doc against the current codebase and
 amends it before building. The first pass MAY be a design-only PABCD pass (Phase 0):
 a code-free whole-system design/documentation cycle that produces exactly this
 difflevel roadmap before the first implementation work-phase.
+The slice map is APPEND-friendly (LOOP-UNIT-CHAIN-01): an independent unit discovered
+mid-loop — including a feature unrelated to the current slice — becomes a NEW
+work-phase appended to the map via a P-phase amendment, then runs as the next cycle in
+the same session.
 
 **Faithful execution (anti-skip)**: do the real work of each PABCD-phase — P writes the
 real diff-level plan, A really dispatches the audit, B really implements AND verifies, C
@@ -419,15 +465,13 @@ NOT the same as doing the phase; never rubber-stamp a phase to move on.
 
 ## §6. Repository Root Contract
 
-Before writing a PABCD plan or dispatching an employee, determine the actual
+Before writing a PABCD plan or dispatching a subagent, determine the actual
 working repository root with `pwd -P` from the target repo.
 
-If `Project root` is injected at the top of the system prompt, use that value directly.
-If it is NOT set, recommend the user configure it:
-- Manager UI → Project settings
-- CLI/config: register the repo path in your runtime's project-root setting
-
-Setting the project root prevents confusion between the agent's home/state directory and the actual codebase.
+If the host runtime injects the project root (e.g. Codex `cwd`, or a `Project root`
+header), use that value directly. Otherwise resolve via `pwd -P` from the target repo.
+Setting the project root prevents confusion between the agent's state directory and the
+actual codebase.
 
 Every A/B phase worker-dispatch task body MUST begin with:
 
@@ -458,6 +502,35 @@ When P completes, the plan is saved to the **worklog `## Plan` section** (single
 - Example dispatch task: "Project root: /absolute/path/to/current/repo
 
 Audit: verify the imports in ..."` — no "read the plan" line needed.
+
+### §7.1 Parallel dispatch: isolation, specialists, decorrelated review
+
+- **DEFAULT (DISPATCH-ISOLATION-01):** Parallel workers in the same work-phase are
+  context-isolated by default: each dispatch names an explicit access list — which
+  prior outputs (paths or pasted excerpts) this worker may read — and nothing else
+  from peer lanes is visible. Never expose one lane's in-progress trajectory or
+  draft output to another outside the access list: the first finished trajectory
+  otherwise steers every later lane into redundant agreement (orchestration
+  collapse) and the parallelism buys nothing. Durable cross-cycle artifacts
+  (worklog plan, devlog, D summaries) stay shared. Widening an access list is a
+  stated decision in the dispatch task, not a default.
+- **HEURISTIC (SPECIALIST-CRUX-01):** When P or A identifies a narrow crux outside
+  the main line's domain — a derivation, a protocol subtlety, a domain constant, a
+  security property — dispatch a specialist lane to re-derive that crux from first
+  principles before merging the work that depends on it. The specialist's return
+  names its assumptions, the derivation or trace, and the exact decision its
+  verdict changes.
+- **HEURISTIC (REVIEW-DECORRELATE-01):** When the runtime offers more than one
+  model family, run the A reviewer — and any §11.3 clean-slate re-examination after
+  repeated failed repairs — on a different model family than the one that produced
+  the plan or build. Same-family reviewers share blind spots; decorrelating the
+  reviewer is the cheapest independence upgrade available.
+
+(Adopted 2026-07-07 from the Sakana Fugu learned-orchestrator report,
+arXiv:2606.21228 — its trained orchestrators converged on intra-workflow isolation
+with explicit access lists, crux-matched aggregation, cross-model builder/verifier
+alternation, and specialist first-principles re-derivation; devlog
+`260707_fugu_orchestration_adoption`.)
 
 ## §8. Pitfalls
 
@@ -517,11 +590,42 @@ candidates are being discarded by evidence gates. Gate validity itself is owned 
   enumerable: fixed opponents, fixed test maps, fixed graders. If yes, per-instance
   specialization such as fingerprint plus playbook is a legitimate, evaluable widening
   move; consider it before generic-strategy tweaks.
+- **DEFAULT (LOOP-MECHANISM-PROOF-01):** A candidate whose value is a new
+  branch/mechanism must carry activation evidence from the instances it targets — a
+  counter, debug line, or trace showing the branch actually FIRED — before adoption.
+  Aggregate score movement is not activation proof: in a multi-feature combo, a dead
+  mechanism hides behind the other features' gains. The loud special case is a
+  zero-delta ablation: if the single-feature candidate scores exactly baseline on the
+  instances it was built to flip, presume the mechanism never ran and instrument
+  before combining or discarding.
+- **DEFAULT (LOOP-RESIDUAL-TRACE-01):** A residual failure carried through D needs a
+  mechanism-level explanation (which branches fired, which did not, and why the
+  outcome followed) or the explicit label `unexplained`. A plausible story about the
+  opponent/environment is not an explanation unless the trace confirms our own
+  relevant mechanism armed and acted. The pessimistic D record quotes this trace,
+  not the story.
+- **HEURISTIC (LOOP-PEER-CONTRAST-01):** When an external artifact — a peer's bot, a
+  reference solution, a competitor run — achieves the objective on the same fixed
+  instance we fail, the next generation's first analysis deliverable is a behavioral
+  diff of the two traces (what they did that we did not), before any new candidate.
+  This is the cheapest capability-gap detector available and outranks another round
+  of parameter candidates (LOOP-CANDIDATE-ANCHOR-01).
+- **HEURISTIC (LOOP-FANOUT-TIMING-01):** Spend parallel fan-out late, not early.
+  While coarse levers still move the metric, stay single-track (N=1); once coarse
+  levers stabilize or plateau and the search shifts to fine-grained candidates,
+  parallel candidate lanes and specialist re-derivation start paying for their
+  cost. Fan-out also buys outcome consistency (cross-run variance reduction), not
+  only peak score — weigh both when deciding. (Adopted 2026-07-07 from Sakana
+  Fugu, arXiv:2606.21228: orchestration gains on a 123-experiment autonomous
+  training loop concentrated after mid-run, once coarse configuration search gave
+  way to fine optimizer/schedule tuning.)
 
 Grounding: observed in a 14-discard optimization plateau where a prefix-only replay gate
-and a hard draw-protection invariant locked a 3.5/8 score. Single-incident induction —
-treat the constants as starting values, keep the per-domain death log, and revise these
-rules when a second domain's evidence contradicts them.
+and a hard draw-protection invariant locked a 3.5/8 score; the mechanism-proof trio was
+grounded 2026-07-06 by a second incident in the same domain (a dead endgame branch
+adopted inside a passing combo; codexclaw devlog `260706_loop_mechanism_research`).
+Two-incident induction now — keep the per-domain death log and revise when a new
+domain's evidence contradicts these rules.
 
 ## §11. Loop-Engineering Alignment
 
@@ -530,8 +634,9 @@ phase. **Full rule text: `references/loop-engineering.md`** — read it before r
 any loop/multi-pass or optimization work-phase. Summary index (IDs are canonical):
 
 - **§11.1 Loop values (DEFAULT)** — feedback must change the next action; the verifier
-  outranks the prompt; memory lives on disk; budget exhaustion ≠ done; Interview yields
-  a testable loop-spec, not solved intent.
+  outranks the prompt; memory lives on disk; budget exhaustion ≠ done; context pressure
+  ≠ budget exhaustion (checkpoint durable state and continue — never close a goal over
+  "context is getting large"); Interview yields a testable loop-spec, not solved intent.
 - **§11.2 Terminal states (DEFAULT)** — D names the real report state: `DONE` · `NOOP` ·
   `BLOCKED` · `UNSAFE` · `NEEDS_HUMAN` · `BUDGET_EXHAUSTED` (adopt best-so-far and say
   so). Report states, not FSM states.
@@ -549,3 +654,44 @@ any loop/multi-pass or optimization work-phase. Summary index (IDs are canonical
 - **§11.5 Unattended-loop resource policy (DEFAULT)** — goal-mode loop-specs state
   tool/credential scope, token/cost budget, and a wall-clock bound; unstated scope on
   C4 surfaces is an ESCALATE-class omission.
+- **§11.6 Continuation doctrine (DEFAULT, LOOP-CONTINUE-01):** the loop keeps the
+  turn alive; the agent decides what "remaining work" means. Rules: (a) do not
+  redefine the objective downward — success criteria from P/goalplan are the bar;
+  (b) audit completion against current repo state, not memory — a remembered "it
+  passed" is not evidence; (c) read durable state first (worklog, goalplan,
+  `ledger.jsonl`) before planning the next pass; (d) IDLE is not the end while work
+  remains — if unmet criteria remain under an active goal, start the next work-phase
+  at P; (e) work-phases chain HETEROGENEOUS units in one session
+  (LOOP-UNIT-CHAIN-01) — an independent feature discovered mid-loop is appended to
+  the plan and started at P, not deferred to a new session or used to justify
+  closing the goal.
+- **§11.7 Divergence/collapse (DEFAULT):** PABCD is convergence-first by default.
+  Divergence is a mode for the open-ended-optimization archetype, not a standing
+  habit. Entry: deliberate in HITL (I/P when intent is open, approach uncertain, or
+  user asks to compare), or automatically prompted in goal mode when a maximize
+  objective records non-improving metrics (plateau detection). When ON: record at
+  least two candidates with search provenance; collapse early at P for spec work
+  (pass/fail), late at D for metric work (local metric can deceive). After the
+  plateau breaks or a candidate is kept/discarded, turn it off and return to N=1.
+  Divergence never bypasses human confirmation in HITL; in goal mode the hook can
+  only keep the turn alive and tell the agent to re-plan.
+- **§11.8 Divergence cost tiers (DEFAULT, DIVERGE-TIER-01):** divergence defaults to
+  conceptual candidates. Tier 0 inline brainstorm (no dispatch); Tier 1 conceptual
+  candidate docs — 2-3 parallel candidate lanes, one-page docs each (research
+  read-only, doc write scoped to the plan archive), mandatory front-matter
+  (assumptions/risks/kill-criteria/evidence-needed) plus per-candidate provenance
+  (§11.7 search provenance, or a repo-evidence path for codebase-grounded
+  candidates — an explicit §11.8 amendment); the collapse owner critiques directly,
+  cross-critique is not a gate; Tier 2 implementation spike only when the choice is
+  load-bearing AND candidates genuinely conflict AND judgment needs running code
+  (0-1 per unit, recorded P-level decision). Tier inflation and tier deflation are
+  both violations.
+- **§11.9 Crux-matched collapse (DEFAULT, COLLAPSE-AGGREGATOR-01):** collapse and
+  synthesis ownership follows the disputed crux. When parallel candidates disagree,
+  the synthesis verdict comes from whoever is strongest on the domain of the
+  disagreement — dispatch a crux-matched aggregator lane when the collapse owner is
+  not. A fixed aggregator caps the exercise at that aggregator's own ceiling for
+  the domain. The collapse record names each candidate's partial correctness, each
+  candidate's failure mode, and why the winner's evidence resolves the crux.
+
+Full rules: `references/loop-engineering.md`.

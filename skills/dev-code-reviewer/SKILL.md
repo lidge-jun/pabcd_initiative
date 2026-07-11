@@ -138,8 +138,8 @@ Canonical rule imported from `dev-architecture` §1: **>400 LOC -> split (DEFAUL
 | Indicator | Verdict | Action |
 |-----------|---------|--------|
 | No high/critical issues | ✅ Approve | Merge |
-| ≤2 high issues, clearly fixable | 🔧 Approve with suggestions | Fix before merge |
-| Multiple high issues | ⚠️ Request changes | Author must address |
+| Only Medium/Low/Style issues | 🔧 Approve with suggestions | Fix non-blocking items before/after merge |
+| Any unresolved High issue | ⚠️ Request changes | Author must address before merge |
 | Any critical issue | 🚫 Block | Cannot merge until resolved |
 
 Deterministic blocker semantics (REVIEW-BLOCK-01): any unresolved Critical or High blocks the merge. Medium may pass only when explicitly judged non-blocking; Style never affects the verdict.

@@ -2,6 +2,8 @@
 
 Use this as a filled-in model for `SKILL.md` §2. Adapt the specifics to the brief; do not copy it as a default style.
 
+## 1. Filled-In Design Read
+
 ```yaml
 ---
 name: ops-review-console

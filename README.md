@@ -22,6 +22,17 @@ detail-misses, and the modular router+references architecture.
   reachability), LOOP-MECHANISM-PROOF-01 / LOOP-RESIDUAL-TRACE-01 /
   LOOP-PEER-CONTRAST-01 (optimization-loop specializations), and dev-testing
   GATE-HOLDOUT-LEAKAGE-01 / GATE-AGREEMENT-STATS-01.
+  Hardened 2026-07-07 (Fugu orchestration adoption, from the Sakana Fugu
+  learned-orchestrator report arXiv:2606.21228; devlog
+  `260707_fugu_orchestration_adoption`): DISPATCH-ISOLATION-01 (parallel lanes are
+  read-isolated behind explicit access lists — no peer-trajectory leakage before
+  collapse), SPECIALIST-CRUX-01 (narrow out-of-domain crux ⇒ specialist
+  first-principles re-derivation before merge), REVIEW-DECORRELATE-01 (reviewer on
+  a different model family than the builder), LOOP-FANOUT-TIMING-01 (optimization
+  fan-out after coarse levers plateau), COLLAPSE-AGGREGATOR-01 (synthesis verdict
+  owned by the crux-domain strongest, never a fixed aggregator) — ported to
+  cli-jaw/codexclaw; jawcode port pending (no dev-pabcd doc; principles live in
+  team/plan/goal skills).
   `orchestrate <phase>` maps to whatever FSM/delegation surface the runtime has
   (or heuristic worklog attestations when none exists; see the Runtime adapter
   note in `skills/dev-pabcd/SKILL.md`). This is a COPY — cli-jaw's `skills_ref`

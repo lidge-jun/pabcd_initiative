@@ -43,9 +43,9 @@ fetch/open/text/get-dom/snapshot only after candidate URLs exist.
 
 | File | When to Read | What It Covers |
 |------|-------------|----------------|
-| `references/design-isms.md` | User names a style/movement | 11 design movements with CSS signatures |
+| `references/design-isms.md` | User names a style/movement | 15 design movements with CSS signatures, incl. Liquid Glass + Liquid Editorial default kit (2025-2026) + AI Serif Editorial + Organic Capsule (verified 2026-07-09) |
 | `references/design-read-example.md` | Learning or reviewing Design Read format | Filled-in Design Read + dial setting example |
-| `references/product-personalities.md` | User references a product | 8 product DNA profiles with exact tokens |
+| `references/product-personalities.md` | User references a product | 10 product DNA profiles with exact tokens, incl. 2026 AI-product pastel + OpenAI warm-sans organic + Anthropic serif bookish |
 | `references/layout-macrostructures.md` | Choosing page/component layout | Component layouts + page-level compositions |
 | `references/ux-states.md` | Building any stateful UI | Onboarding, empty, error, loading, progressive disclosure |
 | `references/color-system.md` | Generating colors/palette | OKLCH-based palette generation, dark mode, accessibility |
@@ -115,9 +115,38 @@ Default navigation architecture by work shape; read `references/responsive-nav.m
 When the user's design request is vague ("깔끔하게 해줘", "모던하게", "just make it look good"), do not produce generic output. Run the compact ambiguity flow (UX-INTENT-01):
 1. Produce the Design Read from §2 using available signals.
 2. If one decision still blocks the direction, ask ONE best clarifying fork with binary/ternary choices.
-3. Proceed from the answer; if the user does not answer and the task can continue, choose the most domain-correct default and state the assumption.
+3. Proceed from the answer; if the user does not answer and the task can continue, choose the most domain-correct default and state the assumption. On EXPRESSIVE surfaces (landing/consumer/creative/AI-product), that default is the No-Brief Default Direction below (UX-DEFAULT-ISM-01); quiet surfaces keep quiet domain-correct defaults.
 
 > Skip this section if the user provided explicit design specs or this is a ≤5-line patch.
+
+### No-Brief Default Direction (UX-DEFAULT-ISM-01, DEFAULT — kit content STYLE_SAMPLE)
+
+This is the UX-INTENT-01 step-3 FALLBACK, never a bypass: it fires only after
+the Design Read and after the one blocking fork is resolved or unanswered, and
+the applied direction is ALWAYS stated as an explicit assumption in the
+deliverable. A named, specific, domain-gated direction replaces generic LLM
+defaults; it must NOT reintroduce generic glassmorphism / centered-card /
+beige-default taste under a new label.
+
+Default kit for expressive surfaces: **Liquid Editorial** (2026 composite,
+decided 2026-07-07 from Tier-2 trend research — see `references/design-isms.md`
+§1.13 for the full signature):
+
+- Structure: type-led editorial composition (oversized authored headline
+  scale, grotesk default, serif display only with editorial rationale per
+  UX-TYPE-01), tactile/photographic texture over flat gradient washes,
+  asymmetric content-weighted layout.
+- Material accent: Liquid Glass or near-opaque pill chrome ONLY on floating
+  functional layers (nav/toolbars/chip clusters); pill-chip content units;
+  content layer stays solid (`dev-frontend` FE-LIQUID-LAYER-01).
+- Motion: feedback baseline + exactly ONE signature moment
+  (pointer-proximity chips or scroll-driven reveal), per motion domain gates.
+- Color: OKLCH-derived single accent + tinted neutrals (hue budget,
+  `references/color-system.md`).
+
+Domain gate (STRICT): dashboards, admin, ops, finance, gov, B2B repeated-work
+tools NEVER receive this kit by default — "fancy" never overrides domain
+correctness (§ IA Chooser + `dev-frontend` product-density profiles).
 
 **Optional deepening:** use the ladder below only when the first fork fails or the user explicitly wants guided exploration.
 - Use binary/ternary choices, not open-ended questions.
@@ -308,12 +337,15 @@ Rapid lookup: user word → concrete starting point.
 
 ### Font Selection Guidelines (STYLE_SAMPLE)
 
+- **Typography stance (UX-TYPE-01)**: sans by default; serif only with brief/brand/editorial rationale. When justified (AI-product/editorial/research/trust surfaces), use the three-role system — display serif at light weights 330-400 + sans UI + mono accent — never serif-everywhere or as a bare AI-premium shortcut ("tasteslop", 2026); gates in `dev-frontend` `aesthetics.md § Serif Discipline`.
+
 - **Primary default**: Geist (modern SaaS, Vercel ecosystem)
 - **Korean-first**: Pretendard — strong Korean-first default (Pretendard Variable
   available); verify brand/product font rules before claiming any specific Korean
   company standard
 - **Warm/editorial**: Outfit or Cabinet Grotesk
 - **Premium/luxury**: Satoshi or system thin weights
+- **Korean serif display**: MaruBuri (Naver 명조/부리) 400-600 for editorial Hangul headlines, paired with Pretendard UI — see `dev-frontend` `korea-2026.md § Korean Serif / Myeongjo Display`
 - **Avoid defaulting to Inter** (DEFAULT) — a widely recognized AI-generated-UI tell
   (judgment rule, not a measured fact). Use it when the user requests it or the project
   already uses it.

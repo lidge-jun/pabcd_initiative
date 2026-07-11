@@ -20,6 +20,11 @@ micro-loop rules inside each phase. This file holds the adopted subset in full.
 - **Memory lives on disk**, not in the transcript: worklog, devlog, attestations. The
   next iteration must be able to resume from artifacts alone.
 - **Budget exhaustion ≠ done.** Never report a budget stop as success.
+- **Context pressure ≠ budget exhaustion.** Compaction is survivable BY DESIGN because
+  memory lives on disk: an approaching context limit means checkpoint durable state
+  (goalplan, ledger, devlog) and continue after the flush — it is never grounds to close
+  the goal, shrink the plan, or report `DONE`/`BUDGET_EXHAUSTED`. `BUDGET_EXHAUSTED`
+  requires a bound the plan actually stated (tokens, cost, wall-clock).
 - **Interview does not "solve" intent transfer** — it produces a testable initial
   loop-spec. Later evidence may force an Interview return; that return path existing is
   the design's own admission that intent is refined cyclically, not settled up front.
@@ -83,8 +88,102 @@ Candidates are then sourced from these hypotheses (§10 LOOP-CANDIDATE-ANCHOR-01
 the next P quotes them (§10 LOOP-CONTINUITY-01). A generation that skips analysis and
 regenerates straight from scores is a repair loop wearing an explore costume.
 
+### §11.4b Mechanism activation proof (DEFAULT, LOOP-MECHANISM-PROOF-01)
+
+Scores select candidates; only traces verify mechanisms. When a candidate's value is a
+new branch (a defense mode, an endgame converter, a special-case handler), adoption
+requires **activation evidence**: a debug counter, stderr line, or replay trace showing
+the branch fired on the instances it was built for, with the intended effect.
+
+Failure signatures that mandate instrumentation before the next candidate:
+
+- **Zero-delta ablation:** the solo candidate scores exactly baseline on its target
+  instances. The correct read is "the mechanism probably never ran", not "the
+  mechanism is weak". A branch that runs and loses moves the metric somewhere
+  (different HP, different turn counts); byte-identical outcomes mean dead code path.
+- **Combo masking:** the mechanism ships inside a multi-feature combo whose aggregate
+  score improves. The combo's gain proves nothing about THIS branch; without
+  activation evidence a dead mechanism rides along and its target failures persist
+  as "residual" losses that look opponent-caused.
+
+Real case (2026-07, NEXT NATION bot): an endgame HP-race branch (bank gold from T150,
+upgrade HQ to win TURN_LIMIT ties) was adopted inside a combo that raised the loss-gate
+1.5 -> 7.5. Its solo ablation had scored baseline-exact 1.5 — recorded as "weak alone"
+and never instrumented. The branch was in fact never arming: two early-return trainers
+drained the bank every turn, and a warriors-at-HQ precondition kept cancelling the
+reserve. The residual draws were attributed to the opponent ("they also stall") until a
+colleague's hand-tuned bot won the same official battle with plain late HQ upgrades.
+One debug stderr line (gold/reserve/atHQ per turn) exposed the leak in minutes; the
+same line at adoption time would have caught it one work-phase earlier.
+
+Corollary (LOOP-RESIDUAL-TRACE-01): every residual failure carried through D gets a
+mechanism-level trace ("branch X armed at T150, banked 2400 by T174, upgraded") or the
+explicit label `unexplained`. Plausible environment stories are hypotheses, not
+evidence. And when a peer artifact achieves the objective on an instance we fail
+(LOOP-PEER-CONTRAST-01), the next generation's first deliverable is the behavioral diff
+of the two traces — the peer's trace is a free counterexample to the environment story.
+
 ### §11.5 Unattended-loop resource policy (DEFAULT)
 
 Goal-mode (unattended) loop-specs must state: tool/credential scope (what the loop may
 touch), token/cost budget, and a wall-clock bound. For C4 surfaces, an unattended loop
 with unstated scope is an ESCALATE-class omission — stop and ask before running it.
+
+### §11.6 Continuation doctrine (DEFAULT, LOOP-CONTINUE-01)
+
+Exception to this file's completeness claim: §11.6 full text currently lives in the
+§11 router index (`../SKILL.md` §11.6). Stub recorded here so the section sequence
+stays visible from the reference file; consolidation into this file is a pending
+follow-up, not an editorial accident.
+
+### §11.7 Divergence/collapse (DEFAULT)
+
+Exception to this file's completeness claim: §11.7 full text currently lives in the
+§11 router index (`../SKILL.md` §11.7). §11.8 below refines its cost model; the one
+provenance widening §11.8 makes is named explicitly inside §11.8.
+
+### §11.8 Divergence cost tiers (DEFAULT, DIVERGE-TIER-01)
+
+Divergence (§11.7) defaults to CONCEPTUAL candidates, not implemented ones. Choose the
+cheapest tier that can kill the wrong option:
+
+- **Tier 0 — inline brainstorm.** The planning session itself lists options with
+  trade-offs inside the plan/interview. No dispatch. Default for ordinary uncertainty.
+- **Tier 1 — conceptual candidate docs (the divergence default).** 2-3 parallel
+  candidate lanes each produce ONE one-page candidate direction doc (no code, no
+  worktrees) with mandatory front-matter: `assumptions`, `risks`, `kill-criteria`,
+  `evidence-needed`. Lane research is read-only; the doc itself is written by the
+  collapse owner from lane findings, or by a lane worker whose write scope is the
+  plan archive — whichever the runtime's dispatch doctrine allows. The MAIN session
+  (collapse owner) performs critique/triage directly — it holds the most context; a
+  separate cross-critique round is waste. Collapse gate: N candidate docs with
+  filled front-matter AND per-candidate provenance — search provenance per §11.7
+  for externally-sourced candidates; for candidates grounded in the local codebase
+  a repo-evidence path is acceptable, an EXPLICIT §11.8 AMENDMENT to §11.7's
+  search-only wording (named here so the widening is deliberate). The mandatory
+  front-matter keeps the gate otherwise stricter than §11.7. Cross-critique rounds
+  are NOT a gate condition.
+- **Tier 2 — implementation spike (rare escalation).** Parallel worktree
+  implementations judged by the same verifier, ONLY when both hold: (a) the choice is
+  load-bearing and Tier-1 candidates genuinely conflict on it, and (b) judging
+  requires running code (performance assumptions, live API contracts, deceptive local
+  metrics). Expected frequency: 0-1 per unit. Tier-2 entry is a recorded P-level
+  decision.
+
+Budget rationale: subagent tokens may be near-free, but wall-clock and the collapse
+owner's triage attention are not. Tier inflation (defaulting to Tier 2 because
+subagents are cheap) is a discipline violation; so is tier deflation that lets a
+load-bearing conflict collapse from paper arguments alone.
+
+Unknowns lane: the first Tier-1 dispatch of a research-heavy or unfamiliar-surface
+unit SHOULD be a blindspot/unknowns pass (known unknowns, unknown knowns recoverable
+from references, unknown unknowns from codebase/web search), so candidates are sourced
+from evidence, not parameter tweaks (§10 LOOP-CANDIDATE-ANCHOR-01).
+
+Topology: explorers neither message each other nor spawn their own workers (star, not
+mesh). Candidate/critique exchange is file-mediated through the unit's archive; the
+collapse owner schedules rounds and owns the collapse.
+
+Genealogy: adopted 2026-07-07 from the codexclaw harness-divergence interview
+(`codexclaw devlog/_plan/260707_harness_divergence_interview/`), which distilled the
+Fable field-guide unknown-discovery practices into a cost-tiered divergence default.

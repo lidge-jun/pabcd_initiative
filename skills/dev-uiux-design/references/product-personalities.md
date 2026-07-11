@@ -76,3 +76,43 @@ spacing: "40px+ padding on glass, very generous sections"
 radius: "12-20px"
 signature: "system font, Liquid Glass adapts contextually, specular highlights on motion, generous spacing = luxury"
 ```
+Liquid Glass judgment (HIG, verified 2026-07-07): glass is a functional-layer
+material for floating controls/navigation only — never content-layer cards;
+`regular` variant for text-bearing chrome, `clear` only over rich media; the
+system adapts it to reduced-transparency/contrast settings. Vocabulary:
+`design-isms.md` §1.12; implementation: `dev-frontend/references/core/liquid-glass.md`.
+
+### Aside (2026 AI-product pastel)
+**Essence:** Apple-circular warmth for AI products — pill chips as content, pastel photography washes, glass feel without blur. (Tokens measured from the live site 2026-07-07; STYLE_SAMPLE.)
+```yaml
+colors: { hero: "sky-photo / soft pastel washes (pink/teal/green/blue) per card", surface: "near-opaque white rgba(255,255,255,0.92)", cta: "black pill, white text" }
+typography: { font: "Geist", headlines: "large sentence-case declaratives ending with a period ('...but it's a browser.')" }
+radius: { tiers: "8.4px / 11.2px / 16.8px + 9999px pill class", page: "22-34px rounded macOS-window container" }
+effects: { glass: "NONE — 0 backdrop-filter site-wide; translucent white pills over rich backgrounds carry the material feel" }
+chips: "prompt strings, scheduling options, bookmarks = pill chips WITH real brand icons; the chip is the primary content unit"
+composition: "full-bleed photo hero + centered copy + one pill CTA + one bordered pill eyebrow; 3-card pastel feature rows with real product screenshots + floating prompt pills"
+signature: "macOS-window page metaphor, chips-as-content, Apple-newsroom copy cadence, warmth without gradients-on-cards"
+```
+
+### OpenAI (2026 warm-sans organic)
+**Essence:** Precise but humane platform — warm geometric sans, huge whitespace, soft natural imagery, opaque capsule labels. (In-house Feb-2025 rebrand + ABC Dinamo type + Studio Dumbar motion; verified 2026-07-09; STYLE_SAMPLE.)
+```yaml
+colors: { base: "off-white / near-black, palette inspired by natural environments", imagery: "soft-focus landscape/still-life photography + film grain, some AI-generated texture", accent: "imagery carries color; UI stays neutral" }
+typography: { font: "OpenAI Sans (warm geometric, rounded-approachable) — Geist as open stand-in", headlines: "large but restrained, generous whitespace over scale" }
+radius: { capsule: "9999px opaque white pills for labels/CTAs", cards: "20-28px" }
+effects: { glass: "none — opaque capsules over expressive imagery; grain/texture on the background layer only" }
+composition: "centered stacked hero over full-width media; announcement card = organic photographic field + white capsule with model name"
+signature: "blossom mark, expressive/functional layer split, humanized-AI warmth without losing platform precision"
+```
+
+### Anthropic / Claude (serif bookish)
+**Essence:** Research institute as a thoughtful book — serif display at light weights on warm paper tones. (Identity by Geist: Styrene + Tiempos lineage, now custom Anthropic Serif/Sans/Mono; measured live 2026-07-09; STYLE_SAMPLE.)
+```yaml
+colors: { base: "warm off-white/cream page metaphor (#faf9f5-class) + near-black ink", accent: "muted terracotta/clay used sparingly" }
+typography: { display: "Anthropic Serif 56px/weight 330 (claude.ai), editorial H2 ~68px/400", ui: "Anthropic Sans 15-16px/500-550", accent: "Anthropic Mono for technical" }
+radius: { general: "8-12px, quiet" }
+effects: { none: "no glass, no gradients — paper flatness with generous margins" }
+composition: "editorial/institutional opener (text-led mission headline, no hero screenshot); long-form reading surfaces"
+signature: "bookish serif-led trust, three-role type system (serif display + sans UI + mono accent), safety-culture calm"
+```
+

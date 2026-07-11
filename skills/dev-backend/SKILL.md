@@ -396,11 +396,13 @@ When the app serves web pages (SSR/SSG):
 
 ## 11. Deployment Patterns
 
-- Blue-green: deploy to inactive environment, verify health + smoke tests, swap traffic
-- Canary: route 5% → 25% → 100% with automated rollback on error rate spike
-- Rollback: always keep previous version deployed and ready to swap back
-- Database migrations: separate from code deploy, backward-compatible (expand-then-contract)
-- Feature flags: use for gradual rollout of risky changes
+Deployment strategy (blue-green, canary, rollback, feature flags) is owned by
+`dev-devops`. This skill owns the **backend contract** that enables safe deploys:
+
+- Database migrations: separate from code deploy, backward-compatible (expand-then-contract).
+- Migrations must have a rollback path (down migration or backward-compat contract).
+- Feature flags: backend provides the flag-read API; rollout strategy is dev-devops.
+- Health endpoints (`/health`, `/ready`) gate traffic cuts — see §12 and `references/core/health-checks.md`.
 
 ---
 
@@ -415,7 +417,7 @@ Before delivering:
 - [ ] Error handler returns proper HTTP codes via `AppError` hierarchy
 - [ ] No raw SQL in service layer
 - [ ] No hardcoded secrets
-- [ ] Migrations have rollback
+- [ ] Migrations have a rollback path (down migration or backward-compat contract)
 - [ ] Observability: traces and structured logs wired (see `references/core/observability.md`)
 - [ ] Health endpoints: `/health` (liveness) and `/ready` (readiness) — see `references/core/health-checks.md`
 - [ ] API performance: p95 reads ≤ 200ms, slow queries logged with EXPLAIN (§9)

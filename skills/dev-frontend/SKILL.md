@@ -13,6 +13,11 @@ Build distinctive, production-grade interfaces that fit the product domain, loca
 This skill has modular references for specialized guidance — read the relevant ones before coding.
 It activates by change surface whenever the work is primarily frontend, UI, styling, responsive layout, or animation.
 
+> **Role separation:** For design judgment — typography/color/layout direction, UX decision
+> gates, product personalities, or vague visual briefs — load `dev-uiux-design` first. This
+> skill implements the chosen direction; `dev-uiux-design` makes the design decisions.
+> Implementation anti-slop enforcement stays here; design taste/pattern judgment lives there.
+
 > **C0/C1 work (small local patches):** See `dev` §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.
 
 ## Modular References
@@ -21,20 +26,21 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 | ----------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
 | `references/core/crud-ui.md`              | C2 list/detail/form product screens  | State coverage (loading/empty/error/permission), forms, objective UX gates         |
 | `references/core/anti-slop.md`            | New components or UI redesign        | 2026 AI slop patterns, Korean slop, oversized text, fake assets, default UI smells |
-| `references/core/aesthetics.md`           | Visual design decisions              | Domain-correct visual direction, typography, color, composition                    |
+| `references/core/aesthetics.md`           | Visual design decisions              | Domain-correct visual direction, typography, color, composition, serif three-role system, expressive/functional layers, AI-brand grammar                    |
 | `references/core/product-density.md`      | Apps, tools, dashboards              | Density profiles for landing, consumer app, SaaS, ops, finance, devtools          |
-| `references/core/asset-requirements.md`   | Any public/product/visual surface    | Required screenshots, images, diagrams, charts, generated bitmaps, or 3D assets   |
+| `references/core/asset-requirements.md`   | Any public/product/visual surface    | Required screenshots, images, diagrams, charts, generated bitmaps, or 3D assets, mockup production pipeline   |
 | `references/core/visual-verification.md`  | Changes affecting rendered layout    | Screenshot, viewport, text fit, state, asset, and motion verification              |
-| `references/core/korea-2026.md`           | Korean-first or Korea-facing UI      | Korean service patterns, CJK typography, formats, mobile flows                     |
+| `references/core/korea-2026.md`           | Korean-first or Korea-facing UI      | Korean service patterns, CJK typography, formats, mobile flows, Korean serif/myeongjo display                     |
 | `references/core/ux-writing-ko.md`        | Korean UI copy                       | Natural Korean labels, error messages, tone, spacing, punctuation                  |
 | `references/core/soft-3d-asset-gates.md`  | 3D/miniature/character-like visuals  | Toss-style soft 3D vs generic cute asset slop, domain gates                        |
-| `references/core/motion.md`               | Motion/animation needed              | CSS animations, Framer Motion, scroll-driven, View Transitions, domain gates       |
+| `references/core/motion.md`               | Motion/animation needed              | CSS animations, Framer Motion, scroll-driven, View Transitions, domain gates, organic bg + capsule label, product-led hero motion       |
+| `references/core/liquid-glass.md`         | Translucent materials, glass chrome, pill-chip surfaces | Liquid Glass layer discipline, regular/clear recipes, blur-free pill alternative, perf + a11y gates (verified 2026-07-07) |
 | `references/core/iterative-design.md`     | Multi-round design                   | LLM convergence problem, Diverge→Kill→Mutate process, upgrade techniques           |
 | `references/core/prototype-variants.md`   | Runnable design variants             | `?variant=` switchers, structurally distinct options, cleanup after winner selection |
 | `references/core/typography-wrapping.md`  | Heading/descriptor text changes      | `text-wrap: balance/pretty`, **short descriptor category** (`balance` not `pretty` for 1-3 line text), `ch` units, rag control, Korean orphan prevention, `-webkit-line-clamp` conflict |
 | `references/core/logo-sections.md`        | Integration/partner logo display     | Marquee CSS, static grid, orphan cell fix, grayscale treatment, no individual hover |
 | `references/core/brand-asset-sourcing.md` | Brand logos in UI                    | Simple Icons/SVGL sourcing, AI agent strategy, placeholder hierarchy, legal guide  |
-| `references/core/layout-discipline.md`    | Landing/marketing pages              | Hero, eyebrow, section repetition, bento, zigzag, **per-section responsive transforms** |
+| `references/core/layout-discipline.md`    | Landing/marketing pages              | Hero, eyebrow, section repetition, bento, zigzag, **per-section responsive transforms**, hero composition grammar (2026) |
 | `references/core/consistency-locks.md`    | Any multi-section page               | Color, shape, theme consistency per page                                             |
 | `references/core/responsive-viewport.md`  | Layout or breakpoint changes         | Canonical breakpoints, page containment, container queries, responsive images, safe area, split-screen |
 | `references/core/mobile-ux.md`            | Consumer/landing pages with mobile traffic | Thumb zone, touch targets, sticky CTA, mobile section composition, bottom sheet, portrait media |
@@ -43,6 +49,7 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 | `references/core/performance-budget.md`   | Launch / audit                         | CWV targets, bundle budgets, font loading, image optimization, build gates, browser connection budgets |
 | `references/core/preflight-full.md`       | Launch / audit                         | Full ~40-item pre-flight checklist (router §14 keeps only blocking gates)             |
 | `references/core/theme-switching.md`      | Dark mode / theme                      | CSS custom properties toggle, FOWT prevention, transition, component checklist         |
+| `references/core/color-system.md`         | Color tokens, palettes wiring, theme-ready CSS | Token layering, `oklch()` + fallback discipline, `color-mix()`, `light-dark()`, Tailwind v4/shadcn wiring, contrast gates (verified 2026-07-07) |
 | `references/core/i18n-global.md`          | Multi-language / RTL                   | RTL layout, pluralization, Intl API, locale switching, content expansion               |
 | See also: `dev-uiux-design` skill         | Vague requests, onboarding, UX states | Intent discovery, design isms, product personalities, onboarding/empty/error patterns |
 | `references/stacks/react.md`              | React projects                       | Server Components, hooks, state, TanStack Query, shadcn/ui, performance            |
@@ -185,6 +192,7 @@ Read `references/core/anti-slop.md` for full rules. Key standards:
 - Bento grids must compose as one interlocking slab: aligned row edges, 1 dominant cell, span tracks content weight, no orphan tail — see `layout-discipline.md § Bento Composition`
 - Never reuse the same image twice on one page (hero + crop/zoom tile) — each slot earns distinct content
 - Avoid oversized bold hero text inside tools, dashboards, admin, finance flows, and public services
+- **Hero composition**: the split hero (left bold headline + right boxed screenshot/mockup card) is demoted to paid-conversion LPs; on brand/product homepages the product visual is the stage (full-width, background, or interactive demo), never a right-column card — see `layout-discipline.md § Hero Composition Grammar`
 - Avoid asset-free UI: abstract blobs/gradients do not replace real visual evidence
 - Avoid generic soft 3D icon packs; soft 3D must be semantic, brand-consistent, and restrained
 - **NEVER use emoji as UI visual elements** (feature icons, card icons, section markers, buttons) — emoji in production UI is the #1 AI slop signal. Use SVG icons (Lucide/Phosphor/Heroicons). See `anti-slop.md § Emoji Slop`

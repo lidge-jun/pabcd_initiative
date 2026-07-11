@@ -33,7 +33,7 @@ Try each source in order. Stop at the first that produces a usable asset.
 | Priority | Source | When to Use |
 |----------|--------|-------------|
 | 1 | Project existing assets | `images/`, `public/`, `assets/` in the repo |
-| 2 | Built-in image generation tool, or `ima2 --help` if available | Hero images, product shots, custom illustrations. Use only when the tool is confirmed working |
+| 2 | Built-in or environment-provided image generation tool, if available | Hero images, product shots, custom illustrations. Use only when the tool is confirmed working |
 | 3 | Stock photo API | `source.unsplash.com/800x600/?coffee`, Pexels. Always include `alt` text and credit |
 | 4 | CSS device frame + screenshot | App mockup heroes (Toss/카카오 style). Pure CSS phone/laptop frame wrapping a real screenshot or UI |
 | 5 | Placeholder service (last resort) | `picsum.photos/800/600`, `placehold.co`. Mark as TODO for replacement |
@@ -50,6 +50,23 @@ Korean product pages almost always use concrete visual evidence in the first vie
 | Data visualization hero | 토스증권, 뱅크샐러드 | Real (or realistic) chart/graph as primary visual |
 
 Never ship a Korean-facing product page with only SVG icons and text. If no image source is available, state the gap explicitly rather than filling with gradients or decorative shapes.
+
+## Mockup Production Pipeline (verified 2026-07-09)
+
+When a product/device mockup asset is required (product-led heroes, app
+screenshots in scenes):
+
+- **Device-mockup tools** (Rotato, MockRocket, Shots, Smartmockups, Figma
+  mockup plugins): map a real screenshot onto a 3D device render; stills and
+  short movies, no 3D skills needed.
+- **AI scene + real screenshot compositing**: generate the environment/scene
+  image, then composite the actual product UI screenshot into or above it;
+  never AI-generate the product UI itself — the interface pixels must be real.
+- **Frame extraction**: for scroll-driven playback, render the mockup motion
+  to video and extract frames (see motion.md § Frame Sequence Format Guide).
+
+The screenshot inside any mockup must be a real, current capture of the
+product; a fabricated UI in a real frame is still a fake asset.
 
 ## Rules
 
