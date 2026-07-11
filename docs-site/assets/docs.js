@@ -76,7 +76,10 @@
     matches.forEach(function (m) {
       var li = document.createElement("li");
       var a = document.createElement("a");
-      a.href = m.url;
+      // resolve search URLs relative to site root
+      var base = document.querySelector("link[rel=icon]");
+      var baseHref = base ? base.href.replace(/favicon\.svg.*$/, "") : "/";
+      a.href = baseHref + m.url;
       a.textContent = m.title;
       li.appendChild(a);
       searchResults.appendChild(li);
