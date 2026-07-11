@@ -221,6 +221,40 @@
 
 <div class="divider-print" role="img" aria-label="PABCD 레터프레스 인쇄 디테일"></div>
 
+
+<section id="failure-map" class="band reveal">
+  <div class="band-inner">
+    <p class="kicker">Why This Structure</p>
+    <h2>LLM 실패 원인 &rarr; PABCD 대응.</h2>
+    <table class="rules">
+      <thead><tr><th>LLM 구조적 실패</th><th>PABCD 대응 메커니즘</th><th>근거</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="key">통계적 수렴</td>
+          <td>Diverge-Kill-Mutate 프로세스 + severity 등급(HEURISTIC/STYLE_SAMPLE)으로 판단 여지 확보</td>
+          <td><a href="https://arxiv.org/abs/2501.19361">arXiv:2501.19361</a>, <a href="https://dl.acm.org/doi/10.1145/3772318.3790758">CHI 2026</a></td>
+        </tr>
+        <tr>
+          <td class="key">시각적 피드백 부재</td>
+          <td>visual-verification.md: 헤드리스 브라우저 스크린샷 강제 &mdash; 정적 파싱은 증거가 아님</td>
+          <td><a href="https://arxiv.org/abs/2603.27249">arXiv:2603.27249</a> (AI slop)</td>
+        </tr>
+        <tr>
+          <td class="key">즉시 실행 편향</td>
+          <td>C0-C5 분류기 + Interview(I) 단계 &mdash; 위험도를 분류한 뒤에만 프로세스 깊이를 결정</td>
+          <td><a href="https://arxiv.org/abs/2602.11988">arXiv:2602.11988</a> (AGENTS.md)</td>
+        </tr>
+        <tr>
+          <td class="key">환각과 구식 지식</td>
+          <td>search 스킬의 Tier 1/2 증명 사다리 + <code>last-verified</code> 스탬프 + 외부 검증 경유 강제</td>
+          <td><a href="https://arxiv.org/abs/2406.10279">arXiv:2406.10279</a> (slopsquatting), <a href="https://arxiv.org/abs/2604.09515">arXiv:2604.09515</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:1rem"><a href="pages/analysis.html">자세한 메타 분석 &rarr;</a></p>
+  </div>
+</section>
+
 <section id="documents" class="band reveal">
   <div class="band-inner">
     <p class="kicker">03 — 06 · Documents</p>

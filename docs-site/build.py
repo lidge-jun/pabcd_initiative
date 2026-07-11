@@ -186,6 +186,7 @@ NAV = [
         ("Skill Architecture", "pages/skills.html"),
         ("Delegation Economy", "pages/delegation.html"),
         ("Loop Contract", "pages/loop.html"),
+        ("Meta Analysis", "pages/analysis.html"),
     ]),
     ("Skills Reference", []),  # filled dynamically
     ("Dev Guides", []),  # filled from references
@@ -639,6 +640,7 @@ def main():
         ("Skill Architecture", "pages/skills.html"),
         ("Delegation Economy", "pages/delegation.html"),
         ("Loop Contract", "pages/loop.html"),
+        ("Meta Analysis", "pages/analysis.html"),
     ]
     all_pages.extend(skill_entries)
     all_pages.extend(ref_entries)
@@ -684,6 +686,7 @@ def wrap_existing_pages():
         "pages/skills.html", 
         "pages/delegation.html",
         "pages/loop.html",
+        "pages/analysis.html",
     ]
     for page_path in existing:
         full = SITE / page_path
