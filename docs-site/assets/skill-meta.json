@@ -76,7 +76,51 @@
         "summary": "import/export 정합성, 시크릿 노출 방지, 파괴적 커맨드 금지 등 불변 규칙."
       }
     ],
-    "llm_failure_modes": "LLM은 프롬프트에서 요청한 것을 즉시 구현하려는 강한 편향이 있다. '로그인 기능을 만들어줘'라고 하면 바로 코드를 쓰기 시작하는데, 이게 타이포 수정인지(C0) 인증 시스템 설계인지(C4)에 따라 필요한 프로세스 깊이가 완전히 다르다. 분류 없이 시작하면 두 가지 실패가 생긴다: (1) 사소한 작업에 과도한 분석을 하거나, (2) 위험한 작업을 가볍게 처리한다. 특히 LLM은 '이 정도면 됐다'는 판단을 잘 못하기 때문에, 검증 게이트(Verification Gate) 없이는 실제로 실행하지 않은 코드를 '완료'라고 보고한다. 이 스킬의 C0-C5 분류기는 LLM의 '바로 시작' 편향을 제어하는 첫 번째 관문이다."
+    "llm_failure_modes": "LLM은 프롬프트에서 요청한 것을 즉시 구현하려는 강한 편향이 있다. '로그인 기능을 만들어줘'라고 하면 바로 코드를 쓰기 시작하는데, 이게 타이포 수정인지(C0) 인증 시스템 설계인지(C4)에 따라 필요한 프로세스 깊이가 완전히 다르다. 분류 없이 시작하면 두 가지 실패가 생긴다: (1) 사소한 작업에 과도한 분석을 하거나, (2) 위험한 작업을 가볍게 처리한다. 특히 LLM은 '이 정도면 됐다'는 판단을 잘 못하기 때문에, 검증 게이트(Verification Gate) 없이는 실제로 실행하지 않은 코드를 '완료'라고 보고한다. 이 스킬의 C0-C5 분류기는 LLM의 '바로 시작' 편향을 제어하는 첫 번째 관문이다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2606.21228",
+        "title": "Sakana Fugu: Autonomous AI Training via Learned Orchestration",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2606.21228",
+        "relevance": "PABCD 오케스트레이션 규칙의 근거. 123개 실험의 자율 학습 루프에서 오케스트레이션 이득이 중반 이후 집중됨."
+      },
+      {
+        "id": "arXiv:2603.04257",
+        "title": "Memex(RL): Scaling Long-Horizon LLM Agents via Indexed Experience Memory",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2603.04257",
+        "relevance": "요약만 반환하는 서브에이전트의 정보 손실 문제. anchor-free summary는 증거가 아니라 후보임."
+      },
+      {
+        "id": "arXiv:2602.11988",
+        "title": "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2602.11988",
+        "relevance": "레포 수준 컨텍스트 파일이 에이전트 성능에 미치는 영향 평가. 스킬 파일 아키텍처의 근거."
+      },
+      {
+        "id": "arXiv:2605.10039",
+        "title": "Instruction Adherence in Coding Agent Configuration Files",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2605.10039",
+        "relevance": "에이전트 설정 파일의 구조 변수가 지시 준수에 미치는 영향. 스킬 구조 설계의 근거."
+      },
+      {
+        "id": "arXiv:2405.15793",
+        "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2405.15793",
+        "relevance": "에이전트-컴퓨터 인터페이스 설계가 자동 소프트웨어 엔지니어링 성능에 미치는 영향."
+      }
+    ],
+    "official_guides": [
+      {
+        "title": "DORA State of DevOps",
+        "url": "https://dora.dev/",
+        "desc": "배포 빈도, 리드 타임, MTTR, 변경 실패율의 4 핵심 메트릭"
+      }
+    ]
   },
   {
     "name": "dev-architecture",
@@ -144,7 +188,27 @@
         "summary": "의존성 역전 원칙과 포트/어댑터 패턴 적용 가이드."
       }
     ],
-    "llm_failure_modes": "LLM은 '가장 가까운 import'를 선호한다. 기능을 구현할 때 이미 아는 파일에서 직접 import하므로, 레이어 경계를 넘는 의존성(UI에서 DB 클라이언트를 직접 import)이 자연스럽게 생긴다. 이건 LLM이 코드를 텍스트 토큰으로 처리하기 때문에 발생하는 구조적 문제다 — LLM은 '이 import가 아키텍처 경계를 넘는다'는 공간적 인식이 없다. madge, pydeps 같은 정적 분석 도구를 CI에 넣어서 기계적으로 잡아야 하는 이유가 여기에 있다."
+    "llm_failure_modes": "LLM은 '가장 가까운 import'를 선호한다. 기능을 구현할 때 이미 아는 파일에서 직접 import하므로, 레이어 경계를 넘는 의존성(UI에서 DB 클라이언트를 직접 import)이 자연스럽게 생긴다. 이건 LLM이 코드를 텍스트 토큰으로 처리하기 때문에 발생하는 구조적 문제다 — LLM은 '이 import가 아키텍처 경계를 넘는다'는 공간적 인식이 없다. madge, pydeps 같은 정적 분석 도구를 CI에 넣어서 기계적으로 잡아야 하는 이유가 여기에 있다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2306.10599",
+        "title": "Untangling Patterns of Two-Class Dependency Cycles",
+        "year": 2023,
+        "relevance": "38개 OSS 프로젝트에서 순환 의존성을 해소하는 5가지 반복 패턴을 식별. circular-dependencies.md의 수정 전략 근거."
+      },
+      {
+        "id": "arXiv:2505.12676",
+        "title": "PeerChecker: Detecting Peer Dependency Resolving Loops in npm",
+        "year": 2025,
+        "relevance": "npm 생태계의 의존성 해결 루프 탐지 도구. 패키지 매니저 수준의 순환 문제 연구."
+      },
+      {
+        "id": "arXiv:1909.12521",
+        "title": "Comparing Static and Dynamic Weighted Software Coupling Metrics",
+        "year": 2019,
+        "relevance": "소스 코드 커플링과 런타임 커플링의 비교 — coupling-taxonomy.md의 8가지 유형 분류 근거."
+      }
+    ]
   },
   {
     "name": "dev-backend",
@@ -234,7 +298,35 @@
         "summary": "프로덕션 서비스의 트레이싱, 로깅, 알러팅 설정."
       }
     ],
-    "llm_failure_modes": "LLM의 학습 데이터는 특정 시점에 고정되어 있다(knowledge cutoff). 2024년에 학습한 모델이 2026년에 FastAPI를 쓸 때, deprecated된 API를 추천하거나 새 버전에서 변경된 동작을 모른 채 코드를 생성한다. 이건 LLM이 '모르는 것을 모르는' 문제다 — 자기가 아는 정보가 구식인지 판단할 수 없다. 그래서 모든 외부 의존 결정에 'search 스킬을 읽고 현재 문서를 확인하라'는 강제 경유를 넣었다. 또한 LLM은 복잡한 것을 선호하는 편향이 있다 — CRUD 하나에 GraphQL + 마이크로서비스를 제안하는 이유는 학습 데이터에서 그런 아키텍처가 더 많이 논의되기 때문이다. over-engineering guard는 이 편향을 명시적으로 차단한다."
+    "llm_failure_modes": "LLM의 학습 데이터는 특정 시점에 고정되어 있다(knowledge cutoff). 2024년에 학습한 모델이 2026년에 FastAPI를 쓸 때, deprecated된 API를 추천하거나 새 버전에서 변경된 동작을 모른 채 코드를 생성한다. 이건 LLM이 '모르는 것을 모르는' 문제다 — 자기가 아는 정보가 구식인지 판단할 수 없다. 그래서 모든 외부 의존 결정에 'search 스킬을 읽고 현재 문서를 확인하라'는 강제 경유를 넣었다. 또한 LLM은 복잡한 것을 선호하는 편향이 있다 — CRUD 하나에 GraphQL + 마이크로서비스를 제안하는 이유는 학습 데이터에서 그런 아키텍처가 더 많이 논의되기 때문이다. over-engineering guard는 이 편향을 명시적으로 차단한다.",
+    "official_guides": [
+      {
+        "title": "OpenTelemetry Documentation",
+        "url": "https://opentelemetry.io/docs/",
+        "desc": "분산 트레이싱, 메트릭, 로깅의 공식 가이드. observability.md의 기반."
+      },
+      {
+        "title": "Google SRE Book",
+        "url": "https://sre.google/sre-book/table-of-contents/",
+        "desc": "에러 예산, toil 감축, 모니터링, 인시던트 대응의 표준 참고서."
+      }
+    ],
+    "academic_references": [
+      {
+        "id": "arXiv:2406.09834",
+        "title": "LLMs Meet Library Evolution: Evaluating Deprecated API Usage in LLM-based Code Completion",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2406.09834",
+        "relevance": "7개 LLM, 145개 API 매핑, 28,125개 프롬프트로 deprecated API 사용을 평가. 지식 컷오프 문제의 실증. (ICSE 2025)"
+      },
+      {
+        "id": "arXiv:2604.09515",
+        "title": "When LLMs Lag Behind: Knowledge Conflicts from Evolving APIs in Code Generation",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2604.09515",
+        "relevance": "8개 Python 라이브러리의 270개 실제 API 업데이트에서 LLM의 오래된 파라메트릭 지식과 컨텍스트-메모리 충돌을 연구."
+      }
+    ]
   },
   {
     "name": "dev-code-reviewer",
@@ -299,7 +391,30 @@
         "summary": "심각도 기반으로 Block/Request Changes/Approve를 판정한다."
       }
     ],
-    "llm_failure_modes": "LLM이 자기가 쓴 코드를 리뷰하면 자기 확인 편향(confirmation bias)이 극대화된다. 자기가 생성한 패턴을 '올바른 패턴'으로 인식하기 때문에, 구조적 문제를 발견하기 어렵다. 또한 LLM은 '통과한 테스트 = 올바른 코드'라는 단축을 쓰는데, 테스트 자체가 해피 패스만 커버하고 있으면 이 단축이 거짓이 된다. REVIEW-POSTURE-01의 '회의적 외부자' 원칙은 이 자기 확인 루프를 깨뜨리기 위한 것이다."
+    "llm_failure_modes": "LLM이 자기가 쓴 코드를 리뷰하면 자기 확인 편향(confirmation bias)이 극대화된다. 자기가 생성한 패턴을 '올바른 패턴'으로 인식하기 때문에, 구조적 문제를 발견하기 어렵다. 또한 LLM은 '통과한 테스트 = 올바른 코드'라는 단축을 쓰는데, 테스트 자체가 해피 패스만 커버하고 있으면 이 단축이 거짓이 된다. REVIEW-POSTURE-01의 '회의적 외부자' 원칙은 이 자기 확인 루프를 깨뜨리기 위한 것이다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2509.13650",
+        "title": "GitHub Copilot Code Review: Can AI Spot Security Flaws Before You Commit?",
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2509.13650",
+        "relevance": "AI 리뷰어가 SQLi/XSS/역직렬화 같은 치명적 취약점을 자주 놓치며 낮은 심각도로 편향됨."
+      },
+      {
+        "id": "arXiv:2507.13499",
+        "title": "AI-Assisted Fixes to Code Review Comments at Scale",
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2507.13499",
+        "relevance": "대규모 AI 지원 코드 리뷰 코멘트 수정의 실증 연구."
+      },
+      {
+        "id": "arXiv:2307.08177",
+        "title": "Using an LLM to Help With Code Understanding",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2307.08177",
+        "relevance": "LLM 설명이 코드 리뷰 중 개발자 이해도에 미치는 영향 (ICSE 2024)."
+      }
+    ]
   },
   {
     "name": "dev-data",
@@ -371,7 +486,22 @@
         "summary": "인덱스 전략, 쿼리 플랜 분석, N+1 방지, 파티셔닝."
       }
     ],
-    "llm_failure_modes": "LLM은 데이터 처리 코드를 작성할 때 해피 패스만 구현한다. CSV 파일에 빈 행이 있거나, JSON에 예상 못한 null이 있거나, 인코딩이 UTF-8이 아닌 경우를 고려하지 않는다. 이건 LLM이 학습 데이터에서 '깨끗한 예시'를 주로 봤기 때문이다. 실제 데이터는 항상 더럽다. Defensive Parsing 원칙은 '외부 데이터는 null, 잘못된 타입, 추가 컬럼, 누락 컬럼, 인코딩 문제가 전부 있다고 가정하라'고 명시한다."
+    "llm_failure_modes": "LLM은 데이터 처리 코드를 작성할 때 해피 패스만 구현한다. CSV 파일에 빈 행이 있거나, JSON에 예상 못한 null이 있거나, 인코딩이 UTF-8이 아닌 경우를 고려하지 않는다. 이건 LLM이 학습 데이터에서 '깨끗한 예시'를 주로 봤기 때문이다. 실제 데이터는 항상 더럽다. Defensive Parsing 원칙은 '외부 데이터는 null, 잘못된 타입, 추가 컬럼, 누락 컬럼, 인코딩 문제가 전부 있다고 가정하라'고 명시한다.",
+    "academic_references": [
+      {
+        "id": "book",
+        "title": "Designing Data-Intensive Applications (Kleppmann)",
+        "year": 2017,
+        "relevance": "exactly-once 시맨틱스, 멱등 쓰기, Avro/Protobuf 스키마 진화의 표준 참고서."
+      }
+    ],
+    "official_guides": [
+      {
+        "title": "Apache Avro Specification — Schema Resolution",
+        "url": "https://avro.apache.org/docs/current/specification/",
+        "desc": "reader/writer 스키마 호환성 규칙. 파이프라인 멱등성 설계의 기반."
+      }
+    ]
   },
   {
     "name": "dev-debugging",
@@ -447,7 +577,21 @@
         "summary": "실패하는 테스트를 먼저 작성하고, 수정 후 테스트 통과를 확인한다."
       }
     ],
-    "llm_failure_modes": "LLM의 디버깅 방식은 '에러 메시지를 보고 가장 가능성 높은 수정을 즉시 제안'하는 것이다. 이건 통계적으로 가장 흔한 원인을 먼저 시도하는 것이므로 간단한 버그에는 효과적이지만, 근본 원인이 다른 곳에 있으면 증상 패치를 반복하게 된다. 특히 LLM은 '지금까지 시도한 것들이 왜 실패했는지'의 기록을 유지하지 않기 때문에, 같은 수정을 반복 제안하거나, 이미 기각된 가설을 다시 시도한다. Phase 3의 '기각 기록 보존'은 이 LLM 특유의 기억 없는 디버깅을 방지한다."
+    "llm_failure_modes": "LLM의 디버깅 방식은 '에러 메시지를 보고 가장 가능성 높은 수정을 즉시 제안'하는 것이다. 이건 통계적으로 가장 흔한 원인을 먼저 시도하는 것이므로 간단한 버그에는 효과적이지만, 근본 원인이 다른 곳에 있으면 증상 패치를 반복하게 된다. 특히 LLM은 '지금까지 시도한 것들이 왜 실패했는지'의 기록을 유지하지 않기 때문에, 같은 수정을 반복 제안하거나, 이미 기각된 가설을 다시 시도한다. Phase 3의 '기각 기록 보존'은 이 LLM 특유의 기억 없는 디버깅을 방지한다.",
+    "academic_references": [
+      {
+        "id": "DOI:10.1145/318774.318946",
+        "title": "Yesterday, My Program Worked. Today, It Does Not. Why? (Zeller, Delta Debugging)",
+        "year": 1999,
+        "relevance": "자동화된 RCA의 기초 — 실패를 유발하는 입력 변경을 체계적으로 좁히는 방법론."
+      },
+      {
+        "id": "IEEE TSE 42(8)",
+        "title": "A Survey on Software Fault Localization (Wong et al.)",
+        "year": 2016,
+        "relevance": "스펙트럼 기반, 돌연변이 기반, 통계적 결함 위치 추정의 포괄적 서베이."
+      }
+    ]
   },
   {
     "name": "dev-devops",
@@ -543,7 +687,75 @@
         "summary": "SLO/SLI 정의, 에러 예산, 인시던트 대응, 사후 분석."
       }
     ],
-    "llm_failure_modes": "LLM의 학습 데이터에는 2022-2023년의 Dockerfile과 CI 설정이 압도적으로 많다. 그래서 FROM node:latest, USER root, ARG로 시크릿 전달 같은 안티패턴을 자연스럽게 생성한다. 이건 학습 데이터의 분포 문제다 — 나쁜 Dockerfile이 좋은 Dockerfile보다 인터넷에 훨씬 많다. 또한 OIDC/Trusted Publishing은 2024-2025년에 주류가 되었기 때문에 학습 데이터에 반영이 부족하다. LLM은 기본적으로 NPM_TOKEN을 먼저 요구하는데, 이건 이미 열등한 폴백 경로다. Kubernetes도 마찬가지다 — Ingress 예제가 학습 데이터에 압도적으로 많아서 Gateway API v1.6+를 자발적으로 쓰지 않는다."
+    "llm_failure_modes": "LLM의 학습 데이터에는 2022-2023년의 Dockerfile과 CI 설정이 압도적으로 많다. 그래서 FROM node:latest, USER root, ARG로 시크릿 전달 같은 안티패턴을 자연스럽게 생성한다. 이건 학습 데이터의 분포 문제다 — 나쁜 Dockerfile이 좋은 Dockerfile보다 인터넷에 훨씬 많다. 또한 OIDC/Trusted Publishing은 2024-2025년에 주류가 되었기 때문에 학습 데이터에 반영이 부족하다. LLM은 기본적으로 NPM_TOKEN을 먼저 요구하는데, 이건 이미 열등한 폴백 경로다. Kubernetes도 마찬가지다 — Ingress 예제가 학습 데이터에 압도적으로 많아서 Gateway API v1.6+를 자발적으로 쓰지 않는다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2307.07529",
+        "title": "SoK: Software Supply Chain Attacks and Countermeasures",
+        "year": 2023,
+        "url": "https://arxiv.org/abs/2307.07529",
+        "relevance": "SSC 공격 분류와 SLSA/Sigstore/SBOM 대응책 매핑."
+      },
+      {
+        "id": "arXiv:1907.07159",
+        "title": "Systematically Identifying Security Smells in IaC Scripts",
+        "year": 2021,
+        "url": "https://arxiv.org/abs/1907.07159",
+        "relevance": "Puppet/Ansible/Chef의 하드코딩 시크릿, 암호화 누락 등 안티패턴 식별."
+      }
+    ],
+    "official_guides": [
+      {
+        "title": "SLSA Framework",
+        "url": "https://slsa.dev",
+        "desc": "소프트웨어 서플라이 체인 보안 레벨."
+      },
+      {
+        "title": "Sigstore Documentation",
+        "url": "https://docs.sigstore.dev",
+        "desc": "키리스 서명 및 투명성 로그."
+      },
+      {
+        "title": "Kubernetes Gateway API",
+        "url": "https://gateway-api.sigs.k8s.io/",
+        "desc": "Ingress를 대체하는 표준 K8s API."
+      },
+      {
+        "title": "PyPI Trusted Publishers",
+        "url": "https://docs.pypi.org/trusted-publishers/",
+        "desc": "OIDC 기반 PyPI 패키지 퍼블리싱."
+      },
+      {
+        "title": "npm Trusted Publishers",
+        "url": "https://docs.npmjs.com/trusted-publishers/",
+        "desc": "OIDC 기반 npm 패키지 퍼블리싱."
+      },
+      {
+        "title": "npm Provenance",
+        "url": "https://docs.npmjs.com/generating-provenance-statements",
+        "desc": "npm 패키지 출처 증명."
+      },
+      {
+        "title": "GitHub Actions OIDC",
+        "url": "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect",
+        "desc": "GitHub Actions OIDC 토큰 인증."
+      },
+      {
+        "title": "DORA Research",
+        "url": "https://dora.dev/",
+        "desc": "DevOps 4 핵심 메트릭 연구."
+      },
+      {
+        "title": "Google SRE Book",
+        "url": "https://sre.google/sre-book/table-of-contents/",
+        "desc": "SRE 원칙과 실천 표준 참고서."
+      },
+      {
+        "title": "OpenTelemetry Documentation",
+        "url": "https://opentelemetry.io/docs/",
+        "desc": "분산 트레이싱, 메트릭, 로깅의 공식 가이드."
+      }
+    ]
   },
   {
     "name": "dev-frontend",
@@ -667,7 +879,64 @@
         "summary": "ARIA 패턴, 포커스 관리, 키보드 내비게이션, 스크린 리더 테스트."
       }
     ],
-    "llm_failure_modes": "프론트엔드는 LLM의 구조적 한계가 가장 극명하게 드러나는 영역이다. LLM은 코드를 텍스트 토큰으로 생성하지만, UI는 시각적 결과물이다. LLM은 자기가 생성한 HTML/CSS가 실제로 어떻게 보이는지 '볼 수 없다.' 이건 근본적인 gap이다 — 텍스트가 겹치는지, 이미지가 안 보이는지, 모바일에서 깨지는지 알 수 없다. visual-verification.md가 헤드리스 브라우저 스크린샷을 강제하는 이유가 이것이다.\n\n두 번째 문제는 통계적 수렴(convergence)이다. LLM은 학습 데이터의 통계적 중심으로 수렴하기 때문에, 어떤 프로젝트를 만들든 비슷한 디자인이 나온다. iterative-design.md는 이걸 'The Convergence Problem'이라고 명명한다: '모든 디자인 선택이 학습 데이터의 통계적 중심으로 끌린다. 이 결과로 역량 있고 세련된 결과물이 나오지만, 다른 모든 역량 있고 세련된 결과물과 똑같다.' Diverge-Kill-Mutate 프로세스는 이 수렴을 의도적으로 깨뜨리기 위한 것이다.\n\n세 번째는 anti-slop이다. LLM이 생성하는 UI에는 특정 패턴이 반복된다 — 이걸 업계에서 'AI slop'이라고 부른다. 2024년에는 보라색 그라데이션이었고, 2026년에는 겹겹이 쌓인 그라데이션 워시, 이모지를 아이콘으로 사용, 모든 곳에 둥근 카드, section-number eyebrows (001 Capabilities), em-dash 남용, 'Elevate/Seamless/Unleash' 같은 AI 카피가 새로운 신호다. 이 패턴들은 LLM의 학습 데이터 분포에서 직접 나오는 것이므로 명시적으로 금지하지 않으면 계속 생성된다."
+    "llm_failure_modes": "프론트엔드는 LLM의 구조적 한계가 가장 극명하게 드러나는 영역이다. LLM은 코드를 텍스트 토큰으로 생성하지만, UI는 시각적 결과물이다. LLM은 자기가 생성한 HTML/CSS가 실제로 어떻게 보이는지 '볼 수 없다.' 이건 근본적인 gap이다 — 텍스트가 겹치는지, 이미지가 안 보이는지, 모바일에서 깨지는지 알 수 없다. visual-verification.md가 헤드리스 브라우저 스크린샷을 강제하는 이유가 이것이다.\n\n두 번째 문제는 통계적 수렴(convergence)이다. LLM은 학습 데이터의 통계적 중심으로 수렴하기 때문에, 어떤 프로젝트를 만들든 비슷한 디자인이 나온다. iterative-design.md는 이걸 'The Convergence Problem'이라고 명명한다: '모든 디자인 선택이 학습 데이터의 통계적 중심으로 끌린다. 이 결과로 역량 있고 세련된 결과물이 나오지만, 다른 모든 역량 있고 세련된 결과물과 똑같다.' Diverge-Kill-Mutate 프로세스는 이 수렴을 의도적으로 깨뜨리기 위한 것이다.\n\n세 번째는 anti-slop이다. LLM이 생성하는 UI에는 특정 패턴이 반복된다 — 이걸 업계에서 'AI slop'이라고 부른다. 2024년에는 보라색 그라데이션이었고, 2026년에는 겹겹이 쌓인 그라데이션 워시, 이모지를 아이콘으로 사용, 모든 곳에 둥근 카드, section-number eyebrows (001 Capabilities), em-dash 남용, 'Elevate/Seamless/Unleash' 같은 AI 카피가 새로운 신호다. 이 패턴들은 LLM의 학습 데이터 분포에서 직접 나오는 것이므로 명시적으로 금지하지 않으면 계속 생성된다.",
+    "academic_references": [
+      {
+        "id": "CHI 2026",
+        "title": "Co-Constructed or Constrained? How AI Collaboration Tools Reshape UI Design Practice",
+        "year": 2026,
+        "url": "https://dl.acm.org/doi/10.1145/3772318.3790758",
+        "relevance": "AI 도구가 디자이너를 수렴적, 동질적 UI 출력으로 밀어내는 현상을 실증 — 'UI slop'의 학술적 근거."
+      },
+      {
+        "id": "arXiv:2501.19361",
+        "title": "We're Different, We're the Same: Creative Homogeneity Across LLMs",
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2501.19361",
+        "relevance": "서로 다른 LLM들이 비슷한 창작물을 생성하는 현상의 실증. 디자인 수렴의 광범위한 근거."
+      },
+      {
+        "id": "arXiv:2305.17493",
+        "title": "The Curse of Recursion: Training on Generated Data Makes Models Forget",
+        "year": 2023,
+        "url": "https://arxiv.org/abs/2305.17493",
+        "relevance": "LLM이 자기 출력으로 학습하면 꼬리 분포 다양성을 잃는 모델 붕괴 현상."
+      },
+      {
+        "id": "arXiv:2309.05196",
+        "title": "Does Writing with Language Models Reduce Content Diversity?",
+        "year": 2023,
+        "url": "https://arxiv.org/abs/2309.05196",
+        "relevance": "LLM 공동 작문이 어휘적, 아이디어적 다양성을 줄인다는 실증."
+      },
+      {
+        "id": "Science Advances 2024",
+        "title": "Generative AI Enhances Individual Creativity but Reduces Collective Diversity",
+        "year": 2024,
+        "relevance": "LLM 지원 창작물이 개별적으로는 낫지만 집단적으로는 더 비슷해지는 통계적 모드 붕괴."
+      },
+      {
+        "id": "arXiv:2603.27249",
+        "title": "An Endless Stream of AI Slop: The Growing Burden of AI-Assisted Software Development",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2603.27249",
+        "relevance": "코드, PR, 문서, 버그 리포트에서 인지되는 AI 슬롭의 실증적 정성 연구."
+      },
+      {
+        "id": "arXiv:2604.16754",
+        "title": "AI Slop and the Software Commons",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2604.16754",
+        "relevance": "저품질 AI 생성 소프트웨어 콘텐츠의 리뷰, 유지보수, 신뢰, 지식 자원 비용 분석."
+      },
+      {
+        "id": "arXiv:2406.13631",
+        "title": "On AI-Inspired UI-Design",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2406.13631",
+        "relevance": "LLM/비전/확산 모델의 UI 생성 서베이와 다양성/동질성 트레이드오프."
+      }
+    ]
   },
   {
     "name": "dev-pabcd",
@@ -738,7 +1007,42 @@
         "summary": "디자인/UX 우선 카탈로그 탐색 모드로 요구사항을 유도한다."
       }
     ],
-    "llm_failure_modes": "LLM은 '즉시 실행' 편향이 강하다. 사용자가 '뭘 만들지 모르겠어'라고 해도 바로 코드를 생성하려고 한다. Interview(I) 단계가 없으면 이 편향을 제어할 수 없다. 또한 LLM이 자발적으로 제안하는 2-3개 옵션은 통계적으로 같은 어트랙터 패밀리에 속한다 — 학습 데이터에서 가장 흔한 접근 방식들이다. INTERVIEW-DIVERGE-01이 '비전형적(low-probability) 접근을 하나 이상 포함시키라'고 강제하는 이유다. Catalog Discovery의 '디자인 먼저' 원칙도 같은 맥락이다: LLM에게 '사주 앱 만들어'라고 하면 바로 기술 스택(React + PostgreSQL)을 결정하는데, 실제로는 시각적 분위기, 사용자 경험이 먼저 결정되어야 기술 선택이 의미를 가진다."
+    "llm_failure_modes": "LLM은 '즉시 실행' 편향이 강하다. 사용자가 '뭘 만들지 모르겠어'라고 해도 바로 코드를 생성하려고 한다. Interview(I) 단계가 없으면 이 편향을 제어할 수 없다. 또한 LLM이 자발적으로 제안하는 2-3개 옵션은 통계적으로 같은 어트랙터 패밀리에 속한다 — 학습 데이터에서 가장 흔한 접근 방식들이다. INTERVIEW-DIVERGE-01이 '비전형적(low-probability) 접근을 하나 이상 포함시키라'고 강제하는 이유다. Catalog Discovery의 '디자인 먼저' 원칙도 같은 맥락이다: LLM에게 '사주 앱 만들어'라고 하면 바로 기술 스택(React + PostgreSQL)을 결정하는데, 실제로는 시각적 분위기, 사용자 경험이 먼저 결정되어야 기술 선택이 의미를 가진다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2606.21228",
+        "title": "Sakana Fugu: Autonomous AI Training via Learned Orchestration",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2606.21228",
+        "relevance": "PABCD 오케스트레이션 규칙의 실증 근거. 단계별 게이트의 효과."
+      },
+      {
+        "id": "arXiv:2603.11445",
+        "title": "Verified Multi-Agent Orchestration: Plan-Execute-Verify-Replan Framework",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2603.11445",
+        "relevance": "의존성 인식 계획, 병렬 실행, 검증, 적응적 재계획, 구성 가능한 중지 조건 — PABCD의 P-A-B-C-D에 직접 대응."
+      },
+      {
+        "id": "arXiv:2606.01385",
+        "title": "Multi-Agent Orchestration with External Knowledge and Hierarchical Memory",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2606.01385",
+        "relevance": "Analyst/Modeler/Designer/Evaluator 단계로 요구사항을 아키텍처로 변환. PABCD 인터뷰의 학술적 유사체."
+      },
+      {
+        "id": "IEEE WESCON 1970",
+        "title": "Managing the Development of Large Software Systems (Royce)",
+        "year": 1970,
+        "relevance": "원조 폭포수 논문. PABCD의 단계 구조에 피드백 루프를 더한 것."
+      },
+      {
+        "id": "Book",
+        "title": "Continuous Delivery (Humble & Farley)",
+        "year": 2010,
+        "relevance": "build-verify-deploy 파이프라인과 자동화된 게이트."
+      }
+    ]
   },
   {
     "name": "dev-scaffolding",
@@ -792,7 +1096,30 @@
         "summary": "기존 구조의 문제점(barrel 남용, 순환, SSOT 부재)을 감지하고 개선 계획을 세운다."
       }
     ],
-    "llm_failure_modes": "LLM은 매 세션마다 새로운 컨텍스트에서 시작한다. 기존 프로젝트의 관습(디렉토리 구조, 네이밍, 패키지 구성)을 자발적으로 조사하지 않고, 학습 데이터에서 가장 흔한 구조를 기본값으로 사용한다. 이 결과 같은 프로젝트 안에서도 에이전트가 만든 부분과 기존 코드의 구조가 이질적이 된다. Convention Discovery는 '먼저 기존 구조를 읽으라'는 강제 단계를 만들어 이 문제를 해결한다."
+    "llm_failure_modes": "LLM은 매 세션마다 새로운 컨텍스트에서 시작한다. 기존 프로젝트의 관습(디렉토리 구조, 네이밍, 패키지 구성)을 자발적으로 조사하지 않고, 학습 데이터에서 가장 흔한 구조를 기본값으로 사용한다. 이 결과 같은 프로젝트 안에서도 에이전트가 만든 부분과 기존 코드의 구조가 이질적이 된다. Convention Discovery는 '먼저 기존 구조를 읽으라'는 강제 단계를 만들어 이 문제를 해결한다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2602.11988",
+        "title": "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2602.11988",
+        "relevance": "레포 수준 컨텍스트 파일이 에이전트의 관습 준수에 미치는 영향. Convention Discovery의 학술적 근거."
+      },
+      {
+        "id": "arXiv:2605.10039",
+        "title": "Instruction Adherence in Coding Agent Configuration Files",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2605.10039",
+        "relevance": "에이전트 설정 파일 구조 변수가 지시 준수에 미치는 영향의 팩토리얼 연구."
+      },
+      {
+        "id": "arXiv:2401.06391",
+        "title": "Teaching Code LLMs to Use Autocompletion Tools in Repository-Level Code Generation",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2401.06391",
+        "relevance": "레포 수준 코드 생성에서 LLM에게 자동완성 도구를 사용하도록 가르치는 연구."
+      }
+    ]
   },
   {
     "name": "dev-security",
@@ -883,7 +1210,88 @@
         "summary": "프롬프트 인젝션, 과도한 권한, 도구 오남용, 데이터 유출 방어."
       }
     ],
-    "llm_failure_modes": "LLM은 보안을 '기능 완성 후 추가하는 것'으로 취급하는 편향이 있다. '로그인 기능 만들어줘'라고 하면 인증 로직은 만들지만 rate limiting, brute force 방지, CSRF 토큰, secure cookie 설정을 빠뜨린다. 이건 학습 데이터에서 보안이 항상 '추가 단계'로 설명되기 때문이다.\n\n더 심각한 문제는 slopsquatting이다. LLM이 패키지를 추천할 때 실존하지 않는 이름을 환각(hallucinate)한다. 2025년 연구에서 약 20%가 실재하지 않았고, 이 환각된 이름이 반복적으로 나타났다. 공격자가 이 이름으로 악성 패키지를 등록하면 에이전트가 자동으로 설치하게 된다. 이건 LLM의 환각 문제가 보안 취약점으로 직접 연결되는 사례다.\n\n2026년에는 에이전트 자체가 공격 표면이 되었다. OWASP Top 10 for Agentic Applications 2026이 발표되었고, 프롬프트 인젝션(ASI01)부터 데이터 유출(ASI05)까지 tool-using AI 에이전트 고유의 위협 모델이 체계화되었다. MCP 서버의 서플라이 체인 공격도 새로운 벡터다."
+    "llm_failure_modes": "LLM은 보안을 '기능 완성 후 추가하는 것'으로 취급하는 편향이 있다. '로그인 기능 만들어줘'라고 하면 인증 로직은 만들지만 rate limiting, brute force 방지, CSRF 토큰, secure cookie 설정을 빠뜨린다. 이건 학습 데이터에서 보안이 항상 '추가 단계'로 설명되기 때문이다.\n\n더 심각한 문제는 slopsquatting이다. LLM이 패키지를 추천할 때 실존하지 않는 이름을 환각(hallucinate)한다. 2025년 연구에서 약 20%가 실재하지 않았고, 이 환각된 이름이 반복적으로 나타났다. 공격자가 이 이름으로 악성 패키지를 등록하면 에이전트가 자동으로 설치하게 된다. 이건 LLM의 환각 문제가 보안 취약점으로 직접 연결되는 사례다.\n\n2026년에는 에이전트 자체가 공격 표면이 되었다. OWASP Top 10 for Agentic Applications 2026이 발표되었고, 프롬프트 인젝션(ASI01)부터 데이터 유출(ASI05)까지 tool-using AI 에이전트 고유의 위협 모델이 체계화되었다. MCP 서버의 서플라이 체인 공격도 새로운 벡터다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2406.10279",
+        "title": "Package Hallucinations by Code Generating LLMs (USENIX Security 2025)",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2406.10279",
+        "relevance": "slopsquatting의 기초 연구 — 16개 LLM, 576k 코드 샘플에서 5.2%-21.7%의 환각 패키지 비율."
+      },
+      {
+        "id": "arXiv:2605.17062",
+        "title": "The Range Shrinks, the Threat Remains: Re-evaluating LLM Package Hallucinations (2026)",
+        "year": 2026,
+        "url": "https://arxiv.org/abs/2605.17062",
+        "relevance": "2026 프론티어 모델 코호트에서 패키지 환각을 재평가. 비율은 줄었지만 위협은 지속."
+      },
+      {
+        "id": "arXiv:2302.12173",
+        "title": "Indirect Prompt Injection in LLM-Integrated Applications (Greshake et al.)",
+        "year": 2023,
+        "url": "https://arxiv.org/abs/2302.12173",
+        "relevance": "tool-using LLM 에이전트의 간접 프롬프트 인젝션에 대한 최초의 체계적 연구."
+      },
+      {
+        "id": "arXiv:2403.02691",
+        "title": "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated LLM Agents",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2403.02691",
+        "relevance": "1,054개 공격 케이스의 벤치마크. tool-calling 에이전트의 실제 exploit 성공률 측정."
+      },
+      {
+        "id": "arXiv:2510.05244",
+        "title": "Indirect Prompt Injections: Are Firewalls All You Need, or Stronger Benchmarks?",
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2510.05244",
+        "relevance": "간접 프롬프트 인젝션 방어의 벤치마크 개선 연구."
+      },
+      {
+        "id": "arXiv:2307.07529",
+        "title": "SoK: Software Supply Chain Attacks and Countermeasures",
+        "year": 2023,
+        "url": "https://arxiv.org/abs/2307.07529",
+        "relevance": "SSC 공격 분류와 SLSA/Sigstore/SBOM 대응책 매핑."
+      }
+    ],
+    "official_guides": [
+      {
+        "title": "OWASP Top 10 for Agentic Applications 2026",
+        "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+        "desc": "자율/에이전트형 AI 시스템의 보안 위험 Top 10."
+      },
+      {
+        "title": "OWASP Top 10 for LLM Applications 2025",
+        "url": "https://genai.owasp.org/llm-top-10/",
+        "desc": "LLM 및 생성형 AI 애플리케이션의 보안 위험 Top 10."
+      },
+      {
+        "title": "OWASP Top 10 (Web)",
+        "url": "https://owasp.org/Top10/",
+        "desc": "웹 애플리케이션 보안 위험 Top 10."
+      },
+      {
+        "title": "MCP Security Guidelines",
+        "url": "https://modelcontextprotocol.io/docs/concepts/security",
+        "desc": "Model Context Protocol 공식 보안 가이드."
+      },
+      {
+        "title": "MCP Specification",
+        "url": "https://spec.modelcontextprotocol.io/",
+        "desc": "MCP 공식 프로토콜 사양."
+      },
+      {
+        "title": "SLSA Framework",
+        "url": "https://slsa.dev",
+        "desc": "소프트웨어 서플라이 체인 보안 레벨 프레임워크."
+      },
+      {
+        "title": "Sigstore Documentation",
+        "url": "https://docs.sigstore.dev",
+        "desc": "키리스 서명 및 투명성 로그."
+      }
+    ]
   },
   {
     "name": "dev-testing",
@@ -964,7 +1372,51 @@
         "summary": "스크린샷 비교, 뷰포트별 검증, 시각적 회귀 방지."
       }
     ],
-    "llm_failure_modes": "LLM이 만드는 테스트의 가장 흔한 문제는 '동어 반복 테스트(tautology test)'다. expect(true).toBe(true)처럼 항상 통과하는 테스트, 또는 모든 의존성을 mock해서 실제 동작이 아니라 mock의 동작을 검증하는 테스트. LLM은 '테스트가 통과했다'는 신호를 만들도록 학습되었기 때문에, 테스트의 '질'보다 '존재'를 우선시한다.\n\n또한 LLM은 해피 패스만 테스트한다. null 입력, 빈 배열, 경계값, 동시 접근, 네트워크 실패 같은 에지 케이스를 자발적으로 테스트하지 않는다. 이건 학습 데이터에서 해피 패스 테스트가 에지 케이스 테스트보다 압도적으로 많기 때문이다."
+    "llm_failure_modes": "LLM이 만드는 테스트의 가장 흔한 문제는 '동어 반복 테스트(tautology test)'다. expect(true).toBe(true)처럼 항상 통과하는 테스트, 또는 모든 의존성을 mock해서 실제 동작이 아니라 mock의 동작을 검증하는 테스트. LLM은 '테스트가 통과했다'는 신호를 만들도록 학습되었기 때문에, 테스트의 '질'보다 '존재'를 우선시한다.\n\n또한 LLM은 해피 패스만 테스트한다. null 입력, 빈 배열, 경계값, 동시 접근, 네트워크 실패 같은 에지 케이스를 자발적으로 테스트하지 않는다. 이건 학습 데이터에서 해피 패스 테스트가 에지 케이스 테스트보다 압도적으로 많기 때문이다.",
+    "academic_references": [
+      {
+        "id": "arXiv:2410.10628",
+        "title": "Test Smells in LLM-Generated Unit Tests",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2410.10628",
+        "relevance": "LLM이 생성한 유닛 테스트의 테스트 스멜(anti-pattern) 분석. 가짜 테스트 문제의 실증."
+      },
+      {
+        "id": "arXiv:2410.21136",
+        "title": "Do LLMs Generate Test Oracles That Capture the Actual or the Expected Program Behaviour?",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2410.21136",
+        "relevance": "LLM 테스트 오라클이 실제 동작 vs 기대 동작 중 무엇을 검증하는지 분석."
+      },
+      {
+        "id": "arXiv:2405.03786",
+        "title": "TOGLL: Correct and Strong Test Oracle Generation with LLMs",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2405.03786",
+        "relevance": "LLM으로 정확하고 강력한 테스트 오라클을 생성하는 방법론."
+      },
+      {
+        "id": "arXiv:2411.02328",
+        "title": "Disrupting Test Development with AI Assistants",
+        "year": 2024,
+        "url": "https://arxiv.org/abs/2411.02328",
+        "relevance": "테스트 피라미드 프레임워크로 AI 생성 유닛 테스트의 품질과 분포를 평가."
+      },
+      {
+        "id": "arXiv:1502.04585",
+        "title": "The Ladder: A Reliable Leaderboard for ML Competitions (Blum & Hardt)",
+        "year": 2015,
+        "url": "https://arxiv.org/abs/1502.04585",
+        "relevance": "튜닝 세트에서만 이기는 후보는 과적합. GATE-OVERFIT-01의 근거."
+      },
+      {
+        "id": "arXiv:1506.02629",
+        "title": "The Reusable Holdout (Dwork et al.)",
+        "year": 2015,
+        "url": "https://arxiv.org/abs/1506.02629",
+        "relevance": "홀드아웃 데이터를 재사용하면서 적응적 과적합을 방지하는 방법."
+      }
+    ]
   },
   {
     "name": "dev-uiux-design",
@@ -1042,6 +1494,35 @@
         "summary": "비어있는/에러/로딩/권한 부족 상태의 UX 패턴을 설계한다."
       }
     ],
-    "llm_failure_modes": "LLM에게 디자인을 맡기면 세 가지 수렴이 발생한다: (1) 시각적 수렴 — 모든 프로젝트가 같은 카드 그리드, 같은 히어로 레이아웃, 같은 색상 팔레트로 수렴한다. (2) 문화적 수렴 — 한국어 요청을 영어권 디자인 관습으로 해석한다('깔끔하게'를 일률적으로 미니멀리즘으로). (3) 상태 수렴 — 데이터가 완벽하게 들어와 있는 해피 상태만 디자인한다. 비어있는/에러/로딩/권한 부족 상태는 LLM이 자발적으로 고려하지 않는다.\n\n이 세 가지 수렴은 LLM의 학습 데이터 분포에서 직접 비롯된다. dev-uiux-design은 구현 전에 이 세 수렴을 깨뜨리는 '디자인 방향 결정'을 강제한다."
+    "llm_failure_modes": "LLM에게 디자인을 맡기면 세 가지 수렴이 발생한다: (1) 시각적 수렴 — 모든 프로젝트가 같은 카드 그리드, 같은 히어로 레이아웃, 같은 색상 팔레트로 수렴한다. (2) 문화적 수렴 — 한국어 요청을 영어권 디자인 관습으로 해석한다('깔끔하게'를 일률적으로 미니멀리즘으로). (3) 상태 수렴 — 데이터가 완벽하게 들어와 있는 해피 상태만 디자인한다. 비어있는/에러/로딩/권한 부족 상태는 LLM이 자발적으로 고려하지 않는다.\n\n이 세 가지 수렴은 LLM의 학습 데이터 분포에서 직접 비롯된다. dev-uiux-design은 구현 전에 이 세 수렴을 깨뜨리는 '디자인 방향 결정'을 강제한다.",
+    "academic_references": [
+      {
+        "id": "CHI 2026",
+        "title": "Co-Constructed or Constrained? AI Tools Reshape UI Design Practice",
+        "year": 2026,
+        "url": "https://dl.acm.org/doi/10.1145/3772318.3790758",
+        "relevance": "AI 도구가 UI 디자인을 동질적으로 만드는 현상의 실증."
+      },
+      {
+        "id": "Science Advances 2024",
+        "title": "Generative AI Enhances Individual Creativity but Reduces Collective Diversity",
+        "year": 2024,
+        "relevance": "AI 지원 창작의 개별 품질 향상 + 집단 다양성 감소."
+      },
+      {
+        "id": "arXiv:2510.15061",
+        "title": "Antislop: A Comprehensive Framework for Identifying and Eliminating Repetitive Patterns in LLMs",
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2510.15061",
+        "relevance": "LLM 특유의 반복적 언어 패턴 탐지 프레임워크. anti-slop 체크리스트의 학술적 근거."
+      },
+      {
+        "id": "arXiv:2509.19163",
+        "title": "Measuring AI Slop in Text",
+        "year": 2025,
+        "url": "https://arxiv.org/abs/2509.19163",
+        "relevance": "전문가 기반 AI 슬롭 분류 체계와 해석 가능한 평가 차원 개발."
+      }
+    ]
   }
 ]

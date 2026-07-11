@@ -157,6 +157,25 @@
 <tr><td class="key">Supply Chain</td><td>의존성 감사, lockfile 정합성, slopsquatting 방지, SBOM/서명.</td></tr>
 <tr><td class="key">Agentic AI Security</td><td>프롬프트 인젝션, 과도한 권한, 도구 오남용, 데이터 유출 방어.</td></tr>
 </tbody></table>
+<h2 id="academic-refs">Academic References</h2>
+<table class="rules"><thead><tr><th>Paper</th><th>Year</th><th>Relevance</th></tr></thead><tbody>
+<tr><td><a href="https://arxiv.org/abs/2406.10279" target="_blank" rel="noopener">Package Hallucinations by Code Generating LLMs (USENIX Security 2025)</a><br><code>arXiv:2406.10279</code></td><td>2024</td><td>slopsquatting의 기초 연구 — 16개 LLM, 576k 코드 샘플에서 5.2%-21.7%의 환각 패키지 비율.</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2605.17062" target="_blank" rel="noopener">The Range Shrinks, the Threat Remains: Re-evaluating LLM Package Hallucinations (2026)</a><br><code>arXiv:2605.17062</code></td><td>2026</td><td>2026 프론티어 모델 코호트에서 패키지 환각을 재평가. 비율은 줄었지만 위협은 지속.</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2302.12173" target="_blank" rel="noopener">Indirect Prompt Injection in LLM-Integrated Applications (Greshake et al.)</a><br><code>arXiv:2302.12173</code></td><td>2023</td><td>tool-using LLM 에이전트의 간접 프롬프트 인젝션에 대한 최초의 체계적 연구.</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2403.02691" target="_blank" rel="noopener">InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated LLM Agents</a><br><code>arXiv:2403.02691</code></td><td>2024</td><td>1,054개 공격 케이스의 벤치마크. tool-calling 에이전트의 실제 exploit 성공률 측정.</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2510.05244" target="_blank" rel="noopener">Indirect Prompt Injections: Are Firewalls All You Need, or Stronger Benchmarks?</a><br><code>arXiv:2510.05244</code></td><td>2025</td><td>간접 프롬프트 인젝션 방어의 벤치마크 개선 연구.</td></tr>
+<tr><td><a href="https://arxiv.org/abs/2307.07529" target="_blank" rel="noopener">SoK: Software Supply Chain Attacks and Countermeasures</a><br><code>arXiv:2307.07529</code></td><td>2023</td><td>SSC 공격 분류와 SLSA/Sigstore/SBOM 대응책 매핑.</td></tr>
+</tbody></table>
+<h2 id="official-guides">Official Guides</h2>
+<ul>
+<li><a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" target="_blank" rel="noopener">OWASP Top 10 for Agentic Applications 2026</a> — 자율/에이전트형 AI 시스템의 보안 위험 Top 10.</li>
+<li><a href="https://genai.owasp.org/llm-top-10/" target="_blank" rel="noopener">OWASP Top 10 for LLM Applications 2025</a> — LLM 및 생성형 AI 애플리케이션의 보안 위험 Top 10.</li>
+<li><a href="https://owasp.org/Top10/" target="_blank" rel="noopener">OWASP Top 10 (Web)</a> — 웹 애플리케이션 보안 위험 Top 10.</li>
+<li><a href="https://modelcontextprotocol.io/docs/concepts/security" target="_blank" rel="noopener">MCP Security Guidelines</a> — Model Context Protocol 공식 보안 가이드.</li>
+<li><a href="https://spec.modelcontextprotocol.io/" target="_blank" rel="noopener">MCP Specification</a> — MCP 공식 프로토콜 사양.</li>
+<li><a href="https://slsa.dev" target="_blank" rel="noopener">SLSA Framework</a> — 소프트웨어 서플라이 체인 보안 레벨 프레임워크.</li>
+<li><a href="https://docs.sigstore.dev" target="_blank" rel="noopener">Sigstore Documentation</a> — 키리스 서명 및 투명성 로그.</li>
+</ul>
 <h2 id="full-spec">Full Specification</h2>
 <details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-security-production-security-hardening">Dev-Security — Production Security Hardening</h2>

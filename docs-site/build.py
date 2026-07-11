@@ -417,6 +417,37 @@ def build_skill_pages():
                 parts.append(f'<tr><td class="key">{htmlmod.escape(sec.get("heading",""))}</td><td>{htmlmod.escape(sec.get("summary",""))}</td></tr>')
             parts.append('</tbody></table>')
         
+
+        # academic references
+        acad_refs = meta.get("academic_references", [])
+        if acad_refs:
+            parts.append('<h2 id="academic-refs">Academic References</h2>')
+            parts.append('<table class="rules"><thead><tr><th>Paper</th><th>Year</th><th>Relevance</th></tr></thead><tbody>')
+            for ar in acad_refs:
+                aid = htmlmod.escape(ar.get("id", ""))
+                atitle = htmlmod.escape(ar.get("title", ""))
+                ayear = ar.get("year", "")
+                arel = htmlmod.escape(ar.get("relevance", ""))
+                aurl = ar.get("url", "")
+                if aurl:
+                    link = f'<a href="{htmlmod.escape(aurl)}" target="_blank" rel="noopener">{atitle}</a>'
+                else:
+                    link = atitle
+                parts.append(f'<tr><td>{link}<br><code>{aid}</code></td><td>{ayear}</td><td>{arel}</td></tr>')
+            parts.append('</tbody></table>')
+        
+        # official guides
+        off_guides = meta.get("official_guides", [])
+        if off_guides:
+            parts.append('<h2 id="official-guides">Official Guides</h2>')
+            parts.append('<ul>')
+            for og in off_guides:
+                otitle = htmlmod.escape(og.get("title", ""))
+                ourl = htmlmod.escape(og.get("url", ""))
+                odesc = htmlmod.escape(og.get("desc", ""))
+                parts.append(f'<li><a href="{ourl}" target="_blank" rel="noopener">{otitle}</a> — {odesc}</li>')
+            parts.append('</ul>')
+        
         # full content (collapsible)
         body_html = md_to_html_simple(body)
         parts.append('<h2 id="full-spec">Full Specification</h2>')
