@@ -103,7 +103,44 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-data.html">skills/dev-data/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-data/SKILL.md" target="_blank" rel="noopener">skills/dev-data/SKILL.md</a></p>
+<p class="lede">Data pipelines, ETL/ELT design, quality validation, SQL optimization, and analysis.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>데이터 파이프라인은 앱 CRUD와 근본적으로 다른 관심사를 가진다: 멱등성, 체크포인트 재시작, 데이터 품질 검증, 배치/스트리밍 선택. 이걸 <a href="../../pages/skills/dev-backend.html">dev-backend</a>에 포함시키면 일반 API 작업에도 불필요한 ETL 문맥이 로드되고, 파이프라인 작업 시에는 정작 필요한 가이드가 묻힌다. 별도 모듈로 분리해서 데이터 작업의 고유한 원칙을 전면에 놓는다.</div>
+<p><strong>Triggers:</strong> <code>ETL, ELT, pipeline, data quality, SQL optimization, backfill, migration, schema drift</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Pipeline Thinking (Extract-Transform-Load)</strong></li>
+<li><strong>Schema-First Design</strong></li>
+<li><strong>Defensive Parsing</strong></li>
+<li><strong>Idempotent Operations</strong></li>
+<li><strong>Data Quality Gates</strong></li>
+<li><strong>Batch vs Streaming Architecture</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-security.html">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-devops.html">dev-devops</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-data-governance.html">Data Governance — PII, Masking, Compliance</a></td><td>PII 분류, 데이터 거버넌스 정책, 규정 준수 가이드</td></tr>
+<tr><td><a href="../../pages/skills/dev-data-ml-pipeline.html">ML Pipeline Engineering</a></td><td>ML 파이프라인 설계, 피처 엔지니어링, 모델 평가</td></tr>
+<tr><td><a href="../../pages/skills/dev-data-streaming.html">Streaming &amp; Event-Driven Data Patterns</a></td><td>실시간 스트리밍 아키텍처, Kafka/Flink/Spark Streaming 패턴</td></tr>
+<tr><td><a href="../../pages/skills/dev-data-tools.html">Data Processing Tools — pandas vs Polars vs DuckDB</a></td><td>데이터 도구 비교: pandas, Polars, DuckDB, Spark, dbt</td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Data Processing Principles</td><td>파이프라인 사고, 스키마 우선, 방어적 파싱, 멱등성, 빠른 실패 원칙.</td></tr>
+<tr><td class="key">Data Ingestion</td><td>CSV/JSON/Parquet/Excel 포맷별 가이드와 증분 로딩 패턴.</td></tr>
+<tr><td class="key">Data Quality</td><td>null/유일성/범위/신선도/행 수 검증과 Dead Letter Queue.</td></tr>
+<tr><td class="key">SQL Optimization</td><td>인덱스 전략, 쿼리 플랜 분석, N+1 방지, 파티셔닝.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-data-data-engineering-analysis-guide">Dev-Data — Data Engineering &amp; Analysis Guide</h2>
 <p>Production-grade data engineering patterns for building reliable data systems.</p>
 <p>Activates by change surface for data pipelines, analytics, SQL-heavy work, schema evolution, backfills, and reporting.</p>
@@ -417,13 +454,7 @@
 <li>Data contract changes (§4 Data Contracts) must notify downstream consumers including frontend teams</li>
 </ul>
 <p>---</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-data-governance.html">Data Governance — PII, Masking, Compliance</a></li>
-<li><a href="../../pages/skills/dev-data-ml-pipeline.html">ML Pipeline Engineering</a></li>
-<li><a href="../../pages/skills/dev-data-streaming.html">Streaming &amp; Event-Driven Data Patterns</a></li>
-<li><a href="../../pages/skills/dev-data-tools.html">Data Processing Tools — pandas vs Polars vs DuckDB</a></li>
-</ul>
+</details>
   </div>
 </section>
 

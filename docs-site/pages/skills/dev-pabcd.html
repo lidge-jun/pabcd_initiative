@@ -103,7 +103,43 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-pabcd.html">skills/dev-pabcd/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-pabcd/SKILL.md" target="_blank" rel="noopener">skills/dev-pabcd/SKILL.md</a></p>
+<p class="lede">PABCD orchestration workflow for interview, phases, attest, and checkpoints.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>PABCD는 codexclaw의 핵심 개발 방법론이다. 인터뷰(I)로 요구사항을 정리하고, 계획(P) &gt; 감사(A) &gt; 구현(B) &gt; 점검(C) &gt; 완료(D)의 5단계를 FSM으로 관리한다. 이 스킬이 없으면 에이전트는 요구사항 확인 없이 바로 코딩하거나, 감사 없이 머지하거나, 검증 없이 완료 선언을 한다.</div>
+<p><strong>Triggers:</strong> <code>orchestrate, phase, attest, interview, goal mode, checkpoint, PABCD</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Interview Trigger (I phase)</strong></li>
+<li><strong>Phase FSM (P-A-B-C-D)</strong></li>
+<li><strong>Attestation JSON</strong></li>
+<li><strong>Loop Archetype</strong></li>
+<li><strong>Unit Residence</strong></li>
+<li><strong>Catalog Discovery Mode</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html">dev-code-reviewer</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-pabcd-debugging-modularization.html">Debugging Modularization (SoT, agent-neutral)</a></td><td>SoT 기반 디버깅 모듈화, 에이전트 중립적 접근</td></tr>
+<tr><td><a href="../../pages/skills/dev-pabcd-loop-engineering.html">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></td><td>루프 엔지니어링 정렬 규칙 (<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> section 11)</td></tr>
+<tr><td><a href="../../pages/skills/dev-pabcd-repo-map-capability.html">Repo-Map Capability (SoT, agent-neutral)</a></td><td>Repo-Map 기능, 에이전트 중립적 SoT 활용</td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Interview Trigger</td><td>사용자가 인터뷰를 요청하면 즉시 I 단계로 전환한다.</td></tr>
+<tr><td class="key">Phase Discipline</td><td>P-A-B-C-D 각 단계의 전환 조건과 필수 증거를 정의한다.</td></tr>
+<tr><td class="key">Attestation</td><td>단계 전환 시 JSON 형식의 증명을 첨부한다.</td></tr>
+<tr><td class="key">Loop Archetype</td><td>spec/repair vs open-ended 루프 유형을 인터뷰 시 결정한다.</td></tr>
+<tr><td class="key">Catalog Discovery</td><td>디자인/UX 우선 카탈로그 탐색 모드로 요구사항을 유도한다.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <p>Structured 5-phase <a href="../../pages/skills/dev.html">dev</a>elopment. Advance only with user approval.</p>
 <p>&gt; <strong>Runtime adapter (agent-neutral):</strong> <code>orchestrate &lt;phase&gt;</code> below means your runtime&#x27;s</p>
 <p>&gt; FSM transition command (any host that persists PABCD state and gates transitions).</p>
@@ -819,12 +855,7 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>the domain. The collapse record names each candidate&#x27;s partial correctness, each</p>
 <p>candidate&#x27;s failure mode, and why the winner&#x27;s evidence resolves the crux.</p>
 <p>Full rules: <code>references/loop-engineering.md</code>.</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html">Debugging Modularization (SoT, agent-neutral)</a></li>
-<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
-<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html">Repo-Map Capability (SoT, agent-neutral)</a></li>
-</ul>
+</details>
   </div>
 </section>
 

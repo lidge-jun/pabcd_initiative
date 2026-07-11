@@ -103,7 +103,53 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-uiux-design.html">skills/dev-uiux-design/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/SKILL.md" target="_blank" rel="noopener">skills/dev-uiux-design/SKILL.md</a></p>
+<p class="lede">UI/UX design direction: visual judgment, design isms, product personality, UX states.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트에게 &#x27;멋지게 만들어&#x27;라고 하면 매번 비슷한 그라데이션, 둥근 카드, 보라색 팔레트가 나온다. 디자인 판단은 도메인, 사용자, 맥락에 따라 달라져야 하는데, 구현 스킬(<a href="../../pages/skills/dev-frontend.html">dev-frontend</a>)만으로는 이 판단이 빠진다. 이 스킬은 디자인 방향을 먼저 결정하고, 그 방향에 맞는 구체적인 타이포/색상/레이아웃을 설정한 뒤 <a href="../../pages/skills/dev.html">dev</a>-frontend에 구현을 넘긴다.</div>
+<p><strong>Triggers:</strong> <code>make it look good, modern, clean, aesthetic, onboarding, empty state, error state, favicon, logo, design system</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Product Personality Selection</strong></li>
+<li><strong>Design Isms (Bauhaus/Memphis/Brutalism/etc.)</strong></li>
+<li><strong>Korean Request Translation</strong></li>
+<li><strong>UX States (Empty/Error/Loading/Permission)</strong></li>
+<li><strong>Typography Decision Gate</strong></li>
+<li><strong>Favicon &amp; Logo System</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-frontend.html">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html">dev-scaffolding</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-uiux-design-color-system.html">color-system</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-design-isms.html">design-isms</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-design-read-example.html">Design Read Example</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-design-system-bootstrap.html">design-system-bootstrap</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-favicon-logo.html">Favicon &amp; Product Logo — Design Judgment &amp; Patterns</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-form-patterns.html">Form Design Patterns</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-layout-macrostructures.html">layout-macrostructures</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-logo-trust-sections.html">Logo Trust Sections — Design Patterns &amp; Judgment</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-mobile-native-ux.html">Mobile Native UX Conventions</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-product-personalities.html">product-personalities</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-responsive-nav.html">responsive-nav</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-typography-line-breaks.html">Typography Line Breaks — Design Judgment Guide</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-ux-preflight.html">UX Preflight Checklist</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-ux-states.html">ux-states</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-visual-hierarchy.html">Visual Hierarchy</a></td><td></td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Product Personality</td><td>도메인과 사용자에 맞는 제품 성격(미니멀/엔터프라이즈/플레이풀 등)을 결정한다.</td></tr>
+<tr><td class="key">Design Isms</td><td>Bauhaus, Memphis, Brutalism 등 디자인 사조를 알고 적절히 적용한다.</td></tr>
+<tr><td class="key">Korean Request Translation</td><td>한국어 디자인 요청의 실제 의도를 파악하여 구체적 디자인 방향으로 변환한다.</td></tr>
+<tr><td class="key">UX States</td><td>비어있는/에러/로딩/권한 부족 상태의 UX 패턴을 설계한다.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="ui-ux-design-intent-discovery-patterns-product-vocabulary">UI/UX Design: Intent Discovery, Patterns &amp; Product Vocabulary</h2>
 <p>Activates by change surface when:</p>
 <ul>
@@ -118,7 +164,7 @@
 <p>Read this before style-specific references when the user cannot articulate a clear design direction.</p>
 <p>For anti-slop detection and banned patterns, defer to <code>dev-frontend/references/core/anti-slop.md</code>.</p>
 <p><strong>Emoji ban (stub):</strong> no emoji as UI visual elements (STRICT). Canonical rule, scope, and exemptions: <code>dev-frontend</code> §5 / <code>dev-frontend/references/core/anti-slop.md § Emoji Slop</code>.</p>
-<p><strong>Role separation:</strong> This skill provides design <strong>judgment</strong> (when/why). <code>dev-frontend</code> provides <strong>implementation</strong> (CSS/HTML how). When both have a reference on the same topic (e.g., typography, logos), read this skill first for the decision, then <a href="../../pages/skills/dev-frontend.html">dev-frontend</a> for the code.</p>
+<p><strong>Role separation:</strong> This skill provides design <strong>judgment</strong> (when/why). <code>dev-frontend</code> provides <strong>implementation</strong> (CSS/HTML how). When both have a reference on the same topic (e.g., typography, logos), read this skill first for the decision, then dev-frontend for the code.</p>
 <p><strong>External/current design evidence:</strong> For live product-reference claims, current</p>
 <p>design-system docs, browser API behavior, accessibility guidance that may have</p>
 <p>changed, or browser-rendered source evidence, read the active <code>search</code> skill and</p>
@@ -284,7 +330,7 @@
 <tr><th>많이 둥근 (Very rounded)</th><th><code>rounded-2xl</code> / 16–24px</th><th>Figma, iOS, Toss</th></tr>
 </tbody></table>
 <h4 id="step-5-viewport-priority">Step 5 — Viewport Priority</h4>
-<p>Ask: &quot;주로 어떤 화면에서 볼 건가요?&quot; / &quot;What&#x27;s the primary viewing <a href="../../pages/skills/dev.html">dev</a>ice?&quot;</p>
+<p>Ask: &quot;주로 어떤 화면에서 볼 건가요?&quot; / &quot;What&#x27;s the primary viewing device?&quot;</p>
 <table class="rules"><tbody>
 <tr><th>Option</th><th>Responsive Strategy</th><th>Key Constraint</th></tr>
 <tr><th>데스크탑 위주 (Desktop-first)</th><th>Desktop layout → tablet → mobile collapse</th><th>Data density OK, hover interactions OK</th></tr>
@@ -414,24 +460,7 @@ Reasoning: &lt;one sentence explaining why these values match the brief&gt;</cod
 </ul>
 <p>(judgment rule, not a measured fact). Use it when the user requests it or the project</p>
 <p>already uses it.</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-uiux-design-color-system.html">color-system</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-design-isms.html">design-isms</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-design-read-example.html">Design Read Example</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-design-system-bootstrap.html">design-system-bootstrap</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-favicon-logo.html">Favicon &amp; Product Logo — Design Judgment &amp; Patterns</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-form-patterns.html">Form Design Patterns</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-layout-macrostructures.html">layout-macrostructures</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-logo-trust-sections.html">Logo Trust Sections — Design Patterns &amp; Judgment</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-mobile-native-ux.html">Mobile Native UX Conventions</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-product-personalities.html">product-personalities</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-responsive-nav.html">responsive-nav</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-typography-line-breaks.html">Typography Line Breaks — Design Judgment Guide</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-ux-preflight.html">UX Preflight Checklist</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-ux-states.html">ux-states</a></li>
-<li><a href="../../pages/skills/dev-uiux-design-visual-hierarchy.html">Visual Hierarchy</a></li>
-</ul>
+</details>
   </div>
 </section>
 

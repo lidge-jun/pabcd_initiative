@@ -103,7 +103,47 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-testing.html">skills/dev-testing/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-testing/SKILL.md" target="_blank" rel="noopener">skills/dev-testing/SKILL.md</a></p>
+<p class="lede">Testing and QA router: strategy, harness choice, CI gates, TDD, and coverage.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>테스트 없는 코드는 &#x27;동작하는 것 같다&#x27;에 머물고, 리팩토링이나 기능 추가 때 회귀를 잡지 못한다. AI 에이전트는 특히 얕은 해피패스 테스트만 작성하거나 실제 동작을 검증하지 않는 가짜 테스트를 만드는 경향이 있다. 이 스킬은 테스트 피라미드, 하니스 선택, CI 게이트, 커버리지 기준을 체계적으로 제공하여 변경의 위험도에 비례하는 검증을 보장한다.</div>
+<p><strong>Triggers:</strong> <code>test, TDD, coverage, CI gate, harness, E2E, visual QA, screenshot</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Test Pyramid</strong></li>
+<li><strong>Harness Selection</strong></li>
+<li><strong>CI Gate Strategy</strong></li>
+<li><strong>TDD Workflow</strong></li>
+<li><strong>Coverage as Risk Signal</strong></li>
+<li><strong>Visual QA (screenshot verification)</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-frontend.html">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-debugging.html">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-security.html">dev-security</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html">dev-code-reviewer</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-testing-backend-testing.html">Backend Testing Patterns</a></td><td>백엔드 테스트 패턴: 서비스 레이어, DB, API 통합 테스트</td></tr>
+<tr><td><a href="../../pages/skills/dev-testing-ci-pipeline.html">CI Pipeline Templates</a></td><td>CI 파이프라인에서의 테스트 게이트와 캐싱 전략</td></tr>
+<tr><td><a href="../../pages/skills/dev-testing-edge-first-testing.html">Edge-First Testing Workflow</a></td><td>엣지/서버리스 환경 테스트 패턴과 miniflare</td></tr>
+<tr><td><a href="../../pages/skills/dev-testing-load-testing.html">Load &amp; Performance Testing</a></td><td>부하 테스트: k6, Artillery, 성능 기준선 설정</td></tr>
+<tr><td><a href="../../pages/skills/dev-testing-ml-evaluation.html">ML Model Evaluation</a></td><td>ML 모델 평가: 메트릭, A/B 테스트, 데이터 드리프트 감지</td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Test Pyramid</td><td>유닛 &gt; 통합 &gt; E2E 비율과 각 계층의 역할을 정의한다.</td></tr>
+<tr><td class="key">Harness Selection</td><td>프로젝트 스택에 맞는 테스트 프레임워크를 선택한다.</td></tr>
+<tr><td class="key">CI Gates</td><td>커버리지 임계값, 테스트 실패 시 머지 차단 규칙.</td></tr>
+<tr><td class="key">TDD Workflow</td><td>Red-Green-Refactor 사이클과 적용 시점 판단.</td></tr>
+<tr><td class="key">Visual QA</td><td>스크린샷 비교, 뷰포트별 검증, 시각적 회귀 방지.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="testing-qa">Testing &amp; QA</h2>
 <p>Balance: ~40% Backend/API, ~40% Frontend/E2E (Playwright), ~20% Cross-cutting (CI, Security, TDD, Coverage) -- directional guidance, not a hard ratio.</p>
 <p><strong>Scope</strong>: test harnesses, fixtures, mock policy, runners, Playwright, CI gates, coverage. Root-cause analysis and debugging playbooks → <code>dev-debugging</code>.</p>
@@ -636,14 +676,7 @@ pip-audit --strict --desc</code></pre>
 → contract verification
 → Playwright smoke
 → CI gate + coverage + security scan</code></pre>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-testing-backend-testing.html">Backend Testing Patterns</a></li>
-<li><a href="../../pages/skills/dev-testing-ci-pipeline.html">CI Pipeline Templates</a></li>
-<li><a href="../../pages/skills/dev-testing-edge-first-testing.html">Edge-First Testing Workflow</a></li>
-<li><a href="../../pages/skills/dev-testing-load-testing.html">Load &amp; Performance Testing</a></li>
-<li><a href="../../pages/skills/dev-testing-ml-evaluation.html">ML Model Evaluation</a></li>
-</ul>
+</details>
   </div>
 </section>
 

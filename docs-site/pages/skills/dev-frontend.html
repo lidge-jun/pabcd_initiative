@@ -103,7 +103,38 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-frontend.html">skills/dev-frontend/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-frontend/SKILL.md" target="_blank" rel="noopener">skills/dev-frontend/SKILL.md</a></p>
+<p class="lede">Frontend implementation with responsive, accessible, anti-slop UI guidance.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>프론트엔드는 &#x27;동작&#x27;과 &#x27;보이는 것&#x27; 두 축이 모두 중요하다. 에이전트는 기능적으로 동작하는 코드는 잘 만들지만, 안티슬롭(AI가 만든 티가 나는 UI), 반응형 깨짐, 접근성 누락 같은 시각적/사용성 문제를 놓친다. 이 스킬은 <a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a>이 결정한 디자인 방향을 실제 코드로 구현할 때 필요한 기계적 체크리스트를 제공한다.</div>
+<p><strong>Triggers:</strong> <code>frontend, UI, component, CSS, responsive, animation, React, Tailwind, layout</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Anti-Slop Enforcement</strong></li>
+<li><strong>Responsive Viewport Discipline</strong></li>
+<li><strong>Visual Verification (headless browser)</strong></li>
+<li><strong>Component Architecture</strong></li>
+<li><strong>Performance Budget (CWV)</strong></li>
+<li><strong>Accessibility Patterns (ARIA)</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-security.html">dev-security</a></li>
+</ul>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Anti-Slop</td><td>AI가 생성한 티가 나는 패턴을 감지하고 제거한다.</td></tr>
+<tr><td class="key">Responsive Design</td><td>표준 브레이크포인트와 컨테이너 쿼리 기반 반응형 구현.</td></tr>
+<tr><td class="key">Visual Verification</td><td>헤드리스 브라우저로 실제 렌더링을 확인한 뒤 완료 판정.</td></tr>
+<tr><td class="key">Component Architecture</td><td>관심사 분리, 상태 관리, 재사용 가능한 컴포넌트 설계.</td></tr>
+<tr><td class="key">Performance</td><td>CWV 타겟, 번들 예산, 폰트 로딩, 이미지 최적화.</td></tr>
+<tr><td class="key">Accessibility</td><td>ARIA 패턴, 포커스 관리, 키보드 내비게이션, 스크린 리더 테스트.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-frontend-domain-correct-frontend-engineering">Dev-Frontend — Domain-Correct Frontend Engineering</h2>
 <p>Build distinctive, production-grade interfaces that fit the product domain, locale, interaction model, and real visual evidence.</p>
 <p>This skill has modular references for specialized guidance — read the relevant ones before coding.</p>
@@ -424,7 +455,7 @@
 <p><strong>Full ~40-item checklist: <code>references/core/preflight-full.md</code></strong> — run it for launches</p>
 <p>and audits. The blocking gates below are the minimum for every production delivery:</p>
 <ul>
-<li>[ ] Design Read declared before code (<a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a> §2); surface/locale/density/asset/motion classified (§0)</li>
+<li>[ ] Design Read declared before code (dev-uiux-design §2); surface/locale/density/asset/motion classified (§0)</li>
 <li>[ ] Anti-slop enforced (§5) — incl. emoji-as-icon ban (STRICT)</li>
 <li>[ ] Loading, empty, and error states provided</li>
 <li>[ ] Accessibility baseline (§7): keyboard path, focus management, contrast, reduced motion</li>
@@ -452,6 +483,7 @@
 <p>Playwright smoke validates rendered flows AFTER API + contract tests pass; frontend unit</p>
 <p>tests mock the same envelope shape as <code>dev-backend</code> §5; error-code changes update</p>
 <p>frontend error-mapping tests.</p>
+</details>
   </div>
 </section>
 

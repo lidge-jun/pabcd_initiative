@@ -103,7 +103,39 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-backend.html">skills/dev-backend/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-backend/SKILL.md" target="_blank" rel="noopener">skills/dev-backend/SKILL.md</a></p>
+<p class="lede">Framework-agnostic backend guidance for APIs, architecture, data access, and operations.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>백엔드는 API 설계, DB 접근, 인증, 에러 처리, 캐싱, 큐 등 서로 다른 관심사가 교차하는 곳이다. 에이전트가 이 전체를 하나의 스킬로 다루면 모든 작업에 불필요한 컨텍스트가 로드된다. 그래서 이 스킬은 라우터 역할을 하며, C2 일반 CRUD는 crud-api.md 하나로, C3+ 작업에서만 api-design, architecture 등 심화 레퍼런스를 로드한다.</div>
+<p><strong>Triggers:</strong> <code>backend, API, REST, GraphQL, schema, migration, query optimization, middleware, OTel, caching, server</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Stack Detection</strong></li>
+<li><strong>API Design (REST/GraphQL/gRPC/tRPC)</strong></li>
+<li><strong>Architecture Clarification</strong></li>
+<li><strong>Layered Backend Architecture</strong></li>
+<li><strong>Error Handling &amp; Result Pattern</strong></li>
+<li><strong>Observability (OTel)</strong></li>
+<li><strong>Caching Strategy</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-data.html">dev-data</a></li>
+<li><a href="../../pages/skills/dev-security.html">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-devops.html">dev-devops</a></li>
+</ul>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Stack Detection</td><td>설정 파일로 프로젝트 타입을 자동 감지한다.</td></tr>
+<tr><td class="key">API Design</td><td>REST, GraphQL, gRPC, tRPC 중 적합한 API 스타일을 선택한다.</td></tr>
+<tr><td class="key">Error Handling</td><td>Result 패턴과 에러 응답 규약을 통해 일관된 에러 처리를 한다.</td></tr>
+<tr><td class="key">Database &amp; ORM</td><td>쿼리 최적화, N+1 방지, 마이그레이션 전략을 다룬다.</td></tr>
+<tr><td class="key">Observability</td><td>프로덕션 서비스의 트레이싱, 로깅, 알러팅 설정.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-backend-production-grade-backend-engineering">Dev-Backend — Production-Grade Backend Engineering</h2>
 <p>Build reliable, secure, and maintainable server-side applications.</p>
 <p>This skill has modular references for specialized guidance — read the relevant ones before coding.</p>
@@ -465,6 +497,7 @@ GET /jobs/j_abc123 → { status: &quot;processing&quot;, progress: 0.6 }
 <li>[ ] Security review: delegate to <code>dev-security/SKILL.md</code> for production readiness</li>
 <li>[ ] Stack-specific rules followed (see <code>references/stacks/</code>)</li>
 </ul>
+</details>
   </div>
 </section>
 

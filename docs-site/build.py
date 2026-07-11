@@ -293,22 +293,73 @@ def build_skill_pages():
     
     entries = []
     skill_dirs = sorted(SKILLS_DIR.iterdir())
+    
+    # load enhanced metadata if available
+    meta_path = SITE / "assets" / "skill-meta.json"
+    skill_meta = {}
+    if meta_path.exists():
+        skill_meta = {s["name"]: s for s in json.loads(meta_path.read_text(encoding="utf-8"))}
+    
     for sd in skill_dirs:
         skill_md = sd / "SKILL.md"
         if not skill_md.exists():
             continue
         
         title, body = read_md(skill_md)
-        # use skill name from directory
         skill_name = sd.name
         page_file = f"pages/skills/{skill_name}.html"
         
-        body_html = md_to_html_simple(body)
+        # --- build enhanced page content ---
+        meta = skill_meta.get(skill_name, {})
+        short_desc = meta.get("short_desc", "")
+        rationale = meta.get("design_rationale", "")
+        key_concepts = meta.get("key_concepts", [])
+        related = meta.get("related_skills", [])
+        triggers = meta.get("triggers", "")
+        ref_files_meta = meta.get("reference_files", [])
+        sections_meta = meta.get("sections", [])
         
-        # add references if they exist
+        # Read frontmatter for short-description if not in meta
+        fm_text = (sd / "SKILL.md").read_text(encoding="utf-8")
+        fm_match = re.search(r'short-description:\s*"([^"]+)"', fm_text)
+        if fm_match and not short_desc:
+            short_desc = fm_match.group(1)
+        
+        # header block
+        parts = []
+        parts.append(f'<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/{skill_name}/SKILL.md" target="_blank" rel="noopener">skills/{skill_name}/SKILL.md</a></p>')
+        if short_desc:
+            parts.append(f'<p class="lede">{htmlmod.escape(short_desc)}</p>')
+        
+        # design rationale
+        if rationale:
+            parts.append(f'<div class="evidence"><strong>왜 별도 모듈인가</strong><br>{htmlmod.escape(rationale)}</div>')
+        
+        # triggers
+        if triggers:
+            parts.append(f'<p><strong>Triggers:</strong> <code>{htmlmod.escape(triggers)}</code></p>')
+        
+        # key concepts
+        if key_concepts:
+            parts.append('<h2 id="key-concepts">Key Concepts</h2>')
+            parts.append('<ul>')
+            for kc in key_concepts:
+                parts.append(f'<li><strong>{htmlmod.escape(kc)}</strong></li>')
+            parts.append('</ul>')
+        
+        # related skills
+        if related:
+            parts.append('<h2 id="related-skills">Related Skills</h2>')
+            parts.append('<ul>')
+            for rs in related:
+                rs_clean = rs.strip()
+                rs_page = f"pages/skills/{rs_clean}.html"
+                parts.append(f'<li><a href="../../{rs_page}">{htmlmod.escape(rs_clean)}</a></li>')
+            parts.append('</ul>')
+        
         refs_dir = sd / "references"
+        ref_links = []
         if refs_dir.is_dir():
-            ref_links = []
             for rf in sorted(refs_dir.iterdir()):
                 if rf.suffix == ".md":
                     ref_title, _ = read_md(rf)
@@ -316,22 +367,46 @@ def build_skill_pages():
                     ref_links.append((ref_title, ref_page, rf))
             
             if ref_links:
-                body_html += '\n<h2 id="references">References</h2>\n<ul>'
-                for rt, rp, _ in ref_links:
-                    body_html += f'\n<li><a href="../../{rp}">{htmlmod.escape(rt)}</a></li>'
-                body_html += '\n</ul>'
+                parts.append('\n<h2 id="references">Reference Documents</h2>')
+                parts.append('<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>')
+                for rt, rp, rf in ref_links:
+                    # find matching meta description
+                    ref_desc = ""
+                    for rfm in ref_files_meta:
+                        if rfm.get("name") == rf.name:
+                            ref_desc = rfm.get("desc", "")
+                            break
+                    parts.append(f'<tr><td><a href="../../{rp}">{htmlmod.escape(rt)}</a></td><td>{htmlmod.escape(ref_desc)}</td></tr>')
+                parts.append('</tbody></table>')
                 
-                # build reference pages
+                # build reference sub-pages
                 for rt, rp, rf in ref_links:
                     ref_body = md_to_html_simple(read_md(rf)[1])
-                    ref_body = f'<p class="refnote">Source: {skill_name}/references/{rf.name}</p>\n' + ref_body
+                    ref_body = f'<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/{skill_name}/references/{rf.name}" target="_blank" rel="noopener">{skill_name}/references/{rf.name}</a></p>\n' + ref_body
                     ref_html = doc_page_html(rt, ref_body, rp, base="../../")
                     (SITE / rp).parent.mkdir(parents=True, exist_ok=True)
                     (SITE / rp).write_text(ref_html, encoding="utf-8")
         
+        # section summaries (if meta available)
+        if sections_meta:
+            parts.append('<h2 id="sections">Sections Overview</h2>')
+            parts.append('<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>')
+            for sec in sections_meta:
+                parts.append(f'<tr><td class="key">{htmlmod.escape(sec.get("heading",""))}</td><td>{htmlmod.escape(sec.get("summary",""))}</td></tr>')
+            parts.append('</tbody></table>')
+        
+        # full content (collapsible)
+        body_html = md_to_html_simple(body)
+        parts.append('<h2 id="full-spec">Full Specification</h2>')
+        parts.append('<details><summary>Show full SKILL.md content</summary>')
+        parts.append(body_html)
+        parts.append('</details>')
+        
+        final_body = '\n'.join(parts)
+        
         page_html = doc_page_html(
             f"{skill_name}",
-            f'<p class="refnote">Source: skills/{skill_name}/SKILL.md</p>\n' + body_html,
+            final_body,
             page_file,
             base="../../"
         )
@@ -511,27 +586,9 @@ def main():
     all_pages.extend(devlog_entries)
     all_pages.extend(backlog_entries)
     
-    # 6. Regenerate all doc pages with updated NAV
-    # (skill/devlog/backlog pages were already built; now rebuild with correct NAV)
-    # We need to re-write all pages since NAV was updated after initial build
-    for name, page in skill_entries:
-        skill_md = SKILLS_DIR / name / "SKILL.md"
-        if not skill_md.exists():
-            continue
-        title, body = read_md(skill_md)
-        body_html = f'<p class="refnote">Source: skills/{name}/SKILL.md</p>\n' + md_to_html_simple(body)
-        refs_dir = SKILLS_DIR / name / "references"
-        if refs_dir.is_dir():
-            ref_links = [(read_md(rf)[0], f"pages/skills/{name}-{rf.stem}.html") 
-                        for rf in sorted(refs_dir.glob("*.md"))]
-            if ref_links:
-                body_html += '\n<h2 id="references">References</h2>\n<ul>'
-                for rt, rp in ref_links:
-                    body_html += f'\n<li><a href="../../{rp}">{htmlmod.escape(rt)}</a></li>'
-                body_html += '\n</ul>'
-        html = doc_page_html(name, body_html, page, base="../../")
-        (SITE / page).write_text(html, encoding="utf-8")
-    
+    # 6. Regenerate skill pages with updated NAV (reuses enhanced template)
+    build_skill_pages()
+
     # 6b. Rebuild devlog pages with complete NAV
     devlog_entries_rebuild = build_devlog_pages()
     

@@ -103,7 +103,43 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-code-reviewer.html">skills/dev-code-reviewer/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-code-reviewer/SKILL.md" target="_blank" rel="noopener">skills/dev-code-reviewer/SKILL.md</a></p>
+<p class="lede">Code review router: findings, severity, verdicts, and review workflow.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>코드 리뷰를 &#x27;LGTM&#x27;으로 끝내는 에이전트는 실질적으로 게이트가 없는 것과 같다. 반대로 모든 스타일 이슈를 블로킹하면 리뷰가 바이크셰딩의 늪이 된다. 이 스킬은 리뷰 순서(보안 &gt; 정확성 &gt; 성능 &gt; 가독성)와 심각도 기반 판정(Block/Request Changes/Approve)을 체계화하여 &#x27;진짜 문제&#x27;를 찾는 리뷰를 보장한다.</div>
+<p><strong>Triggers:</strong> <code>review this, code review, PR review, check my diff, before merge, antipattern</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Review Posture (skeptical outsider)</strong></li>
+<li><strong>Pre-Review Automated Scan</strong></li>
+<li><strong>Review Order by Impact</strong></li>
+<li><strong>Severity-Based Verdict</strong></li>
+<li><strong>AI-Assisted Review Integration</strong></li>
+<li><strong>Tech Debt Inventory</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-security.html">dev-security</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-frontend.html">dev-frontend</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-code-reviewer-ai-assisted-review.html">AI-Assisted Code Review</a></td><td>AI 리뷰 도구 워크플로, 심각도 분류, 재리뷰 정책</td></tr>
+<tr><td><a href="../../pages/skills/dev-code-reviewer-tech-debt.html">Tech Debt Inventory &amp; Paydown</a></td><td>기술 부채 4분면, 인벤토리 템플릿, 리뷰 통합, 상환 예산</td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Review Posture</td><td>회의적 외부자 시점으로 접근, 실행자 주장을 신뢰하지 않는다.</td></tr>
+<tr><td class="key">Pre-Review Scan</td><td>린터/타입체커를 먼저 돌려 기계가 잡을 수 있는 문제를 분리한다.</td></tr>
+<tr><td class="key">Review Order</td><td>보안 &gt; 정확성 &gt; 성능 &gt; 가독성 &gt; 스타일 순서로 리뷰한다.</td></tr>
+<tr><td class="key">Verdict System</td><td>심각도 기반으로 Block/Request Changes/Approve를 판정한다.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-code-reviewer-code-review-guide">Dev-Code-Reviewer — Code Review Guide</h2>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <p>&gt; <strong>Always read <code>dev/SKILL.md</code> first</strong> for project-wide conventions before applying review rules.</p>
@@ -432,11 +468,7 @@
 <p><code>dev-security</code> and map risks to the OWASP LLM Top 10 (2025) and the OWASP Top 10 for</p>
 <p>Agentic Applications 2026.</p>
 <p>---</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-code-reviewer-ai-assisted-review.html">AI-Assisted Code Review</a></li>
-<li><a href="../../pages/skills/dev-code-reviewer-tech-debt.html">Tech Debt Inventory &amp; Paydown</a></li>
-</ul>
+</details>
   </div>
 </section>
 

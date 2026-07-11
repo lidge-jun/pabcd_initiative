@@ -103,7 +103,45 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-debugging.html">skills/dev-debugging/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-debugging/SKILL.md" target="_blank" rel="noopener">skills/dev-debugging/SKILL.md</a></p>
+<p class="lede">5-phase systematic root-cause debugging method for real failures in any language.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트가 버그를 만나면 증상을 보고 바로 패치하는 경향이 있다. 타임아웃이면 타임아웃 값을 늘리고, OOM이면 메모리를 올린다. 이런 증상 패치는 다음 버그를 만들어낸다. 이 스킬은 &#x27;이건 설계 문제인가 코드 버그인가?&#x27;부터 시작하는 5단계 근본 원인 분석을 강제한다.</div>
+<p><strong>Triggers:</strong> <code>debug this, why is X failing, flaky test, fix the crash, root cause, error, stack trace</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Phase 0: Bug vs Design Problem</strong></li>
+<li><strong>Phase 1: Investigation (trace-first)</strong></li>
+<li><strong>Phase 2: Analysis (pattern recognition)</strong></li>
+<li><strong>Phase 3: Hypothesis (falsifiable claims)</strong></li>
+<li><strong>Phase 4: Implementation (failing test first)</strong></li>
+<li><strong>Symptom vs Root Cause Fix</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-frontend.html">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-architecture.html">dev-architecture</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-debugging-async-debugging.html">Async Debugging Reference</a></td><td>비동기 코드의 Race condition, deadlock, floating promise 디버깅</td></tr>
+<tr><td><a href="../../pages/skills/dev-debugging-methodologies.html">Debugging Methodologies Reference</a></td><td>이분 탐색(git bisect), 구조화된 로깅, 재현 환경 구성 방법론</td></tr>
+<tr><td><a href="../../pages/skills/dev-debugging-postmortem-template.html">Blameless Postmortem Template</a></td><td>사후 분석(blameless postmortem) 작성 템플릿</td></tr>
+<tr><td><a href="../../pages/skills/dev-debugging-tool-guides.html">Debugging Tool Reference</a></td><td>lldb, Chrome DevTools, strace, perf 등 디버깅 도구 가이드</td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Phase 0: Bug vs Design Problem</td><td>반복되는 같은 류의 버그는 설계 문제다. 아키텍처 리뷰로 에스컬레이트.</td></tr>
+<tr><td class="key">Phase 1: Investigation</td><td>에러 메시지, 스택 트레이스, 로그를 먼저 수집한다. 추측 전에 증거.</td></tr>
+<tr><td class="key">Phase 2: Analysis</td><td>수집한 증거에서 패턴을 찾는다. 변수 하나만 변경, 실패 시 되돌리기.</td></tr>
+<tr><td class="key">Phase 3: Hypothesis</td><td>반증 가능한 가설을 세우고 기각 기록을 보존한다.</td></tr>
+<tr><td class="key">Phase 4: Implementation</td><td>실패하는 테스트를 먼저 작성하고, 수정 후 테스트 통과를 확인한다.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-debugging-systematic-root-cause-analysis">Dev-Debugging — Systematic Root Cause Analysis</h2>
 <p>This skill is the <strong>thinking process</strong> for fixing bugs. It activates by change surface for errors and diagnoses, and enforces a structured</p>
 <p>5-phase methodology for every technical issue — test failures, runtime errors,</p>
@@ -426,13 +464,7 @@ orders:repository skipped insert due service error</code></pre>
 <p>(3) phases 0-4 — architecture check → investigate → analyze → hypothesize → implement,</p>
 <p>(4) Repeated Failure Rule — after repeated failures, reassess, (5) one variable at a time,</p>
 <p>(6) evidence over intuition, (7) failing test first.</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-debugging-async-debugging.html">Async Debugging Reference</a></li>
-<li><a href="../../pages/skills/dev-debugging-methodologies.html">Debugging Methodologies Reference</a></li>
-<li><a href="../../pages/skills/dev-debugging-postmortem-template.html">Blameless Postmortem Template</a></li>
-<li><a href="../../pages/skills/dev-debugging-tool-guides.html">Debugging Tool Reference</a></li>
-</ul>
+</details>
   </div>
 </section>
 

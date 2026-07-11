@@ -103,7 +103,49 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-security.html">skills/dev-security/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-security/SKILL.md" target="_blank" rel="noopener">skills/dev-security/SKILL.md</a></p>
+<p class="lede">Security as a build constraint: OWASP, auth hardening, secrets, supply chain.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>보안은 기능 완성 후 덧붙이는 감사가 아니라 빌드 시점의 제약 조건이다. AI 에이전트가 편의를 위해 하드코딩한 시크릿, 검증 없는 사용자 입력, 권한 없는 리소스 접근을 만들면 프로덕션에서 즉각 취약점이 된다. 이 스킬은 OWASP Top 10을 코드 레벨 규칙으로 변환하여, 인증/인가/입력 검증/시크릿 관리를 코딩 시점에 강제한다.</div>
+<p><strong>Triggers:</strong> <code>auth, login, token, input validation, dependency, security, threat model</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>OWASP Top 10 Code Rules</strong></li>
+<li><strong>Auth Hardening</strong></li>
+<li><strong>Secret Management</strong></li>
+<li><strong>Supply Chain Security</strong></li>
+<li><strong>Input Validation at Trust Boundaries</strong></li>
+<li><strong>Threat Modeling</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-frontend.html">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-devops.html">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-security-agentic-ai-security.html">Agentic AI Security — OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) for Skill Authors and Coding Agents</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-asvs-checklist.html">ASVS 5.0.0 Level 1 and Level 2 Pre-Deploy Checklist</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-language-quirks.html">Language-Specific Security Quirks</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-llm-supply-chain.html">LLM Supply-Chain Security — Prompt Injection, RAG Poisoning, and Tool Output Trust</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-mcp-supply-chain.html">MCP &amp; Agentic Skill Supply Chain Security</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-owasp-top10.html">OWASP Top 10:2025 — Unsafe and Safe Patterns</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-static-analysis.html">Static Analysis and Security Tooling</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-supply-chain-sbom.html">Supply Chain Security: SBOM, Signing &amp; Dependency Integrity</a></td><td></td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Authentication</td><td>비밀번호 해싱, 세션 관리, JWT 규칙, OAuth 통합을 다룬다.</td></tr>
+<tr><td class="key">Authorization</td><td>RBAC/ABAC, 리소스 레벨 권한 검사, BOLA 방지를 강제한다.</td></tr>
+<tr><td class="key">Input Validation</td><td>신뢰 경계에서만 검증, 스키마 기반, 화이트리스트 접근을 요구한다.</td></tr>
+<tr><td class="key">Supply Chain</td><td>의존성 감사, lockfile 정합성, slopsquatting 방지를 다룬다.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-security-production-security-hardening">Dev-Security — Production Security Hardening</h2>
 <p>Treat security as a build constraint, not a cleanup step.</p>
 <p>This skill is the authoritative source for authentication, authorization, input validation, secrets, headers, rate limiting, supply-chain checks, PII handling, and agentic AI safety.</p>
@@ -378,17 +420,7 @@
 <tr><th>Agentic AI safety</th><th><code>dev-security</code> refs/agentic-ai</th><th>Agent builder</th><th>Scenario testing (<code>dev-testing</code>)</th></tr>
 </tbody></table>
 <p>Reference this matrix from <code>dev-backend</code> and <code>dev-frontend</code> when ownership is unclear.</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-security-agentic-ai-security.html">Agentic AI Security — OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) for Skill Authors and Coding Agents</a></li>
-<li><a href="../../pages/skills/dev-security-asvs-checklist.html">ASVS 5.0.0 Level 1 and Level 2 Pre-Deploy Checklist</a></li>
-<li><a href="../../pages/skills/dev-security-language-quirks.html">Language-Specific Security Quirks</a></li>
-<li><a href="../../pages/skills/dev-security-llm-supply-chain.html">LLM Supply-Chain Security — Prompt Injection, RAG Poisoning, and Tool Output Trust</a></li>
-<li><a href="../../pages/skills/dev-security-mcp-supply-chain.html">MCP &amp; Agentic Skill Supply Chain Security</a></li>
-<li><a href="../../pages/skills/dev-security-owasp-top10.html">OWASP Top 10:2025 — Unsafe and Safe Patterns</a></li>
-<li><a href="../../pages/skills/dev-security-static-analysis.html">Static Analysis and Security Tooling</a></li>
-<li><a href="../../pages/skills/dev-security-supply-chain-sbom.html">Supply Chain Security: SBOM, Signing &amp; Dependency Integrity</a></li>
-</ul>
+</details>
   </div>
 </section>
 

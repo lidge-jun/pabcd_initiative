@@ -103,8 +103,47 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev.html">skills/dev/SKILL.md</a></p>
-<h2 id="dev-common-<a href="../../pages/skills/dev.html">dev</a>elopment-guidelines">Dev — Common Development Guidelines</h2>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev/SKILL.md" target="_blank" rel="noopener">skills/dev/SKILL.md</a></p>
+<p class="lede">Universal <a href="../../pages/skills/dev.html">dev</a> discipline: work classifier (C0-C5), overlays, verification gate, safety rules.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트가 모든 작업에 최대 프로세스를 적용하면 사소한 타이포 수정에도 전체 PABCD를 돌리게 된다. 반대로 프로세스 없이 바로 코딩하면 크로스모듈 변경에서 회귀가 터진다. 이 스킬은 모든 코딩 작업의 진입점으로, 작업 깊이를 C0-C5로 분류한 뒤 적절한 서브스킬과 프로세스 깊이를 라우팅한다. &#x27;어디서부터 읽어야 하나&#x27;라는 질문에 대한 답이 이 스킬이다.</div>
+<p><strong>Triggers:</strong> <code>develop, implement, refactor, feature, bug fix, test, review, code quality, scaffolding</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Work Classifier (C0-C5)</strong></li>
+<li><strong>Patch Fast-Path (C0/C1)</strong></li>
+<li><strong>Rule Severity Classes (STRICT/DEFAULT/HEURISTIC/ESCALATE)</strong></li>
+<li><strong>Methodology Overlays (task_tags)</strong></li>
+<li><strong>Verification Gate</strong></li>
+<li><strong>Change Surface Routing</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev-architecture.html">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-frontend.html">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-debugging.html">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-security.html">dev-security</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-static-analysis-gate.html">Static Analysis Gate — Toolchain Commands &amp; Rule Mapping</a></td><td>린터/타입체커/시큐리티 스캔 게이트 규칙과 CI 통합 패턴</td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Work Classifier (C0-C5)</td><td>작업의 복잡도와 위험도를 6단계로 분류하여 프로세스 깊이를 결정한다.</td></tr>
+<tr><td class="key">Patch Fast-Path</td><td>C0/C1 작업에서 불필요한 조사를 건너뛰되 검증과 안전 규칙은 유지한다.</td></tr>
+<tr><td class="key">Rule Classes</td><td>STRICT/DEFAULT/HEURISTIC/STYLE_SAMPLE/ESCALATE 다섯 단계의 규칙 심각도를 정의한다.</td></tr>
+<tr><td class="key">Methodology Overlays</td><td>task_tags 기반으로 TDD, DDD, threat_model 등 조건부 오버레이를 활성화한다.</td></tr>
+<tr><td class="key">Verification Gate</td><td>변경 후 실제 실행/테스트로 동작을 확인해야 완료로 간주한다.</td></tr>
+<tr><td class="key">Safety Rules</td><td>import/export 정합성, 시크릿 노출 방지, 파괴적 커맨드 금지 등 불변 규칙.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
+<h2 id="dev-common-development-guidelines">Dev — Common Development Guidelines</h2>
 <p>Rules applied to every sub-agent, regardless of role.</p>
 <h3 id="0-0-work-classifier-c0-c5">§0.0 Work Classifier (C0-C5)</h3>
 <p><strong>Classify every task before choosing process depth</strong> (DEV-CLASS-01). The class selects planning, reading, and verification depth — never apply maximum process by default.</p>
@@ -448,10 +487,7 @@
 <p><strong>Sub-agents:</strong> each receives its own copy of injected skills — inject only what</p>
 <p>that sub-task needs.</p>
 <p>---</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-static-analysis-gate.html">Static Analysis Gate — Toolchain Commands &amp; Rule Mapping</a></li>
-</ul>
+</details>
   </div>
 </section>
 

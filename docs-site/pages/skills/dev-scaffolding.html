@@ -103,7 +103,42 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev-scaffolding.html">skills/dev-scaffolding/SKILL.md</a></p>
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-scaffolding/SKILL.md" target="_blank" rel="noopener">skills/dev-scaffolding/SKILL.md</a></p>
+<p class="lede">Project and module scaffolding with repo-first convention reuse and structural audits.</p>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>새 프로젝트나 모듈을 만들 때 에이전트가 기존 코드베이스의 관습을 무시하고 자기만의 구조를 발명하면, 이후 팀이 유지보수할 수 없는 이질적인 코드가 된다. 이 스킬은 기존 레포의 구조, 네이밍, 패키지 구성을 먼저 읽고 재활용하도록 강제하여 &#x27;빈 캔버스 증후군&#x27;을 차단한다.</div>
+<p><strong>Triggers:</strong> <code>scaffold, new project, init project, new feature, add module, project setup, structure audit</code></p>
+<h2 id="key-concepts">Key Concepts</h2>
+<ul>
+<li><strong>Repo-First Convention Reuse</strong></li>
+<li><strong>Structural Audit</strong></li>
+<li><strong>SoT Documentation Planning</strong></li>
+<li><strong>Colocation Principle</strong></li>
+<li><strong>Public Boundary Exports</strong></li>
+</ul>
+<h2 id="related-skills">Related Skills</h2>
+<ul>
+<li><a href="../../pages/skills/dev.html">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-frontend.html">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-testing.html">dev-testing</a></li>
+</ul>
+
+<h2 id="references">Reference Documents</h2>
+<table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-scaffolding-api-docs.html">API Documentation Generation</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-scaffolding-implementation-log.html">Implementation Log (devlog) Routine — the documentation loop inside PABCD</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-scaffolding-monorepo-tooling.html">Monorepo Tooling — Turborepo vs Nx (2026)</a></td><td></td></tr>
+</tbody></table>
+<h2 id="sections">Sections Overview</h2>
+<table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
+<tr><td class="key">Convention Discovery</td><td>기존 레포에서 디렉토리 구조, 네이밍, 패키지 관습을 먼저 발견하고 재사용한다.</td></tr>
+<tr><td class="key">Project Scaffolding</td><td>새 프로젝트의 디렉토리 구조, 설정 파일, 초기 의존성을 관습에 맞춰 생성한다.</td></tr>
+<tr><td class="key">Module Scaffolding</td><td>기존 프로젝트에 새 모듈/기능을 추가할 때 colocation과 경계를 지킨다.</td></tr>
+<tr><td class="key">Structural Audit</td><td>기존 구조의 문제점(barrel 남용, 순환, SSOT 부재)을 감지하고 개선 계획을 세운다.</td></tr>
+</tbody></table>
+<h2 id="full-spec">Full Specification</h2>
+<details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-scaffolding">Dev Scaffolding</h2>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <p>Rules for generating and auditing project structures. Create files directly following these rules. Use the audit script (§12) for verification.</p>
@@ -339,12 +374,7 @@ devlog/
 <p>---</p>
 <h3 id="12-audit">12. Audit</h3>
 <p>Run the scaffold audit if one is available for the repo (e.g. <code>bash &lt;SKILL_DIR&gt;/scripts/scaffold-audit.sh [project-path]</code>) to check structural compliance. Audit checks should reflect the project&#x27;s own conventions — covering feature-based structure, colocation, public boundary exports (<a href="../../pages/skills/dev-architecture.html">dev-architecture</a> §5), devlog presence, <code>.env</code> safety, file length, and AGENTS.md where those apply.</p>
-<h2 id="references">References</h2>
-<ul>
-<li><a href="../../pages/skills/dev-scaffolding-api-docs.html">API Documentation Generation</a></li>
-<li><a href="../../pages/skills/dev-scaffolding-implementation-log.html">Implementation Log (devlog) Routine — the documentation loop inside PABCD</a></li>
-<li><a href="../../pages/skills/dev-scaffolding-monorepo-tooling.html">Monorepo Tooling — Turborepo vs Nx (2026)</a></li>
-</ul>
+</details>
   </div>
 </section>
 
