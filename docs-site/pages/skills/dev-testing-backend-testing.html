@@ -201,15 +201,15 @@ async def test_login_returns_shared_error_envelope(client):
     assert body[&quot;error&quot;][&quot;code&quot;] == &quot;VALIDATION_ERROR&quot;
     assert body[&quot;meta&quot;]</code></pre>
 <h3 id="5-mock-vs-real-decision-matrix">5. Mock vs Real Decision Matrix</h3>
-<table class="rules"><tbody>
-<tr><th>Dependency</th><th>Preferred Choice</th><th>Why</th><th>Acceptable Fallback</th></tr>
-<tr><th>Pure domain helper</th><th>real</th><th>fast and deterministic</th><th>none needed</th></tr>
-<tr><th>Repository during service test</th><th>fake / stub</th><th>isolate orchestration</th><th>framework mock</th></tr>
-<tr><th>Real SQL behavior</th><th>Testcontainers DB</th><th>catches schema drift</th><th>in-memory DB only if semantics match</th></tr>
-<tr><th>External HTTP API</th><th>recorded response / fake server</th><th>deterministic and cheap</th><th>mock adapter</th></tr>
-<table class="rules"><tbody>
-<tr><th>Queue / pubsub boundary</th><th>fake adapter + retry assertions</th><th>verify interaction and payload</th><th>framework mock</th></tr>
-<tr><th>Clock / UUID</th><th>fake clock / injected generator</th><th>stable determinism</th><th>monkeypatch</th></tr>
+<table class="rules">
+<thead><tr><th>Dependency</th><th>Preferred Choice</th><th>Why</th><th>Acceptable Fallback</th></tr></thead><tbody>
+<tr><td>Pure domain helper</td><td>real</td><td>fast and deterministic</td><td>none needed</td></tr>
+<tr><td>Repository during service test</td><td>fake / stub</td><td>isolate orchestration</td><td>framework mock</td></tr>
+<tr><td>Real SQL behavior</td><td>Testcontainers DB</td><td>catches schema drift</td><td>in-memory DB only if semantics match</td></tr>
+<tr><td>External HTTP API</td><td>recorded response / fake server</td><td>deterministic and cheap</td><td>mock adapter</td></tr>
+<tr><td>Queue / pubsub boundary</td><td>fake adapter + retry assertions</td><td>verify interaction and payload</td><td>framework mock</td></tr>
+<table class="rules">
+<tr><td>Clock / UUID</td><td>fake clock / injected generator</td><td>stable determinism</td><td>monkeypatch</td></tr>
 </tbody></table>
 <h3 id="6-practical-rules">6. Practical Rules</h3>
 <ul>

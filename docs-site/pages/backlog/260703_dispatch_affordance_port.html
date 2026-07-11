@@ -110,17 +110,16 @@
 <p>task_tags forwarding + batch verdict persistence + batch wait:false→202</p>
 <p>(pre-claimed runIds) + dead buildPlanPrompt removal; CLI <code>--task-file</code> /</p>
 <p><code>--agents-file</code> / <code>--task-tags</code> / <code>--async</code>; boss-prompt rewrite to async-first</p>
-<p>file-based dispatch (all <code>timeout=600000</code> fear-prose removed); <a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> skill</p>
+<p>file-based dispatch (all <code>timeout=600000</code> fear-prose removed); dev-pabcd skill</p>
 <p>§7 example ported to repo + instance copies (both <code>last-verified: 2026-07-03</code>).</p>
 <h3 id="port-status-per-copy">Port status per copy</h3>
-<table class="rules"><tbody>
-<tr><th>Copy</th><th>Status</th></tr>
-<tr><th>cli-jaw <code>skills_ref/dev-pabcd</code></th><th>DONE (same change)</th></tr>
-<tr><th><code>~/.cli-jaw/skills_ref/dev-pabcd</code> (instance)</th><th>DONE (same change, dispatch-delta only — full re-sync of unrelated lag still pending, tracked separately)</th></tr>
-<tr><th><strong>This initiative</strong> <code>skills/dev-pabcd</code></th><th><strong>NO CHANGE NEEDED</strong> — verified 2026-07-03: the agent-neutral copy contains zero <code>cli-jaw dispatch</code> references (grep evidence in session log); its generic &quot;worker dispatch&quot; language already covers file-based briefs.</th></tr>
-<tr><th>codexclaw <code>plugins/codexclaw/skills/</code> (cxc-*)</th><th>TODO — adapt, never blind-copy: if the cxc runtime exposes an employee-dispatch surface, mirror the async-first + brief-file principle in its own idiom; run the fork&#x27;s own gates; local commits only.</th></tr>
-<table class="rules"><tbody>
-<tr><th>jawcode <code>packages/coding-agent/src/defaults/jwc/skills/</code></th><th>TODO — same adaptation rule; jwc role-agent prompts may also reference dispatch mechanics.</th></tr>
+<table class="rules">
+<thead><tr><th>Copy</th><th>Status</th></tr></thead><tbody>
+<tr><td>cli-jaw <code>skills_ref/dev-pabcd</code></td><td>DONE (same change)</td></tr>
+<tr><td><code>~/.cli-jaw/skills_ref/dev-pabcd</code> (instance)</td><td>DONE (same change, dispatch-delta only — full re-sync of unrelated lag still pending, tracked separately)</td></tr>
+<tr><td><strong>This initiative</strong> <code>skills/dev-pabcd</code></td><td><strong>NO CHANGE NEEDED</strong> — verified 2026-07-03: the agent-neutral copy contains zero <code>cli-jaw dispatch</code> references (grep evidence in session log); its generic &quot;worker dispatch&quot; language already covers file-based briefs.</td></tr>
+<tr><td>codexclaw <code>plugins/codexclaw/skills/</code> (cxc-*)</td><td>TODO — adapt, never blind-copy: if the cxc runtime exposes an employee-dispatch surface, mirror the async-first + brief-file principle in its own idiom; run the fork&#x27;s own gates; local commits only.</td></tr>
+<tr><td>jawcode <code>packages/coding-agent/src/defaults/jwc/skills/</code></td><td>TODO — same adaptation rule; jwc role-agent prompts may also reference dispatch mechanics.</td></tr>
 </tbody></table>
 <h3 id="principle-delta-worth-porting-not-just-wording">Principle delta worth porting (not just wording)</h3>
 <ol>

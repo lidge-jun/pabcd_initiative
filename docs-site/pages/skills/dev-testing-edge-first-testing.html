@@ -108,41 +108,40 @@
 <h3 id="principle">Principle</h3>
 <p>Write edge case tests BEFORE happy path tests. Most bugs hide at boundaries, not in the golden path. If you only have time for 5 tests, 4 should be edge cases.</p>
 <h3 id="test-order-by-change-type">Test Order by Change Type</h3>
-<table class="rules"><tbody>
-<tr><th>Change Type</th><th>First Tests</th><th>Then</th></tr>
-<tr><th>New API endpoint</th><th>Invalid input, auth failure, rate limit</th><th>Happy path</th></tr>
-<tr><th>Data migration</th><th>Empty table, max-size row, concurrent write</th><th>Normal migration</th></tr>
-<tr><th>UI component</th><th>Empty state, overflow text, disabled state</th><th>Normal render</th></tr>
-<tr><th>Bug fix</th><th>Regression test for the bug</th><th>Related edges</th></tr>
-<table class="rules"><tbody>
-<tr><th>Config change</th><th>Missing value, malformed value, env mismatch</th><th>Default behavior</th></tr>
-<tr><th>Async workflow</th><th>Timeout, partial failure, retry exhaustion</th><th>Successful completion</th></tr>
+<table class="rules">
+<thead><tr><th>Change Type</th><th>First Tests</th><th>Then</th></tr></thead><tbody>
+<tr><td>New API endpoint</td><td>Invalid input, auth failure, rate limit</td><td>Happy path</td></tr>
+<tr><td>Data migration</td><td>Empty table, max-size row, concurrent write</td><td>Normal migration</td></tr>
+<tr><td>UI component</td><td>Empty state, overflow text, disabled state</td><td>Normal render</td></tr>
+<tr><td>Bug fix</td><td>Regression test for the bug</td><td>Related edges</td></tr>
+<tr><td>Config change</td><td>Missing value, malformed value, env mismatch</td><td>Default behavior</td></tr>
+<table class="rules">
+<tr><td>Async workflow</td><td>Timeout, partial failure, retry exhaustion</td><td>Successful completion</td></tr>
 </tbody></table>
 <h3 id="edge-case-matrix-11-classes">Edge Case Matrix (11 Classes)</h3>
-<tr><th>Class</th><th>Examples</th></tr>
-<table class="rules"><tbody>
-<tr><th>Boundary</th><th>0, 1, MAX, MAX+1, negative</th></tr>
-<tr><th>Empty</th><th>null, undefined, &quot;&quot;, [], {}</th></tr>
-<tr><th>Type coercion</th><th>&quot;1&quot; vs 1, true vs &quot;true&quot;, NaN</th></tr>
-<tr><th>Concurrency</th><th>Simultaneous writes, read-during-write, lock contention</th></tr>
-<tr><th>Timeout</th><th>Network timeout, DB timeout, queue timeout, graceful vs hard</th></tr>
-<table class="rules"><tbody>
-<tr><th>Permission</th><th>No auth, expired token, wrong role, revoked mid-session</th></tr>
-<tr><th>Encoding</th><th>Unicode, emoji, RTL text, special chars (&amp;, &lt;, &quot;), zero-width</th></tr>
-<tr><th>Size</th><th>Extremely long strings, huge payloads, many items, 0 items</th></tr>
-<tr><th>State</th><th>Uninitialized, mid-transition, corrupted, stale cache</th></tr>
-<tr><th>Order</th><th>Out-of-order events, duplicate events, missing sequence</th></tr>
-<table class="rules"><tbody>
-<tr><th>Environment</th><th>Missing env var, wrong timezone, disk full, DNS failure</th></tr>
+<thead><tr><th>Class</th><th>Examples</th></tr></thead><tbody>
+<tr><td>Boundary</td><td>0, 1, MAX, MAX+1, negative</td></tr>
+<tr><td>Empty</td><td>null, undefined, &quot;&quot;, [], {}</td></tr>
+<table class="rules">
+<tr><td>Type coercion</td><td>&quot;1&quot; vs 1, true vs &quot;true&quot;, NaN</td></tr>
+<tr><td>Concurrency</td><td>Simultaneous writes, read-during-write, lock contention</td></tr>
+<tr><td>Timeout</td><td>Network timeout, DB timeout, queue timeout, graceful vs hard</td></tr>
+<tr><td>Permission</td><td>No auth, expired token, wrong role, revoked mid-session</td></tr>
+<tr><td>Encoding</td><td>Unicode, emoji, RTL text, special chars (&amp;, &lt;, &quot;), zero-width</td></tr>
+<tr><td>Size</td><td>Extremely long strings, huge payloads, many items, 0 items</td></tr>
+<table class="rules">
+<tr><td>State</td><td>Uninitialized, mid-transition, corrupted, stale cache</td></tr>
+<tr><td>Order</td><td>Out-of-order events, duplicate events, missing sequence</td></tr>
+<tr><td>Environment</td><td>Missing env var, wrong timezone, disk full, DNS failure</td></tr>
 </tbody></table>
 <h3 id="banned-patterns">Banned Patterns</h3>
-<tr><th>Pattern</th><th>Why</th><th>Fix</th></tr>
-<tr><th>Testing only happy path first</th><th>Bugs cluster at boundaries; happy-path-only gives false confidence</th><th>Write edge tests first, happy path last</th></tr>
-<table class="rules"><tbody>
-<tr><th>Mocking the thing you&#x27;re testing</th><th>Proves nothing about real behavior</th><th>Mock dependencies, not the subject</th></tr>
-<tr><th>Tests that pass with any implementation</th><th>Zero signal; test is decorative</th><th>Assert specific outputs for specific inputs</th></tr>
-<tr><th>Copy-paste test with one value changed</th><th>Hides missing edge classes</th><th>Use the 11-class matrix above systematically</th></tr>
-<tr><th>Asserting no error instead of correct result</th><th>Passes on silent wrong output</th><th>Assert the exact expected value</th></tr>
+<thead><tr><th>Pattern</th><th>Why</th><th>Fix</th></tr></thead><tbody>
+<table class="rules">
+<tr><td>Testing only happy path first</td><td>Bugs cluster at boundaries; happy-path-only gives false confidence</td><td>Write edge tests first, happy path last</td></tr>
+<tr><td>Mocking the thing you&#x27;re testing</td><td>Proves nothing about real behavior</td><td>Mock dependencies, not the subject</td></tr>
+<tr><td>Tests that pass with any implementation</td><td>Zero signal; test is decorative</td><td>Assert specific outputs for specific inputs</td></tr>
+<tr><td>Copy-paste test with one value changed</td><td>Hides missing edge classes</td><td>Use the 11-class matrix above systematically</td></tr>
+<tr><td>Asserting no error instead of correct result</td><td>Passes on silent wrong output</td><td>Assert the exact expected value</td></tr>
 </tbody></table>
 <h3 id="definition-of-done">Definition of Done</h3>
 <ul>

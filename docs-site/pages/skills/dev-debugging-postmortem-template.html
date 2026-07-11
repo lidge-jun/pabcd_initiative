@@ -114,14 +114,13 @@
 <h4 id="summary">Summary</h4>
 <p>[2-3 sentences: what happened, who was affected, what was the impact]</p>
 <h4 id="timeline">Timeline</h4>
-<table class="rules"><tbody>
-<tr><th>Time</th><th>Event</th></tr>
-<tr><th>HH:MM</th><th>First symptom / detection</th></tr>
-<tr><th>HH:MM</th><th>Investigation started</th></tr>
-<tr><th>HH:MM</th><th>Root cause identified</th></tr>
-<tr><th>HH:MM</th><th>Mitigation applied</th></tr>
-<table class="rules"><tbody>
-<tr><th>HH:MM</th><th>Permanent fix deployed, verified resolved</th></tr>
+<table class="rules">
+<thead><tr><th>Time</th><th>Event</th></tr></thead><tbody>
+<tr><td>HH:MM</td><td>First symptom / detection</td></tr>
+<tr><td>HH:MM</td><td>Investigation started</td></tr>
+<tr><td>HH:MM</td><td>Root cause identified</td></tr>
+<tr><td>HH:MM</td><td>Mitigation applied</td></tr>
+<tr><td>HH:MM</td><td>Permanent fix deployed, verified resolved</td></tr>
 </tbody></table>
 <h4 id="root-cause">Root Cause</h4>
 <p>[Be specific — not &quot;server error&quot; but &quot;missing null check in session middleware</p>
@@ -138,10 +137,10 @@
 <li>Poorly: [delayed detection, wrong hypothesis, missing tooling...]</li>
 </ul>
 <h4 id="action-items">Action Items</h4>
-<table class="rules"><tbody>
-<tr><th>Action</th><th>Owner</th><th>Deadline</th><th>Status</th></tr>
-<tr><th>[Preventive — stop this bug class]</th><th>@name</th><th>YYYY-MM-DD</th><th>⬜</th></tr>
-<tr><th>[Detective — catch it faster]</th><th>@name</th><th>YYYY-MM-DD</th><th>⬜</th></tr>
+<table class="rules">
+<thead><tr><th>Action</th><th>Owner</th><th>Deadline</th><th>Status</th></tr></thead><tbody>
+<tr><td>[Preventive — stop this bug class]</td><td>@name</td><td>YYYY-MM-DD</td><td>⬜</td></tr>
+<tr><td>[Detective — catch it faster]</td><td>@name</td><td>YYYY-MM-DD</td><td>⬜</td></tr>
 </tbody></table>
 <h4 id="lessons-learned">Lessons Learned</h4>
 <p>[What assumption was wrong? How does this change our mental model?]</p>
@@ -151,15 +150,15 @@
 <p><strong>Summary</strong>: After deploying v2.4.1, ~30% of users saw stale profile data.</p>
 <p>PUT /api/profile returned 200 correctly, but GET /api/dashboard returned</p>
 <p>pre-update values for users routed to read replicas.</p>
-<table class="rules"><tbody>
-<tr><th>Time</th><th>Event</th></tr>
-<tr><th>14:00</th><th>v2.4.1 deployed</th></tr>
-<tr><th>14:22</th><th>First user report: &quot;My name didn&#x27;t update&quot;</th></tr>
-<tr><th>14:42</th><th>Diagnostic logging → DB query returns stale data</th></tr>
-<tr><th>14:55</th><th>Root cause: dashboard query moved to read replica without consistency</th></tr>
-<table class="rules"><tbody>
-<tr><th>15:05</th><th>Mitigation: route dashboard reads to primary</th></tr>
-<tr><th>16:45</th><th>Fix deployed: read-after-write consistency for profile queries</th></tr>
+<table class="rules">
+<thead><tr><th>Time</th><th>Event</th></tr></thead><tbody>
+<tr><td>14:00</td><td>v2.4.1 deployed</td></tr>
+<tr><td>14:22</td><td>First user report: &quot;My name didn&#x27;t update&quot;</td></tr>
+<tr><td>14:42</td><td>Diagnostic logging → DB query returns stale data</td></tr>
+<tr><td>14:55</td><td>Root cause: dashboard query moved to read replica without consistency</td></tr>
+<tr><td>15:05</td><td>Mitigation: route dashboard reads to primary</td></tr>
+<table class="rules">
+<tr><td>16:45</td><td>Fix deployed: read-after-write consistency for profile queries</td></tr>
 </tbody></table>
 <p><strong>Root Cause</strong>: v2.4.1 moved dashboard query to a read replica for performance.</p>
 <p>Replication lag (100-500ms) meant writes hadn&#x27;t propagated when users immediately</p>
@@ -168,11 +167,11 @@
 <p>integration test for update-then-read, (3) No replication lag alerting.</p>
 <p><strong>Well</strong>: Report triaged in 8 min; boundary logging pinpointed layer fast.</p>
 <p><strong>Poorly</strong>: Change reviewed without considering consistency; no canary deployment.</p>
-<table class="rules"><tbody>
-<tr><th>Action</th><th>Owner</th><th>Status</th></tr>
-<tr><th>Add <code>readFromPrimary</code> for post-write queries</th><th>@backend</th><th>✅</th></tr>
-<tr><th>Integration test: update → read → assert fresh</th><th>@testing</th><th>✅</th></tr>
-<tr><th>Replica lag alert at &gt;1s</th><th>@infra</th><th>⬜</th></tr>
+<table class="rules">
+<thead><tr><th>Action</th><th>Owner</th><th>Status</th></tr></thead><tbody>
+<tr><td>Add <code>readFromPrimary</code> for post-write queries</td><td>@backend</td><td>✅</td></tr>
+<tr><td>Integration test: update → read → assert fresh</td><td>@testing</td><td>✅</td></tr>
+<tr><td>Replica lag alert at &gt;1s</td><td>@infra</td><td>⬜</td></tr>
 </tbody></table>
 <p><strong>Lesson</strong>: Moving a query to a replica looked safe (&quot;it&#x27;s just a read&quot;). We didn&#x27;t</p>
 <p>consider the write-then-read sequence. Rule: any read following a user-initiated</p>

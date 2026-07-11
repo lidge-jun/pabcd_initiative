@@ -108,7 +108,7 @@
 <p>Last reviewed: 2026-06-21</p>
 <p>Applies to: CLI packages, desktop-affecting releases, browser automation, installers, shell shims</p>
 <p>When to read: Release claims include Linux/macOS/Windows support or local OS behavior</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> cross-platform release proof</p>
+<p>Canonical owner: dev-devops cross-platform release proof</p>
 <p>---</p>
 <h3 id="1-core-rule">§1 Core Rule</h3>
 <p>CI systems such as GitHub Actions prove behavior inside their runner</p>
@@ -118,16 +118,16 @@
 <p>Do not require direct desktop verification for every release. Require it only</p>
 <p>when the release claim depends on OS-local behavior beyond CI&#x27;s visibility.</p>
 <h3 id="2-evidence-decision-table">§2 Evidence Decision Table</h3>
-<table class="rules"><tbody>
-<tr><th>Release behavior</th><th>CI matrix enough?</th><th>Direct OS/UI verification?</th><th>Proof bundle</th></tr>
-<tr><th>Pure library package</th><th>Usually yes</th><th>No</th><th>Test/import matrix</th></tr>
-<tr><th>CLI binary wrapper/shim</th><th>Yes for core command behavior</th><th>Maybe for PATH/shell integration</th><th>Install, bin resolve, <code>--version</code>, <code>--help</code>, safe command</th></tr>
-<tr><th>Browser automation/profile paths</th><th>Partial</th><th>Yes when local profile/app behavior matters</th><th>Runner smoke plus visible browser/profile proof</th></tr>
-<tr><th>Desktop app or installer</th><th>No</th><th>Yes</th><th>Launch, permission prompt, install/uninstall evidence</th></tr>
-<table class="rules"><tbody>
-<tr><th>Windows PATH/PowerShell/shim</th><th>Partial</th><th>Yes if release claim depends on Windows user behavior</th><th>Windows runner plus Windows App/RDP verification</th></tr>
-<tr><th>macOS TCC/Keychain/app bundle</th><th>Partial</th><th>Yes</th><th>macOS runner plus visible macOS app/session proof</th></tr>
-<tr><th>YAML/cloud-only pipeline change</th><th>Yes</th><th>No</th><th>Static validation, CI dry run, API/provider check</th></tr>
+<table class="rules">
+<thead><tr><th>Release behavior</th><th>CI matrix enough?</th><th>Direct OS/UI verification?</th><th>Proof bundle</th></tr></thead><tbody>
+<tr><td>Pure library package</td><td>Usually yes</td><td>No</td><td>Test/import matrix</td></tr>
+<tr><td>CLI binary wrapper/shim</td><td>Yes for core command behavior</td><td>Maybe for PATH/shell integration</td><td>Install, bin resolve, <code>--version</code>, <code>--help</code>, safe command</td></tr>
+<tr><td>Browser automation/profile paths</td><td>Partial</td><td>Yes when local profile/app behavior matters</td><td>Runner smoke plus visible browser/profile proof</td></tr>
+<tr><td>Desktop app or installer</td><td>No</td><td>Yes</td><td>Launch, permission prompt, install/uninstall evidence</td></tr>
+<tr><td>Windows PATH/PowerShell/shim</td><td>Partial</td><td>Yes if release claim depends on Windows user behavior</td><td>Windows runner plus Windows App/RDP verification</td></tr>
+<table class="rules">
+<tr><td>macOS TCC/Keychain/app bundle</td><td>Partial</td><td>Yes</td><td>macOS runner plus visible macOS app/session proof</td></tr>
+<tr><td>YAML/cloud-only pipeline change</td><td>Yes</td><td>No</td><td>Static validation, CI dry run, API/provider check</td></tr>
 </tbody></table>
 <h3 id="3-mandatory-environment-prompt">§3 Mandatory Environment Prompt</h3>
 <p>When CI cannot prove required cross-platform local behavior, ask for the target</p>
@@ -153,12 +153,12 @@
 <p>appropriate.</p>
 <h3 id="4-platform-matrix-scope">§4 Platform Matrix Scope</h3>
 <p>Matrix only platforms the project declares or the release claims to support.</p>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Minimum evidence</th></tr>
-<tr><th>&quot;Works on Linux&quot;</th><th>Linux runner smoke</th></tr>
-<tr><th>&quot;Works on macOS&quot;</th><th>macOS runner smoke; direct macOS proof if local UI/TCC/app behavior matters</th></tr>
-<tr><th>&quot;Works on Windows&quot;</th><th>Windows runner smoke; direct Windows proof if PATH, shell, registry, or desktop behavior matters</th></tr>
-<tr><th>&quot;Cross-platform CLI&quot;</th><th>Linux + macOS + Windows smoke unless support matrix is narrower</th></tr>
+<table class="rules">
+<thead><tr><th>Claim</th><th>Minimum evidence</th></tr></thead><tbody>
+<tr><td>&quot;Works on Linux&quot;</td><td>Linux runner smoke</td></tr>
+<tr><td>&quot;Works on macOS&quot;</td><td>macOS runner smoke; direct macOS proof if local UI/TCC/app behavior matters</td></tr>
+<tr><td>&quot;Works on Windows&quot;</td><td>Windows runner smoke; direct Windows proof if PATH, shell, registry, or desktop behavior matters</td></tr>
+<tr><td>&quot;Cross-platform CLI&quot;</td><td>Linux + macOS + Windows smoke unless support matrix is narrower</td></tr>
 </tbody></table>
 <h3 id="5-verification-handoff">§5 Verification Handoff</h3>
 <p>Use <code>dev-testing/references/ci-pipeline.md</code> for runner matrix mechanics.</p>

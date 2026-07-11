@@ -113,7 +113,7 @@
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>에이전트가 만드는 가짜 테스트</strong><p>에이전트는 &#x27;테스트를 작성했습니다&#x27;라고 보고하지만, 실제로는 항상 통과하는 tautology 테스트(expect(true).toBe(true))이거나, 실제 동작을 검증하지 않는 mock만 잔뜩 있는 테스트를 만든다. 이 스킬은 테스트가 실제로 검증하는 것이 무엇인지 명시하게 한다.</p></div>
 <div class="problem-card"><strong>하니스 선택의 혼란</strong><p>에이전트가 프로젝트에 이미 Jest가 설정되어 있는데 Vitest를 새로 설치하거나, Playwright가 있는데 Cypress를 추가한다. Harness Selection은 기존 프로젝트의 테스트 인프라를 먼저 감지하고 활용하게 한다.</p></div>
-<div class="problem-card"><strong>시각적 회귀의 미탐지</strong><p>CSS 변경이 특정 뷰포트에서만 레이아웃을 깨뜨리는데, 유닛 테스트로는 잡을 수 없다. Visual QA는 스크린샷 비교로 시각적 회귀를 감지한다. <a href="../../pages/skills/dev-frontend.html">dev-frontend</a>의 visual-verification.md와 연동된다.</p></div>
+<div class="problem-card"><strong>시각적 회귀의 미탐지</strong><p>CSS 변경이 특정 뷰포트에서만 레이아웃을 깨뜨리는데, 유닛 테스트로는 잡을 수 없다. Visual QA는 스크린샷 비교로 시각적 회귀를 감지한다. dev-frontend의 visual-verification.md와 연동된다.</p></div>
 <p><strong>Triggers:</strong> <code>test, TDD, coverage, CI gate, harness, E2E, visual QA, screenshot</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -173,15 +173,15 @@
 <p>This skill activates by change surface when work needs verification depth, regression coverage, or a reproducible test harness.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <h3 id="modular-references">Modular References</h3>
-<table class="rules"><tbody>
-<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/core/crud-test-matrix.md</code></th><th>When choosing verification depth for a classified task, or testing a CRUD slice</th><th>Risk-tier minimums, per-operation negatives, UI smoke rule</th></tr>
-<tr><th><code>references/edge-first-testing.md</code></th><th>New unit/service/integration tests for features (skip for regression/contract tests)</th><th>Edge-first principle, test order by change type, 11-class edge matrix</th></tr>
-<tr><th><code>references/backend-testing.md</code></th><th>Backend/API testing</th><th>Supertest patterns, DB fixtures, auth mocking</th></tr>
-<tr><th><code>references/ci-pipeline.md</code></th><th>CI configuration</th><th>GitHub Actions, gates, caching, parallelism</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/load-testing.md</code></th><th>Performance/load testing, C3+ production readiness</th><th>k6/Locust, test types, measure→profile→verify, CI gates</th></tr>
-<tr><th><code>references/ml-evaluation.md</code></th><th>ML model/LLM evaluation, quality gates</th><th>LLM-as-judge, RAGAS, DeepEval, CI eval gate, regression detection. CI eval gates are dataset-versioned + regression-based: pin prompts/models/retrieval config, preserve traces, calibrate judges on golden examples, fail only on meaningful regressions or safety failures</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
+<tr><td><code>references/core/crud-test-matrix.md</code></td><td>When choosing verification depth for a classified task, or testing a CRUD slice</td><td>Risk-tier minimums, per-operation negatives, UI smoke rule</td></tr>
+<tr><td><code>references/edge-first-testing.md</code></td><td>New unit/service/integration tests for features (skip for regression/contract tests)</td><td>Edge-first principle, test order by change type, 11-class edge matrix</td></tr>
+<tr><td><code>references/backend-testing.md</code></td><td>Backend/API testing</td><td>Supertest patterns, DB fixtures, auth mocking</td></tr>
+<tr><td><code>references/ci-pipeline.md</code></td><td>CI configuration</td><td>GitHub Actions, gates, caching, parallelism</td></tr>
+<tr><td><code>references/load-testing.md</code></td><td>Performance/load testing, C3+ production readiness</td><td>k6/Locust, test types, measure→profile→verify, CI gates</td></tr>
+<table class="rules">
+<tr><td><code>references/ml-evaluation.md</code></td><td>ML model/LLM evaluation, quality gates</td><td>LLM-as-judge, RAGAS, DeepEval, CI eval gate, regression detection. CI eval gates are dataset-versioned + regression-based: pin prompts/models/retrieval config, preserve traces, calibrate judges on golden examples, fail only on meaningful regressions or safety failures</td></tr>
 </tbody></table>
 <p>When tests depend on current external API behavior, provider docs, CI service</p>
 <p>behavior, test-environment versions, dependency audit evidence, or recorded</p>
@@ -190,22 +190,22 @@
 <p>---</p>
 <h3 id="1-test-strategy">1. Test Strategy</h3>
 <h4 id="1-1-models">1.1 Models</h4>
-<table class="rules"><tbody>
-<tr><th>Model</th><th>Best For</th><th>Emphasis</th></tr>
-<tr><th>Test Pyramid</th><th>monoliths, libraries</th><th>speed, isolation</th></tr>
-<tr><th><strong>Testing Trophy</strong></th><th>modern web apps, REST backends</th><th>confidence-to-cost</th></tr>
-<tr><th>Test Honeycomb</th><th>microservices, async systems</th><th>boundary verification</th></tr>
+<table class="rules">
+<thead><tr><th>Model</th><th>Best For</th><th>Emphasis</th></tr></thead><tbody>
+<tr><td>Test Pyramid</td><td>monoliths, libraries</td><td>speed, isolation</td></tr>
+<tr><td><strong>Testing Trophy</strong></td><td>modern web apps, REST backends</td><td>confidence-to-cost</td></tr>
+<tr><td>Test Honeycomb</td><td>microservices, async systems</td><td>boundary verification</td></tr>
 </tbody></table>
 <h4 id="1-2-recommended-trophy-distribution">1.2 Recommended Trophy Distribution</h4>
-<table class="rules"><tbody>
-<tr><th>Layer</th><th>Default Share</th><th>Typical Tools</th></tr>
-<tr><th>Static analysis</th><th>base layer</th><th><code>tsc</code>, ESLint, mypy, Ruff</th></tr>
-<tr><th>Unit</th><th>~25%</th><th>Vitest, Jest, pytest</th></tr>
-<tr><th><strong>Integration</strong></th><th><strong>~50%</strong></th><th>Supertest, httpx, Testcontainers</th></tr>
-<tr><th>Contract</th><th>~10%</th><th>Pact, OpenAPI validators, Schemathesis</th></tr>
-<table class="rules"><tbody>
-<tr><th>E2E</th><th>~10%</th><th>Playwright</th></tr>
-<tr><th>Manual / exploratory</th><th>~5%</th><th>human review</th></tr>
+<table class="rules">
+<thead><tr><th>Layer</th><th>Default Share</th><th>Typical Tools</th></tr></thead><tbody>
+<tr><td>Static analysis</td><td>base layer</td><td><code>tsc</code>, ESLint, mypy, Ruff</td></tr>
+<tr><td>Unit</td><td>~25%</td><td>Vitest, Jest, pytest</td></tr>
+<tr><td><strong>Integration</strong></td><td><strong>~50%</strong></td><td>Supertest, httpx, Testcontainers</td></tr>
+<tr><td>Contract</td><td>~10%</td><td>Pact, OpenAPI validators, Schemathesis</td></tr>
+<tr><td>E2E</td><td>~10%</td><td>Playwright</td></tr>
+<table class="rules">
+<tr><td>Manual / exploratory</td><td>~5%</td><td>human review</td></tr>
 <h4 id="1-3-risk-first-priorities">1.3 Risk-First Priorities</h4>
 <ol>
 <li>auth / session / permission boundaries</li>
@@ -216,15 +216,15 @@
 <li>error paths, retries, rollback behavior</li>
 </ol>
 <h4 id="1-4-harness-selector">1.4 Harness Selector</h4>
-<table class="rules"><tbody>
-<tr><th>Problem</th><th>Primary Harness</th><th>Avoid</th></tr>
-<tr><th>pure business rule</th><th>unit / service test</th><th>browser test</th></tr>
-<tr><th>route + middleware + serialization</th><th>API integration test</th><th>mocking the route itself</th></tr>
-<tr><th>DB query / migration / transaction</th><th>real DB integration test</th><th>fake repository for SQL correctness</th></tr>
-<tr><th>frontend consuming backend JSON</th><th>contract test</th><th>manual-only verification</th></tr>
-<table class="rules"><tbody>
-<tr><th>rendered critical flow</th><th>Playwright smoke</th><th>asserting internal React state</th></tr>
-<tr><th>rendered artifact (visual correctness)</th><th>render-grounding loop (<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> C-RENDER-GROUNDING-01)</th><th>static parse / tsc alone</th></tr>
+<table class="rules">
+<thead><tr><th>Problem</th><th>Primary Harness</th><th>Avoid</th></tr></thead><tbody>
+<tr><td>pure business rule</td><td>unit / service test</td><td>browser test</td></tr>
+<tr><td>route + middleware + serialization</td><td>API integration test</td><td>mocking the route itself</td></tr>
+<tr><td>DB query / migration / transaction</td><td>real DB integration test</td><td>fake repository for SQL correctness</td></tr>
+<tr><td>frontend consuming backend JSON</td><td>contract test</td><td>manual-only verification</td></tr>
+<tr><td>rendered critical flow</td><td>Playwright smoke</td><td>asserting internal React state</td></tr>
+<table class="rules">
+<tr><td>rendered artifact (visual correctness)</td><td>render-grounding loop (dev-pabcd C-RENDER-GROUNDING-01)</td><td>static parse / tsc alone</td></tr>
 <h4 id="1-5-general-rules">1.5 General Rules</h4>
 <ul>
 <li>Write tests for <strong>new features, bug fixes, refactors, and behavior changes</strong>.</li>
@@ -281,10 +281,10 @@
 <p>these per scenario family and re-derive them whenever the oracle returns new</p>
 <p>results.</p>
 <h4 id="1-6-property-based-mutation-testing-verified-2026-07-02">1.6 Property-Based &amp; Mutation Testing (verified 2026-07-02)</h4>
-<table class="rules"><tbody>
-<tr><th>Technique</th><th>Use for</th><th>Default tools</th><th>When</th></tr>
-<tr><th>Property-based</th><th>Pure logic, parsers, serializers, state machines, API invariants</th><th>fast-check (TS), Hypothesis (Python)</th><th>DEFAULT for invariant-heavy code</th></tr>
-<tr><th>Mutation</th><th>Judging test-suite strength on critical domain logic, validators, security branches</th><th>Stryker (JS/TS), mutmut (Python)</th><th>Selective, after stable unit/property tests — not every PR</th></tr>
+<table class="rules">
+<thead><tr><th>Technique</th><th>Use for</th><th>Default tools</th><th>When</th></tr></thead><tbody>
+<tr><td>Property-based</td><td>Pure logic, parsers, serializers, state machines, API invariants</td><td>fast-check (TS), Hypothesis (Python)</td><td>DEFAULT for invariant-heavy code</td></tr>
+<tr><td>Mutation</td><td>Judging test-suite strength on critical domain logic, validators, security branches</td><td>Stryker (JS/TS), mutmut (Python)</td><td>Selective, after stable unit/property tests — not every PR</td></tr>
 </tbody></table>
 <ul>
 <li>Vitest 4 is the current runner baseline: Browser Mode is stable (visual regression via</li>
@@ -294,12 +294,12 @@
 <h3 id="2-backend-api-testing">2. Backend &amp; API Testing</h3>
 <p>&gt; Deep reference: <code>references/backend-testing.md</code></p>
 <h4 id="2-1-coverage-map">2.1 Coverage Map</h4>
-<table class="rules"><tbody>
-<tr><th>Layer</th><th>Verify</th><th>TypeScript Default</th><th>Python Default</th></tr>
-<tr><th>Service layer</th><th>validation, orchestration, domain errors</th><th>Vitest</th><th>pytest</th></tr>
-<tr><th>API layer</th><th>status, envelope, middleware, auth</th><th>Supertest</th><th>httpx / ASGITransport</th></tr>
-<tr><th>Repository layer</th><th>SQL / ORM correctness</th><th>Testcontainers + real DB</th><th>Testcontainers + real DB</th></tr>
-<tr><th>Background jobs</th><th>idempotency, retry, dead-letter</th><th>Vitest + fake clock</th><th>pytest + monkeypatch</th></tr>
+<table class="rules">
+<thead><tr><th>Layer</th><th>Verify</th><th>TypeScript Default</th><th>Python Default</th></tr></thead><tbody>
+<tr><td>Service layer</td><td>validation, orchestration, domain errors</td><td>Vitest</td><td>pytest</td></tr>
+<tr><td>API layer</td><td>status, envelope, middleware, auth</td><td>Supertest</td><td>httpx / ASGITransport</td></tr>
+<tr><td>Repository layer</td><td>SQL / ORM correctness</td><td>Testcontainers + real DB</td><td>Testcontainers + real DB</td></tr>
+<tr><td>Background jobs</td><td>idempotency, retry, dead-letter</td><td>Vitest + fake clock</td><td>pytest + monkeypatch</td></tr>
 <h4 id="2-2-mock-strategy-hierarchy">2.2 Mock Strategy Hierarchy</h4>
 <pre><code>real deterministic dependency
 → Testcontainers / ephemeral infra
@@ -330,12 +330,12 @@
 <li>nullability, timestamps, enums, money serialization</li>
 </ul>
 <h4 id="3-2-contract-options">3.2 Contract Options</h4>
-<table class="rules"><tbody>
-<tr><th>Style</th><th>Best For</th><th>Tooling</th></tr>
-<tr><th>consumer-driven contract</th><th>rapidly changing frontend/backend teams</th><th>Pact</th></tr>
-<tr><th>schema-first contract</th><th>OpenAPI-led backends</th><th>OpenAPI validators, Schemathesis</th></tr>
-<tr><th>type-level contract</th><th>TS monorepos</th><th>shared types / codegen</th></tr>
-<tr><th>full-stack smoke</th><th>final user confidence</th><th>Playwright</th></tr>
+<table class="rules">
+<thead><tr><th>Style</th><th>Best For</th><th>Tooling</th></tr></thead><tbody>
+<tr><td>consumer-driven contract</td><td>rapidly changing frontend/backend teams</td><td>Pact</td></tr>
+<tr><td>schema-first contract</td><td>OpenAPI-led backends</td><td>OpenAPI validators, Schemathesis</td></tr>
+<tr><td>type-level contract</td><td>TS monorepos</td><td>shared types / codegen</td></tr>
+<tr><td>full-stack smoke</td><td>final user confidence</td><td>Playwright</td></tr>
 <h4 id="3-3-consumer-contract-typescript-pact-pactv4">3.3 Consumer Contract — TypeScript (Pact / PactV4)</h4>
 <p><code>PactV4</code> (aliased <code>Pact</code>) is the current interface and supports Pact Specification v4;</p>
 <p>treat <code>PactV3</code> as the legacy spec-v3 API. Workflow:</p>
@@ -370,7 +370,7 @@
                                            → Yes: Recon-then-action (navigate → screenshot → selectors → act)</code></pre>
 <h4 id="4-2-example-using-with-server-py">4.2 Example: Using with_server.py</h4>
 <pre><code># Single server:
-python scripts/with_server.py --server &quot;npm run <a href="../../pages/skills/dev.html">dev</a>&quot; --port 5173 -- python your_automation.py
+python scripts/with_server.py --server &quot;npm run dev&quot; --port 5173 -- python your_automation.py
 
 # Multiple servers:
 python scripts/with_server.py \
@@ -427,21 +427,21 @@ python scripts/with_server.py \
 </ul>
 <p>See <code>references/ci-pipeline.md</code> for full GitHub Actions and GitLab CI templates.</p>
 <h4 id="5-3-matrix-parallelization">5.3 Matrix &amp; Parallelization</h4>
-<table class="rules"><tbody>
-<tr><th>Dimension</th><th>When to Use</th></tr>
-<tr><th>Node / Python version matrix</th><th>packages, SDKs, shared libraries</th></tr>
-<tr><th>OS matrix</th><th>native modules, CLI behavior</th></tr>
-<tr><th>shard matrix</th><th>large suites exceeding CI budget</th></tr>
+<table class="rules">
+<thead><tr><th>Dimension</th><th>When to Use</th></tr></thead><tbody>
+<tr><td>Node / Python version matrix</td><td>packages, SDKs, shared libraries</td></tr>
+<tr><td>OS matrix</td><td>native modules, CLI behavior</td></tr>
+<tr><td>shard matrix</td><td>large suites exceeding CI budget</td></tr>
 <pre><code>npx vitest run --shard=1/4
 npx playwright test --shard=1/4 --workers=4
 pytest -n auto --dist=loadgroup</code></pre>
 <h4 id="5-4-flaky-test-remediation">5.4 Flaky Test Remediation</h4>
-<table class="rules"><tbody>
-<tr><th>Symptom</th><th>First Fix</th></tr>
-<tr><th>passes locally, fails in CI</th><th>deterministic seeds, containerized deps, explicit waits</th></tr>
-<tr><th>order-dependent failure</th><th>reset shared state in fixtures</th></tr>
-<tr><th>green on retry only</th><th>remove wall-clock / random assumptions</th></tr>
-<tr><th>screenshot noise</th><th>stable CI image, mask dynamic regions</th></tr>
+<table class="rules">
+<thead><tr><th>Symptom</th><th>First Fix</th></tr></thead><tbody>
+<tr><td>passes locally, fails in CI</td><td>deterministic seeds, containerized deps, explicit waits</td></tr>
+<tr><td>order-dependent failure</td><td>reset shared state in fixtures</td></tr>
+<tr><td>green on retry only</td><td>remove wall-clock / random assumptions</td></tr>
+<tr><td>screenshot noise</td><td>stable CI image, mask dynamic regions</td></tr>
 <p>Protocol: detect → quarantine if blocking → assign owner → reinstate after repeated green runs.</p>
 <h4 id="5-5-rules">5.5 Rules</h4>
 <ul>
@@ -460,25 +460,25 @@ pytest -n auto --dist=loadgroup</code></pre>
 <li><strong>REFACTOR</strong> — clean up after green, then rerun the affected suite.</li>
 </ol>
 <h4 id="6-2-self-audit-checklist">6.2 Self-Audit Checklist</h4>
-<table class="rules"><tbody>
-<tr><th>Check</th><th>Pass Criteria</th></tr>
-<tr><th>Test written before implementation?</th><th>test file added / updated before or with code</th></tr>
-<tr><th>Failure observed before fix?</th><th>red state was actually executed</th></tr>
-<tr><th>Behavior-focused assertions?</th><th>checks outputs, side effects, contracts</th></tr>
-<tr><th>Regression locked in?</th><th>failing case is now protected by a persistent test</th></tr>
+<table class="rules">
+<thead><tr><th>Check</th><th>Pass Criteria</th></tr></thead><tbody>
+<tr><td>Test written before implementation?</td><td>test file added / updated before or with code</td></tr>
+<tr><td>Failure observed before fix?</td><td>red state was actually executed</td></tr>
+<tr><td>Behavior-focused assertions?</td><td>checks outputs, side effects, contracts</td></tr>
+<tr><td>Regression locked in?</td><td>failing case is now protected by a persistent test</td></tr>
 <h4 id="6-3-vertical-tracer-bullet-tdd">6.3 Vertical Tracer-Bullet TDD</h4>
 <p>Prefer one behavior test → minimal implementation → next behavior. Slice by something</p>
 <p>a user, caller, or consuming module can observe, not by horizontal layers such as &quot;DB&quot;,</p>
 <p>&quot;API&quot;, then &quot;UI&quot;. Assert through public interfaces and durable contracts. Retire shallow</p>
 <p>scaffolding tests when a stronger interface or acceptance test covers the same promise.</p>
 <h4 id="6-4-default-style">6.4 Default Style</h4>
-<table class="rules"><tbody>
-<tr><th>Style</th><th>Best For</th></tr>
-<tr><th>London / mockist</th><th>orchestration-heavy boundaries</th></tr>
-<tr><th>Chicago / classicist</th><th>domain logic and transforms</th></tr>
-<tr><th><strong>Hybrid</strong></th><th>most production code</th></tr>
+<table class="rules">
+<thead><tr><th>Style</th><th>Best For</th></tr></thead><tbody>
+<tr><td>London / mockist</td><td>orchestration-heavy boundaries</td></tr>
+<tr><td>Chicago / classicist</td><td>domain logic and transforms</td></tr>
+<tr><td><strong>Hybrid</strong></td><td>most production code</td></tr>
 <p>Default to <strong>Hybrid</strong>: mock external systems, keep internal collaboration real unless it becomes too slow or unstable.</p>
-<h4 id="6-5-boundary-with-<a href="../../pages/skills/dev-debugging.html">dev-debugging</a>">6.5 Boundary with dev-debugging</h4>
+<h4 id="6-5-boundary-with-dev-debugging">6.5 Boundary with dev-debugging</h4>
 <ul>
 <li><code>dev-testing</code> owns the <strong>regression harness</strong> and enforcement loop.</li>
 <li><code>dev-debugging</code> owns <strong>root-cause methodology</strong> once a failure is mysterious or multi-layered.</li>
@@ -488,12 +488,12 @@ pytest -n auto --dist=loadgroup</code></pre>
 <h3 id="6-6-ai-assisted-development-regressions">6.6 AI-Assisted Development Regressions</h3>
 <p>When an AI writes and reviews its own code, it carries the same assumptions into both steps. Automated tests break this feedback loop.</p>
 <h4 id="common-ai-regression-patterns">Common AI Regression Patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Description</th><th>Test Strategy</th></tr>
-<tr><th>Sandbox/production mismatch</th><th>Fix applied to one code path, not both</th><th>Assert same response shape in both modes</th></tr>
-<tr><th>SELECT clause omission</th><th>New field in response but missing from DB query</th><th>Assert all required fields are present and defined</th></tr>
-<tr><th>Error state leakage</th><th>Error set but stale data not cleared</th><th>Assert state cleanup on error transitions</th></tr>
-<tr><th>Missing rollback</th><th>Optimistic UI update without recovery on failure</th><th>Assert state restoration after simulated API error</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Description</th><th>Test Strategy</th></tr></thead><tbody>
+<tr><td>Sandbox/production mismatch</td><td>Fix applied to one code path, not both</td><td>Assert same response shape in both modes</td></tr>
+<tr><td>SELECT clause omission</td><td>New field in response but missing from DB query</td><td>Assert all required fields are present and defined</td></tr>
+<tr><td>Error state leakage</td><td>Error set but stale data not cleared</td><td>Assert state cleanup on error transitions</td></tr>
+<tr><td>Missing rollback</td><td>Optimistic UI update without recovery on failure</td><td>Assert state restoration after simulated API error</td></tr>
 </tbody></table>
 <h4 id="regression-naming-convention">Regression Naming Convention</h4>
 <p>Name regression tests with BUG-R{N} convention. Assert all required fields with a loop.</p>
@@ -508,16 +508,16 @@ pytest -n auto --dist=loadgroup</code></pre>
 <p>---</p>
 <h3 id="6-7-test-induced-production-defense-detection">6.7 Test-Induced Production Defense Detection</h3>
 <p><strong>Rule:</strong> Do not add production defensive code solely to satisfy unrealistic tests. A production guard is allowed only when the invalid state can occur at a real boundary or represents an explicit domain rule.</p>
-<table class="rules"><tbody>
-<tr><th>Production change smell</th><th>Likely test problem</th><th>Required action</th></tr>
-<tr><th>Internal <code>if (!x) return</code> added after unit test fails</th><th>Test fixture omitted required field</th><th>Fix fixture factory or test boundary validation</th></tr>
-<tr><th>Required field made optional to satisfy test</th><th>Test is using invalid domain object</th><th>Restore required type and update test data</th></tr>
-<tr><th>Catch-all added so test passes</th><th>Test expects silence instead of failure</th><th>Assert typed error or user-visible failure</th></tr>
-<tr><th>Production default added for impossible state</th><th>Test bypassed constructor/parser</th><th>Use real constructor/parser in test</th></tr>
-<table class="rules"><tbody>
-<tr><th>Private helper exported only for test</th><th>Test is coupled to implementation</th><th>Test public behavior or move helper to test support</th></tr>
-<tr><th>Sleep/retry added only for test flake</th><th>Test lacks deterministic synchronization</th><th>Wait on observable condition or fake clock</th></tr>
-<tr><th><code>NODE_ENV === &quot;test&quot;</code> branch added</th><th>Test-only production behavior</th><th>Remove branch; improve test harness</th></tr>
+<table class="rules">
+<thead><tr><th>Production change smell</th><th>Likely test problem</th><th>Required action</th></tr></thead><tbody>
+<tr><td>Internal <code>if (!x) return</code> added after unit test fails</td><td>Test fixture omitted required field</td><td>Fix fixture factory or test boundary validation</td></tr>
+<tr><td>Required field made optional to satisfy test</td><td>Test is using invalid domain object</td><td>Restore required type and update test data</td></tr>
+<tr><td>Catch-all added so test passes</td><td>Test expects silence instead of failure</td><td>Assert typed error or user-visible failure</td></tr>
+<tr><td>Production default added for impossible state</td><td>Test bypassed constructor/parser</td><td>Use real constructor/parser in test</td></tr>
+<tr><td>Private helper exported only for test</td><td>Test is coupled to implementation</td><td>Test public behavior or move helper to test support</td></tr>
+<table class="rules">
+<tr><td>Sleep/retry added only for test flake</td><td>Test lacks deterministic synchronization</td><td>Wait on observable condition or fake clock</td></tr>
+<tr><td><code>NODE_ENV === &quot;test&quot;</code> branch added</td><td>Test-only production behavior</td><td>Remove branch; improve test harness</td></tr>
 </tbody></table>
 <p><strong>Required questions before adding a guard:</strong></p>
 <ol>
@@ -597,19 +597,19 @@ pip-audit --strict --desc</code></pre>
 <h3 id="9-coverage-quality-gates">9. Coverage &amp; Quality Gates</h3>
 <h4 id="9-1-suggested-thresholds">9.1 Suggested Thresholds</h4>
 <p>These are project/risk-based, not universal minimums. Adjust for your context.</p>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>Suggested Floor</th><th>Ideal</th></tr>
-<tr><th>Line coverage</th><th>70%</th><th>85%+</th></tr>
-<tr><th>Branch coverage</th><th>60%</th><th>80%+</th></tr>
-<tr><th>Function coverage</th><th>80%</th><th>90%+</th></tr>
-<tr><th>Diff coverage</th><th>80%</th><th>90%+</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>Suggested Floor</th><th>Ideal</th></tr></thead><tbody>
+<tr><td>Line coverage</td><td>70%</td><td>85%+</td></tr>
+<tr><td>Branch coverage</td><td>60%</td><td>80%+</td></tr>
+<tr><td>Function coverage</td><td>80%</td><td>90%+</td></tr>
+<tr><td>Diff coverage</td><td>80%</td><td>90%+</td></tr>
 <h4 id="9-2-outcome-metrics">9.2 Outcome Metrics</h4>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>Target</th></tr>
-<tr><th>Defect detection rate</th><th>&gt; 80%</th></tr>
-<tr><th>Mean time to detect</th><th>&lt; 1 CI run</th></tr>
-<tr><th>Test signal-to-noise</th><th>&gt; 95%</th></tr>
-<tr><th>Contract drift rate</th><th>near 0</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>Target</th></tr></thead><tbody>
+<tr><td>Defect detection rate</td><td>&gt; 80%</td></tr>
+<tr><td>Mean time to detect</td><td>&lt; 1 CI run</td></tr>
+<tr><td>Test signal-to-noise</td><td>&gt; 95%</td></tr>
+<tr><td>Contract drift rate</td><td>near 0</td></tr>
 <h4 id="9-3-coverage-workflow">9.3 Coverage Workflow</h4>
 <ol>
 <li>generate coverage reports</li>

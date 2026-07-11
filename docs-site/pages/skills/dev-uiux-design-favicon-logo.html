@@ -111,14 +111,13 @@
 <p>---</p>
 <h3 id="favicon-the-modern-minimum-set">Favicon: The Modern Minimum Set</h3>
 <p>You need <strong>5 image files + 1 manifest</strong>. Everything else is legacy bloat.</p>
-<table class="rules"><tbody>
-<tr><th>File</th><th>Size</th><th>Purpose</th></tr>
-<tr><th><code>favicon.ico</code></th><th>32x32</th><th>Legacy browser fallback</th></tr>
-<tr><th><code>icon.svg</code></th><th>Scalable</th><th>Modern browsers, dark mode via CSS media query</th></tr>
-<tr><th><code>apple-touch-icon.png</code></th><th>180x180</th><th>iOS home screen bookmark</th></tr>
-<tr><th><code>icon-192.png</code></th><th>192x192</th><th>Android home screen, PWA minimum</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>icon-512.png</code></th><th>512x512</th><th>PWA splash screen, install prompt</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>Size</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>favicon.ico</code></td><td>32x32</td><td>Legacy browser fallback</td></tr>
+<tr><td><code>icon.svg</code></td><td>Scalable</td><td>Modern browsers, dark mode via CSS media query</td></tr>
+<tr><td><code>apple-touch-icon.png</code></td><td>180x180</td><td>iOS home screen bookmark</td></tr>
+<tr><td><code>icon-192.png</code></td><td>192x192</td><td>Android home screen, PWA minimum</td></tr>
+<tr><td><code>icon-512.png</code></td><td>512x512</td><td>PWA splash screen, install prompt</td></tr>
 </tbody></table>
 <p>Plus <code>site.webmanifest</code> referencing the 192 and 512 PNGs.</p>
 <p><strong>Skip list (2025+):</strong> 96x96, 128x128, 64x64, 144x144, msapplication-TileImage. All obsolete.</p>
@@ -157,12 +156,12 @@
   &lt;circle class=&quot;logo-fill&quot; cx=&quot;64&quot; cy=&quot;64&quot; r=&quot;60&quot; /&gt;
 &lt;/svg&gt;</code></pre>
 <p><strong>Browser support:</strong></p>
-<table class="rules"><tbody>
-<tr><th>Browser</th><th>SVG Favicon</th><th>Dark Mode in SVG</th></tr>
-<tr><th>Chrome 80+</th><th>Yes</th><th>Yes</th></tr>
-<tr><th>Firefox 41+</th><th>Yes</th><th>Yes</th></tr>
-<tr><th>Edge (Chromium)</th><th>Yes</th><th>Yes</th></tr>
-<tr><th>Safari 15+</th><th>Renders SVG</th><th>Does NOT apply embedded <code>@media</code></th></tr>
+<table class="rules">
+<thead><tr><th>Browser</th><th>SVG Favicon</th><th>Dark Mode in SVG</th></tr></thead><tbody>
+<tr><td>Chrome 80+</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Firefox 41+</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Edge (Chromium)</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Safari 15+</td><td>Renders SVG</td><td>Does NOT apply embedded <code>@media</code></td></tr>
 </tbody></table>
 <p>Safari caveat: always shows light-mode variant. For Safari dark-mode favicons, swap a PNG via JS <code>matchMedia</code>.</p>
 <p><strong>Rules:</strong></p>
@@ -173,14 +172,13 @@
 </ul>
 <p>---</p>
 <h3 id="deriving-a-favicon-from-a-logo">Deriving a Favicon from a Logo</h3>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Rationale</th></tr>
-<tr><th>Use the logomark, not the wordmark</th><th>Text is illegible at 16x16</th></tr>
-<tr><th>Strip to 1-2 elements</th><th>Detail vanishes at small sizes</th></tr>
-<tr><th>Maximum 3 colors (2 is better)</th><th>Color distinction fails at low resolution</th></tr>
-<tr><th>Push contrast hard</th><th>White mark on vivid background holds up better than subtle coloring</th></tr>
-<table class="rules"><tbody>
-<tr><th>Test on dark tab backgrounds</th><th>Dark favicons vanish against dark browser chrome</th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Rationale</th></tr></thead><tbody>
+<tr><td>Use the logomark, not the wordmark</td><td>Text is illegible at 16x16</td></tr>
+<tr><td>Strip to 1-2 elements</td><td>Detail vanishes at small sizes</td></tr>
+<tr><td>Maximum 3 colors (2 is better)</td><td>Color distinction fails at low resolution</td></tr>
+<tr><td>Push contrast hard</td><td>White mark on vivid background holds up better than subtle coloring</td></tr>
+<tr><td>Test on dark tab backgrounds</td><td>Dark favicons vanish against dark browser chrome</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="generation-workflow">Generation Workflow</h3>
@@ -199,11 +197,11 @@
 <p>---</p>
 <h3 id="product-logo-in-navigation">Product Logo in Navigation</h3>
 <h4 id="sizing">Sizing</h4>
-<table class="rules"><tbody>
-<tr><th>Context</th><th>Height</th><th>Max Width</th></tr>
-<tr><th>Desktop header</th><th>40-48px</th><th>280px</th></tr>
-<tr><th>Mobile header</th><th>32-40px</th><th>160px</th></tr>
-<tr><th>Retina/HiDPI</th><th>2x PNG or SVG</th><th>Same</th></tr>
+<table class="rules">
+<thead><tr><th>Context</th><th>Height</th><th>Max Width</th></tr></thead><tbody>
+<tr><td>Desktop header</td><td>40-48px</td><td>280px</td></tr>
+<tr><td>Mobile header</td><td>32-40px</td><td>160px</td></tr>
+<tr><td>Retina/HiDPI</td><td>2x PNG or SVG</td><td>Same</td></tr>
 </tbody></table>
 <p>Use fixed height + <code>width: auto</code> + <code>max-width</code> constraint. Set explicit <code>width</code> and <code>height</code> attributes on <code>&lt;img&gt;</code> to prevent CLS.</p>
 <h4 id="responsive-collapse">Responsive Collapse</h4>
@@ -270,11 +268,11 @@
 <p>---</p>
 <h3 id="open-graph-social-sharing">Open Graph &amp; Social Sharing</h3>
 <h4 id="required-images">Required Images</h4>
-<table class="rules"><tbody>
-<tr><th>Platform</th><th>Size</th><th>Ratio</th></tr>
-<tr><th>Facebook, LinkedIn, Slack, Discord</th><th>1200x630px</th><th>1.91:1</th></tr>
-<tr><th>X summary_large_image</th><th>1200x630px</th><th>1.91:1</th></tr>
-<tr><th>X summary card</th><th>240x240px min</th><th>1:1</th></tr>
+<table class="rules">
+<thead><tr><th>Platform</th><th>Size</th><th>Ratio</th></tr></thead><tbody>
+<tr><td>Facebook, LinkedIn, Slack, Discord</td><td>1200x630px</td><td>1.91:1</td></tr>
+<tr><td>X summary_large_image</td><td>1200x630px</td><td>1.91:1</td></tr>
+<tr><td>X summary card</td><td>240x240px min</td><td>1:1</td></tr>
 </tbody></table>
 <p>Keep text/elements within the center 1080x600 safe zone.</p>
 <h4 id="meta-tags">Meta Tags</h4>
@@ -313,12 +311,12 @@
 <p>Generate the full 50-950 scale using OKLCH for perceptual evenness. Reference: <code>color-system.md</code>.</p>
 <p>---</p>
 <h3 id="empty-state-error-page-logos">Empty State &amp; Error Page Logos</h3>
-<table class="rules"><tbody>
-<tr><th>Context</th><th>Logo Treatment</th></tr>
-<tr><th>404 / 500 error</th><th>Simplified mark, not prominent. Focus is on error message + recovery action.</th></tr>
-<tr><th>Empty state (no data)</th><th>Contextual illustration preferred over logo. Brand presence via nav header.</th></tr>
-<tr><th>First-run / onboarding</th><th>Full logo acceptable as part of welcome.</th></tr>
-<tr><th>Maintenance page</th><th>Full logo + brand colors to reassure users.</th></tr>
+<table class="rules">
+<thead><tr><th>Context</th><th>Logo Treatment</th></tr></thead><tbody>
+<tr><td>404 / 500 error</td><td>Simplified mark, not prominent. Focus is on error message + recovery action.</td></tr>
+<tr><td>Empty state (no data)</td><td>Contextual illustration preferred over logo. Brand presence via nav header.</td></tr>
+<tr><td>First-run / onboarding</td><td>Full logo acceptable as part of welcome.</td></tr>
+<tr><td>Maintenance page</td><td>Full logo + brand colors to reassure users.</td></tr>
 </tbody></table>
 <p>Never place a large isolated logo as the centerpiece of a 404 page — users read it as a dead end. Pair a small mark with clear next-step navigation.</p>
 <p>---</p>
@@ -338,20 +336,19 @@
 }</code></pre>
 <p>---</p>
 <h3 id="common-mistakes">Common Mistakes</h3>
-<table class="rules"><tbody>
-<tr><th>Mistake</th><th>Why It Matters</th></tr>
-<tr><th>Blurry favicons</th><th>Scaling 512px to 16px with generic resampling. Generate each size natively or use SVG.</th></tr>
-<tr><th>Missing apple-touch-icon</th><th>iOS shows ugly screenshot clip on home screen save.</th></tr>
-<tr><th>Reusing standard icon as maskable</th><th>Android crops it — logo text gets clipped without safe-zone padding.</th></tr>
-<tr><th>Not testing at actual tab size</th><th>512px preview is meaningless. Test at 16px in real browser tabs.</th></tr>
-<table class="rules"><tbody>
-<tr><th>Forgetting dark mode</th><th>Dark favicon vanishes against dark browser chrome.</th></tr>
-<tr><th>Transparent apple-touch-icon</th><th>iOS replaces transparency with black. Always use solid background.</th></tr>
-<tr><th>Missing <code>sizes</code> attribute</th><th>Browser picks wrong resolution file.</th></tr>
-<tr><th>No explicit width/height on logo <code>&lt;img&gt;</code></th><th>Causes CLS as image loads.</th></tr>
-<tr><th>Over-complex favicon design</th><th>Detailed illustrations at 16px become noise. Simplify ruthlessly.</th></tr>
-<table class="rules"><tbody>
-<tr><th>Stale cached favicons</th><th>Use <code>?v=2</code> query string during rollout, remove after propagation.</th></tr>
+<table class="rules">
+<thead><tr><th>Mistake</th><th>Why It Matters</th></tr></thead><tbody>
+<tr><td>Blurry favicons</td><td>Scaling 512px to 16px with generic resampling. Generate each size natively or use SVG.</td></tr>
+<tr><td>Missing apple-touch-icon</td><td>iOS shows ugly screenshot clip on home screen save.</td></tr>
+<tr><td>Reusing standard icon as maskable</td><td>Android crops it — logo text gets clipped without safe-zone padding.</td></tr>
+<tr><td>Not testing at actual tab size</td><td>512px preview is meaningless. Test at 16px in real browser tabs.</td></tr>
+<tr><td>Forgetting dark mode</td><td>Dark favicon vanishes against dark browser chrome.</td></tr>
+<table class="rules">
+<tr><td>Transparent apple-touch-icon</td><td>iOS replaces transparency with black. Always use solid background.</td></tr>
+<tr><td>Missing <code>sizes</code> attribute</td><td>Browser picks wrong resolution file.</td></tr>
+<tr><td>No explicit width/height on logo <code>&lt;img&gt;</code></td><td>Causes CLS as image loads.</td></tr>
+<tr><td>Over-complex favicon design</td><td>Detailed illustrations at 16px become noise. Simplify ruthlessly.</td></tr>
+<tr><td>Stale cached favicons</td><td>Use <code>?v=2</code> query string during rollout, remove after propagation.</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="performance">Performance</h3>

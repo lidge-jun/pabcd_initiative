@@ -113,11 +113,11 @@
 <p>---</p>
 <h3 id="1-evaluation-strategy">§1 Evaluation Strategy</h3>
 <h4 id="three-stage-pipeline">Three-Stage Pipeline</h4>
-<table class="rules"><tbody>
-<tr><th>Stage</th><th>When</th><th>Purpose</th><th>Gate</th></tr>
-<tr><th><strong>Offline eval</strong></th><th>Pre-deploy</th><th>Benchmark on held-out test set</th><th>Score ≥ threshold → CI pass</th></tr>
-<tr><th><strong>CI gate</strong></th><th>Every PR</th><th>Automated regression check</th><th>No metric regression &gt; tolerance</th></tr>
-<tr><th><strong>Online A/B</strong></th><th>Post-deploy</th><th>Real-user impact measurement</th><th>Statistical significance → full rollout</th></tr>
+<table class="rules">
+<thead><tr><th>Stage</th><th>When</th><th>Purpose</th><th>Gate</th></tr></thead><tbody>
+<tr><td><strong>Offline eval</strong></td><td>Pre-deploy</td><td>Benchmark on held-out test set</td><td>Score ≥ threshold → CI pass</td></tr>
+<tr><td><strong>CI gate</strong></td><td>Every PR</td><td>Automated regression check</td><td>No metric regression &gt; tolerance</td></tr>
+<tr><td><strong>Online A/B</strong></td><td>Post-deploy</td><td>Real-user impact measurement</td><td>Statistical significance → full rollout</td></tr>
 </tbody></table>
 <pre><code>Code change → Offline eval (CI) → Deploy canary → Online A/B → Full rollout
                     ↓ fail                          ↓ fail
@@ -150,12 +150,12 @@ metrics = [
 
 results = evaluate(test_cases=[test_case], metrics=metrics)</code></pre>
 <h4 id="rag-evaluation-ragas">RAG Evaluation (RAGAS)</h4>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>What It Measures</th><th>Threshold</th></tr>
-<tr><th><strong>Faithfulness</strong></th><th>Is the answer grounded in retrieved context?</th><th>≥0.8</th></tr>
-<tr><th><strong>Answer relevancy</strong></th><th>Does the answer address the question?</th><th>≥0.7</th></tr>
-<tr><th><strong>Context precision</strong></th><th>Are retrieved chunks relevant?</th><th>≥0.6</th></tr>
-<tr><th><strong>Context recall</strong></th><th>Are all needed facts retrieved?</th><th>≥0.7</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>What It Measures</th><th>Threshold</th></tr></thead><tbody>
+<tr><td><strong>Faithfulness</strong></td><td>Is the answer grounded in retrieved context?</td><td>≥0.8</td></tr>
+<tr><td><strong>Answer relevancy</strong></td><td>Does the answer address the question?</td><td>≥0.7</td></tr>
+<tr><td><strong>Context precision</strong></td><td>Are retrieved chunks relevant?</td><td>≥0.6</td></tr>
+<tr><td><strong>Context recall</strong></td><td>Are all needed facts retrieved?</td><td>≥0.7</td></tr>
 </tbody></table>
 <pre><code>from ragas import evaluate as ragas_evaluate
 from ragas.metrics import faithfulness, answer_relevancy, context_precision
@@ -173,24 +173,23 @@ results = ragas_evaluate(
 )
 # results → DataFrame with per-sample scores</code></pre>
 <h4 id="evaluation-dataset-management">Evaluation Dataset Management</h4>
-<table class="rules"><tbody>
-<tr><th>Practice</th><th>Why</th></tr>
-<tr><th>Curate ≥100 test cases per task</th><th>Statistical reliability</th></tr>
-<tr><th>Include adversarial examples (10-20%)</th><th>Probe failure modes</th></tr>
-<tr><th>Version eval datasets alongside code</th><th>Reproducible eval runs</th></tr>
-<tr><th>Rotate human-reviewed examples quarterly</th><th>Prevent eval set overfitting</th></tr>
-<table class="rules"><tbody>
-<tr><th>Separate eval set from few-shot examples</th><th>No data leakage</th></tr>
+<table class="rules">
+<thead><tr><th>Practice</th><th>Why</th></tr></thead><tbody>
+<tr><td>Curate ≥100 test cases per task</td><td>Statistical reliability</td></tr>
+<tr><td>Include adversarial examples (10-20%)</td><td>Probe failure modes</td></tr>
+<tr><td>Version eval datasets alongside code</td><td>Reproducible eval runs</td></tr>
+<tr><td>Rotate human-reviewed examples quarterly</td><td>Prevent eval set overfitting</td></tr>
+<tr><td>Separate eval set from few-shot examples</td><td>No data leakage</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="3-classical-ml-metrics">§3 Classical ML Metrics</h3>
-<tr><th>Task</th><th>Primary Metric</th><th>Secondary</th><th>When to Use</th></tr>
-<table class="rules"><tbody>
-<tr><th>Binary classification</th><th>F1 / PR-AUC</th><th>ROC-AUC, precision, recall</th><th>Imbalanced classes → PR-AUC</th></tr>
-<tr><th>Multi-class classification</th><th>Macro-F1</th><th>Per-class F1, confusion matrix</th><th>Always report per-class</th></tr>
-<tr><th>Regression</th><th>RMSE</th><th>MAE, R², MAPE</th><th>RMSE for optimization, MAE for interpretation</th></tr>
-<tr><th>Ranking</th><th>NDCG@k</th><th>MRR, MAP</th><th>Search, recommendations</th></tr>
-<tr><th>Clustering</th><th>Silhouette score</th><th>Calinski-Harabasz</th><th>When ground truth unavailable</th></tr>
+<table class="rules">
+<thead><tr><th>Task</th><th>Primary Metric</th><th>Secondary</th><th>When to Use</th></tr></thead><tbody>
+<tr><td>Binary classification</td><td>F1 / PR-AUC</td><td>ROC-AUC, precision, recall</td><td>Imbalanced classes → PR-AUC</td></tr>
+<tr><td>Multi-class classification</td><td>Macro-F1</td><td>Per-class F1, confusion matrix</td><td>Always report per-class</td></tr>
+<tr><td>Regression</td><td>RMSE</td><td>MAE, R², MAPE</td><td>RMSE for optimization, MAE for interpretation</td></tr>
+<tr><td>Ranking</td><td>NDCG@k</td><td>MRR, MAP</td><td>Search, recommendations</td></tr>
+<tr><td>Clustering</td><td>Silhouette score</td><td>Calinski-Harabasz</td><td>When ground truth unavailable</td></tr>
 </tbody></table>
 <h4 id="metric-selection-rule">Metric Selection Rule</h4>
 <pre><code>IF   classes imbalanced (&gt;10:1)  → PR-AUC + per-class F1 (never accuracy alone)
@@ -258,16 +257,16 @@ def check_regression(baseline_path: str, current_path: str, tolerance: float):
         print(&quot;✅ All metrics within tolerance&quot;)</code></pre>
 <p>---</p>
 <h3 id="5-anti-patterns">§5 Anti-Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>Accuracy as sole metric for imbalanced data</th><th>95% accuracy with 0% minority recall</th><th>PR-AUC + per-class F1 (§3)</th></tr>
-<tr><th>No eval dataset versioning</th><th>&quot;Scores improved&quot; but eval set changed</th><th>Version alongside code (§2)</th></tr>
-<tr><th>Manual-only LLM evaluation</th><th>Inconsistent, slow, not scalable</th><th>LLM-as-judge + RAGAS (§2)</th></tr>
-<tr><th>Same data for few-shot and eval</th><th>Inflated scores</th><th>Strict separation</th></tr>
-<table class="rules"><tbody>
-<tr><th>No regression gate in CI</th><th>Silent quality degradation</th><th>Automated eval gate (§4)</th></tr>
-<tr><th>Single-metric threshold</th><th>Model good at average, bad at edges</th><th>Multi-metric + adversarial cases (§2)</th></tr>
-<tr><th>Eval only at release</th><th>Late discovery of regressions</th><th>Eval on every PR touching model/prompt code</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Accuracy as sole metric for imbalanced data</td><td>95% accuracy with 0% minority recall</td><td>PR-AUC + per-class F1 (§3)</td></tr>
+<tr><td>No eval dataset versioning</td><td>&quot;Scores improved&quot; but eval set changed</td><td>Version alongside code (§2)</td></tr>
+<tr><td>Manual-only LLM evaluation</td><td>Inconsistent, slow, not scalable</td><td>LLM-as-judge + RAGAS (§2)</td></tr>
+<tr><td>Same data for few-shot and eval</td><td>Inflated scores</td><td>Strict separation</td></tr>
+<tr><td>No regression gate in CI</td><td>Silent quality degradation</td><td>Automated eval gate (§4)</td></tr>
+<table class="rules">
+<tr><td>Single-metric threshold</td><td>Model good at average, bad at edges</td><td>Multi-metric + adversarial cases (§2)</td></tr>
+<tr><td>Eval only at release</td><td>Late discovery of regressions</td><td>Eval on every PR touching model/prompt code</td></tr>
 </tbody></table>
 <h3 id="pre-flight-checklist">Pre-flight Checklist</h3>
 <p>Before merging model or prompt changes:</p>

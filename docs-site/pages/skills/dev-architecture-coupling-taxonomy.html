@@ -183,37 +183,36 @@
 <p><strong>Refactoring:</strong> No refactoring needed. This is the goal state for all inter-module communication.</p>
 <p>---</p>
 <h3 id="severity-matrix-review-decision">Severity Matrix (Review Decision)</h3>
-<table class="rules"><tbody>
-<tr><th>Severity</th><th>Types</th><th>Merge Decision</th><th>Required Action</th></tr>
-<tr><th>CRITICAL</th><th>Content, Common</th><th>BLOCK</th><th>Refactor before merge. No exceptions.</th></tr>
-<tr><th>HIGH</th><th>Control, Stamp, External</th><th>BLOCK unless justified</th><th>Tech-debt ticket with deadline + reviewer approval</th></tr>
-<tr><th>MEDIUM</th><th>Temporal</th><th>ALLOW with docs</th><th>Add ordering documentation or state assertions</th></tr>
-<tr><th>LOW</th><th>Sequential, Functional</th><th>ALLOW</th><th>No action needed</th></tr>
+<table class="rules">
+<thead><tr><th>Severity</th><th>Types</th><th>Merge Decision</th><th>Required Action</th></tr></thead><tbody>
+<tr><td>CRITICAL</td><td>Content, Common</td><td>BLOCK</td><td>Refactor before merge. No exceptions.</td></tr>
+<tr><td>HIGH</td><td>Control, Stamp, External</td><td>BLOCK unless justified</td><td>Tech-debt ticket with deadline + reviewer approval</td></tr>
+<tr><td>MEDIUM</td><td>Temporal</td><td>ALLOW with docs</td><td>Add ordering documentation or state assertions</td></tr>
+<tr><td>LOW</td><td>Sequential, Functional</td><td>ALLOW</td><td>No action needed</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="banned-review-responses">Banned Review Responses</h3>
 <p>These responses are NEVER acceptable when coupling is identified:</p>
-<table class="rules"><tbody>
-<tr><th>Banned Response</th><th>Why It&#x27;s Banned</th><th>What To Say Instead</th></tr>
-<tr><th>&quot;It works so it&#x27;s fine&quot;</th><th>Working code can be unmaintainable</th><th>&quot;It works, but this is [type] coupling (severity: X). Must fix / ticket.&quot;</th></tr>
-<tr><th>&quot;We&#x27;ll fix it later&quot; (no ticket)</th><th>&quot;Later&quot; = never in practice</th><th>&quot;Creating ticket [PROJ-XXX] with deadline [date] for decoupling.&quot;</th></tr>
-<tr><th>&quot;It&#x27;s just one place&quot;</th><th>One instance becomes ten within weeks</th><th>&quot;Fix now while blast radius is small.&quot;</th></tr>
-<tr><th>&quot;The tests pass&quot;</th><th>Tests don&#x27;t measure architectural integrity</th><th>&quot;Tests verify behavior, not structure. Static analysis says X.&quot;</th></tr>
-<table class="rules"><tbody>
-<tr><th>&quot;It&#x27;s internal, nobody else uses it&quot;</th><th>Internal coupling compounds fastest</th><th>&quot;Internal coupling is MORE dangerous — harder to detect, easier to spread.&quot;</th></tr>
+<table class="rules">
+<thead><tr><th>Banned Response</th><th>Why It&#x27;s Banned</th><th>What To Say Instead</th></tr></thead><tbody>
+<tr><td>&quot;It works so it&#x27;s fine&quot;</td><td>Working code can be unmaintainable</td><td>&quot;It works, but this is [type] coupling (severity: X). Must fix / ticket.&quot;</td></tr>
+<tr><td>&quot;We&#x27;ll fix it later&quot; (no ticket)</td><td>&quot;Later&quot; = never in practice</td><td>&quot;Creating ticket [PROJ-XXX] with deadline [date] for decoupling.&quot;</td></tr>
+<tr><td>&quot;It&#x27;s just one place&quot;</td><td>One instance becomes ten within weeks</td><td>&quot;Fix now while blast radius is small.&quot;</td></tr>
+<tr><td>&quot;The tests pass&quot;</td><td>Tests don&#x27;t measure architectural integrity</td><td>&quot;Tests verify behavior, not structure. Static analysis says X.&quot;</td></tr>
+<tr><td>&quot;It&#x27;s internal, nobody else uses it&quot;</td><td>Internal coupling compounds fastest</td><td>&quot;Internal coupling is MORE dangerous — harder to detect, easier to spread.&quot;</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="detection-signals-during-review">Detection Signals During Review</h3>
-<tr><th>Signal in Code</th><th>Likely Coupling Type</th><th>Investigate</th></tr>
-<table class="rules"><tbody>
-<tr><th>Accessing <code>._private</code> or internal field</th><th>Content</th><th>Encapsulation breach</th></tr>
-<tr><th>Global <code>let</code> / mutable singleton</th><th>Common</th><th>Shared mutable state</th></tr>
-<tr><th>Boolean/enum parameter controlling flow</th><th>Control</th><th>Hidden polymorphism</th></tr>
-<tr><th>Passing full object, using 1-2 fields</th><th>Stamp</th><th>Over-broad interface</th></tr>
-<tr><th>Duplicated parsing logic</th><th>External</th><th>Missing shared adapter</th></tr>
-<table class="rules"><tbody>
-<tr><th>Comment: &quot;must call X before Y&quot;</th><th>Temporal</th><th>Missing state machine</th></tr>
-<tr><th>Pipeline without input validation</th><th>Sequential</th><th>Undocumented contract</th></tr>
+<table class="rules">
+<thead><tr><th>Signal in Code</th><th>Likely Coupling Type</th><th>Investigate</th></tr></thead><tbody>
+<tr><td>Accessing <code>._private</code> or internal field</td><td>Content</td><td>Encapsulation breach</td></tr>
+<tr><td>Global <code>let</code> / mutable singleton</td><td>Common</td><td>Shared mutable state</td></tr>
+<tr><td>Boolean/enum parameter controlling flow</td><td>Control</td><td>Hidden polymorphism</td></tr>
+<tr><td>Passing full object, using 1-2 fields</td><td>Stamp</td><td>Over-broad interface</td></tr>
+<tr><td>Duplicated parsing logic</td><td>External</td><td>Missing shared adapter</td></tr>
+<table class="rules">
+<tr><td>Comment: &quot;must call X before Y&quot;</td><td>Temporal</td><td>Missing state machine</td></tr>
+<tr><td>Pipeline without input validation</td><td>Sequential</td><td>Undocumented contract</td></tr>
 </tbody></table>
   </div>
 </section>

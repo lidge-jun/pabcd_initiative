@@ -165,16 +165,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-      - run: pip install -r requirements-<a href="../../pages/skills/dev.html">dev</a>.txt
+      - run: pip install -r requirements-dev.txt
       - run: pytest --cov --cov-report=xml -n auto
       - run: pytest tests/contracts -q
       - run: pip-audit --strict</code></pre>
 <h3 id="3-matrix-parallelization">3. Matrix / Parallelization</h3>
-<table class="rules"><tbody>
-<tr><th>Axis</th><th>Include When</th><th>Example</th></tr>
-<tr><th>runtime versions</th><th>library or SDK compatibility matters</th><th>Node 22/24, Python 3.11-3.13</th></tr>
-<tr><th>OS</th><th>native modules or CLI behavior matter</th><th>ubuntu + macOS</th></tr>
-<tr><th>shards</th><th>suites exceed CI budget</th><th><code>1/4..4/4</code></th></tr>
+<table class="rules">
+<thead><tr><th>Axis</th><th>Include When</th><th>Example</th></tr></thead><tbody>
+<tr><td>runtime versions</td><td>library or SDK compatibility matters</td><td>Node 22/24, Python 3.11-3.13</td></tr>
+<tr><td>OS</td><td>native modules or CLI behavior matter</td><td>ubuntu + macOS</td></tr>
+<tr><td>shards</td><td>suites exceed CI budget</td><td><code>1/4..4/4</code></td></tr>
 </tbody></table>
 <pre><code>npx vitest run --shard=2/4
 npx playwright test --shard=2/4 --workers=4
@@ -194,12 +194,12 @@ pytest -n auto --dist=loadgroup</code></pre>
 <li>assign an owner and removal deadline</li>
 <li>restore only after repeated green runs</li>
 </ol>
-<table class="rules"><tbody>
-<tr><th>Signal</th><th>Action</th></tr>
-<tr><th>intermittent timeout</th><th>replace implicit timing with deterministic waits</th></tr>
-<tr><th>order-dependent failure</th><th>reset shared state or fixture leakage</th></tr>
-<tr><th>CI-only HTTP failure</th><th>remove live network dependency</th></tr>
-<tr><th>snapshot variance</th><th>stabilize fonts, time, locale, and dynamic regions</th></tr>
+<table class="rules">
+<thead><tr><th>Signal</th><th>Action</th></tr></thead><tbody>
+<tr><td>intermittent timeout</td><td>replace implicit timing with deterministic waits</td></tr>
+<tr><td>order-dependent failure</td><td>reset shared state or fixture leakage</td></tr>
+<tr><td>CI-only HTTP failure</td><td>remove live network dependency</td></tr>
+<tr><td>snapshot variance</td><td>stabilize fonts, time, locale, and dynamic regions</td></tr>
 </tbody></table>
 <h3 id="6-recommended-job-order">6. Recommended Job Order</h3>
 <pre><code>quality
@@ -213,11 +213,11 @@ pytest -n auto --dist=loadgroup</code></pre>
 <p>example, npm Trusted Publishing requires a modern Node/npm pair, so release</p>
 <p>examples should use Node 22 unless the project has a newer declared baseline.</p>
 <p>Keep compatibility testing separate from release publishing:</p>
-<table class="rules"><tbody>
-<tr><th>Matrix</th><th>Purpose</th><th>Example</th></tr>
-<tr><th>Release runtime</th><th>Runtime used to build and publish artifacts</th><th>Node 22 for npm Trusted Publishing</th></tr>
-<tr><th>Compatibility runtime</th><th>Extra supported versions the package promises to run on</th><th>Node 20 only when a project explicitly carries legacy/EOL support</th></tr>
-<tr><th>OS smoke</th><th>Platform behavior for native modules, CLIs, installers, or shell shims</th><th>ubuntu, macOS, Windows for declared support</th></tr>
+<table class="rules">
+<thead><tr><th>Matrix</th><th>Purpose</th><th>Example</th></tr></thead><tbody>
+<tr><td>Release runtime</td><td>Runtime used to build and publish artifacts</td><td>Node 22 for npm Trusted Publishing</td></tr>
+<tr><td>Compatibility runtime</td><td>Extra supported versions the package promises to run on</td><td>Node 20 only when a project explicitly carries legacy/EOL support</td></tr>
+<tr><td>OS smoke</td><td>Platform behavior for native modules, CLIs, installers, or shell shims</td><td>ubuntu, macOS, Windows for declared support</td></tr>
 </tbody></table>
 <p>Do not put legacy/EOL runtimes in generic release examples. If a project still</p>
 <p>supports Node 20, label that lane as legacy compatibility and keep publish jobs</p>

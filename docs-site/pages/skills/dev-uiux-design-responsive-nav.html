@@ -108,21 +108,21 @@
 <h4 id="canonical-breakpoint-tiers">Canonical Breakpoint Tiers</h4>
 <p>See <code>dev-frontend/references/core/responsive-viewport.md</code> for the canonical T1–T5+ breakpoint table, page containment rules, container query patterns, and split-screen guidance. All responsive references share that single source of truth.</p>
 <h4 id="mobile-first-vs-desktop-first">Mobile-First vs Desktop-First</h4>
-<table class="rules"><tbody>
-<tr><th>Choose Mobile-First When</th><th>Choose Desktop-First When</th></tr>
-<tr><th>Consumer / public-facing product</th><th>Internal tool / admin panel</th></tr>
-<tr><th>Content consumption primary use</th><th>Data-dense productivity tool</th></tr>
-<tr><th>New project (progressive enhancement)</th><th>Existing desktop app adding mobile</th></tr>
+<table class="rules">
+<thead><tr><th>Choose Mobile-First When</th><th>Choose Desktop-First When</th></tr></thead><tbody>
+<tr><td>Consumer / public-facing product</td><td>Internal tool / admin panel</td></tr>
+<tr><td>Content consumption primary use</td><td>Data-dense productivity tool</td></tr>
+<tr><td>New project (progressive enhancement)</td><td>Existing desktop app adding mobile</td></tr>
 </tbody></table>
 <h4 id="container-queries-split-screen">Container Queries &amp; Split-Screen</h4>
 <p>See <code>dev-frontend/references/core/responsive-viewport.md</code> for canonical container query examples, <code>@container</code> vs <code>@media</code> decision guide, and split-screen/half-window rules. Nav-specific guidance below.</p>
 <p>For navigation components, prefer <code>@container</code> so the same nav adapts in a sidebar, modal, or full-width header without viewport-dependent media queries.</p>
 <h4 id="responsive-navigation-by-density-profile">Responsive Navigation by Density Profile</h4>
-<table class="rules"><tbody>
-<tr><th>Density</th><th>Desktop Navigation</th><th>Mobile Navigation</th></tr>
-<tr><th>D1–D3 (campaign/consumer)</th><th>Horizontal top nav</th><th>Hamburger menu</th></tr>
-<tr><th>D4–D6 (SaaS/productivity)</th><th>Collapsible sidebar (256px→64px)</th><th>Bottom tab bar (4–5 items)</th></tr>
-<tr><th>D7–D8 (ops/developer)</th><th>Fixed sidebar + top breadcrumb</th><th>Sidebar stays, no collapse</th></tr>
+<table class="rules">
+<thead><tr><th>Density</th><th>Desktop Navigation</th><th>Mobile Navigation</th></tr></thead><tbody>
+<tr><td>D1–D3 (campaign/consumer)</td><td>Horizontal top nav</td><td>Hamburger menu</td></tr>
+<tr><td>D4–D6 (SaaS/productivity)</td><td>Collapsible sidebar (256px→64px)</td><td>Bottom tab bar (4–5 items)</td></tr>
+<tr><td>D7–D8 (ops/developer)</td><td>Fixed sidebar + top breadcrumb</td><td>Sidebar stays, no collapse</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="15-navigation-information-architecture">15. Navigation &amp; Information Architecture</h3>
@@ -137,7 +137,7 @@
 <h4 id="tab-bar-bottom-navigation-mobile">Tab Bar (Bottom Navigation — Mobile)</h4>
 <ul>
 <li>Maximum 5 items. Active item has filled icon + label. Inactive: outline icon only.</li>
-<li>Safe area padding for notch/home-indicator <a href="../../pages/skills/dev.html">dev</a>ices.</li>
+<li>Safe area padding for notch/home-indicator devices.</li>
 <li>Center the primary action if it has elevated importance (FAB pattern).</li>
 </ul>
 <h4 id="command-palette-cmd-k">Command Palette (Cmd+K)</h4>
@@ -156,14 +156,13 @@
 <li>Separator: <code>/</code> or <code>&gt;</code> — pick one and be consistent.</li>
 </ul>
 <h4 id="by-product-surface">By Product Surface</h4>
-<table class="rules"><tbody>
-<tr><th>Surface</th><th>Primary Nav</th><th>Secondary Nav</th><th>Search</th></tr>
-<tr><th>Landing/marketing</th><th>Horizontal top nav</th><th>Footer links</th><th>Not needed</th></tr>
-<tr><th>Consumer app</th><th>Bottom tab bar (mobile), sidebar (desktop)</th><th>In-context navigation</th><th>Optional</th></tr>
-<tr><th>SaaS/productivity</th><th>Collapsible sidebar</th><th>Breadcrumbs + tabs</th><th>Command palette</th></tr>
-<tr><th>Dashboard/ops</th><th>Fixed sidebar</th><th>Tab groups per section</th><th>Always visible search bar</th></tr>
-<table class="rules"><tbody>
-<tr><th>Developer tool</th><th>Sidebar + command palette</th><th>Breadcrumbs</th><th>Prominent Cmd+K</th></tr>
+<table class="rules">
+<thead><tr><th>Surface</th><th>Primary Nav</th><th>Secondary Nav</th><th>Search</th></tr></thead><tbody>
+<tr><td>Landing/marketing</td><td>Horizontal top nav</td><td>Footer links</td><td>Not needed</td></tr>
+<tr><td>Consumer app</td><td>Bottom tab bar (mobile), sidebar (desktop)</td><td>In-context navigation</td><td>Optional</td></tr>
+<tr><td>SaaS/productivity</td><td>Collapsible sidebar</td><td>Breadcrumbs + tabs</td><td>Command palette</td></tr>
+<tr><td>Dashboard/ops</td><td>Fixed sidebar</td><td>Tab groups per section</td><td>Always visible search bar</td></tr>
+<tr><td>Developer tool</td><td>Sidebar + command palette</td><td>Breadcrumbs</td><td>Prominent Cmd+K</td></tr>
 </tbody></table>
   </div>
 </section>

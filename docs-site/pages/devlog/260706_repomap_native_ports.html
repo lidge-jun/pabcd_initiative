@@ -103,7 +103,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev.html">dev</a>log/_plan/260706_repomap_native_ports/00_spec.md</p>
+<p class="refnote">Source: devlog/_plan/260706_repomap_native_ports/00_spec.md</p>
 <h2 id="00-spec-repo-map-structure-map-tool-sot-native-ports-to-3-harnesses">00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</h2>
 <p>Date: 2026-07-06</p>
 <p>Unit: <code>devlog/_plan/260706_repomap_native_ports/</code></p>
@@ -176,11 +176,11 @@
 <h3 id="the-three-harnesses-are-structurally-different-recon-2026-07-06">The three harnesses are structurally different (recon 2026-07-06)</h3>
 <p>This is the load-bearing finding. A blind copy is impossible; each needs a different</p>
 <p>native shape.</p>
-<table class="rules"><tbody>
-<tr><th>Harness</th><th>Stack</th><th>Map engine path</th><th>Tool surface</th><th>Prompt surface</th></tr>
-<tr><th>codexclaw</th><th>Codex plugin (TS components + Python skill scripts)</th><th>DONE — vendored RepoMapper Python (<code>skills/repo-map/scripts</code>)</th><th><code>cxc map</code> dispatcher + repo-map skill</th><th>SessionStart affordance hook (cxc-ops)</th></tr>
-<tr><th>cli-jaw</th><th>TS/Node/Express client-server; agent = spawned external CLI</th><th>NEW TS engine or external helper (no tree-sitter dep today; has <code>fast-glob</code>, <code>@lezer/highlight</code>)</th><th><code>cli-jaw map</code> CLI command (<code>bin/commands/map.ts</code>); NO model function-tool registry exists</th><th><code>src/prompt/templates/a1-system.md</code> &quot;Project context discovery&quot; section</th></tr>
-<tr><th>jawcode</th><th>TS+Rust monorepo; native pi-ast crate has tree-sitter + ast-grep-core</th><th>NATIVE — add tags-query to <code>crates/pi-ast</code>, expose via <code>pi-natives</code> napi</th><th><code>jwc map</code> CLI (<code>packages/coding-agent/src/cli.ts</code>) + agent tool (<code>src/tools/index.ts</code> registry)</th><th><code>packages/coding-agent/src/prompts/system/system-prompt.md</code> <code>&lt;ast-tools&gt;</code> section</th></tr>
+<table class="rules">
+<thead><tr><th>Harness</th><th>Stack</th><th>Map engine path</th><th>Tool surface</th><th>Prompt surface</th></tr></thead><tbody>
+<tr><td>codexclaw</td><td>Codex plugin (TS components + Python skill scripts)</td><td>DONE — vendored RepoMapper Python (<code>skills/repo-map/scripts</code>)</td><td><code>cxc map</code> dispatcher + repo-map skill</td><td>SessionStart affordance hook (cxc-ops)</td></tr>
+<tr><td>cli-jaw</td><td>TS/Node/Express client-server; agent = spawned external CLI</td><td>NEW TS engine or external helper (no tree-sitter dep today; has <code>fast-glob</code>, <code>@lezer/highlight</code>)</td><td><code>cli-jaw map</code> CLI command (<code>bin/commands/map.ts</code>); NO model function-tool registry exists</td><td><code>src/prompt/templates/a1-system.md</code> &quot;Project context discovery&quot; section</td></tr>
+<tr><td>jawcode</td><td>TS+Rust monorepo; native pi-ast crate has tree-sitter + ast-grep-core</td><td>NATIVE — add tags-query to <code>crates/pi-ast</code>, expose via <code>pi-natives</code> napi</td><td><code>jwc map</code> CLI (<code>packages/coding-agent/src/cli.ts</code>) + agent tool (<code>src/tools/index.ts</code> registry)</td><td><code>packages/coding-agent/src/prompts/system/system-prompt.md</code> <code>&lt;ast-tools&gt;</code> section</td></tr>
 </tbody></table>
 <h3 id="sot-deployment-line-how-sync-works">SoT deployment line (how sync works)</h3>
 <p><code>skills/dev-scaffolding</code> already owns SOT-SYNC-01: find the general SoT doc, patch it in</p>

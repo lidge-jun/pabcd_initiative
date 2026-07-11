@@ -103,18 +103,18 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev.html">dev</a>log/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md</p>
+<p class="refnote">Source: devlog/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md</p>
 <h2 id="render-artifact-verification-grounding-for-pabcd-c-phase">Render-Artifact Verification Grounding for PABCD C Phase</h2>
-<table class="rules"><tbody>
-<tr><th>Field</th><th>Value</th></tr>
-<tr><th>Date</th><th>2026-07-05</th></tr>
-<tr><th>Status</th><th>Proposed</th></tr>
-<tr><th>Provenance</th><th><a href="https://github.com/fivetaku/fablize">fivetaku/fablize</a> (MIT), pack: <a href="https://github.com/fivetaku/fablize/blob/main/packs/verification-grounding-pack.txt"><code>packs/verification-grounding-pack.txt</code></a></th></tr>
-<tr><th>Transfer evidence</th><th>Fable-vs-Opus controlled A/B comparison graded this procedure as transferable/verified; adoption-candidate #3 from the fablize review</th></tr>
+<table class="rules">
+<thead><tr><th>Field</th><th>Value</th></tr></thead><tbody>
+<tr><td>Date</td><td>2026-07-05</td></tr>
+<tr><td>Status</td><td>Proposed</td></tr>
+<tr><td>Provenance</td><td><a href="https://github.com/fivetaku/fablize">fivetaku/fablize</a> (MIT), pack: <a href="https://github.com/fivetaku/fablize/blob/main/packs/verification-grounding-pack.txt"><code>packs/verification-grounding-pack.txt</code></a></td></tr>
+<tr><td>Transfer evidence</td><td>Fable-vs-Opus controlled A/B comparison graded this procedure as transferable/verified; adoption-candidate #3 from the fablize review</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="1-problem-statement">1. Problem Statement</h3>
-<p>The PABCD C phase (<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> SKILL.md section 3, &quot;C -- Check&quot;) currently gates on:</p>
+<p>The PABCD C phase (dev-pabcd SKILL.md section 3, &quot;C -- Check&quot;) currently gates on:</p>
 <ol>
 <li>File consistency</li>
 <li><code>npx tsc --noEmit</code> (TypeScript projects)</li>
@@ -178,11 +178,11 @@ suite are excluded -- for those, the existing spec-satisfaction gate suffices.</
 <p>---</p>
 <h3 id="3-scope-guard">3. Scope Guard</h3>
 <h4 id="trigger-by-work-class">Trigger by work class</h4>
-<table class="rules"><tbody>
-<tr><th>Class</th><th>Render grounding applicability</th></tr>
-<tr><th>C0-C1</th><th>Already satisfied by &quot;smallest proof&quot; if the proof IS a render observation. No additional ceremony required -- if you opened it and saw it work, that counts.</th></tr>
-<tr><th>C2</th><th>Applies when the work-phase outcome IS a render artifact (the &quot;targeted gate&quot; row). Skip for backend-only C2.</th></tr>
-<tr><th>C3-C4</th><th>Mandatory when the work-phase outcome includes any render artifact.</th></tr>
+<table class="rules">
+<thead><tr><th>Class</th><th>Render grounding applicability</th></tr></thead><tbody>
+<tr><td>C0-C1</td><td>Already satisfied by &quot;smallest proof&quot; if the proof IS a render observation. No additional ceremony required -- if you opened it and saw it work, that counts.</td></tr>
+<tr><td>C2</td><td>Applies when the work-phase outcome IS a render artifact (the &quot;targeted gate&quot; row). Skip for backend-only C2.</td></tr>
+<tr><td>C3-C4</td><td>Mandatory when the work-phase outcome includes any render artifact.</td></tr>
 </tbody></table>
 <h4 id="over-gating-prevention">Over-gating prevention</h4>
 <p>Fablize measured ~1/3 false-positive nags on its *stop gate* when it fired on task</p>
@@ -240,7 +240,7 @@ Final sanity check:
 <ul>
 <li><strong>No visual regression baseline system.</strong> Establishing golden-screenshot baselines</li>
 </ul>
-<p>and pixel-diff CI gates is out of scope (belongs in <a href="../../pages/skills/dev-testing.html">dev-testing</a> if adopted later).</p>
+<p>and pixel-diff CI gates is out of scope (belongs in dev-testing if adopted later).</p>
 <p>---</p>
 <h3 id="6-open-questions-resolved-user-interview-2026-07-05">6. Open Questions — RESOLVED (user interview, 2026-07-05)</h3>
 <ol>

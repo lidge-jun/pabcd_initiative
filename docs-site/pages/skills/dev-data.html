@@ -105,7 +105,7 @@
   <div class="band-inner">
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-data/SKILL.md" target="_blank" rel="noopener">skills/dev-data/SKILL.md</a></p>
 <p class="lede">Data pipelines, ETL/ELT design, quality validation, SQL optimization, and analysis.</p>
-<div class="evidence"><strong>왜 별도 모듈인가</strong><br>데이터 파이프라인은 앱 CRUD와 근본적으로 다른 관심사를 가진다: 멱등성, 체크포인트 재시작, 데이터 품질 검증, 배치/스트리밍 선택. 이걸 <a href="../../pages/skills/dev-backend.html">dev-backend</a>에 포함시키면 일반 API 작업에도 불필요한 ETL 문맥이 로드되고, 파이프라인 작업 시에는 정작 필요한 가이드가 묻힌다. 별도 모듈로 분리해서 데이터 작업의 고유한 원칙을 전면에 놓는다.</div>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>데이터 파이프라인은 앱 CRUD와 근본적으로 다른 관심사를 가진다: 멱등성, 체크포인트 재시작, 데이터 품질 검증, 배치/스트리밍 선택. 이걸 dev-backend에 포함시키면 일반 API 작업에도 불필요한 ETL 문맥이 로드되고, 파이프라인 작업 시에는 정작 필요한 가이드가 묻힌다. 별도 모듈로 분리해서 데이터 작업의 고유한 원칙을 전면에 놓는다.</div>
 <div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
 <p>LLM은 데이터 처리 코드를 작성할 때 해피 패스만 구현한다. CSV 파일에 빈 행이 있거나, JSON에 예상 못한 null이 있거나, 인코딩이 UTF-8이 아닌 경우를 고려하지 않는다. 이건 LLM이 학습 데이터에서 &#x27;깨끗한 예시&#x27;를 주로 봤기 때문이다. 실제 데이터는 항상 더럽다. Defensive Parsing 원칙은 &#x27;외부 데이터는 null, 잘못된 타입, 추가 컬럼, 누락 컬럼, 인코딩 문제가 전부 있다고 가정하라&#x27;고 명시한다.</p>
 </div>
@@ -191,26 +191,24 @@
 <p>---</p>
 <h3 id="1-data-processing-principles">1. Data Processing Principles</h3>
 <p>Five rules that apply to every data task:</p>
-<table class="rules"><tbody>
-<tr><th>Principle</th><th>What It Means</th></tr>
-<tr><th><strong>Pipeline thinking</strong></th><th>Every pipeline is Extract → Transform → Load. Keep each stage as an independent, testable function.</th></tr>
-<tr><th><strong>Schema-first</strong></th><th>Define expected columns, types, and constraints BEFORE writing transformation logic.</th></tr>
-<tr><th><strong>Defensive parsing</strong></th><th>External data will have nulls, wrong types, extra columns, missing columns, and encoding issues. Assume all of these.</th></tr>
-<tr><th><strong>Idempotent operations</strong></th><th>Running the same pipeline twice on the same input must produce the same output. Use upsert patterns, not blind inserts.</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Fail fast, fail loud</strong></th><th>Raise errors at pipeline boundaries immediately. Internal transforms propagate errors; dead-letter queues handle row-level quarantine at the boundary (see §3).</th></tr>
+<table class="rules">
+<thead><tr><th>Principle</th><th>What It Means</th></tr></thead><tbody>
+<tr><td><strong>Pipeline thinking</strong></td><td>Every pipeline is Extract → Transform → Load. Keep each stage as an independent, testable function.</td></tr>
+<tr><td><strong>Schema-first</strong></td><td>Define expected columns, types, and constraints BEFORE writing transformation logic.</td></tr>
+<tr><td><strong>Defensive parsing</strong></td><td>External data will have nulls, wrong types, extra columns, missing columns, and encoding issues. Assume all of these.</td></tr>
+<tr><td><strong>Idempotent operations</strong></td><td>Running the same pipeline twice on the same input must produce the same output. Use upsert patterns, not blind inserts.</td></tr>
+<tr><td><strong>Fail fast, fail loud</strong></td><td>Raise errors at pipeline boundaries immediately. Internal transforms propagate errors; dead-letter queues handle row-level quarantine at the boundary (see §3).</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="2-data-ingestion-patterns">2. Data Ingestion Patterns</h3>
 <h4 id="format-specific-guidance">Format-Specific Guidance</h4>
-<table class="rules"><tbody>
-<tr><th>Format</th><th>Best For</th><th>Watch Out For</th></tr>
-<tr><th><strong>CSV</strong></th><th>Simple tabular data, human-readable</th><th>Encoding (UTF-8 BOM), delimiter ambiguity, multiline values, inconsistent quoting</th></tr>
-<tr><th><strong>JSON</strong></th><th>Nested structures, API responses</th><th>Large files (stream, don&#x27;t load all at once), deeply nested objects, encoding</th></tr>
-<tr><th><strong>Parquet</strong></th><th>Large analytical datasets, columnar queries</th><th>Requires library support, not human-readable, schema evolution</th></tr>
-<tr><th><strong>Excel</strong></th><th>Business user handoffs</th><th>Multiple sheets, merged cells, formulas vs. values, date formatting</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Database</strong></th><th>Production system access</th><th>Connection pooling, query timeouts, use read replicas for analytics</th></tr>
+<table class="rules">
+<thead><tr><th>Format</th><th>Best For</th><th>Watch Out For</th></tr></thead><tbody>
+<tr><td><strong>CSV</strong></td><td>Simple tabular data, human-readable</td><td>Encoding (UTF-8 BOM), delimiter ambiguity, multiline values, inconsistent quoting</td></tr>
+<tr><td><strong>JSON</strong></td><td>Nested structures, API responses</td><td>Large files (stream, don&#x27;t load all at once), deeply nested objects, encoding</td></tr>
+<tr><td><strong>Parquet</strong></td><td>Large analytical datasets, columnar queries</td><td>Requires library support, not human-readable, schema evolution</td></tr>
+<tr><td><strong>Excel</strong></td><td>Business user handoffs</td><td>Multiple sheets, merged cells, formulas vs. values, date formatting</td></tr>
+<tr><td><strong>Database</strong></td><td>Production system access</td><td>Connection pooling, query timeouts, use read replicas for analytics</td></tr>
 </tbody></table>
 <h4 id="incremental-loading">Incremental Loading</h4>
 <p>For large or frequently updated data sources:</p>
@@ -254,12 +252,12 @@
 <li>Use <code>dbt source freshness</code> to monitor upstream data staleness</li>
 </ul>
 <h4 id="error-handling-in-pipelines">Error Handling in Pipelines</h4>
-<table class="rules"><tbody>
-<tr><th>Scenario</th><th>Pattern</th></tr>
-<tr><th><strong>Invalid records</strong></th><th>Write to dead-letter table/file for manual review. Preserve every record for debugging.</th></tr>
-<tr><th><strong>Source unavailable</strong></th><th>Retry with exponential backoff (1s, 2s, 4s). Alert after 3 failures.</th></tr>
-<tr><th><strong>Schema mismatch</strong></th><th>Halt pipeline. Log expected vs. actual schema. Don&#x27;t attempt partial loads.</th></tr>
-<tr><th><strong>Duplicate records</strong></th><th>Use upsert (INSERT ON CONFLICT UPDATE) or deduplicate with window functions.</th></tr>
+<table class="rules">
+<thead><tr><th>Scenario</th><th>Pattern</th></tr></thead><tbody>
+<tr><td><strong>Invalid records</strong></td><td>Write to dead-letter table/file for manual review. Preserve every record for debugging.</td></tr>
+<tr><td><strong>Source unavailable</strong></td><td>Retry with exponential backoff (1s, 2s, 4s). Alert after 3 failures.</td></tr>
+<tr><td><strong>Schema mismatch</strong></td><td>Halt pipeline. Log expected vs. actual schema. Don&#x27;t attempt partial loads.</td></tr>
+<tr><td><strong>Duplicate records</strong></td><td>Use upsert (INSERT ON CONFLICT UPDATE) or deduplicate with window functions.</td></tr>
 </tbody></table>
 <h4 id="orchestration-basics">Orchestration Basics</h4>
 <p>When pipelines have multiple steps with dependencies:</p>
@@ -274,24 +272,24 @@
 <h3 id="4-data-quality">4. Data Quality</h3>
 <h4 id="validation-checks">Validation Checks</h4>
 <p>Run these after every pipeline step, not just at the end:</p>
-<table class="rules"><tbody>
-<tr><th>Check</th><th>What It Validates</th><th>Example</th></tr>
-<tr><th><strong>Not null</strong></th><th>Required fields have values</th><th><code>WHERE order_id IS NULL</code> → 0 rows</th></tr>
-<tr><th><strong>Unique</strong></th><th>No duplicates on key columns</th><th><code>COUNT(*) = COUNT(DISTINCT id)</code></th></tr>
-<tr><th><strong>Range</strong></th><th>Numeric values within bounds</th><th><code>amount BETWEEN 0 AND 1,000,000</code></th></tr>
-<tr><th><strong>Categorical</strong></th><th>Values in allowed set</th><th><code>status IN (&#x27;pending&#x27;, &#x27;active&#x27;, &#x27;closed&#x27;)</code></th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Freshness</strong></th><th>Data is recent enough</th><th><code>MAX(updated_at) &gt; NOW() - INTERVAL &#x27;24 hours&#x27;</code></th></tr>
-<tr><th><strong>Row count</strong></th><th>No unexpected data loss or explosion</th><th>Within ±10% of previous run</th></tr>
-<tr><th><strong>Referential</strong></th><th>Foreign keys point to existing records</th><th><code>customer_id EXISTS IN customers</code></th></tr>
+<table class="rules">
+<thead><tr><th>Check</th><th>What It Validates</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Not null</strong></td><td>Required fields have values</td><td><code>WHERE order_id IS NULL</code> → 0 rows</td></tr>
+<tr><td><strong>Unique</strong></td><td>No duplicates on key columns</td><td><code>COUNT(*) = COUNT(DISTINCT id)</code></td></tr>
+<tr><td><strong>Range</strong></td><td>Numeric values within bounds</td><td><code>amount BETWEEN 0 AND 1,000,000</code></td></tr>
+<tr><td><strong>Categorical</strong></td><td>Values in allowed set</td><td><code>status IN (&#x27;pending&#x27;, &#x27;active&#x27;, &#x27;closed&#x27;)</code></td></tr>
+<tr><td><strong>Freshness</strong></td><td>Data is recent enough</td><td><code>MAX(updated_at) &gt; NOW() - INTERVAL &#x27;24 hours&#x27;</code></td></tr>
+<table class="rules">
+<tr><td><strong>Row count</strong></td><td>No unexpected data loss or explosion</td><td>Within ±10% of previous run</td></tr>
+<tr><td><strong>Referential</strong></td><td>Foreign keys point to existing records</td><td><code>customer_id EXISTS IN customers</code></td></tr>
 </tbody></table>
 <h4 id="quality-tool-integration">Quality Tool Integration</h4>
 <p>Use a <strong>layered quality strategy</strong> — different tools at different pipeline stages:</p>
-<table class="rules"><tbody>
-<tr><th>Stage</th><th>Tool</th><th>Purpose</th></tr>
-<tr><th><strong>Ingest</strong></th><th>Great Expectations</th><th>Validate raw data against expectations before staging</th></tr>
-<tr><th><strong>Transform</strong></th><th>dbt tests</th><th>Assert model-level quality (not_null, unique, relationships, custom SQL)</th></tr>
-<tr><th><strong>Production</strong></th><th>Soda / Monte Carlo</th><th>Real-time monitoring, anomaly detection, SLA enforcement</th></tr>
+<thead><tr><th>Stage</th><th>Tool</th><th>Purpose</th></tr></thead><tbody>
+<table class="rules">
+<tr><td><strong>Ingest</strong></td><td>Great Expectations</td><td>Validate raw data against expectations before staging</td></tr>
+<tr><td><strong>Transform</strong></td><td>dbt tests</td><td>Assert model-level quality (not_null, unique, relationships, custom SQL)</td></tr>
+<tr><td><strong>Production</strong></td><td>Soda / Monte Carlo</td><td>Real-time monitoring, anomaly detection, SLA enforcement</td></tr>
 </tbody></table>
 <p>Validate data dimensions: completeness, uniqueness, range, format, referential integrity, freshness.</p>
 <p><strong>Rule:</strong> Run validation on every pipeline step — skipping &quot;because the data looks fine&quot; leads to silent downstream corruption.</p>
@@ -309,23 +307,23 @@
 <h3 id="5-analysis-reporting">5. Analysis &amp; Reporting</h3>
 <h4 id="always-start-with-summary-statistics">Always Start with Summary Statistics</h4>
 <p>Before any deep analysis, provide:</p>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>What to Report</th></tr>
-<tr><th>Row count</th><th>Total records in dataset</th></tr>
-<tr><th>Column inventory</th><th>Name, type, null count per column</th></tr>
-<tr><th>Numeric summary</th><th>min, max, mean, median, std <a href="../../pages/skills/dev.html">dev</a></th></tr>
-<tr><th>Categorical summary</th><th>Unique values, top 5 most frequent</th></tr>
-<table class="rules"><tbody>
-<tr><th>Time range</th><th>Earliest and latest timestamp</th></tr>
-<tr><th>Data quality</th><th>Null percentage, duplicate percentage</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>What to Report</th></tr></thead><tbody>
+<tr><td>Row count</td><td>Total records in dataset</td></tr>
+<tr><td>Column inventory</td><td>Name, type, null count per column</td></tr>
+<tr><td>Numeric summary</td><td>min, max, mean, median, std dev</td></tr>
+<tr><td>Categorical summary</td><td>Unique values, top 5 most frequent</td></tr>
+<tr><td>Time range</td><td>Earliest and latest timestamp</td></tr>
+<table class="rules">
+<tr><td>Data quality</td><td>Null percentage, duplicate percentage</td></tr>
 </tbody></table>
 <h4 id="output-formats">Output Formats</h4>
-<tr><th>Format</th><th>When to Use</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Markdown tables</strong></th><th>Inline reports, ≤50 rows, quick summaries</th></tr>
-<tr><th><strong>JSON</strong></th><th>Programmatic consumption, API responses</th></tr>
-<tr><th><strong>CSV export</strong></th><th>Handoff to spreadsheet users, large datasets</th></tr>
-<tr><th><strong>HTML + charts</strong></th><th>Dashboards, visual reports (Chart.js, Mermaid diagrams)</th></tr>
+<thead><tr><th>Format</th><th>When to Use</th></tr></thead><tbody>
+<tr><td><strong>Markdown tables</strong></td><td>Inline reports, ≤50 rows, quick summaries</td></tr>
+<tr><td><strong>JSON</strong></td><td>Programmatic consumption, API responses</td></tr>
+<table class="rules">
+<tr><td><strong>CSV export</strong></td><td>Handoff to spreadsheet users, large datasets</td></tr>
+<tr><td><strong>HTML + charts</strong></td><td>Dashboards, visual reports (Chart.js, Mermaid diagrams)</td></tr>
 </tbody></table>
 <h4 id="statistical-reporting">Statistical Reporting</h4>
 <p>When analysis involves statistics:</p>
@@ -338,21 +336,21 @@
 <p>---</p>
 <h3 id="6-architecture-decisions">6. Architecture Decisions</h3>
 <h4 id="batch-vs-streaming">Batch vs. Streaming</h4>
-<table class="rules"><tbody>
-<tr><th>Condition</th><th>Choose</th></tr>
-<tr><th>Real-time insight required (sub-minute latency)</th><th>Streaming (Kafka + Flink, Spark Structured Streaming, or Kafka Streams depending on complexity)</th></tr>
-<tr><th>Exactly-once semantics needed</th><th>Kafka transactional producers + Flink/Spark</th></tr>
-<tr><th>Latency &gt;1 min acceptable, volume &gt;1TB/day</th><th>Distributed batch (Spark, Databricks)</th></tr>
-<tr><th>Latency &gt;1 min acceptable, volume &lt;1TB/day</th><th>Single-node batch (SQL, Python, dbt)</th></tr>
+<table class="rules">
+<thead><tr><th>Condition</th><th>Choose</th></tr></thead><tbody>
+<tr><td>Real-time insight required (sub-minute latency)</td><td>Streaming (Kafka + Flink, Spark Structured Streaming, or Kafka Streams depending on complexity)</td></tr>
+<tr><td>Exactly-once semantics needed</td><td>Kafka transactional producers + Flink/Spark</td></tr>
+<tr><td>Latency &gt;1 min acceptable, volume &gt;1TB/day</td><td>Distributed batch (Spark, Databricks)</td></tr>
+<tr><td>Latency &gt;1 min acceptable, volume &lt;1TB/day</td><td>Single-node batch (SQL, Python, dbt)</td></tr>
 </tbody></table>
 <p><strong>Default to batch.</strong> Streaming adds significant complexity in error handling, state management, and debugging. Only use streaming when latency requirements genuinely demand it.</p>
 <h4 id="streaming-decision-tiers-heuristic-guidance">Streaming Decision Tiers (heuristic guidance)</h4>
-<table class="rules"><tbody>
-<tr><th>Latency Requirement</th><th>Framework</th><th>Complexity</th></tr>
-<tr><th>Sub-100ms, complex stateful</th><th>Apache Flink</th><th>High (dedicated cluster)</th></tr>
-<tr><th>Sub-second, existing Spark infra</th><th>Spark Structured Streaming</th><th>Medium</th></tr>
-<tr><th>Sub-second, Kafka-centric</th><th>Kafka Streams (embedded library)</th><th>Low-Medium</th></tr>
-<tr><th>Minutes acceptable</th><th>Batch with frequent scheduling</th><th>Low</th></tr>
+<table class="rules">
+<thead><tr><th>Latency Requirement</th><th>Framework</th><th>Complexity</th></tr></thead><tbody>
+<tr><td>Sub-100ms, complex stateful</td><td>Apache Flink</td><td>High (dedicated cluster)</td></tr>
+<tr><td>Sub-second, existing Spark infra</td><td>Spark Structured Streaming</td><td>Medium</td></tr>
+<tr><td>Sub-second, Kafka-centric</td><td>Kafka Streams (embedded library)</td><td>Low-Medium</td></tr>
+<tr><td>Minutes acceptable</td><td>Batch with frequent scheduling</td><td>Low</td></tr>
 </tbody></table>
 <p><strong>Kafka essentials for data engineers (Kafka 4.x / KRaft era — no ZooKeeper):</strong></p>
 <ul>
@@ -364,59 +362,59 @@
 </ul>
 <p>See <code>references/streaming.md</code> for Kafka configuration, CDC patterns, and windowing.</p>
 <h4 id="storage-selection">Storage Selection</h4>
-<table class="rules"><tbody>
-<tr><th>Need</th><th>Choose</th></tr>
-<tr><th>SQL analytics, BI dashboards, structured queries</th><th>Data warehouse (Snowflake, BigQuery, PostgreSQL)</th></tr>
-<tr><th>ML training, unstructured data, large-scale storage</th><th>Data lake (S3/GCS + Parquet or Delta format)</th></tr>
-<tr><th>Both SQL and ML needs</th><th>Lakehouse (Delta Lake, Apache Iceberg)</th></tr>
-<tr><th>Real-time key-value lookups, caching</th><th>Redis, DynamoDB</th></tr>
-<table class="rules"><tbody>
-<tr><th>Graph relationships</th><th>Neo4j, Neptune</th></tr>
+<table class="rules">
+<thead><tr><th>Need</th><th>Choose</th></tr></thead><tbody>
+<tr><td>SQL analytics, BI dashboards, structured queries</td><td>Data warehouse (Snowflake, BigQuery, PostgreSQL)</td></tr>
+<tr><td>ML training, unstructured data, large-scale storage</td><td>Data lake (S3/GCS + Parquet or Delta format)</td></tr>
+<tr><td>Both SQL and ML needs</td><td>Lakehouse (Delta Lake, Apache Iceberg)</td></tr>
+<tr><td>Real-time key-value lookups, caching</td><td>Redis, DynamoDB</td></tr>
+<tr><td>Graph relationships</td><td>Neo4j, Neptune</td></tr>
 </tbody></table>
 <h4 id="tool-selection">Tool Selection</h4>
-<tr><th>Category</th><th>Options (verified 2026-07-02)</th></tr>
-<tr><th><strong>Orchestration</strong></th><th>Airflow 3.x (standalone DAG processor; <code>SequentialExecutor</code> removed), Prefect 3, Dagster</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Transformation</strong></th><th>dbt Core / dbt Fusion / SQLMesh, Spark, plain SQL</th></tr>
-<tr><th><strong>Streaming</strong></th><th>Kafka 4.x (KRaft), Kinesis, Pub/Sub</th></tr>
-<tr><th><strong>Quality</strong></th><th>GX Core (Great Expectations&#x27; OSS library), dbt tests, Soda Core (data contracts), custom validators</th></tr>
-<tr><th><strong>Monitoring</strong></th><th>Prometheus, Grafana, Datadog, Monte Carlo (data observability)</th></tr>
-<tr><th><strong>Local analysis</strong></th><th>DuckDB (in-process SQL), Polars (fast DataFrame), pandas 3.x (exploration/ML)</th></tr>
+<table class="rules">
+<thead><tr><th>Category</th><th>Options (verified 2026-07-02)</th></tr></thead><tbody>
+<tr><td><strong>Orchestration</strong></td><td>Airflow 3.x (standalone DAG processor; <code>SequentialExecutor</code> removed), Prefect 3, Dagster</td></tr>
+<tr><td><strong>Transformation</strong></td><td>dbt Core / dbt Fusion / SQLMesh, Spark, plain SQL</td></tr>
+<tr><td><strong>Streaming</strong></td><td>Kafka 4.x (KRaft), Kinesis, Pub/Sub</td></tr>
+<tr><td><strong>Quality</strong></td><td>GX Core (Great Expectations&#x27; OSS library), dbt tests, Soda Core (data contracts), custom validators</td></tr>
+<tr><td><strong>Monitoring</strong></td><td>Prometheus, Grafana, Datadog, Monte Carlo (data observability)</td></tr>
+<table class="rules">
+<tr><td><strong>Local analysis</strong></td><td>DuckDB (in-process SQL), Polars (fast DataFrame), pandas 3.x (exploration/ML)</td></tr>
 </tbody></table>
 <p>Lakehouse format: do NOT assume &quot;Iceberg won&quot; — Delta Lake and Apache Iceberg are both</p>
 <p>active; choose by ecosystem (engine/vendor support, catalog, existing stack), not by</p>
 <p>mindshare claims.</p>
 <h4 id="tool-decision-matrix">Tool Decision Matrix</h4>
-<table class="rules"><tbody>
-<tr><th>Factor</th><th>pandas</th><th>Polars</th><th>DuckDB</th></tr>
-<tr><th><strong>Best for</strong></th><th>&lt;100MB, exploration, ML prep</th><th>&gt;100MB, batch ETL, performance</th><th>SQL analytics, ad-hoc queries</th></tr>
-<tr><th><strong>Execution</strong></th><th>Single-threaded, eager</th><th>Multi-threaded Rust, lazy eval</th><th>Vectorized, auto disk spill</th></tr>
-<tr><th><strong>Speed (groupby/join)</strong></th><th>Baseline</th><th>5-10x faster</th><th>Matches Polars on SQL-native</th></tr>
-<tr><th><strong>Memory</strong></th><th>Full load into RAM</th><th>Streaming, lazy chains</th><th>Spill-to-disk for out-of-core</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>API style</strong></th><th>DataFrame (imperative)</th><th>DataFrame (expression-based)</th><th>SQL-first</th></tr>
-<tr><th><strong>ML interop</strong></th><th>Excellent (scikit-learn, etc.)</th><th>Good (<code>.to_pandas()</code>)</th><th>Good (<code>.fetchdf()</code>)</th></tr>
-<tr><th><strong>File format</strong></th><th>CSV, JSON, Excel</th><th>CSV, Parquet, Arrow-native</th><th>CSV, Parquet, JSON, S3 direct</th></tr>
+<table class="rules">
+<thead><tr><th>Factor</th><th>pandas</th><th>Polars</th><th>DuckDB</th></tr></thead><tbody>
+<tr><td><strong>Best for</strong></td><td>&lt;100MB, exploration, ML prep</td><td>&gt;100MB, batch ETL, performance</td><td>SQL analytics, ad-hoc queries</td></tr>
+<tr><td><strong>Execution</strong></td><td>Single-threaded, eager</td><td>Multi-threaded Rust, lazy eval</td><td>Vectorized, auto disk spill</td></tr>
+<tr><td><strong>Speed (groupby/join)</strong></td><td>Baseline</td><td>5-10x faster</td><td>Matches Polars on SQL-native</td></tr>
+<tr><td><strong>Memory</strong></td><td>Full load into RAM</td><td>Streaming, lazy chains</td><td>Spill-to-disk for out-of-core</td></tr>
+<tr><td><strong>API style</strong></td><td>DataFrame (imperative)</td><td>DataFrame (expression-based)</td><td>SQL-first</td></tr>
+<table class="rules">
+<tr><td><strong>ML interop</strong></td><td>Excellent (scikit-learn, etc.)</td><td>Good (<code>.to_pandas()</code>)</td><td>Good (<code>.fetchdf()</code>)</td></tr>
+<tr><td><strong>File format</strong></td><td>CSV, JSON, Excel</td><td>CSV, Parquet, Arrow-native</td><td>CSV, Parquet, JSON, S3 direct</td></tr>
 </tbody></table>
 <p><strong>Decision rule (HEURISTIC — size bands are guidance, not hard cutoffs):</strong></p>
-<table class="rules"><tbody>
-<tr><th>Data size / workflow</th><th>Recommended tool</th></tr>
-<tr><th>Small (&lt;100MB), interactive exploration</th><th>pandas</th></tr>
-<tr><th>Medium (100MB-10GB), batch transforms</th><th>Polars</th></tr>
-<tr><th>SQL-first analytics, any size</th><th>DuckDB</th></tr>
-<tr><th>Blended workflow</th><th>Polars transforms, DuckDB aggregations (zero-copy via Arrow)</th></tr>
+<thead><tr><th>Data size / workflow</th><th>Recommended tool</th></tr></thead><tbody>
+<tr><td>Small (&lt;100MB), interactive exploration</td><td>pandas</td></tr>
+<table class="rules">
+<tr><td>Medium (100MB-10GB), batch transforms</td><td>Polars</td></tr>
+<tr><td>SQL-first analytics, any size</td><td>DuckDB</td></tr>
+<tr><td>Blended workflow</td><td>Polars transforms, DuckDB aggregations (zero-copy via Arrow)</td></tr>
 </tbody></table>
 <p>See <code>references/tools.md</code> for full patterns and code examples.</p>
 <p>See <code>references/ml-pipeline.md</code> for ML training pipelines, experiment tracking (MLflow 3.x), feature stores (Feast), and data versioning (DVC/Delta Lake).</p>
 <p>---</p>
 <h3 id="7-data-governance-pii">7. Data Governance &amp; PII</h3>
 <h4 id="data-classification">Data Classification</h4>
-<table class="rules"><tbody>
-<tr><th>Level</th><th>Examples</th><th>Handling</th></tr>
-<tr><th><strong>Public</strong></th><th>Aggregated metrics, public reports</th><th>No restrictions</th></tr>
-<tr><th><strong>Internal</strong></th><th>Business KPIs, operational data</th><th>Access controls, no external sharing</th></tr>
-<tr><th><strong>Confidential</strong></th><th>Customer data, financial records</th><th>Encryption at rest, column-level masking</th></tr>
-<tr><th><strong>Restricted</strong></th><th>SSN, payment data, health records</th><th>Tokenization, row-level security, audit logging</th></tr>
+<table class="rules">
+<thead><tr><th>Level</th><th>Examples</th><th>Handling</th></tr></thead><tbody>
+<tr><td><strong>Public</strong></td><td>Aggregated metrics, public reports</td><td>No restrictions</td></tr>
+<tr><td><strong>Internal</strong></td><td>Business KPIs, operational data</td><td>Access controls, no external sharing</td></tr>
+<tr><td><strong>Confidential</strong></td><td>Customer data, financial records</td><td>Encryption at rest, column-level masking</td></tr>
+<tr><td><strong>Restricted</strong></td><td>SSN, payment data, health records</td><td>Tokenization, row-level security, audit logging</td></tr>
 </tbody></table>
 <h4 id="pii-handling-checklist">PII Handling Checklist</h4>
 <p>Before building any pipeline that touches PII:</p>
@@ -430,12 +428,12 @@
 <li>[ ] Mask raw PII values before logs and traces — use structured logging with redaction</li>
 </ul>
 <h4 id="gdpr-ccpa-quick-reference">GDPR/CCPA Quick Reference</h4>
-<table class="rules"><tbody>
-<tr><th>Requirement</th><th>Engineering Pattern</th></tr>
-<tr><th>Right to erasure</th><th>Soft delete → batch purge → propagate to downstream stores including data lake</th></tr>
-<tr><th>Data minimization</th><th>Collect only necessary fields; TTL on non-essential data</th></tr>
-<tr><th>Consent tracking</th><th>Consent event store with versioned preferences; consent-aware pipeline branches</th></tr>
-<tr><th>Data portability</th><th>Standardized export endpoint (JSON/CSV) per user request</th></tr>
+<table class="rules">
+<thead><tr><th>Requirement</th><th>Engineering Pattern</th></tr></thead><tbody>
+<tr><td>Right to erasure</td><td>Soft delete → batch purge → propagate to downstream stores including data lake</td></tr>
+<tr><td>Data minimization</td><td>Collect only necessary fields; TTL on non-essential data</td></tr>
+<tr><td>Consent tracking</td><td>Consent event store with versioned preferences; consent-aware pipeline branches</td></tr>
+<tr><td>Data portability</td><td>Standardized export endpoint (JSON/CSV) per user request</td></tr>
 </tbody></table>
 <p>See <code>references/governance.md</code> for detailed implementation patterns, row-level security, and retention policies.</p>
 <p>---</p>
@@ -455,12 +453,12 @@
 <p>---</p>
 <h3 id="9-companion-skills">9. Companion Skills</h3>
 <p>Data engineering does not exist in isolation. Cross-reference these skills when your pipeline connects to other systems:</p>
-<table class="rules"><tbody>
-<tr><th>Companion</th><th>When to Consult</th><th>Key Sections</th></tr>
-<tr><th><code>dev-backend</code></th><th>Exposing data via API, response envelope shape, pagination</th><th>§5 API Response Contract, §2 Layered Architecture</th></tr>
-<tr><th><code>dev-security</code></th><th>PII handling, data classification, access controls, audit logging, input validation policy (per <a href="../../pages/skills/dev-security.html">dev-security</a> §10 ownership matrix)</th><th>§1 Input Validation, §4 Secrets, §8 Pre-Flight</th></tr>
-<tr><th><code>dev-testing</code></th><th>Pipeline validation, contract tests for data APIs, CI gates</th><th>§2 Backend &amp; API Testing, §3 Contract Testing</th></tr>
-<tr><th><code>dev-frontend</code></th><th>Downstream reporting/dashboard consumers, data format expectations</th><th>§15 Backend Contract &amp; Security Alignment</th></tr>
+<table class="rules">
+<thead><tr><th>Companion</th><th>When to Consult</th><th>Key Sections</th></tr></thead><tbody>
+<tr><td><code>dev-backend</code></td><td>Exposing data via API, response envelope shape, pagination</td><td>§5 API Response Contract, §2 Layered Architecture</td></tr>
+<tr><td><code>dev-security</code></td><td>PII handling, data classification, access controls, audit logging, input validation policy (per dev-security §10 ownership matrix)</td><td>§1 Input Validation, §4 Secrets, §8 Pre-Flight</td></tr>
+<tr><td><code>dev-testing</code></td><td>Pipeline validation, contract tests for data APIs, CI gates</td><td>§2 Backend &amp; API Testing, §3 Contract Testing</td></tr>
+<tr><td><code>dev-frontend</code></td><td>Downstream reporting/dashboard consumers, data format expectations</td><td>§15 Backend Contract &amp; Security Alignment</td></tr>
 </tbody></table>
 <p><strong>Integration patterns:</strong></p>
 <ul>

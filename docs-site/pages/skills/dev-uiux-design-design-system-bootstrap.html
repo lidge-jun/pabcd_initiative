@@ -172,7 +172,7 @@
 }</code></pre>
 <ul>
 <li>Never use raw z-index numbers — always token reference</li>
-<li><code>z-max</code> reserved for <a href="../../pages/skills/dev.html">dev</a> tools</li>
+<li><code>z-max</code> reserved for dev tools</li>
 <li>Modal backdrop = <code>--z-modal - 1</code> (399)</li>
 </ul>
 <h4 id="breakpoint-tokens">Breakpoint Tokens</h4>
@@ -184,11 +184,11 @@
 --bp-2xl: 1536px;</code></pre>
 <p>Note: CSS custom properties cannot be used in <code>@media</code> queries directly. These are reference values for documentation and JS usage. For CSS, use raw values with a comment referencing the token name.</p>
 <h4 id="token-naming-convention">Token Naming Convention</h4>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Example</th><th>Use</th></tr>
-<tr><th>Semantic</th><th><code>--color-text-primary</code>, <code>--spacing-section</code></th><th>Component usage</th></tr>
-<tr><th>Scale</th><th><code>--space-4</code>, <code>--radius-lg</code></th><th>Design system primitives</th></tr>
-<tr><th>Composed</th><th><code>--transition-enter</code> = <code>duration + ease</code></th><th>Shorthand combinations</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Example</th><th>Use</th></tr></thead><tbody>
+<tr><td>Semantic</td><td><code>--color-text-primary</code>, <code>--spacing-section</code></td><td>Component usage</td></tr>
+<tr><td>Scale</td><td><code>--space-4</code>, <code>--radius-lg</code></td><td>Design system primitives</td></tr>
+<tr><td>Composed</td><td><code>--transition-enter</code> = <code>duration + ease</code></td><td>Shorthand combinations</td></tr>
 </tbody></table>
 <p>Semantic tokens reference scale tokens. Components use semantic tokens. Never reference scale tokens directly in components.</p>
 <h4 id="extending-existing-systems-shadcn-ui">Extending Existing Systems (shadcn/ui)</h4>

@@ -232,17 +232,17 @@
 <p>This skill owns security policy.</p>
 <p>Domain skills own architecture and implementation details.</p>
 <h3 id="modular-references">Modular References</h3>
-<table class="rules"><tbody>
-<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/owasp-top10.md</code></th><th>Any security-sensitive code</th><th>OWASP Top 10:2025 with unsafe/safe code pairs and checklists. 2025-delta mode: explicitly check A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions, and SSRF folded into A01 Broken Access Control</th></tr>
-<tr><th><code>references/language-quirks.md</code></th><th>When coding in JS/TS, Python, SQL, or Go</th><th>Per-language pitfalls that scanners and reviewers commonly miss</th></tr>
-<tr><th><code>references/static-analysis.md</code></th><th>Before claiming code is secure</th><th>Semgrep, CodeQL, ESLint security, npm audit, pip-audit, Bandit, gitleaks, CI, pre-commit</th></tr>
-<tr><th><code>references/asvs-checklist.md</code></th><th>Before deploy or release</th><th>ASVS 5.0.0 pre-deploy checklist by chapter (V-shortcodes) and requirement level L1/L2</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/agentic-ai-security.md</code></th><th>When building tool-using agents or prompt-driven flows</th><th>OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) mapped to agent rules and safe operating patterns</th></tr>
-<tr><th><code>references/llm-supply-chain.md</code></th><th>When integrating LLMs, RAG pipelines, or consuming tool/agent output</th><th>Indirect prompt injection defense, RAG poisoning controls, tool output trust, CI adversarial tests</th></tr>
-<tr><th><code>references/mcp-supply-chain.md</code></th><th>Adding MCP servers or vetting agent tools</th><th>OWASP MCP secure-<a href="../../pages/skills/dev.html">dev</a>elopment + third-party vetting guides (no official &quot;MCP Top 10&quot; exists — map MCP risks to LLM01/03/06 + Agentic Top 10 ASI02/04/05), server vetting checklist, allowlist/pinning, sandbox, audit logging</th></tr>
-<tr><th><code>references/supply-chain-sbom.md</code></th><th>Dependency auditing or release integrity</th><th>SBOM generation (Syft/Trivy), artifact signing (Cosign/Sigstore), dependency pin &amp; audit CI</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
+<tr><td><code>references/owasp-top10.md</code></td><td>Any security-sensitive code</td><td>OWASP Top 10:2025 with unsafe/safe code pairs and checklists. 2025-delta mode: explicitly check A03 Software Supply Chain Failures, A10 Mishandling of Exceptional Conditions, and SSRF folded into A01 Broken Access Control</td></tr>
+<tr><td><code>references/language-quirks.md</code></td><td>When coding in JS/TS, Python, SQL, or Go</td><td>Per-language pitfalls that scanners and reviewers commonly miss</td></tr>
+<tr><td><code>references/static-analysis.md</code></td><td>Before claiming code is secure</td><td>Semgrep, CodeQL, ESLint security, npm audit, pip-audit, Bandit, gitleaks, CI, pre-commit</td></tr>
+<tr><td><code>references/asvs-checklist.md</code></td><td>Before deploy or release</td><td>ASVS 5.0.0 pre-deploy checklist by chapter (V-shortcodes) and requirement level L1/L2</td></tr>
+<tr><td><code>references/agentic-ai-security.md</code></td><td>When building tool-using agents or prompt-driven flows</td><td>OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) mapped to agent rules and safe operating patterns</td></tr>
+<table class="rules">
+<tr><td><code>references/llm-supply-chain.md</code></td><td>When integrating LLMs, RAG pipelines, or consuming tool/agent output</td><td>Indirect prompt injection defense, RAG poisoning controls, tool output trust, CI adversarial tests</td></tr>
+<tr><td><code>references/mcp-supply-chain.md</code></td><td>Adding MCP servers or vetting agent tools</td><td>OWASP MCP secure-development + third-party vetting guides (no official &quot;MCP Top 10&quot; exists — map MCP risks to LLM01/03/06 + Agentic Top 10 ASI02/04/05), server vetting checklist, allowlist/pinning, sandbox, audit logging</td></tr>
+<tr><td><code>references/supply-chain-sbom.md</code></td><td>Dependency auditing or release integrity</td><td>SBOM generation (Syft/Trivy), artifact signing (Cosign/Sigstore), dependency pin &amp; audit CI</td></tr>
 </tbody></table>
 <p>For current CVEs, advisories, package maintainer/source checks, release</p>
 <p>integrity claims, or registry trust changes, read the active <code>search</code> skill and</p>
@@ -298,15 +298,15 @@
 <h3 id="4-secrets-management">4. Secrets Management</h3>
 <p>Secrets are values that grant access, identity, or decryption capability.</p>
 <p>Treat API keys, database credentials, signing keys, OAuth client secrets, webhook secrets, certificates, and recovery codes as secrets.</p>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Required Practice</th></tr>
-<tr><th>Source control</th><th>Commit <code>.env.example</code>, never commit <code>.env</code>, real keys, tokens, or private certs</th></tr>
-<tr><th>Local development</th><th>Load secrets from environment variables or a local secret store</th></tr>
-<tr><th>Production</th><th>Use Vault, cloud secret manager, or KMS-backed delivery</th></tr>
-<tr><th>Rotation</th><th>Document owner, rotation cadence, and emergency revocation path</th></tr>
-<table class="rules"><tbody>
-<tr><th>Logging</th><th>Redact secrets before logs, traces, analytics, error reports, and screenshots</th></tr>
-<tr><th>Testing</th><th>Use dedicated non-production keys with least privilege</th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Required Practice</th></tr></thead><tbody>
+<tr><td>Source control</td><td>Commit <code>.env.example</code>, never commit <code>.env</code>, real keys, tokens, or private certs</td></tr>
+<tr><td>Local development</td><td>Load secrets from environment variables or a local secret store</td></tr>
+<tr><td>Production</td><td>Use Vault, cloud secret manager, or KMS-backed delivery</td></tr>
+<tr><td>Rotation</td><td>Document owner, rotation cadence, and emergency revocation path</td></tr>
+<tr><td>Logging</td><td>Redact secrets before logs, traces, analytics, error reports, and screenshots</td></tr>
+<table class="rules">
+<tr><td>Testing</td><td>Use dedicated non-production keys with least privilege</td></tr>
 </tbody></table>
 <p>If a repository change touches secrets, run gitleaks before claiming done.</p>
 <p>If a feature adds webhook verification or JWT signing, treat key rollover as part of the feature.</p>
@@ -340,16 +340,16 @@
 <p>Return <code>429 Too Many Requests</code> with <code>Retry-After</code>.</p>
 <p>Log repeated abuse without logging secrets or raw PII.</p>
 <p>Treat the limits below as risk-based starting defaults, not fixed gates — tune them to real traffic, abuse risk, and threat model.</p>
-<table class="rules"><tbody>
-<tr><th>Surface</th><th>Default starting limit</th></tr>
-<tr><th>Login</th><th>~5 requests per minute per IP and account identifier</th></tr>
-<tr><th>Password reset request</th><th>~3 requests per hour per account identifier</th></tr>
-<tr><th>Registration</th><th>~10 requests per hour per IP</th></tr>
-<tr><th>MFA verification</th><th>~10 requests per 10 minutes per session</th></tr>
-<table class="rules"><tbody>
-<tr><th>Public API</th><th>~100 requests per minute per user or API key</th></tr>
-<tr><th>File upload start</th><th>~20 requests per hour per user</th></tr>
-<tr><th>Webhook verification failures</th><th>Alert after burst anomalies and repeated signature failures</th></tr>
+<table class="rules">
+<thead><tr><th>Surface</th><th>Default starting limit</th></tr></thead><tbody>
+<tr><td>Login</td><td>~5 requests per minute per IP and account identifier</td></tr>
+<tr><td>Password reset request</td><td>~3 requests per hour per account identifier</td></tr>
+<tr><td>Registration</td><td>~10 requests per hour per IP</td></tr>
+<tr><td>MFA verification</td><td>~10 requests per 10 minutes per session</td></tr>
+<tr><td>Public API</td><td>~100 requests per minute per user or API key</td></tr>
+<table class="rules">
+<tr><td>File upload start</td><td>~20 requests per hour per user</td></tr>
+<tr><td>Webhook verification failures</td><td>Alert after burst anomalies and repeated signature failures</td></tr>
 </tbody></table>
 <p>Rate limiting is not only for brute force.</p>
 <p>Use it for enumeration, abuse, accidental loops, webhook replay storms, and AI-triggered runaway automation.</p>
@@ -374,14 +374,13 @@
 <h3 id="8-agent-configuration-security">8. Agent Configuration Security</h3>
 <p>Agent-authored configuration files create a trust surface distinct from application code.</p>
 <h4 id="configuration-audit-checklist">Configuration Audit Checklist</h4>
-<table class="rules"><tbody>
-<tr><th>File</th><th>Check For</th></tr>
-<tr><th><code>CLAUDE.md</code> / <code>AGENTS.md</code></th><th>Hardcoded secrets, auto-run instructions, prompt injection patterns</th></tr>
-<tr><th><code>settings.json</code></th><th>Overly permissive allow lists (<code>Bash(*)</code>), missing deny lists, dangerous bypass flags</th></tr>
-<tr><th><code>mcp.json</code></th><th>Risky MCP servers, hardcoded env secrets, <code>npx -y</code> supply chain risks</th></tr>
-<tr><th><code>hooks/</code></th><th>Command injection via <code>${file}</code> interpolation, data exfiltration, silent error suppression</th></tr>
-<table class="rules"><tbody>
-<tr><th>Agent definitions</th><th>Unrestricted tool access, prompt injection surface, missing model constraints</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>Check For</th></tr></thead><tbody>
+<tr><td><code>CLAUDE.md</code> / <code>AGENTS.md</code></td><td>Hardcoded secrets, auto-run instructions, prompt injection patterns</td></tr>
+<tr><td><code>settings.json</code></td><td>Overly permissive allow lists (<code>Bash(*)</code>), missing deny lists, dangerous bypass flags</td></tr>
+<tr><td><code>mcp.json</code></td><td>Risky MCP servers, hardcoded env secrets, <code>npx -y</code> supply chain risks</td></tr>
+<tr><td><code>hooks/</code></td><td>Command injection via <code>${file}</code> interpolation, data exfiltration, silent error suppression</td></tr>
+<tr><td>Agent definitions</td><td>Unrestricted tool access, prompt injection surface, missing model constraints</td></tr>
 </tbody></table>
 <h4 id="mcp-server-vetting">MCP Server Vetting</h4>
 <p>Before enabling any MCP server:</p>
@@ -438,18 +437,18 @@
 <p>If any item remains unknown, stop, investigate, and resolve the gap before proceeding.</p>
 <h3 id="10-security-ownership-matrix">10. Security Ownership Matrix</h3>
 <p>This matrix clarifies who defines, implements, and verifies each security control across the skill bundle:</p>
-<table class="rules"><tbody>
-<tr><th>Control</th><th>Policy Owner</th><th>Implementation Owner</th><th>Verification Owner</th></tr>
-<tr><th>Input validation schema</th><th><code>dev-security</code> §1</th><th>Domain skill (backend/frontend/data)</th><th><code>dev-testing</code> §2</th></tr>
-<tr><th>Auth flow (login, session, token)</th><th><code>dev-security</code> §2</th><th><code>dev-backend</code> §4 middleware</th><th><code>dev-testing</code> §1.3 risk priorities</th></tr>
-<tr><th>Authorization (RBAC/ABAC)</th><th><code>dev-security</code> §3</th><th><code>dev-backend</code> service layer</th><th><code>dev-testing</code> §2 + <code>dev-code-reviewer</code></th></tr>
-<tr><th>Security headers (CSP, CORS, HSTS)</th><th><code>dev-security</code> §5</th><th><code>dev-backend</code> middleware + <code>dev-frontend</code> compliance</th><th><code>dev-testing</code> + static analysis</th></tr>
-<table class="rules"><tbody>
-<tr><th>Rate limiting</th><th><code>dev-security</code> §6</th><th><code>dev-backend</code> §4 middleware</th><th>Load testing + monitoring</th></tr>
-<tr><th>PII/data classification</th><th><code>dev-security</code> + <code>dev-data</code> §7</th><th><code>dev-data</code> pipeline + <code>dev-backend</code> API</th><th><code>dev-testing</code> + audit logs</th></tr>
-<tr><th>Secrets management</th><th><code>dev-security</code> §4</th><th>All skills (runtime env)</th><th>gitleaks + <code>dev-code-reviewer</code></th></tr>
-<tr><th>Dependency security</th><th><code>dev-security</code> §7</th><th>CI pipeline owner</th><th><code>npm audit</code> / <code>pip-audit</code> in CI</th></tr>
-<tr><th>Agentic AI safety</th><th><code>dev-security</code> refs/agentic-ai</th><th>Agent builder</th><th>Scenario testing (<code>dev-testing</code>)</th></tr>
+<table class="rules">
+<thead><tr><th>Control</th><th>Policy Owner</th><th>Implementation Owner</th><th>Verification Owner</th></tr></thead><tbody>
+<tr><td>Input validation schema</td><td><code>dev-security</code> §1</td><td>Domain skill (backend/frontend/data)</td><td><code>dev-testing</code> §2</td></tr>
+<tr><td>Auth flow (login, session, token)</td><td><code>dev-security</code> §2</td><td><code>dev-backend</code> §4 middleware</td><td><code>dev-testing</code> §1.3 risk priorities</td></tr>
+<tr><td>Authorization (RBAC/ABAC)</td><td><code>dev-security</code> §3</td><td><code>dev-backend</code> service layer</td><td><code>dev-testing</code> §2 + <code>dev-code-reviewer</code></td></tr>
+<tr><td>Security headers (CSP, CORS, HSTS)</td><td><code>dev-security</code> §5</td><td><code>dev-backend</code> middleware + <code>dev-frontend</code> compliance</td><td><code>dev-testing</code> + static analysis</td></tr>
+<tr><td>Rate limiting</td><td><code>dev-security</code> §6</td><td><code>dev-backend</code> §4 middleware</td><td>Load testing + monitoring</td></tr>
+<table class="rules">
+<tr><td>PII/data classification</td><td><code>dev-security</code> + <code>dev-data</code> §7</td><td><code>dev-data</code> pipeline + <code>dev-backend</code> API</td><td><code>dev-testing</code> + audit logs</td></tr>
+<tr><td>Secrets management</td><td><code>dev-security</code> §4</td><td>All skills (runtime env)</td><td>gitleaks + <code>dev-code-reviewer</code></td></tr>
+<tr><td>Dependency security</td><td><code>dev-security</code> §7</td><td>CI pipeline owner</td><td><code>npm audit</code> / <code>pip-audit</code> in CI</td></tr>
+<tr><td>Agentic AI safety</td><td><code>dev-security</code> refs/agentic-ai</td><td>Agent builder</td><td>Scenario testing (<code>dev-testing</code>)</td></tr>
 </tbody></table>
 <p>Reference this matrix from <code>dev-backend</code> and <code>dev-frontend</code> when ownership is unclear.</p>
 </details>

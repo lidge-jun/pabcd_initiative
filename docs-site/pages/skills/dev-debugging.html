@@ -111,7 +111,7 @@
 </div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>증상 패치의 악순환</strong><p>요청 타임아웃 -&gt; 타임아웃 30초로 증가 -&gt; N+1 쿼리가 원인인데 감춰짐 -&gt; 부하 증가 시 DB 커넥션 고갈. Phase 0의 Symptom vs Root Cause Fix 테이블은 이런 흔한 잘못된 패치와 올바른 수정을 대비시킨다.</p></div>
-<div class="problem-card"><strong>3번째 같은 종류의 버그는 설계 문제</strong><p>같은 모듈에서 비슷한 버그가 3번 발생하면, 그건 코드 버그가 아니라 구조적 문제다. Phase 0의 Decision Tree는 이 신호를 감지하여 <a href="../../pages/skills/dev-architecture.html">dev-architecture</a> 리뷰로 에스컬레이트한다.</p></div>
+<div class="problem-card"><strong>3번째 같은 종류의 버그는 설계 문제</strong><p>같은 모듈에서 비슷한 버그가 3번 발생하면, 그건 코드 버그가 아니라 구조적 문제다. Phase 0의 Decision Tree는 이 신호를 감지하여 dev-architecture 리뷰로 에스컬레이트한다.</p></div>
 <div class="problem-card"><strong>비동기 코드의 숨겨진 레이스 컨디션</strong><p>에이전트가 async/await를 쓰면서 floating promise, 공유 상태 경쟁, deadlock을 만드는 경우가 많다. <a href="../../pages/skills/dev-debugging-async-debugging.html">async-debugging.md</a>는 이 특수한 디버깅 영역을 별도로 다룬다.</p></div>
 <p><strong>Triggers:</strong> <code>debug this, why is X failing, flaky test, fix the crash, root cause, error, stack trace</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
@@ -169,8 +169,8 @@
 <p>consult <code>dev-backend</code> or <code>dev-frontend</code>.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <pre><code>dev-debugging = root cause methodology (the thinking)
-<a href="../../pages/skills/dev-testing.html">dev-testing</a>   = test harness for reproducing/verifying (the tooling)
-<a href="../../pages/skills/dev.html">dev</a> §2        = summary pointer to this skill (the overview)</code></pre>
+dev-testing   = test harness for reproducing/verifying (the tooling)
+dev §2        = summary pointer to this skill (the overview)</code></pre>
 <p>---</p>
 <h3 id="core-principle">Core Principle</h3>
 <p>Check if the problem is structural before debugging code.</p>
@@ -190,24 +190,23 @@
 <p>than a code bug?&quot; Patching symptoms of architectural debt creates an endless</p>
 <p>stream of &quot;bugs&quot; that are really design consequences.</p>
 <p><strong>Decision Tree — escalate to architecture review if any apply:</strong></p>
-<table class="rules"><tbody>
-<tr><th>Signal</th><th>Interpretation</th></tr>
-<tr><th>Same class of bug recurring (3rd time fixing similar issue)</th><th>Design problem — add a constraint at the architecture level</th></tr>
-<tr><th>Bug spans multiple modules / crosses 2+ boundaries</th><th>Boundary/coupling issue — see <code>dev-architecture</code></th></tr>
-<tr><th>Fix would require changing 3+ files simultaneously</th><th>Likely structural — single-responsibility violation</th></tr>
-<tr><th>Symptom appears far from cause (error in UI, root in DB layer)</th><th>Tracing/observability gap — instrument boundaries first</th></tr>
+<table class="rules">
+<thead><tr><th>Signal</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Same class of bug recurring (3rd time fixing similar issue)</td><td>Design problem — add a constraint at the architecture level</td></tr>
+<tr><td>Bug spans multiple modules / crosses 2+ boundaries</td><td>Boundary/coupling issue — see <code>dev-architecture</code></td></tr>
+<tr><td>Fix would require changing 3+ files simultaneously</td><td>Likely structural — single-responsibility violation</td></tr>
+<tr><td>Symptom appears far from cause (error in UI, root in DB layer)</td><td>Tracing/observability gap — instrument boundaries first</td></tr>
 </tbody></table>
 <p><strong>If structural</strong>: escalate to architecture review. Do not patch the symptom —</p>
 <p>the patch creates the next bug.</p>
 <p><strong>Symptom vs Root Cause Fix:</strong></p>
-<table class="rules"><tbody>
-<tr><th>Symptom</th><th>Likely Patch (wrong)</th><th>Root Cause Fix (right)</th></tr>
-<tr><th>Request timeout</th><th>Increase timeout to 30s</th><th>Add circuit breaker + fallback</th></tr>
-<tr><th>OOM crash</th><th>Increase container memory</th><th>Find and fix the memory leak</th></tr>
-<tr><th>N+1 query performance</th><th>Add a cache layer in front</th><th>Fix the query (eager load / join)</th></tr>
-<tr><th>Duplicate records</th><th>Add unique constraint + rescue</th><th>Fix the race condition that creates duplicates</th></tr>
-<table class="rules"><tbody>
-<tr><th>Flaky test</th><th>Add retry/skip annotation</th><th>Fix shared mutable state between tests</th></tr>
+<table class="rules">
+<thead><tr><th>Symptom</th><th>Likely Patch (wrong)</th><th>Root Cause Fix (right)</th></tr></thead><tbody>
+<tr><td>Request timeout</td><td>Increase timeout to 30s</td><td>Add circuit breaker + fallback</td></tr>
+<tr><td>OOM crash</td><td>Increase container memory</td><td>Find and fix the memory leak</td></tr>
+<tr><td>N+1 query performance</td><td>Add a cache layer in front</td><td>Fix the query (eager load / join)</td></tr>
+<tr><td>Duplicate records</td><td>Add unique constraint + rescue</td><td>Fix the race condition that creates duplicates</td></tr>
+<tr><td>Flaky test</td><td>Add retry/skip annotation</td><td>Fix shared mutable state between tests</td></tr>
 </tbody></table>
 <p><strong>If none of the above apply</strong> — proceed to Phase 1 (it&#x27;s a code bug, not a</p>
 <p>design problem).</p>
@@ -338,17 +337,17 @@ Run once → analyze evidence → identify failing layer → investigate THAT la
 <h3 id="red-flags-return-to-phase-1">Red Flags — Return to Phase 1</h3>
 <p>If you catch yourself doing any of these, pause — root cause investigation</p>
 <p>was likely skipped.</p>
-<table class="rules"><tbody>
-<tr><th>Red Flag</th><th>Why It Fails</th></tr>
-<tr><th>&quot;Quick fix for now, investigate later&quot;</th><th>First fix sets the pattern. Tech debt compounds. You won&#x27;t investigate later.</th></tr>
-<tr><th>&quot;Just try changing X and see&quot;</th><th>Guessing guarantees rework. You&#x27;ll be back here within the hour.</th></tr>
-<tr><th>&quot;Add multiple changes, run tests&quot;</th><th>Can&#x27;t isolate cause if multiple variables changed. Revert, change ONE thing.</th></tr>
-<tr><th>&quot;It&#x27;s probably X, let me fix that&quot;</th><th>&quot;Probably&quot; without evidence = Phase 1 not done. Go back and trace it.</th></tr>
-<table class="rules"><tbody>
-<tr><th>&quot;I don&#x27;t fully understand but this might work&quot;</th><th>Seeing symptoms ≠ understanding root cause. Your &quot;fix&quot; hides the real bug.</th></tr>
-<tr><th>&quot;One more fix attempt&quot; (after repeated failures)</th><th>After repeated failures, pause and reassess architecture/assumptions. See escalation below.</th></tr>
-<tr><th>&quot;It works on my machine&quot;</th><th>Reproduce in the SAME environment as the failure. Local success proves nothing.</th></tr>
-<tr><th>&quot;Let me add a try/catch around it&quot;</th><th>Suppressing errors is not fixing them. Find WHY it throws.</th></tr>
+<table class="rules">
+<thead><tr><th>Red Flag</th><th>Why It Fails</th></tr></thead><tbody>
+<tr><td>&quot;Quick fix for now, investigate later&quot;</td><td>First fix sets the pattern. Tech debt compounds. You won&#x27;t investigate later.</td></tr>
+<tr><td>&quot;Just try changing X and see&quot;</td><td>Guessing guarantees rework. You&#x27;ll be back here within the hour.</td></tr>
+<tr><td>&quot;Add multiple changes, run tests&quot;</td><td>Can&#x27;t isolate cause if multiple variables changed. Revert, change ONE thing.</td></tr>
+<tr><td>&quot;It&#x27;s probably X, let me fix that&quot;</td><td>&quot;Probably&quot; without evidence = Phase 1 not done. Go back and trace it.</td></tr>
+<tr><td>&quot;I don&#x27;t fully understand but this might work&quot;</td><td>Seeing symptoms ≠ understanding root cause. Your &quot;fix&quot; hides the real bug.</td></tr>
+<table class="rules">
+<tr><td>&quot;One more fix attempt&quot; (after repeated failures)</td><td>After repeated failures, pause and reassess architecture/assumptions. See escalation below.</td></tr>
+<tr><td>&quot;It works on my machine&quot;</td><td>Reproduce in the SAME environment as the failure. Local success proves nothing.</td></tr>
+<tr><td>&quot;Let me add a try/catch around it&quot;</td><td>Suppressing errors is not fixing them. Find WHY it throws.</td></tr>
 </tbody></table>
 <p><strong>Repeated Failure Rule</strong>: After repeated failed fix attempts, pause entirely.</p>
 <p>Each fix revealing a new problem in a different place is a sign of</p>
@@ -357,22 +356,22 @@ Run once → analyze evidence → identify failing layer → investigate THAT la
 <p>---</p>
 <h3 id="slop-debugging-patterns">Slop Debugging Patterns</h3>
 <p>Slop debugging is spray-and-pray: guess, patch, pray, repeat.</p>
-<table class="rules"><tbody>
-<tr><th>Instead of…</th><th>Use…</th></tr>
-<tr><th>Proposing fixes before investigation</th><th>Complete Phase 1 checklist first</th></tr>
-<tr><th>&quot;Might be X&quot; without evidence</th><th>&quot;Evidence shows X because [log/trace/diff]&quot;</th></tr>
-<tr><th>Multiple simultaneous changes</th><th>One change at a time, revert between attempts</th></tr>
-<tr><th>Skimming stack traces</th><th>Read every line of stack trace, note line numbers</th></tr>
-<table class="rules"><tbody>
-<tr><th>Silent <code>catch</code> blocks that suppress errors</th><th>Log with context (<code>[module] error.message</code>), re-throw or handle</th></tr>
-<tr><th>Modifying failing tests to pass</th><th>Fix the code, not the test — a failing test is evidence</th></tr>
-<tr><th>Claiming &quot;fixed&quot; without running verification</th><th>Run full test suite, show green output, verify the original symptom</th></tr>
-<tr><th>Copy-pasting a fix without understanding</th><th>Understand why the fix works, then adapt to your codebase</th></tr>
-<tr><th>Suppressive try/catch (catch-and-ignore, catch-and-return-null)</th><th>Fix at the source. Boundary catch with logging/re-throw is fine — see dev-architecture §4.</th></tr>
-<table class="rules"><tbody>
-<tr><th>Guessing at types, nulls, or undefined values</th><th>Add diagnostic logging, inspect actual runtime values</th></tr>
-<tr><th>&quot;It works now&quot; after changing something unrelated</th><th>Correlation ≠ causation — revert the change and test again</th></tr>
-<tr><th>Letting an AI auto-repair loop (test healer, auto-fix) mask the defect</th><th>Agentic repair aids run only AFTER root cause is understood; keep the failing repro as evidence</th></tr>
+<table class="rules">
+<thead><tr><th>Instead of…</th><th>Use…</th></tr></thead><tbody>
+<tr><td>Proposing fixes before investigation</td><td>Complete Phase 1 checklist first</td></tr>
+<tr><td>&quot;Might be X&quot; without evidence</td><td>&quot;Evidence shows X because [log/trace/diff]&quot;</td></tr>
+<tr><td>Multiple simultaneous changes</td><td>One change at a time, revert between attempts</td></tr>
+<tr><td>Skimming stack traces</td><td>Read every line of stack trace, note line numbers</td></tr>
+<tr><td>Silent <code>catch</code> blocks that suppress errors</td><td>Log with context (<code>[module] error.message</code>), re-throw or handle</td></tr>
+<table class="rules">
+<tr><td>Modifying failing tests to pass</td><td>Fix the code, not the test — a failing test is evidence</td></tr>
+<tr><td>Claiming &quot;fixed&quot; without running verification</td><td>Run full test suite, show green output, verify the original symptom</td></tr>
+<tr><td>Copy-pasting a fix without understanding</td><td>Understand why the fix works, then adapt to your codebase</td></tr>
+<tr><td>Suppressive try/catch (catch-and-ignore, catch-and-return-null)</td><td>Fix at the source. Boundary catch with logging/re-throw is fine — see dev-architecture §4.</td></tr>
+<tr><td>Guessing at types, nulls, or undefined values</td><td>Add diagnostic logging, inspect actual runtime values</td></tr>
+<tr><td>&quot;It works now&quot; after changing something unrelated</td><td>Correlation ≠ causation — revert the change and test again</td></tr>
+<table class="rules">
+<tr><td>Letting an AI auto-repair loop (test healer, auto-fix) mask the defect</td><td>Agentic repair aids run only AFTER root cause is understood; keep the failing repro as evidence</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="concrete-debugging-scenarios">Concrete Debugging Scenarios</h3>
@@ -453,23 +452,22 @@ orders:repository skipped insert due service error</code></pre>
 <p>action item that prevents the same class of bug from recurring.</p>
 <p>---</p>
 <h3 id="modular-references">Modular References</h3>
-<table class="rules"><tbody>
-<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/methodologies.md</code></th><th>When choosing a debugging approach</th><th>Five Whys, bisection, differential diagnosis, subtraction, rubber duck, systematic logging</th></tr>
-<tr><th><code>references/async-debugging.md</code></th><th>When debugging concurrency issues</th><th>Race conditions, deadlocks, event loop blocking, promise/callback issues</th></tr>
-<tr><th><code>references/tool-guides.md</code></th><th>When you need stack-specific debugger commands</th><th>Node.js inspector, Python pdb/debugpy, Chrome DevTools, git bisect, database EXPLAIN</th></tr>
-<tr><th><code>references/postmortem-template.md</code></th><th>After resolving a significant incident</th><th>Blameless postmortem template with filled example</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
+<tr><td><code>references/methodologies.md</code></td><td>When choosing a debugging approach</td><td>Five Whys, bisection, differential diagnosis, subtraction, rubber duck, systematic logging</td></tr>
+<tr><td><code>references/async-debugging.md</code></td><td>When debugging concurrency issues</td><td>Race conditions, deadlocks, event loop blocking, promise/callback issues</td></tr>
+<tr><td><code>references/tool-guides.md</code></td><td>When you need stack-specific debugger commands</td><td>Node.js inspector, Python pdb/debugpy, Chrome DevTools, git bisect, database EXPLAIN</td></tr>
+<tr><td><code>references/postmortem-template.md</code></td><td>After resolving a significant incident</td><td>Blameless postmortem template with filled example</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="integration-with-other-skills">Integration with Other Skills</h3>
-<table class="rules"><tbody>
-<tr><th>Skill</th><th>Relationship</th></tr>
-<tr><th><code>dev</code> §2</th><th>Summary of this methodology. This skill is the full version.</th></tr>
-<tr><th><code>dev-testing</code></th><th>Phase 4 &quot;write failing test first&quot; → use <code>dev-testing</code> for test patterns and harness. <code>dev-testing</code> provides the tooling; this skill provides the thinking.</th></tr>
-<tr><th><code>dev-backend</code></th><th>Server-side debugging context: API errors, database issues, middleware chains.</th></tr>
-<tr><th><code>dev-frontend</code></th><th>Client-side debugging context: hydration, rendering, DevTools, layout shifts.</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>dev-code-reviewer</code></th><th>Code review catches bugs before they ship — prevention beats debugging.</th></tr>
+<table class="rules">
+<thead><tr><th>Skill</th><th>Relationship</th></tr></thead><tbody>
+<tr><td><code>dev</code> §2</td><td>Summary of this methodology. This skill is the full version.</td></tr>
+<tr><td><code>dev-testing</code></td><td>Phase 4 &quot;write failing test first&quot; → use <code>dev-testing</code> for test patterns and harness. <code>dev-testing</code> provides the tooling; this skill provides the thinking.</td></tr>
+<tr><td><code>dev-backend</code></td><td>Server-side debugging context: API errors, database issues, middleware chains.</td></tr>
+<tr><td><code>dev-frontend</code></td><td>Client-side debugging context: hydration, rendering, DevTools, layout shifts.</td></tr>
+<tr><td><code>dev-code-reviewer</code></td><td>Code review catches bugs before they ship — prevention beats debugging.</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="security-sensitive-bugs">Security-Sensitive Bugs</h3>

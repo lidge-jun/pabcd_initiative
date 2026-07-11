@@ -108,15 +108,15 @@
 <p>Last reviewed: 2026-07-02</p>
 <p>Applies to: Kubernetes 1.32+, Gateway API v1.6+</p>
 <p>When to read: K8s deployment tasks</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> §3</p>
+<p>Canonical owner: dev-devops §3</p>
 <p>---</p>
 <h3 id="1-gateway-api-v1-6-verified-2026-07-02-tcproute-udproute-ga-in-v1-6">§1 Gateway API v1.6+ (verified 2026-07-02; TCPRoute/UDPRoute GA in v1.6)</h3>
 <p>Gateway API is the successor for new Kubernetes traffic routing; Ingress remains GA but feature-frozen.</p>
 <h4 id="role-separation">Role Separation</h4>
-<table class="rules"><tbody>
-<tr><th>Role</th><th>Owns</th><th>Resources</th></tr>
-<tr><th>Platform team</th><th>Cluster-wide infra</th><th><code>GatewayClass</code>, <code>Gateway</code></th></tr>
-<tr><th>App team</th><th>Per-service routing</th><th><code>HTTPRoute</code>, <code>ReferenceGrant</code></th></tr>
+<table class="rules">
+<thead><tr><th>Role</th><th>Owns</th><th>Resources</th></tr></thead><tbody>
+<tr><td>Platform team</td><td>Cluster-wide infra</td><td><code>GatewayClass</code>, <code>Gateway</code></td></tr>
+<tr><td>App team</td><td>Per-service routing</td><td><code>HTTPRoute</code>, <code>ReferenceGrant</code></td></tr>
 </tbody></table>
 <h4 id="gatewayclass-gateway">GatewayClass + Gateway</h4>
 <pre><code>apiVersion: gateway.networking.k8s.io/v1
@@ -197,7 +197,7 @@ spec:
       httproute.yaml
       kustomization.yaml
     overlays/
-      <a href="../../pages/skills/dev.html">dev</a>/
+      dev/
         kustomization.yaml
         replicas-patch.yaml
       staging/
@@ -246,10 +246,10 @@ kubectl kustomize overlays/prod | kubectl apply --dry-run=server -f -</code></pr
 <p>---</p>
 <h3 id="3-resource-management">§3 Resource Management</h3>
 <h4 id="requests-and-limits-guidelines">Requests and Limits Guidelines</h4>
-<table class="rules"><tbody>
-<tr><th>Resource</th><th>Request</th><th>Limit</th><th>Rationale</th></tr>
-<tr><th>CPU</th><th>100m–500m</th><th>2×–4× request</th><th>Allow burst; requests guarantee scheduling</th></tr>
-<tr><th>Memory</th><th>Measured P95 usage</th><th>≈ request (tight)</th><th>OOM-kill on exceed; keep close to request</th></tr>
+<table class="rules">
+<thead><tr><th>Resource</th><th>Request</th><th>Limit</th><th>Rationale</th></tr></thead><tbody>
+<tr><td>CPU</td><td>100m–500m</td><td>2×–4× request</td><td>Allow burst; requests guarantee scheduling</td></tr>
+<tr><td>Memory</td><td>Measured P95 usage</td><td>≈ request (tight)</td><td>OOM-kill on exceed; keep close to request</td></tr>
 </tbody></table>
 <h4 id="hpa-configuration">HPA Configuration</h4>
 <pre><code>apiVersion: autoscaling/v2
@@ -273,11 +273,11 @@ spec:
         metric: { name: http_requests_per_second }
         target: { type: AverageValue, averageValue: &quot;100&quot; }</code></pre>
 <h4 id="vpa-modes">VPA Modes</h4>
-<table class="rules"><tbody>
-<tr><th>Mode</th><th>Behavior</th><th>Use When</th></tr>
-<tr><th>Off</th><th>Recommendations only</th><th>Alongside HPA (don&#x27;t combine on same metric)</th></tr>
-<tr><th>Initial</th><th>Set on pod creation</th><th>New services without usage data</th></tr>
-<tr><th>Auto</th><th>Live updates</th><th>Standalone (no HPA on same resource)</th></tr>
+<table class="rules">
+<thead><tr><th>Mode</th><th>Behavior</th><th>Use When</th></tr></thead><tbody>
+<tr><td>Off</td><td>Recommendations only</td><td>Alongside HPA (don&#x27;t combine on same metric)</td></tr>
+<tr><td>Initial</td><td>Set on pod creation</td><td>New services without usage data</td></tr>
+<tr><td>Auto</td><td>Live updates</td><td>Standalone (no HPA on same resource)</td></tr>
 </tbody></table>
 <h4 id="pdb">PDB</h4>
 <pre><code>apiVersion: policy/v1
@@ -296,19 +296,19 @@ spec:
   -f values.yaml \
   -f values-prod.yaml \
   --set image.digest=sha256:abc123</code></pre>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Version</th><th>Chart version follows SemVer</th></tr>
-<tr><th>Validation</th><th>`helm template --debug \</th><th>kubectl apply --dry-run=client -f -`</th></tr>
-<tr><th>Environment</th><th><code>values-dev.yaml</code>, <code>values-staging.yaml</code>, <code>values-prod.yaml</code></th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Version</td><td>Chart version follows SemVer</td></tr>
+<tr><td>Validation</td><td>`helm template --debug \</td><td>kubectl apply --dry-run=client -f -`</td></tr>
+<tr><td>Environment</td><td><code>values-dev.yaml</code>, <code>values-staging.yaml</code>, <code>values-prod.yaml</code></td></tr>
 </tbody></table>
 <h4 id="helm-vs-kustomize-decision">Helm vs Kustomize Decision</h4>
-<table class="rules"><tbody>
-<tr><th>Factor</th><th>Helm</th><th>Kustomize</th></tr>
-<tr><th>Templating</th><th>Rich (<code>{{ .Values }}</code>, conditionals, loops)</th><th>Patch-based (strategic merge)</th></tr>
-<tr><th>Sharing</th><th>Chart repos, versioned packages</th><th>Directory copies</th></tr>
-<tr><th>Complexity</th><th>Higher (template language)</th><th>Lower (YAML patches)</th></tr>
-<tr><th>Best for</th><th>Shared charts, complex config</th><th>Simple overlays, in-house apps</th></tr>
+<table class="rules">
+<thead><tr><th>Factor</th><th>Helm</th><th>Kustomize</th></tr></thead><tbody>
+<tr><td>Templating</td><td>Rich (<code>{{ .Values }}</code>, conditionals, loops)</td><td>Patch-based (strategic merge)</td></tr>
+<tr><td>Sharing</td><td>Chart repos, versioned packages</td><td>Directory copies</td></tr>
+<tr><td>Complexity</td><td>Higher (template language)</td><td>Lower (YAML patches)</td></tr>
+<tr><td>Best for</td><td>Shared charts, complex config</td><td>Simple overlays, in-house apps</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="5-argocd-gitops-patterns">§5 ArgoCD GitOps Patterns</h3>
@@ -362,24 +362,24 @@ spec:
         server: &quot;{{cluster}}&quot;</code></pre>
 <p>---</p>
 <h3 id="6-anti-patterns-detailed">§6 Anti-Patterns (Detailed)</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
-<tr><th><code>Ingress</code> (new projects)</th><th>Feature-frozen; Gateway API (<code>HTTPRoute</code>) is the successor — prefer it for new routing (DEFAULT)</th><th><code>HTTPRoute</code> with structured fields</th></tr>
-<tr><th>No resource limits</th><th>Noisy neighbor; OOM kills random pods</th><th>Always set requests + limits</th></tr>
-<tr><th><code>image: app:latest</code></th><th>Irreproducible; ArgoCD can&#x27;t detect changes</th><th>SHA digest or pinned SemVer</th></tr>
-<tr><th>Single replica (prod)</th><th>Zero availability during updates/failures</th><th>Minimum 2 replicas + PDB</th></tr>
-<table class="rules"><tbody>
-<tr><th>Secrets in ConfigMap</th><th>Base64 is not encryption; exposed in logs</th><th>K8s Secret + External Secrets Operator</th></tr>
-<tr><th><code>kubectl apply</code> from CI</th><th>No audit trail, no drift detection</th><th>GitOps via ArgoCD</th></tr>
-<tr><th>Manual <code>kubectl edit</code></th><th>Drift from desired state</th><th>All changes via Git</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Why</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>Ingress</code> (new projects)</td><td>Feature-frozen; Gateway API (<code>HTTPRoute</code>) is the successor — prefer it for new routing (DEFAULT)</td><td><code>HTTPRoute</code> with structured fields</td></tr>
+<tr><td>No resource limits</td><td>Noisy neighbor; OOM kills random pods</td><td>Always set requests + limits</td></tr>
+<tr><td><code>image: app:latest</code></td><td>Irreproducible; ArgoCD can&#x27;t detect changes</td><td>SHA digest or pinned SemVer</td></tr>
+<tr><td>Single replica (prod)</td><td>Zero availability during updates/failures</td><td>Minimum 2 replicas + PDB</td></tr>
+<tr><td>Secrets in ConfigMap</td><td>Base64 is not encryption; exposed in logs</td><td>K8s Secret + External Secrets Operator</td></tr>
+<table class="rules">
+<tr><td><code>kubectl apply</code> from CI</td><td>No audit trail, no drift detection</td><td>GitOps via ArgoCD</td></tr>
+<tr><td>Manual <code>kubectl edit</code></td><td>Drift from desired state</td><td>All changes via Git</td></tr>
 </tbody></table>
 <h3 id="sources-router-currency-claims-checked-2026-07-02">Sources (router currency claims, checked 2026-07-02)</h3>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Source</th></tr>
-<tr><th>Gateway API v1.6.0 (2026-06-29), TCPRoute/UDPRoute GA</th><th>https://github.com/kubernetes-sigs/gateway-api/releases</th></tr>
-<tr><th>Ingress GA-but-frozen, not removed</th><th>https://kubernetes.io/docs/concepts/services-networking/ingress/</th></tr>
-<tr><th>Flagger Gateway API HTTPRoute canaries</th><th>https://docs.flagger.app/tutorials/gatewayapi-progressive-delivery</th></tr>
-<tr><th>Argo Rollouts v1.9.0 (2026-03-20) active</th><th>https://github.com/argoproj/argo-rollouts/releases</th></tr>
+<thead><tr><th>Claim</th><th>Source</th></tr></thead><tbody>
+<tr><td>Gateway API v1.6.0 (2026-06-29), TCPRoute/UDPRoute GA</td><td>https://github.com/kubernetes-sigs/gateway-api/releases</td></tr>
+<table class="rules">
+<tr><td>Ingress GA-but-frozen, not removed</td><td>https://kubernetes.io/docs/concepts/services-networking/ingress/</td></tr>
+<tr><td>Flagger Gateway API HTTPRoute canaries</td><td>https://docs.flagger.app/tutorials/gatewayapi-progressive-delivery</td></tr>
+<tr><td>Argo Rollouts v1.9.0 (2026-03-20) active</td><td>https://github.com/argoproj/argo-rollouts/releases</td></tr>
 </tbody></table>
   </div>
 </section>

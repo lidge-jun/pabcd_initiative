@@ -106,7 +106,7 @@
 <p class="refnote">Source: <a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html">devlog/260709_opaque_gradient_discipline_port.md</a></p>
 <h2 id="opaque-surface-gradient-discipline-port">Opaque-Surface Gradient Discipline Port</h2>
 <p><strong>Date</strong>: 2026-07-09</p>
-<p><strong>Kind</strong>: SoT reinforcement + downstream port (<a href="../../pages/skills/dev-frontend.html">dev-frontend</a> anti-slop.md + <a href="../../pages/skills/dev-uiux-design-color-system.html">color-system.md</a>)</p>
+<p><strong>Kind</strong>: SoT reinforcement + downstream port (dev-frontend anti-slop.md + <a href="../../pages/skills/dev-uiux-design-color-system.html">color-system.md</a>)</p>
 <h3 id="trigger">Trigger</h3>
 <p>User flagged the opencodex GUI &quot;Account login&quot; panel (<code>.panel-accent</code>,</p>
 <p><code>opencodex/gui/src/styles.css:175</code>) as tacky: a purple-tinted</p>
@@ -125,14 +125,13 @@
 <p>services (Toss/Kakao/Naver/Channel Talk/Daangn, live-measured) match: flat</p>
 <p>tint/border on functional panels, gradients only in heroes/illustrations.</p>
 <h3 id="port-status">Port status</h3>
-<table class="rules"><tbody>
-<tr><th>Target</th><th>Files</th><th>Status</th></tr>
-<tr><th>codexclaw</th><th>dev-frontend anti-slop.md (FE-GRADIENT-02 + rescoped &quot;empty flat sections&quot; line), color-system.md (FE-COLOR-ACCENT-SURFACE-01)</th><th>Done</th></tr>
-<tr><th>SoT (pabcd_initiative)</th><th>same two files</th><th>Done — byte-identical to codexclaw</th></tr>
-<tr><th>cli-jaw (cli-jaw-skills)</th><th>same two files</th><th>Done — byte-identical</th></tr>
-<tr><th>jawcode</th><th>—</th><th>N/A (no <a href="../../pages/skills/dev.html">dev</a>-frontend skill family)</th></tr>
-<table class="rules"><tbody>
-<tr><th>dev-uiux-design (all repos)</th><th>—</th><th>N/A this round: the finding is CSS surface-treatment level (token/fill discipline), owned by dev-frontend; no ism/profile change warranted</th></tr>
+<table class="rules">
+<thead><tr><th>Target</th><th>Files</th><th>Status</th></tr></thead><tbody>
+<tr><td>codexclaw</td><td>dev-frontend anti-slop.md (FE-GRADIENT-02 + rescoped &quot;empty flat sections&quot; line), color-system.md (FE-COLOR-ACCENT-SURFACE-01)</td><td>Done</td></tr>
+<tr><td>SoT (pabcd_initiative)</td><td>same two files</td><td>Done — byte-identical to codexclaw</td></tr>
+<tr><td>cli-jaw (cli-jaw-skills)</td><td>same two files</td><td>Done — byte-identical</td></tr>
+<tr><td>jawcode</td><td>—</td><td>N/A (no dev-frontend skill family)</td></tr>
+<tr><td>dev-uiux-design (all repos)</td><td>—</td><td>N/A this round: the finding is CSS surface-treatment level (token/fill discipline), owned by dev-frontend; no ism/profile change warranted</td></tr>
 </tbody></table>
 <p>All three copies remain agent-neutral (<code>rg &#x27;ima2|imagegen|view_image|browser:control|cxc-&#x27;</code> = 0</p>
 <p>on SoT/cli-jaw). Both files were byte-identical across repos before the edit, so</p>

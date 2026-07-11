@@ -104,7 +104,7 @@
 <section class="page-body">
   <div class="band-inner">
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev/SKILL.md" target="_blank" rel="noopener">skills/dev/SKILL.md</a></p>
-<p class="lede">Universal <a href="../../pages/skills/dev.html">dev</a> discipline: work classifier (C0-C5), overlays, verification gate, safety rules.</p>
+<p class="lede">Universal dev discipline: work classifier (C0-C5), overlays, verification gate, safety rules.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트가 모든 작업에 최대 프로세스를 적용하면 사소한 타이포 수정에도 전체 PABCD를 돌리게 된다. 반대로 프로세스 없이 바로 코딩하면 크로스모듈 변경에서 회귀가 터진다. 이 스킬은 모든 코딩 작업의 진입점으로, 작업 깊이를 C0-C5로 분류한 뒤 적절한 서브스킬과 프로세스 깊이를 라우팅한다. &#x27;어디서부터 읽어야 하나&#x27;라는 질문에 대한 답이 이 스킬이다.</div>
 <div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
 <p>LLM은 프롬프트에서 요청한 것을 즉시 구현하려는 강한 편향이 있다. &#x27;로그인 기능을 만들어줘&#x27;라고 하면 바로 코드를 쓰기 시작하는데, 이게 타이포 수정인지(C0) 인증 시스템 설계인지(C4)에 따라 필요한 프로세스 깊이가 완전히 다르다. 분류 없이 시작하면 두 가지 실패가 생긴다: (1) 사소한 작업에 과도한 분석을 하거나, (2) 위험한 작업을 가볍게 처리한다. 특히 LLM은 &#x27;이 정도면 됐다&#x27;는 판단을 잘 못하기 때문에, 검증 게이트(Verification Gate) 없이는 실제로 실행하지 않은 코드를 &#x27;완료&#x27;라고 보고한다. 이 스킬의 C0-C5 분류기는 LLM의 &#x27;바로 시작&#x27; 편향을 제어하는 첫 번째 관문이다.</p>
@@ -168,15 +168,15 @@
 <p>Rules applied to every sub-agent, regardless of role.</p>
 <h3 id="0-0-work-classifier-c0-c5">§0.0 Work Classifier (C0-C5)</h3>
 <p><strong>Classify every task before choosing process depth</strong> (DEV-CLASS-01). The class selects planning, reading, and verification depth — never apply maximum process by default.</p>
-<table class="rules"><tbody>
-<tr><th>Class</th><th>Name</th><th>Signals</th><th>Default Process</th></tr>
-<tr><th>C0</th><th>Trivial Text</th><th>Typo, comment, copy, log string — zero behavior change</th><th>Direct fix + smallest proof (§0.1)</th></tr>
-<tr><th>C1</th><th>Single-File Local</th><th>One file, local behavior, no new abstractions</th><th>Fast path (§0.1) + targeted check</th></tr>
-<tr><th>C2</th><th>Ordinary Product Slice</th><th>Conventional endpoint, form, table, model, list/detail screen, integration touchpoint</th><th>Compact plan + adjacent convention search + focused tests + micro-audit (orchestration mode)</th></tr>
-<tr><th>C3</th><th>Cross-Domain Feature/Refactor</th><th>Multiple modules, public API, shared types, broad behavior</th><th>Compact or full PABCD depending on persistence/risk; employee audit per <code>dev-pabcd</code> Phase Skip conditions</th></tr>
-<table class="rules"><tbody>
-<tr><th>C4</th><th>High-Risk</th><th>Auth, payments, data deletion, migration, release, permission model, security boundary</th><th>Full PABCD (mandatory) + full relevant gates + durable risk/evidence record</th></tr>
-<tr><th>C5</th><th>Research/Ambiguous</th><th>Unclear requirements, ambiguous user value, unknown territory after one §0 clarification round</th><th>Interview/research first (<code>orchestrate I</code>), then reclassify</th></tr>
+<table class="rules">
+<thead><tr><th>Class</th><th>Name</th><th>Signals</th><th>Default Process</th></tr></thead><tbody>
+<tr><td>C0</td><td>Trivial Text</td><td>Typo, comment, copy, log string — zero behavior change</td><td>Direct fix + smallest proof (§0.1)</td></tr>
+<tr><td>C1</td><td>Single-File Local</td><td>One file, local behavior, no new abstractions</td><td>Fast path (§0.1) + targeted check</td></tr>
+<tr><td>C2</td><td>Ordinary Product Slice</td><td>Conventional endpoint, form, table, model, list/detail screen, integration touchpoint</td><td>Compact plan + adjacent convention search + focused tests + micro-audit (orchestration mode)</td></tr>
+<tr><td>C3</td><td>Cross-Domain Feature/Refactor</td><td>Multiple modules, public API, shared types, broad behavior</td><td>Compact or full PABCD depending on persistence/risk; employee audit per <code>dev-pabcd</code> Phase Skip conditions</td></tr>
+<tr><td>C4</td><td>High-Risk</td><td>Auth, payments, data deletion, migration, release, permission model, security boundary</td><td>Full PABCD (mandatory) + full relevant gates + durable risk/evidence record</td></tr>
+<table class="rules">
+<tr><td>C5</td><td>Research/Ambiguous</td><td>Unclear requirements, ambiguous user value, unknown territory after one §0 clarification round</td><td>Interview/research first (<code>orchestrate I</code>), then reclassify</td></tr>
 </tbody></table>
 <p><strong>Tie-break (DEFAULT):</strong> when signals match two classes, the higher class wins. A conventional route→service→storage slice still counts as C2 even though it spans files; C3&#x27;s &quot;multiple modules&quot; means crossing a module/package boundary beyond that conventional slice.</p>
 <p><strong>C4-promotion triggers override any fast path</strong> (DEV-ESCALATE-01): security, data</p>
@@ -216,28 +216,27 @@
 <p><code>task_tags</code>, explicit user request, repo convention, or a matching strict trigger — required</p>
 <p>evidence applies only when the strict trigger applies (low-risk/local work uses the smallest</p>
 <p>proof that validates the claim, with the reduced scope stated).</p>
-<table class="rules"><tbody>
-<tr><th>Tag</th><th>Loads</th><th>Strict trigger</th></tr>
-<tr><th><code>tdd</code> / <code>testing</code></th><th>dev-testing</th><th>User/repo enforces TDD, or regression risk</th></tr>
-<tr><th><code>bdd_acceptance</code></th><th>dev-testing, dev</th><th>Ambiguous acceptance behavior</th></tr>
-<tr><th><code>ddd</code> / <code>clean_arch</code> / <code>hexagonal</code> / <code>architecture</code></th><th>dev-architecture, <a href="../../pages/skills/dev-backend.html">dev-backend</a></th><th>Real boundary pressure at C3/C4</th></tr>
-<tr><th><code>vertical_slice</code></th><th>dev-architecture, dev-backend, <a href="../../pages/skills/dev-frontend.html">dev-frontend</a>, <a href="../../pages/skills/dev-testing.html">dev-testing</a></th><th>Thin end-to-end slice (C2)</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>adr_rfc</code></th><th>dev-architecture, <a href="../../pages/skills/dev-scaffolding.html">dev-scaffolding</a></th><th>Significant decision, domain vocabulary, or ADR source-of-truth work</th></tr>
-<tr><th><code>review</code> / <code>code_review</code></th><th>dev-code-reviewer</th><th>Review requested or C3/C4</th></tr>
-<tr><th><code>threat_model</code> / <code>security</code></th><th>dev-security</th><th>C4 security/data/tooling risk</th></tr>
-<tr><th><code>observability</code> / <code>observability_pipeline</code></th><th>dev-backend (+<a href="../../pages/skills/dev-data.html">dev-data</a>)</th><th>Production, incident, release, long-lived runtime</th></tr>
-<tr><th><code>debugging</code> / <code>debugging_rca</code></th><th>dev-debugging</th><th>Repeated failure needs root cause</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>migration_backfill</code></th><th>dev-data, dev-backend, dev-testing</th><th>Production or non-trivial data</th></tr>
-<tr><th><code>product_discovery</code> (+<code>_ui</code>)</th><th>dev (+<a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a>)</th><th>Ambiguous behavior/user value/metric/prototype intent</th></tr>
-<tr><th><code>release_cd</code></th><th>dev-testing, dev-backend, dev-scaffolding, <a href="../../pages/skills/dev-devops.html">dev-devops</a></th><th>Release/CI/CD surface</th></tr>
-<tr><th><code>devops</code> / <code>infra</code> / <code>deploy</code></th><th>dev-devops</th><th>Container/K8s/IaC/deploy pipeline/SRE</th></tr>
-<tr><th><code>mobile_native</code></th><th>dev-frontend + dev-uiux-design + dev-backend (refs)</th><th>RN/Flutter/Swift/Kotlin native app</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>ml</code> / <code>ai</code> / <code>llm</code> / <code>rag</code></th><th>dev-backend + dev-data + dev-testing (+dev-devops)</th><th>ML serving, RAG, pipeline, evaluation</th></tr>
-<tr><th><code>frontend_ui</code></th><th>dev-frontend + dev-uiux-design</th><th>UI/design intent or runnable prototype variant work</th></tr>
-<tr><th><code>crud_fullstack</code></th><th>dev-backend, dev-frontend, dev-testing</th><th>Boss/direct planning signal only — when delegating, prefer split roles</th></tr>
+<table class="rules">
+<thead><tr><th>Tag</th><th>Loads</th><th>Strict trigger</th></tr></thead><tbody>
+<tr><td><code>tdd</code> / <code>testing</code></td><td>dev-testing</td><td>User/repo enforces TDD, or regression risk</td></tr>
+<tr><td><code>bdd_acceptance</code></td><td>dev-testing, dev</td><td>Ambiguous acceptance behavior</td></tr>
+<tr><td><code>ddd</code> / <code>clean_arch</code> / <code>hexagonal</code> / <code>architecture</code></td><td>dev-architecture, dev-backend</td><td>Real boundary pressure at C3/C4</td></tr>
+<tr><td><code>vertical_slice</code></td><td>dev-architecture, dev-backend, dev-frontend, dev-testing</td><td>Thin end-to-end slice (C2)</td></tr>
+<tr><td><code>adr_rfc</code></td><td>dev-architecture, dev-scaffolding</td><td>Significant decision, domain vocabulary, or ADR source-of-truth work</td></tr>
+<table class="rules">
+<tr><td><code>review</code> / <code>code_review</code></td><td>dev-code-reviewer</td><td>Review requested or C3/C4</td></tr>
+<tr><td><code>threat_model</code> / <code>security</code></td><td>dev-security</td><td>C4 security/data/tooling risk</td></tr>
+<tr><td><code>observability</code> / <code>observability_pipeline</code></td><td>dev-backend (+dev-data)</td><td>Production, incident, release, long-lived runtime</td></tr>
+<tr><td><code>debugging</code> / <code>debugging_rca</code></td><td>dev-debugging</td><td>Repeated failure needs root cause</td></tr>
+<tr><td><code>migration_backfill</code></td><td>dev-data, dev-backend, dev-testing</td><td>Production or non-trivial data</td></tr>
+<tr><td><code>product_discovery</code> (+<code>_ui</code>)</td><td>dev (+dev-uiux-design)</td><td>Ambiguous behavior/user value/metric/prototype intent</td></tr>
+<table class="rules">
+<tr><td><code>release_cd</code></td><td>dev-testing, dev-backend, dev-scaffolding, dev-devops</td><td>Release/CI/CD surface</td></tr>
+<tr><td><code>devops</code> / <code>infra</code> / <code>deploy</code></td><td>dev-devops</td><td>Container/K8s/IaC/deploy pipeline/SRE</td></tr>
+<tr><td><code>mobile_native</code></td><td>dev-frontend + dev-uiux-design + dev-backend (refs)</td><td>RN/Flutter/Swift/Kotlin native app</td></tr>
+<tr><td><code>ml</code> / <code>ai</code> / <code>llm</code> / <code>rag</code></td><td>dev-backend + dev-data + dev-testing (+dev-devops)</td><td>ML serving, RAG, pipeline, evaluation</td></tr>
+<tr><td><code>frontend_ui</code></td><td>dev-frontend + dev-uiux-design</td><td>UI/design intent or runnable prototype variant work</td></tr>
+<tr><td><code>crud_fullstack</code></td><td>dev-backend, dev-frontend, dev-testing</td><td>Boss/direct planning signal only — when delegating, prefer split roles</td></tr>
 </tbody></table>
 <p>Tags are normalized <code>task_tags</code>, <strong>not</strong> employee <code>role</code> values; the execution role stays</p>
 <p><code>frontend|backend|data|docs</code> (PROMPT-ROUTING-01).</p>
@@ -269,47 +268,46 @@
 <p>&quot;production-surface&quot; concerns condition on this definition.</p>
 <h3 id="companion-skills">Companion Skills</h3>
 <p>This skill covers universal guidelines. <strong>STRICT (DEV-ROUTE-01):</strong> for domain-specific work, also read the matching role skill&#x27;s <code>SKILL.md</code> before writing code in that domain:</p>
-<table class="rules"><tbody>
-<tr><th>Skill File</th><th>Injected When</th><th>Covers</th></tr>
-<tr><th><code>dev-frontend/SKILL.md</code></th><th><code>role=frontend</code></th><th>UI implementation, responsive, anti-slop</th></tr>
-<tr><th><code>dev-backend/SKILL.md</code></th><th><code>role=backend</code></th><th>API/architecture, data access, ops</th></tr>
-<tr><th><code>dev-data/SKILL.md</code></th><th><code>role=data</code></th><th>Pipelines, data quality, analytics SQL</th></tr>
-<tr><th><code>dev-security/SKILL.md</code></th><th>Security-sensitive code, or <code>security</code>/<code>threat_model</code> task_tags</th><th>OWASP, auth, secrets, supply chain</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>dev-testing/SKILL.md</code></th><th><code>testing</code>/<code>tdd</code> task_tags, or testing phase</th><th>Test strategy, Playwright, contracts, CI</th></tr>
-<tr><th><code>dev-debugging/SKILL.md</code></th><th>Debugging phase (phase 4)</th><th>Root-cause method, instrumentation</th></tr>
-<tr><th><code>dev-code-reviewer/SKILL.md</code></th><th>Any agent, during code review</th><th>Review process, severity, antipatterns</th></tr>
-<tr><th><code>dev-architecture/SKILL.md</code></th><th>Module boundary work, dependency analysis</th><th>Cycles, coupling, barrels, validation placement</th></tr>
-<tr><th><code>dev-uiux-design/SKILL.md</code></th><th>Vague design direction, UX state patterns</th><th>Intent discovery, design vocabulary, UX states</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>dev-scaffolding/SKILL.md</code></th><th>New project/feature setup, structural audit, docs generation</th><th>Lidge Standard, colocation, devlog</th></tr>
-<tr><th><code>dev-pabcd/SKILL.md</code></th><th>Orchestrated multi-phase development</th><th>PABCD phases, gates, attestation</th></tr>
+<table class="rules">
+<thead><tr><th>Skill File</th><th>Injected When</th><th>Covers</th></tr></thead><tbody>
+<tr><td><code>dev-frontend/SKILL.md</code></td><td><code>role=frontend</code></td><td>UI implementation, responsive, anti-slop</td></tr>
+<tr><td><code>dev-backend/SKILL.md</code></td><td><code>role=backend</code></td><td>API/architecture, data access, ops</td></tr>
+<tr><td><code>dev-data/SKILL.md</code></td><td><code>role=data</code></td><td>Pipelines, data quality, analytics SQL</td></tr>
+<tr><td><code>dev-security/SKILL.md</code></td><td>Security-sensitive code, or <code>security</code>/<code>threat_model</code> task_tags</td><td>OWASP, auth, secrets, supply chain</td></tr>
+<tr><td><code>dev-testing/SKILL.md</code></td><td><code>testing</code>/<code>tdd</code> task_tags, or testing phase</td><td>Test strategy, Playwright, contracts, CI</td></tr>
+<table class="rules">
+<tr><td><code>dev-debugging/SKILL.md</code></td><td>Debugging phase (phase 4)</td><td>Root-cause method, instrumentation</td></tr>
+<tr><td><code>dev-code-reviewer/SKILL.md</code></td><td>Any agent, during code review</td><td>Review process, severity, antipatterns</td></tr>
+<tr><td><code>dev-architecture/SKILL.md</code></td><td>Module boundary work, dependency analysis</td><td>Cycles, coupling, barrels, validation placement</td></tr>
+<tr><td><code>dev-uiux-design/SKILL.md</code></td><td>Vague design direction, UX state patterns</td><td>Intent discovery, design vocabulary, UX states</td></tr>
+<tr><td><code>dev-scaffolding/SKILL.md</code></td><td>New project/feature setup, structural audit, docs generation</td><td>Lidge Standard, colocation, devlog</td></tr>
+<tr><td><code>dev-pabcd/SKILL.md</code></td><td>Orchestrated multi-phase development</td><td>PABCD phases, gates, attestation</td></tr>
 </tbody></table>
 <h4 id="skill-ownership-map">Skill Ownership Map</h4>
 <p>Each rule area has exactly one canonical owner. Other skills may contain stubs but MUST NOT duplicate canonical content.</p>
-<table class="rules"><tbody>
-<tr><th>Rule Area</th><th>Canonical Owner</th><th>Stub Locations</th></tr>
-<tr><th>Circular dependencies</th><th>dev-architecture</th><th>dev, <a href="../../pages/skills/dev-code-reviewer.html">dev-code-reviewer</a></th></tr>
-<tr><th>Module boundaries / layers</th><th>dev-architecture</th><th>dev-backend, dev-frontend</th></tr>
-<tr><th>Coupling taxonomy</th><th>dev-architecture</th><th>dev-code-reviewer</th></tr>
-<tr><th>Barrel / re-export</th><th>dev-architecture</th><th>dev-scaffolding</th></tr>
-<table class="rules"><tbody>
-<tr><th>Pre-write search</th><th>dev §1.5</th><th>dev-code-reviewer</th></tr>
-<tr><th>Edge-first testing</th><th>dev-testing §6</th><th>—</th></tr>
-<tr><th>Test-induced defense</th><th>dev-testing §6.7</th><th>dev-code-reviewer</th></tr>
-<tr><th>Boundary-only defense</th><th>dev-architecture §4</th><th>dev-backend, <a href="../../pages/skills/dev-security.html">dev-security</a></th></tr>
-<tr><th>Process isolation</th><th>dev-backend refs/</th><th>dev-code-reviewer</th></tr>
-<table class="rules"><tbody>
-<tr><th>Code quality signals / antipatterns</th><th>dev-code-reviewer §3</th><th>dev §6</th></tr>
-<tr><th>Long-lived connections (server lifecycle)</th><th>dev-backend §1</th><th>dev-frontend</th></tr>
-<tr><th>Browser connection budgets</th><th>dev-frontend refs/performance-budget</th><th>—</th></tr>
-<tr><th>Async task queue</th><th>dev-backend §2</th><th>—</th></tr>
-<tr><th>Debugging methodology</th><th>dev-debugging</th><th>dev-code-reviewer</th></tr>
-<table class="rules"><tbody>
-<tr><th>Data pipeline patterns</th><th>dev-data</th><th>dev-backend</th></tr>
-<tr><th>Design intent discovery</th><th>dev-uiux-design</th><th>dev-frontend</th></tr>
-<tr><th>Project scaffolding / docs</th><th>dev-scaffolding</th><th>dev-pabcd</th></tr>
-<tr><th>Orchestration workflow</th><th>dev-pabcd</th><th>—</th></tr>
+<table class="rules">
+<thead><tr><th>Rule Area</th><th>Canonical Owner</th><th>Stub Locations</th></tr></thead><tbody>
+<tr><td>Circular dependencies</td><td>dev-architecture</td><td>dev, dev-code-reviewer</td></tr>
+<tr><td>Module boundaries / layers</td><td>dev-architecture</td><td>dev-backend, dev-frontend</td></tr>
+<tr><td>Coupling taxonomy</td><td>dev-architecture</td><td>dev-code-reviewer</td></tr>
+<tr><td>Barrel / re-export</td><td>dev-architecture</td><td>dev-scaffolding</td></tr>
+<tr><td>Pre-write search</td><td>dev §1.5</td><td>dev-code-reviewer</td></tr>
+<table class="rules">
+<tr><td>Edge-first testing</td><td>dev-testing §6</td><td>—</td></tr>
+<tr><td>Test-induced defense</td><td>dev-testing §6.7</td><td>dev-code-reviewer</td></tr>
+<tr><td>Boundary-only defense</td><td>dev-architecture §4</td><td>dev-backend, dev-security</td></tr>
+<tr><td>Process isolation</td><td>dev-backend refs/</td><td>dev-code-reviewer</td></tr>
+<tr><td>Code quality signals / antipatterns</td><td>dev-code-reviewer §3</td><td>dev §6</td></tr>
+<tr><td>Long-lived connections (server lifecycle)</td><td>dev-backend §1</td><td>dev-frontend</td></tr>
+<table class="rules">
+<tr><td>Browser connection budgets</td><td>dev-frontend refs/performance-budget</td><td>—</td></tr>
+<tr><td>Async task queue</td><td>dev-backend §2</td><td>—</td></tr>
+<tr><td>Debugging methodology</td><td>dev-debugging</td><td>dev-code-reviewer</td></tr>
+<tr><td>Data pipeline patterns</td><td>dev-data</td><td>dev-backend</td></tr>
+<tr><td>Design intent discovery</td><td>dev-uiux-design</td><td>dev-frontend</td></tr>
+<tr><td>Project scaffolding / docs</td><td>dev-scaffolding</td><td>dev-pabcd</td></tr>
+<table class="rules">
+<tr><td>Orchestration workflow</td><td>dev-pabcd</td><td>—</td></tr>
 </tbody></table>
 <p>When updating a rule, update the canonical owner first, then verify stubs still point correctly.</p>
 <p><strong>When your task spans multiple domains</strong>, read each relevant skill file before starting.</p>
@@ -361,24 +359,24 @@
 <h3 id="1-modular-development">1. Modular Development</h3>
 <p>Give every file, function, and class a single, clear responsibility.</p>
 <p><strong>Hard limits (DEFAULT — exceed only with a stated reason):</strong></p>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>Threshold</th><th>Action</th></tr>
-<tr><th>File length</th><th>&gt;400 lines</th><th>Split into focused modules (canonical owner: <a href="../../pages/skills/dev-architecture.html">dev-architecture</a> §1)</th></tr>
-<tr><th>Function length</th><th>&gt;50 lines</th><th>Extract helper functions</th></tr>
-<tr><th>Class methods</th><th>&gt;20 methods</th><th>Split by responsibility</th></tr>
-<tr><th>Nesting depth</th><th>&gt;4 levels</th><th>Flatten with early returns or extraction</th></tr>
-<table class="rules"><tbody>
-<tr><th>Function parameters</th><th>&gt;5</th><th>Use an options/config object</th></tr>
-<tr><th>PR changeset</th><th>&gt;500 lines</th><th>Split into focused PRs</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>Threshold</th><th>Action</th></tr></thead><tbody>
+<tr><td>File length</td><td>&gt;400 lines</td><td>Split into focused modules (canonical owner: dev-architecture §1)</td></tr>
+<tr><td>Function length</td><td>&gt;50 lines</td><td>Extract helper functions</td></tr>
+<tr><td>Class methods</td><td>&gt;20 methods</td><td>Split by responsibility</td></tr>
+<tr><td>Nesting depth</td><td>&gt;4 levels</td><td>Flatten with early returns or extraction</td></tr>
+<tr><td>Function parameters</td><td>&gt;5</td><td>Use an options/config object</td></tr>
+<table class="rules">
+<tr><td>PR changeset</td><td>&gt;500 lines</td><td>Split into focused PRs</td></tr>
 </tbody></table>
 <h4 id="blast-radius-limits">Blast Radius Limits</h4>
 <p>One logical change per PR/changeset — unrelated cleanup and drive-by refactors go separately.</p>
-<table class="rules"><tbody>
-<tr><th>Change Scope</th><th>Max Blast Radius</th><th>Exceeds →</th></tr>
-<tr><th>Single bug fix</th><th>1–3 files</th><th>Split fix from cleanup</th></tr>
-<tr><th>Feature addition</th><th>1 module/package</th><th>Separate infra from feature</th></tr>
-<tr><th>Refactoring</th><th>Pre-approved scope only</th><th>Get scope approval first</th></tr>
-<tr><th>Dependency upgrade</th><th>Isolated PR</th><th>Never bundle with features</th></tr>
+<thead><tr><th>Change Scope</th><th>Max Blast Radius</th><th>Exceeds →</th></tr></thead><tbody>
+<tr><td>Single bug fix</td><td>1–3 files</td><td>Split fix from cleanup</td></tr>
+<table class="rules">
+<tr><td>Feature addition</td><td>1 module/package</td><td>Separate infra from feature</td></tr>
+<tr><td>Refactoring</td><td>Pre-approved scope only</td><td>Get scope approval first</td></tr>
+<tr><td>Dependency upgrade</td><td>Isolated PR</td><td>Never bundle with features</td></tr>
 </tbody></table>
 <p><strong>Rules:</strong></p>
 <ul>
@@ -396,16 +394,16 @@
 <p>accessibility.</p>
 <p><strong>Rule:</strong> Before creating a new function, helper, type, component, constant, route, fixture, or module, search the codebase for an existing owner or equivalent implementation. No new abstraction may be introduced without search evidence. This section does not apply on the §0.1 fast path (C0/C1 — no new abstractions are being created).</p>
 <p><strong>Read before editing (DEV-READ-FIRST-01).</strong> Any C2+ edit to existing code reads the target file and its direct caller/consumer when the change crosses a boundary before writing. C0/C1 fast path still applies.</p>
-<table class="rules"><tbody>
-<tr><th>Artifact being created</th><th>Required searches</th><th>Preferred outcome</th></tr>
-<tr><th>Function/helper</th><th>Exact name, verb phrase, domain noun</th><th>Extend existing helper or add next to owner</th></tr>
-<tr><th>Type/interface/schema</th><th>Exact type name and shape fields</th><th>Reuse or extend existing contract</th></tr>
-<tr><th>Component</th><th>UI label, route, component name, feature folder</th><th>Modify owning component</th></tr>
-<tr><th>Constant/magic string</th><th>Literal value and semantic name</th><th>Move to existing constants/contract module</th></tr>
-<table class="rules"><tbody>
-<tr><th>Test fixture/factory</th><th>Fixture factory and existing test data</th><th>Extend shared fixture factory</th></tr>
-<tr><th>Route/API client</th><th>Endpoint path, handler name, client wrapper</th><th>Update both server and client owner</th></tr>
-<tr><th>Config/env flag</th><th>Env var prefix and config module</th><th>Add to central config owner</th></tr>
+<table class="rules">
+<thead><tr><th>Artifact being created</th><th>Required searches</th><th>Preferred outcome</th></tr></thead><tbody>
+<tr><td>Function/helper</td><td>Exact name, verb phrase, domain noun</td><td>Extend existing helper or add next to owner</td></tr>
+<tr><td>Type/interface/schema</td><td>Exact type name and shape fields</td><td>Reuse or extend existing contract</td></tr>
+<tr><td>Component</td><td>UI label, route, component name, feature folder</td><td>Modify owning component</td></tr>
+<tr><td>Constant/magic string</td><td>Literal value and semantic name</td><td>Move to existing constants/contract module</td></tr>
+<tr><td>Test fixture/factory</td><td>Fixture factory and existing test data</td><td>Extend shared fixture factory</td></tr>
+<table class="rules">
+<tr><td>Route/API client</td><td>Endpoint path, handler name, client wrapper</td><td>Update both server and client owner</td></tr>
+<tr><td>Config/env flag</td><td>Env var prefix and config module</td><td>Add to central config owner</td></tr>
 </tbody></table>
 <p><strong>Banned patterns:</strong></p>
 <ul>
@@ -437,15 +435,15 @@
 <li><strong>Report</strong> — State the claim with evidence attached.</li>
 </ol>
 <p><strong>Per-class verification floor (DEV-VERIFY-FLOOR-01):</strong> C0/C1 use the smallest proof; C2 adds focused integration/contract checks for the touched slice; C3 runs affected suites and contract/docs checks; C4 runs full relevant gates plus negative cases and durable evidence.</p>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Requires</th><th>Not Sufficient</th></tr>
-<tr><th>&quot;Tests pass&quot;</th><th>Test command output: 0 failures</th><th>Previous run, &quot;should pass&quot;</th></tr>
-<tr><th>&quot;Build succeeds&quot;</th><th>Build command: exit 0</th><th>&quot;Linter passed&quot;</th></tr>
-<tr><th>&quot;Bug fixed&quot;</th><th>Original symptom verified resolved</th><th>&quot;Code changed, assumed fixed&quot;</th></tr>
-<tr><th>&quot;Feature complete&quot;</th><th>Each requirement checked line-by-line</th><th>&quot;Tests pass&quot;</th></tr>
-<table class="rules"><tbody>
-<tr><th>&quot;Agent completed&quot;</th><th>VCS diff shows actual changes</th><th>Agent report says &quot;success&quot;</th></tr>
-<tr><th>&quot;Regression test works&quot;</th><th>Red-green cycle verified</th><th>Test passes once</th></tr>
+<table class="rules">
+<thead><tr><th>Claim</th><th>Requires</th><th>Not Sufficient</th></tr></thead><tbody>
+<tr><td>&quot;Tests pass&quot;</td><td>Test command output: 0 failures</td><td>Previous run, &quot;should pass&quot;</td></tr>
+<tr><td>&quot;Build succeeds&quot;</td><td>Build command: exit 0</td><td>&quot;Linter passed&quot;</td></tr>
+<tr><td>&quot;Bug fixed&quot;</td><td>Original symptom verified resolved</td><td>&quot;Code changed, assumed fixed&quot;</td></tr>
+<tr><td>&quot;Feature complete&quot;</td><td>Each requirement checked line-by-line</td><td>&quot;Tests pass&quot;</td></tr>
+<tr><td>&quot;Agent completed&quot;</td><td>VCS diff shows actual changes</td><td>Agent report says &quot;success&quot;</td></tr>
+<table class="rules">
+<tr><td>&quot;Regression test works&quot;</td><td>Red-green cycle verified</td><td>Test passes once</td></tr>
 </tbody></table>
 <p><strong>Agent delegation:</strong> When sub-agents report success, verify independently: check VCS diff → verify changes exist → confirm behavior.</p>
 <p><strong>Long external waits:</strong> don&#x27;t block the turn polling CI/deploys/hosted sessions —</p>

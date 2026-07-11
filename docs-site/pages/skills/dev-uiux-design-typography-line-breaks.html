@@ -119,21 +119,20 @@ you already run                ← Balanced, intentional</code></pre>
 <p>The difference is subtle but immediately signals whether a page was designed or merely generated.</p>
 <p>---</p>
 <h3 id="when-each-tool-applies">When Each Tool Applies</h3>
-<table class="rules"><tbody>
-<tr><th>Element</th><th>Tool</th><th>Rationale</th></tr>
-<tr><th>Hero headline</th><th><code>text-wrap: balance</code> + <code>max-width: 40-45ch</code></th><th>High-visibility, must look intentional on every viewport</th></tr>
-<tr><th><strong>Hero subtitle/description</strong></th><th><strong><code>text-wrap: balance</code></strong> + <code>max-width: 35-40ch</code></th><th><strong>Short descriptor — <code>pretty</code> is insufficient at 1-2 lines</strong></th></tr>
-<tr><th>Section title</th><th><code>text-wrap: balance</code> + <code>max-width: 50-55ch</code></th><th>Consistency across sections</th></tr>
-<tr><th>Card title</th><th><code>text-wrap: balance</code> + <code>max-width: 30-35ch</code></th><th>Tight containers need compact control</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Card description (1-3 lines)</strong></th><th><strong><code>text-wrap: balance</code></strong> + <code>max-width: 30-35ch</code></th><th><strong>Short descriptor — orphans extremely visible in small containers</strong></th></tr>
-<tr><th><strong>Caption / label text</strong></th><th><strong><code>text-wrap: balance</code></strong> + <code>max-width: 25-30ch</code></th><th><strong>Short descriptor — same reason</strong></th></tr>
-<tr><th>Body paragraph (4+ lines)</th><th><code>text-wrap: pretty</code> + <code>max-width: 65ch</code></th><th>Orphan prevention at paragraph end</th></tr>
-<tr><th>CTA/button label</th><th>Manual — keep to 1 line</th><th>Never let a CTA break across lines</th></tr>
-<tr><th>Navigation links</th><th>No wrapping needed</th><th>Always single-line</th></tr>
-<table class="rules"><tbody>
-<tr><th>Stat label</th><th><code>max-width: 20ch</code></th><th>Keep compact under the number</th></tr>
-<tr><th>Badge/tag text</th><th><code>white-space: nowrap</code></th><th>Never wrap</th></tr>
+<table class="rules">
+<thead><tr><th>Element</th><th>Tool</th><th>Rationale</th></tr></thead><tbody>
+<tr><td>Hero headline</td><td><code>text-wrap: balance</code> + <code>max-width: 40-45ch</code></td><td>High-visibility, must look intentional on every viewport</td></tr>
+<tr><td><strong>Hero subtitle/description</strong></td><td><strong><code>text-wrap: balance</code></strong> + <code>max-width: 35-40ch</code></td><td><strong>Short descriptor — <code>pretty</code> is insufficient at 1-2 lines</strong></td></tr>
+<tr><td>Section title</td><td><code>text-wrap: balance</code> + <code>max-width: 50-55ch</code></td><td>Consistency across sections</td></tr>
+<tr><td>Card title</td><td><code>text-wrap: balance</code> + <code>max-width: 30-35ch</code></td><td>Tight containers need compact control</td></tr>
+<tr><td><strong>Card description (1-3 lines)</strong></td><td><strong><code>text-wrap: balance</code></strong> + <code>max-width: 30-35ch</code></td><td><strong>Short descriptor — orphans extremely visible in small containers</strong></td></tr>
+<table class="rules">
+<tr><td><strong>Caption / label text</strong></td><td><strong><code>text-wrap: balance</code></strong> + <code>max-width: 25-30ch</code></td><td><strong>Short descriptor — same reason</strong></td></tr>
+<tr><td>Body paragraph (4+ lines)</td><td><code>text-wrap: pretty</code> + <code>max-width: 65ch</code></td><td>Orphan prevention at paragraph end</td></tr>
+<tr><td>CTA/button label</td><td>Manual — keep to 1 line</td><td>Never let a CTA break across lines</td></tr>
+<tr><td>Navigation links</td><td>No wrapping needed</td><td>Always single-line</td></tr>
+<tr><td>Stat label</td><td><code>max-width: 20ch</code></td><td>Keep compact under the number</td></tr>
+<tr><td>Badge/tag text</td><td><code>white-space: nowrap</code></td><td>Never wrap</td></tr>
 </tbody></table>
 <h4 id="short-descriptors-the-missing-category">Short Descriptors — The Missing Category</h4>
 <p>Text that is <strong>1-3 lines long</strong> is neither a heading nor a body paragraph. Examples:</p>
@@ -178,7 +177,7 @@ without leaving vim                               ← balanced, semantic</code><
 <li>Breaks are chosen by the browser at render width; a heading that breaks</li>
 </ul>
 <p>semantically at 390/768/1024/1440 can still orphan at 700px. Judge text in</p>
-<p>CONTAINERS (sidebar, modal, half-window), not only <a href="../../pages/skills/dev.html">dev</a>ice presets.</p>
+<p>CONTAINERS (sidebar, modal, half-window), not only device presets.</p>
 <ul>
 <li>Prefer break-opportunity control (<code>keep-all</code>, <code>balance</code>, <code>max-width</code> in</li>
 </ul>
@@ -209,15 +208,15 @@ without leaving vim                               ← balanced, semantic</code><
 </ul>
 <p>---</p>
 <h3 id="common-mistakes">Common Mistakes</h3>
-<table class="rules"><tbody>
-<tr><th>Mistake</th><th>Why it happens</th><th>Fix</th></tr>
-<tr><th>Using <code>&lt;br&gt;</code> for line breaks</th><th>Works at one viewport, breaks at others</th><th>Use <code>text-wrap: balance</code> instead</th></tr>
-<tr><th><code>max-width</code> in <code>px</code></th><th>Doesn&#x27;t adapt to font size changes</th><th>Use <code>ch</code> units</th></tr>
-<tr><th>No <code>max-width</code> on headings</th><th>Lines stretch full container width</th><th>Add <code>max-width: 45-55ch</code></th></tr>
-<tr><th><code>text-wrap: balance</code> on body text</th><th>Performance cost, limited to ~6 lines</th><th>Use <code>text-wrap: pretty</code> for paragraphs</th></tr>
-<table class="rules"><tbody>
-<tr><th>Ignoring mobile line breaks</th><th>Heading looks good on desktop but orphans on mobile</th><th>Test at 390px</th></tr>
-<tr><th>Same <code>max-width</code> for all heading levels</th><th>Different font sizes produce different visual widths</th><th>Scale <code>max-width</code> by heading level</th></tr>
+<table class="rules">
+<thead><tr><th>Mistake</th><th>Why it happens</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Using <code>&lt;br&gt;</code> for line breaks</td><td>Works at one viewport, breaks at others</td><td>Use <code>text-wrap: balance</code> instead</td></tr>
+<tr><td><code>max-width</code> in <code>px</code></td><td>Doesn&#x27;t adapt to font size changes</td><td>Use <code>ch</code> units</td></tr>
+<tr><td>No <code>max-width</code> on headings</td><td>Lines stretch full container width</td><td>Add <code>max-width: 45-55ch</code></td></tr>
+<tr><td><code>text-wrap: balance</code> on body text</td><td>Performance cost, limited to ~6 lines</td><td>Use <code>text-wrap: pretty</code> for paragraphs</td></tr>
+<tr><td>Ignoring mobile line breaks</td><td>Heading looks good on desktop but orphans on mobile</td><td>Test at 390px</td></tr>
+<table class="rules">
+<tr><td>Same <code>max-width</code> for all heading levels</td><td>Different font sizes produce different visual widths</td><td>Scale <code>max-width</code> by heading level</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="korean-typography-notes">Korean Typography Notes</h3>

@@ -117,7 +117,7 @@ node --inspect-wait app.js        # wait for debugger (Node 22+)
 <h4 id="debugging-test-runners-and-frameworks">Debugging Test Runners and Frameworks</h4>
 <pre><code>node --inspect-brk node_modules/.bin/vitest run --single-thread  # Vitest
 node --inspect-brk node_modules/.bin/jest --runInBand             # Jest
-NODE_OPTIONS=&#x27;--inspect&#x27; next <a href="../../pages/skills/dev.html">dev</a>                                 # Next.js
+NODE_OPTIONS=&#x27;--inspect&#x27; next dev                                 # Next.js
 node --inspect-brk --loader tsx src/server.ts                     # TypeScript</code></pre>
 <h4 id="console-techniques">Console Techniques</h4>
 <pre><code>console.trace(&#x27;How did we get here?&#x27;);                           // stack trace
@@ -142,18 +142,18 @@ node --trace-warnings app.js                     # MaxListeners, unhandled rejec
 python -m pdb script.py                  # run under debugger
 python -m pdb -c continue script.py     # post-mortem: run until crash</code></pre>
 <h4 id="pdb-commands">pdb Commands</h4>
-<table class="rules"><tbody>
-<tr><th>Command</th><th>Short</th><th>Description</th></tr>
-<tr><th><code>next</code></th><th><code>n</code></th><th>Step over</th></tr>
-<tr><th><code>step</code></th><th><code>s</code></th><th>Step into</th></tr>
-<tr><th><code>continue</code></th><th><code>c</code></th><th>Continue to next breakpoint</th></tr>
-<tr><th><code>print expr</code></th><th><code>p</code></th><th>Evaluate and print</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>list</code> / <code>longlist</code></th><th><code>l</code> / <code>ll</code></th><th>Show source / full function</th></tr>
-<tr><th><code>where</code></th><th><code>w</code></th><th>Show call stack</th></tr>
-<tr><th><code>up</code> / <code>down</code></th><th><code>u</code> / <code>d</code></th><th>Navigate call stack</th></tr>
-<tr><th><code>break file:line</code></th><th><code>b</code></th><th>Set breakpoint</th></tr>
-<tr><th><code>!statement</code></th><th></th><th>Execute Python statement</th></tr>
+<table class="rules">
+<thead><tr><th>Command</th><th>Short</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>next</code></td><td><code>n</code></td><td>Step over</td></tr>
+<tr><td><code>step</code></td><td><code>s</code></td><td>Step into</td></tr>
+<tr><td><code>continue</code></td><td><code>c</code></td><td>Continue to next breakpoint</td></tr>
+<tr><td><code>print expr</code></td><td><code>p</code></td><td>Evaluate and print</td></tr>
+<tr><td><code>list</code> / <code>longlist</code></td><td><code>l</code> / <code>ll</code></td><td>Show source / full function</td></tr>
+<table class="rules">
+<tr><td><code>where</code></td><td><code>w</code></td><td>Show call stack</td></tr>
+<tr><td><code>up</code> / <code>down</code></td><td><code>u</code> / <code>d</code></td><td>Navigate call stack</td></tr>
+<tr><td><code>break file:line</code></td><td><code>b</code></td><td>Set breakpoint</td></tr>
+<tr><td><code>!statement</code></td><td></td><td>Execute Python statement</td></tr>
 </tbody></table>
 <h4 id="pytest-integration">pytest Integration</h4>
 <pre><code>pytest --pdb                        # drop into debugger on first failure
@@ -175,14 +175,13 @@ debugpy.wait_for_client()  # blocks until VS Code attaches</code></pre>
 <p>---</p>
 <h3 id="browser-chrome-devtools">Browser / Chrome DevTools</h3>
 <h4 id="essential-tabs">Essential Tabs</h4>
-<table class="rules"><tbody>
-<tr><th>Tab</th><th>Use For</th></tr>
-<tr><th><strong>Console</strong></th><th>Errors, <code>console.log</code>, live JS</th></tr>
-<tr><th><strong>Sources</strong></th><th>Breakpoints, step debugging, watch expressions</th></tr>
-<tr><th><strong>Network</strong></th><th>API calls, timing, headers, response bodies</th></tr>
-<tr><th><strong>Performance</strong></th><th>CPU profiling, flame charts, long tasks</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Memory</strong></th><th>Heap snapshots, detached DOM nodes</th></tr>
+<table class="rules">
+<thead><tr><th>Tab</th><th>Use For</th></tr></thead><tbody>
+<tr><td><strong>Console</strong></td><td>Errors, <code>console.log</code>, live JS</td></tr>
+<tr><td><strong>Sources</strong></td><td>Breakpoints, step debugging, watch expressions</td></tr>
+<tr><td><strong>Network</strong></td><td>API calls, timing, headers, response bodies</td></tr>
+<tr><td><strong>Performance</strong></td><td>CPU profiling, flame charts, long tasks</td></tr>
+<tr><td><strong>Memory</strong></td><td>Heap snapshots, detached DOM nodes</td></tr>
 </tbody></table>
 <h4 id="network-tab-debugging">Network Tab Debugging</h4>
 <pre><code>1. Open Network tab → &quot;Preserve log&quot; → filter: XHR / Doc / WS

@@ -109,36 +109,34 @@
 <p>When barrel files help vs. when they create hidden coupling and break tree-shaking.</p>
 <p>---</p>
 <h3 id="when-barrels-are-ok">When Barrels Are OK</h3>
-<table class="rules"><tbody>
-<tr><th>Context</th><th>Why Allowed</th></tr>
-<tr><th>Public package API (<code>packages/ui/src/index.ts</code>)</th><th>Consumers need a single stable entry point</th></tr>
-<tr><th>Framework plugin entry (<code>my-plugin/index.ts</code>)</th><th>Plugin contract requires single export</th></tr>
-<tr><th>Monorepo package boundary (<code>@org/shared/index.ts</code>)</th><th>Cross-package contract, versioned</th></tr>
-<tr><th>Generated API client entry</th><th>Single entry for codegen output</th></tr>
+<table class="rules">
+<thead><tr><th>Context</th><th>Why Allowed</th></tr></thead><tbody>
+<tr><td>Public package API (<code>packages/ui/src/index.ts</code>)</td><td>Consumers need a single stable entry point</td></tr>
+<tr><td>Framework plugin entry (<code>my-plugin/index.ts</code>)</td><td>Plugin contract requires single export</td></tr>
+<tr><td>Monorepo package boundary (<code>@org/shared/index.ts</code>)</td><td>Cross-package contract, versioned</td></tr>
+<tr><td>Generated API client entry</td><td>Single entry for codegen output</td></tr>
 </tbody></table>
 <p><strong>Common trait:</strong> The barrel is a PUBLIC contract consumed by EXTERNAL code (other packages, other teams, npm consumers).</p>
 <p>---</p>
 <h3 id="when-barrels-are-banned">When Barrels Are BANNED</h3>
-<table class="rules"><tbody>
-<tr><th>Context</th><th>Why Banned</th></tr>
-<tr><th>Feature module internal (<code>features/auth/index.ts</code>)</th><th>Hides internal file structure, makes deps opaque</th></tr>
-<tr><th>Utility folder (<code>utils/index.ts</code>)</th><th>Creates coupling magnet — everything imports from one point</th></tr>
-<tr><th>Component folder re-exporting siblings</th><th>Direct imports are clearer and tree-shake better</th></tr>
-<tr><th>Deep re-export chains (barrel imports barrel)</th><th>Impossible to trace actual dependency</th></tr>
-<table class="rules"><tbody>
-<tr><th>Any barrel that also contains logic</th><th>Mixed concern — barrel should ONLY re-export</th></tr>
+<table class="rules">
+<thead><tr><th>Context</th><th>Why Banned</th></tr></thead><tbody>
+<tr><td>Feature module internal (<code>features/auth/index.ts</code>)</td><td>Hides internal file structure, makes deps opaque</td></tr>
+<tr><td>Utility folder (<code>utils/index.ts</code>)</td><td>Creates coupling magnet — everything imports from one point</td></tr>
+<tr><td>Component folder re-exporting siblings</td><td>Direct imports are clearer and tree-shake better</td></tr>
+<tr><td>Deep re-export chains (barrel imports barrel)</td><td>Impossible to trace actual dependency</td></tr>
+<tr><td>Any barrel that also contains logic</td><td>Mixed concern — barrel should ONLY re-export</td></tr>
 </tbody></table>
 <p><strong>Common trait:</strong> The barrel serves INTERNAL code in the SAME package. Direct imports are always better here.</p>
 <p>---</p>
 <h3 id="tree-shaking-impact">Tree-Shaking Impact</h3>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Tree-Shakeable?</th><th>Why</th></tr>
-<tr><th><code>export * from &#x27;./heavy&#x27;</code></th><th>NO (most bundlers)</th><th>Bundler cannot determine which exports are used</th></tr>
-<tr><th><code>export { A, B } from &#x27;./module&#x27;</code></th><th>YES</th><th>Named exports allow dead-code elimination</th></tr>
-<tr><th>Barrel with side-effect code</th><th>NEVER</th><th>Side effects force inclusion</th></tr>
-<tr><th><code>export * from &#x27;./a&#x27;; export * from &#x27;./b&#x27;</code></th><th>NO</th><th>Namespace collision risk + full inclusion</th></tr>
-<table class="rules"><tbody>
-<tr><th>Direct import <code>from &#x27;./Button&#x27;</code></th><th>ALWAYS</th><th>Optimal — bundler sees exact usage</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Tree-Shakeable?</th><th>Why</th></tr></thead><tbody>
+<tr><td><code>export * from &#x27;./heavy&#x27;</code></td><td>NO (most bundlers)</td><td>Bundler cannot determine which exports are used</td></tr>
+<tr><td><code>export { A, B } from &#x27;./module&#x27;</code></td><td>YES</td><td>Named exports allow dead-code elimination</td></tr>
+<tr><td>Barrel with side-effect code</td><td>NEVER</td><td>Side effects force inclusion</td></tr>
+<tr><td><code>export * from &#x27;./a&#x27;; export * from &#x27;./b&#x27;</code></td><td>NO</td><td>Namespace collision risk + full inclusion</td></tr>
+<tr><td>Direct import <code>from &#x27;./Button&#x27;</code></td><td>ALWAYS</td><td>Optimal — bundler sees exact usage</td></tr>
 </tbody></table>
 <p><strong>Rule of thumb:</strong> If your barrel uses <code>export *</code>, it destroys tree-shaking. Always use named exports.</p>
 <p>---</p>
@@ -165,14 +163,13 @@ export * from &#x27;./hooks&#x27;;       // consumers don&#x27;t know what they 
 export { default as AuthProvider } from &#x27;./AuthProvider&#x27;;  // renaming in barrel</code></pre>
 <p>---</p>
 <h3 id="import-rules-summary">Import Rules Summary</h3>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Correct</th><th>Incorrect</th></tr>
-<tr><th>Internal: import from source file</th><th><code>import { fn } from &#x27;./auth/login&#x27;</code></th><th><code>import { fn } from &#x27;./auth&#x27;</code></th></tr>
-<tr><th>Cross-package: import from barrel</th><th><code>import { Button } from &#x27;@ui/components&#x27;</code></th><th><code>import { Button } from &#x27;@ui/components/Button/Button&#x27;</code></th></tr>
-<tr><th>No barrel logic</th><th>Barrel file has ONLY export statements</th><th>Barrel imports, transforms, then re-exports</th></tr>
-<tr><th>No re-export rename</th><th><code>export { Button } from &#x27;./Button&#x27;</code></th><th><code>export { Button as Btn } from &#x27;./Button&#x27;</code></th></tr>
-<table class="rules"><tbody>
-<tr><th>No circular barrel</th><th>Barrel does not import from files that import from it</th><th><code>index.ts</code> imports <code>A.ts</code> which imports from <code>./index</code></th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Correct</th><th>Incorrect</th></tr></thead><tbody>
+<tr><td>Internal: import from source file</td><td><code>import { fn } from &#x27;./auth/login&#x27;</code></td><td><code>import { fn } from &#x27;./auth&#x27;</code></td></tr>
+<tr><td>Cross-package: import from barrel</td><td><code>import { Button } from &#x27;@ui/components&#x27;</code></td><td><code>import { Button } from &#x27;@ui/components/Button/Button&#x27;</code></td></tr>
+<tr><td>No barrel logic</td><td>Barrel file has ONLY export statements</td><td>Barrel imports, transforms, then re-exports</td></tr>
+<tr><td>No re-export rename</td><td><code>export { Button } from &#x27;./Button&#x27;</code></td><td><code>export { Button as Btn } from &#x27;./Button&#x27;</code></td></tr>
+<tr><td>No circular barrel</td><td>Barrel does not import from files that import from it</td><td><code>index.ts</code> imports <code>A.ts</code> which imports from <code>./index</code></td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="eslint-enforcement">ESLint Enforcement</h3>

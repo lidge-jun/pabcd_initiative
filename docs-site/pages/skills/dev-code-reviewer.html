@@ -173,10 +173,10 @@
 </ul>
 <p>---</p>
 <h3 id="modular-references">Modular References</h3>
-<table class="rules"><tbody>
-<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/tech-debt.md</code></th><th>Tech debt inventory or paydown</th><th>Debt quadrant, inventory template, review integration, paydown budget</th></tr>
-<tr><th><code>references/ai-assisted-review.md</code></th><th>Using AI review tools in PR workflow</th><th>AI review workflow, severity classification, re-review policy, exclusions, metrics</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
+<tr><td><code>references/tech-debt.md</code></td><td>Tech debt inventory or paydown</td><td>Debt quadrant, inventory template, review integration, paydown budget</td></tr>
+<tr><td><code>references/ai-assisted-review.md</code></td><td>Using AI review tools in PR workflow</td><td>AI review workflow, severity classification, re-review policy, exclusions, metrics</td></tr>
 </tbody></table>
 <h3 id="external-current-review-evidence">External/current review evidence</h3>
 <p>For dependency CVEs, release-note claims, package maintainer/source checks,</p>
@@ -204,12 +204,12 @@
 <li><strong>Tool findings go first</strong> in review output, before manual findings.</li>
 <li><strong>No tool available?</strong> Skip gracefully — pre-scan is additive, not a gate.</li>
 </ol>
-<table class="rules"><tbody>
-<tr><th>Tool</th><th>Catches</th><th>Misses</th><th>Key Rules</th></tr>
-<tr><th>ESLint/Ruff</th><th>Style, simple bugs, import issues</th><th>Architecture, business logic</th><th><code>import/no-cycle</code>, <code>no-unused-vars</code>, <code>no-floating-promises</code>, <code>complexity</code></th></tr>
-<tr><th>tsc/mypy</th><th>Type errors, null safety</th><th>Runtime behavior, performance</th><th><code>strict</code>, <code>noImplicitAny</code>, <code>strictNullChecks</code></th></tr>
-<tr><th>Semgrep</th><th>Injection, auth bypass, SSRF</th><th>Complex multi-step vulnerabilities</th><th><code>javascript.lang.security.audit.sqli</code></th></tr>
-<tr><th>npm audit/pip-audit</th><th>Known CVEs in deps</th><th>Zero-day, license issues</th><th>—</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Catches</th><th>Misses</th><th>Key Rules</th></tr></thead><tbody>
+<tr><td>ESLint/Ruff</td><td>Style, simple bugs, import issues</td><td>Architecture, business logic</td><td><code>import/no-cycle</code>, <code>no-unused-vars</code>, <code>no-floating-promises</code>, <code>complexity</code></td></tr>
+<tr><td>tsc/mypy</td><td>Type errors, null safety</td><td>Runtime behavior, performance</td><td><code>strict</code>, <code>noImplicitAny</code>, <code>strictNullChecks</code></td></tr>
+<tr><td>Semgrep</td><td>Injection, auth bypass, SSRF</td><td>Complex multi-step vulnerabilities</td><td><code>javascript.lang.security.audit.sqli</code></td></tr>
+<tr><td>npm audit/pip-audit</td><td>Known CVEs in deps</td><td>Zero-day, license issues</td><td>—</td></tr>
 </tbody></table>
 <p><strong>Separation of concerns:</strong> Tools catch patterns; humans catch intent. Focus manual review on architecture, correctness, and business logic that tools cannot evaluate.</p>
 <h4 id="review-order-by-impact-not-preference">Review Order (by impact, not preference)</h4>
@@ -236,140 +236,139 @@
 <p>---</p>
 <h3 id="2-quality-thresholds">2. Quality Thresholds</h3>
 <p>Flag these during review:</p>
-<table class="rules"><tbody>
-<tr><th>Issue</th><th>Threshold</th><th>Severity</th></tr>
-<tr><th>Long function</th><th>&gt;50 lines</th><th>Medium</th></tr>
-<tr><th>Large file</th><th>&gt;400 lines</th><th>Medium; apply <code>dev-architecture</code> §1 canonical split rule</th></tr>
-<tr><th>God class</th><th>&gt;20 methods</th><th>High</th></tr>
-<tr><th>Too many parameters</th><th>&gt;5</th><th>Medium</th></tr>
-<table class="rules"><tbody>
-<tr><th>Deep nesting</th><th>&gt;4 levels</th><th>Medium</th></tr>
-<tr><th>High cyclomatic complexity</th><th>&gt;10 branches</th><th>High</th></tr>
-<tr><th>Missing error handling</th><th>any unhandled async</th><th>High</th></tr>
-<tr><th>Hardcoded secrets</th><th>API keys, passwords in source</th><th><strong>Critical</strong></th></tr>
-<tr><th>SQL injection</th><th>string concatenation in queries</th><th><strong>Critical</strong></th></tr>
-<table class="rules"><tbody>
-<tr><th>Debug statements</th><th>console.log, debugger left in</th><th>Low</th></tr>
-<tr><th>TODO/FIXME</th><th>unresolved in production code</th><th>Low</th></tr>
-<tr><th>TypeScript <code>any</code></th><th>bypassing type safety</th><th>Medium</th></tr>
+<table class="rules">
+<thead><tr><th>Issue</th><th>Threshold</th><th>Severity</th></tr></thead><tbody>
+<tr><td>Long function</td><td>&gt;50 lines</td><td>Medium</td></tr>
+<tr><td>Large file</td><td>&gt;400 lines</td><td>Medium; apply <code>dev-architecture</code> §1 canonical split rule</td></tr>
+<tr><td>God class</td><td>&gt;20 methods</td><td>High</td></tr>
+<tr><td>Too many parameters</td><td>&gt;5</td><td>Medium</td></tr>
+<tr><td>Deep nesting</td><td>&gt;4 levels</td><td>Medium</td></tr>
+<table class="rules">
+<tr><td>High cyclomatic complexity</td><td>&gt;10 branches</td><td>High</td></tr>
+<tr><td>Missing error handling</td><td>any unhandled async</td><td>High</td></tr>
+<tr><td>Hardcoded secrets</td><td>API keys, passwords in source</td><td><strong>Critical</strong></td></tr>
+<tr><td>SQL injection</td><td>string concatenation in queries</td><td><strong>Critical</strong></td></tr>
+<tr><td>Debug statements</td><td>console.log, debugger left in</td><td>Low</td></tr>
+<tr><td>TODO/FIXME</td><td>unresolved in production code</td><td>Low</td></tr>
+<table class="rules">
+<tr><td>TypeScript <code>any</code></td><td>bypassing type safety</td><td>Medium</td></tr>
 </tbody></table>
 <h4 id="file-size-guidance">File Size Guidance</h4>
 <p>Canonical rule imported from <code>dev-architecture</code> §1: <strong>&gt;400 LOC -&gt; split (DEFAULT)</strong>.</p>
-<table class="rules"><tbody>
-<tr><th>Range</th><th>Interpretation</th></tr>
-<tr><th>200-400 lines</th><th>Healthy — easy to navigate and review</th></tr>
-<tr><th>400-500 lines</th><th>Should split unless the author states a concrete reason</th></tr>
-<tr><th>&gt;500 lines</th><th>Blocking review finding unless already being split in this diff</th></tr>
+<thead><tr><th>Range</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>200-400 lines</td><td>Healthy — easy to navigate and review</td></tr>
+<table class="rules">
+<tr><td>400-500 lines</td><td>Should split unless the author states a concrete reason</td></tr>
+<tr><td>&gt;500 lines</td><td>Blocking review finding unless already being split in this diff</td></tr>
 </tbody></table>
 <h4 id="review-verdict">Review Verdict</h4>
-<table class="rules"><tbody>
-<tr><th>Indicator</th><th>Verdict</th><th>Action</th></tr>
-<tr><th>No high/critical issues</th><th>✅ Approve</th><th>Merge</th></tr>
-<tr><th>Only Medium/Low/Style issues</th><th>🔧 Approve with suggestions</th><th>Fix non-blocking items before/after merge</th></tr>
-<tr><th>Any unresolved High issue</th><th>⚠️ Request changes</th><th>Author must address before merge</th></tr>
-<tr><th>Any critical issue</th><th>🚫 Block</th><th>Cannot merge until resolved</th></tr>
+<thead><tr><th>Indicator</th><th>Verdict</th><th>Action</th></tr></thead><tbody>
+<tr><td>No high/critical issues</td><td>✅ Approve</td><td>Merge</td></tr>
+<table class="rules">
+<tr><td>Only Medium/Low/Style issues</td><td>🔧 Approve with suggestions</td><td>Fix non-blocking items before/after merge</td></tr>
+<tr><td>Any unresolved High issue</td><td>⚠️ Request changes</td><td>Author must address before merge</td></tr>
+<tr><td>Any critical issue</td><td>🚫 Block</td><td>Cannot merge until resolved</td></tr>
 </tbody></table>
 <p>Deterministic blocker semantics (REVIEW-BLOCK-01): any unresolved Critical or High blocks the merge. Medium may pass only when explicitly judged non-blocking; Style never affects the verdict.</p>
 <p>---</p>
 <h3 id="3-common-antipatterns">3. Common Antipatterns</h3>
 <h4 id="structural">Structural</h4>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>God class</th><th>One class does everything</th><th>Split by single responsibility</th></tr>
-<tr><th>Long method</th><th>Function does 5+ distinct things</th><th>Extract named helper functions</th></tr>
-<tr><th>Deep nesting</th><th>4+ levels of if/for/try</th><th>Guard clauses, early returns, extraction</th></tr>
-<tr><th>Feature envy</th><th>Method uses another object&#x27;s data more than its own</th><th>Move method to the data owner</th></tr>
-<table class="rules"><tbody>
-<tr><th>Shotgun surgery</th><th>One change requires edits in 10+ files</th><th>Consolidate related logic</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>God class</td><td>One class does everything</td><td>Split by single responsibility</td></tr>
+<tr><td>Long method</td><td>Function does 5+ distinct things</td><td>Extract named helper functions</td></tr>
+<tr><td>Deep nesting</td><td>4+ levels of if/for/try</td><td>Guard clauses, early returns, extraction</td></tr>
+<tr><td>Feature envy</td><td>Method uses another object&#x27;s data more than its own</td><td>Move method to the data owner</td></tr>
+<tr><td>Shotgun surgery</td><td>One change requires edits in 10+ files</td><td>Consolidate related logic</td></tr>
 </tbody></table>
 <h4 id="dead-code">Dead Code</h4>
-<tr><th>Pattern</th><th>Detection</th><th>Fix</th></tr>
-<tr><th>Unreachable code after return/throw</th><th><code>no-unreachable</code>, compiler warnings</th><th>Delete the dead branch</th></tr>
-<table class="rules"><tbody>
-<tr><th>Unused imports / variables</th><th><code>no-unused-vars</code>, <code>@typescript-eslint/no-unused-vars</code></th><th>Remove</th></tr>
-<tr><th>Commented-out code blocks</th><th>Manual review</th><th>Delete — use version control history</th></tr>
-<tr><th>Unused exports</th><th><code>ts-prune</code>, <code>knip</code>, grep for import sites</th><th>Remove export; delete if no internal use</th></tr>
-<tr><th>Stale feature-flagged code</th><th>Check flag status in flag service</th><th>Remove dead branch and the flag check</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Detection</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Unreachable code after return/throw</td><td><code>no-unreachable</code>, compiler warnings</td><td>Delete the dead branch</td></tr>
+<tr><td>Unused imports / variables</td><td><code>no-unused-vars</code>, <code>@typescript-eslint/no-unused-vars</code></td><td>Remove</td></tr>
+<tr><td>Commented-out code blocks</td><td>Manual review</td><td>Delete — use version control history</td></tr>
+<tr><td>Unused exports</td><td><code>ts-prune</code>, <code>knip</code>, grep for import sites</td><td>Remove export; delete if no internal use</td></tr>
+<tr><td>Stale feature-flagged code</td><td>Check flag status in flag service</td><td>Remove dead branch and the flag check</td></tr>
 </tbody></table>
 <p>Dead code is a maintenance tax — remove rather than comment out.</p>
 <h4 id="logic">Logic</h4>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>Boolean blindness</th><th><code>doThing(true, false, true)</code></th><th>Named options object or enum</th></tr>
-<tr><th>Stringly typed</th><th><code>status === &#x27;actve&#x27;</code> (typo = silent bug)</th><th>Define enum or union type</th></tr>
-<tr><th>Magic numbers</th><th><code>if (retries &gt; 3)</code></th><th>Named constant: <code>MAX_RETRIES = 3</code></th></tr>
-<tr><th>Primitive obsession</th><th>Passing 5 related strings around</th><th>Create a data object/type</th></tr>
-<table class="rules"><tbody>
-<tr><th>Direct mutation</th><th><code>user.name = &#x27;x&#x27;</code>, <code>arr.push(y)</code></th><th>Immutable: <code>{...obj, name: &#x27;x&#x27;}</code>, <code>[...arr, y]</code></th></tr>
-<tr><th>Missing boundary validation</th><th>Business logic handles raw user input</th><th>Delegate placement to <code>dev-architecture</code> §4; schema/content depth to <code>dev-security</code></th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Boolean blindness</td><td><code>doThing(true, false, true)</code></td><td>Named options object or enum</td></tr>
+<tr><td>Stringly typed</td><td><code>status === &#x27;actve&#x27;</code> (typo = silent bug)</td><td>Define enum or union type</td></tr>
+<tr><td>Magic numbers</td><td><code>if (retries &gt; 3)</code></td><td>Named constant: <code>MAX_RETRIES = 3</code></td></tr>
+<tr><td>Primitive obsession</td><td>Passing 5 related strings around</td><td>Create a data object/type</td></tr>
+<tr><td>Direct mutation</td><td><code>user.name = &#x27;x&#x27;</code>, <code>arr.push(y)</code></td><td>Immutable: <code>{...obj, name: &#x27;x&#x27;}</code>, <code>[...arr, y]</code></td></tr>
+<table class="rules">
+<tr><td>Missing boundary validation</td><td>Business logic handles raw user input</td><td>Delegate placement to <code>dev-architecture</code> §4; schema/content depth to <code>dev-security</code></td></tr>
 </tbody></table>
 <h4 id="security">Security</h4>
 <p>Security review items are canonical in §3.5. Use that checklist for hardcoded</p>
 <p>secrets, injection, validation, auth, authorization, and logging findings.</p>
 <h4 id="performance">Performance</h4>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>N+1 queries</th><th>Loop → query per item</th><th>Batch fetch with <code>WHERE IN (...)</code></th></tr>
-<tr><th>Unbounded collections</th><th><code>.all()</code> without LIMIT</th><th>Always paginate or set max</th></tr>
-<tr><th>Missing index</th><th>Slow repeated lookups on same column</th><th>Add database index</th></tr>
-<tr><th>Premature optimization</th><th>Complex caching for 10 rows</th><th>Profile first, optimize second</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>N+1 queries</td><td>Loop → query per item</td><td>Batch fetch with <code>WHERE IN (...)</code></td></tr>
+<tr><td>Unbounded collections</td><td><code>.all()</code> without LIMIT</td><td>Always paginate or set max</td></tr>
+<tr><td>Missing index</td><td>Slow repeated lookups on same column</td><td>Add database index</td></tr>
+<tr><td>Premature optimization</td><td>Complex caching for 10 rows</td><td>Profile first, optimize second</td></tr>
 </tbody></table>
 <h4 id="async">Async</h4>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>Floating promise</th><th><code>doAsync()</code> without <code>await</code></th><th>Always <code>await</code> or handle rejection</th></tr>
-<tr><th>Callback hell</th><th>4+ nested callbacks</th><th>Refactor to async/await</th></tr>
-<tr><th>Missing timeout</th><th>External call can hang forever</th><th>Set timeout on all network calls</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Floating promise</td><td><code>doAsync()</code> without <code>await</code></td><td>Always <code>await</code> or handle rejection</td></tr>
+<tr><td>Callback hell</td><td>4+ nested callbacks</td><td>Refactor to async/await</td></tr>
+<tr><td>Missing timeout</td><td>External call can hang forever</td><td>Set timeout on all network calls</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="3-5-security-review-quick-check">3.5 Security Review Quick-Check</h3>
 <p>For <strong>every review</strong>, scan for these OWASP-aligned red flags. Delegate to <code>dev-security/SKILL.md</code> for deep analysis.</p>
 <h4 id="must-check-every-pr">Must-Check (Every PR)</h4>
-<table class="rules"><tbody>
-<tr><th>Check</th><th>Red Flag</th><th>Severity</th></tr>
-<tr><th>Hardcoded secrets</th><th><code>apiKey = &quot;sk-...&quot;</code>, DB URLs in source</th><th><strong>Critical</strong></th></tr>
-<tr><th>SQL/NoSQL injection</th><th>String concatenation in queries</th><th><strong>Critical</strong></th></tr>
-<tr><th>Missing input validation</th><th>User input passed to logic without schema check</th><th><strong>High</strong></th></tr>
-<tr><th>Missing auth check</th><th>Endpoint accessible without authentication</th><th><strong>High</strong></th></tr>
-<table class="rules"><tbody>
-<tr><th>BOLA (Broken Object Auth)</th><th>No ownership check on object access (<code>/users/:id</code> without verifying caller owns resource)</th><th><strong>High</strong></th></tr>
-<tr><th>Secrets in logs</th><th><code>console.log(req.body)</code> leaking tokens/passwords</th><th><strong>High</strong></th></tr>
+<table class="rules">
+<thead><tr><th>Check</th><th>Red Flag</th><th>Severity</th></tr></thead><tbody>
+<tr><td>Hardcoded secrets</td><td><code>apiKey = &quot;sk-...&quot;</code>, DB URLs in source</td><td><strong>Critical</strong></td></tr>
+<tr><td>SQL/NoSQL injection</td><td>String concatenation in queries</td><td><strong>Critical</strong></td></tr>
+<tr><td>Missing input validation</td><td>User input passed to logic without schema check</td><td><strong>High</strong></td></tr>
+<tr><td>Missing auth check</td><td>Endpoint accessible without authentication</td><td><strong>High</strong></td></tr>
+<tr><td>BOLA (Broken Object Auth)</td><td>No ownership check on object access (<code>/users/:id</code> without verifying caller owns resource)</td><td><strong>High</strong></td></tr>
+<table class="rules">
+<tr><td>Secrets in logs</td><td><code>console.log(req.body)</code> leaking tokens/passwords</td><td><strong>High</strong></td></tr>
 </tbody></table>
 <h4 id="check-when-relevant">Check When Relevant</h4>
-<tr><th>Check</th><th>When</th><th>Red Flag</th></tr>
-<table class="rules"><tbody>
-<tr><th>SSRF</th><th>External URL from user input</th><th>No URL allowlist, no domain validation</th></tr>
-<tr><th>Path traversal</th><th>File path from user input</th><th>No path sanitization, <code>../</code> not blocked</th></tr>
-<tr><th>Mass assignment</th><th>Object spread into DB model</th><th><code>Object.assign(model, req.body)</code> without allowlist</th></tr>
-<tr><th>Dep vulnerabilities</th><th>New dependencies added</th><th>No <code>npm audit</code>/<code>pip-audit</code> run</th></tr>
-<tr><th>Lockfile changes</th><th><code>package-lock.json</code> modified</th><th>Unexpected dependency resolution changes</th></tr>
+<thead><tr><th>Check</th><th>When</th><th>Red Flag</th></tr></thead><tbody>
+<tr><td>SSRF</td><td>External URL from user input</td><td>No URL allowlist, no domain validation</td></tr>
+<tr><td>Path traversal</td><td>File path from user input</td><td>No path sanitization, <code>../</code> not blocked</td></tr>
+<table class="rules">
+<tr><td>Mass assignment</td><td>Object spread into DB model</td><td><code>Object.assign(model, req.body)</code> without allowlist</td></tr>
+<tr><td>Dep vulnerabilities</td><td>New dependencies added</td><td>No <code>npm audit</code>/<code>pip-audit</code> run</td></tr>
+<tr><td>Lockfile changes</td><td><code>package-lock.json</code> modified</td><td>Unexpected dependency resolution changes</td></tr>
 </tbody></table>
 <p>&gt; <strong>Deep security analysis</strong> → invoke <code>dev-security/SKILL.md</code>. This checklist catches surface-level issues during code review; <code>dev-security</code> provides OWASP Top 10 depth, ASVS checklists, and static analysis integration.</p>
 <p>---</p>
 <h3 id="3-6-performance-review-quick-check">3.6 Performance Review Quick-Check</h3>
 <p>Scan every PR for these common performance pitfalls:</p>
 <h4 id="database-api">Database &amp; API</h4>
-<table class="rules"><tbody>
-<tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr>
-<tr><th>N+1 queries</th><th>Loop containing DB call or API fetch</th><th>Batch with <code>WHERE IN (...)</code> or DataLoader</th></tr>
-<tr><th>Missing pagination</th><th><code>.findAll()</code> or <code>SELECT *</code> without LIMIT</th><th>Add cursor-based or offset pagination</th></tr>
-<tr><th>Missing index</th><th>New WHERE/JOIN column without index</th><th><code>CREATE INDEX</code> on filtered/joined columns</th></tr>
-<tr><th>Unbounded query</th><th>No LIMIT on user-facing list endpoints</th><th>Always set max page size</th></tr>
+<table class="rules">
+<thead><tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr></thead><tbody>
+<tr><td>N+1 queries</td><td>Loop containing DB call or API fetch</td><td>Batch with <code>WHERE IN (...)</code> or DataLoader</td></tr>
+<tr><td>Missing pagination</td><td><code>.findAll()</code> or <code>SELECT *</code> without LIMIT</td><td>Add cursor-based or offset pagination</td></tr>
+<tr><td>Missing index</td><td>New WHERE/JOIN column without index</td><td><code>CREATE INDEX</code> on filtered/joined columns</td></tr>
+<tr><td>Unbounded query</td><td>No LIMIT on user-facing list endpoints</td><td>Always set max page size</td></tr>
 </tbody></table>
 <h4 id="frontend-specific">Frontend-Specific</h4>
-<table class="rules"><tbody>
-<tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr>
-<tr><th>Unnecessary re-renders</th><th>State updates in parent causing child re-render cascade</th><th><code>React.memo</code>, <code>useMemo</code>, extract state down</th></tr>
-<tr><th>Bundle size impact</th><th>New large dependency (&gt;50KB gzipped)</th><th>Check <code>bundlephobia.com</code>, consider alternatives or lazy loading</th></tr>
-<tr><th>Missing <code>key</code> prop</th><th>List rendering without stable keys</th><th>Use unique ID, never array index for dynamic lists</th></tr>
-<tr><th>Unoptimized images</th><th>Large images without <code>next/image</code>, <code>loading=&quot;lazy&quot;</code>, or srcset</th><th>Use framework image optimization</th></tr>
+<table class="rules">
+<thead><tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Unnecessary re-renders</td><td>State updates in parent causing child re-render cascade</td><td><code>React.memo</code>, <code>useMemo</code>, extract state down</td></tr>
+<tr><td>Bundle size impact</td><td>New large dependency (&gt;50KB gzipped)</td><td>Check <code>bundlephobia.com</code>, consider alternatives or lazy loading</td></tr>
+<tr><td>Missing <code>key</code> prop</td><td>List rendering without stable keys</td><td>Use unique ID, never array index for dynamic lists</td></tr>
+<tr><td>Unoptimized images</td><td>Large images without <code>next/image</code>, <code>loading=&quot;lazy&quot;</code>, or srcset</td><td>Use framework image optimization</td></tr>
 </tbody></table>
 <h4 id="general">General</h4>
-<table class="rules"><tbody>
-<tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr>
-<tr><th>Missing timeout</th><th>External HTTP call without timeout</th><th>Set timeout on all network requests</th></tr>
-<tr><th>Sync blocking</th><th>CPU-intensive work on main thread/event loop</th><th>Offload to worker/queue</th></tr>
-<tr><th>Memory leak</th><th>Event listeners/subscriptions without cleanup</th><th>Add cleanup in <code>useEffect</code> return / <code>finally</code> block</th></tr>
+<table class="rules">
+<thead><tr><th>Check</th><th>Red Flag</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Missing timeout</td><td>External HTTP call without timeout</td><td>Set timeout on all network requests</td></tr>
+<tr><td>Sync blocking</td><td>CPU-intensive work on main thread/event loop</td><td>Offload to worker/queue</td></tr>
+<tr><td>Memory leak</td><td>Event listeners/subscriptions without cleanup</td><td>Add cleanup in <code>useEffect</code> return / <code>finally</code> block</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="4-receiving-code-review">4. Receiving Code Review</h3>
@@ -412,15 +411,15 @@
 <p>---</p>
 <h3 id="5-requesting-code-review">5. Requesting Code Review</h3>
 <h4 id="when-to-request">When to Request</h4>
-<table class="rules"><tbody>
-<tr><th>Situation</th><th>Priority</th></tr>
-<tr><th>Before merge to main</th><th><strong>Mandatory</strong></th></tr>
-<tr><th>After major feature completion</th><th><strong>Mandatory</strong></th></tr>
-<tr><th>Before large refactoring</th><th><strong>Mandatory</strong></th></tr>
-<tr><th>After complex bug fix</th><th>Recommended</th></tr>
-<table class="rules"><tbody>
-<tr><th>When stuck on approach</th><th>Recommended</th></tr>
-<tr><th>Small config/docs changes</th><th>Skip unless impactful</th></tr>
+<table class="rules">
+<thead><tr><th>Situation</th><th>Priority</th></tr></thead><tbody>
+<tr><td>Before merge to main</td><td><strong>Mandatory</strong></td></tr>
+<tr><td>After major feature completion</td><td><strong>Mandatory</strong></td></tr>
+<tr><td>Before large refactoring</td><td><strong>Mandatory</strong></td></tr>
+<tr><td>After complex bug fix</td><td>Recommended</td></tr>
+<tr><td>When stuck on approach</td><td>Recommended</td></tr>
+<table class="rules">
+<tr><td>Small config/docs changes</td><td>Skip unless impactful</td></tr>
 </tbody></table>
 <h4 id="how-to-request">How to Request</h4>
 <ol>
@@ -430,29 +429,28 @@
 <li>Keep the diff &lt;500 lines. Split larger changes into reviewable chunks.</li>
 </ol>
 <h4 id="acting-on-feedback">Acting on Feedback</h4>
-<table class="rules"><tbody>
-<tr><th>Severity</th><th>Action</th></tr>
-<tr><th>Critical</th><th>Fix immediately, re-request review</th></tr>
-<tr><th>High</th><th>Fix before proceeding to next task</th></tr>
-<tr><th>Medium</th><th>Fix before merge, can continue other work</th></tr>
-<tr><th>Low</th><th>Note for later, apply if trivial</th></tr>
-<table class="rules"><tbody>
-<tr><th>Style</th><th>Apply if trivial, otherwise defer to team conventions</th></tr>
+<table class="rules">
+<thead><tr><th>Severity</th><th>Action</th></tr></thead><tbody>
+<tr><td>Critical</td><td>Fix immediately, re-request review</td></tr>
+<tr><td>High</td><td>Fix before proceeding to next task</td></tr>
+<tr><td>Medium</td><td>Fix before merge, can continue other work</td></tr>
+<tr><td>Low</td><td>Note for later, apply if trivial</td></tr>
+<tr><td>Style</td><td>Apply if trivial, otherwise defer to team conventions</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="6-sub-agent-review-mode">6. Sub-Agent Review Mode</h3>
 <p>Parallelize review only when domain breadth exceeds one reviewer&#x27;s context (e.g., frontend + backend + infra in a single diff, or when the diff spans too many unrelated domains for a single pass). Each sub-agent receives its file subset, the review process from sections 1-5, and outputs structured findings. The orchestrator deduplicates, normalizes severity, and presents a unified review.</p>
 <h4 id="ai-tool-integration-awareness-verified-2026-07-02">AI Tool Integration Awareness (verified 2026-07-02)</h4>
 <p>When external AI review tools are available, coordinate — don&#x27;t duplicate:</p>
-<table class="rules"><tbody>
-<tr><th>Tool</th><th>Strengths</th><th>Use When</th><th>Agent Focus Shifts To</th></tr>
-<tr><th><strong>GitHub Copilot Code Review</strong></th><th>Full repo context, multi-model, auto-fix PRs</th><th>PR review on GitHub</th><th>Architecture, business logic, domain correctness</th></tr>
-<tr><th><strong>CodeRabbit</strong></th><th>40+ linters, learnable preferences, low false-positive</th><th>Team with <code>.coderabbit.yml</code> configured</th><th>Cross-service impact, subtle logic errors</th></tr>
-<tr><th><strong>Cursor Bugbot</strong></th><th>Diff-focused bug hunting in Cursor PR flow</th><th>Cursor-based teams</th><th>Intent, architecture, exploitability</th></tr>
-<tr><th><strong>Graphite AI Reviews (Diamond)</strong></th><th>Stacked-PR-aware AI review</th><th>Graphite stacked workflow</th><th>Cross-stack consistency</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>SonarQube (+AI capabilities)</strong></th><th>Enterprise SAST, tech debt tracking, security depth</th><th>Regulated environments, existing setup</th><th>Review findings, add context tools miss</th></tr>
-<tr><th><strong>Manual agent review</strong></th><th>Full codebase understanding, intent verification</th><th>No external tools, offline, sensitive code</th><th>Everything — full §1-5 process</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Strengths</th><th>Use When</th><th>Agent Focus Shifts To</th></tr></thead><tbody>
+<tr><td><strong>GitHub Copilot Code Review</strong></td><td>Full repo context, multi-model, auto-fix PRs</td><td>PR review on GitHub</td><td>Architecture, business logic, domain correctness</td></tr>
+<tr><td><strong>CodeRabbit</strong></td><td>40+ linters, learnable preferences, low false-positive</td><td>Team with <code>.coderabbit.yml</code> configured</td><td>Cross-service impact, subtle logic errors</td></tr>
+<tr><td><strong>Cursor Bugbot</strong></td><td>Diff-focused bug hunting in Cursor PR flow</td><td>Cursor-based teams</td><td>Intent, architecture, exploitability</td></tr>
+<tr><td><strong>Graphite AI Reviews (Diamond)</strong></td><td>Stacked-PR-aware AI review</td><td>Graphite stacked workflow</td><td>Cross-stack consistency</td></tr>
+<tr><td><strong>SonarQube (+AI capabilities)</strong></td><td>Enterprise SAST, tech debt tracking, security depth</td><td>Regulated environments, existing setup</td><td>Review findings, add context tools miss</td></tr>
+<table class="rules">
+<tr><td><strong>Manual agent review</strong></td><td>Full codebase understanding, intent verification</td><td>No external tools, offline, sensitive code</td><td>Everything — full §1-5 process</td></tr>
 </tbody></table>
 <p><strong>Coordination rules:</strong></p>
 <ul>
@@ -470,15 +468,15 @@
 <h3 id="7-reviewing-ai-generated-code">7. Reviewing AI-Generated Code</h3>
 <p>AI-authored diffs have distinct failure modes. Run this pass IN ADDITION to §1-3 when</p>
 <p>the diff is substantially AI-generated (agent commits, Copilot/Cursor bulk changes):</p>
-<table class="rules"><tbody>
-<tr><th>Check</th><th>AI failure mode</th><th>Action</th></tr>
-<tr><th>Invented APIs</th><th>Plausible-but-nonexistent methods/options</th><th>Verify each unfamiliar API against the installed version&#x27;s docs</th></tr>
-<tr><th>Hallucinated dependencies</th><th>Package names that don&#x27;t exist (slopsquatting attack surface)</th><th>Verify existence/maintainer/provenance before install — gate owned by <code>dev-security</code> §6.5</th></tr>
-<tr><th>Missing authz edges</th><th>Happy-path handlers without ownership checks</th><th>Trace every new endpoint against §3.5 BOLA check</th></tr>
-<tr><th>Shallow/mirroring tests</th><th>Tests restating the implementation, tautologies</th><th>Apply REVIEW-REGRESS-01; require behavior-level assertions</th></tr>
-<table class="rules"><tbody>
-<tr><th>Test-induced defense</th><th>Production guards added to satisfy unrealistic tests</th><th>Delegate to <code>dev-testing</code> §6.7 detection table</th></tr>
-<tr><th>Scope drift</th><th>Abstractions/refactors beyond the request</th><th>Flag; one logical change per PR (<a href="../../pages/skills/dev.html">dev</a> §1)</th></tr>
+<table class="rules">
+<thead><tr><th>Check</th><th>AI failure mode</th><th>Action</th></tr></thead><tbody>
+<tr><td>Invented APIs</td><td>Plausible-but-nonexistent methods/options</td><td>Verify each unfamiliar API against the installed version&#x27;s docs</td></tr>
+<tr><td>Hallucinated dependencies</td><td>Package names that don&#x27;t exist (slopsquatting attack surface)</td><td>Verify existence/maintainer/provenance before install — gate owned by <code>dev-security</code> §6.5</td></tr>
+<tr><td>Missing authz edges</td><td>Happy-path handlers without ownership checks</td><td>Trace every new endpoint against §3.5 BOLA check</td></tr>
+<tr><td>Shallow/mirroring tests</td><td>Tests restating the implementation, tautologies</td><td>Apply REVIEW-REGRESS-01; require behavior-level assertions</td></tr>
+<tr><td>Test-induced defense</td><td>Production guards added to satisfy unrealistic tests</td><td>Delegate to <code>dev-testing</code> §6.7 detection table</td></tr>
+<table class="rules">
+<tr><td>Scope drift</td><td>Abstractions/refactors beyond the request</td><td>Flag; one logical change per PR (dev §1)</td></tr>
 </tbody></table>
 <p><strong>Agentic/security review trigger (DEFAULT):</strong> if a PR adds MCP servers, tools, agents,</p>
 <p>RAG components, persistent memory, delegated credentials, or autonomous actions, invoke</p>

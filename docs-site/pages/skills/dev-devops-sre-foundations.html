@@ -108,27 +108,27 @@
 <p>Last reviewed: 2026-06-16</p>
 <p>Applies to: Google SRE principles, 2026 observability practices</p>
 <p>When to read: Production operations, incident response, SLO definition</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> §5</p>
+<p>Canonical owner: dev-devops §5</p>
 <p>Cross-ref: read <code>platform-engineering.md</code> for DORA metrics and platform</p>
 <p>engineering context before broad DevOps capability refreshes.</p>
 <p>---</p>
 <h3 id="1-slo-sli-design-guide">§1 SLO/SLI Design Guide</h3>
 <h4 id="sli-selection-principles">SLI Selection Principles</h4>
 <p>SLIs measure <strong>user experience</strong>, not infrastructure health.</p>
-<table class="rules"><tbody>
-<tr><th>❌ Wrong SLI</th><th>✅ Right SLI</th></tr>
-<tr><th>CPU utilization &lt; 80%</th><th>Request success rate &gt; 99.9%</th></tr>
-<tr><th>Memory free &gt; 2GB</th><th>p99 latency &lt; 500ms</th></tr>
-<tr><th>Disk IOPS &lt; 5000</th><th>Data freshness &lt; 5 minutes</th></tr>
-<tr><th>Pod restart count &lt; 3</th><th>Error rate &lt; 0.1%</th></tr>
+<table class="rules">
+<thead><tr><th>❌ Wrong SLI</th><th>✅ Right SLI</th></tr></thead><tbody>
+<tr><td>CPU utilization &lt; 80%</td><td>Request success rate &gt; 99.9%</td></tr>
+<tr><td>Memory free &gt; 2GB</td><td>p99 latency &lt; 500ms</td></tr>
+<tr><td>Disk IOPS &lt; 5000</td><td>Data freshness &lt; 5 minutes</td></tr>
+<tr><td>Pod restart count &lt; 3</td><td>Error rate &lt; 0.1%</td></tr>
 </tbody></table>
 <h4 id="sli-by-service-type">SLI by Service Type</h4>
-<table class="rules"><tbody>
-<tr><th>Service Type</th><th>Recommended SLIs</th></tr>
-<tr><th>Request-driven (API)</th><th>Availability, latency (p50/p95/p99), error rate</th></tr>
-<tr><th>Pipeline/batch</th><th>Freshness, correctness, throughput</th></tr>
-<tr><th>Storage</th><th>Durability, availability, latency</th></tr>
-<tr><th>Streaming</th><th>Throughput, end-to-end latency, message loss rate</th></tr>
+<table class="rules">
+<thead><tr><th>Service Type</th><th>Recommended SLIs</th></tr></thead><tbody>
+<tr><td>Request-driven (API)</td><td>Availability, latency (p50/p95/p99), error rate</td></tr>
+<tr><td>Pipeline/batch</td><td>Freshness, correctness, throughput</td></tr>
+<tr><td>Storage</td><td>Durability, availability, latency</td></tr>
+<tr><td>Streaming</td><td>Throughput, end-to-end latency, message loss rate</td></tr>
 </tbody></table>
 <h4 id="slo-definition">SLO Definition</h4>
 <pre><code># Example SLO definition (documentation format)
@@ -179,21 +179,21 @@ slos:
 │ → Postmortem mandatory for contributing events  │
 └─────────────────────────────────────────────────┘</code></pre>
 <h4 id="escalation-triggers">Escalation Triggers</h4>
-<table class="rules"><tbody>
-<tr><th>Trigger</th><th>Action</th></tr>
-<tr><th>Single incident consumes &gt;20% budget</th><th>Mandatory postmortem + P1 action items</th></tr>
-<tr><th>Two consecutive window misses</th><th>Structural problem; architecture review</th></tr>
-<tr><th>Budget exhausted for 2+ windows</th><th>Executive escalation; team capacity review</th></tr>
+<table class="rules">
+<thead><tr><th>Trigger</th><th>Action</th></tr></thead><tbody>
+<tr><td>Single incident consumes &gt;20% budget</td><td>Mandatory postmortem + P1 action items</td></tr>
+<tr><td>Two consecutive window misses</td><td>Structural problem; architecture review</td></tr>
+<tr><td>Budget exhausted for 2+ windows</td><td>Executive escalation; team capacity review</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="3-burn-rate-alerting">§3 Burn-Rate Alerting</h3>
 <h4 id="multi-window-alert-design">Multi-Window Alert Design</h4>
 <p>Traditional threshold alerts fire too often (alert fatigue) or too late.</p>
 <p>Burn-rate alerts use the SLO itself as the reference.</p>
-<table class="rules"><tbody>
-<tr><th>Alert Type</th><th>Burn Rate</th><th>Time to Exhaust</th><th>Window</th><th>Action</th></tr>
-<tr><th>Fast burn</th><th>14.4×</th><th>~2 hours (of 28-day budget)</th><th>1h long, 5m short</th><th><strong>Page</strong> (wake someone up)</th></tr>
-<tr><th>Slow burn</th><th>6×</th><th>~5 days</th><th>6h long, 30m short</th><th><strong>Ticket</strong> (next business day)</th></tr>
+<table class="rules">
+<thead><tr><th>Alert Type</th><th>Burn Rate</th><th>Time to Exhaust</th><th>Window</th><th>Action</th></tr></thead><tbody>
+<tr><td>Fast burn</td><td>14.4×</td><td>~2 hours (of 28-day budget)</td><td>1h long, 5m short</td><td><strong>Page</strong> (wake someone up)</td></tr>
+<tr><td>Slow burn</td><td>6×</td><td>~5 days</td><td>6h long, 30m short</td><td><strong>Ticket</strong> (next business day)</td></tr>
 </tbody></table>
 <h4 id="formula">Formula</h4>
 <pre><code>error_rate = errors / total_requests
@@ -222,21 +222,21 @@ Alert fires when:
   annotations:
     summary: &quot;Payments API burning error budget at 14.4x rate&quot;</code></pre>
 <h4 id="anti-patterns">Anti-Patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Fix</th></tr>
-<tr><th>Alert on every 5xx</th><th>Burn-rate multi-window</th></tr>
-<tr><th>Single-window alert</th><th>Dual-window (short AND long)</th></tr>
-<tr><th>No SLO reference in alert</th><th>Alert threshold derived from SLO</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Alert on every 5xx</td><td>Burn-rate multi-window</td></tr>
+<tr><td>Single-window alert</td><td>Dual-window (short AND long)</td></tr>
+<tr><td>No SLO reference in alert</td><td>Alert threshold derived from SLO</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="4-incident-response-playbook">§4 Incident Response Playbook</h3>
 <h4 id="role-definitions">Role Definitions</h4>
-<table class="rules"><tbody>
-<tr><th>Role</th><th>Responsibilities</th></tr>
-<tr><th>IC (Incident Commander)</th><th>Coordinate response, delegate tasks, make decisions</th></tr>
-<tr><th>Primary Responder</th><th>Diagnose and fix; technical execution</th></tr>
-<tr><th>Comms Lead</th><th>Status updates to stakeholders, status page</th></tr>
-<tr><th>Scribe</th><th>Timeline documentation, action item tracking</th></tr>
+<table class="rules">
+<thead><tr><th>Role</th><th>Responsibilities</th></tr></thead><tbody>
+<tr><td>IC (Incident Commander)</td><td>Coordinate response, delegate tasks, make decisions</td></tr>
+<tr><td>Primary Responder</td><td>Diagnose and fix; technical execution</td></tr>
+<tr><td>Comms Lead</td><td>Status updates to stakeholders, status page</td></tr>
+<tr><td>Scribe</td><td>Timeline documentation, action item tracking</td></tr>
 </tbody></table>
 <h4 id="incident-lifecycle">Incident Lifecycle</h4>
 <pre><code>0min   Alert fires → acknowledge
@@ -247,11 +247,11 @@ N min  Stabilize (mitigation &gt; diagnosis during active incident)
 N+M    Root cause identified → permanent fix planned
 5 days Postmortem completed and shared</code></pre>
 <h4 id="severity-definitions">Severity Definitions</h4>
-<table class="rules"><tbody>
-<tr><th>Severity</th><th>Impact</th><th>Response</th></tr>
-<tr><th>S1</th><th>Full service outage, revenue impact</th><th>IC mandatory, 15min updates, all-hands</th></tr>
-<tr><th>S2</th><th>Major feature broken, significant user impact</th><th>IC recommended, 30min updates</th></tr>
-<tr><th>S3</th><th>Partial degradation, workaround available</th><th>Assignee handles, async updates</th></tr>
+<table class="rules">
+<thead><tr><th>Severity</th><th>Impact</th><th>Response</th></tr></thead><tbody>
+<tr><td>S1</td><td>Full service outage, revenue impact</td><td>IC mandatory, 15min updates, all-hands</td></tr>
+<tr><td>S2</td><td>Major feature broken, significant user impact</td><td>IC recommended, 30min updates</td></tr>
+<tr><td>S3</td><td>Partial degradation, workaround available</td><td>Assignee handles, async updates</td></tr>
 </tbody></table>
 <h4 id="key-principle">Key Principle</h4>
 <p>&gt; <strong>Mitigation first, diagnosis second</strong> during active incidents.</p>
@@ -301,27 +301,26 @@ N+M    Root cause identified → permanent fix planned
 | Improve alert coverage for [gap] | @sre | YYYY-MM-DD | P2 |
 | Update runbook with new failure mode | @oncall | YYYY-MM-DD | P2 |</code></pre>
 <h4 id="postmortem-rules">Postmortem Rules</h4>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Blameless</th><th>Focus on systems, not individuals</th></tr>
-<tr><th>Timeline accuracy</th><th>Use logs/metrics, not memory</th></tr>
-<tr><th>Action items</th><th>Specific, owned, dated, prioritized</th></tr>
-<tr><th>Follow-through</th><th>Review action items in next team sync</th></tr>
-<table class="rules"><tbody>
-<tr><th>Required for</th><th>All S1, all S2, any event consuming &gt;20% error budget</th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Blameless</td><td>Focus on systems, not individuals</td></tr>
+<tr><td>Timeline accuracy</td><td>Use logs/metrics, not memory</td></tr>
+<tr><td>Action items</td><td>Specific, owned, dated, prioritized</td></tr>
+<tr><td>Follow-through</td><td>Review action items in next team sync</td></tr>
+<tr><td>Required for</td><td>All S1, all S2, any event consuming &gt;20% error budget</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="6-anti-patterns">§6 Anti-Patterns</h3>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<table class="rules"><tbody>
-<tr><th>Infrastructure-only SLIs</th><th>&quot;Server CPU is fine&quot; while users see errors</th><th>User-experience-based SLIs</th></tr>
-<tr><th>SLO without consequences</th><th>SLO exists on paper but nobody acts on breaches</th><th>Error budget policy with freeze gate</th></tr>
-<tr><th>Too many SLIs (&gt;5/service)</th><th>Dashboard overload, unclear priority</th><th>2-4 meaningful SLIs per service</th></tr>
-<tr><th>Page on every <a href="../../pages/skills/dev.html">dev</a>iation</th><th>Alert fatigue, ignored alerts</th><th>Burn-rate multi-window alerting</th></tr>
-<tr><th>Blame individuals</th><th>Engineers hide mistakes, no systemic improvement</th><th>Blameless postmortem culture</th></tr>
-<table class="rules"><tbody>
-<tr><th>No error budget policy</th><th>SLO violations have no defined response</th><th>Define 3-stage policy</th></tr>
-<tr><th>Postmortem without action items</th><th>Theater; same incidents repeat</th><th>Specific, owned, tracked items</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Infrastructure-only SLIs</td><td>&quot;Server CPU is fine&quot; while users see errors</td><td>User-experience-based SLIs</td></tr>
+<tr><td>SLO without consequences</td><td>SLO exists on paper but nobody acts on breaches</td><td>Error budget policy with freeze gate</td></tr>
+<tr><td>Too many SLIs (&gt;5/service)</td><td>Dashboard overload, unclear priority</td><td>2-4 meaningful SLIs per service</td></tr>
+<tr><td>Page on every deviation</td><td>Alert fatigue, ignored alerts</td><td>Burn-rate multi-window alerting</td></tr>
+<tr><td>Blame individuals</td><td>Engineers hide mistakes, no systemic improvement</td><td>Blameless postmortem culture</td></tr>
+<table class="rules">
+<tr><td>No error budget policy</td><td>SLO violations have no defined response</td><td>Define 3-stage policy</td></tr>
+<tr><td>Postmortem without action items</td><td>Theater; same incidents repeat</td><td>Specific, owned, tracked items</td></tr>
 </tbody></table>
   </div>
 </section>

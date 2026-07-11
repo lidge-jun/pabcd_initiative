@@ -104,68 +104,67 @@
 <section class="page-body">
   <div class="band-inner">
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-devops/references/platform-engineering.md" target="_blank" rel="noopener">dev-devops/references/platform-engineering.md</a></p>
-<h2 id="platform-engineering-<a href="../../pages/skills/dev.html">dev</a>ops-capability-routing">Platform Engineering — DevOps Capability Routing</h2>
+<h2 id="platform-engineering-devops-capability-routing">Platform Engineering — DevOps Capability Routing</h2>
 <p>Last reviewed: 2026-06-21</p>
 <p>Applies to: DevOps capability refresh, platform guardrails, DORA metrics, provider routing, agent automation</p>
 <p>When to read: Broad DevOps refresh, platform engineering decisions, provider-spanning CI/CD/IaC/SRE work</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> platform and capability routing</p>
+<p>Canonical owner: dev-devops platform and capability routing</p>
 <p>---</p>
 <h3 id="1-purpose">§1 Purpose</h3>
 <p>Use this reference to route broad DevOps work by capability instead of dumping</p>
 <p>vendor snippets into <code>dev-devops/SKILL.md</code>. Keep the main skill lightweight and</p>
 <p>load detailed references only when the task needs them.</p>
 <h3 id="2-capability-map">§2 Capability Map</h3>
-<table class="rules"><tbody>
-<tr><th>Capability</th><th>Read first</th><th>Evidence to collect</th></tr>
-<tr><th>Continuous integration</th><th><code>dev-testing/references/ci-pipeline.md</code></th><th>lint/type/test/contract/e2e order, artifacts, matrix reasoning</th></tr>
-<tr><th>Continuous delivery/deployment</th><th><code>ci-cd-deploy.md</code></th><th>environments, approvals, rollback, smoke, progressive strategy</th></tr>
-<tr><th>Package release</th><th><code>package-release.md</code></th><th>auth model, provenance, install smoke, token fallback reason</th></tr>
-<tr><th>Cross-platform release</th><th><code>cross-platform-release.md</code></th><th>CI matrix proof and target OS/local proof gaps</th></tr>
-<table class="rules"><tbody>
-<tr><th>Infrastructure as Code</th><th><code>iac.md</code></th><th>state boundary, module ownership, plan/apply gate, drift detection</th></tr>
-<tr><th>Containers</th><th><code>docker.md</code></th><th>base pinning, scan, SBOM, signing, private install secret handling</th></tr>
-<tr><th>Kubernetes</th><th><code>kubernetes.md</code></th><th>Gateway API, rollout, HPA/VPA/PDB, GitOps boundary</th></tr>
-<tr><th>SRE/operations</th><th><code>sre-foundations.md</code></th><th>SLO, burn-rate alert, incident role, recovery evidence</th></tr>
-<tr><th>Supply chain / SLSA</th><th><code>dev-security/references/supply-chain-sbom.md</code></th><th>SBOM, signing, provenance, dependency audit, verification policy</th></tr>
+<table class="rules">
+<thead><tr><th>Capability</th><th>Read first</th><th>Evidence to collect</th></tr></thead><tbody>
+<tr><td>Continuous integration</td><td><code>dev-testing/references/ci-pipeline.md</code></td><td>lint/type/test/contract/e2e order, artifacts, matrix reasoning</td></tr>
+<tr><td>Continuous delivery/deployment</td><td><code>ci-cd-deploy.md</code></td><td>environments, approvals, rollback, smoke, progressive strategy</td></tr>
+<tr><td>Package release</td><td><code>package-release.md</code></td><td>auth model, provenance, install smoke, token fallback reason</td></tr>
+<tr><td>Cross-platform release</td><td><code>cross-platform-release.md</code></td><td>CI matrix proof and target OS/local proof gaps</td></tr>
+<tr><td>Infrastructure as Code</td><td><code>iac.md</code></td><td>state boundary, module ownership, plan/apply gate, drift detection</td></tr>
+<table class="rules">
+<tr><td>Containers</td><td><code>docker.md</code></td><td>base pinning, scan, SBOM, signing, private install secret handling</td></tr>
+<tr><td>Kubernetes</td><td><code>kubernetes.md</code></td><td>Gateway API, rollout, HPA/VPA/PDB, GitOps boundary</td></tr>
+<tr><td>SRE/operations</td><td><code>sre-foundations.md</code></td><td>SLO, burn-rate alert, incident role, recovery evidence</td></tr>
+<tr><td>Supply chain / SLSA</td><td><code>dev-security/references/supply-chain-sbom.md</code></td><td>SBOM, signing, provenance, dependency audit, verification policy</td></tr>
 </tbody></table>
 <h3 id="3-dora-metrics-use">§3 DORA Metrics Use</h3>
 <p>DORA metrics are diagnostic signals, not universal targets.</p>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>Use as</th><th>Avoid</th></tr>
-<tr><th>Change lead time</th><th>Bottleneck detector from commit to production</th><th>Forcing every repo to the same target</th></tr>
-<tr><th>Deployment frequency</th><th>Release-flow health signal</th><th>Treating more deployments as always better</th></tr>
-<tr><th>Failed deployment recovery time</th><th>Recovery and rollback capability check</th><th>Ignoring incident severity/context</th></tr>
-<tr><th>Change fail rate</th><th>Quality and release-risk signal</th><th>Blaming individuals for systemic failure</th></tr>
-<table class="rules"><tbody>
-<tr><th>Deployment rework rate</th><th>Rework/rollback friction signal</th><th>Counting without action items</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>Use as</th><th>Avoid</th></tr></thead><tbody>
+<tr><td>Change lead time</td><td>Bottleneck detector from commit to production</td><td>Forcing every repo to the same target</td></tr>
+<tr><td>Deployment frequency</td><td>Release-flow health signal</td><td>Treating more deployments as always better</td></tr>
+<tr><td>Failed deployment recovery time</td><td>Recovery and rollback capability check</td><td>Ignoring incident severity/context</td></tr>
+<tr><td>Change fail rate</td><td>Quality and release-risk signal</td><td>Blaming individuals for systemic failure</td></tr>
+<tr><td>Deployment rework rate</td><td>Rework/rollback friction signal</td><td>Counting without action items</td></tr>
 </tbody></table>
 <p>When applying DORA, name the project type, release cadence, risk class, and</p>
 <p>operational owner before recommending changes.</p>
 <h3 id="4-platform-engineering-guardrails">§4 Platform Engineering Guardrails</h3>
 <p>Good internal platforms create paved roads without hiding ownership.</p>
-<table class="rules"><tbody>
-<tr><th>Guardrail</th><th>Rule</th></tr>
-<tr><th>Reusable workflows</th><th>Provide defaults, but allow explicit project inputs</th></tr>
-<tr><th>Golden paths</th><th>Include build, test, scan, publish, deploy, rollback, and smoke proof</th></tr>
-<tr><th>Secrets</th><th>Prefer OIDC/federation or short-lived tokens; require justification for long-lived secrets</th></tr>
-<tr><th>Observability</th><th>Emit deploy markers, release metadata, and failure artifacts</th></tr>
-<table class="rules"><tbody>
-<tr><th>Agent automation</th><th>Agents may generate config, but must collect proof and surface human decisions</th></tr>
-<tr><th>Escape hatches</th><th>Document when a project may opt out and what evidence replaces the default</th></tr>
+<table class="rules">
+<thead><tr><th>Guardrail</th><th>Rule</th></tr></thead><tbody>
+<tr><td>Reusable workflows</td><td>Provide defaults, but allow explicit project inputs</td></tr>
+<tr><td>Golden paths</td><td>Include build, test, scan, publish, deploy, rollback, and smoke proof</td></tr>
+<tr><td>Secrets</td><td>Prefer OIDC/federation or short-lived tokens; require justification for long-lived secrets</td></tr>
+<tr><td>Observability</td><td>Emit deploy markers, release metadata, and failure artifacts</td></tr>
+<tr><td>Agent automation</td><td>Agents may generate config, but must collect proof and surface human decisions</td></tr>
+<table class="rules">
+<tr><td>Escape hatches</td><td>Document when a project may opt out and what evidence replaces the default</td></tr>
 </tbody></table>
 <p>AI-assisted DevOps amplifies existing system dynamics. Strengthen platform</p>
 <p>guardrails, evidence bundles, and rollback paths before increasing automation.</p>
 <h3 id="5-provider-route-rows">§5 Provider Route Rows</h3>
 <p>Keep provider notes table-only unless a task asks for provider-specific depth.</p>
-<table class="rules"><tbody>
-<tr><th>Provider/platform</th><th>Route</th><th>Do not confuse with</th></tr>
-<tr><th>GitHub Actions</th><th>OIDC, environments, reusable workflows, GitHub Packages</th><th>Registry-native trusted publishing unless the registry supports it</th></tr>
-<tr><th>GitLab CI/CD</th><th>Auto DevOps, review apps, security scanning, environments</th><th>GitHub-only workflow syntax</th></tr>
-<tr><th>Azure DevOps / Azure</th><th>Workload identity federation, environments, ACR</th><th>Generic registry OIDC</th></tr>
-<tr><th>AWS</th><th>IAM OIDC federation, ECR, deployment roles, IaC state</th><th>Long-lived AWS keys in CI</th></tr>
-<table class="rules"><tbody>
-<tr><th>Google Cloud</th><th>Workload Identity Federation, Artifact Registry, deploy targets</th><th>Service account keys by default</th></tr>
-<tr><th>Cloudflare/Vercel</th><th>Edge/serverless deployment, previews, environment bindings</th><th>Container/Kubernetes rollout rules</th></tr>
+<table class="rules">
+<thead><tr><th>Provider/platform</th><th>Route</th><th>Do not confuse with</th></tr></thead><tbody>
+<tr><td>GitHub Actions</td><td>OIDC, environments, reusable workflows, GitHub Packages</td><td>Registry-native trusted publishing unless the registry supports it</td></tr>
+<tr><td>GitLab CI/CD</td><td>Auto DevOps, review apps, security scanning, environments</td><td>GitHub-only workflow syntax</td></tr>
+<tr><td>Azure DevOps / Azure</td><td>Workload identity federation, environments, ACR</td><td>Generic registry OIDC</td></tr>
+<tr><td>AWS</td><td>IAM OIDC federation, ECR, deployment roles, IaC state</td><td>Long-lived AWS keys in CI</td></tr>
+<tr><td>Google Cloud</td><td>Workload Identity Federation, Artifact Registry, deploy targets</td><td>Service account keys by default</td></tr>
+<table class="rules">
+<tr><td>Cloudflare/Vercel</td><td>Edge/serverless deployment, previews, environment bindings</td><td>Container/Kubernetes rollout rules</td></tr>
 </tbody></table>
 <h3 id="6-slsa-and-security-handoff">§6 SLSA and Security Handoff</h3>
 <p><code>dev-devops</code> owns collection of release/deploy proof. <code>dev-security</code> owns</p>

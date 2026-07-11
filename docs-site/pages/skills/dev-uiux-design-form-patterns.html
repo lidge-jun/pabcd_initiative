@@ -107,12 +107,12 @@
 <h2 id="form-design-patterns">Form Design Patterns</h2>
 <p>Validation timing, multi-step wizards, auth forms, file upload, and search/filter.</p>
 <h3 id="validation-timing">Validation Timing</h3>
-<table class="rules"><tbody>
-<tr><th>Strategy</th><th>When</th><th>Use For</th></tr>
-<tr><th><strong>On blur</strong> (default)</th><th>User leaves the field</th><th>Most fields — email, name, phone</th></tr>
-<tr><th><strong>On submit</strong></th><th>Form is submitted</th><th>Short forms (≤ 4 fields), payment</th></tr>
-<tr><th><strong>Real-time</strong></th><th>As user types, debounced 300ms</th><th>Username availability, search</th></tr>
-<tr><th><strong>On blur + on change after first error</strong></th><th>First error on blur, subsequent on keystroke</th><th>Long forms</th></tr>
+<table class="rules">
+<thead><tr><th>Strategy</th><th>When</th><th>Use For</th></tr></thead><tbody>
+<tr><td><strong>On blur</strong> (default)</td><td>User leaves the field</td><td>Most fields — email, name, phone</td></tr>
+<tr><td><strong>On submit</strong></td><td>Form is submitted</td><td>Short forms (≤ 4 fields), payment</td></tr>
+<tr><td><strong>Real-time</strong></td><td>As user types, debounced 300ms</td><td>Username availability, search</td></tr>
+<tr><td><strong>On blur + on change after first error</strong></td><td>First error on blur, subsequent on keystroke</td><td>Long forms</td></tr>
 </tbody></table>
 <ul>
 <li>Never show errors on empty fields before first interaction</li>

@@ -108,20 +108,20 @@
 <p>Last reviewed: 2026-06-16</p>
 <p>Applies to: Cloudflare Workers, Vercel Edge Functions, AWS Lambda@Edge</p>
 <p>When to read: Edge/serverless deployment tasks</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a></p>
+<p>Canonical owner: dev-devops</p>
 <p>---</p>
 <h3 id="1-edge-request-shaping">§1 Edge Request Shaping</h3>
 <h4 id="what-belongs-at-the-edge">What Belongs at the Edge</h4>
-<table class="rules"><tbody>
-<tr><th>✅ Edge-appropriate</th><th>❌ Keep at origin</th></tr>
-<tr><th>Auth token validation (JWT verify)</th><th>Auth token issuance (login flow)</th></tr>
-<tr><th>Rate limiting / throttling</th><th>Complex business logic</th></tr>
-<tr><th>Geo-routing / A-B testing</th><th>Database writes</th></tr>
-<tr><th>Response caching / transformation</th><th>Transactions</th></tr>
-<table class="rules"><tbody>
-<tr><th>Bot detection / WAF rules</th><th>Long-running processes</th></tr>
-<tr><th>Request header enrichment</th><th>ML inference (unless edge-optimized)</th></tr>
-<tr><th>Static asset serving</th><th>Stateful sessions</th></tr>
+<table class="rules">
+<thead><tr><th>✅ Edge-appropriate</th><th>❌ Keep at origin</th></tr></thead><tbody>
+<tr><td>Auth token validation (JWT verify)</td><td>Auth token issuance (login flow)</td></tr>
+<tr><td>Rate limiting / throttling</td><td>Complex business logic</td></tr>
+<tr><td>Geo-routing / A-B testing</td><td>Database writes</td></tr>
+<tr><td>Response caching / transformation</td><td>Transactions</td></tr>
+<tr><td>Bot detection / WAF rules</td><td>Long-running processes</td></tr>
+<table class="rules">
+<tr><td>Request header enrichment</td><td>ML inference (unless edge-optimized)</td></tr>
+<tr><td>Static asset serving</td><td>Stateful sessions</td></tr>
 </tbody></table>
 <h4 id="decision-tree">Decision Tree</h4>
 <pre><code>Request arrives at edge →
@@ -141,14 +141,13 @@
          ├── Auth FAIL → 401 at edge (no origin load)
          └── PASS → forward to origin with enriched headers</code></pre>
 <h4 id="request-enrichment-headers">Request Enrichment Headers</h4>
-<table class="rules"><tbody>
-<tr><th>Header</th><th>Source</th><th>Purpose</th></tr>
-<tr><th><code>X-Country</code></th><th>Edge geo-IP</th><th>Geo-routing, compliance</th></tr>
-<tr><th><code>X-Device-Type</code></th><th>User-Agent parsing</th><th>Responsive content</th></tr>
-<tr><th><code>X-Request-ID</code></th><th>Edge-generated UUID</th><th>Distributed tracing</th></tr>
-<tr><th><code>X-Edge-PoP</code></th><th>Edge location</th><th>Debugging latency</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>CF-Connecting-IP</code></th><th>Cloudflare</th><th>Real client IP</th></tr>
+<table class="rules">
+<thead><tr><th>Header</th><th>Source</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>X-Country</code></td><td>Edge geo-IP</td><td>Geo-routing, compliance</td></tr>
+<tr><td><code>X-Device-Type</code></td><td>User-Agent parsing</td><td>Responsive content</td></tr>
+<tr><td><code>X-Request-ID</code></td><td>Edge-generated UUID</td><td>Distributed tracing</td></tr>
+<tr><td><code>X-Edge-PoP</code></td><td>Edge location</td><td>Debugging latency</td></tr>
+<tr><td><code>CF-Connecting-IP</code></td><td>Cloudflare</td><td>Real client IP</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="3-auth-at-edge">§3 Auth at Edge</h3>
@@ -180,22 +179,22 @@ export default {
   },
 };</code></pre>
 <h4 id="rules">Rules</h4>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Stateless only</th><th>JWT verify, API key check — no session DB calls</th></tr>
-<tr><th>Fail closed</th><th>Invalid/missing token → 401 at edge</th></tr>
-<tr><th>Clock skew</th><th>Allow 30s tolerance for <code>exp</code> / <code>nbf</code> claims</th></tr>
-<tr><th>Key rotation</th><th>Support multiple public keys (JWKS)</th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Stateless only</td><td>JWT verify, API key check — no session DB calls</td></tr>
+<tr><td>Fail closed</td><td>Invalid/missing token → 401 at edge</td></tr>
+<tr><td>Clock skew</td><td>Allow 30s tolerance for <code>exp</code> / <code>nbf</code> claims</td></tr>
+<tr><td>Key rotation</td><td>Support multiple public keys (JWKS)</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="4-edge-ai-triage">§4 Edge AI Triage</h3>
 <h4 id="when-to-run-ai-at-edge">When to Run AI at Edge</h4>
-<table class="rules"><tbody>
-<tr><th>✅ Edge AI</th><th>❌ Origin AI</th></tr>
-<tr><th>Classification (&lt;10ms, small model)</th><th>LLM inference (large models)</th></tr>
-<tr><th>Content moderation (text/image)</th><th>Training / fine-tuning</th></tr>
-<tr><th>Semantic cache lookup</th><th>RAG with vector DB</th></tr>
-<tr><th>Request priority scoring</th><th>Complex chain-of-thought</th></tr>
+<table class="rules">
+<thead><tr><th>✅ Edge AI</th><th>❌ Origin AI</th></tr></thead><tbody>
+<tr><td>Classification (&lt;10ms, small model)</td><td>LLM inference (large models)</td></tr>
+<tr><td>Content moderation (text/image)</td><td>Training / fine-tuning</td></tr>
+<tr><td>Semantic cache lookup</td><td>RAG with vector DB</td></tr>
+<tr><td>Request priority scoring</td><td>Complex chain-of-thought</td></tr>
 </tbody></table>
 <h4 id="pattern-semantic-cache-at-edge">Pattern: Semantic Cache at Edge</h4>
 <pre><code>Request → Edge →
@@ -205,37 +204,36 @@ export default {
 <p>---</p>
 <h3 id="5-platform-patterns">§5 Platform Patterns</h3>
 <h4 id="cloudflare-workers">Cloudflare Workers</h4>
-<table class="rules"><tbody>
-<tr><th>Feature</th><th>Detail</th></tr>
-<tr><th>Runtime</th><th>V8 isolates (not Node.js)</th></tr>
-<tr><th>Limits</th><th>10ms CPU (free), 30s (paid); 128MB memory</th></tr>
-<tr><th>Storage</th><th>KV (global), R2 (objects), D1 (SQLite), Durable Objects (state)</th></tr>
-<tr><th>Deploy</th><th><code>wrangler deploy</code></th></tr>
+<table class="rules">
+<thead><tr><th>Feature</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Runtime</td><td>V8 isolates (not Node.js)</td></tr>
+<tr><td>Limits</td><td>10ms CPU (free), 30s (paid); 128MB memory</td></tr>
+<tr><td>Storage</td><td>KV (global), R2 (objects), D1 (SQLite), Durable Objects (state)</td></tr>
+<tr><td>Deploy</td><td><code>wrangler deploy</code></td></tr>
 </tbody></table>
 <h4 id="vercel-edge-functions">Vercel Edge Functions</h4>
-<table class="rules"><tbody>
-<tr><th>Feature</th><th>Detail</th></tr>
-<tr><th>Runtime</th><th>Edge Runtime (Web APIs subset)</th></tr>
-<tr><th>Framework</th><th>Next.js <code>export const runtime = &quot;edge&quot;</code></th></tr>
-<tr><th>Limits</th><th>30s execution, 4MB response</th></tr>
-<tr><th>Use case</th><th>Middleware, API routes, ISR</th></tr>
+<table class="rules">
+<thead><tr><th>Feature</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Runtime</td><td>Edge Runtime (Web APIs subset)</td></tr>
+<tr><td>Framework</td><td>Next.js <code>export const runtime = &quot;edge&quot;</code></td></tr>
+<tr><td>Limits</td><td>30s execution, 4MB response</td></tr>
+<tr><td>Use case</td><td>Middleware, API routes, ISR</td></tr>
 </tbody></table>
 <h4 id="aws-lambda-edge-cloudfront-functions">AWS Lambda@Edge / CloudFront Functions</h4>
-<table class="rules"><tbody>
-<tr><th>Type</th><th>Limit</th><th>Use Case</th></tr>
-<tr><th>CloudFront Functions</th><th>1ms, 10KB</th><th>Header manipulation, redirects</th></tr>
-<tr><th>Lambda@Edge</th><th>30s (origin), 5s (viewer)</th><th>Auth, dynamic routing</th></tr>
+<table class="rules">
+<thead><tr><th>Type</th><th>Limit</th><th>Use Case</th></tr></thead><tbody>
+<tr><td>CloudFront Functions</td><td>1ms, 10KB</td><td>Header manipulation, redirects</td></tr>
+<tr><td>Lambda@Edge</td><td>30s (origin), 5s (viewer)</td><td>Auth, dynamic routing</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="6-anti-patterns">§6 Anti-Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>Database calls from edge</th><th>High latency, connection pool exhaustion</th><th>Cache at edge, query at origin</th></tr>
-<tr><th>Heavy computation at edge</th><th>CPU timeout (10ms limit on CF free)</th><th>Offload to origin or queue</th></tr>
-<tr><th>Stateful sessions at edge</th><th>Inconsistent state across PoPs</th><th>Stateless JWT or edge KV</th></tr>
-<tr><th>No fallback for edge failures</th><th>Users see 500 from edge crash</th><th>Fail-open to origin</th></tr>
-<table class="rules"><tbody>
-<tr><th>Hardcoded edge config</th><th>Can&#x27;t update without redeploy</th><th>Edge KV / feature flags</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Database calls from edge</td><td>High latency, connection pool exhaustion</td><td>Cache at edge, query at origin</td></tr>
+<tr><td>Heavy computation at edge</td><td>CPU timeout (10ms limit on CF free)</td><td>Offload to origin or queue</td></tr>
+<tr><td>Stateful sessions at edge</td><td>Inconsistent state across PoPs</td><td>Stateless JWT or edge KV</td></tr>
+<tr><td>No fallback for edge failures</td><td>Users see 500 from edge crash</td><td>Fail-open to origin</td></tr>
+<tr><td>Hardcoded edge config</td><td>Can&#x27;t update without redeploy</td><td>Edge KV / feature flags</td></tr>
 </tbody></table>
   </div>
 </section>

@@ -106,7 +106,7 @@
 <p class="refnote">Source: <a href="../../pages/devlog/260708_korean_hero_typography_port.html">devlog/260708_korean_hero_typography_port.md</a></p>
 <h2 id="korean-hero-large-display-typography-port">Korean Hero / Large-Display Typography Port</h2>
 <p><strong>Date</strong>: 2026-07-08</p>
-<p><strong>Kind</strong>: SoT reinforcement + downstream port (<a href="../../pages/skills/dev-frontend.html">dev-frontend</a> korea-2026.md + anti-slop.md)</p>
+<p><strong>Kind</strong>: SoT reinforcement + downstream port (dev-frontend korea-2026.md + anti-slop.md)</p>
 <h3 id="trigger">Trigger</h3>
 <p>User flagged that oversized bold Korean heroes read as slop specifically in</p>
 <p>Hangul (shown on the GYEOL studio mockup: <code>clamp(..., 10rem)</code> / weight 700 /</p>
@@ -124,12 +124,12 @@
 <p>70px/700/lh1.27, Woowa Korean 40px/700 (its 900 is English), Naver 32px/600,</p>
 <p>Musinsa 20px/600.</p>
 <h3 id="port-status">Port status</h3>
-<table class="rules"><tbody>
-<tr><th>Target</th><th>Files</th><th>Status</th></tr>
-<tr><th>SoT</th><th><code>pabcd_initiative/.../korea-2026.md</code>, <code>anti-slop.md</code></th><th>Done — added &quot;Korean Hero / Large Display Type&quot; subsection + slop signal</th></tr>
-<tr><th>cli-jaw</th><th><code>cli-jaw-skills/.../korea-2026.md</code>, <code>anti-slop.md</code></th><th>Done — same block (Korean-hero block diff-matches SoT)</th></tr>
-<tr><th>codexclaw</th><th><code>codexclaw/plugins/codexclaw/skills/dev-frontend/.../korea-2026.md</code>, <code>anti-slop.md</code></th><th>Done — same block</th></tr>
-<tr><th>jawcode</th><th>—</th><th>N/A (no <a href="../../pages/skills/dev.html">dev</a>-frontend skill)</th></tr>
+<table class="rules">
+<thead><tr><th>Target</th><th>Files</th><th>Status</th></tr></thead><tbody>
+<tr><td>SoT</td><td><code>pabcd_initiative/.../korea-2026.md</code>, <code>anti-slop.md</code></td><td>Done — added &quot;Korean Hero / Large Display Type&quot; subsection + slop signal</td></tr>
+<tr><td>cli-jaw</td><td><code>cli-jaw-skills/.../korea-2026.md</code>, <code>anti-slop.md</code></td><td>Done — same block (Korean-hero block diff-matches SoT)</td></tr>
+<tr><td>codexclaw</td><td><code>codexclaw/plugins/codexclaw/skills/dev-frontend/.../korea-2026.md</code>, <code>anti-slop.md</code></td><td>Done — same block</td></tr>
+<tr><td>jawcode</td><td>—</td><td>N/A (no dev-frontend skill)</td></tr>
 </tbody></table>
 <p>Note: korea-2026.md and anti-slop.md were already divergent between SoT and</p>
 <p>cli-jaw before this change, so the port adds the SAME new block to each rather</p>

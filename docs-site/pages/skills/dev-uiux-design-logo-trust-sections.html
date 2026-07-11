@@ -121,15 +121,15 @@
 <p>Design them as passive, ambient trust signals. Like a restaurant displaying a Michelin star — you notice it, you don&#x27;t interact with it.</p>
 <p>---</p>
 <h3 id="pattern-decision-table">Pattern Decision Table</h3>
-<table class="rules"><tbody>
-<tr><th>Situation</th><th>Pattern</th><th>Rationale</th></tr>
-<tr><th>3-6 recognizable logos</th><th>Static flex row, centered</th><th>Clean, scannable, no animation needed</th></tr>
-<tr><th>8-15 logos</th><th>Single-row marquee</th><th>Avoids orphan cells, shows volume</th></tr>
-<tr><th>15+ logos</th><th>Dual-row opposing marquee</th><th>Shows scale, feels dynamic</th></tr>
-<tr><th>Logos link to case studies</th><th>Static grid, clickable</th><th>Links add value, hover justified</th></tr>
-<table class="rules"><tbody>
-<tr><th>Premium/enterprise feel</th><th>Static grid, generous spacing</th><th>Motion can feel unserious</th></tr>
-<tr><th>Startup/modern SaaS feel</th><th>Marquee, fast but smooth</th><th>Energy matches brand</th></tr>
+<table class="rules">
+<thead><tr><th>Situation</th><th>Pattern</th><th>Rationale</th></tr></thead><tbody>
+<tr><td>3-6 recognizable logos</td><td>Static flex row, centered</td><td>Clean, scannable, no animation needed</td></tr>
+<tr><td>8-15 logos</td><td>Single-row marquee</td><td>Avoids orphan cells, shows volume</td></tr>
+<tr><td>15+ logos</td><td>Dual-row opposing marquee</td><td>Shows scale, feels dynamic</td></tr>
+<tr><td>Logos link to case studies</td><td>Static grid, clickable</td><td>Links add value, hover justified</td></tr>
+<tr><td>Premium/enterprise feel</td><td>Static grid, generous spacing</td><td>Motion can feel unserious</td></tr>
+<table class="rules">
+<tr><td>Startup/modern SaaS feel</td><td>Marquee, fast but smooth</td><td>Energy matches brand</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="anti-patterns-do-not">Anti-Patterns (Do NOT)</h3>
@@ -148,22 +148,22 @@
 <p><strong>Consistent sizing:</strong> Set a uniform <code>height</code> and let <code>width: auto</code> maintain aspect ratios. Do NOT stretch logos.</p>
 <p>---</p>
 <h3 id="placement-on-page">Placement on Page</h3>
-<table class="rules"><tbody>
-<tr><th>Position</th><th>Effectiveness</th><th>Notes</th></tr>
-<tr><th>Below hero, above fold</th><th>Highest</th><th>Immediate credibility before scroll</th></tr>
-<tr><th>Near pricing/CTA</th><th>High</th><th>Reduces purchase anxiety</th></tr>
-<tr><th>Mid-page section break</th><th>Medium</th><th>Trust reinforcement during consideration</th></tr>
-<tr><th>Footer area</th><th>Low</th><th>Afterthought feel</th></tr>
+<table class="rules">
+<thead><tr><th>Position</th><th>Effectiveness</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Below hero, above fold</td><td>Highest</td><td>Immediate credibility before scroll</td></tr>
+<tr><td>Near pricing/CTA</td><td>High</td><td>Reduces purchase anxiety</td></tr>
+<tr><td>Mid-page section break</td><td>Medium</td><td>Trust reinforcement during consideration</td></tr>
+<tr><td>Footer area</td><td>Low</td><td>Afterthought feel</td></tr>
 </tbody></table>
 <p><strong>Best practice:</strong> Place near the primary conversion point (pricing, sign-up, CTA). &quot;Trusted by&quot; directly above the CTA is a strong pattern.</p>
 <p>---</p>
 <h3 id="marquee-speed-guidelines">Marquee Speed Guidelines</h3>
-<table class="rules"><tbody>
-<tr><th>Speed</th><th>Duration</th><th>Feel</th><th>Use</th></tr>
-<tr><th>Very slow</th><th>50-60s</th><th>Calm, premium</th><th>Enterprise, finance</th></tr>
-<tr><th>Slow</th><th>30-40s</th><th>Professional</th><th>General SaaS</th></tr>
-<tr><th>Medium</th><th>20-30s</th><th>Energetic</th><th>Startups, <a href="../../pages/skills/dev.html">dev</a> tools</th></tr>
-<tr><th>Fast</th><th>&lt;15s</th><th>Cheap, frantic</th><th><strong>Avoid</strong></th></tr>
+<table class="rules">
+<thead><tr><th>Speed</th><th>Duration</th><th>Feel</th><th>Use</th></tr></thead><tbody>
+<tr><td>Very slow</td><td>50-60s</td><td>Calm, premium</td><td>Enterprise, finance</td></tr>
+<tr><td>Slow</td><td>30-40s</td><td>Professional</td><td>General SaaS</td></tr>
+<tr><td>Medium</td><td>20-30s</td><td>Energetic</td><td>Startups, dev tools</td></tr>
+<tr><td>Fast</td><td>&lt;15s</td><td>Cheap, frantic</td><td><strong>Avoid</strong></td></tr>
 </tbody></table>
 <p><code>linear</code> timing function only — no easing. Constant speed feels intentional; eased motion feels like a carousel.</p>
 <p>---</p>

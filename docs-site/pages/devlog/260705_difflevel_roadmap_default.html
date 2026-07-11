@@ -103,7 +103,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev.html">dev</a>log/_fin/260705_difflevel_roadmap_default/00_plan.md</p>
+<p class="refnote">Source: devlog/_fin/260705_difflevel_roadmap_default/00_plan.md</p>
 <h2 id="00-plan-implementation-unit-discipline-as-the-harness-default-de-branded-strict">00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</h2>
 <p>Date: 2026-07-05 (rev 3 — scope expanded to 4-harness roadmap by user directive)</p>
 <p>Unit: <code>devlog/_plan/260705_difflevel_roadmap_default/</code></p>
@@ -136,7 +136,7 @@
 <li><code>DIFFLEVEL-ROADMAP-01</code> / <code>PHASE-SPLIT-01</code> / <code>LEXICO-SPLIT-01</code> / <code>UNIT-RESIDENCE-01</code></li>
 </ul>
 </ul>
-<p>present at definition site (<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> §3.1/§3) and at every consumer touchpoint</p>
+<p>present at definition site (dev-pabcd §3.1/§3) and at every consumer touchpoint</p>
 <p>listed in 10_phase1</p>
 <ul>
 <ul>
@@ -224,14 +224,13 @@
 <p>architecture/contracts patch the SoT doc in the SAME unit (C gate); if the repo</p>
 <p>has no SoT doc, RECOMMEND creating one.</p>
 <h3 id="new-rule-ids-introduced">New rule IDs introduced</h3>
-<table class="rules"><tbody>
-<tr><th>ID</th><th>Class</th><th>One-line summary</th><th>Definition site</th></tr>
-<tr><th>DIFFLEVEL-ROADMAP-01</th><th>STRICT</th><th>Multi-phase unit ⇒ first P writes EVERY phase doc to diff-level (copy-paste PRD); later P = stale re-verify + amend</th><th>dev-pabcd §3.1</th></tr>
-<tr><th>PHASE-SPLIT-01</th><th>STRICT</th><th>Phases sliced/ordered by dependency/architecture; effort bucketing (quick-win/heavy, impact-effort) forbidden</th><th>dev-pabcd §3 P</th></tr>
-<tr><th>LEXICO-SPLIT-01</th><th>STRICT</th><th>Every unit doc numbered (lexicographic); bare names FAIL the audit; research and implementation designs never mix in one doc</th><th>dev-pabcd §3.1</th></tr>
-<tr><th>UNIT-RESIDENCE-01</th><th>STRICT</th><th>All work belongs to an implementation unit; C0-C1 skip ceremony but MUST leave a numbered record doc</th><th>dev-pabcd §3.1</th></tr>
-<table class="rules"><tbody>
-<tr><th>SOT-SYNC-01</th><th>DEFAULT</th><th>Find the repo&#x27;s general SoT docs first; patch them in the same unit at C; recommend creating one if absent</th><th>dev-pabcd §3 C / <a href="../../pages/skills/dev-scaffolding.html">dev-scaffolding</a> §2.1</th></tr>
+<table class="rules">
+<thead><tr><th>ID</th><th>Class</th><th>One-line summary</th><th>Definition site</th></tr></thead><tbody>
+<tr><td>DIFFLEVEL-ROADMAP-01</td><td>STRICT</td><td>Multi-phase unit ⇒ first P writes EVERY phase doc to diff-level (copy-paste PRD); later P = stale re-verify + amend</td><td>dev-pabcd §3.1</td></tr>
+<tr><td>PHASE-SPLIT-01</td><td>STRICT</td><td>Phases sliced/ordered by dependency/architecture; effort bucketing (quick-win/heavy, impact-effort) forbidden</td><td>dev-pabcd §3 P</td></tr>
+<tr><td>LEXICO-SPLIT-01</td><td>STRICT</td><td>Every unit doc numbered (lexicographic); bare names FAIL the audit; research and implementation designs never mix in one doc</td><td>dev-pabcd §3.1</td></tr>
+<tr><td>UNIT-RESIDENCE-01</td><td>STRICT</td><td>All work belongs to an implementation unit; C0-C1 skip ceremony but MUST leave a numbered record doc</td><td>dev-pabcd §3.1</td></tr>
+<tr><td>SOT-SYNC-01</td><td>DEFAULT</td><td>Find the repo&#x27;s general SoT docs first; patch them in the same unit at C; recommend creating one if absent</td><td>dev-pabcd §3 C / dev-scaffolding §2.1</td></tr>
 </tbody></table>
 <h3 id="work-phase-map-dependency-ordered">Work-phase map (dependency-ordered)</h3>
 <p>Order rationale: canonical rule text must land first (Phase 1 defines the rule IDs</p>
@@ -239,12 +238,12 @@
 <p>daily (Phase 2); codexclaw already partially adopts the routine so its port is a</p>
 <p>delta (Phase 3); jawcode lacks the concept entirely and needs the largest adapted</p>
 <p>surface, informed by all prior ports (Phase 4). One full PABCD cycle per phase.</p>
-<table class="rules"><tbody>
-<tr><th>Phase</th><th>Doc</th><th>Outcome</th><th>Verifier</th></tr>
-<tr><th>1</th><th><code>10_phase1_harness_patch.md</code></th><th>pabcd_initiative: 4 files patched — rule definitions (dev-pabcd), routine spec (implementation-log), scaffolding consumer (dev-scaffolding), router fast-path (dev); de-branded and hardened</th><th>grep assertions above + read-back audit</th></tr>
-<tr><th>2</th><th><code>20_phase2_cli_jaw.md</code></th><th>cli-jaw: same contract ported into <code>skills_ref</code> + any system-prompt/hook surface that injects planning rules, per cli-jaw conventions</th><th>per-doc grep assertions + read-back audit</th></tr>
-<tr><th>3</th><th><code>30_phase3_codexclaw.md</code></th><th>codexclaw: cxc/pabcd skill family + plugin hooks/prompt surfaces hardened (delta port — partial adoption exists)</th><th>per-doc grep assertions + read-back audit</th></tr>
-<tr><th>4</th><th><code>40_phase4_jawcode.md</code></th><th>jawcode: jwc skill family + role agent prompts/defaults gain the implementation-unit contract (largest adaptation)</th><th>per-doc grep assertions + read-back audit</th></tr>
+<table class="rules">
+<thead><tr><th>Phase</th><th>Doc</th><th>Outcome</th><th>Verifier</th></tr></thead><tbody>
+<tr><td>1</td><td><code>10_phase1_harness_patch.md</code></td><td>pabcd_initiative: 4 files patched — rule definitions (dev-pabcd), routine spec (implementation-log), scaffolding consumer (dev-scaffolding), router fast-path (dev); de-branded and hardened</td><td>grep assertions above + read-back audit</td></tr>
+<tr><td>2</td><td><code>20_phase2_cli_jaw.md</code></td><td>cli-jaw: same contract ported into <code>skills_ref</code> + any system-prompt/hook surface that injects planning rules, per cli-jaw conventions</td><td>per-doc grep assertions + read-back audit</td></tr>
+<tr><td>3</td><td><code>30_phase3_codexclaw.md</code></td><td>codexclaw: cxc/pabcd skill family + plugin hooks/prompt surfaces hardened (delta port — partial adoption exists)</td><td>per-doc grep assertions + read-back audit</td></tr>
+<tr><td>4</td><td><code>40_phase4_jawcode.md</code></td><td>jawcode: jwc skill family + role agent prompts/defaults gain the implementation-unit contract (largest adaptation)</td><td>per-doc grep assertions + read-back audit</td></tr>
 </tbody></table>
 <p>Docs 20/30/40 are written to diff-level in THIS first P (DIFFLEVEL-ROADMAP-01),</p>
 <p>from per-repo touchpoint inventories (opus-4-6 agents, exact paths + verbatim</p>

@@ -158,7 +158,7 @@
 <p>(FunSearch/AlphaEvolve line), quality-diversity (MAP-Elites), population self-play and</p>
 <p>opponent modeling, plateau/no-progress detection and exploration scheduling. Results to</p>
 <p>be appended here.</p>
-<h3 id="3-adopted-in-this-pass-skills-<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a>-11-p-2-1-insertions">3. Adopted in this pass (skills/dev-pabcd §11 + P/§2.1 insertions)</h3>
+<h3 id="3-adopted-in-this-pass-skills-dev-pabcd-11-p-2-1-insertions">3. Adopted in this pass (skills/dev-pabcd §11 + P/§2.1 insertions)</h3>
 <ul>
 <li>Loop-spec header in P for C2+ (trigger/goal/non-goals/verifier/stop/memory/terminal</li>
 </ul>
@@ -186,16 +186,16 @@
 <li>Loop archetype split (§11.4) and unattended-loop resource policy (§11.5).</li>
 </ul>
 <h3 id="4-future-work-not-in-this-pass">4. Future work (not in this pass)</h3>
-<table class="rules"><tbody>
-<tr><th>Item</th><th>Where</th><th>Notes</th></tr>
-<tr><th>Server-side doom-loop gate</th><th>cli-jaw FSM</th><th>Count same-phase attestation failures per work-phase; N=3 → forced <code>orchestrate I</code>. Mechanical counting only — semantics stay in the skill.</th></tr>
-<tr><th>Evidence-bound attestation (phase-specific artifact checks: diff exists, plan path resolves, checkOutput parsed)</th><th>cli-jaw FSM</th><th>Upgrade path from form-only; keep the human free pass.</th></tr>
-<tr><th>Explore-and-select tooling</th><th>cli-jaw / project harnesses</th><th>Candidate matrix runner (parallel strategy variants × same seeds), best-so-far ledger, plateau detector wired to §10 death log.</th></tr>
-<tr><th>Worktree isolation for parallel candidates/checkers</th><th>runtime-specific</th><th>Osmani loop primitive; needed once B parallelism is real.</th></tr>
-<table class="rules"><tbody>
-<tr><th>Verifier ladder codification (deterministic → artifact → independent agent → human → model-judge+rubric)</th><th>dev-testing</th><th>GPT Pro proposal; <a href="../../pages/skills/dev-testing.html">dev-testing</a> §9.5 is the natural owner.</th></tr>
-<tr><th>Downstream ports of this delta</th><th>codexclaw <code>plugins/codexclaw/skills/</code>, jawcode <code>packages/coding-agent/src/defaults/jwc/skills/</code></th><th>Per freshness-sweep propagation rules: adapt, never blind-copy, fork&#x27;s own gates, local commits only. Dispatched 2026-07-02.</th></tr>
-<tr><th>Observability for loops (where time/tokens go per phase)</th><th>cli-jaw dashboard</th><th>Currently a blind spot; harness-engineering sources treat it as a core layer.</th></tr>
+<table class="rules">
+<thead><tr><th>Item</th><th>Where</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Server-side doom-loop gate</td><td>cli-jaw FSM</td><td>Count same-phase attestation failures per work-phase; N=3 → forced <code>orchestrate I</code>. Mechanical counting only — semantics stay in the skill.</td></tr>
+<tr><td>Evidence-bound attestation (phase-specific artifact checks: diff exists, plan path resolves, checkOutput parsed)</td><td>cli-jaw FSM</td><td>Upgrade path from form-only; keep the human free pass.</td></tr>
+<tr><td>Explore-and-select tooling</td><td>cli-jaw / project harnesses</td><td>Candidate matrix runner (parallel strategy variants × same seeds), best-so-far ledger, plateau detector wired to §10 death log.</td></tr>
+<tr><td>Worktree isolation for parallel candidates/checkers</td><td>runtime-specific</td><td>Osmani loop primitive; needed once B parallelism is real.</td></tr>
+<tr><td>Verifier ladder codification (deterministic → artifact → independent agent → human → model-judge+rubric)</td><td>dev-testing</td><td>GPT Pro proposal; dev-testing §9.5 is the natural owner.</td></tr>
+<table class="rules">
+<tr><td>Downstream ports of this delta</td><td>codexclaw <code>plugins/codexclaw/skills/</code>, jawcode <code>packages/coding-agent/src/defaults/jwc/skills/</code></td><td>Per freshness-sweep propagation rules: adapt, never blind-copy, fork&#x27;s own gates, local commits only. Dispatched 2026-07-02.</td></tr>
+<tr><td>Observability for loops (where time/tokens go per phase)</td><td>cli-jaw dashboard</td><td>Currently a blind spot; harness-engineering sources treat it as a core layer.</td></tr>
 </tbody></table>
 <h3 id="5-rejected-deferred-framings">5. Rejected / deferred framings</h3>
 <ul>

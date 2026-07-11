@@ -114,19 +114,25 @@ def md_to_html_simple(md):
         # table rows (simple)
         if stripped.startswith("|") and stripped.endswith("|"):
             if "---" in stripped:
-                continue  # separator row
+                # separator row marks the transition from header to body
+                if out and "<tr>" in out[-1]:
+                    # rewrite previous row as thead
+                    prev_row = out.pop()
+                    prev_row = prev_row.replace("<td>", "<th>").replace("</td>", "</th>")
+                    out.append("<thead>" + prev_row + "</thead><tbody>")
+                continue
             cells = [c.strip() for c in stripped.split("|")[1:-1]]
-            tag = "th" if not any("<td>" in o for o in out[-3:] if "<t" in o) else "td"
-            # detect header row
-            row = "<tr>" + "".join(f"<{tag}>{inline_fmt(c)}</{tag}>" for c in cells) + "</tr>"
-            if out and "</table>" not in out[-1] and "<table" not in str(out[-5:]):
-                out.append('<table class="rules"><tbody>')
+            row = "<tr>" + "".join(f"<td>{inline_fmt(c)}</td>" for c in cells) + "</tr>"
+            if not any("<table" in o for o in out[-6:]):
+                out.append('<table class="rules">')
             out.append(row)
             continue
         
         # blank line: close table if open
         if not stripped:
             if out and "<tr>" in str(out[-1]):
+                out.append("</tbody></table>")
+            elif out and "<thead>" in str(out[-2:]):
                 out.append("</tbody></table>")
             continue
         
@@ -597,7 +603,7 @@ def main():
     for name, page in skill_entries:
         SOURCE_LINK_MAP[f"skills/{name}/SKILL.md"] = page
         SOURCE_LINK_MAP[f"{name}/SKILL.md"] = page
-        SOURCE_LINK_MAP[f"{name}"] = page
+        # bare name removed (word-boundary corruption risk, sol review fix 3)
         refs_dir = SKILLS_DIR / name / "references"
         if refs_dir.is_dir():
             for rf in sorted(refs_dir.glob("*.md")):

@@ -175,27 +175,26 @@
 </ul>
 <h2 id="full-spec">Full Specification</h2>
 <details><summary>Show full SKILL.md content</summary>
-<h2 id="dev-<a href="../../pages/skills/dev.html">dev</a>ops-production-infrastructure-delivery">Dev-DevOps — Production Infrastructure &amp; Delivery</h2>
+<h2 id="dev-devops-production-infrastructure-delivery">Dev-DevOps — Production Infrastructure &amp; Delivery</h2>
 <p>Build reliable, secure, and automated infrastructure and delivery pipelines.</p>
 <p>This skill has modular references for specialized guidance — read the relevant ones before coding.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <p>Severity mapping: <code>CRITICAL</code>/<code>HIGH</code> ⇒ STRICT; <code>MEDIUM</code> ⇒ DEFAULT (aligned with <code>dev</code> §0.2).</p>
 <h3 id="modular-references">Modular References</h3>
-<table class="rules"><tbody>
-<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/docker.md</code></th><th>Container build/deploy</th><th>Multi-stage builds, distroless, Docker Scout/Trivy, BuildKit secrets, SBOM/Cosign</th></tr>
-<tr><th><code>references/package-release.md</code></th><th>Package publishing / release auth</th><th>npm/PyPI trusted publishing, Bun-to-npm, registry auth model, downstream distribution table</th></tr>
-<tr><th><code>references/cross-platform-release.md</code></th><th>Cross-platform release proof</th><th>CI matrix vs local OS proof, Windows App/RDP prompts, desktop verification boundaries</th></tr>
-<tr><th><code>references/homebrew.md</code></th><th>Homebrew distribution</th><th>Formula vs Cask, audit/test, livecheck, artifact trust, install/uninstall proof</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/platform-engineering.md</code></th><th>Platform / DORA / provider routing</th><th>DORA capabilities, platform guardrails, provider table rows, SLSA handoff</th></tr>
-<tr><th><code>references/kubernetes.md</code></th><th>K8s deployment</th><th>Gateway API (v1.6+), Kustomize overlays, HPA/VPA, Helm, ArgoCD GitOps</th></tr>
-<tr><th><code>references/ci-cd-deploy.md</code></th><th>Deploy pipeline</th><th>GHA reusable workflows, deploy strategies, rollback, GitOps, progressive delivery</th></tr>
-<tr><th><code>references/iac.md</code></th><th>Infrastructure code</th><th>OpenTofu/Terraform modules, Pulumi, state encryption, blast radius isolation</th></tr>
-<tr><th><code>references/sre-foundations.md</code></th><th>Operations/incidents</th><th>SLO/SLI/error budget, burn-rate alerting, incident response, blameless postmortem</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/edge-serverless.md</code></th><th>Edge/serverless work</th><th>Edge request shaping, auth at edge, Cloudflare Workers, Vercel Edge, edge AI triage</th></tr>
-<tr><th><code>references/ml-infra.md</code></th><th>ML infrastructure</th><th>GPU cluster mgmt, model registry, scaling, edge inference, MLOps platform patterns</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
+<tr><td><code>references/docker.md</code></td><td>Container build/deploy</td><td>Multi-stage builds, distroless, Docker Scout/Trivy, BuildKit secrets, SBOM/Cosign</td></tr>
+<tr><td><code>references/package-release.md</code></td><td>Package publishing / release auth</td><td>npm/PyPI trusted publishing, Bun-to-npm, registry auth model, downstream distribution table</td></tr>
+<tr><td><code>references/cross-platform-release.md</code></td><td>Cross-platform release proof</td><td>CI matrix vs local OS proof, Windows App/RDP prompts, desktop verification boundaries</td></tr>
+<tr><td><code>references/homebrew.md</code></td><td>Homebrew distribution</td><td>Formula vs Cask, audit/test, livecheck, artifact trust, install/uninstall proof</td></tr>
+<tr><td><code>references/platform-engineering.md</code></td><td>Platform / DORA / provider routing</td><td>DORA capabilities, platform guardrails, provider table rows, SLSA handoff</td></tr>
+<table class="rules">
+<tr><td><code>references/kubernetes.md</code></td><td>K8s deployment</td><td>Gateway API (v1.6+), Kustomize overlays, HPA/VPA, Helm, ArgoCD GitOps</td></tr>
+<tr><td><code>references/ci-cd-deploy.md</code></td><td>Deploy pipeline</td><td>GHA reusable workflows, deploy strategies, rollback, GitOps, progressive delivery</td></tr>
+<tr><td><code>references/iac.md</code></td><td>Infrastructure code</td><td>OpenTofu/Terraform modules, Pulumi, state encryption, blast radius isolation</td></tr>
+<tr><td><code>references/sre-foundations.md</code></td><td>Operations/incidents</td><td>SLO/SLI/error budget, burn-rate alerting, incident response, blameless postmortem</td></tr>
+<tr><td><code>references/edge-serverless.md</code></td><td>Edge/serverless work</td><td>Edge request shaping, auth at edge, Cloudflare Workers, Vercel Edge, edge AI triage</td></tr>
+<tr><td><code>references/ml-infra.md</code></td><td>ML infrastructure</td><td>GPU cluster mgmt, model registry, scaling, edge inference, MLOps platform patterns</td></tr>
 </tbody></table>
 <p>Read <code>package-release.md</code> for package publishing, registry auth, npm/PyPI</p>
 <p>trusted publishing, Bun-to-npm release decisions, and downstream package</p>
@@ -211,16 +210,16 @@
 <p>---</p>
 <h3 id="1-container-builds">§1 Container Builds</h3>
 <h4 id="1-1-dockerfile-rules-strict">§1.1 Dockerfile Rules (STRICT)</h4>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Multi-stage</th><th>Separate build and runtime stages; final image has no build tools</th></tr>
-<tr><th>Base image</th><th>Pin version + SHA256 digest: <code>node:22-slim@sha256:abc...</code></th></tr>
-<tr><th>Minimal runtime base</th><th>Prefer <code>gcr.io/distroless/*</code> (Debian-based, keyless-signed) — no shell/package manager; OR Chainguard/Wolfi images when nightly rebuilds, SBOM attestations, patch SLAs, or compliance matter</th></tr>
-<tr><th>Non-root</th><th><code>USER nonroot:nonroot</code> (distroless) or create dedicated user</th></tr>
-<table class="rules"><tbody>
-<tr><th>Dependency-first copy</th><th><code>COPY package.json bun.lock ./</code> → install → <code>COPY . .</code> for layer caching</th></tr>
-<tr><th>BuildKit secrets</th><th><code>RUN --mount=type=secret,id=token ...</code> — never use <code>ARG</code> for secrets</th></tr>
-<tr><th><code>.dockerignore</code></th><th><code>.git</code>, <code>node_modules</code>, <code>.env*</code>, <code>*.log</code>, <code>dist/</code>, <code>coverage/</code>, <code>__pycache__/</code></th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Multi-stage</td><td>Separate build and runtime stages; final image has no build tools</td></tr>
+<tr><td>Base image</td><td>Pin version + SHA256 digest: <code>node:22-slim@sha256:abc...</code></td></tr>
+<tr><td>Minimal runtime base</td><td>Prefer <code>gcr.io/distroless/*</code> (Debian-based, keyless-signed) — no shell/package manager; OR Chainguard/Wolfi images when nightly rebuilds, SBOM attestations, patch SLAs, or compliance matter</td></tr>
+<tr><td>Non-root</td><td><code>USER nonroot:nonroot</code> (distroless) or create dedicated user</td></tr>
+<tr><td>Dependency-first copy</td><td><code>COPY package.json bun.lock ./</code> → install → <code>COPY . .</code> for layer caching</td></tr>
+<table class="rules">
+<tr><td>BuildKit secrets</td><td><code>RUN --mount=type=secret,id=token ...</code> — never use <code>ARG</code> for secrets</td></tr>
+<tr><td><code>.dockerignore</code></td><td><code>.git</code>, <code>node_modules</code>, <code>.env*</code>, <code>*.log</code>, <code>dist/</code>, <code>coverage/</code>, <code>__pycache__/</code></td></tr>
 </tbody></table>
 <p>For canonical Dockerfile templates, read <code>references/docker.md</code> §1.</p>
 <h4 id="1-2-image-security-supply-chain-baseline-strict">§1.2 Image Security &amp; Supply-Chain Baseline (STRICT)</h4>
@@ -230,21 +229,21 @@
 <p>promote (§2.4). Read <code>references/docker.md</code> §4 for scan/SBOM/sign command examples, and</p>
 <p><code>../dev-security/references/supply-chain-sbom.md</code> for deeper SBOM/signing policy.</p>
 <h4 id="1-3-anti-patterns">§1.3 Anti-Patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th><code>FROM node:latest</code></th><th>Irreproducible builds</th><th>Pinned version + digest</th></tr>
-<tr><th><code>USER root</code> in final stage</th><th>Attack surface</th><th>Non-root user</th></tr>
-<tr><th><code>COPY . .</code> as first instruction</th><th>Cache invalidation on every change</th><th>Dependency files first</th></tr>
-<tr><th><code>ARG SECRET=xxx</code></th><th>Exposed in image history</th><th>BuildKit <code>--mount=type=secret</code></th></tr>
-<table class="rules"><tbody>
-<tr><th>No scan before push</th><th>Vulnerable images in prod</th><th>Trivy/Scout CI gate</th></tr>
-<tr><th><code>apt-get install</code> without cleanup</th><th>Bloated image</th><th><code>--no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*</code></th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>FROM node:latest</code></td><td>Irreproducible builds</td><td>Pinned version + digest</td></tr>
+<tr><td><code>USER root</code> in final stage</td><td>Attack surface</td><td>Non-root user</td></tr>
+<tr><td><code>COPY . .</code> as first instruction</td><td>Cache invalidation on every change</td><td>Dependency files first</td></tr>
+<tr><td><code>ARG SECRET=xxx</code></td><td>Exposed in image history</td><td>BuildKit <code>--mount=type=secret</code></td></tr>
+<tr><td>No scan before push</td><td>Vulnerable images in prod</td><td>Trivy/Scout CI gate</td></tr>
+<table class="rules">
+<tr><td><code>apt-get install</code> without cleanup</td><td>Bloated image</td><td><code>--no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*</code></td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="2-deploy-pipeline">§2 Deploy Pipeline</h3>
 <h4 id="2-1-pipeline-stages-default">§2.1 Pipeline Stages (DEFAULT)</h4>
-<pre><code>[<a href="../../pages/skills/dev-testing.html">dev-testing</a> §5]  lint → typecheck → test → contract → e2e
-[<a href="../../pages/skills/dev-devops.html">dev-devops</a>]      build-image → scan → push-registry → deploy-staging → smoke → promote → deploy-prod</code></pre>
+<pre><code>[dev-testing §5]  lint → typecheck → test → contract → e2e
+[dev-devops]      build-image → scan → push-registry → deploy-staging → smoke → promote → deploy-prod</code></pre>
 <h4 id="2-2-gha-reusable-workflows-default">§2.2 GHA Reusable Workflows (DEFAULT)</h4>
 <pre><code># .github/workflows/ci.yml (caller)
 jobs:
@@ -253,22 +252,21 @@ jobs:
     with:
       service: payments
     secrets: inherit</code></pre>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th><code>workflow_call</code></th><th>Central CI template, max 10-level nesting</th></tr>
-<tr><th>Permissions</th><th>Caller cannot escalate; downgrade only</th></tr>
-<tr><th>Environment</th><th><code>environment: production</code> + required reviewers + prevent self-review</th></tr>
-<tr><th>Promote</th><th>Digest-based (<code>image@sha256:...</code>), never mutable tags</th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td><code>workflow_call</code></td><td>Central CI template, max 10-level nesting</td></tr>
+<tr><td>Permissions</td><td>Caller cannot escalate; downgrade only</td></tr>
+<tr><td>Environment</td><td><code>environment: production</code> + required reviewers + prevent self-review</td></tr>
+<tr><td>Promote</td><td>Digest-based (<code>image@sha256:...</code>), never mutable tags</td></tr>
 </tbody></table>
 <h4 id="2-3-deploy-strategies-default">§2.3 Deploy Strategies (DEFAULT)</h4>
-<table class="rules"><tbody>
-<tr><th>Strategy</th><th>Tool</th><th>When</th><th>Risk</th></tr>
-<tr><th>Rolling update</th><th>K8s Deployment</th><th>Stateless, low risk</th><th>Low</th></tr>
-<tr><th>Blue-green</th><th>Argo Rollouts <code>blueGreen:</code></th><th>Instant rollback, no DB migration</th><th>Medium</th></tr>
-<tr><th>Canary</th><th>Argo Rollouts <code>canary: steps:</code></th><th>Traffic % control, metric-based promote</th><th>Medium</th></tr>
-<tr><th>Progressive</th><th>Flagger</th><th>Auto analysis + rollback, A/B testing</th><th>Medium-High</th></tr>
-<table class="rules"><tbody>
-<tr><th>Feature flag</th><th>LaunchDarkly / Unleash</th><th>Code-level gradual rollout</th><th>Low</th></tr>
+<table class="rules">
+<thead><tr><th>Strategy</th><th>Tool</th><th>When</th><th>Risk</th></tr></thead><tbody>
+<tr><td>Rolling update</td><td>K8s Deployment</td><td>Stateless, low risk</td><td>Low</td></tr>
+<tr><td>Blue-green</td><td>Argo Rollouts <code>blueGreen:</code></td><td>Instant rollback, no DB migration</td><td>Medium</td></tr>
+<tr><td>Canary</td><td>Argo Rollouts <code>canary: steps:</code></td><td>Traffic % control, metric-based promote</td><td>Medium</td></tr>
+<tr><td>Progressive</td><td>Flagger</td><td>Auto analysis + rollback, A/B testing</td><td>Medium-High</td></tr>
+<tr><td>Feature flag</td><td>LaunchDarkly / Unleash</td><td>Code-level gradual rollout</td><td>Low</td></tr>
 </tbody></table>
 <h4 id="2-4-rollback-rules-strict">§2.4 Rollback Rules (STRICT)</h4>
 <ul>
@@ -278,12 +276,12 @@ jobs:
 <li>Post-rollback: automatic Slack/PagerDuty notification</li>
 </ul>
 <h4 id="2-5-secret-management-strict">§2.5 Secret Management (STRICT)</h4>
-<table class="rules"><tbody>
-<tr><th>Source</th><th>Usage</th></tr>
-<tr><th>GHA Secrets / Vault / AWS SM</th><th>CI pipeline secrets</th></tr>
-<tr><th>External Secrets Operator</th><th>K8s → Vault/AWS SM sync</th></tr>
-<tr><th><code>.env</code> files</th><th><strong>Never committed</strong> — generated in CI</th></tr>
-<tr><th>Rotation</th><th>90-day cycle or immediate on incident</th></tr>
+<table class="rules">
+<thead><tr><th>Source</th><th>Usage</th></tr></thead><tbody>
+<tr><td>GHA Secrets / Vault / AWS SM</td><td>CI pipeline secrets</td></tr>
+<tr><td>External Secrets Operator</td><td>K8s → Vault/AWS SM sync</td></tr>
+<tr><td><code>.env</code> files</td><td><strong>Never committed</strong> — generated in CI</td></tr>
+<tr><td>Rotation</td><td>90-day cycle or immediate on incident</td></tr>
 </tbody></table>
 <h4 id="2-6-gitops-default">§2.6 GitOps (DEFAULT)</h4>
 <ul>
@@ -295,15 +293,15 @@ jobs:
 <p>---</p>
 <h3 id="3-kubernetes-basics">§3 Kubernetes Basics</h3>
 <h4 id="3-1-minimum-viable-k8s-default">§3.1 Minimum Viable K8s (DEFAULT)</h4>
-<table class="rules"><tbody>
-<tr><th>Resource</th><th>Purpose</th></tr>
-<tr><th>Deployment</th><th>Pod template + replica management</th></tr>
-<tr><th>Service</th><th>Internal networking</th></tr>
-<tr><th>HTTPRoute (Gateway API)</th><th>External traffic routing — <strong>not Ingress</strong></th></tr>
-<tr><th>ResourceQuota</th><th>Request/limit enforcement</th></tr>
-<table class="rules"><tbody>
-<tr><th>Probes</th><th>Liveness + readiness + startup</th></tr>
-<tr><th>Namespace</th><th>Environment isolation (dev/staging/prod)</th></tr>
+<table class="rules">
+<thead><tr><th>Resource</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Deployment</td><td>Pod template + replica management</td></tr>
+<tr><td>Service</td><td>Internal networking</td></tr>
+<tr><td>HTTPRoute (Gateway API)</td><td>External traffic routing — <strong>not Ingress</strong></td></tr>
+<tr><td>ResourceQuota</td><td>Request/limit enforcement</td></tr>
+<tr><td>Probes</td><td>Liveness + readiness + startup</td></tr>
+<table class="rules">
+<tr><td>Namespace</td><td>Environment isolation (dev/staging/prod)</td></tr>
 </tbody></table>
 <h4 id="3-2-gateway-api-v1-6-verified-2026-07-02">§3.2 Gateway API (v1.6+, verified 2026-07-02)</h4>
 <p>Gateway API is the successor for new routing while Ingress remains GA but feature-frozen</p>
@@ -325,65 +323,64 @@ spec:
         - name: payments-svc
           port: 8080</code></pre>
 <h4 id="3-3-scaling-default">§3.3 Scaling (DEFAULT)</h4>
-<table class="rules"><tbody>
-<tr><th>Mechanism</th><th>Scope</th><th>Watch</th></tr>
-<tr><th>HPA</th><th>CPU/memory + custom metrics</th><th>Don&#x27;t combine with VPA on same metric</th></tr>
-<tr><th>VPA</th><th>Request auto-tuning</th><th>Use <code>Off</code> mode for recommendations only</th></tr>
-<tr><th>PDB</th><th>Disruption budget</th><th><code>minAvailable: 50%</code> or <code>maxUnavailable: 1</code></th></tr>
+<table class="rules">
+<thead><tr><th>Mechanism</th><th>Scope</th><th>Watch</th></tr></thead><tbody>
+<tr><td>HPA</td><td>CPU/memory + custom metrics</td><td>Don&#x27;t combine with VPA on same metric</td></tr>
+<tr><td>VPA</td><td>Request auto-tuning</td><td>Use <code>Off</code> mode for recommendations only</td></tr>
+<tr><td>PDB</td><td>Disruption budget</td><td><code>minAvailable: 50%</code> or <code>maxUnavailable: 1</code></td></tr>
 </tbody></table>
 <h4 id="3-4-anti-patterns">§3.4 Anti-Patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Fix</th></tr>
-<tr><th><code>Ingress</code> (new projects)</th><th>Gateway API <code>HTTPRoute</code></th></tr>
-<tr><th>No resource limits</th><th>Always set requests + limits</th></tr>
-<tr><th><code>image: app:latest</code></th><th>SHA digest or pinned SemVer</th></tr>
-<tr><th>Single replica in prod</th><th>Minimum 2 + PDB</th></tr>
-<table class="rules"><tbody>
-<tr><th>Secrets in ConfigMap</th><th>K8s Secret + External Secrets Operator</th></tr>
-<tr><th>Annotation-based routing</th><th>Gateway API native fields</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>Ingress</code> (new projects)</td><td>Gateway API <code>HTTPRoute</code></td></tr>
+<tr><td>No resource limits</td><td>Always set requests + limits</td></tr>
+<tr><td><code>image: app:latest</code></td><td>SHA digest or pinned SemVer</td></tr>
+<tr><td>Single replica in prod</td><td>Minimum 2 + PDB</td></tr>
+<tr><td>Secrets in ConfigMap</td><td>K8s Secret + External Secrets Operator</td></tr>
+<table class="rules">
+<tr><td>Annotation-based routing</td><td>Gateway API native fields</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="4-infrastructure-as-code">§4 Infrastructure as Code</h3>
 <h4 id="4-1-opentofu-terraform-rules-default">§4.1 OpenTofu/Terraform Rules (DEFAULT)</h4>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>State</th><th>Remote backend required (S3+DynamoDB / TF Cloud / OpenTofu)</th></tr>
-<tr><th>Encryption</th><th>OpenTofu native state/plan encryption via KMS</th></tr>
-<tr><th>Blast radius</th><th>Separate state per app/layer/env</th></tr>
-<tr><th>Modules</th><th>Purpose-built (vpc, iam, ecs-service), typed I/O</th></tr>
-<table class="rules"><tbody>
-<tr><th>Apply</th><th><code>plan</code> → PR review → <code>apply</code>; auto-apply staging only</th></tr>
-<tr><th>Versions</th><th>Pin provider + module versions explicitly</th></tr>
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<table class="rules">
+<tr><td>State</td><td>Remote backend required (S3+DynamoDB / TF Cloud / OpenTofu)</td></tr>
+<tr><td>Encryption</td><td>OpenTofu native state/plan encryption via KMS</td></tr>
+<tr><td>Blast radius</td><td>Separate state per app/layer/env</td></tr>
+<tr><td>Modules</td><td>Purpose-built (vpc, iam, ecs-service), typed I/O</td></tr>
+<tr><td>Apply</td><td><code>plan</code> → PR review → <code>apply</code>; auto-apply staging only</td></tr>
+<tr><td>Versions</td><td>Pin provider + module versions explicitly</td></tr>
 </tbody></table>
 <h4 id="4-2-tool-selection-heuristic">§4.2 Tool Selection (HEURISTIC)</h4>
-<tr><th>Tool</th><th>Best For</th><th>Status (verified 2026-07-02)</th></tr>
-<table class="rules"><tbody>
-<tr><th>OpenTofu (HCL)</th><th>Open-source/licensing-neutral IaC default (MPL-2.0, Linux Foundation; v1.12.x)</th><th>✅ Recommended for OSS neutrality</th></tr>
-<tr><th>Terraform / HCP Terraform (BSL)</th><th>Vendor support or HashiCorp platform integration required</th><th>✅ Active (BSL license — check competitive-use terms)</th></tr>
-<tr><th>Pulumi (TS/Python)</th><th>Teams preferring programming languages</th><th>✅ Active</th></tr>
-<tr><th>AWS CDK</th><th>AWS-only infrastructure</th><th>✅ Active (AWS only)</th></tr>
-<tr><th><strong>CDKTF</strong></th><th>—</th><th>❌ Deprecated 2025-12-10; repo archived/read-only, no further fixes</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Best For</th><th>Status (verified 2026-07-02)</th></tr></thead><tbody>
+<tr><td>OpenTofu (HCL)</td><td>Open-source/licensing-neutral IaC default (MPL-2.0, Linux Foundation; v1.12.x)</td><td>✅ Recommended for OSS neutrality</td></tr>
+<tr><td>Terraform / HCP Terraform (BSL)</td><td>Vendor support or HashiCorp platform integration required</td><td>✅ Active (BSL license — check competitive-use terms)</td></tr>
+<tr><td>Pulumi (TS/Python)</td><td>Teams preferring programming languages</td><td>✅ Active</td></tr>
+<tr><td>AWS CDK</td><td>AWS-only infrastructure</td><td>✅ Active (AWS only)</td></tr>
+<tr><td><strong>CDKTF</strong></td><td>—</td><td>❌ Deprecated 2025-12-10; repo archived/read-only, no further fixes</td></tr>
 </tbody></table>
 <h4 id="4-3-anti-patterns">§4.3 Anti-Patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Fix</th></tr>
-<tr><th>Local state file</th><th>Remote backend required</th></tr>
-<tr><th>Manual console changes</th><th>All changes via code</th></tr>
-<tr><th>Hardcoded values</th><th>Variables + tfvars</th></tr>
-<tr><th>Monolithic main.tf</th><th>Modular decomposition</th></tr>
-<table class="rules"><tbody>
-<tr><th>CDKTF (new projects)</th><th>OpenTofu or Pulumi</th></tr>
-<tr><th>Unpinned provider versions</th><th>Explicit version constraints</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Local state file</td><td>Remote backend required</td></tr>
+<tr><td>Manual console changes</td><td>All changes via code</td></tr>
+<tr><td>Hardcoded values</td><td>Variables + tfvars</td></tr>
+<tr><td>Monolithic main.tf</td><td>Modular decomposition</td></tr>
+<tr><td>CDKTF (new projects)</td><td>OpenTofu or Pulumi</td></tr>
+<table class="rules">
+<tr><td>Unpinned provider versions</td><td>Explicit version constraints</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="5-sre-foundations">§5 SRE Foundations</h3>
 <h4 id="5-1-slo-sli-default">§5.1 SLO/SLI (DEFAULT)</h4>
-<table class="rules"><tbody>
-<tr><th>SLI</th><th>Measurement</th><th>Typical SLO</th></tr>
-<tr><th>Availability</th><th>Success requests / total</th><th>99.9% (28-day rolling)</th></tr>
-<tr><th>Latency</th><th>p50/p95/p99 response time</th><th>p99 &lt; 500ms</th></tr>
-<tr><th>Error rate</th><th>5xx / total</th><th>&lt; 0.1%</th></tr>
-<tr><th>Freshness</th><th>Data update delay</th><th>&lt; 5min (pipelines)</th></tr>
+<thead><tr><th>SLI</th><th>Measurement</th><th>Typical SLO</th></tr></thead><tbody>
+<table class="rules">
+<tr><td>Availability</td><td>Success requests / total</td><td>99.9% (28-day rolling)</td></tr>
+<tr><td>Latency</td><td>p50/p95/p99 response time</td><td>p99 &lt; 500ms</td></tr>
+<tr><td>Error rate</td><td>5xx / total</td><td>&lt; 0.1%</td></tr>
+<tr><td>Freshness</td><td>Data update delay</td><td>&lt; 5min (pipelines)</td></tr>
 </tbody></table>
 <p>SLIs measure <strong>user experience</strong>, not infrastructure metrics. &quot;CPU is fine ≠ users are fine.&quot;</p>
 <p>Error budget = 1 − SLO (99.9% → 0.1% budget).</p>
@@ -391,11 +388,11 @@ spec:
 <p>underlying sociotechnical system. For AI-agent-heavy delivery, invest in golden paths,</p>
 <p>guardrails, observability, provenance, and review gates, not just faster merges.</p>
 <h4 id="5-2-error-budget-policy-default">§5.2 Error Budget Policy (DEFAULT)</h4>
-<table class="rules"><tbody>
-<tr><th>Budget State</th><th>Action</th></tr>
-<tr><th>Normal (&gt;50%)</th><th>Continue releases, routine monitoring</th></tr>
-<tr><th>Accelerated burn (20–50%)</th><th>Heightened alerts, slow releases, reliability triage</th></tr>
-<tr><th><strong>Exhausted (≤0%)</strong></th><th><strong>Feature freeze</strong> — security/bugfix only; VP exception required</th></tr>
+<table class="rules">
+<thead><tr><th>Budget State</th><th>Action</th></tr></thead><tbody>
+<tr><td>Normal (&gt;50%)</td><td>Continue releases, routine monitoring</td></tr>
+<tr><td>Accelerated burn (20–50%)</td><td>Heightened alerts, slow releases, reliability triage</td></tr>
+<tr><td><strong>Exhausted (≤0%)</strong></td><td><strong>Feature freeze</strong> — security/bugfix only; VP exception required</td></tr>
 </tbody></table>
 <p>Single incident consuming &gt;20% → mandatory postmortem.</p>
 <p>Two consecutive window misses → architecture review.</p>
@@ -422,32 +419,31 @@ spec:
 - Owner: @team-sre
 - PagerDuty: [policy]</code></pre>
 <h4 id="5-5-anti-patterns">§5.5 Anti-Patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Fix</th></tr>
-<tr><th>Infrastructure-only SLIs</th><th>User-experience-based SLIs</th></tr>
-<tr><th>SLO without consequences</th><th>Error budget policy with freeze gate</th></tr>
-<tr><th>Too many SLIs (&gt;5 per service)</th><th>2-4 meaningful SLIs</th></tr>
-<tr><th>Page on every deviation</th><th>Burn-rate multi-window alerting</th></tr>
-<table class="rules"><tbody>
-<tr><th>Blame individuals</th><th>Blameless postmortem, system improvement</th></tr>
-<tr><th>No error budget policy</th><th>Define 3-stage policy (normal/accelerated/exhausted)</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Infrastructure-only SLIs</td><td>User-experience-based SLIs</td></tr>
+<tr><td>SLO without consequences</td><td>Error budget policy with freeze gate</td></tr>
+<tr><td>Too many SLIs (&gt;5 per service)</td><td>2-4 meaningful SLIs</td></tr>
+<tr><td>Page on every deviation</td><td>Burn-rate multi-window alerting</td></tr>
+<tr><td>Blame individuals</td><td>Blameless postmortem, system improvement</td></tr>
+<table class="rules">
+<tr><td>No error budget policy</td><td>Define 3-stage policy (normal/accelerated/exhausted)</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="6-cross-references">§6 Cross-References</h3>
-<table class="rules"><tbody>
-<tr><th>Topic</th><th>Canonical Owner</th><th>What dev-devops defers</th></tr>
-<tr><th>Test strategy &amp; CI test stages</th><th><code>dev-testing</code> §5</th><th>Test pyramid, coverage gates</th></tr>
-<tr><th>Backend observability code patterns</th><th><code>dev-backend</code> <code>observability.md</code></th><th>OTel SDK setup, structured logging</th></tr>
-<tr><th>Security hardening (app-layer)</th><th><code>dev-security</code></th><th>OWASP, auth, input validation</th></tr>
-<tr><th>SBOM/signing depth</th><th><code>dev-security</code> <code>references/supply-chain-sbom.md</code></th><th>Supply-chain evidence policy beyond image scan gates</th></tr>
-<table class="rules"><tbody>
-<tr><th>Architecture module boundaries</th><th><code>dev-architecture</code></th><th>Coupling taxonomy, barrel discipline</th></tr>
-<tr><th>Scaffolding conventions</th><th><code>dev-scaffolding</code></th><th>File naming, project structure</th></tr>
-<tr><th>Frontend build/bundle</th><th><code>dev-frontend</code></th><th>Vite/webpack config, SSR</th></tr>
+<thead><tr><th>Topic</th><th>Canonical Owner</th><th>What dev-devops defers</th></tr></thead><tbody>
+<tr><td>Test strategy &amp; CI test stages</td><td><code>dev-testing</code> §5</td><td>Test pyramid, coverage gates</td></tr>
+<table class="rules">
+<tr><td>Backend observability code patterns</td><td><code>dev-backend</code> <code>observability.md</code></td><td>OTel SDK setup, structured logging</td></tr>
+<tr><td>Security hardening (app-layer)</td><td><code>dev-security</code></td><td>OWASP, auth, input validation</td></tr>
+<tr><td>SBOM/signing depth</td><td><code>dev-security</code> <code>references/supply-chain-sbom.md</code></td><td>Supply-chain evidence policy beyond image scan gates</td></tr>
+<tr><td>Architecture module boundaries</td><td><code>dev-architecture</code></td><td>Coupling taxonomy, barrel discipline</td></tr>
+<tr><td>Scaffolding conventions</td><td><code>dev-scaffolding</code></td><td>File naming, project structure</td></tr>
+<tr><td>Frontend build/bundle</td><td><code>dev-frontend</code></td><td>Vite/webpack config, SSR</td></tr>
 </tbody></table>
 <p><strong>dev-devops owns</strong>: container builds, image security, deploy pipelines, K8s manifests, IaC modules, SRE/incident response, edge infra, ML infra.</p>
 <p><strong>dev-backend owns</strong>: application-layer observability code, API design, health check implementation.</p>
-<p>Overlap: observability alerting rules (dev-devops §5) ↔ observability code instrumentation (<a href="../../pages/skills/dev-backend.html">dev-backend</a> <code>observability.md</code>). Cross-ref both.</p>
+<p>Overlap: observability alerting rules (dev-devops §5) ↔ observability code instrumentation (dev-backend <code>observability.md</code>). Cross-ref both.</p>
 <h3 id="pre-flight-checklist">Pre-flight Checklist</h3>
 <p>Before submitting infrastructure changes:</p>
 <ul>

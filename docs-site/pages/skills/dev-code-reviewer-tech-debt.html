@@ -106,21 +106,21 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-code-reviewer/references/tech-debt.md" target="_blank" rel="noopener">dev-code-reviewer/references/tech-debt.md</a></p>
 <h2 id="tech-debt-inventory-paydown">Tech Debt Inventory &amp; Paydown</h2>
 <h3 id="1-what-counts-as-tech-debt">1. What Counts as Tech Debt</h3>
-<p>Not all old code is debt. Debt is code that <strong>actively slows current <a href="../../pages/skills/dev.html">dev</a>elopment</strong> or <strong>increases defect risk</strong>.</p>
-<table class="rules"><tbody>
-<tr><th>Is Debt</th><th>Is NOT Debt</th></tr>
-<tr><th>Duplicated validation logic across 4 services</th><th>Old but working utility with no pending changes</th></tr>
-<tr><th>Missing index causing p95 &gt; 2s on a hot query</th><th>Framework version one minor behind latest</th></tr>
-<tr><th>Hardcoded secrets in env setup scripts</th><th>Code style you personally dislike</th></tr>
-<tr><th>Circular dependency blocking tree-shaking</th><th>A function that could theoretically be shorter</th></tr>
+<p>Not all old code is debt. Debt is code that <strong>actively slows current development</strong> or <strong>increases defect risk</strong>.</p>
+<table class="rules">
+<thead><tr><th>Is Debt</th><th>Is NOT Debt</th></tr></thead><tbody>
+<tr><td>Duplicated validation logic across 4 services</td><td>Old but working utility with no pending changes</td></tr>
+<tr><td>Missing index causing p95 &gt; 2s on a hot query</td><td>Framework version one minor behind latest</td></tr>
+<tr><td>Hardcoded secrets in env setup scripts</td><td>Code style you personally dislike</td></tr>
+<tr><td>Circular dependency blocking tree-shaking</td><td>A function that could theoretically be shorter</td></tr>
 </tbody></table>
 <p>Rule: if nobody will touch the area in the next 6 months, it is not actionable debt — it is legacy.</p>
 <h3 id="2-debt-classification">2. Debt Classification</h3>
 <p>Use the Fowler quadrant to classify before prioritizing:</p>
-<table class="rules"><tbody>
-<tr><th></th><th>Reckless</th><th>Prudent</th></tr>
-<tr><th><strong>Deliberate</strong></th><th>&quot;Ship it, we&#x27;ll fix later&quot; — track immediately, set paydown deadline</th><th>&quot;We know the tradeoff&quot; — document the decision in ADR, schedule review</th></tr>
-<tr><th><strong>Inadvertent</strong></th><th>&quot;What&#x27;s layering?&quot; — training gap, fix + educate</th><th>&quot;Now we know better&quot; — refactor when the area is next touched</th></tr>
+<table class="rules">
+<thead><tr><th></th><th>Reckless</th><th>Prudent</th></tr></thead><tbody>
+<tr><td><strong>Deliberate</strong></td><td>&quot;Ship it, we&#x27;ll fix later&quot; — track immediately, set paydown deadline</td><td>&quot;We know the tradeoff&quot; — document the decision in ADR, schedule review</td></tr>
+<tr><td><strong>Inadvertent</strong></td><td>&quot;What&#x27;s layering?&quot; — training gap, fix + educate</td><td>&quot;Now we know better&quot; — refactor when the area is next touched</td></tr>
 </tbody></table>
 <pre><code># ADR template for prudent-deliberate debt
 ## Decision: Accept [describe shortcut]
@@ -155,12 +155,12 @@
 - Ticket: [link or &quot;created TD-NNN&quot;]</code></pre>
 <p>Do NOT block PRs for pre-existing debt. Tag it, ticket it, move on.</p>
 <h3 id="5-budget-paydown">5. Budget &amp; Paydown</h3>
-<table class="rules"><tbody>
-<tr><th>Strategy</th><th>When to Use</th><th>Rule</th></tr>
-<tr><th><strong>20% rule</strong></th><th>Sustained velocity projects</th><th>Reserve 20% of each sprint for debt paydown</th></tr>
-<tr><th><strong>Boy scout</strong></th><th>Any PR in a debt-heavy area</th><th>Leave the area cleaner than you found it — one small improvement per PR</th></tr>
-<tr><th><strong>Debt sprint</strong></th><th>Debt inventory &gt; 15 P1/P2 items</th><th>Dedicated sprint focused exclusively on debt reduction</th></tr>
-<tr><th><strong>Strangler fig</strong></th><th>Large legacy replacement</th><th>Build new path alongside old, migrate callers incrementally, delete old</th></tr>
+<table class="rules">
+<thead><tr><th>Strategy</th><th>When to Use</th><th>Rule</th></tr></thead><tbody>
+<tr><td><strong>20% rule</strong></td><td>Sustained velocity projects</td><td>Reserve 20% of each sprint for debt paydown</td></tr>
+<tr><td><strong>Boy scout</strong></td><td>Any PR in a debt-heavy area</td><td>Leave the area cleaner than you found it — one small improvement per PR</td></tr>
+<tr><td><strong>Debt sprint</strong></td><td>Debt inventory &gt; 15 P1/P2 items</td><td>Dedicated sprint focused exclusively on debt reduction</td></tr>
+<tr><td><strong>Strangler fig</strong></td><td>Large legacy replacement</td><td>Build new path alongside old, migrate callers incrementally, delete old</td></tr>
 </tbody></table>
 <pre><code>// Boy scout example: extract before adding new feature
 // BEFORE: 200-line function with mixed concerns
@@ -176,22 +176,21 @@ function processOrder(order: Order) {
 }</code></pre>
 <h3 id="6-measurement">6. Measurement</h3>
 <p>Track these metrics to detect debt accumulation:</p>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>Tool</th><th>Threshold</th></tr>
-<tr><th>Coupling score</th><th><code>madge --circular</code> / <code>dpdm</code></th><th>0 circular deps</th></tr>
-<tr><th>Cycle time (PR open → merge)</th><th>Git analytics</th><th>&lt; 24h for standard PRs</th></tr>
-<tr><th>Defect density per module</th><th>Issue tracker tags</th><th>Hotspot = 3× average</th></tr>
-<tr><th>Code churn (same file changed &gt; 5× in 30d)</th><th><code>git log --format</code></th><th>Flag for review</th></tr>
-<table class="rules"><tbody>
-<tr><th>TODO/HACK count</th><th>`grep -r &quot;TODO\</th><th>HACK\</th><th>FIXME&quot;`</th><th>Trending down quarter-over-quarter</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>Tool</th><th>Threshold</th></tr></thead><tbody>
+<tr><td>Coupling score</td><td><code>madge --circular</code> / <code>dpdm</code></td><td>0 circular deps</td></tr>
+<tr><td>Cycle time (PR open → merge)</td><td>Git analytics</td><td>&lt; 24h for standard PRs</td></tr>
+<tr><td>Defect density per module</td><td>Issue tracker tags</td><td>Hotspot = 3× average</td></tr>
+<tr><td>Code churn (same file changed &gt; 5× in 30d)</td><td><code>git log --format</code></td><td>Flag for review</td></tr>
+<tr><td>TODO/HACK count</td><td>`grep -r &quot;TODO\</td><td>HACK\</td><td>FIXME&quot;`</td><td>Trending down quarter-over-quarter</td></tr>
 </tbody></table>
 <h3 id="7-anti-patterns">7. Anti-Patterns</h3>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>&quot;We&#x27;ll refactor someday&quot; without a ticket</th><th>Debt grows invisibly</th><th>Create TD-NNN ticket at discovery time</th></tr>
-<table class="rules"><tbody>
-<tr><th>Blocking PRs for pre-existing debt</th><th>Review bottleneck, resentment</th><th>Tag + ticket, do not block</th></tr>
-<tr><th>Rewriting from scratch to &quot;fix debt&quot;</th><th>Scope explosion, new bugs</th><th>Strangler fig or incremental refactor</th></tr>
-<tr><th>Counting all old code as debt</th><th>Wasted prioritization effort</th><th>Apply §1 filter: does it slow current work?</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>&quot;We&#x27;ll refactor someday&quot; without a ticket</td><td>Debt grows invisibly</td><td>Create TD-NNN ticket at discovery time</td></tr>
+<tr><td>Blocking PRs for pre-existing debt</td><td>Review bottleneck, resentment</td><td>Tag + ticket, do not block</td></tr>
+<tr><td>Rewriting from scratch to &quot;fix debt&quot;</td><td>Scope explosion, new bugs</td><td>Strangler fig or incremental refactor</td></tr>
+<tr><td>Counting all old code as debt</td><td>Wasted prioritization effort</td><td>Apply §1 filter: does it slow current work?</td></tr>
 </tbody></table>
 <h3 id="pre-flight">Pre-flight</h3>
 <ul>

@@ -108,7 +108,7 @@
 <p>Last reviewed: 2026-06-16</p>
 <p>Applies to: OpenTofu 1.9+, Terraform 1.10+, Pulumi 3.x</p>
 <p>When to read: Infrastructure provisioning tasks</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> §4</p>
+<p>Canonical owner: dev-devops §4</p>
 <p>Cross-ref: read <code>platform-engineering.md</code> for provider-routing breadth,</p>
 <p>platform guardrails, and DORA capability framing before broad IaC refreshes.</p>
 <p>---</p>
@@ -125,7 +125,7 @@
     ecs-service/
     rds/
   environments/
-    <a href="../../pages/skills/dev.html">dev</a>/
+    dev/
       main.tf
       terraform.tfvars
       backend.tf
@@ -138,12 +138,12 @@
       terraform.tfvars
       backend.tf</code></pre>
 <h4 id="state-management">State Management</h4>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Remote backend</th><th>S3+DynamoDB, Terraform Cloud, or OpenTofu native</th></tr>
-<tr><th>State isolation</th><th>Separate state per app/layer/env</th></tr>
-<tr><th>Locking</th><th>DynamoDB or backend-native lock</th></tr>
-<tr><th>No local state</th><th>Ever. <code>terraform.tfstate</code> in <code>.gitignore</code></th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Remote backend</td><td>S3+DynamoDB, Terraform Cloud, or OpenTofu native</td></tr>
+<tr><td>State isolation</td><td>Separate state per app/layer/env</td></tr>
+<tr><td>Locking</td><td>DynamoDB or backend-native lock</td></tr>
+<tr><td>No local state</td><td>Ever. <code>terraform.tfstate</code> in <code>.gitignore</code></td></tr>
 </tbody></table>
 <h4 id="opentofu-state-encryption">OpenTofu State Encryption</h4>
 <pre><code>terraform {
@@ -178,12 +178,12 @@
 <p>---</p>
 <h3 id="2-module-design">§2 Module Design</h3>
 <h4 id="good-module-boundaries">Good Module Boundaries</h4>
-<table class="rules"><tbody>
-<tr><th>Module</th><th>Inputs</th><th>Outputs</th></tr>
-<tr><th><code>vpc</code></th><th>CIDR, AZ count, tags</th><th>vpc_id, subnet_ids, nat_gateway_ids</th></tr>
-<tr><th><code>iam-role</code></th><th>role_name, policy_arns, trust_policy</th><th>role_arn, instance_profile_arn</th></tr>
-<tr><th><code>ecs-service</code></th><th>image, cpu, memory, vpc_id, subnet_ids</th><th>service_arn, task_def_arn, lb_dns</th></tr>
-<tr><th><code>rds</code></th><th>engine, instance_class, vpc_id, subnet_ids</th><th>endpoint, port, secret_arn</th></tr>
+<table class="rules">
+<thead><tr><th>Module</th><th>Inputs</th><th>Outputs</th></tr></thead><tbody>
+<tr><td><code>vpc</code></td><td>CIDR, AZ count, tags</td><td>vpc_id, subnet_ids, nat_gateway_ids</td></tr>
+<tr><td><code>iam-role</code></td><td>role_name, policy_arns, trust_policy</td><td>role_arn, instance_profile_arn</td></tr>
+<tr><td><code>ecs-service</code></td><td>image, cpu, memory, vpc_id, subnet_ids</td><td>service_arn, task_def_arn, lb_dns</td></tr>
+<tr><td><code>rds</code></td><td>engine, instance_class, vpc_id, subnet_ids</td><td>endpoint, port, secret_arn</td></tr>
 </tbody></table>
 <h4 id="variable-validation">Variable Validation</h4>
 <pre><code>variable &quot;instance_type&quot; {
@@ -241,11 +241,11 @@ jobs:
       matrix:
         env: [dev, staging, prod]</code></pre>
 <h4 id="apply-rules">Apply Rules</h4>
-<table class="rules"><tbody>
-<tr><th>Environment</th><th>Apply</th><th>Approval</th></tr>
-<tr><th>dev</th><th>Auto on merge</th><th>None</th></tr>
-<tr><th>staging</th><th>Auto on merge</th><th>None</th></tr>
-<tr><th>prod</th><th>Manual trigger</th><th>Required reviewers</th></tr>
+<table class="rules">
+<thead><tr><th>Environment</th><th>Apply</th><th>Approval</th></tr></thead><tbody>
+<tr><td>dev</td><td>Auto on merge</td><td>None</td></tr>
+<tr><td>staging</td><td>Auto on merge</td><td>None</td></tr>
+<tr><td>prod</td><td>Manual trigger</td><td>Required reviewers</td></tr>
 </tbody></table>
 <h4 id="drift-detection">Drift Detection</h4>
 <pre><code># Scheduled — run weekly
@@ -281,14 +281,13 @@ const vpc = new aws.ec2.Vpc(&quot;main&quot;, {
 
 export const vpcId = vpc.id;</code></pre>
 <h4 id="pulumi-vs-opentofu-decision">Pulumi vs OpenTofu Decision</h4>
-<table class="rules"><tbody>
-<tr><th>Factor</th><th>OpenTofu</th><th>Pulumi</th></tr>
-<tr><th>Language</th><th>HCL (declarative)</th><th>TS, Python, Go, C#</th></tr>
-<tr><th>State</th><th>S3/Cloud/native encrypted</th><th>Pulumi Cloud or self-managed</th></tr>
-<tr><th>Ecosystem</th><th>Massive provider ecosystem</th><th>Growing; wraps Terraform providers</th></tr>
-<tr><th>Learning curve</th><th>Lower for ops</th><th>Lower for developers</th></tr>
-<table class="rules"><tbody>
-<tr><th>Testing</th><th><code>terraform test</code> (limited)</th><th>Standard test frameworks</th></tr>
+<table class="rules">
+<thead><tr><th>Factor</th><th>OpenTofu</th><th>Pulumi</th></tr></thead><tbody>
+<tr><td>Language</td><td>HCL (declarative)</td><td>TS, Python, Go, C#</td></tr>
+<tr><td>State</td><td>S3/Cloud/native encrypted</td><td>Pulumi Cloud or self-managed</td></tr>
+<tr><td>Ecosystem</td><td>Massive provider ecosystem</td><td>Growing; wraps Terraform providers</td></tr>
+<tr><td>Learning curve</td><td>Lower for ops</td><td>Lower for developers</td></tr>
+<tr><td>Testing</td><td><code>terraform test</code> (limited)</td><td>Standard test frameworks</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="5-tool-selection-decision-tree">§5 Tool Selection Decision Tree</h3>
@@ -308,23 +307,23 @@ export const vpcId = vpc.id;</code></pre>
 ⚠️ CDKTF is deprecated as of 2025-12-10 (HashiCorp) — repo archived/read-only, no further updates/fixes/compatibility work. Do NOT adopt for new projects.</code></pre>
 <p>---</p>
 <h3 id="6-anti-patterns-detailed">§6 Anti-Patterns (Detailed)</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
-<tr><th>Local state file</th><th>Lost on disk crash; no locking; no team sharing</th><th>Remote backend with locking</th></tr>
-<tr><th>Manual console changes</th><th>Drift; no audit trail; breaks next <code>apply</code></th><th>All changes via code</th></tr>
-<tr><th>Hardcoded values</th><th>Can&#x27;t reuse; env-specific secrets leak</th><th><code>variable</code> + <code>terraform.tfvars</code></th></tr>
-<tr><th>Monolithic main.tf</th><th>1000+ line file; blast radius = everything</th><th>Modular decomposition</th></tr>
-<table class="rules"><tbody>
-<tr><th>CDKTF (new projects)</th><th>Deprecated by HashiCorp</th><th>OpenTofu or Pulumi</th></tr>
-<tr><th>Unpinned versions</th><th>Provider update breaks infra silently</th><th><code>required_providers</code> with <code>~&gt;</code></th></tr>
-<tr><th><code>terraform apply -auto-approve</code> in prod</th><th>No human review</th><th>Manual approval gate</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Why</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Local state file</td><td>Lost on disk crash; no locking; no team sharing</td><td>Remote backend with locking</td></tr>
+<tr><td>Manual console changes</td><td>Drift; no audit trail; breaks next <code>apply</code></td><td>All changes via code</td></tr>
+<tr><td>Hardcoded values</td><td>Can&#x27;t reuse; env-specific secrets leak</td><td><code>variable</code> + <code>terraform.tfvars</code></td></tr>
+<tr><td>Monolithic main.tf</td><td>1000+ line file; blast radius = everything</td><td>Modular decomposition</td></tr>
+<tr><td>CDKTF (new projects)</td><td>Deprecated by HashiCorp</td><td>OpenTofu or Pulumi</td></tr>
+<table class="rules">
+<tr><td>Unpinned versions</td><td>Provider update breaks infra silently</td><td><code>required_providers</code> with <code>~&gt;</code></td></tr>
+<tr><td><code>terraform apply -auto-approve</code> in prod</td><td>No human review</td><td>Manual approval gate</td></tr>
 </tbody></table>
 <h3 id="sources-router-currency-claims-checked-2026-07-02">Sources (router currency claims, checked 2026-07-02)</h3>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Source</th></tr>
-<tr><th>CDKTF deprecated 2025-12-10, archived</th><th>https://developer.hashicorp.com/terraform/cdktf ; https://github.com/hashicorp/terraform-cdk</th></tr>
-<tr><th>OpenTofu v1.12.x, MPL-2.0, Linux Foundation</th><th>https://github.com/opentofu/opentofu/releases ; https://opentofu.org/</th></tr>
-<tr><th>Terraform BSL since 1.6</th><th>https://www.hashicorp.com/en/blog/hashicorp-adopts-business-source-license</th></tr>
+<thead><tr><th>Claim</th><th>Source</th></tr></thead><tbody>
+<tr><td>CDKTF deprecated 2025-12-10, archived</td><td>https://developer.hashicorp.com/terraform/cdktf ; https://github.com/hashicorp/terraform-cdk</td></tr>
+<table class="rules">
+<tr><td>OpenTofu v1.12.x, MPL-2.0, Linux Foundation</td><td>https://github.com/opentofu/opentofu/releases ; https://opentofu.org/</td></tr>
+<tr><td>Terraform BSL since 1.6</td><td>https://www.hashicorp.com/en/blog/hashicorp-adopts-business-source-license</td></tr>
 </tbody></table>
   </div>
 </section>

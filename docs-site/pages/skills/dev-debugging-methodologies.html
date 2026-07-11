@@ -123,7 +123,7 @@
 </ol>
 <p><strong>Exit Condition</strong>: You reach a cause that is (a) actionable, (b) systemic (not</p>
 <p>a one-off mistake), and (c) within your control to fix.</p>
-<p><strong>Anti-pattern</strong>: Stopping too early (&quot;because the <a href="../../pages/skills/dev.html">dev</a>eloper made a mistake&quot;)</p>
+<p><strong>Anti-pattern</strong>: Stopping too early (&quot;because the developer made a mistake&quot;)</p>
 <p>or going too deep (&quot;because JavaScript is single-threaded&quot;). Stop at the first</p>
 <p>actionable systemic fix.</p>
 <p>---</p>
@@ -163,11 +163,11 @@
 <li>Remaining cause with supporting evidence = your hypothesis</li>
 </ol>
 <p><strong>Template</strong>:</p>
-<table class="rules"><tbody>
-<tr><th>#</th><th>Possible Cause</th><th>Test</th><th>Result</th><th>Status</th></tr>
-<tr><th>1</th><th>DB connection timeout</th><th>Check connection pool metrics</th><th>Pool at 2/20</th><th>Eliminated</th></tr>
-<tr><th>2</th><th>Bad input data</th><th>Log raw request body</th><th>Contains null <code>user_id</code></th><th>Confirmed</th></tr>
-<tr><th>3</th><th>Race condition</th><th>Add artificial delay</th><th>Not reproducible with delay</th><th>Eliminated</th></tr>
+<table class="rules">
+<thead><tr><th>#</th><th>Possible Cause</th><th>Test</th><th>Result</th><th>Status</th></tr></thead><tbody>
+<tr><td>1</td><td>DB connection timeout</td><td>Check connection pool metrics</td><td>Pool at 2/20</td><td>Eliminated</td></tr>
+<tr><td>2</td><td>Bad input data</td><td>Log raw request body</td><td>Contains null <code>user_id</code></td><td>Confirmed</td></tr>
+<tr><td>3</td><td>Race condition</td><td>Add artificial delay</td><td>Not reproducible with delay</td><td>Eliminated</td></tr>
 </tbody></table>
 <p><strong>Exit Condition</strong>: One cause remains with positive evidence confirming it.</p>
 <p><strong>Anti-pattern</strong>: Fixating on the first plausible cause without testing the</p>

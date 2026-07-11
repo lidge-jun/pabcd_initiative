@@ -181,15 +181,15 @@ AFTER (merged):
   parse-and-validate.ts (90 lines) — single responsibility, no cycle</code></pre>
 <p>---</p>
 <h3 id="common-patterns-resolutions">Common Patterns &amp; Resolutions</h3>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Root Cause</th><th>Resolution</th></tr>
-<tr><th>Model A references Model B and vice versa</th><th>Bidirectional relationship modeled as imports</th><th>Extract shared types to <code>models/types.ts</code></th></tr>
-<tr><th>Service imports Repository that imports Service</th><th>Layering violation</th><th>Repository never imports Service; use events for reverse flow</th></tr>
-<tr><th>Test helper imports source, source imports test util</th><th>Test infrastructure leaks into production</th><th>Move test utils to <code>__test_utils__/</code> outside source tree</th></tr>
-<tr><th>Barrel (index.ts) creates hidden cycle</th><th>Re-export graph hides actual dependencies</th><th>Remove barrel, use direct imports</th></tr>
-<table class="rules"><tbody>
-<tr><th>Monorepo package A depends on B depends on A</th><th>Shared types scattered across packages</th><th>Create <code>@org/contracts</code> package</th></tr>
-<tr><th>Plugin imports host, host imports plugin</th><th>Plugin boundary confused</th><th>Define plugin interface in host; plugin implements without importing host internals</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Root Cause</th><th>Resolution</th></tr></thead><tbody>
+<tr><td>Model A references Model B and vice versa</td><td>Bidirectional relationship modeled as imports</td><td>Extract shared types to <code>models/types.ts</code></td></tr>
+<tr><td>Service imports Repository that imports Service</td><td>Layering violation</td><td>Repository never imports Service; use events for reverse flow</td></tr>
+<tr><td>Test helper imports source, source imports test util</td><td>Test infrastructure leaks into production</td><td>Move test utils to <code>__test_utils__/</code> outside source tree</td></tr>
+<tr><td>Barrel (index.ts) creates hidden cycle</td><td>Re-export graph hides actual dependencies</td><td>Remove barrel, use direct imports</td></tr>
+<tr><td>Monorepo package A depends on B depends on A</td><td>Shared types scattered across packages</td><td>Create <code>@org/contracts</code> package</td></tr>
+<table class="rules">
+<tr><td>Plugin imports host, host imports plugin</td><td>Plugin boundary confused</td><td>Define plugin interface in host; plugin implements without importing host internals</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="verification-after-fix">Verification After Fix</h3>
@@ -201,15 +201,15 @@ AFTER (merged):
 <li>Review the dependency direction — dependencies point inward toward Domain; outer layers depend on inner layers, never the reverse</li>
 </ol>
 <h3 id="sources">Sources</h3>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Source</th><th>Checked</th></tr>
-<tr><th>madge active (release page reachable)</th><th>https://github.com/pahen/madge/releases</th><th>2026-07-02</th></tr>
-<tr><th>dependency-cruiser active; preferred for enforceable CI rules</th><th>https://github.com/sverweij/dependency-cruiser/releases</th><th>2026-07-02</th></tr>
-<tr><th>eslint-plugin-boundaries active</th><th>https://github.com/javierbrea/eslint-plugin-boundaries/releases</th><th>2026-07-02</th></tr>
-<tr><th>knip for dead files/exports/dependencies</th><th>https://github.com/webpro-nl/knip/releases</th><th>2026-07-02</th></tr>
-<table class="rules"><tbody>
-<tr><th>sherif for monorepo package consistency</th><th>https://github.com/QuiiBz/sherif/releases</th><th>2026-07-02</th></tr>
-<tr><th>Biome noBarrelFile rule</th><th>https://biomejs.<a href="../../pages/skills/dev.html">dev</a>/linter/rules/no-barrel-file/</th><th>2026-07-02</th></tr>
+<table class="rules">
+<thead><tr><th>Claim</th><th>Source</th><th>Checked</th></tr></thead><tbody>
+<tr><td>madge active (release page reachable)</td><td>https://github.com/pahen/madge/releases</td><td>2026-07-02</td></tr>
+<tr><td>dependency-cruiser active; preferred for enforceable CI rules</td><td>https://github.com/sverweij/dependency-cruiser/releases</td><td>2026-07-02</td></tr>
+<tr><td>eslint-plugin-boundaries active</td><td>https://github.com/javierbrea/eslint-plugin-boundaries/releases</td><td>2026-07-02</td></tr>
+<tr><td>knip for dead files/exports/dependencies</td><td>https://github.com/webpro-nl/knip/releases</td><td>2026-07-02</td></tr>
+<tr><td>sherif for monorepo package consistency</td><td>https://github.com/QuiiBz/sherif/releases</td><td>2026-07-02</td></tr>
+<table class="rules">
+<tr><td>Biome noBarrelFile rule</td><td>https://biomejs.dev/linter/rules/no-barrel-file/</td><td>2026-07-02</td></tr>
 </tbody></table>
   </div>
 </section>

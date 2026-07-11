@@ -108,7 +108,7 @@
 <p>Last reviewed: 2026-06-16</p>
 <p>Applies to: GitHub Actions, ArgoCD 2.14+, Argo Rollouts 1.8+</p>
 <p>When to read: Deploy pipeline setup or modification</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> §2</p>
+<p>Canonical owner: dev-devops §2</p>
 <p>---</p>
 <h3 id="0-release-routing">§0 Release Routing</h3>
 <p>For package publishing and release-auth decisions, read</p>
@@ -186,22 +186,22 @@ jobs:
       image_digest: ${{ needs.build.outputs.image_digest }}
     secrets: inherit</code></pre>
 <h4 id="rules">Rules</h4>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Nesting</th><th>Max 10 levels (GitHub limit)</th></tr>
-<tr><th>Permissions</th><th>Caller cannot escalate called workflow permissions</th></tr>
-<tr><th>Secrets</th><th><code>secrets: inherit</code> or explicit pass; never hardcode</th></tr>
-<tr><th>Pinning</th><th>Pin reusable workflows to SHA or tag: <code>@v2</code> or <code>@sha256:...</code></th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Nesting</td><td>Max 10 levels (GitHub limit)</td></tr>
+<tr><td>Permissions</td><td>Caller cannot escalate called workflow permissions</td></tr>
+<tr><td>Secrets</td><td><code>secrets: inherit</code> or explicit pass; never hardcode</td></tr>
+<tr><td>Pinning</td><td>Pin reusable workflows to SHA or tag: <code>@v2</code> or <code>@sha256:...</code></td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="2-gitops-architecture">§2 GitOps Architecture</h3>
 <h4 id="actions-ci-argocd-cd">Actions = CI, ArgoCD = CD</h4>
 <pre><code>Developer → PR → CI (lint/test/build/scan/push) → merge
   → CI updates deploy repo (image digest) → ArgoCD detects → sync to cluster</code></pre>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>When</th></tr>
-<tr><th>Single repo</th><th>Small team, 1-3 services</th></tr>
-<tr><th>App + Deploy repo</th><th>Larger teams, separation of CI and deploy config</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>When</th></tr></thead><tbody>
+<tr><td>Single repo</td><td>Small team, 1-3 services</td></tr>
+<tr><td>App + Deploy repo</td><td>Larger teams, separation of CI and deploy config</td></tr>
 </tbody></table>
 <h4 id="digest-based-promotion">Digest-Based Promotion</h4>
 <pre><code># CI updates deploy repo kustomization.yaml
@@ -209,10 +209,10 @@ yq -i &#x27;.images[0].digest = &quot;sha256:abc123...&quot;&#x27; overlays/prod
 git commit -m &quot;promote payments to sha256:abc123&quot;
 git push
 # ArgoCD auto-syncs</code></pre>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Fix</th></tr>
-<tr><th><code>image: app:v2.1</code> (mutable tag)</th><th><code>image: app@sha256:abc123...</code> (immutable digest)</th></tr>
-<tr><th>CI runs <code>kubectl apply</code></th><th>ArgoCD reconciles from Git</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>image: app:v2.1</code> (mutable tag)</td><td><code>image: app@sha256:abc123...</code> (immutable digest)</td></tr>
+<tr><td>CI runs <code>kubectl apply</code></td><td>ArgoCD reconciles from Git</td></tr>
 </tbody></table>
 <h4 id="environment-protection">Environment Protection</h4>
 <pre><code># GitHub Environment settings (UI or API)
@@ -279,11 +279,11 @@ spec:
       - name: request-duration
         thresholdRange: { max: 500 }</code></pre>
 <h4 id="selection-guide">Selection Guide</h4>
-<table class="rules"><tbody>
-<tr><th>Tool</th><th>Best For</th><th>Granularity</th></tr>
-<tr><th>Argo Rollouts</th><th>K8s-native canary/blue-green, manual or metric-driven</th><th>Traffic weight steps</th></tr>
-<tr><th>Flagger</th><th>Fully automated analysis + promote/rollback</th><th>Metric-driven auto</th></tr>
-<tr><th>Feature flags</th><th>Code-level, user-segment targeting</th><th>Per-user/segment</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Best For</th><th>Granularity</th></tr></thead><tbody>
+<tr><td>Argo Rollouts</td><td>K8s-native canary/blue-green, manual or metric-driven</td><td>Traffic weight steps</td></tr>
+<tr><td>Flagger</td><td>Fully automated analysis + promote/rollback</td><td>Metric-driven auto</td></tr>
+<tr><td>Feature flags</td><td>Code-level, user-segment targeting</td><td>Per-user/segment</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="4-rollback-db-migration">§4 Rollback &amp; DB Migration</h3>
@@ -292,24 +292,24 @@ spec:
 Phase 2: Backfill old data → verify
 Phase 3: Deploy code that reads new column only
 Phase 4: Drop old column</code></pre>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Forward-only</th><th>Never write <code>down()</code> migrations; use expand-contract</th></tr>
-<tr><th>Backward-compatible</th><th>New code must work with old schema during rollout</th></tr>
-<tr><th>Rollback plan</th><th>Document per-service: what to rollback, how, who</th></tr>
-<tr><th>Time budget</th><th>Every deploy rollback-capable within 5 minutes</th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Forward-only</td><td>Never write <code>down()</code> migrations; use expand-contract</td></tr>
+<tr><td>Backward-compatible</td><td>New code must work with old schema during rollout</td></tr>
+<tr><td>Rollback plan</td><td>Document per-service: what to rollback, how, who</td></tr>
+<tr><td>Time budget</td><td>Every deploy rollback-capable within 5 minutes</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="5-anti-patterns">§5 Anti-Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
-<tr><th>Mutable tag deploy</th><th>Can&#x27;t reproduce; ArgoCD drift</th><th>Digest-based promotion</th></tr>
-<tr><th><code>kubectl apply</code> from CI</th><th>No audit trail, manual drift</th><th>GitOps (ArgoCD)</th></tr>
-<tr><th>Manual deployment</th><th>Human error, no rollback path</th><th>Automated pipeline</th></tr>
-<tr><th>No prod approval</th><th>Unreviewed changes hit users</th><th>Environment protection</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>down()</code> migrations</th><th>Rollback breaks forward-deployed code</th><th>Expand-contract</th></tr>
-<tr><th>Deploy without smoke test</th><th>Silent failures</th><th>Post-deploy smoke in pipeline</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Why</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Mutable tag deploy</td><td>Can&#x27;t reproduce; ArgoCD drift</td><td>Digest-based promotion</td></tr>
+<tr><td><code>kubectl apply</code> from CI</td><td>No audit trail, manual drift</td><td>GitOps (ArgoCD)</td></tr>
+<tr><td>Manual deployment</td><td>Human error, no rollback path</td><td>Automated pipeline</td></tr>
+<tr><td>No prod approval</td><td>Unreviewed changes hit users</td><td>Environment protection</td></tr>
+<tr><td><code>down()</code> migrations</td><td>Rollback breaks forward-deployed code</td><td>Expand-contract</td></tr>
+<table class="rules">
+<tr><td>Deploy without smoke test</td><td>Silent failures</td><td>Post-deploy smoke in pipeline</td></tr>
 </tbody></table>
   </div>
 </section>

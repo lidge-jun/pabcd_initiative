@@ -117,11 +117,11 @@
 <li>Naming: <code>{domain}.{entity}.{event}</code> (e.g., <code>commerce.orders.created</code>)</li>
 </ul>
 <h4 id="delivery-semantics">Delivery Semantics</h4>
-<table class="rules"><tbody>
-<tr><th>Semantic</th><th>Config</th><th>Use Case</th></tr>
-<tr><th>At-most-once</th><th><code>acks=0</code></th><th>Metrics, logs (loss acceptable)</th></tr>
-<tr><th>At-least-once</th><th><code>acks=all</code> + idempotent consumer</th><th>Default for most pipelines</th></tr>
-<tr><th>Exactly-once</th><th><code>enable.idempotence=true</code> + transactional API</th><th>Financial, billing, inventory</th></tr>
+<table class="rules">
+<thead><tr><th>Semantic</th><th>Config</th><th>Use Case</th></tr></thead><tbody>
+<tr><td>At-most-once</td><td><code>acks=0</code></td><td>Metrics, logs (loss acceptable)</td></tr>
+<tr><td>At-least-once</td><td><code>acks=all</code> + idempotent consumer</td><td>Default for most pipelines</td></tr>
+<tr><td>Exactly-once</td><td><code>enable.idempotence=true</code> + transactional API</td><td>Financial, billing, inventory</td></tr>
 </tbody></table>
 <h4 id="producer-tuning">Producer Tuning</h4>
 <ul>
@@ -147,20 +147,20 @@
 </ul>
 <p>---</p>
 <h3 id="stream-processing-selection">Stream Processing Selection</h3>
-<table class="rules"><tbody>
-<tr><th>Need</th><th>Choose</th></tr>
-<tr><th>Ultra-low latency (&lt;100ms) + complex state</th><th>Apache Flink</th></tr>
-<tr><th>Existing Spark infrastructure + can tolerate &gt;1s</th><th>Spark Structured Streaming</th></tr>
-<tr><th>Simple transforms, data stays in Kafka</th><th>Kafka Streams (no extra cluster)</th></tr>
-<tr><th>Latency &gt;1min acceptable</th><th>Batch with frequent scheduling</th></tr>
+<table class="rules">
+<thead><tr><th>Need</th><th>Choose</th></tr></thead><tbody>
+<tr><td>Ultra-low latency (&lt;100ms) + complex state</td><td>Apache Flink</td></tr>
+<tr><td>Existing Spark infrastructure + can tolerate &gt;1s</td><td>Spark Structured Streaming</td></tr>
+<tr><td>Simple transforms, data stays in Kafka</td><td>Kafka Streams (no extra cluster)</td></tr>
+<tr><td>Latency &gt;1min acceptable</td><td>Batch with frequent scheduling</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="windowing-patterns">Windowing Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Window Type</th><th>Use Case</th><th>Example</th></tr>
-<tr><th><strong>Tumbling</strong></th><th>Fixed, non-overlapping intervals</th><th>1-minute aggregation buckets</th></tr>
-<tr><th><strong>Sliding</strong></th><th>Overlapping intervals</th><th>5-min window sliding every 1 min</th></tr>
-<tr><th><strong>Session</strong></th><th>Activity-based, gap-defined</th><th>User session grouped by inactivity gap</th></tr>
+<table class="rules">
+<thead><tr><th>Window Type</th><th>Use Case</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Tumbling</strong></td><td>Fixed, non-overlapping intervals</td><td>1-minute aggregation buckets</td></tr>
+<tr><td><strong>Sliding</strong></td><td>Overlapping intervals</td><td>5-min window sliding every 1 min</td></tr>
+<tr><td><strong>Session</strong></td><td>Activity-based, gap-defined</td><td>User session grouped by inactivity gap</td></tr>
 </tbody></table>
 <p>Handle <strong>late data</strong> with watermarks: define maximum acceptable lateness, drop or route late events to dead-letter.</p>
 <p>---</p>

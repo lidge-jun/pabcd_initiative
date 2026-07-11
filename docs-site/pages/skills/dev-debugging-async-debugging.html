@@ -119,14 +119,13 @@
 <li>Check: are two operations reading/writing shared state without coordination?</li>
 </ol>
 <p><strong>Fix Patterns</strong>:</p>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>When to Use</th></tr>
-<tr><th>Mutex / Lock</th><th>Single writer, exclusive access to shared state</th></tr>
-<tr><th>Queue serialization</th><th>Operations must execute in order (use a job queue)</th></tr>
-<tr><th>Optimistic locking</th><th>DB: add version column, reject stale writes</th></tr>
-<tr><th>Atomic operations</th><th>Simple counters/flags (e.g., <code>INCR</code> in Redis)</th></tr>
-<table class="rules"><tbody>
-<tr><th>Compare-and-swap</th><th>Lock-free update: read → compute → write-if-unchanged</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>When to Use</th></tr></thead><tbody>
+<tr><td>Mutex / Lock</td><td>Single writer, exclusive access to shared state</td></tr>
+<tr><td>Queue serialization</td><td>Operations must execute in order (use a job queue)</td></tr>
+<tr><td>Optimistic locking</td><td>DB: add version column, reject stale writes</td></tr>
+<tr><td>Atomic operations</td><td>Simple counters/flags (e.g., <code>INCR</code> in Redis)</td></tr>
+<tr><td>Compare-and-swap</td><td>Lock-free update: read → compute → write-if-unchanged</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="deadlocks">Deadlocks</h3>
@@ -140,12 +139,12 @@
 <li>Database: <code>SELECT * FROM pg_locks WHERE NOT granted;</code> (PostgreSQL)</li>
 </ol>
 <p><strong>Fix Patterns</strong>:</p>
-<table class="rules"><tbody>
-<tr><th>Fix</th><th>Description</th></tr>
-<tr><th>Lock ordering</th><th>Always acquire locks in the same global order (alphabetical, by ID)</th></tr>
-<tr><th>Timeout + retry</th><th>Add timeout to lock acquisition; retry with backoff</th></tr>
-<tr><th>Lock-free design</th><th>Replace locks with message passing or event sourcing</th></tr>
-<tr><th>Reduce lock scope</th><th>Hold locks for the minimum critical section only</th></tr>
+<table class="rules">
+<thead><tr><th>Fix</th><th>Description</th></tr></thead><tbody>
+<tr><td>Lock ordering</td><td>Always acquire locks in the same global order (alphabetical, by ID)</td></tr>
+<tr><td>Timeout + retry</td><td>Add timeout to lock acquisition; retry with backoff</td></tr>
+<tr><td>Lock-free design</td><td>Replace locks with message passing or event sourcing</td></tr>
+<tr><td>Reduce lock scope</td><td>Hold locks for the minimum critical section only</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="event-loop-blocking">Event Loop Blocking</h3>
@@ -159,12 +158,12 @@
 <li>Check for: <code>JSON.parse</code> on large payloads, <code>fs.readFileSync</code>, crypto operations, large loops</li>
 </ol>
 <p><strong>Fix Patterns</strong>:</p>
-<table class="rules"><tbody>
-<tr><th>Fix</th><th>Description</th></tr>
-<tr><th>Worker threads</th><th>Offload CPU-bound work to <code>worker_threads</code></th></tr>
-<tr><th>Chunk work</th><th>Break large loops into batches with <code>setImmediate</code> between</th></tr>
-<tr><th>Stream processing</th><th>Replace <code>readFileSync</code> / large <code>JSON.parse</code> with streaming</th></tr>
-<tr><th>Move to background</th><th>Use job queue (BullMQ, Celery) for expensive operations</th></tr>
+<table class="rules">
+<thead><tr><th>Fix</th><th>Description</th></tr></thead><tbody>
+<tr><td>Worker threads</td><td>Offload CPU-bound work to <code>worker_threads</code></td></tr>
+<tr><td>Chunk work</td><td>Break large loops into batches with <code>setImmediate</code> between</td></tr>
+<tr><td>Stream processing</td><td>Replace <code>readFileSync</code> / large <code>JSON.parse</code> with streaming</td></tr>
+<tr><td>Move to background</td><td>Use job queue (BullMQ, Celery) for expensive operations</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="promise-callback-issues">Promise / Callback Issues</h3>
@@ -186,28 +185,27 @@ catch (err) { throw new Error(&#x27;Processing failed&#x27;, { cause: err }); }<
 <p>propagation impossible to follow. Refactor to async/await with try/catch.</p>
 <p>---</p>
 <h3 id="common-async-anti-patterns">Common Async Anti-Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th><code>await</code> in a loop</th><th>Requests serialize — N items take N x latency</th><th><code>Promise.all()</code> or <code>Promise.allSettled()</code> for independent operations</th></tr>
-<tr><th>Fire-and-forget without error handling</th><th>Silent failures, lost data</th><th>Always attach <code>.catch()</code> or <code>try/catch</code> — log at minimum</th></tr>
-<tr><th>Shared mutable state across async ops</th><th>Intermittent wrong values</th><th>Isolate state per request, or use atomic operations</th></tr>
-<tr><th>Missing <code>await</code> on async function</th><th>Returns Promise instead of value, downstream TypeError</th><th>Lint rule: <code>require-await</code>, check return types</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>setTimeout</code> for sequencing</th><th>Brittle, fails under load</th><th>Use proper coordination: events, queues, or await</th></tr>
-<tr><th>Catching and swallowing errors</th><th>Bug disappears but root cause persists</th><th>Catch, log with context, re-throw or handle meaningfully</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>await</code> in a loop</td><td>Requests serialize — N items take N x latency</td><td><code>Promise.all()</code> or <code>Promise.allSettled()</code> for independent operations</td></tr>
+<tr><td>Fire-and-forget without error handling</td><td>Silent failures, lost data</td><td>Always attach <code>.catch()</code> or <code>try/catch</code> — log at minimum</td></tr>
+<tr><td>Shared mutable state across async ops</td><td>Intermittent wrong values</td><td>Isolate state per request, or use atomic operations</td></tr>
+<tr><td>Missing <code>await</code> on async function</td><td>Returns Promise instead of value, downstream TypeError</td><td>Lint rule: <code>require-await</code>, check return types</td></tr>
+<tr><td><code>setTimeout</code> for sequencing</td><td>Brittle, fails under load</td><td>Use proper coordination: events, queues, or await</td></tr>
+<table class="rules">
+<tr><td>Catching and swallowing errors</td><td>Bug disappears but root cause persists</td><td>Catch, log with context, re-throw or handle meaningfully</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="node-js-specific-tools">Node.js Specific Tools</h3>
-<table class="rules"><tbody>
-<tr><th>Tool</th><th>Purpose</th></tr>
-<tr><th><code>async_hooks</code></th><th>Trace async operation lifecycle (init, before, after, destroy). Identify leaked contexts.</th></tr>
-<tr><th><code>wtfnode</code></th><th>Detect what is keeping the process alive (open handles, timers, sockets)</th></tr>
-<tr><th><code>why-is-node-running</code></th><th>Similar to wtfnode — prints active handles preventing exit</th></tr>
-<tr><th><code>clinic.js</code></th><th>Suite: Doctor (event loop), Bubbleprof (async flow), Flame (CPU)</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>--trace-warnings</code></th><th>Shows stack trace for unhandled rejections and deprecation warnings</th></tr>
-<tr><th><code>process._getActiveHandles()</code></th><th>Quick REPL check for open handles (sockets, timers, servers)</th></tr>
-<tr><th><code>node --inspect</code> + Performance tab</th><th>Record async timeline, identify gaps and queuing</th></tr>
+<thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>async_hooks</code></td><td>Trace async operation lifecycle (init, before, after, destroy). Identify leaked contexts.</td></tr>
+<table class="rules">
+<tr><td><code>wtfnode</code></td><td>Detect what is keeping the process alive (open handles, timers, sockets)</td></tr>
+<tr><td><code>why-is-node-running</code></td><td>Similar to wtfnode — prints active handles preventing exit</td></tr>
+<tr><td><code>clinic.js</code></td><td>Suite: Doctor (event loop), Bubbleprof (async flow), Flame (CPU)</td></tr>
+<tr><td><code>--trace-warnings</code></td><td>Shows stack trace for unhandled rejections and deprecation warnings</td></tr>
+<tr><td><code>process._getActiveHandles()</code></td><td>Quick REPL check for open handles (sockets, timers, servers)</td></tr>
+<tr><td><code>node --inspect</code> + Performance tab</td><td>Record async timeline, identify gaps and queuing</td></tr>
 </tbody></table>
   </div>
 </section>

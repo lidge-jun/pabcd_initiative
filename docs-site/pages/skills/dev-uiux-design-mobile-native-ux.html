@@ -112,41 +112,40 @@
 <p><strong>Non-goals</strong>: Framework selection and code patterns (→ <code>dev-frontend/references/stacks/mobile-native.md</code>), push/offline API (→ <code>dev-backend/references/core/mobile-api.md</code>), mobile web UX (→ <code>dev-frontend/references/core/mobile-ux.md</code>)</p>
 <p>---</p>
 <h3 id="1-platform-ux-conventions">§1 Platform UX Conventions</h3>
-<table class="rules"><tbody>
-<tr><th>Convention</th><th>iOS (HIG)</th><th>Android (Material 3)</th><th>Cross-Platform Guidance</th></tr>
-<tr><th><strong>Navigation</strong></th><th>Tab bar (bottom), back via swipe-right</th><th>Bottom nav bar, back via system gesture/button</th><th>Use platform-native nav; don&#x27;t force iOS tabs on Android or vice versa</th></tr>
-<tr><th><strong>Primary action</strong></th><th>Right side of nav bar or prominent button</th><th>FAB (56dp) or top app bar action</th><th>Respect platform placement; FAB on Android, bar button on iOS</th></tr>
-<tr><th><strong>Destructive confirm</strong></th><th>Action sheet from bottom</th><th>Dialog (centered)</th><th>Use platform-native confirmation pattern</th></tr>
-<tr><th><strong>Pull to refresh</strong></th><th>Native <code>UIRefreshControl</code> spinner</th><th><code>SwipeRefresh</code> circular indicator</th><th>Use platform-native indicator; don&#x27;t custom-animate</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Settings</strong></th><th>System Settings deep link for permissions</th><th>In-app settings screen</th><th>iOS: link to Settings app for system permissions; Android: handle in-app</th></tr>
-<tr><th><strong>Typography</strong></th><th>SF Pro (system), Dynamic Type support mandatory</th><th>Roboto (system), <code>sp</code> units for accessibility scaling</th><th>Always use system font; support dynamic/accessibility text sizing</th></tr>
-<tr><th><strong>Haptics</strong></th><th><code>UIImpactFeedbackGenerator</code> (light/medium/heavy)</th><th><code>HapticFeedbackConstants</code> (confirm/reject/long press)</th><th>Map semantic haptics to platform API; never skip on destructive actions</th></tr>
+<table class="rules">
+<thead><tr><th>Convention</th><th>iOS (HIG)</th><th>Android (Material 3)</th><th>Cross-Platform Guidance</th></tr></thead><tbody>
+<tr><td><strong>Navigation</strong></td><td>Tab bar (bottom), back via swipe-right</td><td>Bottom nav bar, back via system gesture/button</td><td>Use platform-native nav; don&#x27;t force iOS tabs on Android or vice versa</td></tr>
+<tr><td><strong>Primary action</strong></td><td>Right side of nav bar or prominent button</td><td>FAB (56dp) or top app bar action</td><td>Respect platform placement; FAB on Android, bar button on iOS</td></tr>
+<tr><td><strong>Destructive confirm</strong></td><td>Action sheet from bottom</td><td>Dialog (centered)</td><td>Use platform-native confirmation pattern</td></tr>
+<tr><td><strong>Pull to refresh</strong></td><td>Native <code>UIRefreshControl</code> spinner</td><td><code>SwipeRefresh</code> circular indicator</td><td>Use platform-native indicator; don&#x27;t custom-animate</td></tr>
+<tr><td><strong>Settings</strong></td><td>System Settings deep link for permissions</td><td>In-app settings screen</td><td>iOS: link to Settings app for system permissions; Android: handle in-app</td></tr>
+<table class="rules">
+<tr><td><strong>Typography</strong></td><td>SF Pro (system), Dynamic Type support mandatory</td><td>Roboto (system), <code>sp</code> units for accessibility scaling</td><td>Always use system font; support dynamic/accessibility text sizing</td></tr>
+<tr><td><strong>Haptics</strong></td><td><code>UIImpactFeedbackGenerator</code> (light/medium/heavy)</td><td><code>HapticFeedbackConstants</code> (confirm/reject/long press)</td><td>Map semantic haptics to platform API; never skip on destructive actions</td></tr>
 </tbody></table>
 <h4 id="platform-detection-decision">Platform detection decision</h4>
-<table class="rules"><tbody>
-<tr><th>Approach</th><th>When</th><th>Risk</th></tr>
-<tr><th>Single UI, platform-adaptive widgets</th><th>MVP, small team, content-heavy apps</th><th>May feel &quot;off&quot; to power users</th></tr>
-<tr><th>Platform-specific UI shells, shared logic</th><th>Production apps, platform-critical UX</th><th>Higher maintenance, better native feel</th></tr>
-<tr><th>Fully native per platform</th><th>Finance, health, OS-integrated apps</th><th>2x effort, best UX</th></tr>
+<thead><tr><th>Approach</th><th>When</th><th>Risk</th></tr></thead><tbody>
+<tr><td>Single UI, platform-adaptive widgets</td><td>MVP, small team, content-heavy apps</td><td>May feel &quot;off&quot; to power users</td></tr>
+<table class="rules">
+<tr><td>Platform-specific UI shells, shared logic</td><td>Production apps, platform-critical UX</td><td>Higher maintenance, better native feel</td></tr>
+<tr><td>Fully native per platform</td><td>Finance, health, OS-integrated apps</td><td>2x effort, best UX</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="2-native-gestures">§2 Native Gestures</h3>
-<table class="rules"><tbody>
-<tr><th>Gesture</th><th>iOS</th><th>Android</th><th>Usage</th></tr>
-<tr><th>Swipe-to-dismiss</th><th><code>interactiveDismissTransition</code> / sheet detent</th><th><code>predictiveBackGesture</code> (Android 14+)</th><th>Modal/detail screens; always provide alternative close button</th></tr>
-<tr><th>Long press</th><th><code>UIContextMenuInteraction</code> (peek/pop)</th><th><code>onLongClickListener</code> → context menu</th><th>Secondary actions; discoverable via visible menu icon</th></tr>
-<tr><th>Pinch zoom</th><th><code>UIPinchGestureRecognizer</code></th><th><code>ScaleGestureDetector</code></th><th>Images, maps; show zoom controls for accessibility</th></tr>
-<tr><th>Edge swipe</th><th>System back gesture (left edge)</th><th>System back (both edges on gesture nav)</th><th>Never override system back; use <code>popGesture</code> only within app nav</th></tr>
-<table class="rules"><tbody>
-<tr><th>Pull down</th><th>Refresh (<code>UIRefreshControl</code>)</th><th>Notification shade (system)</th><th>iOS: pull-to-refresh is standard; Android: avoid pull-to-refresh conflict with notification shade</th></tr>
+<thead><tr><th>Gesture</th><th>iOS</th><th>Android</th><th>Usage</th></tr></thead><tbody>
+<table class="rules">
+<tr><td>Swipe-to-dismiss</td><td><code>interactiveDismissTransition</code> / sheet detent</td><td><code>predictiveBackGesture</code> (Android 14+)</td><td>Modal/detail screens; always provide alternative close button</td></tr>
+<tr><td>Long press</td><td><code>UIContextMenuInteraction</code> (peek/pop)</td><td><code>onLongClickListener</code> → context menu</td><td>Secondary actions; discoverable via visible menu icon</td></tr>
+<tr><td>Pinch zoom</td><td><code>UIPinchGestureRecognizer</code></td><td><code>ScaleGestureDetector</code></td><td>Images, maps; show zoom controls for accessibility</td></tr>
+<tr><td>Edge swipe</td><td>System back gesture (left edge)</td><td>System back (both edges on gesture nav)</td><td>Never override system back; use <code>popGesture</code> only within app nav</td></tr>
+<tr><td>Pull down</td><td>Refresh (<code>UIRefreshControl</code>)</td><td>Notification shade (system)</td><td>iOS: pull-to-refresh is standard; Android: avoid pull-to-refresh conflict with notification shade</td></tr>
 </tbody></table>
 <h4 id="gesture-conflict-resolution">Gesture conflict resolution</h4>
-<tr><th>Conflict</th><th>Resolution</th></tr>
-<tr><th>Horizontal swipe (carousel) vs edge-back</th><th>Inset carousel 16dp from edges; let edge gesture pass through</th></tr>
-<table class="rules"><tbody>
-<tr><th>Pull-to-refresh vs scroll-up</th><th>Trigger refresh only when <code>scrollY === 0</code></th></tr>
-<tr><th>Bottom sheet drag vs list scroll</th><th>Lock sheet drag when inner list is scrollable and <code>scrollY &gt; 0</code></th></tr>
+<table class="rules">
+<thead><tr><th>Conflict</th><th>Resolution</th></tr></thead><tbody>
+<tr><td>Horizontal swipe (carousel) vs edge-back</td><td>Inset carousel 16dp from edges; let edge gesture pass through</td></tr>
+<tr><td>Pull-to-refresh vs scroll-up</td><td>Trigger refresh only when <code>scrollY === 0</code></td></tr>
+<tr><td>Bottom sheet drag vs list scroll</td><td>Lock sheet drag when inner list is scrollable and <code>scrollY &gt; 0</code></td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="3-deep-linking">§3 Deep Linking</h3>
@@ -171,19 +170,19 @@
   }
 }]</code></pre>
 <h4 id="deferred-deep-linking-first-install">Deferred deep linking (first install)</h4>
-<table class="rules"><tbody>
-<tr><th>Method</th><th>Mechanism</th><th>Accuracy</th></tr>
-<tr><th>Clipboard-based</th><th>Copy link → app reads on first launch</th><th>High but requires user consent prompt (iOS 16+)</th></tr>
-<tr><th>Fingerprint matching</th><th>IP + UA + timestamp → match install to click</th><th>~80%, degrades with VPN/carrier NAT</th></tr>
-<tr><th>Platform SDK</th><th>Firebase Dynamic Links (deprecated) → use Branch.io or Adjust</th><th>High, third-party dependency</th></tr>
+<table class="rules">
+<thead><tr><th>Method</th><th>Mechanism</th><th>Accuracy</th></tr></thead><tbody>
+<tr><td>Clipboard-based</td><td>Copy link → app reads on first launch</td><td>High but requires user consent prompt (iOS 16+)</td></tr>
+<tr><td>Fingerprint matching</td><td>IP + UA + timestamp → match install to click</td><td>~80%, degrades with VPN/carrier NAT</td></tr>
+<tr><td>Platform SDK</td><td>Firebase Dynamic Links (deprecated) → use Branch.io or Adjust</td><td>High, third-party dependency</td></tr>
 </tbody></table>
 <h4 id="korean-in-app-browser-fallback">Korean in-app browser fallback</h4>
 <p>카카오톡, 네이버 앱 내 브라우저는 Universal Links/App Links를 무시하는 경우가 많다.</p>
-<table class="rules"><tbody>
-<tr><th>Platform</th><th>Workaround</th></tr>
-<tr><th>KakaoTalk in-app</th><th>Intent scheme (<code>intent://...#Intent;scheme=myapp;package=com.example.app;end</code>) for Android; iOS는 <code>kakaolink://</code> scheme으로 외부 브라우저 유도</th></tr>
-<tr><th>Naver in-app</th><th><code>naversearchapp://</code> intent or JavaScript bridge <code>openExternalBrowser()</code></th></tr>
-<tr><th>General fallback</th><th><code>window.location.href = &quot;myapp://path&quot;</code> → setTimeout → redirect to store</th></tr>
+<table class="rules">
+<thead><tr><th>Platform</th><th>Workaround</th></tr></thead><tbody>
+<tr><td>KakaoTalk in-app</td><td>Intent scheme (<code>intent://...#Intent;scheme=myapp;package=com.example.app;end</code>) for Android; iOS는 <code>kakaolink://</code> scheme으로 외부 브라우저 유도</td></tr>
+<tr><td>Naver in-app</td><td><code>naversearchapp://</code> intent or JavaScript bridge <code>openExternalBrowser()</code></td></tr>
+<tr><td>General fallback</td><td><code>window.location.href = &quot;myapp://path&quot;</code> → setTimeout → redirect to store</td></tr>
 </tbody></table>
 <pre><code>// Universal fallback pattern for Korean in-app browsers
 function openAppOrStore(appUrl, iosStore, androidStore) {
@@ -205,23 +204,22 @@ function openAppOrStore(appUrl, iosStore, androidStore) {
 <p>---</p>
 <h3 id="4-onboarding-permissions">§4 Onboarding &amp; Permissions</h3>
 <h4 id="permission-request-timing">Permission request timing</h4>
-<table class="rules"><tbody>
-<tr><th>Permission</th><th>When to Ask</th><th>Never Ask</th></tr>
-<tr><th>Push notifications</th><th>After first value delivery (e.g., first order placed)</th><th>On app launch before any interaction</th></tr>
-<tr><th>Camera</th><th>When user taps &quot;scan&quot; or &quot;take photo&quot;</th><th>During onboarding</th></tr>
-<tr><th>Location</th><th>When showing map or nearby results</th><th>Before showing why location is needed</th></tr>
-<tr><th>Contacts</th><th>When user taps &quot;invite friends&quot;</th><th>During onboarding</th></tr>
-<table class="rules"><tbody>
-<tr><th>Tracking (ATT)</th><th>After explaining personalized experience benefit</th><th>As the very first screen (iOS rejects)</th></tr>
+<table class="rules">
+<thead><tr><th>Permission</th><th>When to Ask</th><th>Never Ask</th></tr></thead><tbody>
+<tr><td>Push notifications</td><td>After first value delivery (e.g., first order placed)</td><td>On app launch before any interaction</td></tr>
+<tr><td>Camera</td><td>When user taps &quot;scan&quot; or &quot;take photo&quot;</td><td>During onboarding</td></tr>
+<tr><td>Location</td><td>When showing map or nearby results</td><td>Before showing why location is needed</td></tr>
+<tr><td>Contacts</td><td>When user taps &quot;invite friends&quot;</td><td>During onboarding</td></tr>
+<tr><td>Tracking (ATT)</td><td>After explaining personalized experience benefit</td><td>As the very first screen (iOS rejects)</td></tr>
 </tbody></table>
 <h4 id="korean-privacy-compliance">Korean privacy compliance (개인정보보호법)</h4>
-<tr><th>Requirement</th><th>Implementation</th></tr>
-<tr><th>개인정보 수집·이용 동의</th><th>Separate consent checkbox, not bundled with terms of service</th></tr>
-<table class="rules"><tbody>
-<tr><th>마케팅 수신 동의</th><th>Opt-in (not opt-out), separate from service consent</th></tr>
-<tr><th>만 14세 미만</th><th>Legal guardian consent required; age gate before signup</th></tr>
-<tr><th>수집 항목 명시</th><th>List exact fields collected (이름, 이메일, 전화번호) in consent screen</th></tr>
-<tr><th>보유 기간</th><th>State retention period explicitly (&quot;회원 탈퇴 시까지&quot; or specific duration)</th></tr>
+<table class="rules">
+<thead><tr><th>Requirement</th><th>Implementation</th></tr></thead><tbody>
+<tr><td>개인정보 수집·이용 동의</td><td>Separate consent checkbox, not bundled with terms of service</td></tr>
+<tr><td>마케팅 수신 동의</td><td>Opt-in (not opt-out), separate from service consent</td></tr>
+<tr><td>만 14세 미만</td><td>Legal guardian consent required; age gate before signup</td></tr>
+<tr><td>수집 항목 명시</td><td>List exact fields collected (이름, 이메일, 전화번호) in consent screen</td></tr>
+<tr><td>보유 기간</td><td>State retention period explicitly (&quot;회원 탈퇴 시까지&quot; or specific duration)</td></tr>
 </tbody></table>
 <h4 id="consent-screen-pattern">Consent screen pattern</h4>
 <pre><code>┌─────────────────────────────────┐
@@ -236,36 +234,35 @@ function openAppOrStore(appUrl, iosStore, androidStore) {
 <p>---</p>
 <h3 id="5-app-store-ux">§5 App Store UX</h3>
 <h4 id="screenshot-specifications">Screenshot specifications</h4>
-<table class="rules"><tbody>
-<tr><th>Store</th><th>Size (iPhone 16 Pro Max)</th><th>Size (Pixel 9 Pro)</th><th>Count</th></tr>
-<tr><th>App Store</th><th>1320 × 2868 px (6.9&quot;)</th><th>—</th><th>3-10 per locale</th></tr>
-<tr><th>Google Play</th><th>—</th><th>1080 × 2400 px</th><th>2-8 per locale</th></tr>
+<table class="rules">
+<thead><tr><th>Store</th><th>Size (iPhone 16 Pro Max)</th><th>Size (Pixel 9 Pro)</th><th>Count</th></tr></thead><tbody>
+<tr><td>App Store</td><td>1320 × 2868 px (6.9&quot;)</td><td>—</td><td>3-10 per locale</td></tr>
+<tr><td>Google Play</td><td>—</td><td>1080 × 2400 px</td><td>2-8 per locale</td></tr>
 </tbody></table>
-<tr><th>Rule</th><th>Detail</th></tr>
-<table class="rules"><tbody>
-<tr><th>First 2 screenshots</th><th>Must show core value proposition; 80% of users decide without scrolling further</th></tr>
-<tr><th>Text overlay</th><th>Max 5 words per screenshot, 60pt+ font, high contrast</th></tr>
-<tr><th>Locale adaptation</th><th>Korean screenshots for KR store (not English with Korean subtitle)</th></tr>
-<tr><th>Status bar</th><th>Show realistic status bar (time, signal, battery) or crop above it</th></tr>
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>First 2 screenshots</td><td>Must show core value proposition; 80% of users decide without scrolling further</td></tr>
+<table class="rules">
+<tr><td>Text overlay</td><td>Max 5 words per screenshot, 60pt+ font, high contrast</td></tr>
+<tr><td>Locale adaptation</td><td>Korean screenshots for KR store (not English with Korean subtitle)</td></tr>
+<tr><td>Status bar</td><td>Show realistic status bar (time, signal, battery) or crop above it</td></tr>
 </tbody></table>
 <h4 id="app-icon-requirements">App icon requirements</h4>
-<table class="rules"><tbody>
-<tr><th>Platform</th><th>Size</th><th>Shape</th><th>Notes</th></tr>
-<tr><th>iOS</th><th>1024 × 1024 px</th><th>Auto-masked to rounded square</th><th>No transparency; no alpha channel</th></tr>
-<tr><th>Android</th><th>1024 × 1024 px (foreground) + 512 × 512 px (background)</th><th>Adaptive icon (foreground + background layers)</th><th>Safe zone: inner 66% circle for foreground content</th></tr>
-<tr><th>Both</th><th>—</th><th>—</th><th>Test at 29px (notification), 60px (home), 1024px (store)</th></tr>
+<thead><tr><th>Platform</th><th>Size</th><th>Shape</th><th>Notes</th></tr></thead><tbody>
+<table class="rules">
+<tr><td>iOS</td><td>1024 × 1024 px</td><td>Auto-masked to rounded square</td><td>No transparency; no alpha channel</td></tr>
+<tr><td>Android</td><td>1024 × 1024 px (foreground) + 512 × 512 px (background)</td><td>Adaptive icon (foreground + background layers)</td><td>Safe zone: inner 66% circle for foreground content</td></tr>
+<tr><td>Both</td><td>—</td><td>—</td><td>Test at 29px (notification), 60px (home), 1024px (store)</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="6-anti-patterns-pre-flight">§6 Anti-Patterns &amp; Pre-flight</h3>
 <h4 id="anti-patterns">Anti-patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>iOS-style bottom tabs on Android</th><th>Users expect Material bottom nav behavior (no swipe between tabs)</th><th>Use platform-native navigation component</th></tr>
-<tr><th>Custom back button overriding system gesture</th><th>Predictive back animation breaks, user disoriented</th><th>Use system back; add close button only as secondary</th></tr>
-<tr><th>Permission request on first launch</th><th>Low opt-in rate (&lt;30%), user distrust</th><th>Ask at point of need with pre-prompt explaining value</th></tr>
-<tr><th>Alert dialog for everything</th><th>User fatigue, dismissed without reading</th><th>Action sheets (iOS) / bottom sheets (Android) for choices; dialogs only for confirmations</th></tr>
-<table class="rules"><tbody>
-<tr><th>Ignoring Dynamic Type / <code>sp</code> scaling</th><th>Accessibility failure, app store rejection risk</th><th>Test at largest accessibility text size</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>iOS-style bottom tabs on Android</td><td>Users expect Material bottom nav behavior (no swipe between tabs)</td><td>Use platform-native navigation component</td></tr>
+<tr><td>Custom back button overriding system gesture</td><td>Predictive back animation breaks, user disoriented</td><td>Use system back; add close button only as secondary</td></tr>
+<tr><td>Permission request on first launch</td><td>Low opt-in rate (&lt;30%), user distrust</td><td>Ask at point of need with pre-prompt explaining value</td></tr>
+<tr><td>Alert dialog for everything</td><td>User fatigue, dismissed without reading</td><td>Action sheets (iOS) / bottom sheets (Android) for choices; dialogs only for confirmations</td></tr>
+<tr><td>Ignoring Dynamic Type / <code>sp</code> scaling</td><td>Accessibility failure, app store rejection risk</td><td>Test at largest accessibility text size</td></tr>
 </tbody></table>
 <h4 id="pre-flight-checklist">Pre-flight checklist</h4>
 <ul>

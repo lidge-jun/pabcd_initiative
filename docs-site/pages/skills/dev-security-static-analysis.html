@@ -106,18 +106,18 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-security/references/static-analysis.md" target="_blank" rel="noopener">dev-security/references/static-analysis.md</a></p>
 <h2 id="static-analysis-and-security-tooling">Static Analysis and Security Tooling</h2>
 <p>Last reviewed: 2026-07-02</p>
-<p>Security tooling belongs inside the <a href="../../pages/skills/dev.html">dev</a>elopment loop: write code, scan locally, fix findings, scan again, then let CI enforce the same baseline.</p>
+<p>Security tooling belongs inside the development loop: write code, scan locally, fix findings, scan again, then let CI enforce the same baseline.</p>
 <h3 id="tool-matrix">Tool Matrix</h3>
-<table class="rules"><tbody>
-<tr><th>Tool</th><th>Primary Use</th><th>Best For</th></tr>
-<tr><th>Semgrep</th><th>Pattern-based SAST</th><th>Fast feedback and custom secure-coding rules</th></tr>
-<tr><th>CodeQL</th><th>Semantic analysis</th><th>Data-flow issues and GitHub code scanning</th></tr>
-<tr><th><code>eslint-plugin-security</code></th><th>JS and TS lint-time rules</th><th>Eval, regex, child process, object injection warnings</th></tr>
-<tr><th><code>npm audit</code></th><th>Node dependency audit</th><th>Registry-known package vulnerabilities</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>pip-audit</code></th><th>Python dependency audit</th><th>Pinned dependency vulnerability checks</th></tr>
-<tr><th>Bandit</th><th>Python code scanning</th><th>Deserialization, subprocess, weak crypto</th></tr>
-<tr><th>gitleaks</th><th>Secret scanning</th><th>Keys, tokens, passwords in working tree and history</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Primary Use</th><th>Best For</th></tr></thead><tbody>
+<tr><td>Semgrep</td><td>Pattern-based SAST</td><td>Fast feedback and custom secure-coding rules</td></tr>
+<tr><td>CodeQL</td><td>Semantic analysis</td><td>Data-flow issues and GitHub code scanning</td></tr>
+<tr><td><code>eslint-plugin-security</code></td><td>JS and TS lint-time rules</td><td>Eval, regex, child process, object injection warnings</td></tr>
+<tr><td><code>npm audit</code></td><td>Node dependency audit</td><td>Registry-known package vulnerabilities</td></tr>
+<tr><td><code>pip-audit</code></td><td>Python dependency audit</td><td>Pinned dependency vulnerability checks</td></tr>
+<table class="rules">
+<tr><td>Bandit</td><td>Python code scanning</td><td>Deserialization, subprocess, weak crypto</td></tr>
+<tr><td>gitleaks</td><td>Secret scanning</td><td>Keys, tokens, passwords in working tree and history</td></tr>
 </tbody></table>
 <h3 id="semgrep">Semgrep</h3>
 <pre><code>semgrep --config=auto .
@@ -252,11 +252,11 @@ jobs:
 <ul>
 <li>Complement <code>npm audit</code> with <strong>osv-scanner</strong> for cross-ecosystem dependency checks.</li>
 </ul>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Source</th><th>Checked</th></tr>
-<tr><th>semgrep-action deprecated</th><th>https://github.com/returntocorp/semgrep-action</th><th>2026-07-02</th></tr>
-<tr><th>Opengrep fork status/governance</th><th>https://www.opengrep.dev/ ; https://semgrep.dev/docs/faq/comparisons/opengrep</th><th>2026-07-02</th></tr>
-<tr><th>osv-scanner scope</th><th>https://google.github.io/osv-scanner/</th><th>2026-07-02</th></tr>
+<table class="rules">
+<thead><tr><th>Claim</th><th>Source</th><th>Checked</th></tr></thead><tbody>
+<tr><td>semgrep-action deprecated</td><td>https://github.com/returntocorp/semgrep-action</td><td>2026-07-02</td></tr>
+<tr><td>Opengrep fork status/governance</td><td>https://www.opengrep.dev/ ; https://semgrep.dev/docs/faq/comparisons/opengrep</td><td>2026-07-02</td></tr>
+<tr><td>osv-scanner scope</td><td>https://google.github.io/osv-scanner/</td><td>2026-07-02</td></tr>
 </tbody></table>
   </div>
 </section>

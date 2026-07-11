@@ -104,7 +104,7 @@
 <section class="page-body">
   <div class="band-inner">
 <p class="refnote">Source: <a href="../../pages/devlog/260704_catalog_discovery_design.html">devlog/260704_catalog_discovery_design.md</a></p>
-<h2 id="catalog-discovery-mode-design-integration-<a href="../../pages/skills/dev.html">dev</a>log">Catalog Discovery Mode — Design &amp; Integration Devlog</h2>
+<h2 id="catalog-discovery-mode-design-integration-devlog">Catalog Discovery Mode — Design &amp; Integration Devlog</h2>
 <p>Date: 2026-07-04</p>
 <p>Status: Design complete, implementation pending</p>
 <p>Participants: Boss (synthesis), Frontend (design axis), Backend (catalog schema), Docs (integration map)</p>
@@ -113,11 +113,11 @@
 <p>기존 Interview(Clarification Mode)에 <strong>Catalog Discovery Mode</strong>를 추가한다.</p>
 <p>별도 제품이 아니라 Interview의 서브모드. 영어명 <strong>Guided Solution Discovery</strong>.</p>
 <h4 id="3-mode-interview-structure">3-Mode Interview Structure</h4>
-<table class="rules"><tbody>
-<tr><th>Mode</th><th>When</th><th>What it does</th></tr>
-<tr><th><strong>Clarification</strong> (기존)</th><th>User already knows roughly what they want</th><th>Structure goals/constraints/success criteria</th></tr>
-<tr><th><strong>Catalog Discovery</strong> (신규)</th><th>User doesn&#x27;t know the option space</th><th>Present ontology of choices FIRST, then ask</th></tr>
-<tr><th><strong>Configurator</strong> (신규)</th><th>After selections are made</th><th>Compile into PRD → feature list → MVP scope → PABCD plan</th></tr>
+<table class="rules">
+<thead><tr><th>Mode</th><th>When</th><th>What it does</th></tr></thead><tbody>
+<tr><td><strong>Clarification</strong> (기존)</td><td>User already knows roughly what they want</td><td>Structure goals/constraints/success criteria</td></tr>
+<tr><td><strong>Catalog Discovery</strong> (신규)</td><td>User doesn&#x27;t know the option space</td><td>Present ontology of choices FIRST, then ask</td></tr>
+<tr><td><strong>Configurator</strong> (신규)</td><td>After selections are made</td><td>Compile into PRD → feature list → MVP scope → PABCD plan</td></tr>
 </tbody></table>
 <h4 id="entry-heuristic">Entry heuristic</h4>
 <ul>
@@ -129,35 +129,34 @@
 <h3 id="2-design-axis">2. Design Axis — 제일 중요한 축</h3>
 <h4 id="2-1">2.1 디자인을 초보에게 설명하는 방법</h4>
 <p>비유 기반 5가지 개념으로 풀어준다 (technical term을 쓰지 않음):</p>
-<table class="rules"><tbody>
-<tr><th>Concept</th><th>Korean</th><th>Analogy</th></tr>
-<tr><th>Visual Soul (Mood)</th><th>분위기</th><th>카페 vs 유리 사무실 vs 럭셔리 쇼룸의 첫인상</th></tr>
-<tr><th>Information Space (Density)</th><th>화면 밀도</th><th>미술관(여유) vs 조종석(빽빽)</th></tr>
-<tr><th>Light &amp; Shadow</th><th>명암 대비</th><th>종이책(라이트) vs 네온사인(다크)</th></tr>
-<tr><th>Form &amp; Border</th><th>모양</th><th>설계도(각진) vs 말랑한 젤리(둥근)</th></tr>
-<table class="rules"><tbody>
-<tr><th>Typography Vibe</th><th>글씨체</th><th>붓글씨(명조) vs 깔끔한 고딕</th></tr>
+<table class="rules">
+<thead><tr><th>Concept</th><th>Korean</th><th>Analogy</th></tr></thead><tbody>
+<tr><td>Visual Soul (Mood)</td><td>분위기</td><td>카페 vs 유리 사무실 vs 럭셔리 쇼룸의 첫인상</td></tr>
+<tr><td>Information Space (Density)</td><td>화면 밀도</td><td>미술관(여유) vs 조종석(빽빽)</td></tr>
+<tr><td>Light &amp; Shadow</td><td>명암 대비</td><td>종이책(라이트) vs 네온사인(다크)</td></tr>
+<tr><td>Form &amp; Border</td><td>모양</td><td>설계도(각진) vs 말랑한 젤리(둥근)</td></tr>
+<tr><td>Typography Vibe</td><td>글씨체</td><td>붓글씨(명조) vs 깔끔한 고딕</td></tr>
 </tbody></table>
 <h4 id="2-2-4">2.2 디자인 방향 잡는 방법론 — 4가지 비교 후 결론</h4>
-<tr><th>Approach</th><th>Strength</th><th>초보 첫 단계로서 강/약</th></tr>
-<tr><th><strong>Product-Personality Selection</strong></th><th>검증된 디자인 DNA를 패키지로 선택, 일관성 즉시 확보</th><th><strong>★ 최강</strong> — 브랜드 아이덴티티를 매개로 비디자이너도 쉽게 결정</th></tr>
-<table class="rules"><tbody>
-<tr><th>Reference-First (기존 제품 보여주기)</th><th>직관적 시각화</th><th>약함 — 부가 기능까지 복사하려 하거나 선택 장애 유발</th></tr>
-<tr><th>Mood/Adjective→Token 매핑</th><th>감정어를 토큰으로 즉시 투영</th><th>약함 — &quot;깔끔하게&quot; 같은 형용사의 주관적 해석 편차 큼</th></tr>
-<tr><th>Progressive Design Read</th><th>세밀한 다이얼 조율</th><th>약함 — 중간 수준 디자인 지식이 선행되어야 함</th></tr>
+<table class="rules">
+<thead><tr><th>Approach</th><th>Strength</th><th>초보 첫 단계로서 강/약</th></tr></thead><tbody>
+<tr><td><strong>Product-Personality Selection</strong></td><td>검증된 디자인 DNA를 패키지로 선택, 일관성 즉시 확보</td><td><strong>★ 최강</strong> — 브랜드 아이덴티티를 매개로 비디자이너도 쉽게 결정</td></tr>
+<tr><td>Reference-First (기존 제품 보여주기)</td><td>직관적 시각화</td><td>약함 — 부가 기능까지 복사하려 하거나 선택 장애 유발</td></tr>
+<tr><td>Mood/Adjective→Token 매핑</td><td>감정어를 토큰으로 즉시 투영</td><td>약함 — &quot;깔끔하게&quot; 같은 형용사의 주관적 해석 편차 큼</td></tr>
+<tr><td>Progressive Design Read</td><td>세밀한 다이얼 조율</td><td>약함 — 중간 수준 디자인 지식이 선행되어야 함</td></tr>
 </tbody></table>
 <p><strong>결론: Product-Personality Selection이 Step 1.</strong></p>
 <p>이후 순서: Mood/Adjective로 세부 감성 조율 → Reference-First로 컴포넌트 레이아웃 앵커 → Design Read로 프로덕션급 밀도/모션 확정.</p>
 <h4 id="2-3-design-axis-6">2.3 Design Axis 카탈로그 엔트리 (6개)</h4>
-<table class="rules"><tbody>
-<tr><th>id</th><th>한국어 라벨</th><th>teach text</th><th>예시 제품</th><th>토큰 분기</th></tr>
-<tr><th><code>mood</code></th><th>분위기</th><th>서비스의 첫인상과 감성적 온도 결정</th><th>Toss, Notion</th><th>친근함 vs 세련됨 색상 스키마</th></tr>
-<tr><th><code>lightness</code></th><th>밝기</th><th>배경색 톤으로 피로도/몰입감 좌우</th><th>Notion, Linear</th><th>bg-white vs bg-gray-950</th></tr>
-<tr><th><code>density</code></th><th>정보 밀도</th><th>한 화면의 정보량과 여백 간격 조절</th><th>GitHub, Apple</th><th>D4-D8(빽빽) vs D1-D3(여유)</th></tr>
-<tr><th><code>shape</code></th><th>모서리 곡률</th><th>버튼/카드 둥글기로 친근 vs 단단함</th><th>Toss, Vercel</th><th>rounded-2xl vs rounded-none</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>typography</code></th><th>글꼴 스타일</th><th>서체로 신뢰도/가독성 결정</th><th>Notion, Stripe</th><th>Pretendard vs Satoshi/Serif</th></tr>
-<tr><th><code>motion</code></th><th>인터랙션 감도</th><th>전환 시 움직임의 속도/탄성</th><th>Arc, Apple</th><th>spring vs instant</th></tr>
+<table class="rules">
+<thead><tr><th>id</th><th>한국어 라벨</th><th>teach text</th><th>예시 제품</th><th>토큰 분기</th></tr></thead><tbody>
+<tr><td><code>mood</code></td><td>분위기</td><td>서비스의 첫인상과 감성적 온도 결정</td><td>Toss, Notion</td><td>친근함 vs 세련됨 색상 스키마</td></tr>
+<tr><td><code>lightness</code></td><td>밝기</td><td>배경색 톤으로 피로도/몰입감 좌우</td><td>Notion, Linear</td><td>bg-white vs bg-gray-950</td></tr>
+<tr><td><code>density</code></td><td>정보 밀도</td><td>한 화면의 정보량과 여백 간격 조절</td><td>GitHub, Apple</td><td>D4-D8(빽빽) vs D1-D3(여유)</td></tr>
+<tr><td><code>shape</code></td><td>모서리 곡률</td><td>버튼/카드 둥글기로 친근 vs 단단함</td><td>Toss, Vercel</td><td>rounded-2xl vs rounded-none</td></tr>
+<tr><td><code>typography</code></td><td>글꼴 스타일</td><td>서체로 신뢰도/가독성 결정</td><td>Notion, Stripe</td><td>Pretendard vs Satoshi/Serif</td></tr>
+<table class="rules">
+<tr><td><code>motion</code></td><td>인터랙션 감도</td><td>전환 시 움직임의 속도/탄성</td><td>Arc, Apple</td><td>spring vs instant</td></tr>
 </tbody></table>
 <h4 id="2-4-4">2.4 사주 앱 페르소나 샘플 질문 플로우 (4문)</h4>
 <ol>
@@ -187,15 +186,15 @@
   followup_questions: [&quot;q_pii_scope&quot;]
   auto_activate_rules: [&quot;생년월일&quot;, &quot;birth&quot;, &quot;사주&quot;]</code></pre>
 <h4 id="3-2-axis-6">3.2 Axis 목록 (6축)</h4>
-<table class="rules"><tbody>
-<tr><th>Axis</th><th>Scope</th></tr>
-<tr><th><code>design</code></th><th>분위기, 밀도, 밝기, 곡률, 글꼴, 모션</th></tr>
-<tr><th><code>security</code></th><th>인증, 인가, 개인정보, 지적재산, trust boundary</th></tr>
-<tr><th><code>data</code></th><th>저장 타입, 캐싱, 잔류, 보존 정책</th></tr>
-<tr><th><code>ops</code></th><th>관리자 리뷰, 승인 플로우, 스케줄 작업, 모니터링</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>feature</code></th><th>결제, 알림, 워크플로우, 파일 업로드, 채팅</th></tr>
-<tr><th><code>cost</code></th><th>인프라 복잡도, 서포트 부담, 컴플라이언스 비용</th></tr>
+<table class="rules">
+<thead><tr><th>Axis</th><th>Scope</th></tr></thead><tbody>
+<tr><td><code>design</code></td><td>분위기, 밀도, 밝기, 곡률, 글꼴, 모션</td></tr>
+<tr><td><code>security</code></td><td>인증, 인가, 개인정보, 지적재산, trust boundary</td></tr>
+<tr><td><code>data</code></td><td>저장 타입, 캐싱, 잔류, 보존 정책</td></tr>
+<tr><td><code>ops</code></td><td>관리자 리뷰, 승인 플로우, 스케줄 작업, 모니터링</td></tr>
+<tr><td><code>feature</code></td><td>결제, 알림, 워크플로우, 파일 업로드, 채팅</td></tr>
+<table class="rules">
+<tr><td><code>cost</code></td><td>인프라 복잡도, 서포트 부담, 컴플라이언스 비용</td></tr>
 </tbody></table>
 <h4 id="3-3-configurator">3.3 Configurator 출력물</h4>
 <p>선택된 엔트리 + <code>implies[]</code> 체인 해소 → 다음 산출물 생성:</p>
@@ -210,11 +209,11 @@
 <p>i18n은 YAML 내 인라인 유지 (자기완결).</p>
 <p>---</p>
 <h3 id="4">4. 다운스트림 적용 포인트</h3>
-<table class="rules"><tbody>
-<tr><th>Repo</th><th>Interview 현재 위치</th><th>통합 지점</th><th>Effort</th><th>Risk</th></tr>
-<tr><th><strong>cli-jaw</strong></th><th><code>src/orchestrator/state-machine.ts</code> (I-state) + <code>src/prompt/templates/orchestration.md</code></th><th>FSM I-state에 sub-mode 추가 + <code>discovery-catalog.json</code> 로딩</th><th>M</th><th>M</th></tr>
-<tr><th><strong>jawcode</strong></th><th><code>packages/.../jwc/skills/jaw-interview/SKILL.md</code> + auto-research-greenfield.md</th><th>SKILL.md에 Phase 0.5 Discovery 모드 추가 + references/ 카탈로그</th><th>M/L</th><th>M</th></tr>
-<tr><th><strong>opencodex</strong></th><th>Interview 표면 없음 (API proxy + dashboard)</th><th><code>gui/src/</code>에 대시보드 위자드 추가 + REST endpoint</th><th>S(GUI만)</th><th>L</th></tr>
+<table class="rules">
+<thead><tr><th>Repo</th><th>Interview 현재 위치</th><th>통합 지점</th><th>Effort</th><th>Risk</th></tr></thead><tbody>
+<tr><td><strong>cli-jaw</strong></td><td><code>src/orchestrator/state-machine.ts</code> (I-state) + <code>src/prompt/templates/orchestration.md</code></td><td>FSM I-state에 sub-mode 추가 + <code>discovery-catalog.json</code> 로딩</td><td>M</td><td>M</td></tr>
+<tr><td><strong>jawcode</strong></td><td><code>packages/.../jwc/skills/jaw-interview/SKILL.md</code> + auto-research-greenfield.md</td><td>SKILL.md에 Phase 0.5 Discovery 모드 추가 + references/ 카탈로그</td><td>M/L</td><td>M</td></tr>
+<tr><td><strong>opencodex</strong></td><td>Interview 표면 없음 (API proxy + dashboard)</td><td><code>gui/src/</code>에 대시보드 위자드 추가 + REST endpoint</td><td>S(GUI만)</td><td>L</td></tr>
 </tbody></table>
 <h4 id="">핵심 적응 원칙</h4>
 <ol>

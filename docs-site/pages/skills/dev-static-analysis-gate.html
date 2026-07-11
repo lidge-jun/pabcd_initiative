@@ -108,43 +108,43 @@
 <p>Companion to <code>dev/SKILL.md</code> §7. Read when running the static-analysis part of the</p>
 <p>verification gate or configuring lint/typecheck for a project.</p>
 <h3 id="per-toolchain-gate-commands">Per-Toolchain Gate Commands</h3>
-<table class="rules"><tbody>
-<tr><th>Toolchain</th><th>Command</th><th>Must Pass</th></tr>
-<tr><th>TypeScript</th><th><code>tsc --noEmit</code></th><th>Zero errors</th></tr>
-<tr><th>Python (typed)</th><th><code>mypy .</code> or <code>pyright</code></th><th>Zero errors on changed files</th></tr>
-<tr><th>ESLint / Biome</th><th><code>npx eslint .</code> or <code>npx biome check .</code></th><th>Zero errors</th></tr>
-<tr><th>Go</th><th><code>go vet ./...</code></th><th>Zero issues</th></tr>
-<table class="rules"><tbody>
-<tr><th>Rust</th><th><code>cargo clippy -- -D warnings</code></th><th>Zero warnings</th></tr>
-<tr><th>C#</th><th><code>dotnet build /warnaserror</code></th><th>Zero warnings</th></tr>
+<table class="rules">
+<thead><tr><th>Toolchain</th><th>Command</th><th>Must Pass</th></tr></thead><tbody>
+<tr><td>TypeScript</td><td><code>tsc --noEmit</code></td><td>Zero errors</td></tr>
+<tr><td>Python (typed)</td><td><code>mypy .</code> or <code>pyright</code></td><td>Zero errors on changed files</td></tr>
+<tr><td>ESLint / Biome</td><td><code>npx eslint .</code> or <code>npx biome check .</code></td><td>Zero errors</td></tr>
+<tr><td>Go</td><td><code>go vet ./...</code></td><td>Zero issues</td></tr>
+<tr><td>Rust</td><td><code>cargo clippy -- -D warnings</code></td><td>Zero warnings</td></tr>
+<table class="rules">
+<tr><td>C#</td><td><code>dotnet build /warnaserror</code></td><td>Zero warnings</td></tr>
 </tbody></table>
 <h3 id="per-language-type-annotation-rules">Per-Language Type Annotation Rules</h3>
-<tr><th>Language</th><th>Rule</th></tr>
-<table class="rules"><tbody>
-<tr><th>TypeScript</th><th><code>strict: true</code> in tsconfig. Avoid implicit <code>any</code>; explicit <code>any</code> requires a line comment with justification.</th></tr>
-<tr><th>Python</th><th>Type hints on all function params and returns (<code>def fetch(url: str) -&gt; Response:</code>).</th></tr>
-<tr><th>Go</th><th>Already enforced by compiler — ensure exported types have doc comments.</th></tr>
-<tr><th>C# / Java</th><th>Use nullability annotations (<code>?</code>, <code>@Nullable</code>). Avoid raw <code>Object</code> or <code>dynamic</code>.</th></tr>
-<tr><th>General</th><th>If the language supports a strict/pedantic mode, enable it.</th></tr>
+<thead><tr><th>Language</th><th>Rule</th></tr></thead><tbody>
+<tr><td>TypeScript</td><td><code>strict: true</code> in tsconfig. Avoid implicit <code>any</code>; explicit <code>any</code> requires a line comment with justification.</td></tr>
+<tr><td>Python</td><td>Type hints on all function params and returns (<code>def fetch(url: str) -&gt; Response:</code>).</td></tr>
+<table class="rules">
+<tr><td>Go</td><td>Already enforced by compiler — ensure exported types have doc comments.</td></tr>
+<tr><td>C# / Java</td><td>Use nullability annotations (<code>?</code>, <code>@Nullable</code>). Avoid raw <code>Object</code> or <code>dynamic</code>.</td></tr>
+<tr><td>General</td><td>If the language supports a strict/pedantic mode, enable it.</td></tr>
 </tbody></table>
 <h3 id="common-rule-prose-mapping">Common Rule ↔ Prose Mapping</h3>
-<table class="rules"><tbody>
-<tr><th>Anti-Pattern (prose)</th><th>ESLint / Biome Rule</th></tr>
-<tr><th>Unused variable/import</th><th><code>no-unused-vars</code>, <code>@typescript-eslint/no-unused-vars</code></th></tr>
-<tr><th>Unsafe <code>any</code> type</th><th><code>@typescript-eslint/no-explicit-any</code></th></tr>
-<tr><th>Loose equality (<code>==</code>)</th><th><code>eqeqeq</code></th></tr>
-<tr><th>Circular import</th><th><code>import/no-cycle</code> (ESLint), <code>noBarrelFile</code>/<code>useImportRestrictions</code> (Biome)</th></tr>
-<table class="rules"><tbody>
-<tr><th>Unhandled async</th><th><code>@typescript-eslint/no-floating-promises</code></th></tr>
-<tr><th><code>var</code> usage</th><th><code>no-var</code>, <code>prefer-const</code></th></tr>
-<tr><th>Complex function</th><th><code>complexity</code>, <code>max-depth</code>, <code>max-lines-per-function</code></th></tr>
+<thead><tr><th>Anti-Pattern (prose)</th><th>ESLint / Biome Rule</th></tr></thead><tbody>
+<table class="rules">
+<tr><td>Unused variable/import</td><td><code>no-unused-vars</code>, <code>@typescript-eslint/no-unused-vars</code></td></tr>
+<tr><td>Unsafe <code>any</code> type</td><td><code>@typescript-eslint/no-explicit-any</code></td></tr>
+<tr><td>Loose equality (<code>==</code>)</td><td><code>eqeqeq</code></td></tr>
+<tr><td>Circular import</td><td><code>import/no-cycle</code> (ESLint), <code>noBarrelFile</code>/<code>useImportRestrictions</code> (Biome)</td></tr>
+<tr><td>Unhandled async</td><td><code>@typescript-eslint/no-floating-promises</code></td></tr>
+<tr><td><code>var</code> usage</td><td><code>no-var</code>, <code>prefer-const</code></td></tr>
+<table class="rules">
+<tr><td>Complex function</td><td><code>complexity</code>, <code>max-depth</code>, <code>max-lines-per-function</code></td></tr>
 </tbody></table>
 <p>This table is not exhaustive — the project&#x27;s own config is the canonical rule set.</p>
 <h3 id="sources">Sources</h3>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Source</th><th>Checked</th></tr>
-<tr><th>Biome barrel-file rule exists (<code>noBarrelFile</code>)</th><th>https://biomejs.<a href="../../pages/skills/dev.html">dev</a>/linter/rules/no-barrel-file/</th><th>2026-07-02</th></tr>
-<tr><th>ponytail necessity-gate discipline (DEV-NECESSITY-01 source)</th><th>https://github.com/DietrichGebert/ponytail</th><th>2026-07-02</th></tr>
+<thead><tr><th>Claim</th><th>Source</th><th>Checked</th></tr></thead><tbody>
+<tr><td>Biome barrel-file rule exists (<code>noBarrelFile</code>)</td><td>https://biomejs.dev/linter/rules/no-barrel-file/</td><td>2026-07-02</td></tr>
+<table class="rules">
+<tr><td>ponytail necessity-gate discipline (DEV-NECESSITY-01 source)</td><td>https://github.com/DietrichGebert/ponytail</td><td>2026-07-02</td></tr>
 </tbody></table>
   </div>
 </section>

@@ -103,7 +103,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev.html">dev</a>log/_plan/260704_catalog_discovery/00_spec.md</p>
+<p class="refnote">Source: devlog/_plan/260704_catalog_discovery/00_spec.md</p>
 <h2 id="catalog-discovery-spec-slice-map-design-ux-first">Catalog Discovery — Spec &amp; Slice Map (design/UX-first)</h2>
 <p>Date: 2026-07-04</p>
 <p>Goal: design/UX-first Catalog Discovery interview mode in the canonical PABCD skills.</p>
@@ -129,7 +129,7 @@
 </ul>
 <p>(b) schema-consistency check — every <code>implies</code>/<code>conflicts</code>/<code>derived_from</code> id resolves to a</p>
 <p>real entry; design axis entries exist for all 6 dials; <code>axis_order</code> lists design first,</p>
-<p>(c) prose-consistency — <a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> Interview section references the catalog file and the</p>
+<p>(c) prose-consistency — dev-pabcd Interview section references the catalog file and the</p>
 <p>design-first ordering; (d) saju dry-run doc shows design questions asked before</p>
 <p>security/data questions. Measures: referential integrity + ordering correctness, not just</p>
 <p>&quot;file exists&quot;.</p>
@@ -159,14 +159,14 @@
 <ol>
 <li><strong>Interview prose (skill)</strong>: the catalog_discovery sub-mode explicitly asks design/UX first,</li>
 </ol>
-<p>wired to <a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a> Product-Personality-Selection as the step-1 methodology.</p>
+<p>wired to dev-uiux-design Product-Personality-Selection as the step-1 methodology.</p>
 <h3 id="work-phase-slice-map-one-full-pabcd-pass-each-design-pass-already-done">Work-phase slice map (one full PABCD pass each, design pass already done)</h3>
-<table class="rules"><tbody>
-<tr><th>Phase</th><th>Outcome unit</th><th>Deliverable</th><th>Verifier</th></tr>
-<tr><th><strong>0 (done)</strong></th><th>Design synthesis</th><th><code>devlog/260704_catalog_discovery_design.md</code></th><th>committed (82ab348)</th></tr>
-<tr><th><strong>1</strong></th><th>Versioned catalog exists, design-first</th><th><code>skills/dev-pabcd/references/catalog-discovery.yaml</code></th><th>YAML parse + schema-integrity script</th></tr>
-<tr><th><strong>2</strong></th><th>Interview uses catalog design-first</th><th><code>skills/dev-pabcd/SKILL.md</code> Interview section: catalog_discovery + configurator sub-modes</th><th>prose references catalog + design-first ordering; agent-neutral (no host-CLI)</th></tr>
-<tr><th><strong>3</strong></th><th>Design-first flow proven</th><th><code>devlog/_plan/260704_catalog_discovery/30_saju_dryrun.md</code></th><th>walkthrough shows design Qs before security/data Qs</th></tr>
+<table class="rules">
+<thead><tr><th>Phase</th><th>Outcome unit</th><th>Deliverable</th><th>Verifier</th></tr></thead><tbody>
+<tr><td><strong>0 (done)</strong></td><td>Design synthesis</td><td><code>devlog/260704_catalog_discovery_design.md</code></td><td>committed (82ab348)</td></tr>
+<tr><td><strong>1</strong></td><td>Versioned catalog exists, design-first</td><td><code>skills/dev-pabcd/references/catalog-discovery.yaml</code></td><td>YAML parse + schema-integrity script</td></tr>
+<tr><td><strong>2</strong></td><td>Interview uses catalog design-first</td><td><code>skills/dev-pabcd/SKILL.md</code> Interview section: catalog_discovery + configurator sub-modes</td><td>prose references catalog + design-first ordering; agent-neutral (no host-CLI)</td></tr>
+<tr><td><strong>3</strong></td><td>Design-first flow proven</td><td><code>devlog/_plan/260704_catalog_discovery/30_saju_dryrun.md</code></td><td>walkthrough shows design Qs before security/data Qs</td></tr>
 </tbody></table>
 <p>Phase docs: <code>10_phase1_catalog.md</code>, <code>20_phase2_interview.md</code>, <code>30_saju_dryrun.md</code>.</p>
 <h3 id="terminal-state-honesty">Terminal-state honesty</h3>

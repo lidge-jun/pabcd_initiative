@@ -108,33 +108,32 @@
 <p>Last reviewed: 2026-07-02</p>
 <p>Applies to: npm, PyPI, Bun-to-npm, Homebrew, crates.io, RubyGems, Go modules, GHCR, Docker Hub</p>
 <p>When to read: Package publishing, release auth, downstream distribution, CLI package release</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> package-release guidance</p>
+<p>Canonical owner: dev-devops package-release guidance</p>
 <p>Cross-ref: read <code>../../dev-security/references/supply-chain-sbom.md</code> for SBOM/signing depth.</p>
 <p>---</p>
 <h3 id="1-release-auth-decision-table">§1 Release Auth Decision Table</h3>
 <p>Pick the publish path by ecosystem and artifact type before asking for tokens.</p>
-<table class="rules"><tbody>
-<tr><th>Target</th><th>Default path</th><th>Token fallback</th></tr>
-<tr><th>npm public package</th><th>npm Trusted Publishing/OIDC from GitHub-hosted Actions; use Node 22 and npm 11.5.1+</th><th><code>NPM_TOKEN</code> only when OIDC is unsupported, rejected, or explicitly not configured</th></tr>
-<tr><th>PyPI package</th><th>PyPI Trusted Publisher/OIDC with <code>pypa/gh-action-pypi-publish@release/v1</code></th><th><code>PYPI_TOKEN</code> only when Trusted Publisher is unsupported, rejected, or explicitly not configured</th></tr>
-<tr><th>Bun project publishing to npm</th><th>Install/test/build with Bun; publish public npm packages with <code>npm publish</code> unless Bun OIDC support is proven in current docs</th><th><code>NPM_CONFIG_TOKEN</code> only for explicit <code>bun publish</code> fallback</th></tr>
-<tr><th>Homebrew Formula/Cask</th><th>Downstream channel after canonical upstream release exists</th><th>GitHub/token auth only for tap automation; never replaces upstream provenance</th></tr>
-<table class="rules"><tbody>
-<tr><th>crates.io</th><th>Trusted Publishing/OIDC when configured</th><th>crates.io API token only when trusted publishing is unavailable</th></tr>
-<tr><th>RubyGems</th><th>Trusted Publishing/OIDC with <code>rubygems/release-gem</code> when configured</th><th><code>RUBYGEMS_API_KEY</code> only when trusted publishing is unavailable</th></tr>
-<tr><th>Go modules</th><th>VCS tag release; no central registry publish token</th><th>Host credentials only for creating tags/releases</th></tr>
-<tr><th>GHCR</th><th>GitHub Actions <code>GITHUB_TOKEN</code> with <code>packages: write</code> for repository packages</th><th>PAT only for cross-repo/private cases that <code>GITHUB_TOKEN</code> cannot cover</th></tr>
-<tr><th>Docker Hub</th><th>Docker access token via <code>docker/login-action</code></th><th>No OIDC default for ordinary Docker Hub push; use least-scoped token</th></tr>
+<table class="rules">
+<thead><tr><th>Target</th><th>Default path</th><th>Token fallback</th></tr></thead><tbody>
+<tr><td>npm public package</td><td>npm Trusted Publishing/OIDC from GitHub-hosted Actions; use Node 22 and npm 11.5.1+</td><td><code>NPM_TOKEN</code> only when OIDC is unsupported, rejected, or explicitly not configured</td></tr>
+<tr><td>PyPI package</td><td>PyPI Trusted Publisher/OIDC with <code>pypa/gh-action-pypi-publish@release/v1</code></td><td><code>PYPI_TOKEN</code> only when Trusted Publisher is unsupported, rejected, or explicitly not configured</td></tr>
+<tr><td>Bun project publishing to npm</td><td>Install/test/build with Bun; publish public npm packages with <code>npm publish</code> unless Bun OIDC support is proven in current docs</td><td><code>NPM_CONFIG_TOKEN</code> only for explicit <code>bun publish</code> fallback</td></tr>
+<tr><td>Homebrew Formula/Cask</td><td>Downstream channel after canonical upstream release exists</td><td>GitHub/token auth only for tap automation; never replaces upstream provenance</td></tr>
+<tr><td>crates.io</td><td>Trusted Publishing/OIDC when configured</td><td>crates.io API token only when trusted publishing is unavailable</td></tr>
+<table class="rules">
+<tr><td>RubyGems</td><td>Trusted Publishing/OIDC with <code>rubygems/release-gem</code> when configured</td><td><code>RUBYGEMS_API_KEY</code> only when trusted publishing is unavailable</td></tr>
+<tr><td>Go modules</td><td>VCS tag release; no central registry publish token</td><td>Host credentials only for creating tags/releases</td></tr>
+<tr><td>GHCR</td><td>GitHub Actions <code>GITHUB_TOKEN</code> with <code>packages: write</code> for repository packages</td><td>PAT only for cross-repo/private cases that <code>GITHUB_TOKEN</code> cannot cover</td></tr>
+<tr><td>Docker Hub</td><td>Docker access token via <code>docker/login-action</code></td><td>No OIDC default for ordinary Docker Hub push; use least-scoped token</td></tr>
 </tbody></table>
 <h3 id="2-auth-model-classes">§2 Auth Model Classes</h3>
-<table class="rules"><tbody>
-<tr><th>Class</th><th>Examples</th><th>Rule</th></tr>
-<tr><th>Registry-native trusted publishing</th><th>npm, PyPI, RubyGems, crates.io</th><th>Prefer OIDC/trusted publishing before long-lived tokens</th></tr>
-<tr><th>Cloud IAM federation</th><th>AWS ECR, Google Artifact Registry, Azure Container Registry</th><th>OIDC authenticates to cloud IAM; registry push uses cloud-issued temporary credentials</th></tr>
-<tr><th>Repository-scoped CI token</th><th>GHCR through <code>GITHUB_TOKEN</code></th><th>Prefer built-in short-lived CI token when it has enough scope</th></tr>
-<tr><th>VCS tag release</th><th>Go modules</th><th>Verify tags and module paths, not registry credentials</th></tr>
-<table class="rules"><tbody>
-<tr><th>Long-lived registry token</th><th>Docker Hub, unsupported fallback cases</th><th>Require explicit justification, least scope, and rotation owner</th></tr>
+<table class="rules">
+<thead><tr><th>Class</th><th>Examples</th><th>Rule</th></tr></thead><tbody>
+<tr><td>Registry-native trusted publishing</td><td>npm, PyPI, RubyGems, crates.io</td><td>Prefer OIDC/trusted publishing before long-lived tokens</td></tr>
+<tr><td>Cloud IAM federation</td><td>AWS ECR, Google Artifact Registry, Azure Container Registry</td><td>OIDC authenticates to cloud IAM; registry push uses cloud-issued temporary credentials</td></tr>
+<tr><td>Repository-scoped CI token</td><td>GHCR through <code>GITHUB_TOKEN</code></td><td>Prefer built-in short-lived CI token when it has enough scope</td></tr>
+<tr><td>VCS tag release</td><td>Go modules</td><td>Verify tags and module paths, not registry credentials</td></tr>
+<tr><td>Long-lived registry token</td><td>Docker Hub, unsupported fallback cases</td><td>Require explicit justification, least scope, and rotation owner</td></tr>
 </tbody></table>
 <h3 id="3-npm-trusted-publishing">§3 npm Trusted Publishing</h3>
 <p>Default for public npm packages released from GitHub Actions:</p>
@@ -216,12 +215,12 @@ jobs:
 <p>explicit token fallback path after documenting why npm Trusted Publishing is not</p>
 <p>used.</p>
 <h3 id="6-downstream-and-container-channels">§6 Downstream and Container Channels</h3>
-<table class="rules"><tbody>
-<tr><th>Channel</th><th>Guidance</th></tr>
-<tr><th>Homebrew</th><th>Downstream distribution after canonical artifact exists; read <code>homebrew.md</code> for Formula/Cask detail</th></tr>
-<tr><th>GHCR</th><th>Use <code>GITHUB_TOKEN</code> with <code>packages: write</code> for same-repo packages</th></tr>
-<tr><th>Docker Hub</th><th>Use Docker access token; rotate and scope it because ordinary Docker Hub push is token-first</th></tr>
-<tr><th>ECR/GAR/ACR</th><th>Treat as cloud IAM federation, not registry-native trusted publishing</th></tr>
+<table class="rules">
+<thead><tr><th>Channel</th><th>Guidance</th></tr></thead><tbody>
+<tr><td>Homebrew</td><td>Downstream distribution after canonical artifact exists; read <code>homebrew.md</code> for Formula/Cask detail</td></tr>
+<tr><td>GHCR</td><td>Use <code>GITHUB_TOKEN</code> with <code>packages: write</code> for same-repo packages</td></tr>
+<tr><td>Docker Hub</td><td>Use Docker access token; rotate and scope it because ordinary Docker Hub push is token-first</td></tr>
+<tr><td>ECR/GAR/ACR</td><td>Treat as cloud IAM federation, not registry-native trusted publishing</td></tr>
 </tbody></table>
 <h3 id="7-release-proof-bundle">§7 Release Proof Bundle</h3>
 <p>Every package-release answer should collect:</p>

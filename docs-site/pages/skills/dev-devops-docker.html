@@ -108,7 +108,7 @@
 <p>Last reviewed: 2026-07-02</p>
 <p>Applies to: Docker 27+, BuildKit, OCI images</p>
 <p>When to read: Container build/deploy tasks</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-devops.html">dev-devops</a> §1</p>
+<p>Canonical owner: dev-devops §1</p>
 <p>Cross-ref: read <code>platform-engineering.md</code> for provider routing and release</p>
 <p>capability framing; read <code>package-release.md</code> for package-registry auth; read</p>
 <p><code>../../dev-security/references/supply-chain-sbom.md</code> for SBOM/signing depth.</p>
@@ -167,7 +167,7 @@ COPY --from=build /out/app /app
 USER nonroot:nonroot
 ENTRYPOINT [&quot;/app&quot;]</code></pre>
 <p>---</p>
-<h3 id="2-docker-compose-<a href="../../pages/skills/dev.html">dev</a>elopment-patterns">§2 Docker Compose Development Patterns</h3>
+<h3 id="2-docker-compose-development-patterns">§2 Docker Compose Development Patterns</h3>
 <pre><code>services:
   app:
     build: .
@@ -202,21 +202,21 @@ ENTRYPOINT [&quot;/app&quot;]</code></pre>
 
 volumes:
   pgdata:</code></pre>
-<table class="rules"><tbody>
-<tr><th>Rule</th><th>Detail</th></tr>
-<tr><th>Health conditions</th><th><code>depends_on: { condition: service_healthy }</code> — never bare <code>depends_on</code></th></tr>
-<tr><th>Volumes</th><th>Bind mount for source, named volume for DB data</th></tr>
-<tr><th>Networks</th><th><code>internal</code> for DB, <code>default</code> for app (optional explicit separation)</th></tr>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Health conditions</td><td><code>depends_on: { condition: service_healthy }</code> — never bare <code>depends_on</code></td></tr>
+<tr><td>Volumes</td><td>Bind mount for source, named volume for DB data</td></tr>
+<tr><td>Networks</td><td><code>internal</code> for DB, <code>default</code> for app (optional explicit separation)</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="3-image-optimization">§3 Image Optimization</h3>
 <h4 id="base-image-selection-tree">Base Image Selection Tree</h4>
-<table class="rules"><tbody>
-<tr><th>Binary Type</th><th>Base Image</th><th>Size</th></tr>
-<tr><th>Static binary (Go, Rust)</th><th><code>scratch</code> or <code>distroless/static</code></th><th>~2MB</th></tr>
-<tr><th>Node.js</th><th><code>distroless/nodejs22-debian12</code></th><th>~130MB</th></tr>
-<tr><th>Python</th><th><code>python:3.13-slim</code></th><th>~150MB</th></tr>
-<tr><th>General C/C++</th><th><code>distroless/cc-debian12</code></th><th>~20MB</th></tr>
+<table class="rules">
+<thead><tr><th>Binary Type</th><th>Base Image</th><th>Size</th></tr></thead><tbody>
+<tr><td>Static binary (Go, Rust)</td><td><code>scratch</code> or <code>distroless/static</code></td><td>~2MB</td></tr>
+<tr><td>Node.js</td><td><code>distroless/nodejs22-debian12</code></td><td>~130MB</td></tr>
+<tr><td>Python</td><td><code>python:3.13-slim</code></td><td>~150MB</td></tr>
+<tr><td>General C/C++</td><td><code>distroless/cc-debian12</code></td><td>~20MB</td></tr>
 </tbody></table>
 <h4 id="dockerignore-required-entries">.dockerignore Required Entries</h4>
 <pre><code>.git
@@ -277,35 +277,34 @@ RUN --mount=type=secret,id=npm_token \
     NPM_TOKEN=$(cat /run/secrets/npm_token) npm install</code></pre>
 <p>Build command:</p>
 <pre><code>docker build --secret id=npm_token,src=.npmrc .</code></pre>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Fix</th></tr>
-<tr><th><code>ARG NPM_TOKEN=xxx</code></th><th><code>--mount=type=secret</code></th></tr>
-<tr><th><code>COPY .env .</code></th><th>Inject at runtime via env vars</th></tr>
-<tr><th><code>ENV SECRET=xxx</code> in Dockerfile</th><th>Runtime <code>--env</code> or secrets mount</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>ARG NPM_TOKEN=xxx</code></td><td><code>--mount=type=secret</code></td></tr>
+<tr><td><code>COPY .env .</code></td><td>Inject at runtime via env vars</td></tr>
+<tr><td><code>ENV SECRET=xxx</code> in Dockerfile</td><td>Runtime <code>--env</code> or secrets mount</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="6-anti-patterns-detailed">§6 Anti-Patterns (Detailed)</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Why</th><th>Fix</th></tr>
-<tr><th><code>FROM node:latest</code></th><th>Irreproducible; breaks on major updates</th><th>Pin: <code>node:22-slim@sha256:...</code></th></tr>
-<tr><th><code>USER root</code> in final image</th><th>Full host-equivalent privileges if container escapes</th><th><code>USER nonroot:nonroot</code> or dedicated user</th></tr>
-<tr><th><code>COPY . .</code> before dependency install</th><th>Every source change invalidates dependency cache</th><th>Copy manifests first, install, then copy source</th></tr>
-<tr><th><code>apt-get install</code> without cleanup</th><th>100MB+ wasted on package cache</th><th><code>--no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*</code></th></tr>
-<table class="rules"><tbody>
-<tr><th>No image scan in CI</th><th>Ship known CVEs to production</th><th>Trivy/Scout gate with <code>--exit-code 1</code></th></tr>
-<tr><th><code>docker push</code> without signing</th><th>No supply chain verification</th><th>Cosign sign + attest</th></tr>
-<tr><th>Multi-purpose single stage</th><th>Build tools in production image</th><th>Multi-stage: build → runtime</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Why</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>FROM node:latest</code></td><td>Irreproducible; breaks on major updates</td><td>Pin: <code>node:22-slim@sha256:...</code></td></tr>
+<tr><td><code>USER root</code> in final image</td><td>Full host-equivalent privileges if container escapes</td><td><code>USER nonroot:nonroot</code> or dedicated user</td></tr>
+<tr><td><code>COPY . .</code> before dependency install</td><td>Every source change invalidates dependency cache</td><td>Copy manifests first, install, then copy source</td></tr>
+<tr><td><code>apt-get install</code> without cleanup</td><td>100MB+ wasted on package cache</td><td><code>--no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*</code></td></tr>
+<tr><td>No image scan in CI</td><td>Ship known CVEs to production</td><td>Trivy/Scout gate with <code>--exit-code 1</code></td></tr>
+<table class="rules">
+<tr><td><code>docker push</code> without signing</td><td>No supply chain verification</td><td>Cosign sign + attest</td></tr>
+<tr><td>Multi-purpose single stage</td><td>Build tools in production image</td><td>Multi-stage: build → runtime</td></tr>
 </tbody></table>
 <h3 id="sources-supply-chain-baseline-checked-2026-07-02">Sources (supply-chain baseline, checked 2026-07-02)</h3>
-<table class="rules"><tbody>
-<tr><th>Claim</th><th>Source</th></tr>
-<tr><th>Distroless active, Debian-based, Cosign keyless-signed</th><th>https://github.com/GoogleContainerTools/distroless</th></tr>
-<tr><th>Chainguard/Wolfi production option (rebuilds, SBOM, SLAs)</th><th>https://edu.chainguard.dev/chainguard/chainguard-images/overview/</th></tr>
-<tr><th>Trivy v0.72.0 (2026-06-30)</th><th>https://github.com/aquasecurity/trivy/releases</th></tr>
-<tr><th>Docker Scout SBOM-based matching</th><th>https://docs.docker.com/scout/</th></tr>
-<table class="rules"><tbody>
-<tr><th>Syft/Grype/Cosign active</th><th>https://github.com/anchore/syft/releases ; https://github.com/anchore/grype/releases ; https://github.com/sigstore/cosign/releases</th></tr>
-<tr><th>DORA 2025: AI as amplifier</th><th>https://dora.dev/research/</th></tr>
+<thead><tr><th>Claim</th><th>Source</th></tr></thead><tbody>
+<tr><td>Distroless active, Debian-based, Cosign keyless-signed</td><td>https://github.com/GoogleContainerTools/distroless</td></tr>
+<table class="rules">
+<tr><td>Chainguard/Wolfi production option (rebuilds, SBOM, SLAs)</td><td>https://edu.chainguard.dev/chainguard/chainguard-images/overview/</td></tr>
+<tr><td>Trivy v0.72.0 (2026-06-30)</td><td>https://github.com/aquasecurity/trivy/releases</td></tr>
+<tr><td>Docker Scout SBOM-based matching</td><td>https://docs.docker.com/scout/</td></tr>
+<tr><td>Syft/Grype/Cosign active</td><td>https://github.com/anchore/syft/releases ; https://github.com/anchore/grype/releases ; https://github.com/sigstore/cosign/releases</td></tr>
+<tr><td>DORA 2025: AI as amplifier</td><td>https://dora.dev/research/</td></tr>
 </tbody></table>
   </div>
 </section>

@@ -108,7 +108,7 @@
 <p>Last reviewed: 2026-06-16</p>
 <p>Applies to: GitHub Copilot code review, CodeRabbit 2025+, Sourcery 2024+</p>
 <p>When to read: Using AI review tools in PR workflow</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-code-reviewer.html">dev-code-reviewer</a></p>
+<p>Canonical owner: dev-code-reviewer</p>
 <p>AI review tools augment human reviewers — they do not replace them. Treat AI findings as triage, not verdicts.</p>
 <h3 id="1-workflow-integration">1. Workflow Integration</h3>
 <p>AI review runs as a deterministic gate before human review, not alongside it:</p>
@@ -117,11 +117,11 @@
   → AI review (Copilot / CodeRabbit)  # machine gate 2
   → Human review                      # judgment gate
   → Merge</code></pre>
-<table class="rules"><tbody>
-<tr><th>Phase</th><th>Owner</th><th>Catches</th><th>Misses</th></tr>
-<tr><th>CI gates</th><th>Toolchain</th><th>Syntax, types, lint, test regression</th><th>Logic, architecture, business intent</th></tr>
-<tr><th>AI review</th><th>AI tool</th><th>Pattern bugs, style drift, common vulns, test gaps</th><th>Novel architecture issues, domain intent, subtle security</th></tr>
-<tr><th>Human review</th><th>Engineer/agent</th><th>Architecture, correctness, business logic, security depth</th><th>Repetitive style issues (already caught above)</th></tr>
+<table class="rules">
+<thead><tr><th>Phase</th><th>Owner</th><th>Catches</th><th>Misses</th></tr></thead><tbody>
+<tr><td>CI gates</td><td>Toolchain</td><td>Syntax, types, lint, test regression</td><td>Logic, architecture, business intent</td></tr>
+<tr><td>AI review</td><td>AI tool</td><td>Pattern bugs, style drift, common vulns, test gaps</td><td>Novel architecture issues, domain intent, subtle security</td></tr>
+<tr><td>Human review</td><td>Engineer/agent</td><td>Architecture, correctness, business logic, security depth</td><td>Repetitive style issues (already caught above)</td></tr>
 </tbody></table>
 <p>Rules:</p>
 <ul>
@@ -132,14 +132,13 @@
 </ul>
 <h3 id="2-severity-classification">2. Severity Classification</h3>
 <p>Not all AI findings deserve human attention:</p>
-<table class="rules"><tbody>
-<tr><th>AI Severity</th><th>Human Action</th><th>Auto-Approve Eligible</th></tr>
-<tr><th>Critical (security, data loss)</th><th>Must address before merge</th><th>No</th></tr>
-<tr><th>High (logic error, missing validation)</th><th>Must address before merge</th><th>No</th></tr>
-<tr><th>Medium (naming, structure, missing test)</th><th>Review and decide</th><th>No</th></tr>
-<tr><th>Low (style, formatting, minor improvement)</th><th>Batch or skip</th><th>Yes — if CI passes and finding is style-only</th></tr>
-<table class="rules"><tbody>
-<tr><th>Suggestion (refactor opportunity)</th><th>Note for future</th><th>Yes — informational only</th></tr>
+<table class="rules">
+<thead><tr><th>AI Severity</th><th>Human Action</th><th>Auto-Approve Eligible</th></tr></thead><tbody>
+<tr><td>Critical (security, data loss)</td><td>Must address before merge</td><td>No</td></tr>
+<tr><td>High (logic error, missing validation)</td><td>Must address before merge</td><td>No</td></tr>
+<tr><td>Medium (naming, structure, missing test)</td><td>Review and decide</td><td>No</td></tr>
+<tr><td>Low (style, formatting, minor improvement)</td><td>Batch or skip</td><td>Yes — if CI passes and finding is style-only</td></tr>
+<tr><td>Suggestion (refactor opportunity)</td><td>Note for future</td><td>Yes — informational only</td></tr>
 </tbody></table>
 <p>Auto-approve conditions (all must be true):</p>
 <ul>
@@ -151,12 +150,12 @@
 </ul>
 <h3 id="3-ai-generated-code-re-review">3. AI-Generated Code Re-review</h3>
 <p>When AI generates code AND AI reviews it, the feedback loop creates blind spots:</p>
-<table class="rules"><tbody>
-<tr><th>Risk</th><th>Example</th><th>Mitigation</th></tr>
-<tr><th>Shared blind spot</th><th>AI generates N+1 query, AI reviewer misses same pattern</th><th>Human must review AI-generated code with extra scrutiny on performance</th></tr>
-<tr><th>Positive bias</th><th>AI reviewer rates AI-generated code higher than human code</th><th>Treat AI-generated PRs as higher review priority, not lower</th></tr>
-<tr><th>Pattern lock-in</th><th>Same model generates and reviews → no diversity of perspective</th><th>Use different models for generation vs review, or ensure human review</th></tr>
-<tr><th>Test gap</th><th>AI generates code that passes AI-generated tests but misses edge cases</th><th>Human must verify test coverage includes boundary and error cases</th></tr>
+<table class="rules">
+<thead><tr><th>Risk</th><th>Example</th><th>Mitigation</th></tr></thead><tbody>
+<tr><td>Shared blind spot</td><td>AI generates N+1 query, AI reviewer misses same pattern</td><td>Human must review AI-generated code with extra scrutiny on performance</td></tr>
+<tr><td>Positive bias</td><td>AI reviewer rates AI-generated code higher than human code</td><td>Treat AI-generated PRs as higher review priority, not lower</td></tr>
+<tr><td>Pattern lock-in</td><td>Same model generates and reviews → no diversity of perspective</td><td>Use different models for generation vs review, or ensure human review</td></tr>
+<tr><td>Test gap</td><td>AI generates code that passes AI-generated tests but misses edge cases</td><td>Human must verify test coverage includes boundary and error cases</td></tr>
 </tbody></table>
 <p>Rules:</p>
 <ul>
@@ -167,14 +166,13 @@
 </ul>
 <h3 id="4-content-exclusion">4. Content Exclusion</h3>
 <p>Exclude these from AI review scope to reduce noise:</p>
-<table class="rules"><tbody>
-<tr><th>Excluded Content</th><th>Reason</th></tr>
-<tr><th>Generated files (<code>*.gen.ts</code>, <code>*.pb.go</code>, OpenAPI output)</th><th>Not human-authored, not human-reviewable</th></tr>
-<tr><th>Vendor / <code>node_modules</code> / lock files</th><th>Managed by package manager</th></tr>
-<tr><th><code>.env.example</code> (but NOT <code>.env</code>)</th><th>Template only; actual secrets must never be in PR</th></tr>
-<tr><th>Large data fixtures (&gt; 500 lines)</th><th>AI review on test data is noise</th></tr>
-<table class="rules"><tbody>
-<tr><th>Binary assets (images, fonts, compiled)</th><th>Not code</th></tr>
+<table class="rules">
+<thead><tr><th>Excluded Content</th><th>Reason</th></tr></thead><tbody>
+<tr><td>Generated files (<code>*.gen.ts</code>, <code>*.pb.go</code>, OpenAPI output)</td><td>Not human-authored, not human-reviewable</td></tr>
+<tr><td>Vendor / <code>node_modules</code> / lock files</td><td>Managed by package manager</td></tr>
+<tr><td><code>.env.example</code> (but NOT <code>.env</code>)</td><td>Template only; actual secrets must never be in PR</td></tr>
+<tr><td>Large data fixtures (&gt; 500 lines)</td><td>AI review on test data is noise</td></tr>
+<tr><td>Binary assets (images, fonts, compiled)</td><td>Not code</td></tr>
 </tbody></table>
 <p>Configure exclusion in <code>.coderabbit.yaml</code>, <code>.copilot-review.yml</code>, or equivalent:</p>
 <pre><code># .coderabbit.yaml example
@@ -186,24 +184,23 @@ reviews:
     - &quot;!**/fixtures/data/**&quot;</code></pre>
 <h3 id="5-acceptance-metrics">5. Acceptance Metrics</h3>
 <p>Track AI review effectiveness quarterly:</p>
-<table class="rules"><tbody>
-<tr><th>Metric</th><th>Target</th><th>Measurement</th></tr>
-<tr><th>True positive rate</th><th>&gt; 70%</th><th>AI findings confirmed by human reviewer / total AI findings</th></tr>
-<tr><th>False positive rate</th><th>&lt; 30%</th><th>AI findings dismissed by human reviewer / total AI findings</th></tr>
-<tr><th>Coverage additive value</th><th>&gt; 0</th><th>Issues caught by AI that human would have missed (sample audit)</th></tr>
-<tr><th>Review time reduction</th><th>15-30%</th><th>Average human review time with AI vs without</th></tr>
-<table class="rules"><tbody>
-<tr><th>Critical miss rate</th><th>0%</th><th>Critical/High issues merged despite AI review (post-mortem)</th></tr>
+<table class="rules">
+<thead><tr><th>Metric</th><th>Target</th><th>Measurement</th></tr></thead><tbody>
+<tr><td>True positive rate</td><td>&gt; 70%</td><td>AI findings confirmed by human reviewer / total AI findings</td></tr>
+<tr><td>False positive rate</td><td>&lt; 30%</td><td>AI findings dismissed by human reviewer / total AI findings</td></tr>
+<tr><td>Coverage additive value</td><td>&gt; 0</td><td>Issues caught by AI that human would have missed (sample audit)</td></tr>
+<tr><td>Review time reduction</td><td>15-30%</td><td>Average human review time with AI vs without</td></tr>
+<tr><td>Critical miss rate</td><td>0%</td><td>Critical/High issues merged despite AI review (post-mortem)</td></tr>
 </tbody></table>
 <p>If false positive rate exceeds 40%, tune AI review rules or switch tools — noise erodes trust.</p>
 <h3 id="6-anti-patterns">6. Anti-Patterns</h3>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<table class="rules"><tbody>
-<tr><th>AI review as sole reviewer</th><th>No human eyes on code</th><th>AI is triage, human is verdict</th></tr>
-<tr><th>Auto-merging AI-approved PRs</th><th>Critical issues slip through</th><th>Auto-approve only for Low/Suggestion + strict conditions (§2)</th></tr>
-<tr><th>Same model generates and reviews</th><th>Shared blind spots amplify</th><th>Different models or mandatory human review</th></tr>
-<tr><th>Ignoring AI findings systematically</th><th>Tool becomes shelfware</th><th>Review false positive rate, tune or replace</th></tr>
-<tr><th>AI review on generated code</th><th>Noise flood, no signal</th><th>Exclude generated files (§4)</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>AI review as sole reviewer</td><td>No human eyes on code</td><td>AI is triage, human is verdict</td></tr>
+<tr><td>Auto-merging AI-approved PRs</td><td>Critical issues slip through</td><td>Auto-approve only for Low/Suggestion + strict conditions (§2)</td></tr>
+<tr><td>Same model generates and reviews</td><td>Shared blind spots amplify</td><td>Different models or mandatory human review</td></tr>
+<tr><td>Ignoring AI findings systematically</td><td>Tool becomes shelfware</td><td>Review false positive rate, tune or replace</td></tr>
+<tr><td>AI review on generated code</td><td>Noise flood, no signal</td><td>Exclude generated files (§4)</td></tr>
 </tbody></table>
 <h3 id="pre-flight">Pre-flight</h3>
 <ul>

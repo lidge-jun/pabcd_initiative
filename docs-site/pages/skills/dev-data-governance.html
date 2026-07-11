@@ -109,14 +109,13 @@
 <p>Security and privacy patterns for production data pipelines.</p>
 <p>---</p>
 <h3 id="pii-masking-techniques">PII Masking Techniques</h3>
-<table class="rules"><tbody>
-<tr><th>Technique</th><th>Reversible</th><th>Use Case</th></tr>
-<tr><th><strong>Pseudonymization</strong></th><th>Yes (with mapping)</th><th>Analytics needing re-identification</th></tr>
-<tr><th><strong>Anonymization</strong></th><th>No</th><th>Public datasets, research</th></tr>
-<tr><th><strong>Dynamic masking</strong></th><th>N/A (query-time)</th><th>Production DBs with mixed access levels</th></tr>
-<tr><th><strong>Static masking</strong></th><th>No</th><th>Non-production environments (<a href="../../pages/skills/dev.html">dev</a>/QA)</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Tokenization</strong></th><th>Yes (separate vault)</th><th>Payment data (PCI-DSS), SSNs</th></tr>
+<table class="rules">
+<thead><tr><th>Technique</th><th>Reversible</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><strong>Pseudonymization</strong></td><td>Yes (with mapping)</td><td>Analytics needing re-identification</td></tr>
+<tr><td><strong>Anonymization</strong></td><td>No</td><td>Public datasets, research</td></tr>
+<tr><td><strong>Dynamic masking</strong></td><td>N/A (query-time)</td><td>Production DBs with mixed access levels</td></tr>
+<tr><td><strong>Static masking</strong></td><td>No</td><td>Non-production environments (dev/QA)</td></tr>
+<tr><td><strong>Tokenization</strong></td><td>Yes (separate vault)</td><td>Payment data (PCI-DSS), SSNs</td></tr>
 </tbody></table>
 <p><strong>Rule:</strong> Always use static masking for non-production environments. Never copy production PII to dev/staging.</p>
 <p>---</p>
@@ -145,11 +144,11 @@
 </ul>
 <p>---</p>
 <h3 id="ccpa-additions">CCPA Additions</h3>
-<table class="rules"><tbody>
-<tr><th>CCPA Requirement</th><th>Difference from GDPR</th><th>Engineering Pattern</th></tr>
-<tr><th>Right to opt-out of sale</th><th>No GDPR equivalent</th><th>Boolean <code>do_not_sell</code> flag on user profile; filter in data sharing pipelines</th></tr>
-<tr><th>Financial incentive disclosure</th><th>No GDPR equivalent</th><th>Metadata on loyalty/discount programs linked to data collection</th></tr>
-<tr><th>12-month lookback</th><th>GDPR has no fixed window</th><th>Retain deletion request logs for 12 months</th></tr>
+<table class="rules">
+<thead><tr><th>CCPA Requirement</th><th>Difference from GDPR</th><th>Engineering Pattern</th></tr></thead><tbody>
+<tr><td>Right to opt-out of sale</td><td>No GDPR equivalent</td><td>Boolean <code>do_not_sell</code> flag on user profile; filter in data sharing pipelines</td></tr>
+<tr><td>Financial incentive disclosure</td><td>No GDPR equivalent</td><td>Metadata on loyalty/discount programs linked to data collection</td></tr>
+<tr><td>12-month lookback</td><td>GDPR has no fixed window</td><td>Retain deletion request logs for 12 months</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="row-level-security-rls">Row-Level Security (RLS)</h3>
@@ -170,12 +169,12 @@ CREATE POLICY org_isolation ON orders
   END;</code></pre>
 <p>---</p>
 <h3 id="data-retention-policy">Data Retention Policy</h3>
-<table class="rules"><tbody>
-<tr><th>Tier</th><th>Retention</th><th>Storage</th><th>Access Pattern</th></tr>
-<tr><th><strong>Hot</strong></th><th>0-90 days</th><th>Primary warehouse</th><th>Real-time queries</th></tr>
-<tr><th><strong>Warm</strong></th><th>90 days - 2 years</th><th>Archive tables / cold storage</th><th>Occasional queries</th></tr>
-<tr><th><strong>Cold</strong></th><th>2-7 years</th><th>Object storage (S3/GCS) Parquet</th><th>Compliance/audit only</th></tr>
-<tr><th><strong>Purge</strong></th><th>Beyond retention</th><th>Permanently deleted</th><th>N/A</th></tr>
+<table class="rules">
+<thead><tr><th>Tier</th><th>Retention</th><th>Storage</th><th>Access Pattern</th></tr></thead><tbody>
+<tr><td><strong>Hot</strong></td><td>0-90 days</td><td>Primary warehouse</td><td>Real-time queries</td></tr>
+<tr><td><strong>Warm</strong></td><td>90 days - 2 years</td><td>Archive tables / cold storage</td><td>Occasional queries</td></tr>
+<tr><td><strong>Cold</strong></td><td>2-7 years</td><td>Object storage (S3/GCS) Parquet</td><td>Compliance/audit only</td></tr>
+<tr><td><strong>Purge</strong></td><td>Beyond retention</td><td>Permanently deleted</td><td>N/A</td></tr>
 </tbody></table>
 <p>Automate tiering with lifecycle policies. Tag tables with <code>retention_days</code> and <code>data_classification</code> metadata.</p>
   </div>

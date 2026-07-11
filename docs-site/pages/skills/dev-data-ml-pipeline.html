@@ -112,22 +112,21 @@
 <p><strong>Non-goals</strong>: Model serving (→ <code>dev-backend/references/core/ml-serving.md</code>), LLM integration (→ <code>dev-backend/references/core/llm-integration.md</code>), model evaluation (→ <code>dev-testing/references/ml-evaluation.md</code>)</p>
 <p>---</p>
 <h3 id="1-ml-pipeline-principles">§1 ML Pipeline Principles</h3>
-<table class="rules"><tbody>
-<tr><th>Principle</th><th>What It Means</th></tr>
-<tr><th><strong>Reproducibility</strong></th><th>Same code + same data + same config = same model. Pin library versions, fix random seeds, log all hyperparameters.</th></tr>
-<tr><th><strong>Version everything</strong></th><th>Code (git), data (DVC/Delta), models (MLflow registry), configs (hydra/yaml in repo).</th></tr>
-<tr><th><strong>Experiment tracking</strong></th><th>Every training run logged with metrics, params, artifacts. No &quot;which run was that?&quot; moments.</th></tr>
-<tr><th><strong>Idempotent pipelines</strong></th><th>Re-running a pipeline stage with same inputs produces same outputs. Use content-addressable caching.</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Fail fast</strong></th><th>Validate data schema and distributions BEFORE training. Don&#x27;t waste GPU hours on bad data.</th></tr>
+<table class="rules">
+<thead><tr><th>Principle</th><th>What It Means</th></tr></thead><tbody>
+<tr><td><strong>Reproducibility</strong></td><td>Same code + same data + same config = same model. Pin library versions, fix random seeds, log all hyperparameters.</td></tr>
+<tr><td><strong>Version everything</strong></td><td>Code (git), data (DVC/Delta), models (MLflow registry), configs (hydra/yaml in repo).</td></tr>
+<tr><td><strong>Experiment tracking</strong></td><td>Every training run logged with metrics, params, artifacts. No &quot;which run was that?&quot; moments.</td></tr>
+<tr><td><strong>Idempotent pipelines</strong></td><td>Re-running a pipeline stage with same inputs produces same outputs. Use content-addressable caching.</td></tr>
+<tr><td><strong>Fail fast</strong></td><td>Validate data schema and distributions BEFORE training. Don&#x27;t waste GPU hours on bad data.</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="2-experiment-tracking">§2 Experiment Tracking</h3>
-<tr><th>Platform</th><th>Best For</th><th>Hosting</th><th>2026 Status</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>MLflow 3.x</strong></th><th>Full lifecycle (track → register → serve)</th><th>Self-hosted / Databricks</th><th>✅ Default — unified API, broad ecosystem</th></tr>
-<tr><th><strong>W&amp;B (Weights &amp; Biases)</strong></th><th>Rich visualization, team collaboration</th><th>Cloud (free tier) / self-hosted</th><th>✅ Best UI, expensive at scale</th></tr>
-<tr><th><strong>Dagster+</strong></th><th>Pipeline-integrated tracking</th><th>Dagster Cloud / self-hosted</th><th>✅ If already using Dagster for orchestration</th></tr>
+<table class="rules">
+<thead><tr><th>Platform</th><th>Best For</th><th>Hosting</th><th>2026 Status</th></tr></thead><tbody>
+<tr><td><strong>MLflow 3.x</strong></td><td>Full lifecycle (track → register → serve)</td><td>Self-hosted / Databricks</td><td>✅ Default — unified API, broad ecosystem</td></tr>
+<tr><td><strong>W&amp;B (Weights &amp; Biases)</strong></td><td>Rich visualization, team collaboration</td><td>Cloud (free tier) / self-hosted</td><td>✅ Best UI, expensive at scale</td></tr>
+<tr><td><strong>Dagster+</strong></td><td>Pipeline-integrated tracking</td><td>Dagster Cloud / self-hosted</td><td>✅ If already using Dagster for orchestration</td></tr>
 </tbody></table>
 <h4 id="mlflow-3-x-tracking-pattern">MLflow 3.x Tracking Pattern</h4>
 <pre><code>import mlflow
@@ -165,11 +164,11 @@ IF   team wants rich dashboards + collaboration       → W&amp;B (log to both i
 IF   pipeline orchestration already in Dagster         → use Dagster+ tracking</code></pre>
 <p>---</p>
 <h3 id="3-feature-store">§3 Feature Store</h3>
-<table class="rules"><tbody>
-<tr><th>Platform</th><th>Online Serving</th><th>Offline Training</th><th>2026 Status</th></tr>
-<tr><th><strong>Feast 0.40+</strong></th><th>Redis, DynamoDB, PostgreSQL</th><th>BigQuery, Snowflake, file</th><th>✅ Default — open source, flexible</th></tr>
-<tr><th><strong>Tecton</strong></th><th>Managed low-latency</th><th>Managed</th><th>✅ Enterprise, expensive</th></tr>
-<tr><th><strong>Custom</strong></th><th>Redis/PostgreSQL</th><th>SQL warehouse</th><th>⚠️ Only if &lt;10 features</th></tr>
+<table class="rules">
+<thead><tr><th>Platform</th><th>Online Serving</th><th>Offline Training</th><th>2026 Status</th></tr></thead><tbody>
+<tr><td><strong>Feast 0.40+</strong></td><td>Redis, DynamoDB, PostgreSQL</td><td>BigQuery, Snowflake, file</td><td>✅ Default — open source, flexible</td></tr>
+<tr><td><strong>Tecton</strong></td><td>Managed low-latency</td><td>Managed</td><td>✅ Enterprise, expensive</td></tr>
+<tr><td><strong>Custom</strong></td><td>Redis/PostgreSQL</td><td>SQL warehouse</td><td>⚠️ Only if &lt;10 features</td></tr>
 </tbody></table>
 <h4 id="feast-pattern">Feast Pattern</h4>
 <pre><code>from feast import FeatureStore
@@ -192,12 +191,12 @@ features = store.get_online_features(
     entity_rows=[{&quot;user_id&quot;: &quot;abc123&quot;}],
 ).to_dict()</code></pre>
 <h4 id="when-to-use-a-feature-store">When to Use a Feature Store</h4>
-<table class="rules"><tbody>
-<tr><th>Condition</th><th>Feature Store?</th></tr>
-<tr><th>Same features used in training AND serving</th><th>✅ Yes — prevents train/serve skew</th></tr>
-<tr><th>&gt;20 ML features shared across models</th><th>✅ Yes — single source of truth</th></tr>
-<tr><th>&lt;10 features, single model</th><th>❌ Overkill — compute inline</th></tr>
-<tr><th>Real-time features from streaming sources</th><th>✅ Yes — Feast + Kafka materialization</th></tr>
+<table class="rules">
+<thead><tr><th>Condition</th><th>Feature Store?</th></tr></thead><tbody>
+<tr><td>Same features used in training AND serving</td><td>✅ Yes — prevents train/serve skew</td></tr>
+<tr><td>&gt;20 ML features shared across models</td><td>✅ Yes — single source of truth</td></tr>
+<tr><td>&lt;10 features, single model</td><td>❌ Overkill — compute inline</td></tr>
+<tr><td>Real-time features from streaming sources</td><td>✅ Yes — Feast + Kafka materialization</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="4-training-pipeline-orchestration">§4 Training Pipeline Orchestration</h3>
@@ -236,22 +235,21 @@ defs = Definitions(
     jobs=[training_job],
 )</code></pre>
 <h4 id="gpu-resource-management">GPU Resource Management</h4>
-<table class="rules"><tbody>
-<tr><th>Practice</th><th>Why</th></tr>
-<tr><th>Request specific GPU type in job config</th><th>Avoid training on wrong GPU (A10G vs H100)</th></tr>
-<tr><th>Set <code>CUDA_VISIBLE_DEVICES</code></th><th>Prevent multi-tenant GPU conflicts</th></tr>
-<tr><th>Checkpoint every N epochs</th><th>Resume after preemption; don&#x27;t lose hours of work</th></tr>
-<tr><th>Use mixed precision (<code>torch.amp</code>)</th><th>2× speedup, half memory — no quality loss on modern GPUs</th></tr>
-<table class="rules"><tbody>
-<tr><th>Set <code>max_epochs</code> + early stopping</th><th>Prevent runaway training costs</th></tr>
+<table class="rules">
+<thead><tr><th>Practice</th><th>Why</th></tr></thead><tbody>
+<tr><td>Request specific GPU type in job config</td><td>Avoid training on wrong GPU (A10G vs H100)</td></tr>
+<tr><td>Set <code>CUDA_VISIBLE_DEVICES</code></td><td>Prevent multi-tenant GPU conflicts</td></tr>
+<tr><td>Checkpoint every N epochs</td><td>Resume after preemption; don&#x27;t lose hours of work</td></tr>
+<tr><td>Use mixed precision (<code>torch.amp</code>)</td><td>2× speedup, half memory — no quality loss on modern GPUs</td></tr>
+<tr><td>Set <code>max_epochs</code> + early stopping</td><td>Prevent runaway training costs</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="5-data-versioning">§5 Data Versioning</h3>
-<tr><th>Tool</th><th>Best For</th><th>2026 Status</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>DVC 3.x</strong></th><th>File-based datasets (images, CSVs, Parquet)</th><th>✅ Default — git-like workflow</th></tr>
-<tr><th><strong>Delta Lake 3.x</strong></th><th>Tabular data, time travel, ACID transactions</th><th>✅ Best for data lake/warehouse</th></tr>
-<tr><th><strong>LakeFS</strong></th><th>Git-like branching for data lakes</th><th>✅ Advanced — multi-branch experimentation</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Best For</th><th>2026 Status</th></tr></thead><tbody>
+<tr><td><strong>DVC 3.x</strong></td><td>File-based datasets (images, CSVs, Parquet)</td><td>✅ Default — git-like workflow</td></tr>
+<tr><td><strong>Delta Lake 3.x</strong></td><td>Tabular data, time travel, ACID transactions</td><td>✅ Best for data lake/warehouse</td></tr>
+<tr><td><strong>LakeFS</strong></td><td>Git-like branching for data lakes</td><td>✅ Advanced — multi-branch experimentation</td></tr>
 </tbody></table>
 <h4 id="dvc-workflow">DVC Workflow</h4>
 <pre><code># Track a large dataset
@@ -275,16 +273,16 @@ dvc checkout  # Pulls the matching data version from remote</code></pre>
 </ul>
 <p>---</p>
 <h3 id="6-anti-patterns">§6 Anti-Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>Training without experiment tracking</th><th>&quot;Which hyperparams worked?&quot; — nobody knows</th><th>MLflow/W&amp;B from day one (§2)</th></tr>
-<tr><th>Unversioned training data</th><th>Non-reproducible models</th><th>DVC or Delta Lake (§5)</th></tr>
-<tr><th>Feature computation in both training and serving code</th><th>Train/serve skew, silent accuracy drops</th><th>Feature store (§3)</th></tr>
-<tr><th>No checkpointing</th><th>Lost GPU hours on preemption</th><th>Checkpoint every N epochs (§4)</th></tr>
-<table class="rules"><tbody>
-<tr><th>Manual GPU allocation</th><th>Resource conflicts, idle GPUs</th><th>Job scheduler with GPU requests (§4)</th></tr>
-<tr><th><code>pip install</code> without pinned versions</th><th>&quot;Works on my machine&quot; failures</th><th><code>uv.lock</code> or <code>requirements.txt</code> with exact pins</th></tr>
-<tr><th>Training on full data without validation split</th><th>Overfitting, no early stopping signal</th><th>Always hold out validation + test splits</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Training without experiment tracking</td><td>&quot;Which hyperparams worked?&quot; — nobody knows</td><td>MLflow/W&amp;B from day one (§2)</td></tr>
+<tr><td>Unversioned training data</td><td>Non-reproducible models</td><td>DVC or Delta Lake (§5)</td></tr>
+<tr><td>Feature computation in both training and serving code</td><td>Train/serve skew, silent accuracy drops</td><td>Feature store (§3)</td></tr>
+<tr><td>No checkpointing</td><td>Lost GPU hours on preemption</td><td>Checkpoint every N epochs (§4)</td></tr>
+<tr><td>Manual GPU allocation</td><td>Resource conflicts, idle GPUs</td><td>Job scheduler with GPU requests (§4)</td></tr>
+<table class="rules">
+<tr><td><code>pip install</code> without pinned versions</td><td>&quot;Works on my machine&quot; failures</td><td><code>uv.lock</code> or <code>requirements.txt</code> with exact pins</td></tr>
+<tr><td>Training on full data without validation split</td><td>Overfitting, no early stopping signal</td><td>Always hold out validation + test splits</td></tr>
 </tbody></table>
 <h3 id="pre-flight-checklist">Pre-flight Checklist</h3>
 <p>Before running ML training:</p>

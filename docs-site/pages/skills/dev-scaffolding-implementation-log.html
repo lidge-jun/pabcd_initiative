@@ -104,7 +104,7 @@
 <section class="page-body">
   <div class="band-inner">
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-scaffolding/references/implementation-log.md" target="_blank" rel="noopener">dev-scaffolding/references/implementation-log.md</a></p>
-<h2 id="implementation-log-<a href="../../pages/skills/dev.html">dev</a>log-routine-the-documentation-loop-inside-pabcd">Implementation Log (devlog) Routine — the documentation loop inside PABCD</h2>
+<h2 id="implementation-log-devlog-routine-the-documentation-loop-inside-pabcd">Implementation Log (devlog) Routine — the documentation loop inside PABCD</h2>
 <p>Canonical spec for the per-implementation-unit documentation routine that rides the</p>
 <p>PABCD cycle. Companion to <code>dev-pabcd/SKILL.md</code> §3.1 (numbering) and</p>
 <p><code>dev-scaffolding/SKILL.md</code> §2.1 (folder proposal rules). Read before any development</p>
@@ -125,14 +125,13 @@
 <p>Never bare semantic filenames (<code>PLAN.md</code>, <code>RCA.md</code>) — the numeric prefix is the</p>
 <p>ordering and the audit trail.</p>
 <h3 id="how-the-routine-rides-pabcd-the-loop">How the routine rides PABCD (the loop)</h3>
-<table class="rules"><tbody>
-<tr><th>Phase</th><th>Documentation action</th><th>Gate</th></tr>
-<tr><th>P</th><th>CONCRETIZE: write <code>00_plan.md</code> (objective, measured baseline, dependency-ordered work-phase map, risks) + research docs <code>01+</code>; decade docs for <strong>EVERY roadmap phase</strong> at <strong>diff-level precision</strong> (exact paths, NEW/MODIFY/DELETE, before/after for MODIFY) — DIFFLEVEL-ROADMAP-01</th><th>plan exists as files, not chat</th></tr>
-<tr><th>A</th><th>AUDIT THE DOCS: an independent reviewer checks the plan docs — paths/signatures real, research coverage complete, phases sized, no ownership violations, no contradictions vs research</th><th>FAIL → fix docs → re-audit</th></tr>
-<tr><th>B</th><th>Implementation cites the doc it executes; deviations are edited back into the doc BEFORE coding past them</th><th>doc and code never diverge silently</th></tr>
-<tr><th>C</th><th>Gate results (commands + tails) recorded into the unit; general SoT docs patched to match the change (SOT-SYNC-01 — recommend creating one if absent)</th><th>evidence lives next to the plan</th></tr>
-<table class="rules"><tbody>
-<tr><th>D</th><th>Attestation/summary appended to <code>00_plan.md</code>; on unit completion the folder moves <code>_plan/</code> → <code>_fin/</code></th><th>durable closure record</th></tr>
+<table class="rules">
+<thead><tr><th>Phase</th><th>Documentation action</th><th>Gate</th></tr></thead><tbody>
+<tr><td>P</td><td>CONCRETIZE: write <code>00_plan.md</code> (objective, measured baseline, dependency-ordered work-phase map, risks) + research docs <code>01+</code>; decade docs for <strong>EVERY roadmap phase</strong> at <strong>diff-level precision</strong> (exact paths, NEW/MODIFY/DELETE, before/after for MODIFY) — DIFFLEVEL-ROADMAP-01</td><td>plan exists as files, not chat</td></tr>
+<tr><td>A</td><td>AUDIT THE DOCS: an independent reviewer checks the plan docs — paths/signatures real, research coverage complete, phases sized, no ownership violations, no contradictions vs research</td><td>FAIL → fix docs → re-audit</td></tr>
+<tr><td>B</td><td>Implementation cites the doc it executes; deviations are edited back into the doc BEFORE coding past them</td><td>doc and code never diverge silently</td></tr>
+<tr><td>C</td><td>Gate results (commands + tails) recorded into the unit; general SoT docs patched to match the change (SOT-SYNC-01 — recommend creating one if absent)</td><td>evidence lives next to the plan</td></tr>
+<tr><td>D</td><td>Attestation/summary appended to <code>00_plan.md</code>; on unit completion the folder moves <code>_plan/</code> → <code>_fin/</code></td><td>durable closure record</td></tr>
 </tbody></table>
 <p>Multi-cycle units: one full PABCD per work-phase; ALL phase design docs are written</p>
 <p>to diff-level in the FIRST P (or the design-only Phase-0 pass) —</p>
@@ -146,17 +145,17 @@
 <p>(small, cheap, closable); this is the industry&#x27;s unit of *thinking* — the design-doc</p>
 <p>lineage. Mature orgs run BOTH and link them. If a collaborator says &quot;devlog isn&#x27;t</p>
 <p>standard&quot;, translate:</p>
-<table class="rules"><tbody>
-<tr><th>This routine</th><th>Mainstream equivalent</th></tr>
-<tr><th><code>_plan/YYMMDD_slug/</code> unit folder</th><th>Design doc / RFC per feature (Google design docs, Rust RFCs, PEPs)</th></tr>
-<tr><th><code>00-09</code> research docs</th><th>RFC &quot;Motivation / Prior art&quot; sections</th></tr>
-<tr><th>Diff-level phase docs</th><th>Detailed design; kernel patch-series cover letter</th></tr>
-<tr><th>A-phase doc audit</th><th>Design review / RFC final-comment-period — review BEFORE code</th></tr>
-<table class="rules"><tbody>
-<tr><th>Evidence in C, attestation in D</th><th>CI gate records + review sign-off</th></tr>
-<tr><th><code>_fin/</code> closure record</th><th>Shipped postmortem + changelog entry</th></tr>
-<tr><th>Hard-to-reverse decisions</th><th>ADR (see <code>dev-scaffolding</code> §2.1 — separate, immutable)</th></tr>
-<tr><th>Issue/ticket</th><th>Still useful: one issue per unit LINKING to the folder; sub-issues for tracking granularity</th></tr>
+<table class="rules">
+<thead><tr><th>This routine</th><th>Mainstream equivalent</th></tr></thead><tbody>
+<tr><td><code>_plan/YYMMDD_slug/</code> unit folder</td><td>Design doc / RFC per feature (Google design docs, Rust RFCs, PEPs)</td></tr>
+<tr><td><code>00-09</code> research docs</td><td>RFC &quot;Motivation / Prior art&quot; sections</td></tr>
+<tr><td>Diff-level phase docs</td><td>Detailed design; kernel patch-series cover letter</td></tr>
+<tr><td>A-phase doc audit</td><td>Design review / RFC final-comment-period — review BEFORE code</td></tr>
+<tr><td>Evidence in C, attestation in D</td><td>CI gate records + review sign-off</td></tr>
+<table class="rules">
+<tr><td><code>_fin/</code> closure record</td><td>Shipped postmortem + changelog entry</td></tr>
+<tr><td>Hard-to-reverse decisions</td><td>ADR (see <code>dev-scaffolding</code> §2.1 — separate, immutable)</td></tr>
+<tr><td>Issue/ticket</td><td>Still useful: one issue per unit LINKING to the folder; sub-issues for tracking granularity</td></tr>
 </tbody></table>
 <p>Two deliberate differences from common practice, kept on purpose:</p>
 <ol>

@@ -109,7 +109,7 @@
 <p><strong>Last reviewed</strong>: 2026-06-16</p>
 <p><strong>Applies to</strong>: k6 0.52.x, Locust 2.x, Node 22+, Python 3.12+</p>
 <p><strong>When to read</strong>: <code>task_tags</code> includes <code>performance</code>, <code>load_test</code>, or C3+ production-facing API work</p>
-<p><strong>Canonical owner</strong>: <code>dev-testing</code> — infrastructure-level performance (auto-scaling, resource sizing) → <code>dev-<a href="../../pages/skills/dev.html">dev</a>ops</code></p>
+<p><strong>Canonical owner</strong>: <code>dev-testing</code> — infrastructure-level performance (auto-scaling, resource sizing) → <code>dev-devops</code></p>
 <p>---</p>
 <h3 id="1-when-to-load-test">§1 When to Load Test</h3>
 <p>Load testing is required when <strong>any</strong> of these apply:</p>
@@ -123,29 +123,28 @@
 <p>Skip for C0–C2 internal tools with &lt;10 concurrent users. Use unit benchmarks (<code>vitest bench</code>, <code>pytest-benchmark</code>) for micro-optimization instead.</p>
 <p>---</p>
 <h3 id="2-tool-selection">§2 Tool Selection</h3>
-<table class="rules"><tbody>
-<tr><th>Criterion</th><th>k6 0.52 ✅</th><th>Locust 2.x ✅</th><th>Artillery 2.x</th></tr>
-<tr><th><strong>Language</strong></th><th>JavaScript/TypeScript</th><th>Python</th><th>YAML + JS hooks</th></tr>
-<tr><th><strong>Protocol</strong></th><th>HTTP, gRPC, WebSocket, browser</th><th>HTTP, custom</th><th>HTTP, WebSocket, Socket.IO</th></tr>
-<tr><th><strong>Distributed</strong></th><th><code>k6 cloud</code> / <code>k6 operator</code> (K8s)</th><th>built-in master/worker</th><th>Artillery Cloud</th></tr>
-<tr><th><strong>CI integration</strong></th><th><code>grafana/setup-k6-action@v1</code></th><th><code>pip install locust</code> + script</th><th><code>npx artillery</code></th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Browser perf</strong></th><th><code>k6/browser</code> (Chromium)</th><th>✕</th><th>✕</th></tr>
-<tr><th><strong>Dashboard</strong></th><th>Grafana Cloud k6 / InfluxDB</th><th>built-in web UI</th><th>Artillery Cloud</th></tr>
-<tr><th><strong>Best for</strong></th><th>JS/TS teams, CI gates, CWV</th><th>Python teams, custom protocols</th><th>YAML-first, quick smoke</th></tr>
+<table class="rules">
+<thead><tr><th>Criterion</th><th>k6 0.52 ✅</th><th>Locust 2.x ✅</th><th>Artillery 2.x</th></tr></thead><tbody>
+<tr><td><strong>Language</strong></td><td>JavaScript/TypeScript</td><td>Python</td><td>YAML + JS hooks</td></tr>
+<tr><td><strong>Protocol</strong></td><td>HTTP, gRPC, WebSocket, browser</td><td>HTTP, custom</td><td>HTTP, WebSocket, Socket.IO</td></tr>
+<tr><td><strong>Distributed</strong></td><td><code>k6 cloud</code> / <code>k6 operator</code> (K8s)</td><td>built-in master/worker</td><td>Artillery Cloud</td></tr>
+<tr><td><strong>CI integration</strong></td><td><code>grafana/setup-k6-action@v1</code></td><td><code>pip install locust</code> + script</td><td><code>npx artillery</code></td></tr>
+<tr><td><strong>Browser perf</strong></td><td><code>k6/browser</code> (Chromium)</td><td>✕</td><td>✕</td></tr>
+<table class="rules">
+<tr><td><strong>Dashboard</strong></td><td>Grafana Cloud k6 / InfluxDB</td><td>built-in web UI</td><td>Artillery Cloud</td></tr>
+<tr><td><strong>Best for</strong></td><td>JS/TS teams, CI gates, CWV</td><td>Python teams, custom protocols</td><td>YAML-first, quick smoke</td></tr>
 </tbody></table>
 <p><strong>Decision rule</strong>: JS/TS stack → k6. Python stack or custom protocol → Locust. Neither is wrong; pick one and standardize.</p>
 <p><strong>Banned</strong>: Running both k6 and Locust in the same project without a documented reason.</p>
 <p>---</p>
 <h3 id="3-test-types">§3 Test Types</h3>
-<table class="rules"><tbody>
-<tr><th>Type</th><th>Purpose</th><th>When</th><th>VUs</th><th>Duration</th></tr>
-<tr><th><strong>Smoke</strong></th><th>Basic function under minimal load</th><th>Every PR</th><th>1–5</th><th>30s</th></tr>
-<tr><th><strong>Load</strong></th><th>Normal traffic verification</th><th>main merge / nightly</th><th>50–200</th><th>5–10 min</th></tr>
-<tr><th><strong>Stress</strong></th><th>Find breaking point</th><th>Pre-release</th><th>Ramp to limit</th><th>15–30 min</th></tr>
-<tr><th><strong>Spike</strong></th><th>Sudden burst resilience</th><th>Pre-release</th><th>0 → max → 0</th><th>5–10 min</th></tr>
-<table class="rules"><tbody>
-<tr><th><strong>Soak</strong></th><th>Long-term stability (memory leaks, connection pool)</th><th>Weekly / pre-release</th><th>Normal load</th><th>1–4 hr</th></tr>
+<table class="rules">
+<thead><tr><th>Type</th><th>Purpose</th><th>When</th><th>VUs</th><th>Duration</th></tr></thead><tbody>
+<tr><td><strong>Smoke</strong></td><td>Basic function under minimal load</td><td>Every PR</td><td>1–5</td><td>30s</td></tr>
+<tr><td><strong>Load</strong></td><td>Normal traffic verification</td><td>main merge / nightly</td><td>50–200</td><td>5–10 min</td></tr>
+<tr><td><strong>Stress</strong></td><td>Find breaking point</td><td>Pre-release</td><td>Ramp to limit</td><td>15–30 min</td></tr>
+<tr><td><strong>Spike</strong></td><td>Sudden burst resilience</td><td>Pre-release</td><td>0 → max → 0</td><td>5–10 min</td></tr>
+<tr><td><strong>Soak</strong></td><td>Long-term stability (memory leaks, connection pool)</td><td>Weekly / pre-release</td><td>Normal load</td><td>1–4 hr</td></tr>
 </tbody></table>
 <p>Start with <strong>smoke</strong> in CI. Add load/stress only after smoke is stable.</p>
 <p>---</p>
@@ -193,11 +192,11 @@ export default function () {
 4. Re-measure ──→  same scenario, compare against baseline
        │
 5. Gate       ──→  CI threshold pass → merge; fail → block deploy</code></pre>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>&quot;It&#x27;s slow, add cache&quot; without profiling</th><th>Cache added but wrong bottleneck</th><th>Measure first — <code>k6 run</code> → flame graph → then decide</th></tr>
-<tr><th>Screenshot-only results</th><th>No regression detection possible</th><th>Export JSON/HTML report: <code>k6 run --out json=results.json</code></th></tr>
-<tr><th>One-time manual run, no CI</th><th>Performance regresses silently</th><th>Add smoke to PR pipeline (§6)</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>&quot;It&#x27;s slow, add cache&quot; without profiling</td><td>Cache added but wrong bottleneck</td><td>Measure first — <code>k6 run</code> → flame graph → then decide</td></tr>
+<tr><td>Screenshot-only results</td><td>No regression detection possible</td><td>Export JSON/HTML report: <code>k6 run --out json=results.json</code></td></tr>
+<tr><td>One-time manual run, no CI</td><td>Performance regresses silently</td><td>Add smoke to PR pipeline (§6)</td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="6-ci-integration">§6 CI Integration</h3>
@@ -242,14 +241,13 @@ jobs:
 <p><strong>Banned</strong>: Load testing directly against production. Use staging or a dedicated perf environment.</p>
 <p>---</p>
 <h3 id="7-anti-patterns">§7 Anti-Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>Threshold-free load test</th><th>&quot;We ran k6&quot; but no pass/fail judgment</th><th>Add <code>thresholds</code> with p95/p99/error rate targets</th></tr>
-<tr><th>Production load test</th><th>Degraded user experience, potential outage</th><th>Use staging or isolated perf environment</th></tr>
-<tr><th>Tool salad (k6 + Locust + Artillery in one project)</th><th>Inconsistent results, maintenance burden</th><th>Pick one (§2 decision table), standardize</th></tr>
-<tr><th>Hardcoded URLs in test scripts</th><th>Breaks across environments</th><th>Use <code>__ENV.BASE_URL</code> or equivalent env vars</th></tr>
-<table class="rules"><tbody>
-<tr><th>Ignoring soak tests</th><th>Memory leaks and connection pool exhaustion ship</th><th>Schedule weekly soak on staging</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>Threshold-free load test</td><td>&quot;We ran k6&quot; but no pass/fail judgment</td><td>Add <code>thresholds</code> with p95/p99/error rate targets</td></tr>
+<tr><td>Production load test</td><td>Degraded user experience, potential outage</td><td>Use staging or isolated perf environment</td></tr>
+<tr><td>Tool salad (k6 + Locust + Artillery in one project)</td><td>Inconsistent results, maintenance burden</td><td>Pick one (§2 decision table), standardize</td></tr>
+<tr><td>Hardcoded URLs in test scripts</td><td>Breaks across environments</td><td>Use <code>__ENV.BASE_URL</code> or equivalent env vars</td></tr>
+<tr><td>Ignoring soak tests</td><td>Memory leaks and connection pool exhaustion ship</td><td>Schedule weekly soak on staging</td></tr>
 </tbody></table>
 <h3 id="pre-flight">Pre-flight</h3>
 <p>Before merging a load test change:</p>

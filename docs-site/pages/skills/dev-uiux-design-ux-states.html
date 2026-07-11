@@ -125,14 +125,13 @@
 │  Skip / Later (text link)       │
 └─────────────────────────────────┘</code></pre>
 <h4 id="feature-discovery-patterns">Feature Discovery Patterns</h4>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>When to Use</th><th>When to Avoid</th></tr>
-<tr><th>Contextual tooltip</th><th>First time a feature appears</th><th>Already-discovered features</th></tr>
-<tr><th>Coach mark (spotlight)</th><th>Complex multi-step workflows</th><th>Simple, self-explanatory UI</th></tr>
-<tr><th>Feature tour (multi-step)</th><th>Major new feature release</th><th>First-time onboarding (too heavy)</th></tr>
-<tr><th>Empty-state-as-onboarding</th><th>Dashboard/list views with no data</th><th>Views that always have data</th></tr>
-<table class="rules"><tbody>
-<tr><th>Progressive profile</th><th>Collecting user preferences over time</th><th>One-time setup flows</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>When to Use</th><th>When to Avoid</th></tr></thead><tbody>
+<tr><td>Contextual tooltip</td><td>First time a feature appears</td><td>Already-discovered features</td></tr>
+<tr><td>Coach mark (spotlight)</td><td>Complex multi-step workflows</td><td>Simple, self-explanatory UI</td></tr>
+<tr><td>Feature tour (multi-step)</td><td>Major new feature release</td><td>First-time onboarding (too heavy)</td></tr>
+<tr><td>Empty-state-as-onboarding</td><td>Dashboard/list views with no data</td><td>Views that always have data</td></tr>
+<tr><td>Progressive profile</td><td>Collecting user preferences over time</td><td>One-time setup flows</td></tr>
 </tbody></table>
 <h4 id="permission-request-timing">Permission Request Timing</h4>
 <p>Ask for permissions at the moment of need, not during onboarding. Explain why before asking: &quot;To send you updates, we need notification access.&quot;</p>
@@ -140,11 +139,11 @@
 <h3 id="2-empty-state-design">2. Empty State Design</h3>
 <p>Every major view MUST have a designed empty state. Never leave a screen blank or show a generic &quot;No data&quot; message.</p>
 <h4 id="three-types">Three Types</h4>
-<table class="rules"><tbody>
-<tr><th>Type</th><th>When</th><th>Tone</th></tr>
-<tr><th>Informational</th><th>Content absent, user hasn&#x27;t acted yet</th><th>Neutral, guiding: &quot;Add your first project to get started&quot;</th></tr>
-<tr><th>Action-oriented</th><th>Feature requires user input to populate</th><th>Encouraging, CTA-forward: &quot;Create your first workspace&quot;</th></tr>
-<tr><th>Celebratory</th><th>All items completed/resolved</th><th>Positive reinforcement: &quot;All caught up!&quot;</th></tr>
+<table class="rules">
+<thead><tr><th>Type</th><th>When</th><th>Tone</th></tr></thead><tbody>
+<tr><td>Informational</td><td>Content absent, user hasn&#x27;t acted yet</td><td>Neutral, guiding: &quot;Add your first project to get started&quot;</td></tr>
+<tr><td>Action-oriented</td><td>Feature requires user input to populate</td><td>Encouraging, CTA-forward: &quot;Create your first workspace&quot;</td></tr>
+<tr><td>Celebratory</td><td>All items completed/resolved</td><td>Positive reinforcement: &quot;All caught up!&quot;</td></tr>
 </tbody></table>
 <h4 id="composition-template">Composition Template</h4>
 <pre><code>┌─────────────────────────────────┐
@@ -170,20 +169,19 @@
 <p>---</p>
 <h3 id="3-error-state-taxonomy">3. Error State Taxonomy</h3>
 <p>Every error message follows: (1) what happened, (2) why, (3) what to do next.</p>
-<table class="rules"><tbody>
-<tr><th>Pattern</th><th>When</th><th>Recovery</th><th>Severity</th></tr>
-<tr><th>Inline validation</th><th>Structured input (email, password)</th><th>Real-time feedback as user types</th><th>Preventative</th></tr>
-<tr><th>Toast notification</th><th>Low-severity temporary errors</th><th>Brief 3-5s non-modal, optional retry</th><th>Ambient</th></tr>
-<tr><th>Banner</th><th>System-wide warnings (maintenance, degraded)</th><th>Persistent, dismissible, with details link</th><th>Ambient</th></tr>
-<tr><th>Full-page error</th><th>Critical system failure, content cannot load</th><th>Centered: Try Again + escape hatch</th><th>Interrupting</th></tr>
-<table class="rules"><tbody>
-<tr><th>Empty-state error</th><th>No search results, empty filtered lists</th><th>Suggest alternatives or creation paths</th><th>Informational</th></tr>
-<tr><th>Network failure</th><th>Lost connection</th><th>Enable offline mode where possible, auto-retry on reconnect</th><th>Interrupting</th></tr>
-<tr><th>Timeout</th><th>Server response &gt; 10–15s</th><th>Offer Cancel + Keep Waiting</th><th>Interrupting</th></tr>
-<tr><th>Permission denied</th><th>User lacks role access</th><th>Offer Request Access or role upgrade info</th><th>Informational</th></tr>
-<tr><th>404 Not Found</th><th>URL does not exist</th><th>Branded page + search bar + top nav links. Never a dead end</th><th>Informational</th></tr>
-<table class="rules"><tbody>
-<tr><th>Rate limiting</th><th>API limits exceeded</th><th>Banner with wait time + link to docs</th><th>Ambient</th></tr>
+<table class="rules">
+<thead><tr><th>Pattern</th><th>When</th><th>Recovery</th><th>Severity</th></tr></thead><tbody>
+<tr><td>Inline validation</td><td>Structured input (email, password)</td><td>Real-time feedback as user types</td><td>Preventative</td></tr>
+<tr><td>Toast notification</td><td>Low-severity temporary errors</td><td>Brief 3-5s non-modal, optional retry</td><td>Ambient</td></tr>
+<tr><td>Banner</td><td>System-wide warnings (maintenance, degraded)</td><td>Persistent, dismissible, with details link</td><td>Ambient</td></tr>
+<tr><td>Full-page error</td><td>Critical system failure, content cannot load</td><td>Centered: Try Again + escape hatch</td><td>Interrupting</td></tr>
+<tr><td>Empty-state error</td><td>No search results, empty filtered lists</td><td>Suggest alternatives or creation paths</td><td>Informational</td></tr>
+<table class="rules">
+<tr><td>Network failure</td><td>Lost connection</td><td>Enable offline mode where possible, auto-retry on reconnect</td><td>Interrupting</td></tr>
+<tr><td>Timeout</td><td>Server response &gt; 10–15s</td><td>Offer Cancel + Keep Waiting</td><td>Interrupting</td></tr>
+<tr><td>Permission denied</td><td>User lacks role access</td><td>Offer Request Access or role upgrade info</td><td>Informational</td></tr>
+<tr><td>404 Not Found</td><td>URL does not exist</td><td>Branded page + search bar + top nav links. Never a dead end</td><td>Informational</td></tr>
+<tr><td>Rate limiting</td><td>API limits exceeded</td><td>Banner with wait time + link to docs</td><td>Ambient</td></tr>
 </tbody></table>
 <p><strong>Rules:</strong></p>
 <ul>
@@ -205,15 +203,15 @@
 <li>Show skeleton for a minimum of 300ms to avoid flash.</li>
 </ul>
 <h4 id="decision-table">Decision Table</h4>
-<table class="rules"><tbody>
-<tr><th>Scenario</th><th>Pattern</th><th>Details</th></tr>
-<tr><th>Page initial load</th><th>Skeleton</th><th>Match layout, show immediately</th></tr>
-<tr><th>Data refresh</th><th>Stale-while-revalidate</th><th>Show old data + subtle loading indicator</th></tr>
-<tr><th>Action result</th><th>Optimistic update</th><th>Apply change immediately, revert on error</th></tr>
-<tr><th>Long operation (&gt; 3s)</th><th>Progress bar / percentage</th><th>Show estimated time if available</th></tr>
-<table class="rules"><tbody>
-<tr><th>Background process</th><th>Toast / status badge</th><th>Non-blocking notification</th></tr>
-<tr><th>Infinite scroll</th><th>Skeleton rows at bottom</th><th>3–5 placeholder rows</th></tr>
+<table class="rules">
+<thead><tr><th>Scenario</th><th>Pattern</th><th>Details</th></tr></thead><tbody>
+<tr><td>Page initial load</td><td>Skeleton</td><td>Match layout, show immediately</td></tr>
+<tr><td>Data refresh</td><td>Stale-while-revalidate</td><td>Show old data + subtle loading indicator</td></tr>
+<tr><td>Action result</td><td>Optimistic update</td><td>Apply change immediately, revert on error</td></tr>
+<tr><td>Long operation (&gt; 3s)</td><td>Progress bar / percentage</td><td>Show estimated time if available</td></tr>
+<tr><td>Background process</td><td>Toast / status badge</td><td>Non-blocking notification</td></tr>
+<table class="rules">
+<tr><td>Infinite scroll</td><td>Skeleton rows at bottom</td><td>3–5 placeholder rows</td></tr>
 </tbody></table>
 <h4 id="skeleton-content-transition">Skeleton → Content Transition</h4>
 <p>Fade skeleton out, fade content in. Duration: 200ms. Never pop — the transition must feel continuous.</p>
@@ -221,22 +219,22 @@
 <h3 id="5-progressive-disclosure">5. Progressive Disclosure</h3>
 <p>Show ONLY essential information first. Defer advanced/optional content behind explicit user action.</p>
 <h4 id="three-categories">Three Categories</h4>
-<table class="rules"><tbody>
-<tr><th>Category</th><th>Mechanism</th><th>Example</th></tr>
-<tr><th>Step-by-step</th><th>Sequential multi-stage</th><th>Checkout: shipping → method → payment → confirm</th></tr>
-<tr><th>Conditional</th><th>Hidden until explicitly requested</th><th>&quot;Advanced Settings&quot; toggle</th></tr>
-<tr><th>Contextual</th><th>Content surfaced based on prior input</th><th>Show company fields only after selecting &quot;Business&quot;</th></tr>
+<table class="rules">
+<thead><tr><th>Category</th><th>Mechanism</th><th>Example</th></tr></thead><tbody>
+<tr><td>Step-by-step</td><td>Sequential multi-stage</td><td>Checkout: shipping → method → payment → confirm</td></tr>
+<tr><td>Conditional</td><td>Hidden until explicitly requested</td><td>&quot;Advanced Settings&quot; toggle</td></tr>
+<tr><td>Contextual</td><td>Content surfaced based on prior input</td><td>Show company fields only after selecting &quot;Business&quot;</td></tr>
 </tbody></table>
 <h4 id="ui-components-for-disclosure">UI Components for Disclosure</h4>
-<table class="rules"><tbody>
-<tr><th>Component</th><th>Use For</th></tr>
-<tr><th>Accordion</th><th>Structured information (FAQ, settings groups)</th></tr>
-<tr><th>Tabs</th><th>Categorized content at the same level</th></tr>
-<tr><th>Conditional form fields</th><th>Show/hide based on prior input</th></tr>
-<tr><th>Tooltip / popover</th><th>Context help on hover/click</th></tr>
-<table class="rules"><tbody>
-<tr><th>&quot;Show more&quot; link</th><th>Optional fields in forms</th></tr>
-<tr><th>Lazy loading</th><th>Supplementary content on scroll</th></tr>
+<table class="rules">
+<thead><tr><th>Component</th><th>Use For</th></tr></thead><tbody>
+<tr><td>Accordion</td><td>Structured information (FAQ, settings groups)</td></tr>
+<tr><td>Tabs</td><td>Categorized content at the same level</td></tr>
+<tr><td>Conditional form fields</td><td>Show/hide based on prior input</td></tr>
+<tr><td>Tooltip / popover</td><td>Context help on hover/click</td></tr>
+<tr><td>&quot;Show more&quot; link</td><td>Optional fields in forms</td></tr>
+<table class="rules">
+<tr><td>Lazy loading</td><td>Supplementary content on scroll</td></tr>
 </tbody></table>
 <p><strong>Rules:</strong></p>
 <ul>
@@ -251,12 +249,12 @@
 </ul>
 <p>---</p>
 <h3 id="6-error-page-taxonomy">6. Error Page Taxonomy</h3>
-<table class="rules"><tbody>
-<tr><th>Page</th><th>Content</th><th>Tone</th></tr>
-<tr><th><strong>404</strong></th><th>Branded page + search bar + top nav + &quot;popular pages&quot; links</th><th>Friendly, helpful</th></tr>
-<tr><th><strong>500</strong></th><th>Branded page + &quot;We&#x27;re working on it&quot; + status page link + retry button</th><th>Reassuring, transparent</th></tr>
-<tr><th><strong>Maintenance</strong></th><th>Branded page + estimated return time + status page link</th><th>Professional, time-bound</th></tr>
-<tr><th><strong>Offline</strong></th><th>Service worker cached page + &quot;You&#x27;re offline&quot; + cached content list</th><th>Informative, functional</th></tr>
+<table class="rules">
+<thead><tr><th>Page</th><th>Content</th><th>Tone</th></tr></thead><tbody>
+<tr><td><strong>404</strong></td><td>Branded page + search bar + top nav + &quot;popular pages&quot; links</td><td>Friendly, helpful</td></tr>
+<tr><td><strong>500</strong></td><td>Branded page + &quot;We&#x27;re working on it&quot; + status page link + retry button</td><td>Reassuring, transparent</td></tr>
+<tr><td><strong>Maintenance</strong></td><td>Branded page + estimated return time + status page link</td><td>Professional, time-bound</td></tr>
+<tr><td><strong>Offline</strong></td><td>Service worker cached page + &quot;You&#x27;re offline&quot; + cached content list</td><td>Informative, functional</td></tr>
 </tbody></table>
 <p>Rules:</p>
 <ul>

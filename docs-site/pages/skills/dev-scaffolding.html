@@ -111,7 +111,7 @@
 </div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
 <div class="problem-card"><strong>빈 캔버스 증후군</strong><p>에이전트에게 새 모듈을 만들라고 하면 기존 프로젝트의 구조를 무시하고 자기만의 디렉토리 체계를 발명한다. src/components/ 대신 app/widgets/를 만들고, 기존 네이밍 관습(camelCase vs snake_case)과 다른 스타일을 쓴다. Convention Discovery는 기존 구조를 먼저 스캔하게 한다.</p></div>
-<div class="problem-card"><strong>문서 소재지의 혼란</strong><p>ADR, 기술 결정, 구조 변경 기록이 채팅 히스토리에만 남아 다음 세션에서 사라진다. UNIT-RESIDENCE-01은 모든 구현이 <a href="../../pages/skills/dev.html">dev</a>log/_plan/YYMMDD_slug/ 유닛에 소속되게 하여, 결정과 결과를 파일 시스템에 영구 기록한다.</p></div>
+<div class="problem-card"><strong>문서 소재지의 혼란</strong><p>ADR, 기술 결정, 구조 변경 기록이 채팅 히스토리에만 남아 다음 세션에서 사라진다. UNIT-RESIDENCE-01은 모든 구현이 devlog/_plan/YYMMDD_slug/ 유닛에 소속되게 하여, 결정과 결과를 파일 시스템에 영구 기록한다.</p></div>
 <div class="problem-card"><strong>세션 간 결정의 휘발성</strong><p>LLM은 대화가 끝나면 맥락을 잃는다. 이전 세션에서 &#x27;이 프로젝트는 monorepo 구조를 쓰기로 했다&#x27;는 결정이 다음 세션에서 사라진다. UNIT-RESIDENCE-01은 모든 구현을 devlog/_plan/ 유닛에 기록하여, 결정이 파일 시스템에 영구 보존되게 한다. 이건 LLM의 비영속적 메모리를 영속적 저장소로 보완하는 패턴이다.</p></div>
 <p><strong>Triggers:</strong> <code>scaffold, new project, init project, new feature, add module, project setup, structure audit</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
@@ -162,11 +162,11 @@
 <p>Rules for generating and auditing project structures. Create files directly following these rules. Use the audit script (§12) for verification.</p>
 <p>This skill activates by change surface: new project setup, feature/module scaffolding, structural audits, or documentation scaffolding.</p>
 <h3 id="modular-references">Modular References</h3>
-<table class="rules"><tbody>
-<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/implementation-log.md</code></th><th>C3+/multi-phase/cross-session work units</th><th>Full devlog routine: decade-numbered plan folders, P-concretize → A-audit → D-archive loop, mainstream design-doc/RFC mapping</th></tr>
-<tr><th><code>references/api-docs.md</code></th><th>API documentation generation</th><th>OpenAPI 3.1, developer portal, CI doc drift, SDK generation</th></tr>
-<tr><th><code>references/monorepo-tooling.md</code></th><th>Setting up or optimizing monorepo builds</th><th>Turborepo vs Nx 2026 decision table, task graph for AI agents, CI optimization</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
+<tr><td><code>references/implementation-log.md</code></td><td>C3+/multi-phase/cross-session work units</td><td>Full devlog routine: decade-numbered plan folders, P-concretize → A-audit → D-archive loop, mainstream design-doc/RFC mapping</td></tr>
+<tr><td><code>references/api-docs.md</code></td><td>API documentation generation</td><td>OpenAPI 3.1, developer portal, CI doc drift, SDK generation</td></tr>
+<tr><td><code>references/monorepo-tooling.md</code></td><td>Setting up or optimizing monorepo builds</td><td>Turborepo vs Nx 2026 decision table, task graph for AI agents, CI optimization</td></tr>
 </tbody></table>
 <h3 id="external-current-scaffolding-evidence">External/current scaffolding evidence</h3>
 <p>For current generator behavior, template commands, package versions, framework</p>
@@ -217,7 +217,7 @@ devlog/
 <p><strong>SoT sync (DEFAULT, SOT-SYNC-01):</strong> before patching a repo, FIND its general</p>
 <p>source-of-truth docs first (<code>structure/</code>, <code>architecture.md</code>, INDEX/context docs)</p>
 <p>and read them; any unit that changes architecture, contracts, or structure patches</p>
-<p>the SoT doc in the SAME unit (C gate, <a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> §3 C). If the repo has no SoT doc,</p>
+<p>the SoT doc in the SAME unit (C gate, dev-pabcd §3 C). If the repo has no SoT doc,</p>
 <p>recommend creating one — once, via the proposal flow above — rather than silently</p>
 <p>working without a source of truth.</p>
 <p>Implementation-unit devlog method:</p>
@@ -245,15 +245,15 @@ devlog/
 <p>When creating an approved new project skeleton, include the source-of-truth and feature-based essentials: <code>AGENTS.md</code> + <code>README.md</code> (context/overview), <code>.env.example</code> + <code>.gitignore</code>, <code>devlog/_plan/</code> + <code>devlog/_fin/</code> (and <code>str_func/</code> only for the full standard, §8), <code>src/</code> with a <code>shared/</code> for truly-shared code, <code>config/</code>, <code>docs/</code>, and <code>tests/e2e/</code>. Then add the language-appropriate package manifest, entry point, language config, and per-feature public boundary exports (per <code>dev-architecture</code> §5; file names from language detection, §3). Defer exact layout to the framework&#x27;s own generator when one exists.</p>
 <h3 id="3-language-detection">3. Language Detection</h3>
 <p>Detect project type from existing files. Priority order:</p>
-<table class="rules"><tbody>
-<tr><th>File Found</th><th>Project Type</th></tr>
-<tr><th><code>tsconfig.json</code></th><th>TypeScript (Node)</th></tr>
-<tr><th><code>package.json</code> (no tsconfig)</th><th>JavaScript (Node)</th></tr>
-<tr><th><code>pyproject.toml</code> or <code>requirements.txt</code></th><th>Python</th></tr>
-<tr><th><code>go.mod</code></th><th>Go</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>Cargo.toml</code></th><th>Rust</th></tr>
-<tr><th>None of the above</th><th>→ Tech Stack Decision (below)</th></tr>
+<table class="rules">
+<thead><tr><th>File Found</th><th>Project Type</th></tr></thead><tbody>
+<tr><td><code>tsconfig.json</code></td><td>TypeScript (Node)</td></tr>
+<tr><td><code>package.json</code> (no tsconfig)</td><td>JavaScript (Node)</td></tr>
+<tr><td><code>pyproject.toml</code> or <code>requirements.txt</code></td><td>Python</td></tr>
+<tr><td><code>go.mod</code></td><td>Go</td></tr>
+<tr><td><code>Cargo.toml</code></td><td>Rust</td></tr>
+<table class="rules">
+<tr><td>None of the above</td><td>→ Tech Stack Decision (below)</td></tr>
 </tbody></table>
 <p>For greenfield projects, use the Tech Stack Decision process (§3.1) instead of asking &quot;What language?&quot;</p>
 <h3 id="3-1-tech-stack-decision-new-projects">3.1 Tech Stack Decision (New Projects)</h3>
@@ -267,53 +267,51 @@ devlog/
 <p>Match tool complexity to task complexity. Escalate tooling only when justified by user requirements (SEO, CMS, scaling).</p>
 <h3 id="4-fullstack-split-rule">4. Fullstack Split Rule</h3>
 <p>Decide project layout based on runtime:</p>
-<table class="rules"><tbody>
-<tr><th>Scenario</th><th>Layout</th><th>Example</th></tr>
-<tr><th>Single runtime</th><th><code>src/</code> modular</th><th>Next.js, Node CLI + API, Python monolith</th></tr>
-<tr><th>Multiple runtimes</th><th><code>frontend/</code> + <code>backend/</code></th><th>React + FastAPI, Vue + Go API</th></tr>
-<tr><th>Monorepo (3+ apps)</th><th><code>packages/</code> or <code>apps/</code></th><th>Turborepo, Nx</th></tr>
+<table class="rules">
+<thead><tr><th>Scenario</th><th>Layout</th><th>Example</th></tr></thead><tbody>
+<tr><td>Single runtime</td><td><code>src/</code> modular</td><td>Next.js, Node CLI + API, Python monolith</td></tr>
+<tr><td>Multiple runtimes</td><td><code>frontend/</code> + <code>backend/</code></td><td>React + FastAPI, Vue + Go API</td></tr>
+<tr><td>Monorepo (3+ apps)</td><td><code>packages/</code> or <code>apps/</code></td><td>Turborepo, Nx</td></tr>
 </tbody></table>
 <p>Each side gets its own package manifest and entry point. Shared types go in root <code>shared/</code> or <code>packages/shared/</code>.</p>
 <h3 id="5-feature-module-rules">5. Feature Module Rules</h3>
 <p>When adding a new feature, create a folder under <code>src/</code> with these files:</p>
-<table class="rules"><tbody>
-<tr><th>Language</th><th>Folder</th><th>Main File</th><th>Test File</th><th>Public boundary export</th></tr>
-<tr><th>JavaScript</th><th><code>kebab-case/</code></th><th><code>name.tool.js</code></th><th><code>name.test.js</code></th><th><code>index.js</code></th></tr>
-<tr><th>TypeScript</th><th><code>kebab-case/</code></th><th><code>name.tool.ts</code></th><th><code>name.test.ts</code></th><th><code>index.ts</code></th></tr>
-<tr><th>Python</th><th><code>kebab-case/</code></th><th><code>name_tool.py</code></th><th><code>test_name.py</code></th><th><code>__init__.py</code></th></tr>
-<tr><th>Go</th><th><code>kebab-case/</code></th><th><code>name.go</code></th><th><code>name_test.go</code></th><th>*(package = boundary)*</th></tr>
-<table class="rules"><tbody>
-<tr><th>Rust</th><th><code>kebab-case/</code></th><th><code>name.rs</code></th><th>inline <code>#[cfg(test)]</code> or <code>tests/</code></th><th><code>lib.rs</code>/parent <code>mod name;</code></th></tr>
+<table class="rules">
+<thead><tr><th>Language</th><th>Folder</th><th>Main File</th><th>Test File</th><th>Public boundary export</th></tr></thead><tbody>
+<tr><td>JavaScript</td><td><code>kebab-case/</code></td><td><code>name.tool.js</code></td><td><code>name.test.js</code></td><td><code>index.js</code></td></tr>
+<tr><td>TypeScript</td><td><code>kebab-case/</code></td><td><code>name.tool.ts</code></td><td><code>name.test.ts</code></td><td><code>index.ts</code></td></tr>
+<tr><td>Python</td><td><code>kebab-case/</code></td><td><code>name_tool.py</code></td><td><code>test_name.py</code></td><td><code>__init__.py</code></td></tr>
+<tr><td>Go</td><td><code>kebab-case/</code></td><td><code>name.go</code></td><td><code>name_test.go</code></td><td>*(package = boundary)*</td></tr>
+<tr><td>Rust</td><td><code>kebab-case/</code></td><td><code>name.rs</code></td><td>inline <code>#[cfg(test)]</code> or <code>tests/</code></td><td><code>lib.rs</code>/parent <code>mod name;</code></td></tr>
 </tbody></table>
 <p>The <code>index.*</code> file is the feature&#x27;s <strong>public boundary export</strong>. Barrel discipline is owned</p>
 <p>by <code>dev-architecture</code> §5: external consumers import this boundary, internal code imports</p>
 <p>sources directly, and convenience-only internal barrels are banned.</p>
 <p>Principle: &quot;flat until you can&#x27;t&quot; — start flat, sub-folder only when a folder becomes hard to scan.</p>
 <h3 id="6-naming-conventions">6. Naming Conventions</h3>
-<table class="rules"><tbody>
-<tr><th>Item</th><th>Rule</th><th>Example</th></tr>
-<tr><th>Folders</th><th>kebab-case</th><th><code>stock-price/</code>, <code>user-auth/</code></th></tr>
-<tr><th>JS/TS files</th><th>kebab-case + suffix</th><th><code>stock-price.tool.ts</code></th></tr>
-<tr><th>Python files</th><th>snake_case + suffix</th><th><code>stock_price_tool.py</code></th></tr>
-<tr><th>Go files</th><th>snake_case</th><th><code>stock_price.go</code></th></tr>
-<table class="rules"><tbody>
-<tr><th>Rust files</th><th>snake_case</th><th><code>stock_price.rs</code></th></tr>
-<tr><th>devlog plan folders</th><th><code>YYMMDD_slug/</code></th><th><code>260510_phase_doc_naming/</code></th></tr>
-<tr><th>devlog phase docs</th><th>decade-prefixed <code>NN_slug.md</code>, <code>00_*</code> is the index</th><th><code>00_plan.md</code>, <code>10_phase1_skill_contract.md</code></th></tr>
-<tr><th>Functions (JS/TS)</th><th>camelCase</th><th><code>getStockPrice()</code></th></tr>
-<tr><th>Functions (Python)</th><th>snake_case</th><th><code>get_stock_price()</code></th></tr>
-<table class="rules"><tbody>
-<tr><th>Functions (Go)</th><th>PascalCase (exported)</th><th><code>GetStockPrice()</code></th></tr>
-<tr><th>Functions (Rust)</th><th>snake_case</th><th><code>get_stock_price()</code></th></tr>
+<table class="rules">
+<thead><tr><th>Item</th><th>Rule</th><th>Example</th></tr></thead><tbody>
+<tr><td>Folders</td><td>kebab-case</td><td><code>stock-price/</code>, <code>user-auth/</code></td></tr>
+<tr><td>JS/TS files</td><td>kebab-case + suffix</td><td><code>stock-price.tool.ts</code></td></tr>
+<tr><td>Python files</td><td>snake_case + suffix</td><td><code>stock_price_tool.py</code></td></tr>
+<tr><td>Go files</td><td>snake_case</td><td><code>stock_price.go</code></td></tr>
+<tr><td>Rust files</td><td>snake_case</td><td><code>stock_price.rs</code></td></tr>
+<table class="rules">
+<tr><td>devlog plan folders</td><td><code>YYMMDD_slug/</code></td><td><code>260510_phase_doc_naming/</code></td></tr>
+<tr><td>devlog phase docs</td><td>decade-prefixed <code>NN_slug.md</code>, <code>00_*</code> is the index</td><td><code>00_plan.md</code>, <code>10_phase1_skill_contract.md</code></td></tr>
+<tr><td>Functions (JS/TS)</td><td>camelCase</td><td><code>getStockPrice()</code></td></tr>
+<tr><td>Functions (Python)</td><td>snake_case</td><td><code>get_stock_price()</code></td></tr>
+<tr><td>Functions (Go)</td><td>PascalCase (exported)</td><td><code>GetStockPrice()</code></td></tr>
+<tr><td>Functions (Rust)</td><td>snake_case</td><td><code>get_stock_price()</code></td></tr>
 </tbody></table>
 <h3 id="7-file-suffixes">7. File Suffixes</h3>
-<tr><th>Suffix</th><th>Role</th><th>Languages</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>.tool.ts</code> / <code>.tool.js</code> / <code>_tool.py</code></th><th>Core business logic</th><th>JS/TS/Python</th></tr>
-<tr><th><code>.test.ts</code> / <code>.test.js</code> / <code>test_*.py</code> / <code>_test.go</code></th><th>Tests</th><th>All</th></tr>
-<tr><th><code>.schema.ts</code> / <code>.schema.js</code></th><th>Type/schema definitions</th><th>JS/TS</th></tr>
-<tr><th><code>.route.ts</code> / <code>.route.js</code></th><th>API routes</th><th>JS/TS</th></tr>
-<tr><th><code>.template.md</code></th><th>Templates</th><th>All</th></tr>
+<table class="rules">
+<thead><tr><th>Suffix</th><th>Role</th><th>Languages</th></tr></thead><tbody>
+<tr><td><code>.tool.ts</code> / <code>.tool.js</code> / <code>_tool.py</code></td><td>Core business logic</td><td>JS/TS/Python</td></tr>
+<tr><td><code>.test.ts</code> / <code>.test.js</code> / <code>test_*.py</code> / <code>_test.go</code></td><td>Tests</td><td>All</td></tr>
+<tr><td><code>.schema.ts</code> / <code>.schema.js</code></td><td>Type/schema definitions</td><td>JS/TS</td></tr>
+<tr><td><code>.route.ts</code> / <code>.route.js</code></td><td>API routes</td><td>JS/TS</td></tr>
+<tr><td><code>.template.md</code></td><td>Templates</td><td>All</td></tr>
 </tbody></table>
 <h3 id="8-str-func-rules">8. str_func Rules</h3>
 <p><code>str_func</code> is part of the full Lidge standard, not the lightweight default.</p>
@@ -335,12 +333,12 @@ devlog/
 <p>Prefer lightweight <code>structure/architecture.md</code> and <code>structure/conventions.md</code> first.</p>
 <h3 id="9-split-rules">9. Split Rules</h3>
 <p>Split smells (heuristics, not hard gates):</p>
-<table class="rules"><tbody>
-<tr><th>Condition</th><th>Action</th></tr>
-<tr><th>File grows past ~500 lines</th><th>Split into focused modules within same folder</th></tr>
-<tr><th>Folder becomes hard to scan</th><th>Create sub-folders by responsibility</th></tr>
-<tr><th>Different runtime needed</th><th>Split into <code>frontend/</code> + <code>backend/</code></th></tr>
-<tr><th>3+ apps share code</th><th>Extract to <code>shared/</code> or monorepo <code>packages/</code></th></tr>
+<table class="rules">
+<thead><tr><th>Condition</th><th>Action</th></tr></thead><tbody>
+<tr><td>File grows past ~500 lines</td><td>Split into focused modules within same folder</td></tr>
+<tr><td>Folder becomes hard to scan</td><td>Create sub-folders by responsibility</td></tr>
+<tr><td>Different runtime needed</td><td>Split into <code>frontend/</code> + <code>backend/</code></td></tr>
+<tr><td>3+ apps share code</td><td>Extract to <code>shared/</code> or monorepo <code>packages/</code></td></tr>
 </tbody></table>
 <h3 id="10-cross-cutting-scaffolding">10. Cross-Cutting Scaffolding</h3>
 <h4 id="health-endpoints">Health Endpoints</h4>
@@ -391,7 +389,7 @@ devlog/
 </ol>
 <p>---</p>
 <h3 id="12-audit">12. Audit</h3>
-<p>Run the scaffold audit if one is available for the repo (e.g. <code>bash &lt;SKILL_DIR&gt;/scripts/scaffold-audit.sh [project-path]</code>) to check structural compliance. Audit checks should reflect the project&#x27;s own conventions — covering feature-based structure, colocation, public boundary exports (<a href="../../pages/skills/dev-architecture.html">dev-architecture</a> §5), devlog presence, <code>.env</code> safety, file length, and AGENTS.md where those apply.</p>
+<p>Run the scaffold audit if one is available for the repo (e.g. <code>bash &lt;SKILL_DIR&gt;/scripts/scaffold-audit.sh [project-path]</code>) to check structural compliance. Audit checks should reflect the project&#x27;s own conventions — covering feature-based structure, colocation, public boundary exports (dev-architecture §5), devlog presence, <code>.env</code> safety, file length, and AGENTS.md where those apply.</p>
 </details>
   </div>
 </section>

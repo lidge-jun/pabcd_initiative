@@ -108,19 +108,19 @@
 <p>Last reviewed: 2026-06-16</p>
 <p>Applies to: npm, PyPI, container images, CI/CD pipelines</p>
 <p>When to read: Dependency auditing, release integrity, SBOM generation</p>
-<p>Canonical owner: <a href="../../pages/skills/dev-security.html">dev-security</a></p>
-<p>Cross-ref: <code>dev-<a href="../../pages/skills/dev.html">dev</a>ops</code> <a href="../../pages/skills/dev-devops-docker.html">docker.md</a> §1.3 (container image scanning), <code>dev-security</code> §7 (Static Analysis Integration)</p>
+<p>Canonical owner: dev-security</p>
+<p>Cross-ref: <code>dev-devops</code> <a href="../../pages/skills/dev-devops-docker.html">docker.md</a> §1.3 (container image scanning), <code>dev-security</code> §7 (Static Analysis Integration)</p>
 <p>Package release auth defaults live in <code>dev-devops/references/package-release.md</code>.</p>
 <p>For public package publishing, prefer registry-native trusted publishing/OIDC</p>
 <p>where supported; long-lived publish tokens require an explicit fallback reason.</p>
 <h3 id="1-sbom-generation">1. SBOM Generation</h3>
 <p>A Software Bill of Materials (SBOM) is a machine-readable inventory of every component in a build artifact.</p>
-<table class="rules"><tbody>
-<tr><th>Tool</th><th>Format</th><th>Use When</th></tr>
-<tr><th>Syft (Anchore)</th><th>CycloneDX, SPDX</th><th>Container images, language packages — broadest format support</th></tr>
-<tr><th>Trivy (Aqua)</th><th>CycloneDX, SPDX</th><th>Combined SBOM + vulnerability scan in one pass</th></tr>
-<tr><th><code>npm sbom</code></th><th>CycloneDX, SPDX</th><th>Node.js projects — built into npm 10+</th></tr>
-<tr><th>CycloneDX CLI</th><th>CycloneDX</th><th>When you need CycloneDX specifically for compliance</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Format</th><th>Use When</th></tr></thead><tbody>
+<tr><td>Syft (Anchore)</td><td>CycloneDX, SPDX</td><td>Container images, language packages — broadest format support</td></tr>
+<tr><td>Trivy (Aqua)</td><td>CycloneDX, SPDX</td><td>Combined SBOM + vulnerability scan in one pass</td></tr>
+<tr><td><code>npm sbom</code></td><td>CycloneDX, SPDX</td><td>Node.js projects — built into npm 10+</td></tr>
+<tr><td>CycloneDX CLI</td><td>CycloneDX</td><td>When you need CycloneDX specifically for compliance</td></tr>
 </tbody></table>
 <pre><code># Generate SBOM from container image
 syft myapp:v1.2.3 -o cyclonedx-json &gt; sbom.cdx.json
@@ -139,11 +139,11 @@ trivy image myapp:v1.2.3 --format cyclonedx --output sbom.cdx.json</code></pre>
 </ul>
 <h3 id="2-artifact-signing-provenance">2. Artifact Signing &amp; Provenance</h3>
 <p>Sign artifacts to prove they came from your CI pipeline, not a compromised mirror:</p>
-<table class="rules"><tbody>
-<tr><th>Tool</th><th>Signs</th><th>Verification</th></tr>
-<tr><th>Cosign (Sigstore)</th><th>Container images, blobs</th><th><code>cosign verify --key cosign.pub &lt;image&gt;</code></th></tr>
-<tr><th>npm provenance</th><th>npm packages</th><th><code>npm publish --provenance</code> (requires OIDC-capable CI)</th></tr>
-<tr><th>SLSA (Supply-chain Levels for Software Artifacts)</th><th>Build provenance attestation</th><th>Verifiable build metadata: who built, from what source, with what builder</th></tr>
+<table class="rules">
+<thead><tr><th>Tool</th><th>Signs</th><th>Verification</th></tr></thead><tbody>
+<tr><td>Cosign (Sigstore)</td><td>Container images, blobs</td><td><code>cosign verify --key cosign.pub &lt;image&gt;</code></td></tr>
+<tr><td>npm provenance</td><td>npm packages</td><td><code>npm publish --provenance</code> (requires OIDC-capable CI)</td></tr>
+<tr><td>SLSA (Supply-chain Levels for Software Artifacts)</td><td>Build provenance attestation</td><td>Verifiable build metadata: who built, from what source, with what builder</td></tr>
 </tbody></table>
 <pre><code># Sign container image with keyless Cosign (Sigstore)
 cosign sign --yes ghcr.io/org/myapp:v1.2.3
@@ -155,11 +155,11 @@ cosign verify ghcr.io/org/myapp:v1.2.3 \
 
 # npm publish with provenance
 npm publish --provenance</code></pre>
-<table class="rules"><tbody>
-<tr><th>SLSA Level</th><th>Requirement</th><th>Practical Meaning</th></tr>
-<tr><th>Level 1</th><th>Build process documented</th><th>CI config exists and is version-controlled</th></tr>
-<tr><th>Level 2</th><th>Hosted build, signed provenance</th><th>CI generates and signs provenance attestation</th></tr>
-<tr><th>Level 3</th><th>Hardened build platform</th><th>Isolated, ephemeral builders with tamper-evident logs</th></tr>
+<table class="rules">
+<thead><tr><th>SLSA Level</th><th>Requirement</th><th>Practical Meaning</th></tr></thead><tbody>
+<tr><td>Level 1</td><td>Build process documented</td><td>CI config exists and is version-controlled</td></tr>
+<tr><td>Level 2</td><td>Hosted build, signed provenance</td><td>CI generates and signs provenance attestation</td></tr>
+<tr><td>Level 3</td><td>Hardened build platform</td><td>Isolated, ephemeral builders with tamper-evident logs</td></tr>
 </tbody></table>
 <p>Rules:</p>
 <ul>
@@ -172,26 +172,25 @@ npm publish --provenance</code></pre>
 <h4 id="public-package-trusted-publishing">Public Package Trusted Publishing</h4>
 <p>For public package release from CI, default to registry-native trusted</p>
 <p>publishing/OIDC where the registry supports it:</p>
-<table class="rules"><tbody>
-<tr><th>Registry</th><th>Default</th><th>Token fallback only when</th></tr>
-<tr><th>npm</th><th>npm Trusted Publishing/OIDC with provenance</th><th>Trusted Publishing is unsupported, rejected, or not configured</th></tr>
-<tr><th>PyPI</th><th>PyPI Trusted Publisher/OIDC</th><th>Trusted Publisher is unsupported, rejected, or not configured</th></tr>
-<tr><th>RubyGems</th><th>RubyGems Trusted Publishing/OIDC</th><th>Trusted Publishing is unsupported, rejected, or not configured</th></tr>
-<tr><th>crates.io</th><th>crates.io Trusted Publishing/OIDC when configured</th><th>Trusted Publishing is unavailable for the crate/CI</th></tr>
+<table class="rules">
+<thead><tr><th>Registry</th><th>Default</th><th>Token fallback only when</th></tr></thead><tbody>
+<tr><td>npm</td><td>npm Trusted Publishing/OIDC with provenance</td><td>Trusted Publishing is unsupported, rejected, or not configured</td></tr>
+<tr><td>PyPI</td><td>PyPI Trusted Publisher/OIDC</td><td>Trusted Publisher is unsupported, rejected, or not configured</td></tr>
+<tr><td>RubyGems</td><td>RubyGems Trusted Publishing/OIDC</td><td>Trusted Publishing is unsupported, rejected, or not configured</td></tr>
+<tr><td>crates.io</td><td>crates.io Trusted Publishing/OIDC when configured</td><td>Trusted Publishing is unavailable for the crate/CI</td></tr>
 </tbody></table>
 <p>Do not ask for <code>NPM_TOKEN</code>, <code>PYPI_TOKEN</code>, <code>RUBYGEMS_API_KEY</code>, or a crates.io API</p>
 <p>token before checking whether a trusted publishing path exists. Token fallback</p>
 <p>must be named in the release proof bundle so reviewers know why OIDC was not</p>
 <p>used.</p>
 <h3 id="3-dependency-pin-audit-ci">3. Dependency Pin &amp; Audit CI</h3>
-<table class="rules"><tbody>
-<tr><th>Practice</th><th>Required</th><th>Tool</th></tr>
-<tr><th>Lockfile committed</th><th>Yes</th><th><code>package-lock.json</code>, <code>bun.lock</code>, <code>poetry.lock</code>, <code>go.sum</code></th></tr>
-<tr><th><code>--frozen-lockfile</code> in CI</th><th>Yes</th><th><code>npm ci</code>, <code>bun install --frozen-lockfile</code>, <code>poetry install --no-update</code></th></tr>
-<tr><th>Dependency audit in CI</th><th>Yes</th><th><code>npm audit</code>, <code>pip-audit</code>, <code>trivy fs .</code>, <code>osv-scanner</code></th></tr>
-<tr><th>Automated update PRs</th><th>Recommended</th><th>Renovate (preferred) or Dependabot with auto-merge for patch/minor</th></tr>
-<table class="rules"><tbody>
-<tr><th>License compliance</th><th>When required</th><th><code>license-checker</code>, <code>pip-licenses</code>, Trivy license scan</th></tr>
+<table class="rules">
+<thead><tr><th>Practice</th><th>Required</th><th>Tool</th></tr></thead><tbody>
+<tr><td>Lockfile committed</td><td>Yes</td><td><code>package-lock.json</code>, <code>bun.lock</code>, <code>poetry.lock</code>, <code>go.sum</code></td></tr>
+<tr><td><code>--frozen-lockfile</code> in CI</td><td>Yes</td><td><code>npm ci</code>, <code>bun install --frozen-lockfile</code>, <code>poetry install --no-update</code></td></tr>
+<tr><td>Dependency audit in CI</td><td>Yes</td><td><code>npm audit</code>, <code>pip-audit</code>, <code>trivy fs .</code>, <code>osv-scanner</code></td></tr>
+<tr><td>Automated update PRs</td><td>Recommended</td><td>Renovate (preferred) or Dependabot with auto-merge for patch/minor</td></tr>
+<tr><td>License compliance</td><td>When required</td><td><code>license-checker</code>, <code>pip-licenses</code>, Trivy license scan</td></tr>
 </tbody></table>
 <pre><code># CI dependency audit step (GitHub Actions example)
 - name: Dependency audit
@@ -207,15 +206,15 @@ npm publish --provenance</code></pre>
 <li>New dependencies require justification — check bundle size, maintenance status, and security history.</li>
 </ul>
 <h3 id="4-anti-patterns">4. Anti-Patterns</h3>
-<table class="rules"><tbody>
-<tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr>
-<tr><th>No lockfile in repo</th><th>Non-reproducible builds, phantom dependency updates</th><th>Commit lockfile, CI uses <code>--frozen-lockfile</code></th></tr>
-<tr><th><code>npm install</code> in CI instead of <code>npm ci</code></th><th>Lockfile ignored, dependencies can drift</th><th>Use <code>npm ci</code> / <code>bun install --frozen-lockfile</code></th></tr>
-<tr><th>Ignoring <code>npm audit</code> output</th><th>Known vulnerabilities ship to production</th><th>CI fails on HIGH+ findings; track exceptions with expiry</th></tr>
-<tr><th>Unsigned container images</th><th>No provenance verification possible</th><th>Sign with Cosign in CI (§2)</th></tr>
-<table class="rules"><tbody>
-<tr><th>SBOM generated once, never updated</th><th>Stale inventory, false compliance</th><th>Regenerate on every release build (§1)</th></tr>
-<tr><th>Long-lived signing keys</th><th>Key compromise = all artifacts compromised</th><th>Use keyless signing (Sigstore OIDC)</th></tr>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Symptom</th><th>Fix</th></tr></thead><tbody>
+<tr><td>No lockfile in repo</td><td>Non-reproducible builds, phantom dependency updates</td><td>Commit lockfile, CI uses <code>--frozen-lockfile</code></td></tr>
+<tr><td><code>npm install</code> in CI instead of <code>npm ci</code></td><td>Lockfile ignored, dependencies can drift</td><td>Use <code>npm ci</code> / <code>bun install --frozen-lockfile</code></td></tr>
+<tr><td>Ignoring <code>npm audit</code> output</td><td>Known vulnerabilities ship to production</td><td>CI fails on HIGH+ findings; track exceptions with expiry</td></tr>
+<tr><td>Unsigned container images</td><td>No provenance verification possible</td><td>Sign with Cosign in CI (§2)</td></tr>
+<tr><td>SBOM generated once, never updated</td><td>Stale inventory, false compliance</td><td>Regenerate on every release build (§1)</td></tr>
+<table class="rules">
+<tr><td>Long-lived signing keys</td><td>Key compromise = all artifacts compromised</td><td>Use keyless signing (Sigstore OIDC)</td></tr>
 </tbody></table>
 <h3 id="pre-flight">Pre-flight</h3>
 <ul>

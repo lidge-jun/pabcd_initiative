@@ -105,7 +105,7 @@
   <div class="band-inner">
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-frontend/SKILL.md" target="_blank" rel="noopener">skills/dev-frontend/SKILL.md</a></p>
 <p class="lede">Frontend implementation with responsive, accessible, anti-slop UI guidance.</p>
-<div class="evidence"><strong>왜 별도 모듈인가</strong><br>프론트엔드는 &#x27;동작&#x27;과 &#x27;보이는 것&#x27; 두 축이 모두 중요하다. 에이전트는 기능적으로 동작하는 코드는 잘 만들지만, 안티슬롭(AI가 만든 티가 나는 UI), 반응형 깨짐, 접근성 누락 같은 시각적/사용성 문제를 놓친다. 이 스킬은 <a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a>이 결정한 디자인 방향을 실제 코드로 구현할 때 필요한 기계적 체크리스트를 제공한다.</div>
+<div class="evidence"><strong>왜 별도 모듈인가</strong><br>프론트엔드는 &#x27;동작&#x27;과 &#x27;보이는 것&#x27; 두 축이 모두 중요하다. 에이전트는 기능적으로 동작하는 코드는 잘 만들지만, 안티슬롭(AI가 만든 티가 나는 UI), 반응형 깨짐, 접근성 누락 같은 시각적/사용성 문제를 놓친다. 이 스킬은 dev-uiux-design이 결정한 디자인 방향을 실제 코드로 구현할 때 필요한 기계적 체크리스트를 제공한다.</div>
 <div class="llm-analysis"><strong>LLM 단독 사용 시 발생하는 문제</strong>
 <p>프론트엔드는 LLM의 구조적 한계가 가장 극명하게 드러나는 영역이다. LLM은 코드를 텍스트 토큰으로 생성하지만, UI는 시각적 결과물이다. LLM은 자기가 생성한 HTML/CSS가 실제로 어떻게 보이는지 &#x27;볼 수 없다.&#x27; 이건 근본적인 gap이다 — 텍스트가 겹치는지, 이미지가 안 보이는지, 모바일에서 깨지는지 알 수 없다. visual-verification.md가 헤드리스 브라우저 스크린샷을 강제하는 이유가 이것이다.</p>
 <p>두 번째 문제는 통계적 수렴(convergence)이다. LLM은 학습 데이터의 통계적 중심으로 수렴하기 때문에, 어떤 프로젝트를 만들든 비슷한 디자인이 나온다. iterative-design.md는 이걸 &#x27;The Convergence Problem&#x27;이라고 명명한다: &#x27;모든 디자인 선택이 학습 데이터의 통계적 중심으로 끌린다. 이 결과로 역량 있고 세련된 결과물이 나오지만, 다른 모든 역량 있고 세련된 결과물과 똑같다.&#x27; Diverge-Kill-Mutate 프로세스는 이 수렴을 의도적으로 깨뜨리기 위한 것이다.</p>
@@ -176,48 +176,47 @@
 <p>&gt; Implementation anti-slop enforcement stays here; design taste/pattern judgment lives there.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <h3 id="modular-references">Modular References</h3>
-<table class="rules"><tbody>
-<tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/core/crud-ui.md</code></th><th>C2 list/detail/form product screens</th><th>State coverage (loading/empty/error/permission), forms, objective UX gates</th></tr>
-<tr><th><code>references/core/anti-slop.md</code></th><th>New components or UI redesign</th><th>2026 AI slop patterns, Korean slop, oversized text, fake assets, default UI smells</th></tr>
-<tr><th><code>references/core/aesthetics.md</code></th><th>Visual design decisions</th><th>Domain-correct visual direction, typography, color, composition, serif three-role system, expressive/functional layers, AI-brand grammar</th></tr>
-<tr><th><code>references/core/product-density.md</code></th><th>Apps, tools, dashboards</th><th>Density profiles for landing, consumer app, SaaS, ops, finance, <a href="../../pages/skills/dev.html">dev</a>tools</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/core/asset-requirements.md</code></th><th>Any public/product/visual surface</th><th>Required screenshots, images, diagrams, charts, generated bitmaps, or 3D assets, mockup production pipeline</th></tr>
-<tr><th><code>references/core/visual-verification.md</code></th><th>Changes affecting rendered layout</th><th>Screenshot, viewport, text fit, state, asset, and motion verification</th></tr>
-<tr><th><code>references/core/korea-2026.md</code></th><th>Korean-first or Korea-facing UI</th><th>Korean service patterns, CJK typography, formats, mobile flows, Korean serif/myeongjo display</th></tr>
-<tr><th><code>references/core/ux-writing-ko.md</code></th><th>Korean UI copy</th><th>Natural Korean labels, error messages, tone, spacing, punctuation</th></tr>
-<tr><th><code>references/core/soft-3d-asset-gates.md</code></th><th>3D/miniature/character-like visuals</th><th>Toss-style soft 3D vs generic cute asset slop, domain gates</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/core/motion.md</code></th><th>Motion/animation needed</th><th>CSS animations, Framer Motion, scroll-driven, View Transitions, domain gates, organic bg + capsule label, product-led hero motion</th></tr>
-<tr><th><code>references/core/liquid-glass.md</code></th><th>Translucent materials, glass chrome, pill-chip surfaces</th><th>Liquid Glass layer discipline, regular/clear recipes, blur-free pill alternative, perf + a11y gates (verified 2026-07-07)</th></tr>
-<tr><th><code>references/core/iterative-design.md</code></th><th>Multi-round design</th><th>LLM convergence problem, Diverge→Kill→Mutate process, upgrade techniques</th></tr>
-<tr><th><code>references/core/prototype-variants.md</code></th><th>Runnable design variants</th><th><code>?variant=</code> switchers, structurally distinct options, cleanup after winner selection</th></tr>
-<tr><th><code>references/core/typography-wrapping.md</code></th><th>Heading/descriptor text changes</th><th><code>text-wrap: balance/pretty</code>, <strong>short descriptor category</strong> (<code>balance</code> not <code>pretty</code> for 1-3 line text), <code>ch</code> units, rag control, Korean orphan prevention, <code>-webkit-line-clamp</code> conflict</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/core/logo-sections.md</code></th><th>Integration/partner logo display</th><th>Marquee CSS, static grid, orphan cell fix, grayscale treatment, no individual hover</th></tr>
-<tr><th><code>references/core/brand-asset-sourcing.md</code></th><th>Brand logos in UI</th><th>Simple Icons/SVGL sourcing, AI agent strategy, placeholder hierarchy, legal guide</th></tr>
-<tr><th><code>references/core/layout-discipline.md</code></th><th>Landing/marketing pages</th><th>Hero, eyebrow, section repetition, bento, zigzag, <strong>per-section responsive transforms</strong>, hero composition grammar (2026)</th></tr>
-<tr><th><code>references/core/consistency-locks.md</code></th><th>Any multi-section page</th><th>Color, shape, theme consistency per page</th></tr>
-<tr><th><code>references/core/responsive-viewport.md</code></th><th>Layout or breakpoint changes</th><th>Canonical breakpoints, page containment, container queries, responsive images, safe area, split-screen</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/core/mobile-ux.md</code></th><th>Consumer/landing pages with mobile traffic</th><th>Thumb zone, touch targets, sticky CTA, mobile section composition, bottom sheet, portrait media</th></tr>
-<tr><th><code>references/core/seo-baseline.md</code></th><th>Public-facing sites, SSR/SSG</th><th>SEO meta, JSON-LD, robots.txt, GEO strategies, OG/Twitter cards</th></tr>
-<tr><th><code>references/core/a11y-patterns.md</code></th><th>Interactive widgets, modals, forms</th><th>ARIA patterns, focus management, keyboard nav, screen reader testing</th></tr>
-<tr><th><code>references/core/performance-budget.md</code></th><th>Launch / audit</th><th>CWV targets, bundle budgets, font loading, image optimization, build gates, browser connection budgets</th></tr>
-<tr><th><code>references/core/preflight-full.md</code></th><th>Launch / audit</th><th>Full ~40-item pre-flight checklist (router §14 keeps only blocking gates)</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/core/theme-switching.md</code></th><th>Dark mode / theme</th><th>CSS custom properties toggle, FOWT prevention, transition, component checklist</th></tr>
-<tr><th><code>references/core/color-system.md</code></th><th>Color tokens, palettes wiring, theme-ready CSS</th><th>Token layering, <code>oklch()</code> + fallback discipline, <code>color-mix()</code>, <code>light-dark()</code>, Tailwind v4/shadcn wiring, contrast gates (verified 2026-07-07)</th></tr>
-<tr><th><code>references/core/i18n-global.md</code></th><th>Multi-language / RTL</th><th>RTL layout, pluralization, Intl API, locale switching, content expansion</th></tr>
-<tr><th>See also: <code>dev-uiux-design</code> skill</th><th>Vague requests, onboarding, UX states</th><th>Intent discovery, design isms, product personalities, onboarding/empty/error patterns</th></tr>
-<tr><th><code>references/stacks/react.md</code></th><th>React projects</th><th>Server Components, hooks, state, TanStack Query, shadcn/ui, performance</th></tr>
-<table class="rules"><tbody>
-<tr><th><code>references/stacks/nextjs.md</code></th><th>Next.js projects</th><th>App Router, RSC, image optimization, data fetching, middleware</th></tr>
-<tr><th><code>references/stacks/vanilla.md</code></th><th>HTML+CSS+JS (no framework)</th><th>Zero-dependency, viewport fitting, responsive CSS, progressive enhancement</th></tr>
-<tr><th><code>references/stacks/svelte.md</code></th><th>Svelte/SvelteKit projects</th><th>Svelte 5 Runes, SvelteKit 2 routing/actions, snippets, migration from Svelte 4</th></tr>
-<tr><th><code>references/stacks/mobile-native.md</code></th><th>Native mobile app development</th><th>RN/Expo current pairing, Flutter 3.44, KMP, Swift 6, framework selection</th></tr>
-<tr><th><code>references/stacks/astro.md</code></th><th>Astro projects</th><th>Islands architecture, multi-framework shell, content collections, SSG/SSR/hybrid</th></tr>
+<table class="rules">
+<thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
+<tr><td><code>references/core/crud-ui.md</code></td><td>C2 list/detail/form product screens</td><td>State coverage (loading/empty/error/permission), forms, objective UX gates</td></tr>
+<tr><td><code>references/core/anti-slop.md</code></td><td>New components or UI redesign</td><td>2026 AI slop patterns, Korean slop, oversized text, fake assets, default UI smells</td></tr>
+<tr><td><code>references/core/aesthetics.md</code></td><td>Visual design decisions</td><td>Domain-correct visual direction, typography, color, composition, serif three-role system, expressive/functional layers, AI-brand grammar</td></tr>
+<tr><td><code>references/core/product-density.md</code></td><td>Apps, tools, dashboards</td><td>Density profiles for landing, consumer app, SaaS, ops, finance, devtools</td></tr>
+<tr><td><code>references/core/asset-requirements.md</code></td><td>Any public/product/visual surface</td><td>Required screenshots, images, diagrams, charts, generated bitmaps, or 3D assets, mockup production pipeline</td></tr>
+<table class="rules">
+<tr><td><code>references/core/visual-verification.md</code></td><td>Changes affecting rendered layout</td><td>Screenshot, viewport, text fit, state, asset, and motion verification</td></tr>
+<tr><td><code>references/core/korea-2026.md</code></td><td>Korean-first or Korea-facing UI</td><td>Korean service patterns, CJK typography, formats, mobile flows, Korean serif/myeongjo display</td></tr>
+<tr><td><code>references/core/ux-writing-ko.md</code></td><td>Korean UI copy</td><td>Natural Korean labels, error messages, tone, spacing, punctuation</td></tr>
+<tr><td><code>references/core/soft-3d-asset-gates.md</code></td><td>3D/miniature/character-like visuals</td><td>Toss-style soft 3D vs generic cute asset slop, domain gates</td></tr>
+<tr><td><code>references/core/motion.md</code></td><td>Motion/animation needed</td><td>CSS animations, Framer Motion, scroll-driven, View Transitions, domain gates, organic bg + capsule label, product-led hero motion</td></tr>
+<tr><td><code>references/core/liquid-glass.md</code></td><td>Translucent materials, glass chrome, pill-chip surfaces</td><td>Liquid Glass layer discipline, regular/clear recipes, blur-free pill alternative, perf + a11y gates (verified 2026-07-07)</td></tr>
+<table class="rules">
+<tr><td><code>references/core/iterative-design.md</code></td><td>Multi-round design</td><td>LLM convergence problem, Diverge→Kill→Mutate process, upgrade techniques</td></tr>
+<tr><td><code>references/core/prototype-variants.md</code></td><td>Runnable design variants</td><td><code>?variant=</code> switchers, structurally distinct options, cleanup after winner selection</td></tr>
+<tr><td><code>references/core/typography-wrapping.md</code></td><td>Heading/descriptor text changes</td><td><code>text-wrap: balance/pretty</code>, <strong>short descriptor category</strong> (<code>balance</code> not <code>pretty</code> for 1-3 line text), <code>ch</code> units, rag control, Korean orphan prevention, <code>-webkit-line-clamp</code> conflict</td></tr>
+<tr><td><code>references/core/logo-sections.md</code></td><td>Integration/partner logo display</td><td>Marquee CSS, static grid, orphan cell fix, grayscale treatment, no individual hover</td></tr>
+<tr><td><code>references/core/brand-asset-sourcing.md</code></td><td>Brand logos in UI</td><td>Simple Icons/SVGL sourcing, AI agent strategy, placeholder hierarchy, legal guide</td></tr>
+<tr><td><code>references/core/layout-discipline.md</code></td><td>Landing/marketing pages</td><td>Hero, eyebrow, section repetition, bento, zigzag, <strong>per-section responsive transforms</strong>, hero composition grammar (2026)</td></tr>
+<table class="rules">
+<tr><td><code>references/core/consistency-locks.md</code></td><td>Any multi-section page</td><td>Color, shape, theme consistency per page</td></tr>
+<tr><td><code>references/core/responsive-viewport.md</code></td><td>Layout or breakpoint changes</td><td>Canonical breakpoints, page containment, container queries, responsive images, safe area, split-screen</td></tr>
+<tr><td><code>references/core/mobile-ux.md</code></td><td>Consumer/landing pages with mobile traffic</td><td>Thumb zone, touch targets, sticky CTA, mobile section composition, bottom sheet, portrait media</td></tr>
+<tr><td><code>references/core/seo-baseline.md</code></td><td>Public-facing sites, SSR/SSG</td><td>SEO meta, JSON-LD, robots.txt, GEO strategies, OG/Twitter cards</td></tr>
+<tr><td><code>references/core/a11y-patterns.md</code></td><td>Interactive widgets, modals, forms</td><td>ARIA patterns, focus management, keyboard nav, screen reader testing</td></tr>
+<tr><td><code>references/core/performance-budget.md</code></td><td>Launch / audit</td><td>CWV targets, bundle budgets, font loading, image optimization, build gates, browser connection budgets</td></tr>
+<table class="rules">
+<tr><td><code>references/core/preflight-full.md</code></td><td>Launch / audit</td><td>Full ~40-item pre-flight checklist (router §14 keeps only blocking gates)</td></tr>
+<tr><td><code>references/core/theme-switching.md</code></td><td>Dark mode / theme</td><td>CSS custom properties toggle, FOWT prevention, transition, component checklist</td></tr>
+<tr><td><code>references/core/color-system.md</code></td><td>Color tokens, palettes wiring, theme-ready CSS</td><td>Token layering, <code>oklch()</code> + fallback discipline, <code>color-mix()</code>, <code>light-dark()</code>, Tailwind v4/shadcn wiring, contrast gates (verified 2026-07-07)</td></tr>
+<tr><td><code>references/core/i18n-global.md</code></td><td>Multi-language / RTL</td><td>RTL layout, pluralization, Intl API, locale switching, content expansion</td></tr>
+<tr><td>See also: <code>dev-uiux-design</code> skill</td><td>Vague requests, onboarding, UX states</td><td>Intent discovery, design isms, product personalities, onboarding/empty/error patterns</td></tr>
+<tr><td><code>references/stacks/react.md</code></td><td>React projects</td><td>Server Components, hooks, state, TanStack Query, shadcn/ui, performance</td></tr>
+<table class="rules">
+<tr><td><code>references/stacks/nextjs.md</code></td><td>Next.js projects</td><td>App Router, RSC, image optimization, data fetching, middleware</td></tr>
+<tr><td><code>references/stacks/vanilla.md</code></td><td>HTML+CSS+JS (no framework)</td><td>Zero-dependency, viewport fitting, responsive CSS, progressive enhancement</td></tr>
+<tr><td><code>references/stacks/svelte.md</code></td><td>Svelte/SvelteKit projects</td><td>Svelte 5 Runes, SvelteKit 2 routing/actions, snippets, migration from Svelte 4</td></tr>
+<tr><td><code>references/stacks/mobile-native.md</code></td><td>Native mobile app development</td><td>RN/Expo current pairing, Flutter 3.44, KMP, Swift 6, framework selection</td></tr>
+<tr><td><code>references/stacks/astro.md</code></td><td>Astro projects</td><td>Islands architecture, multi-framework shell, content collections, SSG/SSR/hybrid</td></tr>
 </tbody></table>
 <p>Start with <code>anti-slop.md</code>, <code>aesthetics.md</code>, <code>responsive-viewport.md</code>, and <code>visual-verification.md</code>. Add domain/locale/stack references only when relevant.</p>
 <p>For C2 ordinary app screens (form/table/list/detail), <code>crud-ui.md</code> alone suffices; add the style references above for marketing/visual surfaces or C3+ work.</p>
@@ -235,15 +234,15 @@
 <p>---</p>
 <h3 id="0-frontend-routing">0. Frontend Routing</h3>
 <p>Before designing or coding, classify the work:</p>
-<table class="rules"><tbody>
-<tr><th>Decision</th><th>Options</th><th>Why It Matters</th></tr>
-<tr><th>Product surface</th><th>landing, app, dashboard, AI tool, public service, education, game, creative</th><th>Sets density, typography scale, asset requirements</th></tr>
-<tr><th>Locale</th><th>Korean-first, global/i18n, English-only</th><th>Sets CJK typography, copy, date/number formats</th></tr>
-<tr><th>Density</th><th>campaign, consumer app, productivity, SaaS, ops, finance, developer console</th><th>Prevents landing-page composition inside repeated-work tools</th></tr>
-<tr><th>Asset need</th><th>none, screenshot, product photo, diagram, chart, illustration, soft 3D, game asset</th><th>Prevents asset-free gradient/card UI</th></tr>
-<table class="rules"><tbody>
-<tr><th>Soft 3D/character gate</th><th>not allowed, subtle, primary</th><th>Prevents generic cute 3D/mascot slop</th></tr>
-<tr><th>Motion intensity</th><th>static, feedback-only, expressive, cinematic</th><th>Prevents cinematic motion in utility workflows</th></tr>
+<table class="rules">
+<thead><tr><th>Decision</th><th>Options</th><th>Why It Matters</th></tr></thead><tbody>
+<tr><td>Product surface</td><td>landing, app, dashboard, AI tool, public service, education, game, creative</td><td>Sets density, typography scale, asset requirements</td></tr>
+<tr><td>Locale</td><td>Korean-first, global/i18n, English-only</td><td>Sets CJK typography, copy, date/number formats</td></tr>
+<tr><td>Density</td><td>campaign, consumer app, productivity, SaaS, ops, finance, developer console</td><td>Prevents landing-page composition inside repeated-work tools</td></tr>
+<tr><td>Asset need</td><td>none, screenshot, product photo, diagram, chart, illustration, soft 3D, game asset</td><td>Prevents asset-free gradient/card UI</td></tr>
+<tr><td>Soft 3D/character gate</td><td>not allowed, subtle, primary</td><td>Prevents generic cute 3D/mascot slop</td></tr>
+<table class="rules">
+<tr><td>Motion intensity</td><td>static, feedback-only, expressive, cinematic</td><td>Prevents cinematic motion in utility workflows</td></tr>
 </tbody></table>
 <p>Default rules:</p>
 <ul>
@@ -296,11 +295,11 @@
 <p>---</p>
 <h3 id="3-baseline-configuration">3. Baseline Configuration</h3>
 <p>Adjust these dials based on what&#x27;s being built. Present to user if unclear.</p>
-<table class="rules"><tbody>
-<tr><th>Dial</th><th>Default</th><th>Range</th><th>Meaning</th></tr>
-<tr><th>DESIGN_VARIANCE</th><th>5</th><th>1-10</th><th>1=symmetric utility, 10=asymmetric art</th></tr>
-<tr><th>MOTION_INTENSITY</th><th>4</th><th>1-10</th><th>1=static, 10=cinematic choreography</th></tr>
-<tr><th>VISUAL_DENSITY</th><th>5</th><th>1-10</th><th>1=art gallery airy, 10=cockpit dense</th></tr>
+<table class="rules">
+<thead><tr><th>Dial</th><th>Default</th><th>Range</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>DESIGN_VARIANCE</td><td>5</td><td>1-10</td><td>1=symmetric utility, 10=asymmetric art</td></tr>
+<tr><td>MOTION_INTENSITY</td><td>4</td><td>1-10</td><td>1=static, 10=cinematic choreography</td></tr>
+<tr><td>VISUAL_DENSITY</td><td>5</td><td>1-10</td><td>1=art gallery airy, 10=cockpit dense</td></tr>
 </tbody></table>
 <p>After Design Read, set dials per <code>dev-uiux-design</code> §2 Dial Setting.</p>
 <p>Product density profile (D1-D8 in <code>references/core/product-density.md</code>) sets component class; VISUAL_DENSITY (1-10) sets spacing within that class. These are orthogonal axes.</p>
@@ -385,12 +384,12 @@
 <p>---</p>
 <h3 id="8-react-behavior-rules-hooks-performance-forms">8. React Behavior Rules (hooks · performance · forms)</h3>
 <p>Full guidance moved to <code>references/stacks/react.md</code> § Behavior Rules. Router decisions:</p>
-<table class="rules"><tbody>
-<tr><th>Decision</th><th>Rule</th></tr>
-<tr><th>New custom hook</th><th>Only when it owns reusable behavior (subscription lifecycle, async state machine, shared form-field behavior) — never a thin <code>useState</code> alias</th></tr>
-<tr><th>Memoization</th><th>Measure first; with React Compiler enabled, remove defensive <code>memo</code>/<code>useMemo</code>/<code>useCallback</code> unless semantics require identity</th></tr>
-<tr><th>Perf strategy</th><th>Pure components, local state, correct state ownership (§12 table), split expensive client islands</th></tr>
-<tr><th>Forms</th><th>Simple → controlled + schema (Zod); complex/multi-step → react-hook-form + resolver; field errors with <code>role=&quot;alert&quot;</code></th></tr>
+<table class="rules">
+<thead><tr><th>Decision</th><th>Rule</th></tr></thead><tbody>
+<tr><td>New custom hook</td><td>Only when it owns reusable behavior (subscription lifecycle, async state machine, shared form-field behavior) — never a thin <code>useState</code> alias</td></tr>
+<tr><td>Memoization</td><td>Measure first; with React Compiler enabled, remove defensive <code>memo</code>/<code>useMemo</code>/<code>useCallback</code> unless semantics require identity</td></tr>
+<tr><td>Perf strategy</td><td>Pure components, local state, correct state ownership (§12 table), split expensive client islands</td></tr>
+<tr><td>Forms</td><td>Simple → controlled + schema (Zod); complex/multi-step → react-hook-form + resolver; field errors with <code>role=&quot;alert&quot;</code></td></tr>
 </tbody></table>
 <p>---</p>
 <h3 id="12-2026-frontend-platform-rules-verified-2026-07-02">12. 2026 Frontend Platform Rules (verified 2026-07-02)</h3>
@@ -434,17 +433,17 @@
 <p>coding agents); Next 16 ships DevTools MCP. Wire these before debugging rendered behavior.</p>
 <h4 id="state-classification">State Classification</h4>
 <p>Before adding state, classify it:</p>
-<table class="rules"><tbody>
-<tr><th>State type</th><th>Owner</th><th>Default tool</th></tr>
-<tr><th>render-local UI</th><th>nearest component</th><th><code>useState</code> / <code>useReducer</code></th></tr>
-<tr><th>derived</th><th>render calculation</th><th>expression / <code>useMemo</code> if expensive</th></tr>
-<tr><th>form draft</th><th>form boundary</th><th>native form, React Hook Form, TanStack Form</th></tr>
-<tr><th>server/cache</th><th>server/cache layer</th><th>RSC, Next cache, TanStack Query, SWR</th></tr>
-<table class="rules"><tbody>
-<tr><th>URL/navigation</th><th>router</th><th>path params, search params</th></tr>
-<tr><th>global client UI</th><th>external store</th><th>Zustand, Jotai, context</th></tr>
-<tr><th>optimistic mutation</th><th>mutation boundary</th><th><code>useOptimistic</code>, mutation library</th></tr>
-<tr><th>AI stream</th><th>conversation boundary</th><th>append-only message model + stream status</th></tr>
+<table class="rules">
+<thead><tr><th>State type</th><th>Owner</th><th>Default tool</th></tr></thead><tbody>
+<tr><td>render-local UI</td><td>nearest component</td><td><code>useState</code> / <code>useReducer</code></td></tr>
+<tr><td>derived</td><td>render calculation</td><td>expression / <code>useMemo</code> if expensive</td></tr>
+<tr><td>form draft</td><td>form boundary</td><td>native form, React Hook Form, TanStack Form</td></tr>
+<tr><td>server/cache</td><td>server/cache layer</td><td>RSC, Next cache, TanStack Query, SWR</td></tr>
+<tr><td>URL/navigation</td><td>router</td><td>path params, search params</td></tr>
+<table class="rules">
+<tr><td>global client UI</td><td>external store</td><td>Zustand, Jotai, context</td></tr>
+<tr><td>optimistic mutation</td><td>mutation boundary</td><td><code>useOptimistic</code>, mutation library</td></tr>
+<tr><td>AI stream</td><td>conversation boundary</td><td>append-only message model + stream status</td></tr>
 </tbody></table>
 <p>Rules: Do not store derived state just to sync with Effect. Do not put server state in Zustand. Do not put URL-shareable state only in component state. Keep optimistic state reversible.</p>
 <h4 id="design-system-detection-mandatory-before-creating-tokens">Design System Detection (MANDATORY — before creating tokens)</h4>
@@ -455,14 +454,13 @@
 <li>Does the brief name a specific design system?</li>
 </ol>
 <p>If YES to any: use the official package. Do not recreate CSS by hand.</p>
-<table class="rules"><tbody>
-<tr><th>System</th><th>Package</th><th>Import</th></tr>
-<tr><th>Material</th><th>@mui/material</th><th><code>import { Button } from &#x27;@mui/material&#x27;</code></th></tr>
-<tr><th>Carbon</th><th>@carbon/react</th><th><code>import { Button } from &#x27;@carbon/react&#x27;</code></th></tr>
-<tr><th>Fluent</th><th>@fluentui/react</th><th><code>import { Button } from &#x27;@fluentui/react-components&#x27;</code></th></tr>
-<tr><th>GOV.UK</th><th>govuk-frontend</th><th><code>import &#x27;govuk-frontend/dist/govuk/all.scss&#x27;</code></th></tr>
-<table class="rules"><tbody>
-<tr><th>USWDS</th><th>@uswds/uswds</th><th><code>import &#x27;@uswds/uswds/css/uswds.css&#x27;</code></th></tr>
+<table class="rules">
+<thead><tr><th>System</th><th>Package</th><th>Import</th></tr></thead><tbody>
+<tr><td>Material</td><td>@mui/material</td><td><code>import { Button } from &#x27;@mui/material&#x27;</code></td></tr>
+<tr><td>Carbon</td><td>@carbon/react</td><td><code>import { Button } from &#x27;@carbon/react&#x27;</code></td></tr>
+<tr><td>Fluent</td><td>@fluentui/react</td><td><code>import { Button } from &#x27;@fluentui/react-components&#x27;</code></td></tr>
+<tr><td>GOV.UK</td><td>govuk-frontend</td><td><code>import &#x27;govuk-frontend/dist/govuk/all.scss&#x27;</code></td></tr>
+<tr><td>USWDS</td><td>@uswds/uswds</td><td><code>import &#x27;@uswds/uswds/css/uswds.css&#x27;</code></td></tr>
 </tbody></table>
 <p>If NO: proceed with <code>dev-uiux-design/references/design-system-bootstrap.md</code>.</p>
 <h4 id="shadcn-ui-and-ai-assisted-ui">shadcn/ui and AI-Assisted UI</h4>
@@ -504,12 +502,12 @@
 </ul>
 <p>---</p>
 <h3 id="15-backend-contract-security-alignment">15. Backend Contract &amp; Security Alignment</h3>
-<table class="rules"><tbody>
-<tr><th>Responsibility</th><th>Owner</th></tr>
-<tr><th>Response envelope shape (<code>success</code>, <code>data</code>, <code>error</code>, <code>meta</code>)</th><th><code>dev-backend</code> defines, <code>dev-testing</code> verifies</th></tr>
-<tr><th>Consumer-side fixture alignment</th><th><strong>Frontend</strong> — keep mocks in sync with <code>fixtures/contracts/</code>; payload changes update contract tests BEFORE merging (<code>dev-testing</code> §3.5)</th></tr>
-<tr><th>Error display mapping</th><th>Frontend maps <code>error.code</code> to messages; never parse <code>error.message</code> for logic</th></tr>
-<tr><th>CSP/XSS/token storage</th><th>Policy: <code>dev-security</code> §5/§2. Frontend implements: no inline scripts/<code>eval</code>; sanitize <code>dangerouslySetInnerHTML</code> (DOMPurify) or avoid; <code>httpOnly</code> cookies over <code>localStorage</code>; never flash protected content</th></tr>
+<table class="rules">
+<thead><tr><th>Responsibility</th><th>Owner</th></tr></thead><tbody>
+<tr><td>Response envelope shape (<code>success</code>, <code>data</code>, <code>error</code>, <code>meta</code>)</td><td><code>dev-backend</code> defines, <code>dev-testing</code> verifies</td></tr>
+<tr><td>Consumer-side fixture alignment</td><td><strong>Frontend</strong> — keep mocks in sync with <code>fixtures/contracts/</code>; payload changes update contract tests BEFORE merging (<code>dev-testing</code> §3.5)</td></tr>
+<tr><td>Error display mapping</td><td>Frontend maps <code>error.code</code> to messages; never parse <code>error.message</code> for logic</td></tr>
+<tr><td>CSP/XSS/token storage</td><td>Policy: <code>dev-security</code> §5/§2. Frontend implements: no inline scripts/<code>eval</code>; sanitize <code>dangerouslySetInnerHTML</code> (DOMPurify) or avoid; <code>httpOnly</code> cookies over <code>localStorage</code>; never flash protected content</td></tr>
 </tbody></table>
 <p>Playwright smoke validates rendered flows AFTER API + contract tests pass; frontend unit</p>
 <p>tests mock the same envelope shape as <code>dev-backend</code> §5; error-code changes update</p>

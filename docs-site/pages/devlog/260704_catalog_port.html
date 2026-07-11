@@ -103,7 +103,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: <a href="../../pages/skills/dev.html">dev</a>log/_plan/260704_catalog_port/00_spec.md</p>
+<p class="refnote">Source: devlog/_plan/260704_catalog_port/00_spec.md</p>
 <h2 id="catalog-discovery-port-spec-slice-map">Catalog Discovery Port — Spec &amp; Slice Map</h2>
 <p>Date: 2026-07-04</p>
 <p>Goal: Port design/UX-first Catalog Discovery to all 3 downstream harnesses.</p>
@@ -131,11 +131,11 @@
 <li><strong>Expected terminal states</strong>: DONE | BLOCKED (repo structure changed upstream).</li>
 </ul>
 <h3 id="work-phase-slice-map">Work-phase slice map</h3>
-<table class="rules"><tbody>
-<tr><th>Phase</th><th>Repo</th><th>Outcome</th><th>Verifier</th></tr>
-<tr><th>1</th><th>cli-jaw</th><th>FSM I-state prompt hook + catalog YAML + orchestration.md update</th><th>tsc + grep checks</th></tr>
-<tr><th>2</th><th>jawcode</th><th>jaw-interview SKILL.md catalog mode + auto-research variant + catalog YAML</th><th>grep + no tsc (prompt-only)</th></tr>
-<tr><th>3</th><th>opencodex</th><th>structure/ doc referencing catalog for downstream consumers</th><th>file exists + content check</th></tr>
+<table class="rules">
+<thead><tr><th>Phase</th><th>Repo</th><th>Outcome</th><th>Verifier</th></tr></thead><tbody>
+<tr><td>1</td><td>cli-jaw</td><td>FSM I-state prompt hook + catalog YAML + orchestration.md update</td><td>tsc + grep checks</td></tr>
+<tr><td>2</td><td>jawcode</td><td>jaw-interview SKILL.md catalog mode + auto-research variant + catalog YAML</td><td>grep + no tsc (prompt-only)</td></tr>
+<tr><td>3</td><td>opencodex</td><td>structure/ doc referencing catalog for downstream consumers</td><td>file exists + content check</td></tr>
 </tbody></table>
 <p>Phase docs: <code>10_phase1_cli_jaw.md</code>, <code>20_phase2_jawcode.md</code>, <code>30_phase3_opencodex.md</code>.</p>
 <h2 id="unit-files">Other files in this unit</h2>

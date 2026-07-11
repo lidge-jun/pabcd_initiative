@@ -110,7 +110,7 @@
 <p>LLM은 &#x27;즉시 실행&#x27; 편향이 강하다. 사용자가 &#x27;뭘 만들지 모르겠어&#x27;라고 해도 바로 코드를 생성하려고 한다. Interview(I) 단계가 없으면 이 편향을 제어할 수 없다. 또한 LLM이 자발적으로 제안하는 2-3개 옵션은 통계적으로 같은 어트랙터 패밀리에 속한다 — 학습 데이터에서 가장 흔한 접근 방식들이다. INTERVIEW-DIVERGE-01이 &#x27;비전형적(low-probability) 접근을 하나 이상 포함시키라&#x27;고 강제하는 이유다. Catalog Discovery의 &#x27;디자인 먼저&#x27; 원칙도 같은 맥락이다: LLM에게 &#x27;사주 앱 만들어&#x27;라고 하면 바로 기술 스택(React + PostgreSQL)을 결정하는데, 실제로는 시각적 분위기, 사용자 경험이 먼저 결정되어야 기술 선택이 의미를 가진다.</p>
 </div>
 <h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
-<div class="problem-card"><strong>요구사항 누락으로 인한 재작업</strong><p>에이전트가 사용자의 첫 문장만 보고 바로 코딩을 시작하면, 중간에 &#x27;이건 원하는 게 아닌데&#x27;가 반복된다. Interview(I) 단계는 세 가지를 반드시 정하게 한다: 작업 분류(C0-C5), 루프 아키타입(verifier가 done을 정의하는가), 구현 유닛 소속(<a href="../../pages/skills/dev.html">dev</a>log/_plan/YYMMDD_slug/).</p></div>
+<div class="problem-card"><strong>요구사항 누락으로 인한 재작업</strong><p>에이전트가 사용자의 첫 문장만 보고 바로 코딩을 시작하면, 중간에 &#x27;이건 원하는 게 아닌데&#x27;가 반복된다. Interview(I) 단계는 세 가지를 반드시 정하게 한다: 작업 분류(C0-C5), 루프 아키타입(verifier가 done을 정의하는가), 구현 유닛 소속(devlog/_plan/YYMMDD_slug/).</p></div>
 <div class="problem-card"><strong>에이전트가 모르는 것을 모르는 문제</strong><p>Interview Diverge(INTERVIEW-DIVERGE-01): 에이전트가 자원하는 2-3개 옵션은 보통 같은 어트랙터 패밀리다. 의도적으로 비전형적(low-probability) 접근을 하나 이상 포함시키고, 불확실하면 &#x27;BOTH (parallel spike, select by evidence)&#x27;를 제안하게 한다.</p></div>
 <div class="problem-card"><strong>Catalog Discovery와 디자인 우선 인터뷰</strong><p>사용자가 &#x27;사주 앱 만들고 싶어&#x27;처럼 모호한 도메인만 말할 때, 에이전트는 바로 기술 스택을 물어본다. CATALOG-DESIGN-FIRST-01은 Stage 1(디자인 6축: 무드, 밝기, 밀도, 형태, 타이포, 모션)을 전부 답한 뒤에야 Stage 2(도메인), Stage 3(기능/보안/비용)으로 넘어가게 한다. 백엔드는 디자인 위에 쌓이는 것이지, 그 반대가 아니다.</p></div>
 <p><strong>Triggers:</strong> <code>orchestrate, phase, attest, interview, goal mode, checkpoint, PABCD</code></p>
@@ -134,7 +134,7 @@
 <h2 id="references">Reference Documents</h2>
 <table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
 <tr><td><a href="../../pages/skills/dev-pabcd-debugging-modularization.html">Debugging Modularization (SoT, agent-neutral)</a></td><td>SoT 기반 디버깅 모듈화, 에이전트 중립적 접근</td></tr>
-<tr><td><a href="../../pages/skills/dev-pabcd-loop-engineering.html">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></td><td>루프 엔지니어링 정렬 규칙 (<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> section 11)</td></tr>
+<tr><td><a href="../../pages/skills/dev-pabcd-loop-engineering.html">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></td><td>루프 엔지니어링 정렬 규칙 (dev-pabcd section 11)</td></tr>
 <tr><td><a href="../../pages/skills/dev-pabcd-repo-map-capability.html">Repo-Map Capability (SoT, agent-neutral)</a></td><td>Repo-Map 기능, 에이전트 중립적 SoT 활용</td></tr>
 </tbody></table>
 <h2 id="sections">Sections Overview</h2>
@@ -312,7 +312,7 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <li>The SoT sync target (SOT-SYNC-01): which general source-of-truth doc</li>
 </ul>
 <p>(<code>structure/</code>, architecture/INDEX docs) this unit will patch in C — or, if the</p>
-<p>repo has none, the plan recommends creating one (<a href="../../pages/skills/dev-scaffolding.html">dev-scaffolding</a> §2.1)</p>
+<p>repo has none, the plan recommends creating one (dev-scaffolding §2.1)</p>
 <p>Do not create new project-level source-of-truth folders during B unless approved in P or explicitly requested by the user.</p>
 <p>For every planned conditional path (error handler, fallback, retry, cache, guard,</p>
 <p>feature-gated branch, threshold behavior), the plan&#x27;s accept criteria name its</p>
@@ -381,12 +381,12 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>create a minimal unit folder holding only that record. Interview settles residence</p>
 <p>before P (§1).</p>
 <p>Devlog plan artifacts use decade-range numbering to separate concerns:</p>
-<table class="rules"><tbody>
-<tr><th>Range</th><th>Purpose</th><th>Examples</th></tr>
-<tr><th>00–09</th><th>Research, specs, MOC</th><th><code>00_plan.md</code>, <code>01_api-survey.md</code>, <code>02_competitor-analysis.md</code></th></tr>
-<tr><th>10–19</th><th>Phase 1</th><th><code>10_phase1-auth-module.md</code>, <code>11_phase1-db-schema.md</code></th></tr>
-<tr><th>20–29</th><th>Phase 2</th><th><code>20_phase2-frontend.md</code></th></tr>
-<tr><th>30–39</th><th>Phase 3</th><th>...</th></tr>
+<table class="rules">
+<thead><tr><th>Range</th><th>Purpose</th><th>Examples</th></tr></thead><tbody>
+<tr><td>00–09</td><td>Research, specs, MOC</td><td><code>00_plan.md</code>, <code>01_api-survey.md</code>, <code>02_competitor-analysis.md</code></td></tr>
+<tr><td>10–19</td><td>Phase 1</td><td><code>10_phase1-auth-module.md</code>, <code>11_phase1-db-schema.md</code></td></tr>
+<tr><td>20–29</td><td>Phase 2</td><td><code>20_phase2-frontend.md</code></td></tr>
+<tr><td>30–39</td><td>Phase 3</td><td>...</td></tr>
 </tbody></table>
 <p>Rules:</p>
 <ul>
@@ -552,11 +552,11 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>evidence-backed checkpoints (your runtime&#x27;s goal-checkpoint command, or a worklog checkpoint entry) instead of user approval. Phase order,</p>
 <p>audit conditions, and verification intensity are unchanged.</p>
 <p>Gate quick-reference (strict vs goal mode):</p>
-<table class="rules"><tbody>
-<tr><th>Gate</th><th>Strict PABCD</th><th>Goal mode</th></tr>
-<tr><th>P→A, A→B, B→C</th><th>user approval + <code>--attest</code></th><th>evidence-backed checkpoint + <code>--attest</code></th></tr>
-<tr><th>C→D</th><th>auto + <code>--attest</code> w/ <code>checkOutput</code>/<code>exitCode</code></th><th>same</th></tr>
-<tr><th>Turn boundary</th><th>one phase per response</th><th>continue P→D within the cycle</th></tr>
+<table class="rules">
+<thead><tr><th>Gate</th><th>Strict PABCD</th><th>Goal mode</th></tr></thead><tbody>
+<tr><td>P→A, A→B, B→C</td><td>user approval + <code>--attest</code></td><td>evidence-backed checkpoint + <code>--attest</code></td></tr>
+<tr><td>C→D</td><td>auto + <code>--attest</code> w/ <code>checkOutput</code>/<code>exitCode</code></td><td>same</td></tr>
+<tr><td>Turn boundary</td><td>one phase per response</td><td>continue P→D within the cycle</td></tr>
 </tbody></table>
 <h3 id="5-terminology-work-phase-vs-pabcd-phase">§5. Terminology: work-phase vs PABCD-phase</h3>
 <ul>
@@ -704,14 +704,13 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <li>The orchestrator does not enforce these gates today — YOU do.</li>
 </ul>
 <h3 id="9-pabcd-depth-by-work-class">§9. PABCD Depth by Work Class</h3>
-<table class="rules"><tbody>
-<tr><th>Class</th><th>Plan (P)</th><th>Audit (A)</th><th>Build (B)</th><th>Check (C)</th><th>Record (D)</th></tr>
-<tr><th>C0-C1</th><th>None/inline</th><th>Optional</th><th>Direct fix</th><th>Smallest proof</th><th>One-line summary as a numbered record doc in the owning unit (UNIT-RESIDENCE-01)</th></tr>
-<tr><th>C2</th><th>Compact plan</th><th>Micro-audit</th><th>Boss-led build, focused tests</th><th>Targeted gate</th><th>Summary</th></tr>
-<tr><th>C3</th><th>Compact or full PABCD plan depending on persistence/risk</th><th>Required when public contract, architecture, persistence, cross-agent, or cross-session risk exists; otherwise focused audit</th><th>Boss-led build (economy-eligible slices dispatchable, §7.1), employees verify only when useful</th><th>Affected suite + docs consistency when docs/contracts changed</th><th>Summary + evidence; durable record only when state must persist</th></tr>
-<tr><th>C4</th><th>Full PABCD plan (mandatory)</th><th>Required, independent</th><th>Boss-led build, employee verifies</th><th>Full relevant gates</th><th>Durable risk/approval/evidence record</th></tr>
-<table class="rules"><tbody>
-<tr><th>C5</th><th>Interview/research first</th><th>—</th><th>—</th><th>—</th><th>Reclassify, then follow the new class</th></tr>
+<table class="rules">
+<thead><tr><th>Class</th><th>Plan (P)</th><th>Audit (A)</th><th>Build (B)</th><th>Check (C)</th><th>Record (D)</th></tr></thead><tbody>
+<tr><td>C0-C1</td><td>None/inline</td><td>Optional</td><td>Direct fix</td><td>Smallest proof</td><td>One-line summary as a numbered record doc in the owning unit (UNIT-RESIDENCE-01)</td></tr>
+<tr><td>C2</td><td>Compact plan</td><td>Micro-audit</td><td>Boss-led build, focused tests</td><td>Targeted gate</td><td>Summary</td></tr>
+<tr><td>C3</td><td>Compact or full PABCD plan depending on persistence/risk</td><td>Required when public contract, architecture, persistence, cross-agent, or cross-session risk exists; otherwise focused audit</td><td>Boss-led build (economy-eligible slices dispatchable, §7.1), employees verify only when useful</td><td>Affected suite + docs consistency when docs/contracts changed</td><td>Summary + evidence; durable record only when state must persist</td></tr>
+<tr><td>C4</td><td>Full PABCD plan (mandatory)</td><td>Required, independent</td><td>Boss-led build, employee verifies</td><td>Full relevant gates</td><td>Durable risk/approval/evidence record</td></tr>
+<tr><td>C5</td><td>Interview/research first</td><td>—</td><td>—</td><td>—</td><td>Reclassify, then follow the new class</td></tr>
 </tbody></table>
 <p>Render-artifact work-phases add C-RENDER-GROUNDING-01 (§3 C) to the Check column at</p>
 <p>C2+; C4 escalates its evidence to STRICT (persisted screenshot).</p>
