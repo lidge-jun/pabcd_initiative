@@ -106,6 +106,11 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-devops/SKILL.md" target="_blank" rel="noopener">skills/dev-devops/SKILL.md</a></p>
 <p class="lede">Container builds, deploy pipelines, K8s, IaC, SRE, edge/serverless, ML infra.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>인프라 작업은 단일 실수가 프로덕션 전체를 다운시킬 수 있다. unpinned base image, root로 실행되는 컨테이너, 시크릿이 노출된 CI 로그. 이 스킬은 컨테이너 빌드부터 배포 전략, Kubernetes, IaC, SRE까지 인프라 전 영역의 STRICT 규칙을 한곳에 모아서 에이전트가 인프라 작업 시 안전하게 움직이게 한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>OIDC/Trusted Publishing 우선 원칙</strong><p>2025-2026년 npm과 PyPI가 Trusted Publishing(OIDC)을 기본 지원하면서, 장기 토큰(NPM_TOKEN, PYPI_TOKEN)은 보안상 열등한 폴백이 되었다. 에이전트는 관성적으로 토큰을 먼저 요청하는데, <a href="../../pages/skills/dev-devops-package-release.html">package-release.md</a>의 Auth Decision Table은 OIDC를 먼저 시도하고 토큰은 OIDC가 불가능할 때만 쓰게 한다.</p></div>
+<div class="problem-card"><strong>FROM node:latest의 재현 불가능 빌드</strong><p>에이전트가 Dockerfile을 만들 때 FROM node:latest를 쓰면 다음 주에 빌드가 깨진다. section 1.1은 버전+SHA256 다이제스트 고정을 STRICT 규칙으로 강제한다.</p></div>
+<div class="problem-card"><strong>컨테이너 이미지 서명과 SBOM의 의무화</strong><p>2026년 Sigstore/Cosign 기반 이미지 서명이 표준이 되었고, SBOM 생성(Syft/Docker Scout)이 컴플라이언스 요구사항이다. section 1.2는 스캔 -&gt; SBOM -&gt; 서명 -&gt; 다이제스트 프로모트를 하나의 파이프라인으로 묶는다.</p></div>
+<div class="problem-card"><strong>Kubernetes Gateway API v1.6+ 전환</strong><p>Ingress는 deprecated되고 Gateway API가 표준이 되었다. 에이전트의 학습 데이터에는 Ingress 예제가 더 많아서 구형 패턴을 생성한다. <a href="../../pages/skills/dev-devops-kubernetes.html">kubernetes.md</a>는 Gateway API v1.6+ 기준으로 작성되었다.</p></div>
 <p><strong>Triggers:</strong> <code>Dockerfile, K8s, CI/CD, Terraform, IaC, release, deploy, SRE</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -135,7 +140,7 @@
 <tr><td><a href="../../pages/skills/dev-devops-iac.html">Infrastructure as Code — OpenTofu, Terraform, Pulumi</a></td><td>OpenTofu/Terraform 모듈, Pulumi, 상태 암호화, 블래스트 반경 격리</td></tr>
 <tr><td><a href="../../pages/skills/dev-devops-kubernetes.html">Kubernetes — Deployment &amp; Orchestration Patterns</a></td><td>Gateway API, Kustomize, HPA/VPA, Helm, ArgoCD GitOps</td></tr>
 <tr><td><a href="../../pages/skills/dev-devops-ml-infra.html">ML Infrastructure — GPU Clusters, Model Registry, Serving</a></td><td>GPU 클러스터, 모델 레지스트리, 스케일링, 엣지 추론</td></tr>
-<tr><td><a href="../../pages/skills/dev-devops-package-release.html">Package Release — Trusted Publishing &amp; Registry Auth</a></td><td>npm/PyPI 신뢰 퍼블리싱, 레지스트리 인증 모델</td></tr>
+<tr><td><a href="../../pages/skills/dev-devops-package-release.html">Package Release — Trusted Publishing &amp; Registry Auth</a></td><td>npm/PyPI 신뢰 퍼블리싱(OIDC), 레지스트리 인증 모델</td></tr>
 <tr><td><a href="../../pages/skills/dev-devops-platform-engineering.html">Platform Engineering — DevOps Capability Routing</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-devops-sre-foundations.html">SRE Foundations — SLO, Incident Response, Postmortem</a></td><td>SLO/SLI/에러 예산, 번 레이트 알러팅, 인시던트 대응</td></tr>
 </tbody></table>

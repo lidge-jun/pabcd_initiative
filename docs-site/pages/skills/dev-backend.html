@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-backend/SKILL.md" target="_blank" rel="noopener">skills/dev-backend/SKILL.md</a></p>
 <p class="lede">Framework-agnostic backend guidance for APIs, architecture, data access, and operations.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>백엔드는 API 설계, DB 접근, 인증, 에러 처리, 캐싱, 큐 등 서로 다른 관심사가 교차하는 곳이다. 에이전트가 이 전체를 하나의 스킬로 다루면 모든 작업에 불필요한 컨텍스트가 로드된다. 그래서 이 스킬은 라우터 역할을 하며, C2 일반 CRUD는 crud-api.md 하나로, C3+ 작업에서만 api-design, architecture 등 심화 레퍼런스를 로드한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>2026 지식 컷오프와 외부 API 문서</strong><p>에이전트의 학습 데이터에는 2024-2025년 API 문서가 포함되어 있지만, 프레임워크 버전(FastAPI 0.115+, Express 5.x, Next.js 15)과 라이브러리 API는 계속 변한다. 이 스킬은 모든 외부 의존 결정에 &#x27;search 스킬을 읽고 evidence-status 규칙을 따르라&#x27;는 경고를 포함한다. 기억에 의존하지 말고 현재 문서를 확인하라는 원칙이다.</p></div>
+<div class="problem-card"><strong>과도한 아키텍처 설계 (over-engineering)</strong><p>에이전트에게 API를 만들라고 하면 CRUD 엔드포인트 하나에 GraphQL + 마이크로서비스 + 이벤트 소싱을 제안하는 경우가 많다. Architecture Clarification(section 0)은 &#x27;작은 팀이면 모놀리스 + PostgreSQL + JWT가 가장 단순한 출발점&#x27;이라는 over-engineering 가드를 내장한다.</p></div>
+<div class="problem-card"><strong>스택 감지 없는 맹목적 제안</strong><p>이미 tsconfig.json이 있는 TypeScript 프로젝트에 Python FastAPI를 제안하거나, requirements.txt가 있는데 Node.js를 추천하는 실수. Stack Detection은 설정 파일을 먼저 읽고 자동 감지한 뒤 진행하게 한다.</p></div>
 <p><strong>Triggers:</strong> <code>backend, API, REST, GraphQL, schema, migration, query optimization, middleware, OTel, caching, server</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>

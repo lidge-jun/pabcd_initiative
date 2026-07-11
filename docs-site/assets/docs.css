@@ -246,3 +246,24 @@ details > :not(summary) { padding: 0 16px; }
 .page-nav a:hover {
   color: var(--accent);
 }
+
+/* problem cards */
+.problem-card {
+  margin: 12px 0;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+.problem-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+.problem-card p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}

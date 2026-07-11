@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-data/SKILL.md" target="_blank" rel="noopener">skills/dev-data/SKILL.md</a></p>
 <p class="lede">Data pipelines, ETL/ELT design, quality validation, SQL optimization, and analysis.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>데이터 파이프라인은 앱 CRUD와 근본적으로 다른 관심사를 가진다: 멱등성, 체크포인트 재시작, 데이터 품질 검증, 배치/스트리밍 선택. 이걸 <a href="../../pages/skills/dev-backend.html">dev-backend</a>에 포함시키면 일반 API 작업에도 불필요한 ETL 문맥이 로드되고, 파이프라인 작업 시에는 정작 필요한 가이드가 묻힌다. 별도 모듈로 분리해서 데이터 작업의 고유한 원칙을 전면에 놓는다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>비멱등 파이프라인의 중복 데이터</strong><p>에이전트가 만드는 파이프라인은 보통 INSERT만 하고 upsert를 안 쓴다. 파이프라인이 실패 후 재시작하면 같은 데이터가 두 번 들어간다. Idempotent Operations 원칙은 모든 파이프라인에 upsert 패턴을 강제한다.</p></div>
+<div class="problem-card"><strong>스키마 없는 변환의 런타임 폭발</strong><p>CSV나 JSON을 그냥 읽어서 바로 변환하면, 예상 못한 null, 잘못된 타입, 추가 컬럼이 있을 때 런타임에서 터진다. Schema-First 원칙은 변환 로직 전에 스키마를 먼저 정의하게 한다.</p></div>
+<div class="problem-card"><strong>도구 선택의 지식 컷오프</strong><p>Polars 1.x, DuckDB 1.x가 2024-2025에 크게 바뀌었고, Spark Connect가 등장했다. 에이전트가 2023년 기준으로 pandas만 추천하거나 deprecated API를 쓰는 문제가 있다. <a href="../../pages/skills/dev-data-tools.html">tools.md</a>는 현재 도구 비교를 제공하고, 외부 검증을 요구한다.</p></div>
 <p><strong>Triggers:</strong> <code>ETL, ELT, pipeline, data quality, SQL optimization, backfill, migration, schema drift</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>

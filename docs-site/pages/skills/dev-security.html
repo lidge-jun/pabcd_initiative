@@ -106,6 +106,11 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-security/SKILL.md" target="_blank" rel="noopener">skills/dev-security/SKILL.md</a></p>
 <p class="lede">Security as a build constraint: OWASP, auth hardening, secrets, supply chain.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>보안은 기능 완성 후 덧붙이는 감사가 아니라 빌드 시점의 제약 조건이다. AI 에이전트가 편의를 위해 하드코딩한 시크릿, 검증 없는 사용자 입력, 권한 없는 리소스 접근을 만들면 프로덕션에서 즉각 취약점이 된다. 이 스킬은 OWASP Top 10을 코드 레벨 규칙으로 변환하여, 인증/인가/입력 검증/시크릿 관리를 코딩 시점에 강제한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>Slopsquatting — AI가 환각한 패키지명을 공격자가 등록</strong><p>2025년 연구에서 LLM이 추천한 패키지의 약 20%가 실재하지 않았고, 환각된 패키지명이 반복적으로 나타났다. 공격자가 이 이름을 npm/PyPI에 등록하면 에이전트가 악성 패키지를 설치한다. section 6.5의 slopsquatting gate는 모든 AI 추천 의존성에 실존 여부와 유지보수 상태를 확인하게 한다.</p></div>
+<div class="problem-card"><strong>OWASP Agentic Top 10 (2026) — 에이전트 고유의 보안 위협</strong><p>tool-using AI 에이전트는 프롬프트 인젝션(ASI01), 과도한 권한(ASI02), 도구 오남용(ASI04), 데이터 유출(ASI05) 같은 고유한 공격 표면을 가진다. <a href="../../pages/skills/dev-security-agentic-ai-security.html">agentic-ai-security.md</a>는 OWASP Top 10 for Agentic Applications 2026의 ASI01-ASI10을 에이전트 규칙으로 매핑한다.</p></div>
+<div class="problem-card"><strong>MCP 서버 서플라이 체인 공격</strong><p>Model Context Protocol(MCP) 서버가 확산되면서, 서드파티 MCP 서버의 도구가 악의적 코드를 실행하거나 데이터를 유출하는 위험이 생겼다. 아직 공식 &#x27;MCP Top 10&#x27;은 없지만, <a href="../../pages/skills/dev-security-mcp-supply-chain.html">mcp-supply-chain.md</a>는 MCP 리스크를 OWASP LLM01/03/06과 Agentic Top 10 ASI02/04/05에 매핑하고 서버 검증 체크리스트를 제공한다.</p></div>
+<div class="problem-card"><strong>OWASP Top 10:2025의 소프트웨어 서플라이 체인(A03) 강화</strong><p>OWASP 2025 개정에서 A03이 Software Supply Chain Failures로 확대되었다. npm audit, pip-audit에 더해 Sigstore/Cosign 서명 검증, SBOM 생성, lockfile 정합성 확인이 기본이 되었다. <a href="../../pages/skills/dev-security-supply-chain-sbom.html">supply-chain-sbom.md</a>가 이 영역을 전담한다.</p></div>
 <p><strong>Triggers:</strong> <code>auth, login, token, input validation, dependency, security, threat model</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -115,6 +120,8 @@
 <li><strong>Supply Chain Security</strong></li>
 <li><strong>Input Validation at Trust Boundaries</strong></li>
 <li><strong>Threat Modeling</strong></li>
+<li><strong>Agentic AI Security (ASI01-ASI10)</strong></li>
+<li><strong>Slopsquatting Defense</strong></li>
 </ul>
 <h2 id="related-skills">Related Skills</h2>
 <ul>
@@ -128,21 +135,22 @@
 
 <h2 id="references">Reference Documents</h2>
 <table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
-<tr><td><a href="../../pages/skills/dev-security-agentic-ai-security.html">Agentic AI Security — OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) for Skill Authors and Coding Agents</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-agentic-ai-security.html">Agentic AI Security — OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) for Skill Authors and Coding Agents</a></td><td>OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10)</td></tr>
 <tr><td><a href="../../pages/skills/dev-security-asvs-checklist.html">ASVS 5.0.0 Level 1 and Level 2 Pre-Deploy Checklist</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-security-language-quirks.html">Language-Specific Security Quirks</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-security-llm-supply-chain.html">LLM Supply-Chain Security — Prompt Injection, RAG Poisoning, and Tool Output Trust</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-security-mcp-supply-chain.html">MCP &amp; Agentic Skill Supply Chain Security</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-security-owasp-top10.html">OWASP Top 10:2025 — Unsafe and Safe Patterns</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-security-static-analysis.html">Static Analysis and Security Tooling</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-security-supply-chain-sbom.html">Supply Chain Security: SBOM, Signing &amp; Dependency Integrity</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-security-llm-supply-chain.html">LLM Supply-Chain Security — Prompt Injection, RAG Poisoning, and Tool Output Trust</a></td><td>간접 프롬프트 인젝션 방어, RAG 포이즈닝, 도구 출력 신뢰 검증</td></tr>
+<tr><td><a href="../../pages/skills/dev-security-mcp-supply-chain.html">MCP &amp; Agentic Skill Supply Chain Security</a></td><td>MCP 서버 보안 검증 체크리스트, allowlist/pinning, 감사 로깅</td></tr>
+<tr><td><a href="../../pages/skills/dev-security-owasp-top10.html">OWASP Top 10:2025 — Unsafe and Safe Patterns</a></td><td>OWASP Top 10:2025 코드 레벨 체크리스트, unsafe/safe 코드 쌍</td></tr>
+<tr><td><a href="../../pages/skills/dev-security-static-analysis.html">Static Analysis and Security Tooling</a></td><td>Semgrep, CodeQL, ESLint security, gitleaks CI 통합</td></tr>
+<tr><td><a href="../../pages/skills/dev-security-supply-chain-sbom.html">Supply Chain Security: SBOM, Signing &amp; Dependency Integrity</a></td><td>SBOM 생성(Syft/Trivy), 아티팩트 서명(Cosign/Sigstore), 의존성 감사</td></tr>
 </tbody></table>
 <h2 id="sections">Sections Overview</h2>
 <table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
 <tr><td class="key">Authentication</td><td>비밀번호 해싱, 세션 관리, JWT 규칙, OAuth 통합을 다룬다.</td></tr>
 <tr><td class="key">Authorization</td><td>RBAC/ABAC, 리소스 레벨 권한 검사, BOLA 방지를 강제한다.</td></tr>
 <tr><td class="key">Input Validation</td><td>신뢰 경계에서만 검증, 스키마 기반, 화이트리스트 접근을 요구한다.</td></tr>
-<tr><td class="key">Supply Chain</td><td>의존성 감사, lockfile 정합성, slopsquatting 방지를 다룬다.</td></tr>
+<tr><td class="key">Supply Chain</td><td>의존성 감사, lockfile 정합성, slopsquatting 방지, SBOM/서명.</td></tr>
+<tr><td class="key">Agentic AI Security</td><td>프롬프트 인젝션, 과도한 권한, 도구 오남용, 데이터 유출 방어.</td></tr>
 </tbody></table>
 <h2 id="full-spec">Full Specification</h2>
 <details><summary>Show full SKILL.md content</summary>

@@ -106,6 +106,9 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-scaffolding/SKILL.md" target="_blank" rel="noopener">skills/dev-scaffolding/SKILL.md</a></p>
 <p class="lede">Project and module scaffolding with repo-first convention reuse and structural audits.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>새 프로젝트나 모듈을 만들 때 에이전트가 기존 코드베이스의 관습을 무시하고 자기만의 구조를 발명하면, 이후 팀이 유지보수할 수 없는 이질적인 코드가 된다. 이 스킬은 기존 레포의 구조, 네이밍, 패키지 구성을 먼저 읽고 재활용하도록 강제하여 &#x27;빈 캔버스 증후군&#x27;을 차단한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>빈 캔버스 증후군</strong><p>에이전트에게 새 모듈을 만들라고 하면 기존 프로젝트의 구조를 무시하고 자기만의 디렉토리 체계를 발명한다. src/components/ 대신 app/widgets/를 만들고, 기존 네이밍 관습(camelCase vs snake_case)과 다른 스타일을 쓴다. Convention Discovery는 기존 구조를 먼저 스캔하게 한다.</p></div>
+<div class="problem-card"><strong>문서 소재지의 혼란</strong><p>ADR, 기술 결정, 구조 변경 기록이 채팅 히스토리에만 남아 다음 세션에서 사라진다. UNIT-RESIDENCE-01은 모든 구현이 <a href="../../pages/skills/dev.html">dev</a>log/_plan/YYMMDD_slug/ 유닛에 소속되게 하여, 결정과 결과를 파일 시스템에 영구 기록한다.</p></div>
 <p><strong>Triggers:</strong> <code>scaffold, new project, init project, new feature, add module, project setup, structure audit</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -146,7 +149,7 @@
 <h3 id="modular-references">Modular References</h3>
 <table class="rules"><tbody>
 <tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/implementation-log.md</code></th><th>C3+/multi-phase/cross-session work units</th><th>Full <a href="../../pages/skills/dev.html">dev</a>log routine: decade-numbered plan folders, P-concretize → A-audit → D-archive loop, mainstream design-doc/RFC mapping</th></tr>
+<tr><th><code>references/implementation-log.md</code></th><th>C3+/multi-phase/cross-session work units</th><th>Full devlog routine: decade-numbered plan folders, P-concretize → A-audit → D-archive loop, mainstream design-doc/RFC mapping</th></tr>
 <tr><th><code>references/api-docs.md</code></th><th>API documentation generation</th><th>OpenAPI 3.1, developer portal, CI doc drift, SDK generation</th></tr>
 <tr><th><code>references/monorepo-tooling.md</code></th><th>Setting up or optimizing monorepo builds</th><th>Turborepo vs Nx 2026 decision table, task graph for AI agents, CI optimization</th></tr>
 </tbody></table>

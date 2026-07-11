@@ -335,6 +335,16 @@ def build_skill_pages():
         if rationale:
             parts.append(f'<div class="evidence"><strong>왜 별도 모듈인가</strong><br>{htmlmod.escape(rationale)}</div>')
         
+
+        # real-world problems (2026)
+        problems = meta.get("real_world_problems", [])
+        if problems:
+            parts.append('<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>')
+            for prob in problems:
+                ptitle = htmlmod.escape(prob.get("title", ""))
+                pdesc = htmlmod.escape(prob.get("desc", ""))
+                parts.append(f'<div class="problem-card"><strong>{ptitle}</strong><p>{pdesc}</p></div>')
+        
         # triggers
         if triggers:
             parts.append(f'<p><strong>Triggers:</strong> <code>{htmlmod.escape(triggers)}</code></p>')

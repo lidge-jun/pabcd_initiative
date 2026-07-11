@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-debugging/SKILL.md" target="_blank" rel="noopener">skills/dev-debugging/SKILL.md</a></p>
 <p class="lede">5-phase systematic root-cause debugging method for real failures in any language.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트가 버그를 만나면 증상을 보고 바로 패치하는 경향이 있다. 타임아웃이면 타임아웃 값을 늘리고, OOM이면 메모리를 올린다. 이런 증상 패치는 다음 버그를 만들어낸다. 이 스킬은 &#x27;이건 설계 문제인가 코드 버그인가?&#x27;부터 시작하는 5단계 근본 원인 분석을 강제한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>증상 패치의 악순환</strong><p>요청 타임아웃 -&gt; 타임아웃 30초로 증가 -&gt; N+1 쿼리가 원인인데 감춰짐 -&gt; 부하 증가 시 DB 커넥션 고갈. Phase 0의 Symptom vs Root Cause Fix 테이블은 이런 흔한 잘못된 패치와 올바른 수정을 대비시킨다.</p></div>
+<div class="problem-card"><strong>3번째 같은 종류의 버그는 설계 문제</strong><p>같은 모듈에서 비슷한 버그가 3번 발생하면, 그건 코드 버그가 아니라 구조적 문제다. Phase 0의 Decision Tree는 이 신호를 감지하여 <a href="../../pages/skills/dev-architecture.html">dev-architecture</a> 리뷰로 에스컬레이트한다.</p></div>
+<div class="problem-card"><strong>비동기 코드의 숨겨진 레이스 컨디션</strong><p>에이전트가 async/await를 쓰면서 floating promise, 공유 상태 경쟁, deadlock을 만드는 경우가 많다. <a href="../../pages/skills/dev-debugging-async-debugging.html">async-debugging.md</a>는 이 특수한 디버깅 영역을 별도로 다룬다.</p></div>
 <p><strong>Triggers:</strong> <code>debug this, why is X failing, flaky test, fix the crash, root cause, error, stack trace</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -351,7 +355,7 @@ Run once → analyze evidence → identify failing layer → investigate THAT la
 <tr><th>Modifying failing tests to pass</th><th>Fix the code, not the test — a failing test is evidence</th></tr>
 <tr><th>Claiming &quot;fixed&quot; without running verification</th><th>Run full test suite, show green output, verify the original symptom</th></tr>
 <tr><th>Copy-pasting a fix without understanding</th><th>Understand why the fix works, then adapt to your codebase</th></tr>
-<tr><th>Suppressive try/catch (catch-and-ignore, catch-and-return-null)</th><th>Fix at the source. Boundary catch with logging/re-throw is fine — see <a href="../../pages/skills/dev-architecture.html">dev-architecture</a> §4.</th></tr>
+<tr><th>Suppressive try/catch (catch-and-ignore, catch-and-return-null)</th><th>Fix at the source. Boundary catch with logging/re-throw is fine — see dev-architecture §4.</th></tr>
 <table class="rules"><tbody>
 <tr><th>Guessing at types, nulls, or undefined values</th><th>Add diagnostic logging, inspect actual runtime values</th></tr>
 <tr><th>&quot;It works now&quot; after changing something unrelated</th><th>Correlation ≠ causation — revert the change and test again</th></tr>

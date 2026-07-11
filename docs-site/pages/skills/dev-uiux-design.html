@@ -106,6 +106,11 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/SKILL.md" target="_blank" rel="noopener">skills/dev-uiux-design/SKILL.md</a></p>
 <p class="lede">UI/UX design direction: visual judgment, design isms, product personality, UX states.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>에이전트에게 &#x27;멋지게 만들어&#x27;라고 하면 매번 비슷한 그라데이션, 둥근 카드, 보라색 팔레트가 나온다. 디자인 판단은 도메인, 사용자, 맥락에 따라 달라져야 하는데, 구현 스킬(<a href="../../pages/skills/dev-frontend.html">dev-frontend</a>)만으로는 이 판단이 빠진다. 이 스킬은 디자인 방향을 먼저 결정하고, 그 방향에 맞는 구체적인 타이포/색상/레이아웃을 설정한 뒤 <a href="../../pages/skills/dev.html">dev</a>-frontend에 구현을 넘긴다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>한국어 디자인 요청의 번역 손실</strong><p>&#x27;깔끔하게 해줘&#x27;라는 요청은 미니멀리즘인지, 화이트 스페이스 정리인지, 타이포 개선인지 맥락에 따라 다르다. Korean Request Translation(section 3)은 흔한 한국어 디자인 요청을 구체적인 디자인 방향으로 변환하는 사전을 제공한다.</p></div>
+<div class="problem-card"><strong>모든 프로젝트가 같은 성격으로 수렴</strong><p>에이전트는 SaaS 대시보드와 게임 랜딩 페이지에 같은 디자인을 적용한다. Product Personality Selection은 도메인별 성격(미니멀/엔터프라이즈/플레이풀/에디토리얼)을 먼저 결정하게 한다. <a href="../../pages/skills/dev-uiux-design-product-personalities.html">product-personalities.md</a>에 구체적인 참조 제품과 시각적 특성이 정리되어 있다.</p></div>
+<div class="problem-card"><strong>UX 상태 누락 — 빈 상태, 에러 상태, 로딩 상태</strong><p>에이전트는 데이터가 잘 들어와 있는 해피 경로만 구현한다. 데이터가 없을 때, API가 실패했을 때, 로딩 중일 때, 권한이 없을 때의 UX가 빠진다. <a href="../../pages/skills/dev-uiux-design-ux-states.html">ux-states.md</a>는 이 4가지 상태를 반드시 설계하게 한다.</p></div>
+<div class="problem-card"><strong>파비콘과 로고의 사후처리</strong><p>에이전트가 앱을 완성한 뒤 파비콘을 까먹거나, 적당히 이모지를 넣는다. <a href="../../pages/skills/dev-uiux-design-favicon-logo.html">favicon-logo.md</a>는 파비콘/로고가 디자인 시스템의 일부임을 명시하고, 브라우저 탭에서 식별 가능한 아이콘을 만들게 한다.</p></div>
 <p><strong>Triggers:</strong> <code>make it look good, modern, clean, aesthetic, onboarding, empty state, error state, favicon, logo, design system</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -126,19 +131,19 @@
 <h2 id="references">Reference Documents</h2>
 <table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
 <tr><td><a href="../../pages/skills/dev-uiux-design-color-system.html">color-system</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-uiux-design-design-isms.html">design-isms</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-design-isms.html">design-isms</a></td><td>Bauhaus/Memphis/Brutalism/Wabi-Sabi 등 디자인 사조와 적용 조건</td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-design-read-example.html">Design Read Example</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-design-system-bootstrap.html">design-system-bootstrap</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-uiux-design-favicon-logo.html">Favicon &amp; Product Logo — Design Judgment &amp; Patterns</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-favicon-logo.html">Favicon &amp; Product Logo — Design Judgment &amp; Patterns</a></td><td>파비콘/로고 생성 규칙, 크기별 대응, 브랜드 일관성</td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-form-patterns.html">Form Design Patterns</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-layout-macrostructures.html">layout-macrostructures</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-logo-trust-sections.html">Logo Trust Sections — Design Patterns &amp; Judgment</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-mobile-native-ux.html">Mobile Native UX Conventions</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-uiux-design-product-personalities.html">product-personalities</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-product-personalities.html">product-personalities</a></td><td>미니멀/엔터프라이즈/플레이풀/에디토리얼 성격별 참조 제품과 시각적 특성</td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-responsive-nav.html">responsive-nav</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-uiux-design-typography-line-breaks.html">Typography Line Breaks — Design Judgment Guide</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-typography-line-breaks.html">Typography Line Breaks — Design Judgment Guide</a></td><td>text-wrap: balance/pretty, ch 단위, 한국어 고아 방지</td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-ux-preflight.html">UX Preflight Checklist</a></td><td></td></tr>
-<tr><td><a href="../../pages/skills/dev-uiux-design-ux-states.html">ux-states</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-ux-states.html">ux-states</a></td><td>빈 상태/에러/로딩/권한 부족의 UX 패턴과 마이크로카피 가이드</td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-visual-hierarchy.html">Visual Hierarchy</a></td><td></td></tr>
 </tbody></table>
 <h2 id="sections">Sections Overview</h2>

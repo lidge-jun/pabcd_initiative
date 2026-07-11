@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-pabcd/SKILL.md" target="_blank" rel="noopener">skills/dev-pabcd/SKILL.md</a></p>
 <p class="lede">PABCD orchestration workflow for interview, phases, attest, and checkpoints.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>PABCD는 codexclaw의 핵심 개발 방법론이다. 인터뷰(I)로 요구사항을 정리하고, 계획(P) &gt; 감사(A) &gt; 구현(B) &gt; 점검(C) &gt; 완료(D)의 5단계를 FSM으로 관리한다. 이 스킬이 없으면 에이전트는 요구사항 확인 없이 바로 코딩하거나, 감사 없이 머지하거나, 검증 없이 완료 선언을 한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>요구사항 누락으로 인한 재작업</strong><p>에이전트가 사용자의 첫 문장만 보고 바로 코딩을 시작하면, 중간에 &#x27;이건 원하는 게 아닌데&#x27;가 반복된다. Interview(I) 단계는 세 가지를 반드시 정하게 한다: 작업 분류(C0-C5), 루프 아키타입(verifier가 done을 정의하는가), 구현 유닛 소속(<a href="../../pages/skills/dev.html">dev</a>log/_plan/YYMMDD_slug/).</p></div>
+<div class="problem-card"><strong>에이전트가 모르는 것을 모르는 문제</strong><p>Interview Diverge(INTERVIEW-DIVERGE-01): 에이전트가 자원하는 2-3개 옵션은 보통 같은 어트랙터 패밀리다. 의도적으로 비전형적(low-probability) 접근을 하나 이상 포함시키고, 불확실하면 &#x27;BOTH (parallel spike, select by evidence)&#x27;를 제안하게 한다.</p></div>
+<div class="problem-card"><strong>Catalog Discovery와 디자인 우선 인터뷰</strong><p>사용자가 &#x27;사주 앱 만들고 싶어&#x27;처럼 모호한 도메인만 말할 때, 에이전트는 바로 기술 스택을 물어본다. CATALOG-DESIGN-FIRST-01은 Stage 1(디자인 6축: 무드, 밝기, 밀도, 형태, 타이포, 모션)을 전부 답한 뒤에야 Stage 2(도메인), Stage 3(기능/보안/비용)으로 넘어가게 한다. 백엔드는 디자인 위에 쌓이는 것이지, 그 반대가 아니다.</p></div>
 <p><strong>Triggers:</strong> <code>orchestrate, phase, attest, interview, goal mode, checkpoint, PABCD</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -140,7 +144,7 @@
 </tbody></table>
 <h2 id="full-spec">Full Specification</h2>
 <details><summary>Show full SKILL.md content</summary>
-<p>Structured 5-phase <a href="../../pages/skills/dev.html">dev</a>elopment. Advance only with user approval.</p>
+<p>Structured 5-phase development. Advance only with user approval.</p>
 <p>&gt; <strong>Runtime adapter (agent-neutral):</strong> <code>orchestrate &lt;phase&gt;</code> below means your runtime&#x27;s</p>
 <p>&gt; FSM transition command (any host that persists PABCD state and gates transitions).</p>
 <p>&gt; If your runtime has NO FSM command, keep the state machine in your working notes:</p>

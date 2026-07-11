@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-code-reviewer/SKILL.md" target="_blank" rel="noopener">skills/dev-code-reviewer/SKILL.md</a></p>
 <p class="lede">Code review router: findings, severity, verdicts, and review workflow.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>코드 리뷰를 &#x27;LGTM&#x27;으로 끝내는 에이전트는 실질적으로 게이트가 없는 것과 같다. 반대로 모든 스타일 이슈를 블로킹하면 리뷰가 바이크셰딩의 늪이 된다. 이 스킬은 리뷰 순서(보안 &gt; 정확성 &gt; 성능 &gt; 가독성)와 심각도 기반 판정(Block/Request Changes/Approve)을 체계화하여 &#x27;진짜 문제&#x27;를 찾는 리뷰를 보장한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>AI 생성 코드의 자기 리뷰 맹점</strong><p>에이전트가 코드를 작성하고 자기가 리뷰하면 자기 확인 편향(confirmation bias)이 작동한다. REVIEW-POSTURE-01은 &#x27;회의적 외부자&#x27;로 접근하라는 원칙이다. 실행자 주장, 통과한 테스트, AI 요약은 직접 확인하기 전까지 신뢰하지 않는다.</p></div>
+<div class="problem-card"><strong>AI 리뷰 도구와의 역할 분리</strong><p>GitHub Copilot Review, CodeRabbit, Sourcery 같은 AI 리뷰 도구가 확산되면서, 사람 리뷰와 AI 리뷰의 경계가 모호해졌다. <a href="../../pages/skills/dev-code-reviewer-ai-assisted-review.html">ai-assisted-review.md</a>는 AI 리뷰가 잘하는 것(패턴 탐지)과 못하는 것(비즈니스 의도 판단)을 분리하고, 재리뷰 정책을 정의한다.</p></div>
+<div class="problem-card"><strong>기술 부채의 무한 축적</strong><p>에이전트는 현재 요구사항만 충족하면 기술 부채를 만들어도 신경 쓰지 않는다. <a href="../../pages/skills/dev-code-reviewer-tech-debt.html">tech-debt.md</a>는 부채를 4분면(reckless/prudent x deliberate/inadvertent)으로 분류하고, 리뷰 시점에 인벤토리에 기록하는 프로세스를 제공한다.</p></div>
 <p><strong>Triggers:</strong> <code>review this, code review, PR review, check my diff, before merge, antipattern</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>

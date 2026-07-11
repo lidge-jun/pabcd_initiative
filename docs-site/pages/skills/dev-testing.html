@@ -106,6 +106,10 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-testing/SKILL.md" target="_blank" rel="noopener">skills/dev-testing/SKILL.md</a></p>
 <p class="lede">Testing and QA router: strategy, harness choice, CI gates, TDD, and coverage.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>테스트 없는 코드는 &#x27;동작하는 것 같다&#x27;에 머물고, 리팩토링이나 기능 추가 때 회귀를 잡지 못한다. AI 에이전트는 특히 얕은 해피패스 테스트만 작성하거나 실제 동작을 검증하지 않는 가짜 테스트를 만드는 경향이 있다. 이 스킬은 테스트 피라미드, 하니스 선택, CI 게이트, 커버리지 기준을 체계적으로 제공하여 변경의 위험도에 비례하는 검증을 보장한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>에이전트가 만드는 가짜 테스트</strong><p>에이전트는 &#x27;테스트를 작성했습니다&#x27;라고 보고하지만, 실제로는 항상 통과하는 tautology 테스트(expect(true).toBe(true))이거나, 실제 동작을 검증하지 않는 mock만 잔뜩 있는 테스트를 만든다. 이 스킬은 테스트가 실제로 검증하는 것이 무엇인지 명시하게 한다.</p></div>
+<div class="problem-card"><strong>하니스 선택의 혼란</strong><p>에이전트가 프로젝트에 이미 Jest가 설정되어 있는데 Vitest를 새로 설치하거나, Playwright가 있는데 Cypress를 추가한다. Harness Selection은 기존 프로젝트의 테스트 인프라를 먼저 감지하고 활용하게 한다.</p></div>
+<div class="problem-card"><strong>시각적 회귀의 미탐지</strong><p>CSS 변경이 특정 뷰포트에서만 레이아웃을 깨뜨리는데, 유닛 테스트로는 잡을 수 없다. Visual QA는 스크린샷 비교로 시각적 회귀를 감지한다. <a href="../../pages/skills/dev-frontend.html">dev-frontend</a>의 visual-verification.md와 연동된다.</p></div>
 <p><strong>Triggers:</strong> <code>test, TDD, coverage, CI gate, harness, E2E, visual QA, screenshot</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>

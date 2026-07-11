@@ -106,6 +106,13 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-frontend/SKILL.md" target="_blank" rel="noopener">skills/dev-frontend/SKILL.md</a></p>
 <p class="lede">Frontend implementation with responsive, accessible, anti-slop UI guidance.</p>
 <div class="evidence"><strong>왜 별도 모듈인가</strong><br>프론트엔드는 &#x27;동작&#x27;과 &#x27;보이는 것&#x27; 두 축이 모두 중요하다. 에이전트는 기능적으로 동작하는 코드는 잘 만들지만, 안티슬롭(AI가 만든 티가 나는 UI), 반응형 깨짐, 접근성 누락 같은 시각적/사용성 문제를 놓친다. 이 스킬은 <a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a>이 결정한 디자인 방향을 실제 코드로 구현할 때 필요한 기계적 체크리스트를 제공한다.</div>
+<h2 id="real-problems">이 스킬이 해결하는 실제 문제</h2>
+<div class="problem-card"><strong>2026 그라데이션 수프 — AI 생성 UI의 1번 신호</strong><p>보라색-파란색 그라데이션은 2024년의 AI 신호였지만, 2026년에는 &#x27;겹겹이 쌓인 그라데이션 워시&#x27;가 새로운 1번 AI 신호가 되었다. FE-GRADIENT-01은 뷰포트당 최대 1개의 앰비언트 그라데이션만 허용하고, 카드 3개 이상에 그라데이션이 있으면 플랫 서피스로 교체하게 한다. 모든 그라데이션은 깊이/빛/상태/브랜드 중 하나를 인코딩해야 하며, &#x27;빈 영역에 텍스처가 필요해서&#x27;는 이유가 되지 않는다.</p></div>
+<div class="problem-card"><strong>원노트 팔레트 — 단일 색조 지배</strong><p>FE-ONENOTE-01: 다크 터미널 그린(매트릭스 해커 테마)은 AI/개발자 도구의 1번 다크모드 AI 신호다. 사이버 시안, 레트로 CRT 앰버, 신스웨이브 마젠타 풀페이지 워시도 같은 실패 패턴이다. UI 요소 5개 중 4개 이상이 같은 색조(±30도)면 원노트다.</p></div>
+<div class="problem-card"><strong>AI가 만든 가짜 에셋과 메타 카피</strong><p>에이전트가 실제 스크린샷 대신 styled div로 만든 가짜 대시보드, 실제 제품 이미지 대신 추상적 그라데이션/블롭을 넣는다. FE-METACOPY-01: UI 카피가 레이아웃이나 반응형 동작을 설명하면(예: &#x27;벤토 보드에 겹쳐 보여주는 목업입니다&#x27;) 그건 메타 카피다. 사용자가 이 요소가 자기에게 뭘 해주는지 말할 수 없으면 잘못된 카피다.</p></div>
+<div class="problem-card"><strong>Serif Tasteslop — 세리프를 AI 프리미엄 숏컷으로 남용</strong><p>2024-2026년 세리프 르네상스(Anthropic, Perplexity의 Editorial New, Medium의 GT Super)가 실재하지만, 에이전트는 이걸 &#x27;아무 SaaS에나 세리프를 넣으면 프리미엄&#x27;으로 오해한다. aesthetics.md는 세리프가 허용되는 조건(에디토리얼/럭셔리/AI 신뢰 브랜드)과 금지되는 조건(대시보드, 어드민, SaaS)을 명시한다. WIRED가 2026-06-05에 이미 &#x27;tasteslop&#x27;이라고 이름 붙였다.</p></div>
+<div class="problem-card"><strong>Inter/Space Grotesk 관성과 한국어 타이포 무시</strong><p>에이전트의 기본 폰트 선택이 Inter에 수렴하거나, &#x27;Inter 말고 다른 거&#x27;로 Space Grotesk에 수렴한다. 한국어 UI에서는 CJK 리듬, line-height, fallback 동작을 먼저 테스트해야 하는데 Latin-first 폰트를 그대로 적용한다. korea-2026.md와 anti-slop.md가 이 문제를 다룬다.</p></div>
+<div class="problem-card"><strong>렌더 아티팩트를 실제 확인하지 않는 문제</strong><p>에이전트가 HTML을 작성하고 &#x27;잘 됐다&#x27;고 보고하지만 실제로 브라우저에서 렌더링하면 텍스트가 겹치거나, 이미지가 안 보이거나, 모바일에서 깨진다. visual-verification.md는 헤드리스 브라우저 스크린샷으로 실제 렌더링을 확인한 뒤에만 완료로 판정하게 한다.</p></div>
 <p><strong>Triggers:</strong> <code>frontend, UI, component, CSS, responsive, animation, React, Tailwind, layout</code></p>
 <h2 id="key-concepts">Key Concepts</h2>
 <ul>
@@ -126,9 +133,9 @@
 </ul>
 <h2 id="sections">Sections Overview</h2>
 <table class="rules"><thead><tr><th>Section</th><th>Summary</th></tr></thead><tbody>
-<tr><td class="key">Anti-Slop</td><td>AI가 생성한 티가 나는 패턴을 감지하고 제거한다.</td></tr>
-<tr><td class="key">Responsive Design</td><td>표준 브레이크포인트와 컨테이너 쿼리 기반 반응형 구현.</td></tr>
-<tr><td class="key">Visual Verification</td><td>헤드리스 브라우저로 실제 렌더링을 확인한 뒤 완료 판정.</td></tr>
+<tr><td class="key">Anti-Slop</td><td>AI가 생성한 티가 나는 패턴을 감지하고 제거한다. 그라데이션, 원노트, 가짜 에셋, 메타 카피.</td></tr>
+<tr><td class="key">Responsive Design</td><td>표준 브레이크포인트와 컨테이너 쿼리 기반 반응형 구현. 100dvh, safe area.</td></tr>
+<tr><td class="key">Visual Verification</td><td>헤드리스 브라우저로 실제 렌더링을 확인한 뒤 완료 판정. 정적 파싱은 증거 아님.</td></tr>
 <tr><td class="key">Component Architecture</td><td>관심사 분리, 상태 관리, 재사용 가능한 컴포넌트 설계.</td></tr>
 <tr><td class="key">Performance</td><td>CWV 타겟, 번들 예산, 폰트 로딩, 이미지 최적화.</td></tr>
 <tr><td class="key">Accessibility</td><td>ARIA 패턴, 포커스 관리, 키보드 내비게이션, 스크린 리더 테스트.</td></tr>
