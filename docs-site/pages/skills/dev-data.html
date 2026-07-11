@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,7 +99,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: skills/dev-data/SKILL.md</p>
+<p class="refnote">Source: <a href="../../pages/skills/dev-data.html">skills/dev-data/SKILL.md</a></p>
 <h2 id="dev-data-data-engineering-analysis-guide">Dev-Data — Data Engineering &amp; Analysis Guide</h2>
 <p>Production-grade data engineering patterns for building reliable data systems.</p>
 <p>Activates by change surface for data pipelines, analytics, SQL-heavy work, schema evolution, backfills, and reporting.</p>
@@ -257,7 +257,7 @@
 <tr><th>Metric</th><th>What to Report</th></tr>
 <tr><th>Row count</th><th>Total records in dataset</th></tr>
 <tr><th>Column inventory</th><th>Name, type, null count per column</th></tr>
-<tr><th>Numeric summary</th><th>min, max, mean, median, std dev</th></tr>
+<tr><th>Numeric summary</th><th>min, max, mean, median, std <a href="../../pages/skills/dev.html">dev</a></th></tr>
 <tr><th>Categorical summary</th><th>Unique values, top 5 most frequent</th></tr>
 <table class="rules"><tbody>
 <tr><th>Time range</th><th>Earliest and latest timestamp</th></tr>
@@ -402,7 +402,7 @@
 <table class="rules"><tbody>
 <tr><th>Companion</th><th>When to Consult</th><th>Key Sections</th></tr>
 <tr><th><code>dev-backend</code></th><th>Exposing data via API, response envelope shape, pagination</th><th>§5 API Response Contract, §2 Layered Architecture</th></tr>
-<tr><th><code>dev-security</code></th><th>PII handling, data classification, access controls, audit logging, input validation policy (per dev-security §10 ownership matrix)</th><th>§1 Input Validation, §4 Secrets, §8 Pre-Flight</th></tr>
+<tr><th><code>dev-security</code></th><th>PII handling, data classification, access controls, audit logging, input validation policy (per <a href="../../pages/skills/dev-security.html">dev-security</a> §10 ownership matrix)</th><th>§1 Input Validation, §4 Secrets, §8 Pre-Flight</th></tr>
 <tr><th><code>dev-testing</code></th><th>Pipeline validation, contract tests for data APIs, CI gates</th><th>§2 Backend &amp; API Testing, §3 Contract Testing</th></tr>
 <tr><th><code>dev-frontend</code></th><th>Downstream reporting/dashboard consumers, data format expectations</th><th>§15 Backend Contract &amp; Security Alignment</th></tr>
 </tbody></table>

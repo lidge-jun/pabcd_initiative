@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,12 +99,12 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: skills/dev-architecture/SKILL.md</p>
+<p class="refnote">Source: <a href="../../pages/skills/dev-architecture.html">skills/dev-architecture/SKILL.md</a></p>
 <h2 id="dev-architecture-module-boundaries-structural-integrity">Dev-Architecture — Module Boundaries &amp; Structural Integrity</h2>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <p>&gt; <strong>Always read <code>dev/SKILL.md</code> first</strong> for project-wide conventions before applying architecture rules.</p>
 <p>Enforces architectural rules that prevent structural decay: circular dependencies, implicit coupling, barrel abuse, and misplaced validation. These rules are mechanical — an AI coding agent can follow them without subjective judgment.</p>
-<p>Severity mapping (dev §0.2): <code>Severity: CRITICAL</code>/<code>HIGH</code> ⇒ STRICT; <code>MEDIUM</code> ⇒ DEFAULT.</p>
+<p>Severity mapping (<a href="../../pages/skills/dev.html">dev</a> §0.2): <code>Severity: CRITICAL</code>/<code>HIGH</code> ⇒ STRICT; <code>MEDIUM</code> ⇒ DEFAULT.</p>
 <h3 id="modular-references">Modular References</h3>
 <table class="rules"><tbody>
 <tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
@@ -330,7 +330,7 @@
 <tr><th>Context</th><th>Barrel Allowed?</th><th>Rationale</th></tr>
 <tr><th>Library/package public API (<code>packages/ui/index.ts</code>)</th><th>YES</th><th>Single entry point for consumers</th></tr>
 <tr><th>Framework plugin entry (<code>plugin/index.ts</code>)</th><th>YES</th><th>Plugin contract requires it</th></tr>
-<tr><th>Feature public boundary export (<code>features/auth/index.ts</code> as the feature&#x27;s single external entry)</th><th>YES</th><th>Public Boundary Export (dev-scaffolding §1); external consumers import the boundary</th></tr>
+<tr><th>Feature public boundary export (<code>features/auth/index.ts</code> as the feature&#x27;s single external entry)</th><th>YES</th><th>Public Boundary Export (<a href="../../pages/skills/dev-scaffolding.html">dev-scaffolding</a> §1); external consumers import the boundary</th></tr>
 <tr><th>Feature internal convenience barrel (re-exporting siblings for imports inside the feature)</th><th>NO</th><th>Hides internal structure, breaks tree-shaking</th></tr>
 <table class="rules"><tbody>
 <tr><th>Utility folder (<code>utils/index.ts</code>)</th><th>NO</th><th>Creates coupling magnet</th></tr>

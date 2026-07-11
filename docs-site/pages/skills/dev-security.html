@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,7 +99,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: skills/dev-security/SKILL.md</p>
+<p class="refnote">Source: <a href="../../pages/skills/dev-security.html">skills/dev-security/SKILL.md</a></p>
 <h2 id="dev-security-production-security-hardening">Dev-Security — Production Security Hardening</h2>
 <p>Treat security as a build constraint, not a cleanup step.</p>
 <p>This skill is the authoritative source for authentication, authorization, input validation, secrets, headers, rate limiting, supply-chain checks, PII handling, and agentic AI safety.</p>
@@ -163,7 +163,7 @@
 <table class="rules"><tbody>
 <tr><th><code>references/agentic-ai-security.md</code></th><th>When building tool-using agents or prompt-driven flows</th><th>OWASP Top 10 for Agentic Applications 2026 (ASI01-ASI10) mapped to agent rules and safe operating patterns</th></tr>
 <tr><th><code>references/llm-supply-chain.md</code></th><th>When integrating LLMs, RAG pipelines, or consuming tool/agent output</th><th>Indirect prompt injection defense, RAG poisoning controls, tool output trust, CI adversarial tests</th></tr>
-<tr><th><code>references/mcp-supply-chain.md</code></th><th>Adding MCP servers or vetting agent tools</th><th>OWASP MCP secure-development + third-party vetting guides (no official &quot;MCP Top 10&quot; exists — map MCP risks to LLM01/03/06 + Agentic Top 10 ASI02/04/05), server vetting checklist, allowlist/pinning, sandbox, audit logging</th></tr>
+<tr><th><code>references/mcp-supply-chain.md</code></th><th>Adding MCP servers or vetting agent tools</th><th>OWASP MCP secure-<a href="../../pages/skills/dev.html">dev</a>elopment + third-party vetting guides (no official &quot;MCP Top 10&quot; exists — map MCP risks to LLM01/03/06 + Agentic Top 10 ASI02/04/05), server vetting checklist, allowlist/pinning, sandbox, audit logging</th></tr>
 <tr><th><code>references/supply-chain-sbom.md</code></th><th>Dependency auditing or release integrity</th><th>SBOM generation (Syft/Trivy), artifact signing (Cosign/Sigstore), dependency pin &amp; audit CI</th></tr>
 </tbody></table>
 <p>For current CVEs, advisories, package maintainer/source checks, release</p>

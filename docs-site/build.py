@@ -151,6 +151,23 @@ def inline_fmt(text):
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', text)
     return text
 
+# Global source-path -> site-URL map, populated during build
+SOURCE_LINK_MAP = {}
+
+def linkify_source_refs(html, base=""):
+    """Replace known source file references with hyperlinks to their site pages."""
+    # sort by length descending so longer paths match before their substrings
+    sorted_entries = sorted(SOURCE_LINK_MAP.items(), key=lambda x: -len(x[0]))
+    for src_path, site_url in sorted_entries:
+        escaped = re.escape(htmlmod.escape(src_path))
+        # only match when NOT inside an existing href="..." or <a>...</a>
+        # simple approach: match the path only when preceded by a non-quote char
+        # and not already wrapped in an <a> tag
+        pattern = r'(?<!["/=>])' + escaped + r'(?![^<]*</a>)'
+        replacement = f'<a href="{base}{site_url}">{htmlmod.escape(src_path)}</a>'
+        html = re.sub(pattern, replacement, html, count=1)
+    return html
+
 
 # ---- navigation structure ----
 
@@ -184,7 +201,9 @@ def build_sidebar_html(current_page, base=""):
     for group_name, items in NAV:
         if not items:
             continue
-        collapsed = "" 
+        # Overview, Methodology, Skills Reference open by default; rest collapsed
+        open_groups = {"Overview", "Methodology", "Skills Reference"}
+        collapsed = "" if group_name in open_groups else "collapsed"
         parts.append(f'<div class="nav-group {collapsed}">')
         parts.append(f'<button class="nav-group-label">{group_name} <span class="chevron">&#9660;</span></button>')
         parts.append('<ul class="nav-items">')
@@ -201,6 +220,8 @@ def build_sidebar_html(current_page, base=""):
 def doc_page_html(title, body_html, current_page, base="", prev_link=None, next_link=None):
     """Wrap content in the docs shell template."""
     sidebar = build_sidebar_html(current_page, base)
+    # linkify source references to their site pages
+    body_html = linkify_source_refs(body_html, base)
     
     nav_footer = ""
     if prev_link or next_link:
@@ -439,6 +460,28 @@ def main():
     NAV[2] = ("Skills Reference", [(name, page) for name, page in skill_entries])
     NAV[4] = ("Devlog", [(name, page) for name, page in devlog_entries])
     NAV[5] = ("Backlog", [(name, page) for name, page in backlog_entries])
+    
+    # 4b. Populate SOURCE_LINK_MAP for cross-reference linkification
+    for name, page in skill_entries:
+        SOURCE_LINK_MAP[f"skills/{name}/SKILL.md"] = page
+        SOURCE_LINK_MAP[f"{name}/SKILL.md"] = page
+        SOURCE_LINK_MAP[f"{name}"] = page
+        refs_dir = SKILLS_DIR / name / "references"
+        if refs_dir.is_dir():
+            for rf in sorted(refs_dir.glob("*.md")):
+                ref_page = f"pages/skills/{name}-{rf.stem}.html"
+                SOURCE_LINK_MAP[f"{name}/references/{rf.name}"] = ref_page
+                SOURCE_LINK_MAP[f"references/{rf.name}"] = ref_page
+                SOURCE_LINK_MAP[rf.name] = ref_page
+    for title, page in devlog_entries:
+        # extract the source filename from the page path
+        stem = page.split("/")[-1].replace(".html", "")
+        SOURCE_LINK_MAP[f"devlog/{stem}.md"] = page
+        SOURCE_LINK_MAP[f"devlog/{stem}"] = page
+    for title, page in backlog_entries:
+        stem = page.split("/")[-1].replace(".html", "")
+        SOURCE_LINK_MAP[f"backlog/{stem}.md"] = page
+        SOURCE_LINK_MAP[f"backlog/{stem}"] = page
     
     # Collect reference pages from dev-pabcd
     ref_entries = []

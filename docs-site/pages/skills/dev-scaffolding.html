@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,7 +99,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: skills/dev-scaffolding/SKILL.md</p>
+<p class="refnote">Source: <a href="../../pages/skills/dev-scaffolding.html">skills/dev-scaffolding/SKILL.md</a></p>
 <h2 id="dev-scaffolding">Dev Scaffolding</h2>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <p>Rules for generating and auditing project structures. Create files directly following these rules. Use the audit script (§12) for verification.</p>
@@ -107,7 +107,7 @@
 <h3 id="modular-references">Modular References</h3>
 <table class="rules"><tbody>
 <tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr>
-<tr><th><code>references/implementation-log.md</code></th><th>C3+/multi-phase/cross-session work units</th><th>Full devlog routine: decade-numbered plan folders, P-concretize → A-audit → D-archive loop, mainstream design-doc/RFC mapping</th></tr>
+<tr><th><code>references/implementation-log.md</code></th><th>C3+/multi-phase/cross-session work units</th><th>Full <a href="../../pages/skills/dev.html">dev</a>log routine: decade-numbered plan folders, P-concretize → A-audit → D-archive loop, mainstream design-doc/RFC mapping</th></tr>
 <tr><th><code>references/api-docs.md</code></th><th>API documentation generation</th><th>OpenAPI 3.1, developer portal, CI doc drift, SDK generation</th></tr>
 <tr><th><code>references/monorepo-tooling.md</code></th><th>Setting up or optimizing monorepo builds</th><th>Turborepo vs Nx 2026 decision table, task graph for AI agents, CI optimization</th></tr>
 </tbody></table>
@@ -160,7 +160,7 @@ devlog/
 <p><strong>SoT sync (DEFAULT, SOT-SYNC-01):</strong> before patching a repo, FIND its general</p>
 <p>source-of-truth docs first (<code>structure/</code>, <code>architecture.md</code>, INDEX/context docs)</p>
 <p>and read them; any unit that changes architecture, contracts, or structure patches</p>
-<p>the SoT doc in the SAME unit (C gate, dev-pabcd §3 C). If the repo has no SoT doc,</p>
+<p>the SoT doc in the SAME unit (C gate, <a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> §3 C). If the repo has no SoT doc,</p>
 <p>recommend creating one — once, via the proposal flow above — rather than silently</p>
 <p>working without a source of truth.</p>
 <p>Implementation-unit devlog method:</p>
@@ -334,7 +334,7 @@ devlog/
 </ol>
 <p>---</p>
 <h3 id="12-audit">12. Audit</h3>
-<p>Run the scaffold audit if one is available for the repo (e.g. <code>bash &lt;SKILL_DIR&gt;/scripts/scaffold-audit.sh [project-path]</code>) to check structural compliance. Audit checks should reflect the project&#x27;s own conventions — covering feature-based structure, colocation, public boundary exports (dev-architecture §5), devlog presence, <code>.env</code> safety, file length, and AGENTS.md where those apply.</p>
+<p>Run the scaffold audit if one is available for the repo (e.g. <code>bash &lt;SKILL_DIR&gt;/scripts/scaffold-audit.sh [project-path]</code>) to check structural compliance. Audit checks should reflect the project&#x27;s own conventions — covering feature-based structure, colocation, public boundary exports (<a href="../../pages/skills/dev-architecture.html">dev-architecture</a> §5), devlog presence, <code>.env</code> safety, file length, and AGENTS.md where those apply.</p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="../../pages/skills/dev-scaffolding-api-docs.html">API Documentation Generation</a></li>

@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,7 +99,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: devlog/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md</p>
+<p class="refnote">Source: <a href="../../pages/skills/dev.html">dev</a>log/_plan/260705_pabcd_render_grounding/00_render_grounding_c_phase.md</p>
 <h2 id="render-artifact-verification-grounding-for-pabcd-c-phase">Render-Artifact Verification Grounding for PABCD C Phase</h2>
 <table class="rules"><tbody>
 <tr><th>Field</th><th>Value</th></tr>
@@ -110,7 +110,7 @@
 </tbody></table>
 <p>---</p>
 <h3 id="1-problem-statement">1. Problem Statement</h3>
-<p>The PABCD C phase (dev-pabcd SKILL.md section 3, &quot;C -- Check&quot;) currently gates on:</p>
+<p>The PABCD C phase (<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> SKILL.md section 3, &quot;C -- Check&quot;) currently gates on:</p>
 <ol>
 <li>File consistency</li>
 <li><code>npx tsc --noEmit</code> (TypeScript projects)</li>
@@ -131,7 +131,7 @@
 <p>without ever opening the page is exhibiting the same gap this rule closes.</p>
 <p>---</p>
 <h3 id="2-proposal-rule-text-insert-ready">2. Proposal: Rule Text (insert-ready)</h3>
-<p>The following rule is designed for insertion into dev-pabcd/SKILL.md section 3</p>
+<p>The following rule is designed for insertion into <a href="../../pages/skills/dev-pabcd.html">dev-pabcd/SKILL.md</a> section 3</p>
 <p>&quot;C -- Check&quot;, after the existing four-step checklist and before the <code>bgtask</code></p>
 <p>paragraph about long external gates.</p>
 <pre><code>**DEFAULT (C-RENDER-GROUNDING-01):** When the work-phase produces an artifact whose
@@ -211,7 +211,7 @@ Final sanity check:
 <p>The new rule block goes immediately after item 4, before the paragraph beginning</p>
 <p>&quot;Long external gates (CI runs, deploys) inside cli-jaw...&quot;</p>
 <h4 id="dev-testing-cross-reference">dev-testing cross-reference</h4>
-<p>Add a one-line pointer in dev-testing/SKILL.md section 1.4 &quot;Harness Selector&quot; table:</p>
+<p>Add a one-line pointer in <a href="../../pages/skills/dev-testing.html">dev-testing/SKILL.md</a> section 1.4 &quot;Harness Selector&quot; table:</p>
 <pre><code>| rendered artifact (visual) | render-grounding loop (dev-pabcd C-RENDER-GROUNDING-01) | static parse alone |</code></pre>
 <p>This aligns with the existing row pattern: Problem | Primary Harness | Avoid.</p>
 <h4 id="c-d-attestation-interaction">C-&gt;D attestation interaction</h4>
@@ -236,7 +236,7 @@ Final sanity check:
 <ul>
 <li><strong>No visual regression baseline system.</strong> Establishing golden-screenshot baselines</li>
 </ul>
-<p>and pixel-diff CI gates is out of scope (belongs in dev-testing if adopted later).</p>
+<p>and pixel-diff CI gates is out of scope (belongs in <a href="../../pages/skills/dev-testing.html">dev-testing</a> if adopted later).</p>
 <p>---</p>
 <h3 id="6-open-questions-resolved-user-interview-2026-07-05">6. Open Questions — RESOLVED (user interview, 2026-07-05)</h3>
 <ol>

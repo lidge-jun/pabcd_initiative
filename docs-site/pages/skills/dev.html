@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,8 +99,8 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: skills/dev/SKILL.md</p>
-<h2 id="dev-common-development-guidelines">Dev — Common Development Guidelines</h2>
+<p class="refnote">Source: <a href="../../pages/skills/dev.html">skills/dev/SKILL.md</a></p>
+<h2 id="dev-common-<a href="../../pages/skills/dev.html">dev</a>elopment-guidelines">Dev — Common Development Guidelines</h2>
 <p>Rules applied to every sub-agent, regardless of role.</p>
 <h3 id="0-0-work-classifier-c0-c5">§0.0 Work Classifier (C0-C5)</h3>
 <p><strong>Classify every task before choosing process depth</strong> (DEV-CLASS-01). The class selects planning, reading, and verification depth — never apply maximum process by default.</p>
@@ -156,18 +156,18 @@
 <tr><th>Tag</th><th>Loads</th><th>Strict trigger</th></tr>
 <tr><th><code>tdd</code> / <code>testing</code></th><th>dev-testing</th><th>User/repo enforces TDD, or regression risk</th></tr>
 <tr><th><code>bdd_acceptance</code></th><th>dev-testing, dev</th><th>Ambiguous acceptance behavior</th></tr>
-<tr><th><code>ddd</code> / <code>clean_arch</code> / <code>hexagonal</code> / <code>architecture</code></th><th>dev-architecture, dev-backend</th><th>Real boundary pressure at C3/C4</th></tr>
-<tr><th><code>vertical_slice</code></th><th>dev-architecture, dev-backend, dev-frontend, dev-testing</th><th>Thin end-to-end slice (C2)</th></tr>
+<tr><th><code>ddd</code> / <code>clean_arch</code> / <code>hexagonal</code> / <code>architecture</code></th><th>dev-architecture, <a href="../../pages/skills/dev-backend.html">dev-backend</a></th><th>Real boundary pressure at C3/C4</th></tr>
+<tr><th><code>vertical_slice</code></th><th>dev-architecture, dev-backend, <a href="../../pages/skills/dev-frontend.html">dev-frontend</a>, <a href="../../pages/skills/dev-testing.html">dev-testing</a></th><th>Thin end-to-end slice (C2)</th></tr>
 <table class="rules"><tbody>
-<tr><th><code>adr_rfc</code></th><th>dev-architecture, dev-scaffolding</th><th>Significant decision, domain vocabulary, or ADR source-of-truth work</th></tr>
+<tr><th><code>adr_rfc</code></th><th>dev-architecture, <a href="../../pages/skills/dev-scaffolding.html">dev-scaffolding</a></th><th>Significant decision, domain vocabulary, or ADR source-of-truth work</th></tr>
 <tr><th><code>review</code> / <code>code_review</code></th><th>dev-code-reviewer</th><th>Review requested or C3/C4</th></tr>
 <tr><th><code>threat_model</code> / <code>security</code></th><th>dev-security</th><th>C4 security/data/tooling risk</th></tr>
-<tr><th><code>observability</code> / <code>observability_pipeline</code></th><th>dev-backend (+dev-data)</th><th>Production, incident, release, long-lived runtime</th></tr>
+<tr><th><code>observability</code> / <code>observability_pipeline</code></th><th>dev-backend (+<a href="../../pages/skills/dev-data.html">dev-data</a>)</th><th>Production, incident, release, long-lived runtime</th></tr>
 <tr><th><code>debugging</code> / <code>debugging_rca</code></th><th>dev-debugging</th><th>Repeated failure needs root cause</th></tr>
 <table class="rules"><tbody>
 <tr><th><code>migration_backfill</code></th><th>dev-data, dev-backend, dev-testing</th><th>Production or non-trivial data</th></tr>
-<tr><th><code>product_discovery</code> (+<code>_ui</code>)</th><th>dev (+dev-uiux-design)</th><th>Ambiguous behavior/user value/metric/prototype intent</th></tr>
-<tr><th><code>release_cd</code></th><th>dev-testing, dev-backend, dev-scaffolding, dev-devops</th><th>Release/CI/CD surface</th></tr>
+<tr><th><code>product_discovery</code> (+<code>_ui</code>)</th><th>dev (+<a href="../../pages/skills/dev-uiux-design.html">dev-uiux-design</a>)</th><th>Ambiguous behavior/user value/metric/prototype intent</th></tr>
+<tr><th><code>release_cd</code></th><th>dev-testing, dev-backend, dev-scaffolding, <a href="../../pages/skills/dev-devops.html">dev-devops</a></th><th>Release/CI/CD surface</th></tr>
 <tr><th><code>devops</code> / <code>infra</code> / <code>deploy</code></th><th>dev-devops</th><th>Container/K8s/IaC/deploy pipeline/SRE</th></tr>
 <tr><th><code>mobile_native</code></th><th>dev-frontend + dev-uiux-design + dev-backend (refs)</th><th>RN/Flutter/Swift/Kotlin native app</th></tr>
 <table class="rules"><tbody>
@@ -225,7 +225,7 @@
 <p>Each rule area has exactly one canonical owner. Other skills may contain stubs but MUST NOT duplicate canonical content.</p>
 <table class="rules"><tbody>
 <tr><th>Rule Area</th><th>Canonical Owner</th><th>Stub Locations</th></tr>
-<tr><th>Circular dependencies</th><th>dev-architecture</th><th>dev, dev-code-reviewer</th></tr>
+<tr><th>Circular dependencies</th><th>dev-architecture</th><th>dev, <a href="../../pages/skills/dev-code-reviewer.html">dev-code-reviewer</a></th></tr>
 <tr><th>Module boundaries / layers</th><th>dev-architecture</th><th>dev-backend, dev-frontend</th></tr>
 <tr><th>Coupling taxonomy</th><th>dev-architecture</th><th>dev-code-reviewer</th></tr>
 <tr><th>Barrel / re-export</th><th>dev-architecture</th><th>dev-scaffolding</th></tr>
@@ -233,7 +233,7 @@
 <tr><th>Pre-write search</th><th>dev §1.5</th><th>dev-code-reviewer</th></tr>
 <tr><th>Edge-first testing</th><th>dev-testing §6</th><th>—</th></tr>
 <tr><th>Test-induced defense</th><th>dev-testing §6.7</th><th>dev-code-reviewer</th></tr>
-<tr><th>Boundary-only defense</th><th>dev-architecture §4</th><th>dev-backend, dev-security</th></tr>
+<tr><th>Boundary-only defense</th><th>dev-architecture §4</th><th>dev-backend, <a href="../../pages/skills/dev-security.html">dev-security</a></th></tr>
 <tr><th>Process isolation</th><th>dev-backend refs/</th><th>dev-code-reviewer</th></tr>
 <table class="rules"><tbody>
 <tr><th>Code quality signals / antipatterns</th><th>dev-code-reviewer §3</th><th>dev §6</th></tr>
@@ -299,7 +299,7 @@
 <p><strong>Hard limits (DEFAULT — exceed only with a stated reason):</strong></p>
 <table class="rules"><tbody>
 <tr><th>Metric</th><th>Threshold</th><th>Action</th></tr>
-<tr><th>File length</th><th>&gt;400 lines</th><th>Split into focused modules (canonical owner: dev-architecture §1)</th></tr>
+<tr><th>File length</th><th>&gt;400 lines</th><th>Split into focused modules (canonical owner: <a href="../../pages/skills/dev-architecture.html">dev-architecture</a> §1)</th></tr>
 <tr><th>Function length</th><th>&gt;50 lines</th><th>Extract helper functions</th></tr>
 <tr><th>Class methods</th><th>&gt;20 methods</th><th>Split by responsibility</th></tr>
 <tr><th>Nesting depth</th><th>&gt;4 levels</th><th>Flatten with early returns or extraction</th></tr>

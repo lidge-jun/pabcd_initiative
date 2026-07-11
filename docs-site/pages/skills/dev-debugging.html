@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,7 +99,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: skills/dev-debugging/SKILL.md</p>
+<p class="refnote">Source: <a href="../../pages/skills/dev-debugging.html">skills/dev-debugging/SKILL.md</a></p>
 <h2 id="dev-debugging-systematic-root-cause-analysis">Dev-Debugging — Systematic Root Cause Analysis</h2>
 <p>This skill is the <strong>thinking process</strong> for fixing bugs. It activates by change surface for errors and diagnoses, and enforces a structured</p>
 <p>5-phase methodology for every technical issue — test failures, runtime errors,</p>
@@ -110,8 +110,8 @@
 <p>consult <code>dev-backend</code> or <code>dev-frontend</code>.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
 <pre><code>dev-debugging = root cause methodology (the thinking)
-dev-testing   = test harness for reproducing/verifying (the tooling)
-dev §2        = summary pointer to this skill (the overview)</code></pre>
+<a href="../../pages/skills/dev-testing.html">dev-testing</a>   = test harness for reproducing/verifying (the tooling)
+<a href="../../pages/skills/dev.html">dev</a> §2        = summary pointer to this skill (the overview)</code></pre>
 <p>---</p>
 <h3 id="core-principle">Core Principle</h3>
 <p>Check if the problem is structural before debugging code.</p>
@@ -309,7 +309,7 @@ Run once → analyze evidence → identify failing layer → investigate THAT la
 <tr><th>Modifying failing tests to pass</th><th>Fix the code, not the test — a failing test is evidence</th></tr>
 <tr><th>Claiming &quot;fixed&quot; without running verification</th><th>Run full test suite, show green output, verify the original symptom</th></tr>
 <tr><th>Copy-pasting a fix without understanding</th><th>Understand why the fix works, then adapt to your codebase</th></tr>
-<tr><th>Suppressive try/catch (catch-and-ignore, catch-and-return-null)</th><th>Fix at the source. Boundary catch with logging/re-throw is fine — see dev-architecture §4.</th></tr>
+<tr><th>Suppressive try/catch (catch-and-ignore, catch-and-return-null)</th><th>Fix at the source. Boundary catch with logging/re-throw is fine — see <a href="../../pages/skills/dev-architecture.html">dev-architecture</a> §4.</th></tr>
 <table class="rules"><tbody>
 <tr><th>Guessing at types, nulls, or undefined values</th><th>Add diagnostic logging, inspect actual runtime values</th></tr>
 <tr><th>&quot;It works now&quot; after changing something unrelated</th><th>Correlation ≠ causation — revert the change and test again</th></tr>
@@ -386,7 +386,7 @@ orders:repository skipped insert due service error</code></pre>
 <ul>
 <li>Was user/customer-impacting</li>
 <li>Took &gt;1 hour to diagnose</li>
-<li>Involved 3+ failed fix attempts (per postmortem-template.md)</li>
+<li>Involved 3+ failed fix attempts (per <a href="../../pages/skills/dev-debugging-postmortem-template.html">postmortem-template.md</a>)</li>
 <li>Revealed a systemic issue (same bug class exists elsewhere)</li>
 </ul>
 <p>Fill out <code>references/postmortem-template.md</code> and include it in the PR or commit.</p>

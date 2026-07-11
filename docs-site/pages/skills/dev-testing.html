@@ -53,14 +53,14 @@
 <li><a href="../../pages/skills/dev-testing.html" class="active">dev-testing</a></li>
 <li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
 <li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
@@ -76,7 +76,7 @@
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
@@ -84,7 +84,7 @@
 <li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
 <li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
 </ul></div>
-<div class="nav-group ">
+<div class="nav-group collapsed">
 <button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
 <ul class="nav-items">
 <li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
@@ -99,7 +99,7 @@
 </section>
 <section class="page-body">
   <div class="band-inner">
-<p class="refnote">Source: skills/dev-testing/SKILL.md</p>
+<p class="refnote">Source: <a href="../../pages/skills/dev-testing.html">skills/dev-testing/SKILL.md</a></p>
 <h2 id="testing-qa">Testing &amp; QA</h2>
 <p>Balance: ~40% Backend/API, ~40% Frontend/E2E (Playwright), ~20% Cross-cutting (CI, Security, TDD, Coverage) -- directional guidance, not a hard ratio.</p>
 <p><strong>Scope</strong>: test harnesses, fixtures, mock policy, runners, Playwright, CI gates, coverage. Root-cause analysis and debugging playbooks → <code>dev-debugging</code>.</p>
@@ -157,7 +157,7 @@
 <tr><th>frontend consuming backend JSON</th><th>contract test</th><th>manual-only verification</th></tr>
 <table class="rules"><tbody>
 <tr><th>rendered critical flow</th><th>Playwright smoke</th><th>asserting internal React state</th></tr>
-<tr><th>rendered artifact (visual correctness)</th><th>render-grounding loop (dev-pabcd C-RENDER-GROUNDING-01)</th><th>static parse / tsc alone</th></tr>
+<tr><th>rendered artifact (visual correctness)</th><th>render-grounding loop (<a href="../../pages/skills/dev-pabcd.html">dev-pabcd</a> C-RENDER-GROUNDING-01)</th><th>static parse / tsc alone</th></tr>
 <h4 id="1-5-general-rules">1.5 General Rules</h4>
 <ul>
 <li>Write tests for <strong>new features, bug fixes, refactors, and behavior changes</strong>.</li>
@@ -303,7 +303,7 @@
                                            → Yes: Recon-then-action (navigate → screenshot → selectors → act)</code></pre>
 <h4 id="4-2-example-using-with-server-py">4.2 Example: Using with_server.py</h4>
 <pre><code># Single server:
-python scripts/with_server.py --server &quot;npm run dev&quot; --port 5173 -- python your_automation.py
+python scripts/with_server.py --server &quot;npm run <a href="../../pages/skills/dev.html">dev</a>&quot; --port 5173 -- python your_automation.py
 
 # Multiple servers:
 python scripts/with_server.py \
@@ -411,7 +411,7 @@ pytest -n auto --dist=loadgroup</code></pre>
 <tr><th>Chicago / classicist</th><th>domain logic and transforms</th></tr>
 <tr><th><strong>Hybrid</strong></th><th>most production code</th></tr>
 <p>Default to <strong>Hybrid</strong>: mock external systems, keep internal collaboration real unless it becomes too slow or unstable.</p>
-<h4 id="6-5-boundary-with-dev-debugging">6.5 Boundary with dev-debugging</h4>
+<h4 id="6-5-boundary-with-<a href="../../pages/skills/dev-debugging.html">dev-debugging</a>">6.5 Boundary with dev-debugging</h4>
 <ul>
 <li><code>dev-testing</code> owns the <strong>regression harness</strong> and enforcement loop.</li>
 <li><code>dev-debugging</code> owns <strong>root-cause methodology</strong> once a failure is mysterious or multi-layered.</li>
