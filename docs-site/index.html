@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PABCD Initiative — AI 코딩 에이전트 개발 방법론</title>
+<meta name="description" content="PABCD Initiative: FSM 기반 PABCD 상태 머신, attestation, dev 스킬 패밀리로 AI 코딩 에이전트의 작업 규율을 세우는 개발 방법론.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="assets/site.css?v=3">
+</head>
+<body>
+
+<header class="meta-bar">
+  <span>PABCD Initiative</span>
+  <span class="hide-m">AI 코딩 에이전트 개발 방법론</span>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right hide-m">Version 0.1.0</span>
+  <span class="right">2026-07-11</span>
+</header>
+
+<section class="hero">
+  <div class="masthead" aria-label="PABCD Initiative">
+    <div class="mast-line"><span class="word">PA</span><span class="mast-square" aria-hidden="true"></span></div>
+    <div class="mast-sub">
+      <span class="word" style="font-size:var(--mast-size)">BCD</span>
+      <span class="mast-initiative">Initiative</span>
+    </div>
+  </div>
+
+  <div class="seq-figure" role="img" aria-label="PABCD 다섯 단계 시퀀스: Plan, Audit, Build, Check, Done">
+    <div class="seq-row">
+      <span class="seq-letter">P</span>
+      <span class="seq-track"><span class="seq-label" style="left:0">Plan</span><span class="seq-bar" style="left:0;width:97%"></span></span>
+    </div>
+    <div class="seq-row">
+      <span class="seq-letter">A</span>
+      <span class="seq-track"><span class="seq-label" style="left:6%">Audit</span><span class="seq-bar" style="left:6%;width:78%"></span></span>
+    </div>
+    <div class="seq-row">
+      <span class="seq-letter">B</span>
+      <span class="seq-track"><span class="seq-label" style="left:6%">Build</span><span class="seq-bar" style="left:6%;width:66%"></span></span>
+    </div>
+    <div class="seq-row">
+      <span class="seq-letter">C</span>
+      <span class="seq-track"><span class="seq-label" style="left:12%">Check</span><span class="seq-bar" style="left:12%;width:50%"></span></span>
+    </div>
+    <div class="seq-row">
+      <span class="seq-letter">D</span>
+      <span class="seq-track"><span class="seq-label" style="left:10%">Done</span><span class="seq-bar" style="left:10%;width:42%"></span></span>
+    </div>
+    <div class="seq-axis"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+  </div>
+
+  <div class="hero-desc">
+    <h1>AI 코딩 에이전트를 위한 개발 방법론.</h1>
+    <p>Principled. Adaptive. 구조와 피드백으로 더 나은 에이전트를 만든다.</p>
+  </div>
+</section>
+
+<nav class="index-strip" aria-label="문서 인덱스">
+  <a href="#doctrine"><span class="num">01</span><span class="t">강령</span><span class="d">PABCD 상태 머신과 attestation</span></a>
+  <a href="pages/origin.html"><span class="num">02</span><span class="t">탄생 배경</span><span class="d">실전 프로젝트에서 발견한 실패 모드</span></a>
+  <a href="pages/skills.html"><span class="num">03</span><span class="t">스킬 분할</span><span class="d">dev-* 라우터와 references 구조</span></a>
+  <a href="pages/delegation.html"><span class="num">04</span><span class="t">위임 경제</span><span class="d">오케스트레이터와 서브에이전트의 분업</span></a>
+  <a href="pages/loop.html"><span class="num">05</span><span class="t">루프 계약</span><span class="d">HITL/HOTL, goalplan, 지속 조건</span></a>
+  <a href="#references"><span class="num">06</span><span class="t">참고 문헌</span><span class="d">Tier-2 검증 arXiv claim-ledger</span></a>
+</nav>
+
+<section id="doctrine" class="band blend-scope reveal">
+  <div class="band-inner">
+    <div class="two-col">
+      <div>
+        <p class="kicker">01 — Doctrine</p>
+        <h2>다섯 상태, 하나의 계약.</h2>
+        <p class="lede">PABCD는 에이전트의 작업을 Plan, Audit, Build, Check, Done
+        다섯 상태의 유한 상태 머신 위에 올린다. 상태 전이는 선언이 아니라
+        attestation — 증거를 첨부한 명시적 전이 명령 — 으로만 일어난다.</p>
+        <p>"다 했다"는 말은 상태가 아니다. 계획 없는 빌드, 감사 없는 계획,
+        검증 없는 완료 선언은 전이 자체가 거부된다. 이 규율은 특정 모델이나
+        호스트 CLI에 묶이지 않은 에이전트 중립(agent-neutral) 규칙으로
+        관리되며, 각 런타임은 자신의 FSM/위임 표면에 이를 어댑트한다.</p>
+      </div>
+      <figure class="figure-cut">
+        <img class="cutout" src="assets/cut_fsm.webp" alt="PABCD 사이클 잉크 다이어그램: Plan에서 Audit, Build, Check를 거쳐 Done으로 순환" width="1100" height="1100">
+        <figcaption>Fig.01 — PABCD state cycle</figcaption>
+      </figure>
+    </div>
+
+    <div class="state-table-wrap">
+      <img class="stamp cutout" src="assets/cut_attested.webp" alt="" aria-hidden="true" width="1100" height="733">
+      <table class="state">
+        <thead>
+          <tr><th></th><th>Phase</th><th>진입 조건</th><th>종료 게이트</th><th class="hide-m">산출물</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="ph">P</td><td class="nm">Plan</td><td>작업 시작 또는 리플랜</td><td>diff-level 계획 + loop-spec 헤더</td><td class="hide-m">계획 문서</td></tr>
+          <tr><td class="ph">A</td><td class="nm">Audit</td><td>계획 확정</td><td>독립 리뷰어 blocker 0건</td><td class="hide-m">감사 기록</td></tr>
+          <tr><td class="ph">B</td><td class="nm">Build</td><td>감사 통과</td><td>스코프 내 구현 완료</td><td class="hide-m">코드 · 에셋</td></tr>
+          <tr><td class="ph">C</td><td class="nm">Check</td><td>빌드 완료</td><td>실행 증거(테스트 · 스크린샷)</td><td class="hide-m">증거 묶음</td></tr>
+          <tr class="done"><td class="ph">D</td><td class="nm">Done</td><td>검증 통과</td><td>attest 증거 첨부 전이</td><td class="hide-m">attestation · devlog</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider-print" role="img" aria-label="PABCD 레터프레스 인쇄 디테일"></div>
+
+<section id="documents" class="band reveal">
+  <div class="band-inner">
+    <p class="kicker">02 — 05 · Documents</p>
+    <h2>문서.</h2>
+    <div class="doc-rows">
+      <a class="doc-row" href="pages/origin.html">
+        <span class="num">02</span>
+        <span class="title">탄생 배경</span>
+        <span class="desc">게임 개발을 비롯한 실전 프로젝트에서 반복된 실패 모드 — 레이지 완료 선언, 검증 없는 done, 컨텍스트 붕괴 — 가 어떻게 방법론이 되었는가.</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="doc-row" href="pages/skills.html">
+        <span class="num">03</span>
+        <span class="title">스킬 분할</span>
+        <span class="desc">13개 dev 스킬 패밀리를 라우터 + references 구조로 나눈 근거. 왜 하나의 거대 스킬이 아니라 표면별 모듈인가.</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="doc-row" href="pages/delegation.html">
+        <span class="num">04</span>
+        <span class="title">위임 경제</span>
+        <span class="desc">DISPATCH-ECONOMY-01: 명세가능성 &times; 검증가능성 &times; 판정소유권. 무엇을 파견하고 무엇을 오케스트레이터가 쥐는가 — arXiv 10편의 Tier-2 근거와 함께.</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="doc-row" href="pages/loop.html">
+        <span class="num">05</span>
+        <span class="title">루프 계약</span>
+        <span class="desc">HITL 단계 규율과 HOTL goalplan: 성공 기준, 체크포인트, 증거 원장, Stop-continuation 정책으로 자율 루프를 계약화한다.</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="references" class="band reveal">
+  <div class="band-inner">
+    <p class="kicker">06 — References</p>
+    <h2>참고 문헌.</h2>
+    <p>위임 경제 강령이 기대는 10편의 논문. 전부 Tier-2(원문 초록 대조) 검증을
+    통과했고, 스니펫 해석이 초록과 어긋난 항목은 원장에 강등 기록을 남겼다.</p>
+    <ul class="ref-list">
+      <li><span class="no">01</span><span class="pt">Memex(RL): Indexed Experience Memory</span><span class="pc">요약은 증거를 버린다 — 요약 + 역참조 가능한 안정 인덱스가 원칙</span><span class="pid"><a href="https://arxiv.org/abs/2603.04257">arXiv:2603.04257</a></span></li>
+      <li><span class="no">02</span><span class="pt">Context-Folding</span><span class="pc">작업 경계 접기가 단순 요약형 컨텍스트 관리를 능가</span><span class="pid"><a href="https://arxiv.org/abs/2510.11967">arXiv:2510.11967</a></span></li>
+      <li><span class="no">03</span><span class="pt">ACON</span><span class="pc">컨텍스트 압축으로 피크 토큰 26&ndash;54% 절감, 과업 성공률은 오히려 상승</span><span class="pid"><a href="https://arxiv.org/abs/2510.00615">arXiv:2510.00615</a></span></li>
+      <li><span class="no">04</span><span class="pt">SearchSwarm</span><span class="pc">분해 · 위임 시점 · 결과 통합은 메인 에이전트의 판단 소유</span><span class="pid"><a href="https://arxiv.org/abs/2606.09730">arXiv:2606.09730</a></span></li>
+      <li><span class="no">05</span><span class="pt">The Selection Bottleneck</span><span class="pc">생성 다양성보다 선별자 품질이 더 큰 설계 지렛대</span><span class="pid"><a href="https://arxiv.org/abs/2603.20324">arXiv:2603.20324</a></span></li>
+      <li><span class="no">06</span><span class="pt">MacNet</span><span class="pc">협업 스케일링은 로지스틱 성장 — 에이전트 수는 포화한다</span><span class="pid"><a href="https://arxiv.org/abs/2406.07155">arXiv:2406.07155</a></span></li>
+      <li><span class="no">07</span><span class="pt">MAST</span><span class="pc">1,600+ 트레이스에서 검증 실패가 1급 실패 범주로 분류</span><span class="pid"><a href="https://arxiv.org/abs/2503.13657">arXiv:2503.13657</a></span></li>
+      <li><span class="no">08</span><span class="pt">Speculative Actions</span><span class="pc">예측 정확도가 투기 실행의 이득을 상한 — 선택적 분기만 유효</span><span class="pid"><a href="https://arxiv.org/abs/2510.04371">arXiv:2510.04371</a></span></li>
+      <li><span class="no">09</span><span class="pt">Cost-Aware Speculative Execution</span><span class="pc">기대값 규칙은 분기 폭이 커질수록 스스로 제동을 건다</span><span class="pid"><a href="https://arxiv.org/abs/2606.07846">arXiv:2606.07846</a></span></li>
+      <li><span class="no">10</span><span class="pt">VMAO</span><span class="pc">검증은 공짜가 아니다 — 품질과 자원 사용을 저울질하는 정지 조건</span><span class="pid"><a href="https://arxiv.org/abs/2603.11445">arXiv:2603.11445</a></span></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="site-footer blend-scope">
+  <img class="cutout" src="assets/cut_wordmark.webp" alt="PABCD 워드마크" width="1100" height="1100">
+  <div class="fmeta">
+    PABCD Initiative — agent-neutral doctrine<br>
+    cli-jaw · codexclaw · jawcode 로 어댑트 포팅
+  </div>
+  <a class="top-link" href="#top">Top &uarr;</a>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var els = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)) {
+    els.forEach(function (el) { el.classList.add("in"); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
