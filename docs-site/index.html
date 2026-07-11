@@ -65,11 +65,12 @@
 
 <nav class="index-strip" aria-label="문서 인덱스">
   <a href="#doctrine"><span class="num">01</span><span class="t">강령</span><span class="d">PABCD 상태 머신과 attestation</span></a>
-  <a href="pages/origin.html"><span class="num">02</span><span class="t">탄생 배경</span><span class="d">실전 프로젝트에서 발견한 실패 모드</span></a>
-  <a href="pages/skills.html"><span class="num">03</span><span class="t">스킬 분할</span><span class="d">dev-* 라우터와 references 구조</span></a>
-  <a href="pages/delegation.html"><span class="num">04</span><span class="t">위임 경제</span><span class="d">오케스트레이터와 서브에이전트의 분업</span></a>
-  <a href="pages/loop.html"><span class="num">05</span><span class="t">루프 계약</span><span class="d">HITL/HOTL, goalplan, 지속 조건</span></a>
-  <a href="#references"><span class="num">06</span><span class="t">참고 문헌</span><span class="d">Tier-2 검증 arXiv claim-ledger</span></a>
+  <a href="#philosophy"><span class="num">02</span><span class="t">설계 철학</span><span class="d">capability-responsive 하네스: 판단은 모델이, 불변식은 기계가</span></a>
+  <a href="pages/origin.html"><span class="num">03</span><span class="t">탄생 배경</span><span class="d">실전 프로젝트에서 발견한 실패 모드</span></a>
+  <a href="pages/skills.html"><span class="num">04</span><span class="t">스킬 분할</span><span class="d">dev-* 라우터와 references 구조</span></a>
+  <a href="pages/delegation.html"><span class="num">05</span><span class="t">위임 경제</span><span class="d">오케스트레이터와 서브에이전트의 분업</span></a>
+  <a href="pages/loop.html"><span class="num">06</span><span class="t">루프 계약</span><span class="d">HITL/HOTL, goalplan, 지속 조건</span></a>
+  <a href="#references"><span class="num">07</span><span class="t">참고 문헌</span><span class="d">Tier-2 검증 arXiv claim-ledger</span></a>
 </nav>
 
 <section id="doctrine" class="band blend-scope reveal">
@@ -107,6 +108,69 @@
         </tbody>
       </table>
     </div>
+  </div>
+</section>
+
+
+<section id="philosophy" class="band reveal">
+  <div class="band-inner">
+    <div class="two-col">
+      <div>
+        <p class="kicker">Design Philosophy</p>
+        <h2>판단은 모델이, 불변식은 기계가.</h2>
+        <p class="lede">PABCD는 capability-responsive 하네스다. 에이전트의 맥락적 엔지니어링
+        판단을 심각도 등급이 있는 규율 텍스트로 표현하고, 기계적 강제는 되돌릴 수 없는
+        불변식에만 쓴다. 오늘의 모델 한계를 내일의 오케스트레이션에 얼리지 않으면서,
+        자연어 준수를 보안 경계로 착각하지도 않는다.</p>
+      </div>
+      <div>
+        <table class="rules">
+          <thead><tr><th>구분</th><th>PABCD가 하는 일</th></tr></thead>
+          <tbody>
+            <tr><td class="key">기계적 강제<br><span style="font-weight:400;font-size:0.8125rem;color:var(--ink-soft)">3개</span></td>
+                <td>FSM 상태 영속 (attestation), 조기 종료 차단 (Stop hook), 완료 검증 (goalplan gate)</td></tr>
+            <tr><td class="key">규율 텍스트<br><span style="font-weight:400;font-size:0.8125rem;color:var(--ink-soft)">수백 개</span></td>
+                <td>C0-C5 분류, anti-slop 체크리스트, 아키텍처 경계, 보안 추론, 리뷰 자세 &mdash; 에이전트가 읽고 따르는 지식</td></tr>
+            <tr><td class="key">심각도 스펙트럼</td>
+                <td>STRICT / DEFAULT / HEURISTIC / STYLE_SAMPLE &mdash; 더 똑똑한 모델이 더 세밀한 판단을 행사할 수 있는 구간</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem">왜 이 설계인가</h3>
+    <div class="two-col" style="gap:2rem">
+      <div>
+        <p><strong>hook 과적합의 문제.</strong> 모든 턴에 규칙을 주입하고 모든 출력을 파싱하는 하네스는
+        모델이 멍청할 때 효과적이다. 하지만 모델이 규칙을 이미 이해하면 오버헤드만 남는다.
+        AGENTS.md 연구(<a href="https://arxiv.org/abs/2602.11988" target="_blank" rel="noopener">arXiv:2602.11988</a>)는
+        컨텍스트 파일이 에이전트 행동을 실제로 바꾸지만, 추론 비용이 ~20% 증가함을 보여준다.
+        규칙이 많을수록 비용이 올라가므로 규칙은 한계 가치가 높아야 한다.</p>
+        <p><strong>자체 루프의 문제.</strong> 에이전트 출력을 다른 LLM이 검사하고 그 검사를
+        또 검사하는 방식은 비용이 지수적이다. 검사하는 모델도 같은 맹점을 공유하므로
+        독립적 신호가 아니다. PABCD는 대신 외부 증거(테스트, diff, 스크린샷)를 사용한다.</p>
+      </div>
+      <div>
+        <p><strong>모델 능력에 비례하는 효과.</strong> SIFo(<a href="https://arxiv.org/abs/2406.19999"
+        target="_blank" rel="noopener">arXiv:2406.19999</a>)는 더 새롭고 큰 모델이
+        복잡한 지시 시퀀스를 유의미하게 더 잘 따름을 보여준다.
+        같은 규율 텍스트가 GPT-4 수준에서 80%를 따르면, sol 수준에서는 거의 전부를
+        따르면서 규칙의 의도까지 이해한다. 하네스는 바뀌지 않았는데 효과가 올라간다.</p>
+        <p><strong>정직한 한계.</strong> 이 접근이 완벽하지는 않다. 자연어 규칙은
+        보안 경계가 될 수 없다(<a href="https://arxiv.org/abs/2302.12173"
+        target="_blank" rel="noopener">Greshake et al.</a>). 장기 준수는
+        컨텍스트 길이와 함께 저하된다(<a href="https://arxiv.org/abs/2505.14810"
+        target="_blank" rel="noopener">MathIF</a>). 규율 텍스트는 순종적이지만
+        비생산적인 작업을 유발할 수 있다. 그래서 기계적 강제가 3개 존재하고,
+        보안 정책은 텍스트와 기계의 이중 경계로 운영된다.</p>
+      </div>
+    </div>
+
+    <blockquote style="margin:2rem 0 0;padding:1rem 1.5rem;border-left:3px solid var(--accent);background:#f4f2ec;font-size:0.9375rem;line-height:1.7">
+      <strong style="color:var(--accent)">정식화.</strong>
+      판단은 모델 능력이 복리로 쌓이는 곳에 놓고, 불변식은 확률적 판단이 용납되지 않는 곳에 놓는다.
+      이것이 "느슨한 하네스가 단단한 하네스를 이긴다"보다 정직하고, 근거가 실제로 지지하는 주장이다.
+    </blockquote>
   </div>
 </section>
 
@@ -149,7 +213,7 @@
   <div class="band-inner">
     <p class="kicker">06 — References</p>
     <h2>참고 문헌.</h2>
-    <p>위임 경제 강령이 기대는 10편의 논문. 전부 Tier-2(원문 초록 대조) 검증을
+    <p>하네스 설계와 위임 경제를 지지하는 15편의 논문. 전부 Tier-2(원문 초록 대조) 검증을
     통과했고, 스니펫 해석이 초록과 어긋난 항목은 원장에 강등 기록을 남겼다.</p>
     <ul class="ref-list">
       <li><span class="no">01</span><span class="pt">Memex(RL): Indexed Experience Memory</span><span class="pc">요약은 증거를 버린다 — 요약 + 역참조 가능한 안정 인덱스가 원칙</span><span class="pid"><a href="https://arxiv.org/abs/2603.04257">arXiv:2603.04257</a></span></li>
@@ -162,6 +226,11 @@
       <li><span class="no">08</span><span class="pt">Speculative Actions</span><span class="pc">예측 정확도가 투기 실행의 이득을 상한 — 선택적 분기만 유효</span><span class="pid"><a href="https://arxiv.org/abs/2510.04371">arXiv:2510.04371</a></span></li>
       <li><span class="no">09</span><span class="pt">Cost-Aware Speculative Execution</span><span class="pc">기대값 규칙은 분기 폭이 커질수록 스스로 제동을 건다</span><span class="pid"><a href="https://arxiv.org/abs/2606.07846">arXiv:2606.07846</a></span></li>
       <li><span class="no">10</span><span class="pt">VMAO</span><span class="pc">검증은 공짜가 아니다 — 품질과 자원 사용을 저울질하는 정지 조건</span><span class="pid"><a href="https://arxiv.org/abs/2603.11445">arXiv:2603.11445</a></span></li>
+      <li><span class="no">11</span><span class="pt">SIFo: Sequential Instruction Following</span><span class="pc">큰/새 모델이 복잡 지시를 유의미하게 더 잘 따름 — capability-responsive 하네스의 근거</span><span class="pid"><a href="https://arxiv.org/abs/2406.19999">arXiv:2406.19999</a></span></li>
+      <li><span class="no">12</span><span class="pt">Agentless</span><span class="pc">정교한 자율 루프 없이 단순 단계 프로세스가 강한 결과 — 최소 기계 원칙 지지</span><span class="pid"><a href="https://arxiv.org/abs/2407.01489">arXiv:2407.01489</a></span></li>
+      <li><span class="no">13</span><span class="pt">AGENTS.md Evaluation</span><span class="pc">레포 컨텍스트가 에이전트 행동을 바꾸지만 추론 비용 ~20% 증가 — 규칙의 한계 가치가 중요</span><span class="pid"><a href="https://arxiv.org/abs/2602.11988">arXiv:2602.11988</a></span></li>
+      <li><span class="no">14</span><span class="pt">Instruction Adherence in Config Files</span><span class="pc">에이전트 설정 파일 구조 변수가 지시 준수에 미치는 영향의 팩토리얼 연구</span><span class="pid"><a href="https://arxiv.org/abs/2605.10039">arXiv:2605.10039</a></span></li>
+      <li><span class="no">15</span><span class="pt">MathIF</span><span class="pc">추론 능력과 제약 준수가 반대로 갈 수 있음 — 정직한 한계의 근거</span><span class="pid"><a href="https://arxiv.org/abs/2505.14810">arXiv:2505.14810</a></span></li>
     </ul>
   </div>
 </section>
