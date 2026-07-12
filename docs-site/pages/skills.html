@@ -185,6 +185,55 @@
     먼저, 그 후 재분류)까지 — 최대 프로세스를 기본값으로 적용하지 않는다.
     스킬 분할과 같은 원리다: 규율의 비용은 위험에 비례해야 한다.</p>
     <p class="refnote"><a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev/SKILL.md (§0.0 Work Classifier)" target="_blank" rel="noopener">pabcd_initiative/skills/dev/SKILL.md:14-27 (§0.0 Work Classifier)</a></p>
+
+    <h2><span class="sec-no">E</span>2026-07-12 조율 — 세 축</h2>
+    <p>dev-* 패밀리 전반의 역할, 상속, 탐색 경로를 한 번에 맞췄다. 각 스킬이
+    자기 전문 영역을 분명히 지키면서도, 범용 규율과 인접 스킬의 책임을
+    놓치지 않도록 구조를 조율한 작업이다.</p>
+
+    <h3>E.1 Role Boundary (역할 경계)</h3>
+    <p>13개 dev-* 스킬 모두에 동일한 Role Boundary 블록을 두고 세 계층의
+    소유권을 명시했다. anti-slop 역시 프로세스 위생, 방향 판단, 렌더링된
+    구현 tell 탐지로 나뉘어 중복 없이 이어진다.</p>
+    <table class="rules">
+      <thead><tr><th>소유자</th><th>책임</th><th class="hide-m">규칙</th></tr></thead>
+      <tbody>
+        <tr><td class="key"><code>dev</code></td><td>범용 프로세스, 증거, 안전 규칙과 output/process hygiene를 소유한다.</td><td class="hide-m">FAMILY-SLOP-01 · FAMILY-CITE-01 · FAMILY-PROOF-01</td></tr>
+        <tr><td class="key"><code>dev-uiux-design</code></td><td>디자인 의도, 방향, 콘셉트와 취향 판단을 소유한다. 방향이 generic하거나 domain-wrong인지 판별한다.</td><td class="hide-m">concept judgment</td></tr>
+        <tr><td class="key"><code>dev-frontend</code></td><td>구체적 구현과 렌더링된 implementation tell 탐지·제거를 소유한다.</td><td class="hide-m">FE-AI-TELL-01</td></tr>
+      </tbody>
+    </table>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/dev/SKILL.md" target="_blank" rel="noopener">codexclaw/plugins/codexclaw/skills/dev/SKILL.md — Family Invariants / Role boundary</a> · <a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/dev-uiux-design/SKILL.md" target="_blank" rel="noopener">dev-uiux-design/SKILL.md</a> · <a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/dev-frontend/SKILL.md" target="_blank" rel="noopener">dev-frontend/SKILL.md</a></p>
+
+    <h3>E.2 <code>dev</code>-is-canonical 상속 (Canonical Inheritance)</h3>
+    <p>모든 dev-* 자식 스킬이 이제 한 줄로 정본 상속을 선언한다:
+    <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, §5 Safety Rules는
+    보편 적용된다. 이전에는 13개 중 10개 스킬에 부모 정본 게이트를 가리키는
+    명시적 포인터가 없었다.</p>
+    <table class="rules">
+      <thead><tr><th>체크</th><th>Before</th><th>After</th></tr></thead>
+      <tbody>
+        <tr><td class="key"><code>dev</code> §0.2/§3/§5 상속</td><td>3/13</td><td>13/13</td></tr>
+        <tr><td class="key">C0/C1 fast-path</td><td>12/13</td><td>13/13</td></tr>
+        <tr><td class="key">Agent clarity C-level</td><td>3개</td><td>0개</td></tr>
+      </tbody>
+    </table>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/dev/SKILL.md" target="_blank" rel="noopener">codexclaw/plugins/codexclaw/skills/dev/SKILL.md: §0.2 Rule Classes · §3 Verification Gate · §5 Safety Rules</a></p>
+
+    <h3>E.3 양방향 교차참조 (Bidirectional Cross-References)</h3>
+    <p>12개 sibling 스킬의 directed graph를 분석해 A가 B를 참조하지만 B는 A를
+    참조하지 않는 비대칭 edge 18개를 찾았다. 18개를 모두 해소한 결과 비대칭
+    edge는 0개, 대칭 pair는 33개가 됐다. 이제 어떤 스킬에서 시작해도 자신을
+    참조하는 모든 sibling으로 되돌아갈 수 있다.</p>
+    <table class="rules">
+      <thead><tr><th>소유권 분할</th><th>해결된 경계</th></tr></thead>
+      <tbody>
+        <tr><td class="key"><code>security</code> ↔ <code>devops</code></td><td>supply-chain security policy와 operational scan execution을 분리했다.</td></tr>
+        <tr><td class="key"><code>code-reviewer</code></td><td>security review를 canonical security owner가 아니라 pre-scan으로 규정했다.</td></tr>
+        <tr><td class="key"><code>scaffolding</code></td><td>cross-cutting section의 책임을 placement-only로 한정했다.</td></tr>
+      </tbody>
+    </table>
+    <p class="refnote"><a href="https://github.com/lidge-jun/codexclaw/blob/main/plugins/codexclaw/skills/dev/references/skill-ownership.md" target="_blank" rel="noopener">codexclaw/plugins/codexclaw/skills/dev/references/skill-ownership.md — canonical ownership and cross-reference map</a></p>
   </div>
 </section>
 
