@@ -1,17 +1,16 @@
 ---
-name: cxc-dev-debugging
-description: "MUST USE for any real runtime debugging in any language — crashes, silent failures, wrong output, build/test failures, flaky tests, performance regressions, integration bugs. A phases 0-4 root-cause method: architecture check → investigate → analyze → hypothesize → implement. Triggers: 'debug this', 'why is X failing', 'this test is flaky', 'fix the crash', 'root cause', '왜 안 돼', '디버깅', '원인 분석'."
+name: dev-debugging
+description: "MUST USE for any real runtime debugging in any language — crashes, silent failures, wrong output, build/test failures, flaky tests, performance regressions, and integration bugs. A 5-phase root-cause method: architecture check → investigate → analyze → hypothesize → implement. Triggers: debug this, why is X failing, flaky test, fix the crash, root cause, error, stack trace, regression, 왜 안 돼, 디버깅, 원인 분석."
 metadata:
+  short-description: "5-phase systematic root-cause debugging method for real failures in any language."
+  keywords: "debug, error, stack trace, root cause, flaky, regression, crash, bisect, trace-first, replay"
   last-verified: "2026-07-02"
-  short-description: "Phases 0-4 systematic root-cause debugging method (any language)."
-  keywords: [debug, error, stack trace, root cause, flaky, regression, crash, bisect]
 ---
 
-# dev-debugging — Systematic Root Cause Analysis
+# Dev-Debugging — Systematic Root Cause Analysis
 
-This skill is the **thinking process** for fixing bugs. As a routing role it activates
-by change-surface (an error/bug to diagnose), not by any external dispatcher. It enforces a structured
-phases 0-4 methodology for every technical issue — test failures, runtime errors,
+This skill is the **thinking process** for fixing bugs. It activates by change surface for errors and diagnoses, and enforces a structured
+5-phase methodology for every technical issue — test failures, runtime errors,
 build failures, performance regressions, integration bugs.
 
 **Boundary**: This skill covers how to reason about bugs. For test harness,
@@ -112,9 +111,10 @@ probe can be built in reasonable time.
 
 6. **Trace-first for distributed/async/agent failures (DEFAULT)** — capture the
    evidence trail before hypothesizing: request IDs, OpenTelemetry spans/logs,
-   Playwright traces/videos, exact agent tool transcripts. For order-dependent or
-   intermittent failures logs cannot explain, use time-travel/replay debugging
-   (Microsoft TTD on Windows, rr on Linux).
+   Playwright traces/videos, and exact agent tool transcripts. For order-dependent,
+   native, concurrency, or intermittent failures that logs cannot explain, use
+   time-travel/replay debugging (Microsoft TTD on Windows, rr on Linux) — see
+   `references/tool-guides.md`.
 
 ```
 For EACH component boundary:
@@ -148,38 +148,30 @@ before treating external material as proof.
 
 ### Phase 3: Hypothesis and Testing
 
-**STRICT (DEBUG-RCA-EVIDENCE-01):** Before investigating any single root-cause
-hypothesis or making a root-cause claim, write at least three orthogonal
-hypotheses (`H1/H2/H3`) and one falsifier for each. Collapse duplicates, test
-against disconfirming evidence, and do not claim root cause until competing
-hypotheses have been ruled out by evidence. If fewer than three are plausible,
-state why.
+1. **List competing hypotheses first** — write at least three plausible root-cause
+   hypotheses before investigating any single one. Include the evidence that would
+   support or reject each hypothesis. If fewer than three are plausible, state why.
 
-1. **State the leading hypothesis explicitly** — "X is the root cause because
+2. **State the leading hypothesis explicitly** — "X is the root cause because
    evidence Y shows Z." If you can't articulate it clearly, you don't understand
    it yet.
 
-2. **Design a test to disprove** — falsification is stronger than confirmation.
+3. **Design a test to disprove** — falsification is stronger than confirmation.
    What would you expect to see if your hypothesis is wrong?
 
-3. **Test one variable** — smallest possible change, one variable at a time.
+4. **Test one variable** — smallest possible change, one variable at a time.
    Never fix multiple things at once.
 
-4. **If it fails** → move to another listed hypothesis. Revert the failed change and
+5. **If it fails** → move to another listed hypothesis. Revert the failed change and
    start from clean state. Stacking fixes obscures the root cause.
 
-5. **Keep the rejection record** — preserve rejected hypotheses and the evidence
+6. **Keep the rejection record** — preserve rejected hypotheses and the evidence
    that rejected them. The final report must include them, not just the winning cause.
 
-6. **Admit ignorance** — "I don't understand X" is a valid finding. Research
+7. **Admit ignorance** — "I don't understand X" is a valid finding. Research
    further rather than guessing. Record the open question explicitly.
 
 ### Phase 4: Implementation
-
-**STRICT (DEBUG-TOGGLE-PROOF-01):** Enter implementation only after the captured
-value matches the hypothesis prediction, the repro repeats, and toggling the
-suspected cause off/on removes then restores the bug. Write one paragraph
-explaining the causal mechanism before patching.
 
 1. **Write a failing test first** — the test reproduces the bug. It should fail
    before the fix. Use `dev-testing` for TDD patterns and test harness setup.
@@ -240,6 +232,7 @@ Slop debugging is spray-and-pray: guess, patch, pray, repeat.
 | Suppressive try/catch (catch-and-ignore, catch-and-return-null) | Fix at the source. Boundary catch with logging/re-throw is fine — see dev-architecture §4. |
 | Guessing at types, nulls, or undefined values | Add diagnostic logging, inspect actual runtime values |
 | "It works now" after changing something unrelated | Correlation ≠ causation — revert the change and test again |
+| Letting an AI auto-repair loop (test healer, auto-fix) mask the defect | Agentic repair aids run only AFTER root cause is understood; keep the failing repro as evidence |
 
 ---
 
@@ -357,23 +350,10 @@ action item that prevents the same class of bug from recurring.
 
 | File | When to Read | What It Covers |
 |------|-------------|----------------|
-| `references/methodologies.md` | Choosing a debug approach | Five Whys, bisection, differential diagnosis, subtraction, systematic logging |
-| `references/async-debugging.md` | Concurrency issues | Race conditions, deadlocks, event loop blocking, promise/callback |
-| `references/tool-guides.md` | Quick cheatsheet | Node inspector basics, pdb basics, Chrome DevTools, git bisect, DB EXPLAIN |
-| `references/postmortem-template.md` | After resolving a significant incident | Blameless postmortem template |
-| `references/runtimes/node.md` | Node.js / tsx / Bun / Deno | Phase 0 detection, tsx source-map trap, launch recipes, `exec()` patterns, silent-failure table, cleanup |
-| `references/runtimes/js/nextjs-react.md` | Next.js 16 / React 19 | Server-vs-client attach split, DevTools MCP, hydration mismatch workflow, React Compiler debug, RSC silent-failures |
-| `references/runtimes/js/vite-vitest.md` | Vite 8 / Vitest 4 | forwardConsole agent forwarding, plugin-transform debug, visual regression, HMR + build-time silent-failures |
-| `references/runtimes/js/node-backend.md` | Express 5 / Fastify 5 / NestJS 11 | Router debug namespaces, lifecycle hooks, schema serialization drops, DI errors, AsyncLocalStorage loss |
-| `references/runtimes/python.md` | Python (CPython 3.9+) | Attach methods, pdb/ipdb/pudb, pytest, asyncio gotchas, PEP 768 safe attach, py-spy/memray, silent-failures |
-| `references/runtimes/rust.md` | Rust | Hierarchy (dbg! -> RUST_LOG -> backtrace -> gdb/lldb -> tokio-console -> cargo-expand), Miri UB, silent-failures |
-| `references/runtimes/go.md` | Go | Delve launch/attach, goroutine patterns, race detector, pprof, GODEBUG, silent-failures |
-| `references/runtimes/c-cpp.md` | C/C++ | Sanitizers (ASan/TSan/MSan/UBSan), GDB/LLDB, Valgrind, CMake debug builds, UB silent-failures |
-| `references/runtimes/jvm.md` | Java/Kotlin (JVM) | jcmd live diagnostics, JFR profiling, JDWP/JDB, Kotlin coroutines, GraalVM native-image |
-| `references/runtimes/swift.md` | Swift / iOS | LLDB, Instruments, Swift concurrency, simulator CLI, crash symbolication |
-| `references/runtimes/ruby.md` | Ruby (3.2+) | debug gem/rdbg, binding.irb, pry, Rails tools, nil-propagation silent-failures |
-| `references/runtimes/beam.md` | Elixir/Erlang (BEAM) | IEx.pry, Observer, :dbg/recon, supervision hiding, mailbox/atom/binary leaks |
-| `references/tools/playwright.md` | Browser/web-surface bugs | codegen repro, PWDEBUG, trace viewer, console/network listeners, viewport gotchas |
+| `references/methodologies.md` | When choosing a debugging approach | Five Whys, bisection, differential diagnosis, subtraction, rubber duck, systematic logging |
+| `references/async-debugging.md` | When debugging concurrency issues | Race conditions, deadlocks, event loop blocking, promise/callback issues |
+| `references/tool-guides.md` | When you need stack-specific debugger commands | Node.js inspector, Python pdb/debugpy, Chrome DevTools, git bisect, database EXPLAIN |
+| `references/postmortem-template.md` | After resolving a significant incident | Blameless postmortem template with filled example |
 
 ---
 
