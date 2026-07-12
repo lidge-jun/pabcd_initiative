@@ -11,6 +11,13 @@ metadata:
 
 Rules applied to every sub-agent, regardless of role.
 
+> **Role boundary (canonical):**
+> `dev` owns universal process, evidence, and safety rules. `dev-uiux-design` owns
+> design intent, direction, and concept judgment. `dev-frontend` owns concrete frontend
+> implementation and rendered tell enforcement. Anti-slop has three layers: `dev` =
+> output/process hygiene, `dev-uiux-design` = concept/taste judgment,
+> `dev-frontend` = rendered implementation tell detection and removal.
+
 ## §0.0 Work Classifier (C0-C5)
 
 **Classify every task before choosing process depth** (DEV-CLASS-01). The class selects planning, reading, and verification depth — never apply maximum process by default.

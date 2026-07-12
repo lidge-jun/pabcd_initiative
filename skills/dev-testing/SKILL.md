@@ -9,9 +9,16 @@ metadata:
 # Testing & QA
 Balance: ~40% Backend/API, ~40% Frontend/E2E (Playwright), ~20% Cross-cutting (CI, Security, TDD, Coverage) -- directional guidance, not a hard ratio.
 **Scope**: test harnesses, fixtures, mock policy, runners, Playwright, CI gates, coverage. Root-cause analysis and debugging playbooks → `dev-debugging`.
+- Review/test boundary and test adequacy findings: see `dev-code-reviewer`.
+- CI pipeline ownership and deployment verification: see `dev-devops`.
+- Data pipeline testing and ETL validation: see `dev-data`.
+- Design direction context for rendered verification: see `dev-uiux-design`.
+- Browser QA implementation and rendered UI fixes: see `dev-frontend`.
 This skill activates by change surface when work needs verification depth, regression coverage, or a reproducible test harness.
 
 > **C0/C1 work (small local patches):** See `dev` §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.
+
+> **`dev` is canonical:** `dev` §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.
 
 ## Modular References
 
@@ -71,44 +78,6 @@ source-fetch and evidence-status rules.
 - If the failure is mysterious, **delegate methodology to `dev-debugging`**, then return here for the regression harness.
 - **STRICT (TEST-ANTI-FLAKE-01):** A time-based flake is a bug. Do not use sleep-based synchronization, retry-as-fix, or green-on-retry acceptance without a deterministic cause and harness correction.
 - Verification depth follows `dev` §3 `DEV-VERIFY-FLOOR-01`; CRUD per-operation negative coverage is owned by `references/core/crud-test-matrix.md`.
-
-### 1.5a Limited-Oracle / Score-Objective Evaluation
-
-Use this section when the real evaluator is scarce, paid, rate-limited, or opaque, and
-local tests are proxy metrics for a score/objective. These rules pair with
-`dev-pabcd` §10 Optimization-Loop Meta-Rules (plateau discipline). They were observed in a
-14-discard optimization plateau where a prefix-only replay gate and hard
-draw-protection invariant locked a 3.5/8 score.
-
-- **GATE-ORACLE-VALIDITY-01 (STRICT):** When the true evaluator/oracle is
-  rate-limited and local metrics are proxies, evaluator validity is a PREREQUISITE
-  gate. Before trusting the proxy for accept/reject, quantify historical divergence:
-  cases where the proxy said better/equal but the oracle said worse. A proxy with known
-  optimistic bias must not be the sole acceptance evidence.
-- **GATE-PREFIX-HORIZON-01 (DEFAULT):** Replay-based evidence, such as recorded logs or
-  scripted opponents, is prefix-valid only. It stops being valid as soon as the
-  candidate diverges from the recorded trajectory. Candidates that diverge early need
-  live adversarial evaluation with a modeled opponent/environment, not replay-only
-  acceptance. State the divergence turn/point whenever citing replay evidence.
-- **GATE-INVARIANT-EV-01 (DEFAULT):** Every hard invariant in an acceptance gate, meaning
-  a metric that must not regress, needs an expected-value justification: the value it
-  protects versus the candidate-space it vetoes. If a hard invariant vetoes three or
-  more consecutive candidates that target strictly larger gains, downgrade it to a
-  soft cost and re-justify or remove it.
-- **GATE-HOLDOUT-LEAKAGE-01 (DEFAULT):** Fixed evaluation assets - recorded logs, test
-  maps, sparring bots, graders, and public oracle outcomes - become training data once
-  candidates are repeatedly tuned against them (adaptive reuse overfits the holdout
-  itself). Rotate or expand the gate's instance set as tuning accumulates, and reserve
-  a blind slice (instances never used for candidate selection) as the final acceptance
-  check. A candidate that wins only on the tuned set and not on the blind slice is
-  gate-overfit, not improved. Grounding: Blum & Hardt, "The Ladder"
-  (arXiv:1502.04585); Dwork et al., "The reusable holdout" (arXiv:1506.02629).
-- **GATE-AGREEMENT-STATS-01 (HEURISTIC):** Calibrate a proxy against the scarce oracle
-  with agreement statistics, not correlation alone: sign-discordance rate (proxy said
-  better/equal, oracle said worse), mean and worst-case proxy-minus-oracle error, and
-  rank agreement on paired decisions (Bland-Altman method-comparison doctrine). Track
-  these per scenario family and re-derive them whenever the oracle returns new
-  results.
 
 ### 1.6 Property-Based & Mutation Testing (verified 2026-07-02)
 

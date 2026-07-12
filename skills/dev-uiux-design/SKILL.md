@@ -33,6 +33,15 @@ fetch/open/text/get-dom/snapshot only after candidate URLs exist.
 
 > **C0/C1 work (small local patches):** See `dev` §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.
 
+> **`dev` is canonical:** `dev` §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.
+
+> **Role boundary (canonical):**
+> `dev` owns universal process, evidence, and safety rules. `dev-uiux-design` owns
+> design intent, direction, and concept judgment. `dev-frontend` owns concrete frontend
+> implementation and rendered tell enforcement. Anti-slop has three layers: `dev` =
+> output/process hygiene, `dev-uiux-design` = concept/taste judgment,
+> `dev-frontend` = rendered implementation tell detection and removal.
+
 > **Rule class note (UX-STYLE-01):** Everything in this skill that expresses taste —
 > product personalities, design-isms, preset tokens, aesthetic vocabulary — is
 > `STYLE_SAMPLE`: examples to draw from, never universal requirements. Objective UX

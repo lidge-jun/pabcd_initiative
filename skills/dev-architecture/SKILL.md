@@ -10,6 +10,8 @@ metadata:
 # Dev-Architecture — Module Boundaries & Structural Integrity
 
 > **C0/C1 work (small local patches):** See `dev` §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.
+
+> **`dev` is canonical:** `dev` §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.
 > **Always read `dev/SKILL.md` first** for project-wide conventions before applying architecture rules.
 
 Enforces architectural rules that prevent structural decay: circular dependencies, implicit coupling, barrel abuse, and misplaced validation. These rules are mechanical — an AI coding agent can follow them without subjective judgment.
@@ -321,6 +323,9 @@ Tool roles verified 2026-07-02 (Sources: `references/circular-dependencies.md`).
 
 - **Observability**: Trace emission at module boundaries is a production/long-lived-runtime concern (DEFAULT there, not universal). See `dev-backend/references/core/observability.md` for the canonical OTel setup.
 - **Security**: Validate at every trust/process/external boundary (HTTP entry, IPC, file/CLI input, third-party responses). Intra-trust-domain module calls follow §4 boundary-only defense — do not re-validate already-trusted data. See `dev-security/SKILL.md` for input validation and auth patterns.
+- Coupling and boundary review: see `dev-code-reviewer`.
+- Debugging escalation for boundary or coupling issues: see `dev-debugging`.
+- Infrastructure architecture and deployment boundaries: see `dev-devops`.
 
 ---
 

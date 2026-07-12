@@ -10,9 +10,17 @@ metadata:
 # Dev-Code-Reviewer — Code Review Guide
 
 > **C0/C1 work (small local patches):** See `dev` §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.
+
+> **`dev` is canonical:** `dev` §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.
 > **Always read `dev/SKILL.md` first** for project-wide conventions before applying review rules.
 
 Systematic code review patterns for finding real issues, not bikeshedding.
+
+| Sibling skill | Integration boundary |
+|---|---|
+| `dev-testing` | Owns test adequacy and QA execution. |
+| `dev-debugging` | Owns RCA when review discovers a runtime failure. |
+| `dev-architecture` | Owns coupling classification and boundary placement. |
 
 ## Review Posture (REVIEW-POSTURE-01)
 
@@ -207,7 +215,7 @@ secrets, injection, validation, auth, authorization, and logging findings.
 
 ## 3.5 Security Review Quick-Check
 
-For **every review**, scan for these OWASP-aligned red flags. Delegate to `dev-security/SKILL.md` for deep analysis.
+For **every review**, pre-scan for these OWASP-aligned red flags. This is a security review pre-scan; delegate policy and deep analysis to `dev-security/SKILL.md`.
 
 ### Must-Check (Every PR)
 

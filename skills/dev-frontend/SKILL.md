@@ -20,13 +20,22 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 
 > **C0/C1 work (small local patches):** See `dev` §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.
 
+> **`dev` is canonical:** `dev` §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.
+
+> **Role boundary (canonical):**
+> `dev` owns universal process, evidence, and safety rules. `dev-uiux-design` owns
+> design intent, direction, and concept judgment. `dev-frontend` owns concrete frontend
+> implementation and rendered tell enforcement. Anti-slop has three layers: `dev` =
+> output/process hygiene, `dev-uiux-design` = concept/taste judgment,
+> `dev-frontend` = rendered implementation tell detection and removal.
+
 ## Modular References
 
 | File                                      | When to Read                         | What It Covers                                                                    |
 | ----------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
 | `references/core/crud-ui.md`              | C2 list/detail/form product screens  | State coverage (loading/empty/error/permission), forms, objective UX gates         |
 | `references/core/anti-slop.md`            | New components or UI redesign        | 2026 AI slop patterns, Korean slop, oversized text, fake assets, default UI smells |
-| `references/core/aesthetics.md`           | Visual design decisions              | Domain-correct visual direction, typography, color, composition, serif three-role system, expressive/functional layers, AI-brand grammar                    |
+| `references/core/aesthetics.md`           | Implementing an established visual direction | Domain-correct visual direction, typography, color, composition, serif three-role system, expressive/functional layers, AI-brand grammar                    |
 | `references/core/product-density.md`      | Apps, tools, dashboards              | Density profiles for landing, consumer app, SaaS, ops, finance, devtools          |
 | `references/core/asset-requirements.md`   | Any public/product/visual surface    | Required screenshots, images, diagrams, charts, generated bitmaps, or 3D assets, mockup production pipeline   |
 | `references/core/visual-verification.md`  | Changes affecting rendered layout    | Screenshot, viewport, text fit, state, asset, and motion verification              |
@@ -61,6 +70,11 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 
 Start with `anti-slop.md`, `aesthetics.md`, `responsive-viewport.md`, and `visual-verification.md`. Add domain/locale/stack references only when relevant.
 For C2 ordinary app screens (form/table/list/detail), `crud-ui.md` alone suffices; add the style references above for marketing/visual surfaces or C3+ work.
+
+- UI/rendering bug RCA: load `dev-debugging`.
+- Build pipeline, bundle config, or deployment: load `dev-devops`.
+- Project setup or file placement conventions: load `dev-scaffolding`.
+- Data-driven dashboards, reporting views, or data format expectations: load `dev-data`.
 
 When frontend choices depend on current framework, design-system, browser API,
 library behavior, browser-rendered source evidence, or package/source freshness,
@@ -128,7 +142,11 @@ Two different kinds of rules live in this skill (see `dev` §0.2):
   requirements, must not override an existing design system (Design System Detection stays
   MANDATORY), and must never be enforced as universal taste (UX-STYLE-01).
 
-## 2. Design Thinking
+## 2. Design Direction Intake
+
+> When the user cannot articulate a clear design direction, load `dev-uiux-design` first.
+> It owns intent discovery, concept generation, and direction selection; this skill validates
+> and implements the chosen direction.
 
 Before coding, commit to a domain-correct direction:
 - **Purpose**: What problem does this interface solve? Who uses it?

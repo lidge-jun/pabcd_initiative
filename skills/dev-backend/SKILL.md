@@ -15,6 +15,8 @@ It activates by change surface whenever work primarily touches APIs, servers, se
 
 > **C0/C1 work (small local patches):** See `dev` §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.
 
+> **`dev` is canonical:** `dev` §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.
+
 ## Modular References
 
 | File                                   | When to Read                   | What It Covers                                                         |
@@ -403,6 +405,11 @@ Deployment strategy (blue-green, canary, rollback, feature flags) is owned by
 - Migrations must have a rollback path (down migration or backward-compat contract).
 - Feature flags: backend provides the flag-read API; rollout strategy is dev-devops.
 - Health endpoints (`/health`, `/ready`) gate traffic cuts — see §12 and `references/core/health-checks.md`.
+- Analytical data / ETL / pipeline quality: load `dev-data`.
+- API consumer context / frontend contract alignment: load `dev-frontend`.
+- Test strategy / verification harnesses / QA execution: load `dev-testing`.
+- Backend failure RCA methodology: load `dev-debugging`.
+- New project setup / file placement conventions: load `dev-scaffolding`.
 
 ---
 
