@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+# Reproducible rule-id census across the three skill trees.
+#
+# Named rules in this ecosystem follow the FAMILY-TOPIC-NN convention
+# (DEV-GIT-COMMIT-01, FE-RENDER-PATH-02, ...). Counting the ids is a cheap,
+# exact parity signal: a rule either has an id in the tree or it does not.
+#
+# What it cannot tell you: whether a rule that exists in both trees says the
+# SAME thing. Drift detection is a read, not a count -- see 001_rule_gap_census.md
+# "What the census cannot see".
+#
+# Usage:  bash gap-census.sh [path-to-700_projects]
+# Exit:   0 always; this is a report, not a gate.
+set -uo pipefail
+
+ROOT="${1:-$HOME/Developer/new/700_projects}"
+RGX='\b[A-Z][A-Z0-9]+(-[A-Z0-9]+)+-[0-9]{2}\b'
+CXC="$ROOT/codexclaw/plugins/codexclaw/skills"
+PI="$ROOT/pabcd_initiative/skills"
+JW="$ROOT/cli-jaw/skills_ref"
+
+for d in "$CXC" "$PI" "$JW"; do
+  [ -d "$d" ] || { echo "missing tree: $d" >&2; exit 2; }
+done
+
+TMP=$(mktemp -d); trap 'rm -rf "$TMP"' EXIT
+
+# codexclaw skills that have a counterpart in BOTH targets. Rules defined only
+# in codexclaw-runtime skills (loop, qa, search, orchestrate, recall, remote,
+# interview, skill-hub, worktree-guardian, ast-grep, goalplan, kwrite,
+# lunasearch, repo-map, dev-diagram-viewer) are reported separately because
+# they need a HOME DECISION in the targets, not a copy.
+devfam=(dev pabcd dev-architecture dev-backend dev-code-reviewer dev-data
+        dev-debugging dev-devops dev-frontend dev-scaffolding dev-security
+        dev-testing dev-uiux-design)
+
+ids() { rg -o "$RGX" "$1" -N --no-filename 2>/dev/null | sort -u; }
+
+for s in "${devfam[@]}"; do ids "$CXC/$s"; done | sort -u > "$TMP/cxc.txt"
+ids "$PI" > "$TMP/pi.txt"
+for d in "$JW"/jaw-dev "$JW"/jaw-dev-*; do ids "$d"; done | sort -u > "$TMP/jaw.txt"
+
+# The FULL codexclaw tree, runtime skills included. Needed only to classify
+# target-only rules: a rule the targets own can be absent from the dev family
+# yet present in a runtime skill (DIVERGE-TIER-01 lives in loop/SKILL.md), in
+# which case "codexclaw does not have it" is an artifact of the dev-family
+# scope rather than a fact about the ecosystem. Diffing target-only against
+# the dev-family set alone reports those as upstream inventions and invites a
+# port that removes them.
+ids "$CXC" > "$TMP/cxc_all.txt"
+
+comm -23 "$TMP/cxc.txt" "$TMP/pi.txt"  > "$TMP/gap_pi.txt"
+comm -23 "$TMP/cxc.txt" "$TMP/jaw.txt" > "$TMP/gap_jaw.txt"
+
+# target-only, split by whether codexclaw has the id anywhere at all
+comm -13 "$TMP/cxc.txt" "$TMP/pi.txt"  > "$TMP/only_pi.txt"
+comm -13 "$TMP/cxc.txt" "$TMP/jaw.txt" > "$TMP/only_jaw.txt"
+comm -23 "$TMP/only_pi.txt"  "$TMP/cxc_all.txt" > "$TMP/only_pi_true.txt"
+comm -23 "$TMP/only_jaw.txt" "$TMP/cxc_all.txt" > "$TMP/only_jaw_true.txt"
+comm -12 "$TMP/only_pi.txt"  "$TMP/cxc_all.txt" > "$TMP/only_pi_artifact.txt"
+comm -12 "$TMP/only_jaw.txt" "$TMP/cxc_all.txt" > "$TMP/only_jaw_artifact.txt"
+
+n() { wc -l < "$1" | tr -d ' '; }
+
+cat <<EOF
+== inventory ==
+codexclaw dev-family rule ids : $(n "$TMP/cxc.txt")
+pabcd_initiative skills/      : $(n "$TMP/pi.txt")
+cli-jaw jaw-dev* family       : $(n "$TMP/jaw.txt")
+
+== gap ==
+absent anywhere in pabcd_initiative : $(n "$TMP/gap_pi.txt")
+absent anywhere in jaw-dev*         : $(n "$TMP/gap_jaw.txt")
+needed by both                      : $(comm -12 "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt" | wc -l | tr -d ' ')
+pabcd_initiative only               : $(comm -23 "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt" | wc -l | tr -d ' ')
+cli-jaw only                        : $(comm -13 "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt" | wc -l | tr -d ' ')
+
+== target-only rules, genuinely absent from ALL of codexclaw (NEVER delete these) ==
+pabcd_initiative : $(tr '\n' ' ' < "$TMP/only_pi_true.txt")
+cli-jaw          : $(tr '\n' ' ' < "$TMP/only_jaw_true.txt")
+
+== target-only by dev-family scope ONLY -- codexclaw has these in a runtime skill ==
+pabcd_initiative : $(tr '\n' ' ' < "$TMP/only_pi_artifact.txt")
+cli-jaw          : $(tr '\n' ' ' < "$TMP/only_jaw_artifact.txt")
+EOF
+
+DEVPATHS=()
+for s in "${devfam[@]}"; do DEVPATHS+=("$CXC/$s"); done
+
+# Locate a rule's text. Search the dev-family skills FIRST, then the whole tree.
+# Order matters: a runtime-only skill often carries a POINTER to a rule the
+# dev family owns -- loop/SKILL.md:364 says "Canonical rule ids:
+# DEV-GIT-COMMIT-01, ..." while the rule itself lives at dev/SKILL.md:406.
+# Searching the whole tree first reports the pointer and mis-attributes
+# ownership, which is how a port ends up copying a cross-reference instead of
+# a rule.
+locate() {
+  local id="$1" hit=""
+  for scope in "dev-family" "whole-tree"; do
+    local -a paths
+    if [ "$scope" = "dev-family" ]; then paths=("${DEVPATHS[@]}"); else paths=("$CXC"); fi
+    hit=$(rg -n "^#{2,4}.*\b$id\b" "${paths[@]}" --no-heading 2>/dev/null | head -1)
+    [ -z "$hit" ] && hit=$(rg -n "^\s*[-*]\s*\*\*.*\b$id\b" "${paths[@]}" --no-heading 2>/dev/null | head -1)
+    [ -z "$hit" ] && hit=$(rg -n "^\|\s*\**$id" "${paths[@]}" --no-heading 2>/dev/null | head -1)
+    [ -z "$hit" ] && hit=$(rg -n "\b$id\b" "${paths[@]}" --no-heading 2>/dev/null | head -1)
+    [ -n "$hit" ] && { local f=${hit%%:*} r=${hit#*:}; echo "${f#"$CXC"/}:${r%%:*} [$scope]"; return; }
+  done
+  echo "UNLOCATED"
+}
+
+echo
+echo "== gap detail: rule -> codexclaw source file:line =="
+for list in "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt"; do
+  case "$list" in *gap_pi*) echo "-- pabcd_initiative --";; *) echo "-- cli-jaw --";; esac
+  while read -r id; do
+    [ -z "$id" ] && continue
+    printf '  %-34s %s\n' "$id" "$(locate "$id")"
+  done < "$list"
+done
