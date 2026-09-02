@@ -158,6 +158,74 @@ hidden `--force` emergency hatch, a `pendingAttestation` emitted in a prior turn
 that deliberately strips its own boss token to pose as a human. Closing the last one would risk
 the legitimate human-via-CLI free pass, so it is out of scope unless the threat model expands.
 
+### 2.2 Orchestration invariants
+
+Four rules govern what a transition means. The gate above enforces none of them —
+they are what makes the recorded cycle worth reading.
+
+**ORCH-MANDATE-01 (STRICT) — a narrated phase did not happen.** A phase claim without
+a persisted transition is invalid. Narrating phases — "now I'm in B", "the audit
+passed" — without issuing them is the failure this rule exists to stop: nothing gated
+anything, the log is empty, and the cycle is one ordinary turn wearing a PABCD
+costume. §2.1 already says it for one edge; this generalizes it to entry and re-entry.
+
+1. **Read the real state before claiming one.** Query the current phase, or read the
+   last recorded transition. Do not resume from memory.
+2. **Arm the mode explicitly** — enter at `orchestrate I` or `orchestrate P`.
+3. **Advance every forward edge with an evidence-bearing attestation**, carrying that
+   phase's real artifact (ORCH-ARTIFACT-01 below).
+4. **After D closes, read durable state** — the plan record and the transition log —
+   to confirm what remains, then re-enter P for the next work-phase (LOOP-UNIT-CHAIN-01).
+
+Work performed outside the state machine does not count as progress: re-enter and
+attest it before building on it. Per the Runtime adapter note at the top of this file,
+"persisted" scales with the host — a runtime with an FSM persists the transition
+itself; a runtime without one persists it as the announced transition plus the
+attestation JSON appended to the worklog. What is never acceptable is a transition
+that exists only in the reply text.
+
+**ORCH-ARTIFACT-01 (DEFAULT) — advancing a phase is not doing it.** Each forward edge
+must carry its real artifact, not just an attestation string:
+
+| Edge | Required artifact |
+|---|---|
+| P→A | the actual diff-level plan document |
+| A→B | an audit verdict that names its blockers |
+| B→C | the implementation delta |
+| C→D | fresh typecheck/test/gate output — non-empty `checkOutput`, `exitCode: 0` |
+| D | a cycle summary with evidence and the next-phase decision |
+
+A phase whose artifact is absent is not done, regardless of adjacency. The gate is
+form-only and cannot tell a real artifact from a plausible sentence; this rule is the
+discipline the gate cannot enforce.
+
+**ATTEST-SHAPE-01 (STRICT) — name the edge.** Every attestation carries `from` and
+`to` naming the edge it advances, on every edge including ungated entry edges, and it
+matters before `did` does: an attestation that does not say which transition it
+belongs to is not an attestation, it is a sentence. A later reader reconstructing the
+cycle from the log has only those two keys to order it by.
+
+P→A additionally carries a plan-unit pointer — a real `devlog/_plan/YYMMDD_slug/`
+holding numbered docs (UNIT-RESIDENCE-01). Where the runtime persists a work-phase
+map, every gated edge also names the active work-phase.
+
+Enforcement is runtime-dependent; the discipline is not. A host that parses the
+attestation can refuse a malformed one, and a host keeping the state machine in
+worklog notes can refuse nothing. Write the shape correctly either way — it is what
+makes the log re-readable, not what makes a gate pass.
+
+**SESSION-IDENTITY-01 (STRICT) — use your own binding.** When the runtime keys PABCD
+state by a session or conversation id, use only the id your current session was bound
+to at start. Never one read out of transcript history, never one inherited from a
+parent, never one copied from a document.
+
+A forked or resumed session replaying its parent's id does not share that state, it
+**corrupts** it: two live cycles write the same record, and the parent's phase moves
+without the parent doing anything. That is unrecoverable from inside either session,
+which is why this is STRICT and not hygiene. The same binding governs every
+state-writing surface — plan records, work-phase maps, evidence paths. If you cannot
+determine your own binding, stop and ask.
+
 ## §3. Phases
 
 ### P — Plan
@@ -594,9 +662,38 @@ as MULTIPLE PABCD passes — one per work-phase. Pre-plan the full slice map and
 all per-phase decade docs (10_phase1, 20_phase2, ...) to diff-level up front
 (DIFFLEVEL-ROADMAP-01, §3.1) — scaffolding empty files is not pre-planning. Each
 later cycle's P re-verifies its pre-written doc against the current codebase and
-amends it before building. The first pass MAY be a design-only PABCD pass (Phase 0):
-a code-free whole-system design/documentation cycle that produces exactly this
-difflevel roadmap before the first implementation work-phase.
+amends it before building.
+
+**Docs-first multi-cycle entry (LOOP-DOCS-FIRST-01, DEFAULT).** The first pass is a
+design-only PABCD pass (Phase 0) — a code-free whole-system design and documentation
+cycle that produces exactly this diff-level roadmap before the first implementation
+work-phase. This used to read "MAY"; it is the default for any loop of 2+ work-phases,
+and mandatory when the loop runs unattended.
+
+A loop is a chain of PABCD cycles, and a chain is only as disciplined as the documents
+each cycle re-reads at P. Memory lives on disk, not in the transcript — so a loop
+spanning 2+ work-phases buys its memory first.
+
+1. **Register and document in one motion.** Arm the work-phase map (a skeleton is
+   fine) AND run the first work-phase as a docs-only cycle. Its deliverable is the
+   devlog unit: `000-009` research plus EVERY implementation phase's decade doc
+   (`010`, `020`, `030`, … with sub-docs like `021` where a phase needs finer grain)
+   at full diff-level precision (DIFFLEVEL-ROADMAP-01).
+2. **The roadmap cycle's D is the roadmap lock.** Closing it finalizes the map: phases
+   are refined to map 1:1 onto the decade docs. The initial registration is a
+   skeleton; the lock is the docs-only D, and the map stays APPEND-friendly afterwards.
+3. **Implementation starts at the NEXT cycle.** Each later work-phase consumes exactly
+   one decade doc as one full cycle: its P re-verifies the pre-written doc against the
+   current tree, amends it, then executes. Never implement two decade docs in one B.
+4. **Docs-only means docs-only.** Allowed: research notes, inventories, design docs,
+   repro and state snapshots, the decade docs themselves. Not allowed: production code
+   patches, deploy actions, or completion claims for implementation criteria.
+
+Exemptions: a loop that genuinely fits one work-phase skips the docs-only cycle, and
+C0/C1 fast-path work is untouched. If multi-cycle scope is **discovered** mid-loop the
+docs-first debt comes due — the next P is the roadmap amendment that writes the missing
+decade docs before any further implementation cycle.
+
 The slice map is APPEND-friendly (LOOP-UNIT-CHAIN-01): an independent unit discovered
 mid-loop — including a feature unrelated to the current slice — becomes a NEW
 work-phase appended to the map via a P-phase amendment, then runs as the next cycle in
