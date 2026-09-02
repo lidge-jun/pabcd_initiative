@@ -1,6 +1,6 @@
 # Anti-Rationalization Table (UX-ANTI-RATIONAL-01)
 
-Source: addyosmani/agent-skills frontend-ui-engineering pattern, adapted for codexclaw.
+Source: addyosmani/agent-skills frontend-ui-engineering pattern, adapted for this skill family.
 
 Agents rationalize shortcuts. This table pre-empts the five most common excuses
 by naming the shortcut, its factual rebuttal, the observable red flag that proves
