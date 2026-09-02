@@ -49,6 +49,20 @@ the failing delta → re-verify.
 - **HEURISTIC (LOOP-DOOM-01):** 3 attestation failures in the same phase within one
   work-phase → treat as no-progress and force an Interview return. Self-applied for now;
   server-side enforcement is recorded as backlog.
+- **DEFAULT (REVIEW-SYNTHESIS-01):** after a reviewer or verifier returns FAIL, the main
+  session records a **synthesis before** re-patching or re-dispatching: per-blocker root
+  cause, conflicts between blockers and against the standing plan, and an explicit
+  accept-or-rebut decision for each point. Mechanically patching each comment and throwing
+  it back — "patch-to-reviewer" — is a retry, not a loop, and a re-dispatch without
+  synthesis counts as a failed repair under LOOP-REPAIR-01 above.
+
+  The synthesis step exists because blockers are not independent. Two reviewer findings can
+  demand opposite changes, or one can be a symptom of another, and patching them in the
+  order they were written produces a plan that satisfies the review text while contradicting
+  itself. Deciding to *reject* a blocker with recorded rationale is a legitimate synthesis
+  outcome; silently not addressing it is not. Agent-followed guidance, not a runtime gate.
+  Reviewer lifecycle across rounds is owned by DISPATCH-ACTOR-01 / DISPATCH-RETIRE-01
+  (`dev-pabcd` §7.2); the A-gate exit condition is AUDIT-LOOP-01 (`dev-pabcd` §3 A).
 
 ### §11.4 Loop archetype by problem type (DEFAULT, LOOP-ARCHETYPE-01)
 

@@ -29,17 +29,17 @@ ordering and the audit trail.
 
 | Phase | Documentation action | Gate |
 |-------|---------------------|------|
-| P | CONCRETIZE: write `00_plan.md` (objective, measured baseline, dependency-ordered work-phase map, risks) + research docs `01+`; decade docs for **EVERY roadmap phase** at **diff-level precision** (exact paths, NEW/MODIFY/DELETE, before/after for MODIFY) — DIFFLEVEL-ROADMAP-01 | plan exists as files, not chat |
+| P | CONCRETIZE: write `000_plan.md` (objective, measured baseline, dependency-ordered work-phase map, risks) + research docs `001+`; decade docs for **EVERY roadmap phase** at **diff-level precision** (exact paths, NEW/MODIFY/DELETE, before/after for MODIFY) — DIFFLEVEL-ROADMAP-01 | plan exists as files, not chat |
 | A | AUDIT THE DOCS: an independent reviewer checks the plan docs — paths/signatures real, research coverage complete, phases sized, no ownership violations, no contradictions vs research | FAIL → fix docs → re-audit |
 | B | Implementation cites the doc it executes; deviations are edited back into the doc BEFORE coding past them | doc and code never diverge silently |
 | C | Gate results (commands + tails) recorded into the unit; general SoT docs patched to match the change (SOT-SYNC-01 — recommend creating one if absent) | evidence lives next to the plan |
-| D | Attestation/summary appended to `00_plan.md`; on unit completion the folder moves `_plan/` → `_fin/` | durable closure record |
+| D | Attestation/summary appended to `000_plan.md`; on unit completion the folder moves `_plan/` → `_fin/` | durable closure record |
 
 Multi-cycle units: one full PABCD per work-phase; ALL phase design docs are written
 to diff-level in the FIRST P (or the design-only Phase-0 pass) —
 DIFFLEVEL-ROADMAP-01. P of each later cycle re-verifies its pre-written doc against
 the current codebase (stale check) and amends it BEFORE building; it never writes
-the doc fresh mid-unit. The attestation log in `00_plan.md` is the continuity spine
+the doc fresh mid-unit. The attestation log in `000_plan.md` is the continuity spine
 — each new P quotes the previous D conclusion from it (see `dev-pabcd` §10
 LOOP-CONTINUITY-01).
 
