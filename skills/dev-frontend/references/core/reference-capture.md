@@ -5,7 +5,7 @@ provide reference material for concept mockups. Captures are analysis inputs,
 not project assets.
 
 Use this workflow when a page, component, brand system, or visual interaction
-needs source-grounded study before design synthesis or `ima2 --ref` mockups.
+needs source-grounded study before design synthesis or reference-grounded mockups.
 
 ---
 
@@ -18,7 +18,7 @@ analysis-only. They may be used to:
 
 - study layout structure, density, hierarchy, spacing, and interaction shape
 - compare DOM/component composition against a target pattern
-- ground an `ima2 --ref` concept mockup or style exploration
+- ground a reference-grounded concept mockup or style exploration
 - document observed behavior in a devlog unit
 
 They must not be copied into shipped source, public assets, production
@@ -71,7 +71,7 @@ Simple Icons, SVGL, theSVG, or other explicit licensed libraries.
 
 ### Mockup Reference Boundary (FE-CAPTURE-05, DEFAULT)
 
-Captured material may be passed to `ima2 --ref` to ground composition, density,
+Captured material may be passed to a generator's reference input to ground composition, density,
 palette, or material exploration. The generated concept mockup remains an
 exploration artifact unless all shipped pixels are recreated or sourced through
 legal build-asset channels.

@@ -109,6 +109,39 @@ locate() {
 }
 
 echo
+echo "== agent-neutrality scan =="
+# Runs on the TARGET tree, not the source. Every token here is a host-specific name
+# that has no meaning in an agent-neutral publication.
+#
+# `ima2` is in this list because it got through. The 010 commit's hand-written grep
+# covered `cxc`, `.codexclaw`, `SubagentStop`, `cli-jaw` and `jaw ` -- but not the name
+# of a local image-generation CLI, so six references to it rode in with two reference
+# files and were only caught later by a wider sweep. A gate you retype per commit
+# checks what you remembered that day; this one is the same every time.
+#
+# Attribution is allowed and deliberately not matched: "via codexclaw", "the codexclaw
+# devlog", and a cross-runtime comparison row naming several runtimes are provenance,
+# not vocabulary. Provenance a reader cannot verify is still better than a claim with
+# no source.
+NEUTRALITY_TOKENS='\bcxc [a-z]|\bcxc-[a-z]|\.codexclaw|SubagentStop|UserPromptSubmit|PreToolUse|PLUGIN_ROOT|LOOP_ARM|spawn_agent|wait_agent|followup_task|send_input|close_agent|resume_agent|interrupt_agent|tool_search|update_plan|request_user_input|agent_type|create_goal|browser:control|chrome:control|computer-use:|agbrowse|\bima2\b|clawhub|hermes|Codexclaw-First|E1-E8|testReceiptPath|auditVerdict|auditResidual|coerceAttest'
+# references/repo-map-capability.md is exempt by design. Its whole purpose is a
+# cross-harness comparison of how each downstream runtime ships the same capability, so
+# it names codexclaw's `cxc-repo-map`, cli-jaw's `repo-map`, and jawcode's search table
+# side by side. Naming another ecosystem's skill IN A COMPARISON is not adopting its
+# vocabulary -- stripping those names would leave a comparison table with nothing to
+# compare. Scoped to that one file rather than to the token, so a `cxc-` reference
+# anywhere else still fails.
+hits=$(rg -n "$NEUTRALITY_TOKENS" "$PI" 2>/dev/null \
+  | rg -v 'cxc map|via codexclaw' \
+  | rg -v 'repo-map-capability\.md' || true)
+if [ -z "$hits" ]; then
+  echo "clean: no host-specific vocabulary in pabcd_initiative/skills"
+else
+  echo "$(echo "$hits" | wc -l | tr -d ' ') LEAK(S):"
+  echo "$hits" | sed 's/^/  /'
+fi
+
+echo
 echo "== gap detail: rule -> codexclaw source file:line =="
 for list in "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt"; do
   case "$list" in *gap_pi*) echo "-- pabcd_initiative --";; *) echo "-- cli-jaw --";; esac

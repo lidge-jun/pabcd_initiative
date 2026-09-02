@@ -490,7 +490,7 @@ indiscriminate combination.
 - **FE-PLACEHOLDER-IMG-01**: Broken or placeholder images in shipped UI. Empty `src`,
   `data:` URIs, `placeholder.com`, `via.placeholder.com`, `picsum.photos`, or
   `/api/placeholder/` URLs are shipping tells. Fix: use real assets (generated via
-  ima2 or sourced from brand kits); never ship placeholder URLs.
+  generated or sourced from brand kits); never ship placeholder URLs.
 
 - **FE-GRADIENT-STRIPE-01**: Decorative repeating-gradient stripes or grid overlays
   as background texture. The gradient budget (FE-GRADIENT-01) catches broad overuse;

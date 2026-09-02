@@ -50,6 +50,27 @@ Before scaffolding inside an existing repo:
 
 MUST preserve mature repo conventions over the Lidge/source-of-truth default.
 
+### Existing-Convention-First Durable Docs
+
+**Rule (SCAF-SOT-01, DEFAULT):** in any repository that already uses durable
+devlog or source-of-truth conventions, prefer the **existing** placement, local numbering
+scheme, and source-of-truth paths before proposing generic `docs/` + `plans/` folders.
+
+Keep it light:
+
+- Cross-link scaffold docs to evidence paths (`path:line`, a plan file, an ADR, a
+  current-architecture note) so a future reader can audit why each file exists.
+- Follow the existing phase or decade numbering where present. **Do not flatten or
+  renumber local history** — renumbering breaks every inbound reference and buys
+  tidiness nobody asked for.
+- In multi-cycle units the decade docs are authored during the docs-only first
+  work-phase (`dev-pabcd` LOOP-DOCS-FIRST-01), not scaffolded empty.
+- Treat source-of-truth placement as part of scaffolding **completion**: the final audit
+  must say which durable convention was reused, or that none existed.
+- Boundary and public-export decisions still route to `dev-architecture` §1
+  (`ARCH-DECISION-01`, `ARCH-MAP-01`); scaffolding owns file placement and skeleton
+  consistency.
+
 ## 2.1 Lightweight Source of Truth (implementation-unit devlog)
 
 The implementation-unit devlog routine (`devlog/_plan/` units — `dev-pabcd` §3.1,
