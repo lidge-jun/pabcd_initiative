@@ -81,15 +81,33 @@ document prefixes (`000_`, `010_`) as STRICT, `cli-jaw`'s
 `10_phase1-auth-module.md`), and therefore "a port that carries codexclaw's
 numbering would make every existing cli-jaw devlog document a STRICT violation."
 
-Measured instead of assumed: **all 18 unit directories under `cli-jaw`'s
-`devlog/_plan/` use 3-digit prefixes, and not one file uses 2-digit.** The
-convention the skill documents is used by nothing.
+Measured instead of assumed: `cli-jaw`'s `devlog/_plan/` holds **492 three-digit
+documents against 107 two-digit ones**, and the two-digit files are concentrated
+in units from 2026-06 (`260610_*`, `260618_*`, `260621_*`) while every unit from
+2026-08 onward is three-digit. The repository migrated; the rule text did not
+follow.
 
 The finding inverts. `cli-jaw`'s skill text is stale relative to `cli-jaw`'s own
-practice, and it is the *current* text that makes every existing document a
-violation. Porting codexclaw's 3-digit rule repairs the skill instead of breaking
-the repository. This is the difference between reading two documents and reading
-a document against the tree, and it is why a drift claim needs the tree.
+practice, so porting codexclaw's 3-digit rule repairs the skill instead of
+breaking the repository. This is the difference between reading two documents and
+reading a document against the tree, and it is why a drift claim needs the tree.
+
+**Correction, recorded rather than quietly fixed.** The first version of this
+section said "all 18 unit directories use 3-digit prefixes, and not one file uses
+2-digit", and that claim reached a commit message and two pull-request bodies
+before it was rechecked. It came from a loop that listed unit directories and then
+sampled only the most recent fifteen — every one of which is three-digit — and
+generalized. The 107 two-digit files are real and sit in the units that loop never
+looked at.
+
+The conclusion survives and is better supported by the true numbers than by the
+false ones: 492-to-107 with a clean date boundary is a migration, which is a
+stronger argument for adopting three digits than "nothing uses two" would have
+been. What does not survive is the absolute form, and the reason it slipped is
+worth keeping: a per-directory loop that samples is not a census, and this is the
+second time in this unit that shape produced a wrong claim (the first was the
+`DIVERGE-TIER-01` scoping error in 001). Both times the fix was to widen the
+measurement rather than to trust the pattern.
 
 ## Recorded decisions
 
