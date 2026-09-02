@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -187,21 +188,80 @@ pytest -n auto --dist=loadgroup</code></pre>
 <li>keep contract reports separate from unit coverage</li>
 <li>fail the build when thresholds or diff coverage drop</li>
 </ul>
-<h3 id="5-flaky-test-quarantine-strategy">5. Flaky Test Quarantine Strategy</h3>
-<ol>
-<li>detect the flaky test by exact name</li>
-<li>move it to a quarantine tag or job</li>
-<li>keep quarantine non-blocking but visible</li>
-<li>assign an owner and removal deadline</li>
-<li>restore only after repeated green runs</li>
-</ol>
+<h3 id="5-flaky-test-policy-canonical-test-flake">5. Flaky Test Policy (canonical — <code>TEST-FLAKE-*</code>)</h3>
+<p>Canonical owner: <code>dev-testing</code>. Other skills carry pointer stubs only.</p>
+<p><code>dev-debugging</code> owns the diagnostic <strong>method</strong>; this section owns the <strong>policy</strong> —</p>
+<p>what CI may do about a flake, and what counts as closing one.</p>
+<p>A flake is a defect that has not been diagnosed yet. Mechanisms that make CI green</p>
+<p>without diagnosing it ship that defect.</p>
+<h4 id="5-1-eliminate-the-nondeterminism-test-flake-eliminate-01-strict">5.1 Eliminate the nondeterminism (<code>TEST-FLAKE-ELIMINATE-01</code>, STRICT)</h4>
+<p>A flaky test is a defect in the test or in the code under test. Diagnose the source</p>
+<p>of nondeterminism and remove it. **A flake is closed when the cause is named, not</p>
+<p>when the suite is green.**</p>
+<p>This is a CLOSURE rule: it governs the claim &quot;this flake is fixed&quot;, not whether work</p>
+<p>may proceed meanwhile. A quarantine under §5.3 does not violate it, because a</p>
+<p>quarantine explicitly does not close the defect.</p>
 <table class="rules">
-<thead><tr><th>Signal</th><th>Action</th></tr></thead><tbody>
-<tr><td>intermittent timeout</td><td>replace implicit timing with deterministic waits</td></tr>
-<tr><td>order-dependent failure</td><td>reset shared state or fixture leakage</td></tr>
-<tr><td>CI-only HTTP failure</td><td>remove live network dependency</td></tr>
-<tr><td>snapshot variance</td><td>stabilize fonts, time, locale, and dynamic regions</td></tr>
+<thead><tr><th>Signal</th><th>Cause to remove</th></tr></thead><tbody>
+<tr><td>intermittent timeout</td><td>implicit timing — wait on an observable condition or a fake clock</td></tr>
+<tr><td>passes locally, fails in CI</td><td>an unpinned seed, an uncontainerized dependency, or an implicit wait</td></tr>
+<tr><td>order-dependent failure</td><td>shared mutable state or fixture leakage between tests</td></tr>
+<tr><td>CI-only HTTP failure</td><td>a live network dependency</td></tr>
+<tr><td>snapshot variance</td><td>unpinned fonts, time, locale, or dynamic regions</td></tr>
+<table class="rules">
+<tr><td>passes alone, fails in the suite</td><td>resource contention or global state — isolate, then fix the sharing</td></tr>
 </tbody></table>
+<p>After a fix, search for other tests with the same missing cleanup or the same timing</p>
+<p>assumption. One cause commonly has siblings, and closing only the instance that failed</p>
+<p>leaves the rest to fail later.</p>
+<h4 id="5-2-re-running-is-not-a-resolution-test-flake-rerun-01-strict">5.2 Re-running is not a resolution (<code>TEST-FLAKE-RERUN-01</code>, STRICT)</h4>
+<p>Re-running a failed job or test to obtain green is <strong>not</strong> a fix and is never recorded</p>
+<p>as one. Raising a timeout until a test passes is the same violation wearing a config</p>
+<p>change.</p>
+<p>A re-run is permitted for exactly one purpose: measuring the failure <strong>rate</strong> as</p>
+<p>diagnostic input. When you use it that way, write the measurement down — &quot;4 of 5 runs,</p>
+<p>4 different tests&quot; is evidence; &quot;passed on retry&quot; is not.</p>
+<h4 id="5-3-quarantine-is-an-exception-with-a-cost-test-flake-quarantine-01-default">5.3 Quarantine is an exception with a cost (<code>TEST-FLAKE-QUARANTINE-01</code>, DEFAULT)</h4>
+<p>Quarantine is permitted only when the flake blocks delivery of work that does not</p>
+<p>depend on the code under test — state which delivery, and why it is independent — AND</p>
+<p>all four of these are recorded in the same change (<strong>STRICT</strong>: the four fields are not</p>
+<p>waivable; only the decision to defer is DEFAULT):</p>
+<ol>
+<li>the exact test name,</li>
+<li>a named owner,</li>
+<li>a removal deadline, and</li>
+<li>the suspected cause.</li>
+</ol>
+<p>Mechanics: move it to a quarantine tag or job, and keep that job **non-blocking but</p>
+<p>visible**. A quarantine nobody sees is a deletion; a quarantine that blocks is not a</p>
+<p>quarantine.</p>
+<p><strong>A quarantine without a deadline is a deletion with extra steps.</strong> Quarantine never</p>
+<p>closes the defect — it defers it, and the deadline is the receipt. Restore only after</p>
+<p>repeated green runs (§5.5).</p>
+<p>A quarantine carrying all four fields is the one form of <code>.skip()</code> that is not a</p>
+<p><code>TEST-PATCH-INTEGRITY-01</code> red flag. An undocumented skip still is.</p>
+<h4 id="5-4-environmental-is-a-claim-not-an-observation-test-flake-attribution-01-default">5.4 &quot;Environmental&quot; is a claim, not an observation (<code>TEST-FLAKE-ATTRIBUTION-01</code>, DEFAULT)</h4>
+<p>Before calling a failure environmental or pre-existing, prove it:</p>
+<ol>
+<li>the identical failure reproduces on the untouched baseline,</li>
+<li>no change in the current set touches that code, and</li>
+<li>the matching CI job is green at the same SHA.</li>
+</ol>
+<p>Without the triple it stays a candidate defect.</p>
+<p>This is DEFAULT rather than STRICT for one reason only: step 3 sometimes needs CI</p>
+<p>access an agent does not have. In that case record the gap. **A recorded gap is not a</p>
+<p>waiver** — the failure remains a candidate defect, and the claim &quot;environmental&quot;</p>
+<p>remains unmade.</p>
+<p>A release or freeze decision is a stricter setting than ordinary development, and</p>
+<p><code>dev-devops</code> owns the STRICT counterpart there. An agent must not reach the weaker</p>
+<p>class by loading only <code>dev-testing</code>: when the question is whether to ship, the</p>
+<p>baseline claim needs the full triple regardless of convenience.</p>
+<h4 id="5-5-counting-greens">5.5 Counting greens</h4>
+<p>How many consecutive green runs make a flaky-capable suite trustworthy is a</p>
+<p><strong>release-gate</strong> question, not a remediation one, and it belongs to <code>dev-devops</code>. The</p>
+<p>distinction matters because the two have different costs of being wrong: a remediation</p>
+<p>call that is too lenient costs a re-investigation, while a release call that is too</p>
+<p>lenient ships the defect.</p>
 <h3 id="6-recommended-job-order">6. Recommended Job Order</h3>
 <pre><code>quality
 → backend / unit / integration

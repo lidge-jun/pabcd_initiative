@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -170,6 +171,7 @@
 <p>&gt; your runtime provides.</p>
 <p>&gt; <strong>C0/C1 work (e.g. small in-place patches):</strong> See <code>dev</code> §0.0 Work Classifier and §0.1 Patch</p>
 <p>&gt; Fast-Path first — full PABCD is mandatory for C4 and conditional for C3, not the baseline for every task.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <h3 id="1-interview-trigger-must">§1. Interview Trigger (MUST)</h3>
 <p>When the user asks for an interview in any form — &quot;인터뷰하자&quot;, &quot;인터뷰 모드&quot;, &quot;interview&quot;,</p>
 <p>&quot;요구사항 정리&quot;, &quot;스펙 정리해줘&quot;, &quot;뭘 만들어야 하는지 정리&quot;, or any variation — you MUST</p>
@@ -284,6 +286,68 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>hidden <code>--force</code> emergency hatch, a <code>pendingAttestation</code> emitted in a prior turn, and an agent</p>
 <p>that deliberately strips its own boss token to pose as a human. Closing the last one would risk</p>
 <p>the legitimate human-via-CLI free pass, so it is out of scope unless the threat model expands.</p>
+<h4 id="2-2-orchestration-invariants">2.2 Orchestration invariants</h4>
+<p>Four rules govern what a transition means. The gate above enforces none of them —</p>
+<p>they are what makes the recorded cycle worth reading.</p>
+<p><strong>ORCH-MANDATE-01 (STRICT) — a narrated phase did not happen.</strong> A phase claim without</p>
+<p>a persisted transition is invalid. Narrating phases — &quot;now I&#x27;m in B&quot;, &quot;the audit</p>
+<p>passed&quot; — without issuing them is the failure this rule exists to stop: nothing gated</p>
+<p>anything, the log is empty, and the cycle is one ordinary turn wearing a PABCD</p>
+<p>costume. §2.1 already says it for one edge; this generalizes it to entry and re-entry.</p>
+<ol>
+<li><strong>Read the real state before claiming one.</strong> Query the current phase, or read the</li>
+</ol>
+<p>last recorded transition. Do not resume from memory.</p>
+<ol>
+<li><strong>Arm the mode explicitly</strong> — enter at <code>orchestrate I</code> or <code>orchestrate P</code>.</li>
+<li><strong>Advance every forward edge with an evidence-bearing attestation</strong>, carrying that</li>
+</ol>
+<p>phase&#x27;s real artifact (ORCH-ARTIFACT-01 below).</p>
+<ol>
+<li><strong>After D closes, read durable state</strong> — the plan record and the transition log —</li>
+</ol>
+<p>to confirm what remains, then re-enter P for the next work-phase (LOOP-UNIT-CHAIN-01).</p>
+<p>Work performed outside the state machine does not count as progress: re-enter and</p>
+<p>attest it before building on it. Per the Runtime adapter note at the top of this file,</p>
+<p>&quot;persisted&quot; scales with the host — a runtime with an FSM persists the transition</p>
+<p>itself; a runtime without one persists it as the announced transition plus the</p>
+<p>attestation JSON appended to the worklog. What is never acceptable is a transition</p>
+<p>that exists only in the reply text.</p>
+<p><strong>ORCH-ARTIFACT-01 (DEFAULT) — advancing a phase is not doing it.</strong> Each forward edge</p>
+<p>must carry its real artifact, not just an attestation string:</p>
+<table class="rules">
+<thead><tr><th>Edge</th><th>Required artifact</th></tr></thead><tbody>
+<tr><td>P→A</td><td>the actual diff-level plan document</td></tr>
+<tr><td>A→B</td><td>an audit verdict that names its blockers</td></tr>
+<tr><td>B→C</td><td>the implementation delta</td></tr>
+<tr><td>C→D</td><td>fresh typecheck/test/gate output — non-empty <code>checkOutput</code>, <code>exitCode: 0</code></td></tr>
+<tr><td>D</td><td>a cycle summary with evidence and the next-phase decision</td></tr>
+</tbody></table>
+<p>A phase whose artifact is absent is not done, regardless of adjacency. The gate is</p>
+<p>form-only and cannot tell a real artifact from a plausible sentence; this rule is the</p>
+<p>discipline the gate cannot enforce.</p>
+<p><strong>ATTEST-SHAPE-01 (STRICT) — name the edge.</strong> Every attestation carries <code>from</code> and</p>
+<p><code>to</code> naming the edge it advances, on every edge including ungated entry edges, and it</p>
+<p>matters before <code>did</code> does: an attestation that does not say which transition it</p>
+<p>belongs to is not an attestation, it is a sentence. A later reader reconstructing the</p>
+<p>cycle from the log has only those two keys to order it by.</p>
+<p>P→A additionally carries a plan-unit pointer — a real <code>devlog/_plan/YYMMDD_slug/</code></p>
+<p>holding numbered docs (UNIT-RESIDENCE-01). Where the runtime persists a work-phase</p>
+<p>map, every gated edge also names the active work-phase.</p>
+<p>Enforcement is runtime-dependent; the discipline is not. A host that parses the</p>
+<p>attestation can refuse a malformed one, and a host keeping the state machine in</p>
+<p>worklog notes can refuse nothing. Write the shape correctly either way — it is what</p>
+<p>makes the log re-readable, not what makes a gate pass.</p>
+<p><strong>SESSION-IDENTITY-01 (STRICT) — use your own binding.</strong> When the runtime keys PABCD</p>
+<p>state by a session or conversation id, use only the id your current session was bound</p>
+<p>to at start. Never one read out of transcript history, never one inherited from a</p>
+<p>parent, never one copied from a document.</p>
+<p>A forked or resumed session replaying its parent&#x27;s id does not share that state, it</p>
+<p><strong>corrupts</strong> it: two live cycles write the same record, and the parent&#x27;s phase moves</p>
+<p>without the parent doing anything. That is unrecoverable from inside either session,</p>
+<p>which is why this is STRICT and not hygiene. The same binding governs every</p>
+<p>state-writing surface — plan records, work-phase maps, evidence paths. If you cannot</p>
+<p>determine your own binding, stop and ask.</p>
 <h3 id="3-phases">§3. Phases</h3>
 <h4 id="p-plan">P — Plan</h4>
 <p>If the request has unclear scope or unspecified technology, return to Interview (<code>orchestrate I</code>). Within Interview:</p>
@@ -358,7 +422,7 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p><code>dev-scaffolding/references/implementation-log.md</code>.</p>
 <p><strong>Difflevel roadmap plan (STRICT, DIFFLEVEL-ROADMAP-01):</strong> for any multi-phase unit</p>
 <p>(2+ work-phases), the FIRST P — or the dedicated design-only Phase-0 pass (§5) —</p>
-<p>must deliver the entire roadmap concretized: <code>00_plan.md</code> (objective, constraints,</p>
+<p>must deliver the entire roadmap concretized: <code>000_plan.md</code> (objective, constraints,</p>
 <p>dependency-ordered work-phase map) PLUS every phase&#x27;s decade doc written to full</p>
 <p>diff-level precision (exact paths, NEW/MODIFY/DELETE, before/after diffs) — each one</p>
 <p>a copy-paste-executable PRD, not an outline. Scaffolding empty decade files to &quot;fill</p>
@@ -377,31 +441,95 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>belongs to an implementation unit (<code>devlog/_plan/YYMMDD_slug/</code>). Ceremony scales</p>
 <p>with class (§9); residence does not. C0-C1 fast-path work skips the PABCD ceremony</p>
 <p>but MUST leave a numbered record doc in its owning unit — next free index in the</p>
-<p>matching decade, e.g. <code>40_hotfix_dropdown_crash.md</code> — stating what changed, why the</p>
+<p>matching decade, e.g. <code>040_hotfix_dropdown_crash.md</code> — stating what changed, why the</p>
 <p>fast path applied (class call), and the verification evidence. No owning unit →</p>
 <p>create a minimal unit folder holding only that record. Interview settles residence</p>
 <p>before P (§1).</p>
-<p>Devlog plan artifacts use decade-range numbering to separate concerns:</p>
+<p>Devlog plan artifacts use decade-range numbering to separate concerns. **Prefixes are</p>
+<p>three digits** (<code>000_</code>, <code>010_</code>, <code>020_</code>); do not mix two-digit and three-digit prefixes</p>
+<p>inside one repository.</p>
 <table class="rules">
 <thead><tr><th>Range</th><th>Purpose</th><th>Examples</th></tr></thead><tbody>
-<tr><td>00–09</td><td>Research, specs, MOC</td><td><code>00_plan.md</code>, <code>01_api-survey.md</code>, <code>02_competitor-analysis.md</code></td></tr>
-<tr><td>10–19</td><td>Phase 1</td><td><code>10_phase1-auth-module.md</code>, <code>11_phase1-db-schema.md</code></td></tr>
-<tr><td>20–29</td><td>Phase 2</td><td><code>20_phase2-frontend.md</code></td></tr>
-<tr><td>30–39</td><td>Phase 3</td><td>...</td></tr>
+<tr><td>000–009</td><td>Research, specs, MOC</td><td><code>000_plan.md</code>, <code>001_api-survey.md</code>, <code>002_competitor-analysis.md</code></td></tr>
+<tr><td>010–019</td><td>Phase 1</td><td><code>010_phase1-auth-module.md</code>, <code>011_phase1-db-schema.md</code></td></tr>
+<tr><td>020–029</td><td>Phase 2</td><td><code>020_phase2-frontend.md</code></td></tr>
+<tr><td>030–039</td><td>Phase 3</td><td>...</td></tr>
 </tbody></table>
 <p>Rules:</p>
 <ul>
-<li>00-range durable research is <strong>mandatory for C4</strong>, and for C3 only when state must persist</li>
+<li>000-range durable research is <strong>mandatory for C4</strong>, and for C3 only when state must persist</li>
 </ul>
 <p>across turns/agents, public contract or architecture decisions need durable audit, or the</p>
 <p>user/repo already uses devlog planning for that task; optional for C0-C2 and</p>
 <p>low-persistence C3 (a response-level plan is enough — but the work still leaves its</p>
 <p>numbered record in a unit, UNIT-RESIDENCE-01).</p>
 <ul>
-<li>Default: sequential within decade (<code>00</code>, <code>01</code>, <code>02</code>...).</li>
-<li>Overflow (&gt;10 docs in a range): use sub-index (<code>00_0_name.md</code>, <code>00_1_name.md</code>).</li>
+<li>Default: sequential within decade (<code>000</code>, <code>001</code>, <code>002</code>...).</li>
+<li>Overflow (&gt;10 docs in a range): use sub-index (<code>000_0_name.md</code>, <code>000_1_name.md</code>).</li>
 <li>NEVER use bare filenames like <code>PLAN.md</code>, <code>DIFF_PLAN.md</code>, <code>PHASES.md</code>, <code>RCA.md</code>.</li>
 </ul>
+<p>Three digits rather than two because the range is what carries meaning, and two</p>
+<p>digits make the tens column do double duty: <code>10</code> reads as both &quot;decade 1&quot; and &quot;tenth</p>
+<p>document&quot;. With three, <code>010</code> is unambiguously phase 1&#x27;s first doc and <code>001</code> is</p>
+<p>research&#x27;s first. Units already written with two-digit prefixes stay as they are —</p>
+<p>renaming historical documents breaks every inbound reference for no gain. The rule</p>
+<p>governs new units.</p>
+<h5 id="3-2-plan-quality-rules">§3.2 Plan-quality rules</h5>
+<p>Three authoring rules for P. Each is also an A blocker (§3 A, &quot;Plan-rule checks&quot;),</p>
+<p>so failing one at P costs an audit round.</p>
+<p><strong>PLAN-VERIFIER-REAL-01 (DEFAULT).</strong> Before writing a verifier command into the</p>
+<p>plan, <strong>run it.</strong> A command that does not exist — missing script, missing config —</p>
+<p>or that does not read the change target is not a verifier. Record one line next to</p>
+<p>each: its exit code, and whether it actually reads this unit&#x27;s change target.</p>
+<p>Prove the &quot;reads the target&quot; half with one of:</p>
+<ul>
+<li>the target path appears as a direct argument;</li>
+<li>a script or glob definition that includes it — quote the glob;</li>
+<li>a config <code>include</code> / <code>files</code> entry — quote it;</li>
+<li>a call chain into a sub-script that reads it — cite <code>file:line</code>.</li>
+</ul>
+<p>If none holds, write &quot;this command does not observe this change&quot; and classify that</p>
+<p>acceptance row as <strong>human review</strong>. Do not claim a gate protects it. Two traps</p>
+<p>recur: a command that silently checks nothing when its config file is absent, and</p>
+<p>naming a gate as the verifier for prose it never reads.</p>
+<p><strong>PLAN-FIELD-CHAIN-01 (DEFAULT).</strong> A plan that adds a field to a type, or a value to</p>
+<p>an enum, must enumerate that value&#x27;s whole chain in the file-change map:</p>
+<p>creation (input type, builder, CLI arg) → serialization → deserialization (reviver,</p>
+<p>unknown-value handling) → every consumer</p>
+<p>When adding an enum value, search three things rather than one: the type name, the</p>
+<p>field name, and <strong>every existing enum value</strong>. Then check non-comparison</p>
+<p>consumption — destructuring and aliases, <code>default</code> branches, generic predicates, and</p>
+<p>every function taking that type.</p>
+<p>Give each of the four stages a path or an explicit <code>N/A + reason</code>; a blank is</p>
+<p>indistinguishable from &quot;did not check&quot;. The two failure shapes differ and both are</p>
+<p>silent: a missed <strong>consumer</strong> makes the new value a ghost state that nothing counts,</p>
+<p>while a missed <strong>creation</strong> path means the value can never be produced at all — so</p>
+<p>any condition depending on it never arms. That second one is</p>
+<p>C-ACTIVATION-GROUNDING-01&#x27;s failure reached through the type system instead of</p>
+<p>through control flow.</p>
+<p><strong>PLAN-BYPASS-NAMED-01 (DEFAULT).</strong> A plan that adds enforcement must also record</p>
+<p><strong>how to bypass it</strong>, in five fields:</p>
+<ol>
+<li><strong>Enforcement strength</strong> — on whatever tier vocabulary the repository uses. With</li>
+</ol>
+<p>none, name the mechanism kind plainly: runtime gate, CI check, pre-commit hook, or</p>
+<p>agent-followed prose.</p>
+<ol>
+<li><strong>Executing surface</strong> — which script, job, hook, or human actually runs it.</li>
+<li><strong>Known bypass path</strong> — the concrete way around it.</li>
+<li><strong>Residual risk</strong> — what stays reachable once the layer is in place.</li>
+<li><strong>Wording downgrade</strong> — whether the claim had to be weakened once (3) was known.</li>
+</ol>
+<p>A bypassable layer is called an <strong>early warning</strong>, never <strong>enforcement</strong>.</p>
+<p><code>final layer: none</code> is an allowed answer: the point is to stop claiming enforcement</p>
+<p>that does not exist, not to manufacture an unbypassable layer. If you claim no</p>
+<p>bypass exists, give the evidence — that claim is usually wrong.</p>
+<p><strong>PLAN-TRACK-01 (DEFAULT).</strong> When the runtime offers a live plan or todo surface,</p>
+<p>mirror the plan&#x27;s work items into it at P and keep the statuses current through B.</p>
+<p>That surface is the <strong>visibility</strong> channel, and often the only view the user gets</p>
+<p>between turns. It is not the plan: the diff-level document stays the single source of</p>
+<p>truth, and ticking an item is never a substitute for the phase&#x27;s artifact</p>
+<p>(ORCH-ARTIFACT-01). A runtime with no such surface loses nothing here.</p>
 <p>Present to the user:</p>
 <ol>
 <li>Part 1 summary (≤5 sentences) + diagram + devlog file path</li>
@@ -434,10 +562,73 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>upstream code does not consume the trigger first), and the plan names its</p>
 <p>activation scenario (C-ACTIVATION-GROUNDING-01). An unreachable-by-construction</p>
 <p>branch is a plan blocker, not a C-phase discovery.</p>
+<p><strong>Plan-rule checks.</strong> The reviewer additionally verifies each of these, and any one</p>
+<p>failing is a blocker: (a) every verifier command the plan names actually exists AND</p>
+<p>reads the change target — the reviewer RUNS it rather than trusting the plan</p>
+<p>(PLAN-VERIFIER-REAL-01); (b) each new field or enum value has its full</p>
+<p>creation → serialization → deserialization → consumer chain enumerated, with</p>
+<p><code>N/A + reason</code> where a stage does not apply (PLAN-FIELD-CHAIN-01); (c) when several</p>
+<p>documents reference a shared type, the field NAMES match, not just the concept;</p>
+<p>(d) each document&#x27;s header dependency declaration matches the types its body</p>
+<p>actually uses; (e) any plan adding enforcement records the five bypass fields and</p>
+<p>either names the final enforcement layer or states <code>none</code></p>
+<p>(PLAN-BYPASS-NAMED-01). All three plan rules are defined in §3.2.</p>
+<p>Instruct the reviewer to end with a normalized final line —</p>
+<p><code>VERDICT: PASS | GO-WITH-FIXES (blockers=N) | FAIL</code> — followed by numbered</p>
+<p>blockers. No code changes.</p>
+<p><strong>Audit loop (STRICT, AUDIT-LOOP-01).</strong> A is a <strong>loop</strong> — audit → synthesize →</p>
+<p>amend plan → re-audit — not a single round. Exit A→B only when the main agent</p>
+<p>judges the round:</p>
+<ul>
+<li><strong>pass</strong> — the reviewer approved; or</li>
+<li><strong>near-pass</strong> — every High/Critical blocker was folded into the plan as a</li>
+</ul>
+<p>concrete amendment or explicitly rebutted with recorded rationale, and only</p>
+<p>non-blocking residuals remain. <code>GO-WITH-FIXES; 2 blockers folded back</code> qualifies.</p>
+<p>A <strong>FAIL</strong> round never exits. Apply REVIEW-SYNTHESIS-01 (§11.3), amend the plan,</p>
+<p>and re-audit with the <strong>same reviewer</strong> so it keeps the context it already built</p>
+<p>(DISPATCH-ACTOR-01, §7.2). LOOP-REPAIR-01 bounds the loop: after 3 failed rounds</p>
+<p>return to P with a changed plan, or to Interview when human clarification is what</p>
+<p>is actually missing.</p>
+<p>Three details in that rule are load-bearing and easy to lose:</p>
+<ul>
+<li><strong>The main agent is the judge, not a string parser.</strong> <code>near-pass</code> is a judgment</li>
+</ul>
+<p>about whether the blockers were really addressed. A reviewer&#x27;s closing line is</p>
+<p>evidence for that judgment, not a substitute for it — and a pasted verdict whose</p>
+<p>final line says FAIL does not become a pass because the summary claims one.</p>
+<ul>
+<li><strong>Same reviewer on re-audit, fresh reviewer for the final adversarial pass.</strong> Reuse</li>
+</ul>
+<p>preserves context across rounds; independence matters when the reviewer has</p>
+<p>already shaped the fix. Those pull in opposite directions, which is why the rule</p>
+<p>names both rather than one.</p>
+<ul>
+<li><strong>The loop is bounded because an unbounded audit loop is a stall, not rigor.</strong></li>
+</ul>
+<p>Three failed rounds means the plan is wrong in a way re-auditing cannot find.</p>
+<p><strong>Verification is not pinned to A (LEAN-REVIEW-01, DEFAULT).</strong> Dispatch review lanes</p>
+<p>wherever they help — plan audit at A, implementation review at B, check</p>
+<p>verification at C — instead of treating A as the one phase that owns review. A</p>
+<p>review lane costs one dispatch and returns evidence you can paste into the next</p>
+<p>attestation.</p>
+<p>Where a runtime records reviewer verdicts, a recorded verdict is <strong>binding</strong>: it</p>
+<p>cannot be contradicted by your own attestation, spent across a re-plan, or spent on</p>
+<p>a plan whose files changed after approval. Where the runtime records nothing, the</p>
+<p>same discipline is yours to keep.</p>
+<p>What must not be built is a review gate whose failure mode traps the cycle. Recorded</p>
+<p>2026-08-18 in the codexclaw lineage: A→B once required a verdict only an automatic</p>
+<p>observer could write, so every reason that observer failed to fire — a matcher that</p>
+<p>missed the runtime&#x27;s role vocabulary, a reviewer whose closing lines did not parse,</p>
+<p>a reinstall that moved the plugin root under a live session — left the cycle in a</p>
+<p>phase it could never leave, and the only escape was hand-feeding the gate its own</p>
+<p>payload. <strong>A gate whose normal recovery is forging its own input is not a gate.</strong></p>
+<p>Apply that when designing any gate here: if the recovery path is &quot;fabricate the</p>
+<p>evidence the gate wanted&quot;, the gate is worse than none.</p>
 <p>Output worker JSON for the audit. Review results when they come back.</p>
 <ul>
-<li>If FAIL → fix the plan → output worker JSON again to re-audit</li>
-<li>If PASS → report results to the user</li>
+<li>If FAIL → synthesize (§11.3) → amend the plan → re-audit with the same reviewer</li>
+<li>If PASS or near-pass → report results, with the residual disposition, to the user</li>
 </ul>
 <p>⛔ Wait for user approval. When approved, advance with the canonical A→B attestation form in §2.1.</p>
 <h4 id="b-build">B — Build</h4>
@@ -582,9 +773,41 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>all per-phase decade docs (10_phase1, 20_phase2, ...) to diff-level up front</p>
 <p>(DIFFLEVEL-ROADMAP-01, §3.1) — scaffolding empty files is not pre-planning. Each</p>
 <p>later cycle&#x27;s P re-verifies its pre-written doc against the current codebase and</p>
-<p>amends it before building. The first pass MAY be a design-only PABCD pass (Phase 0):</p>
-<p>a code-free whole-system design/documentation cycle that produces exactly this</p>
-<p>difflevel roadmap before the first implementation work-phase.</p>
+<p>amends it before building.</p>
+<p><strong>Docs-first multi-cycle entry (LOOP-DOCS-FIRST-01, DEFAULT).</strong> The first pass is a</p>
+<p>design-only PABCD pass (Phase 0) — a code-free whole-system design and documentation</p>
+<p>cycle that produces exactly this diff-level roadmap before the first implementation</p>
+<p>work-phase. This used to read &quot;MAY&quot;; it is the default for any loop of 2+ work-phases,</p>
+<p>and mandatory when the loop runs unattended.</p>
+<p>A loop is a chain of PABCD cycles, and a chain is only as disciplined as the documents</p>
+<p>each cycle re-reads at P. Memory lives on disk, not in the transcript — so a loop</p>
+<p>spanning 2+ work-phases buys its memory first.</p>
+<ol>
+<li><strong>Register and document in one motion.</strong> Arm the work-phase map (a skeleton is</li>
+</ol>
+<p>fine) AND run the first work-phase as a docs-only cycle. Its deliverable is the</p>
+<p>devlog unit: <code>000-009</code> research plus EVERY implementation phase&#x27;s decade doc</p>
+<p>(<code>010</code>, <code>020</code>, <code>030</code>, … with sub-docs like <code>021</code> where a phase needs finer grain)</p>
+<p>at full diff-level precision (DIFFLEVEL-ROADMAP-01).</p>
+<ol>
+<li><strong>The roadmap cycle&#x27;s D is the roadmap lock.</strong> Closing it finalizes the map: phases</li>
+</ol>
+<p>are refined to map 1:1 onto the decade docs. The initial registration is a</p>
+<p>skeleton; the lock is the docs-only D, and the map stays APPEND-friendly afterwards.</p>
+<ol>
+<li><strong>Implementation starts at the NEXT cycle.</strong> Each later work-phase consumes exactly</li>
+</ol>
+<p>one decade doc as one full cycle: its P re-verifies the pre-written doc against the</p>
+<p>current tree, amends it, then executes. Never implement two decade docs in one B.</p>
+<ol>
+<li><strong>Docs-only means docs-only.</strong> Allowed: research notes, inventories, design docs,</li>
+</ol>
+<p>repro and state snapshots, the decade docs themselves. Not allowed: production code</p>
+<p>patches, deploy actions, or completion claims for implementation criteria.</p>
+<p>Exemptions: a loop that genuinely fits one work-phase skips the docs-only cycle, and</p>
+<p>C0/C1 fast-path work is untouched. If multi-cycle scope is <strong>discovered</strong> mid-loop the</p>
+<p>docs-first debt comes due — the next P is the roadmap amendment that writes the missing</p>
+<p>decade docs before any further implementation cycle.</p>
 <p>The slice map is APPEND-friendly (LOOP-UNIT-CHAIN-01): an independent unit discovered</p>
 <p>mid-loop — including a feature unrelated to the current slice — becomes a NEW</p>
 <p>work-phase appended to the map via a P-phase amendment, then runs as the next cycle in</p>
@@ -678,6 +901,82 @@ orchestrate D --attest &#x27;{&quot;from&quot;:&quot;C&quot;,&quot;to&quot;:&quo
 <p>an adversarial fork-debate + Tier-2 arXiv claim ledger — 10 papers, evidence</p>
 <p>grades recorded; codexclaw devlog <code>260711_dispatch_economy_docs_site</code>. jawcode /</p>
 <p>cli-jaw ports pending.)</p>
+<h4 id="7-2-dispatch-packet-lane-and-lifecycle">§7.2 Dispatch packet, lane, and lifecycle</h4>
+<p>§7.1 decides <strong>whether</strong> to dispatch. These decide <strong>how</strong>, and each one names a</p>
+<p>failure that looks like something else when you hit it.</p>
+<p><strong>DISPATCH-TASK-01 (DEFAULT) — the packet.</strong> Every dispatch carries a structured</p>
+<p>packet with these sections, in this order:</p>
+<p><code>TASK</code> · <code>SCOPE</code> · <code>MUST DO</code> · <code>MUST NOT</code> · <code>PROOF</code> · <code>RETURN FORMAT</code> · decision boundary</p>
+<ul>
+<li><strong>Write scopes must be disjoint</strong> across concurrent lanes, with explicit read</li>
+</ul>
+<p>bounds. Two lanes that can touch one file are one lane.</p>
+<ul>
+<li><strong>The plan travels with the dispatch.</strong> Pass the concrete plan and scope; never</li>
+</ul>
+<p>let a worker reconstruct the plan from a thin task description (§8 Context Drift).</p>
+<ul>
+<li><strong>Name every required skill explicitly</strong> — nothing infers an omitted one.</li>
+<li>**Workers return evidence and unresolved judgments; the dispatching session</li>
+</ul>
+<p>decides and integrates.** Judgment ownership never delegates</p>
+<p>(DISPATCH-ECONOMY-01).</p>
+<p><strong>DISPATCH-AGENT-TYPE-01 (DEFAULT) — the lane.</strong> The read-only/write-capable split</p>
+<p>is a <strong>dispatch-time classification</strong>, not a description of what the worker happens</p>
+<p>to do:</p>
+<ul>
+<li><strong>read-only lane</strong> — plan audit, research, review, verification. The default, and</li>
+</ul>
+<p>what the A gate, the B review lane, and the C verification lane all use.</p>
+<ul>
+<li><strong>write-capable lane</strong> — a deliberate implementation slice only, with a bounded</li>
+</ul>
+<p>write scope named in the packet (§8).</p>
+<p>Mismatching the lane to the packet is a real failure with a misleading symptom. A</p>
+<p>read-only packet sent down a write-capable lane produces a worker held to</p>
+<p>obligations it has no permission to satisfy, and what you observe is a worker</p>
+<p>repeating the same answer against the same directive. When you see that, check the</p>
+<p>lane before rewriting the prompt — it is almost always the lane.</p>
+<p><strong>LEAF-TOPOLOGY-01 (DEFAULT) — the topology.</strong> A dispatched worker is a leaf: it</p>
+<p>does its scoped task and returns, without standing up its own orchestration layer.</p>
+<p>Recursion is a deliberate per-dispatch grant, never a default. A runtime whose</p>
+<p>workers may fan out internally should say so explicitly rather than leaving it</p>
+<p>ambiguous, because an unplanned second layer makes write scopes unprovable.</p>
+<p><strong>DISPATCH-ACTOR-01 (DEFAULT) — reuse across rounds.</strong> Follow-up rounds in the same</p>
+<p>role and work context <strong>reuse the existing worker</strong> rather than spawning fresh. The</p>
+<p>point is context preservation: the reviewer or builder keeps what it already read,</p>
+<p>so round two argues about the change instead of re-deriving the baseline.</p>
+<p>If the runtime distinguishes &quot;send more work&quot; from &quot;deliver context only&quot;, know</p>
+<p>which is which — using the context-only channel to request work produces a worker</p>
+<p>that never runs and a caller that waits forever.</p>
+<p>Do <strong>not</strong> justify reuse with &quot;same provider, so the prompt cache is warm&quot;. That</p>
+<p>was tested and rejected in the lineage this rule comes from. Reuse is about</p>
+<p>context, not cost.</p>
+<p><strong>Carve-out.</strong> The final adversarial pass at C — and any reviewer that has already</p>
+<p>shaped the fix through synthesis rounds — gets a <strong>fresh</strong> reviewer, or a direct</p>
+<p>independent <code>file:line</code> audit. Anchoring must never grade its own influence. Same</p>
+<p>independence argument as REVIEW-DECORRELATE-01 (§7.1), applied across rounds instead</p>
+<p>of across model families.</p>
+<p><strong>DISPATCH-RETIRE-01 (DEFAULT) — the exception to reuse.</strong> A worker that failed —</p>
+<p>error, timeout, unresponsive, nonsense output — is retired, not nursed.</p>
+<ul>
+<li><strong>At most ONE retry</strong> against the same worker, then abandon it and spawn fresh</li>
+</ul>
+<p>with the failure folded into the new packet.</p>
+<ul>
+<li>A worker that has produced nothing after roughly three wait cycles is a failed</li>
+</ul>
+<p>dispatch, and <strong>that retirement consumes the one retry.</strong> Silence does not earn a</p>
+<p>second chance on top of the silence.</p>
+<ul>
+<li><strong>Packet-failure reclaim.</strong> When a second, distinct worker also fails the SAME</li>
+</ul>
+<p>packet, stop blaming workers: two independent failures on one packet are evidence</p>
+<p>the packet failed DISPATCH-ECONOMY-01&#x27;s specifiability bar. The dispatching</p>
+<p>session reclaims that slice and does the work directly rather than dispatching a</p>
+<p>third copy.</p>
+<p>Both lifecycle rules are agent-followed doctrine, not runtime gates — nothing</p>
+<p>watches worker lifecycles for you.</p>
 <h3 id="8-pitfalls">§8. Pitfalls</h3>
 <h4 id="delegation-trap">Delegation Trap</h4>
 <ul>

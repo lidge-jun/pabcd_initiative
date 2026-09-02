@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -107,6 +108,15 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/references/layout-macrostructures.md" target="_blank" rel="noopener">dev-uiux-design/references/layout-macrostructures.md</a></p>
 <h3 id="6-layout-composition-patterns">6. Layout Composition Patterns</h3>
 <p>Select the layout that matches the product surface. Provide the CSS grid template.</p>
+<h3 id="composition-trait-vocabulary">Composition Trait Vocabulary</h3>
+<p>Traits modify a macrostructure; they are not complete recipes and do not replace responsive or accessibility gates.</p>
+<ul>
+<li><code>big-type</code>: type scale, crop, wrapping, or orientation materially organizes space.</li>
+<li><code>fullscreen</code>: one scene or utility owns the viewport without removing direct content access or mobile fallback.</li>
+<li><code>horizontal-spatial</code>: content is explored laterally or across a spatial field.</li>
+<li><code>unusual-layout</code>: composition departs from familiar flow without obscuring hierarchy, keyboard order, or core content.</li>
+<li><code>poster</code> and <code>index/roster</code>: route to the canonical patterns in <code>compositional-patterns.md</code>.</li>
+</ul>
 <h4 id="sidebar-content-dashboard-default">Sidebar + Content (Dashboard default)</h4>
 <pre><code>display: grid;
 grid-template-columns: 256px 1fr; /* 64px when collapsed */

@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -136,6 +137,8 @@
 
 <h2 id="references">Reference Documents</h2>
 <table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-devops-agent-infra-safety.html">Agent Infrastructure Safety (DEVOPS-AGENT-SAFETY-01, DEFAULT)</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-devops-branch-lifecycle.html">Branch Lifecycle — Cleanup, Automation, and Deletion Evidence</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-devops-ci-cd-deploy.html">CI/CD &amp; Deploy — Pipeline &amp; Delivery Patterns</a></td><td>GHA 재사용 워크플로, 배포 전략, 롤백, GitOps</td></tr>
 <tr><td><a href="../../pages/skills/dev-devops-cross-platform-release.html">Cross-platform Release — CI Matrix vs Local OS Proof</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-devops-docker.html">Docker — Container Build &amp; Security Patterns</a></td><td>멀티스테이지 빌드, distroless, Docker Scout/Trivy, SBOM/Cosign</td></tr>
@@ -180,6 +183,7 @@
 <p>Build reliable, secure, and automated infrastructure and delivery pipelines.</p>
 <p>This skill has modular references for specialized guidance — read the relevant ones before coding.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <p>Severity mapping: <code>CRITICAL</code>/<code>HIGH</code> ⇒ STRICT; <code>MEDIUM</code> ⇒ DEFAULT (aligned with <code>dev</code> §0.2).</p>
 <h3 id="modular-references">Modular References</h3>
 <table class="rules">
@@ -191,10 +195,12 @@
 <tr><td><code>references/platform-engineering.md</code></td><td>Platform / DORA / provider routing</td><td>DORA capabilities, platform guardrails, provider table rows, SLSA handoff</td></tr>
 <table class="rules">
 <tr><td><code>references/kubernetes.md</code></td><td>K8s deployment</td><td>Gateway API (v1.6+), Kustomize overlays, HPA/VPA, Helm, ArgoCD GitOps</td></tr>
-<tr><td><code>references/ci-cd-deploy.md</code></td><td>Deploy pipeline</td><td>GHA reusable workflows, deploy strategies, rollback, GitOps, progressive delivery</td></tr>
+<tr><td><code>references/ci-cd-deploy.md</code></td><td>Deploy pipeline, and freeze/GO evidence</td><td>GHA reusable workflows, deploy strategies, rollback, GitOps, progressive delivery; §6 suite partitioning, baseline-vs-defect, instrument stability, exact-head evidence, stability counting</td></tr>
+<tr><td><code>references/branch-lifecycle.md</code></td><td>Branch or worktree cleanup</td><td>Deletion-evidence checks, ref snapshot and restore, merged-vs-closed gap, stacked-PR bases, fork identity by repository id, worktree removal order</td></tr>
 <tr><td><code>references/iac.md</code></td><td>Infrastructure code</td><td>OpenTofu/Terraform modules, Pulumi, state encryption, blast radius isolation</td></tr>
 <tr><td><code>references/sre-foundations.md</code></td><td>Operations/incidents</td><td>SLO/SLI/error budget, burn-rate alerting, incident response, blameless postmortem</td></tr>
 <tr><td><code>references/edge-serverless.md</code></td><td>Edge/serverless work</td><td>Edge request shaping, auth at edge, Cloudflare Workers, Vercel Edge, edge AI triage</td></tr>
+<table class="rules">
 <tr><td><code>references/ml-infra.md</code></td><td>ML infrastructure</td><td>GPU cluster mgmt, model registry, scaling, edge inference, MLOps platform patterns</td></tr>
 </tbody></table>
 <p>Read <code>package-release.md</code> for package publishing, registry auth, npm/PyPI</p>
@@ -277,6 +283,10 @@ jobs:
 <li>Post-rollback: automatic Slack/PagerDuty notification</li>
 </ul>
 <h4 id="2-5-secret-management-strict">§2.5 Secret Management (STRICT)</h4>
+<p><strong>Rule (DEVOPS-AUTH-01):</strong> prefer OIDC, workload identity federation, trusted</p>
+<p>publishing, or another short-lived credential flow <strong>before</strong> static long-lived</p>
+<p>tokens. When a static token is unavoidable, scope it narrowly, store it in the</p>
+<p>managed secret system, and rotate on schedule or on incident.</p>
 <table class="rules">
 <thead><tr><th>Source</th><th>Usage</th></tr></thead><tbody>
 <tr><td>GHA Secrets / Vault / AWS SM</td><td>CI pipeline secrets</td></tr>
@@ -291,6 +301,70 @@ jobs:
 <li>Self-heal: ArgoCD auto-reverts drift</li>
 <li>Environment protection: GitHub Environments for prod approval gate</li>
 </ul>
+<h4 id="2-7-release-proof-contract-strict">§2.7 Release Proof Contract (STRICT)</h4>
+<p><strong>Rule (DEVOPS-RELEASE-PROOF-01):</strong> a release claim must name the artifact digest,</p>
+<p>the workflow or builder identity, the deploy target and environment, smoke-test</p>
+<p>evidence, and rollback evidence. Five items, each an artifact rather than an</p>
+<p>assertion — &quot;deployed successfully&quot; names none of them.</p>
+<p>Keep the proof at this level; detailed package, platform, and supply-chain mechanics</p>
+<p>live in the release references.</p>
+<h4 id="2-8-freeze-and-go-no-go-gates-strict">§2.8 Freeze and GO/NO-GO Gates (STRICT)</h4>
+<p><code>DEVOPS-RELEASE-PROOF-01</code> governs the proof bundle for an artifact you already</p>
+<p>published. This section governs the decision to publish at all — the readiness</p>
+<p>report, and the gates it claims to have passed.</p>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Severity</th><th>Statement</th></tr></thead><tbody>
+<tr><td><code>DEVOPS-FREEZE-SHA-01</code></td><td>STRICT</td><td>Pin the readiness report to the code SHA its gates describe. If the head moved after the freeze, prove the delta is docs-only (<code>git diff --name-only &lt;freeze&gt; &lt;head&gt;</code>) and keep every gate receipt on the freeze SHA.</td></tr>
+<tr><td><code>DEVOPS-GATE-WEAKEN-01</code></td><td>STRICT</td><td>A red named gate is never excused inside the report that gate failed. Make the original command green, or replace it with a pre-declared equivalent CI actually runs — and declare the swap <strong>before</strong> the verdict, not after the failure.</td></tr>
+<tr><td><code>DEVOPS-REVIEW-THREADS-01</code></td><td>STRICT</td><td>Unresolved review threads on merged PRs are a GO blocker. Count them <strong>after</strong> merge: a thread opened minutes before merge still counts until it is fixed or explicitly dismissed.</td></tr>
+<tr><td><code>DEVOPS-GATE-OWNER-01</code></td><td>STRICT</td><td>A mandatory GO gate needs an implementing work-phase and a recorded terminal outcome — pass, not-reproduced, or explicitly deregistered. A gate nobody implements is not a gate; it is a wish.</td></tr>
+</tbody></table>
+<p><strong>Why gate-weakening is the load-bearing one.</strong> In the case that produced these</p>
+<p>rules, a freeze audit rejected the first GO report on three counts: unresolved</p>
+<p>review threads on merged PRs, a red gate argued into an exception, and missing</p>
+<p>frozen-head receipts. The red-gate part is the instructive one — the suite was red,</p>
+<p>the red tests were known to be load-sensitive, and the fix was real, so the report</p>
+<p>explained the exception. The audit rejected that anyway, and correctly: **an</p>
+<p>exception argued *after* a gate fails is indistinguishable from an exception argued</p>
+<p>*because* it failed.**</p>
+<p>The honest move was to decompose the gate to match what CI actually runs</p>
+<p>(<code>DEVOPS-SUITE-PARTITION-01</code>), which turned the general suite green. The one</p>
+<p>remaining local failure was waived separately on the <code>DEVOPS-BASELINE-DEFECT-01</code></p>
+<p>triple — not by the partitioning. Two different mechanisms for two different</p>
+<p>problems; collapsing them is how a partition becomes a way to hide a defect.</p>
+<p>Operational mechanics — suite partitioning, baseline-versus-defect attribution,</p>
+<p>instrument stability, and exact-head evidence — live in</p>
+<p><code>references/ci-cd-deploy.md</code> §6. Runtime and operator-signal evidence rules live in</p>
+<p><code>references/sre-foundations.md</code> §7.</p>
+<h4 id="2-9-branch-lifecycle-hygiene-strict">§2.9 Branch Lifecycle Hygiene (STRICT)</h4>
+<p>Delivery repositories accumulate dead refs, and the cost is not disk. Stale branches</p>
+<p>make the remote branch list unusable for triage, keep superseded heads reachable by</p>
+<p>tooling that resolves names, and hide the handful of branches that actually still</p>
+<p>matter. Treat branch lifecycle as delivery infrastructure.</p>
+<table class="rules">
+<thead><tr><th>Rule</th><th>Severity</th><th>Statement</th></tr></thead><tbody>
+<tr><td><code>DEVOPS-BRANCH-AUTODELETE-01</code></td><td>STRICT</td><td>Enable host-side head deletion on merge (<code>delete_branch_on_merge</code> on GitHub) <strong>and</strong> close the gap it leaves. That setting fires only on merge; a pull request closed without merging keeps its head branch forever, so the closed-PR case needs its own scheduled automation.</td></tr>
+<tr><td><code>DEVOPS-BRANCH-DELETE-EVIDENCE-01</code></td><td>STRICT</td><td>Never bulk-prune. Before deleting any ref, prove per branch that it is not protected, not an open PR head, not the base of an open PR, not a fork head, and not carrying unique commits. A name pattern is not evidence.</td></tr>
+<tr><td><code>DEVOPS-BRANCH-SNAPSHOT-01</code></td><td>STRICT</td><td>Snapshot <code>git for-each-ref</code> (SHA + refname) for every local and remote ref to scratch space before the first deletion. A deleted remote branch is restorable with <code>git push origin &lt;sha&gt;:refs/heads/&lt;name&gt;</code> only while you still hold the SHA.</td></tr>
+<tr><td><code>DEVOPS-WORKTREE-DIRTY-01</code></td><td>STRICT</td><td>Check every attached worktree for uncommitted work before removing it, and remove worktrees <strong>before</strong> their branches — an attached branch cannot be deleted, and <code>--force</code> on a dirty tree discards work no reflog will return.</td></tr>
+</tbody></table>
+<p><strong>Why the merged/closed distinction is load-bearing.</strong> <code>delete_branch_on_merge</code></p>
+<p>reads as complete branch hygiene, so a repository with it enabled looks solved. It</p>
+<p>is not: in the case behind this rule the setting was on and the repository still</p>
+<p>carried 59 dead remote branches, because closed-unmerged PRs fall outside what it</p>
+<p>covers. The failure is silent and compounds — nothing reports it, and the branch</p>
+<p>list simply degrades until triage stops using it.</p>
+<p><strong>Why stacked PRs break naive cleanup.</strong> A stacked child PR targets its parent&#x27;s</p>
+<p>head branch, so deleting a closed parent <strong>closes the open child</strong>. &quot;The PR that</p>
+<p>owned this branch is closed&quot; is therefore insufficient grounds for deletion: the</p>
+<p>base of any open PR is protected regardless of its own PR state</p>
+<p>(<code>dev</code> <code>DEV-STACK-04</code>).</p>
+<p><strong>Fork heads are out of scope, and identity is by repository id.</strong> A fork&#x27;s head</p>
+<p>lives in the contributor&#x27;s repository; deleting refs there is neither permitted nor</p>
+<p>intended. Compare repository <strong>ids</strong>, not names — a fork commonly carries the same</p>
+<p>branch names as upstream, so name comparison silently misclassifies it.</p>
+<p>Mechanics, the deletion-plan algorithm, and a worked audit live in</p>
+<p><code>references/branch-lifecycle.md</code>.</p>
 <p>---</p>
 <h3 id="3-kubernetes-basics">§3 Kubernetes Basics</h3>
 <h4 id="3-1-minimum-viable-k8s-default">§3.1 Minimum Viable K8s (DEFAULT)</h4>
@@ -442,7 +516,7 @@ spec:
 <tr><td>Scaffolding conventions</td><td><code>dev-scaffolding</code></td><td>File naming, project structure</td></tr>
 <tr><td>Frontend build/bundle</td><td><code>dev-frontend</code></td><td>Vite/webpack config, SSR</td></tr>
 </tbody></table>
-<p><strong>dev-devops owns</strong>: container builds, image security, deploy pipelines, K8s manifests, IaC modules, SRE/incident response, edge infra, ML infra.</p>
+<p><strong>dev-devops owns</strong>: container builds, deploy pipelines, K8s manifests, IaC modules, SRE/incident response, edge infra, ML infra. DevOps owns operational supply-chain execution (scans, SBOM/signing steps, attestations, and release gates); <code>dev-security</code> owns supply-chain security policy, severity thresholds, and evidence requirements.</p>
 <p><strong>dev-backend owns</strong>: application-layer observability code, API design, health check implementation.</p>
 <p>Overlap: observability alerting rules (dev-devops §5) ↔ observability code instrumentation (dev-backend <code>observability.md</code>). Cross-ref both.</p>
 <h3 id="pre-flight-checklist">Pre-flight Checklist</h3>

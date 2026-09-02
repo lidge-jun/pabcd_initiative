@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Award Source Guide — PABCD Initiative</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/pabcd_initiative" target="_blank" rel="noopener" title="pabcd_initiative">pabcd_initiative</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/codexclaw" target="_blank" rel="noopener" title="codexclaw">codexclaw</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/cli-jaw" target="_blank" rel="noopener" title="cli-jaw">cli-jaw</a></span>
+  <span class="right"><a href="https://github.com/lidge-jun" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+<li><a href="../../pages/analysis.html" class="">Meta Analysis</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Design Award Source Guide</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/references/design-award-sources.md" target="_blank" rel="noopener">dev-uiux-design/references/design-award-sources.md</a></p>
+<h2 id="design-award-source-guide">Design Award Source Guide</h2>
+<p>Use this guide to choose evidence before setting a visual direction. The tiers describe the source&#x27;s role, not its prestige: start with the narrowest source that answers the design question, then cross-check award-level originality against section-level usability. Counts and interface notes reflect the 2026-07-14 research crawl and may drift.</p>
+<h3 id="sourcing-protocol">Sourcing protocol</h3>
+<ol>
+<li>Define the lookup axis first: aesthetic, composition, behavior, domain/type, page purpose, or section anatomy. Do not compare unlike tags as if they were peer styles.</li>
+<li>Use at least two galleries for a reusable pattern claim. Promotion into skill vocabulary requires evidence from at least 3 sites across at least 2 galleries.</li>
+<li>Capture the live site, not only the gallery thumbnail. Record hero function, motion model, navigation, typography, palette, and layout independently.</li>
+<li>Treat gallery counts as retrieval aids, not market-share evidence. Award sites overrepresent immersive motion; landing galleries overrepresent conversion sequences.</li>
+<li>Preserve accessibility and domain gates. A winner is evidence that a device can work in context, not permission to copy hidden navigation, viewport locks, or continuous motion without alternatives.</li>
+</ol>
+<h3 id="domain-type-retrieval-families">Domain/type retrieval families</h3>
+<p>Normalize gallery domain labels into these retrieval families before selecting examples:</p>
+<ul>
+<li><strong>Creator/organization:</strong> agency, consultancy, studio, portfolio, showcase, production, freelance.</li>
+<li><strong>Digital product:</strong> SaaS, application/software, AI, technology, productivity, dev/design tools, no-code, open source, hosting, CMS.</li>
+<li><strong>Commerce/product:</strong> ecommerce, marketplace, product, hardware, wearable, automotive, furniture/interiors.</li>
+<li><strong>Finance/web3:</strong> finance, fintech, cryptocurrency, blockchain, DeFi, ventures, insurance.</li>
+<li><strong>Culture/media:</strong> art, photography, illustration, motion, music, film, game, entertainment, culture, exhibitions, dance/theatre.</li>
+<li><strong>Publishing/knowledge:</strong> blog, news, magazine, editorial, print, book/literature, education/course/resource, annual report.</li>
+<li><strong>Lifestyle/vertical:</strong> architecture, property, fashion, beauty, health, food/drink, travel/outdoors, sport, wedding, children.</li>
+<li><strong>Campaign/community:</strong> advertising, event/conference/festival, fundraising, community, awards, coming soon.</li>
+</ul>
+<p><strong>Category-error guard:</strong> Domains drive gates and example retrieval, never visual style. Choose aesthetic, composition, palette, treatment, and behavior on their own axes after domain constraints are known.</p>
+<h3 id="tier-1-award-sites">Tier 1 — Award sites</h3>
+<p>Use Tier 1 to study authored systems, high-variance composition, and the relationship between concept, motion, and implementation.</p>
+<h4 id="awwwards">Awwwards</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://www.awwwards.com/&gt;</li>
+<li><strong>Best for:</strong> Highest-quality curated winners, especially Site of the Day and Site of the Year work with cinematic staging, custom motion, and distinctive art direction.</li>
+<li><strong>Search/filter:</strong> Browse winners and collections, then narrow with <strong>Category</strong>, <strong>Technology</strong>, <strong>Font</strong>, and <strong>Color</strong> filters. Cross-check the award page against the live site.</li>
+<li><strong>Key value:</strong> Strongest source for seeing one governing visual idea carried through hero, navigation, motion, typography, and proof. It is particularly useful for experiential and media-led surfaces.</li>
+<li><strong>DOM accessibility:</strong> Listing metadata and filter labels are generally extractable, but important evidence often lives in screenshots, embedded media, or the external winner. Client rendering, consent layers, and canvas/WebGL can obscure text-only inspection; use a browser snapshot and inspect the live site. Never infer motion or interaction from the card DOM alone.</li>
+</ul>
+<h4 id="css-design-awards-cssda">CSS Design Awards (CSSDA)</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://www.cssdesignawards.com/&gt;</li>
+<li><strong>Best for:</strong> Scored analysis of <strong>UI</strong>, <strong>UX</strong>, and <strong>Innovation</strong>, plus Website of the Day examples where interaction systems can be compared against explicit judging dimensions.</li>
+<li><strong>Search/filter:</strong> Browse WOTD/WOTM winners and nominees; use the UI, UX, and Innovation scores as comparison prompts, then inspect the linked live experience.</li>
+<li><strong>Key value:</strong> Useful when the agent must explain why a visually unusual site succeeds beyond surface styling. The separate scores encourage evaluation of interface quality, experience coherence, and novelty rather than a single beauty judgment.</li>
+<li><strong>DOM accessibility:</strong> Winner titles, scores, and outbound links are usually available in page structure, while loaders, canvas scenes, cursor behavior, and scroll choreography require rendered inspection. Some live sites intercept wheel input or keep native <code>scrollY</code> fixed, so verify state changes visually and provide keyboard/reduced-motion checks.</li>
+</ul>
+<h3 id="tier-2-section-galleries">Tier 2 — Section galleries</h3>
+<p>Use Tier 2 when the question is about a page section, persuasion sequence, or interaction component rather than a whole-site aesthetic.</p>
+<h4 id="land-book">Land-book</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://land-book.com/&gt;</li>
+<li><strong>Best for:</strong> Complete landing-page sequences and balanced examples of common blocks such as hero, value proposition, features, process, testimonials, pricing, FAQ, CTA, footer, about, case study, and resources.</li>
+<li><strong>Search/filter:</strong> Open the <strong>Sections</strong> subcategory and choose the target anatomy. The research snapshot exposed 20 examples for each inspected section category, making it a practical first pass for variety.</li>
+<li><strong>Key value:</strong> Shows how individual sections coexist in credible landing-page rhythm, rather than presenting isolated component specimens only.</li>
+<li><strong>DOM accessibility:</strong> Category labels and card metadata are suitable for semantic retrieval, but page imagery carries much of the visual evidence. Open the source site for responsive behavior and interaction; do not treat a gallery screenshot as proof of accessible structure.</li>
+</ul>
+<h4 id="one-page-love">One Page Love</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://onepagelove.com/&gt;</li>
+<li><strong>Best for:</strong> High-volume section comparison—<strong>8,180 page sections</strong> in the research snapshot—with especially deep coverage of social proof, pricing, FAQ, lead capture, CTA, mockups, testimonials, navigation, and forms.</li>
+<li><strong>Search/filter:</strong> Browse <strong>Page Sections</strong> and narrow to a concrete subtype, not a broad aesthetic. Useful examples include Testimonials, Client Logos, Pricing Table, FAQ/Accordion, Lead Capture, Device Mockup, Screenshots, Timeline, and Header Navigation.</li>
+<li><strong>Key value:</strong> Best breadth source for comparing many solutions to the same conversion problem and separating a reusable section pattern from a one-off art direction.</li>
+<li><strong>DOM accessibility:</strong> Taxonomy names and counts are text-accessible, while previews are image-led and may lazy-load. Use the category DOM for discovery, then inspect linked pages for hierarchy, focus order, form behavior, and mobile adaptation. Counts are time-sensitive.</li>
+</ul>
+<h4 id="lapa-ninja">Lapa.ninja</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://www.lapa.ninja/&gt;</li>
+<li><strong>Best for:</strong> Section references plus behavior-specific examples and <strong>video recordings</strong> of complete landing pages.</li>
+<li><strong>Search/filter:</strong> Start with <strong>Sections</strong>, then use Elements/Motion libraries for <strong>Loading</strong>, <strong>Menu</strong>, <strong>Hover</strong>, <strong>Mouse Interaction</strong>, <strong>Gallery</strong>, <strong>Footer</strong>, and <strong>Text Effect</strong>. Use recordings when the original page has changed or motion sequencing matters.</li>
+<li><strong>Key value:</strong> Bridges static section sourcing and interaction study; it is the strongest Tier 2 source for loaders, menus, pointer behavior, and text effects.</li>
+<li><strong>DOM accessibility:</strong> Category and item metadata can support search, but screenshots and recordings are primary evidence. Video is not a substitute for semantic inspection: verify the live page&#x27;s controls, keyboard path, reduced-motion behavior, and non-hover alternative whenever available.</li>
+</ul>
+<h3 id="tier-3-taxonomy-and-vocabulary">Tier 3 — Taxonomy and vocabulary</h3>
+<p>Use Tier 3 to translate a vague brief into searchable terms. Its labels are retrieval facets, not a flat design system: style, page type, subject, platform, palette, and behavior must remain separate axes.</p>
+<h4 id="siteinspire">SiteInspire</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://www.siteinspire.com/&gt;</li>
+<li><strong>Best for:</strong> Four-axis discovery through <strong>Styles</strong>, <strong>Types</strong>, <strong>Subjects</strong>, and <strong>Platforms</strong>, with particularly strong portfolio, editorial, and unusual-layout references.</li>
+<li><strong>Search/filter:</strong> Select one facet per question—for example, a Style for visual treatment, a Type for page purpose, or a Platform for implementation context. Use <strong>Unusual Layout</strong> when conventional section anatomy is intentionally being replaced.</li>
+<li><strong>Key value:</strong> Its four-axis model helps prevent category errors such as treating “Agency,” “Minimal,” and “Responsive” as equivalent kinds of style.</li>
+<li><strong>DOM accessibility:</strong> Facet labels and project metadata are generally useful in the DOM, but project previews are visual and outbound sites may be highly interactive. Capture the taxonomy path used, then inspect the live site for spatial navigation, hover-only discovery, and mobile fallbacks.</li>
+</ul>
+<h4 id="recent-godly">Recent / Godly</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://recent.design/&gt; and &lt;https://godly.website/&gt;</li>
+<li><strong>Best for:</strong> Current high-polish references organized into <strong>12 design categories</strong>, especially editorial, typography, product, motion, and experimental web work.</li>
+<li><strong>Search/filter:</strong> Choose the closest design category first, then compare whole-site records and open the live examples. Use the category as a discovery tag, not as proof that every example shares one compositional model.</li>
+<li><strong>Key value:</strong> A useful bridge between award winners and contemporary production references; it surfaces newer visual and motion signals without relying only on annual award cycles.</li>
+<li><strong>DOM accessibility:</strong> Feed cards and labels are discoverable, but previews may be media-heavy, lazy-rendered, or sparse in text. Confirm names and links from the DOM, then use rendered inspection for hover, scroll, canvas, and adaptive-overlay behavior.</li>
+</ul>
+<h4 id="httpster">Httpster</h4>
+<ul>
+<li><strong>URL:</strong> &lt;https://httpster.net/&gt;</li>
+<li><strong>Best for:</strong> <strong>Styles</strong> and <strong>Types</strong> browsing with a restrained, refined editorial and typographic bias. Also useful as a discovery path to focused destinations such as Footer Design Gallery.</li>
+<li><strong>Search/filter:</strong> Combine a Style with a Type to narrow tone and purpose—for example editorial treatment plus portfolio or magazine. Use its taxonomy for calibration, not section-count claims; Httpster is primarily a whole-site gallery.</li>
+<li><strong>Key value:</strong> Counterbalances immersive award-site bias with quieter, highly edited examples where typography, spacing, and content structure do more work than effects.</li>
+<li><strong>DOM accessibility:</strong> Taxonomy and project links are comparatively straightforward to inspect, though thumbnails still carry substantial evidence. Open the live site to validate type behavior, navigation, and responsive structure. Do not infer a broad section library from a dedicated gallery found through Httpster.</li>
+</ul>
+<h3 id="quick-source-chooser">Quick source chooser</h3>
+<table class="rules">
+<thead><tr><th>Need</th><th>Start here</th><th>Cross-check</th></tr></thead><tbody>
+<tr><td>Highest-variance authored concept</td><td>Awwwards</td><td>CSSDA score dimensions</td></tr>
+<tr><td>Explain UI/UX/innovation quality</td><td>CSSDA</td><td>Live winner + Awwwards peer</td></tr>
+<tr><td>Standard landing-page sequence</td><td>Land-book</td><td>One Page Love variants</td></tr>
+<tr><td>Many variants of one section</td><td>One Page Love</td><td>Land-book in-page context</td></tr>
+<tr><td>Loader, menu, hover, pointer, or text motion</td><td>Lapa.ninja</td><td>CSSDA/Awwwards live behavior</td></tr>
+<table class="rules">
+<tr><td>Search vocabulary across independent axes</td><td>SiteInspire</td><td>Httpster or Recent/Godly</td></tr>
+<tr><td>Current editorial/motion signal</td><td>Recent/Godly</td><td>Awwwards/CSSDA persistence</td></tr>
+<tr><td>Restrained editorial calibration</td><td>Httpster</td><td>SiteInspire taxonomy</td></tr>
+</tbody></table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

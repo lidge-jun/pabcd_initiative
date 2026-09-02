@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -128,17 +129,17 @@
 <h3 id="how-the-routine-rides-pabcd-the-loop">How the routine rides PABCD (the loop)</h3>
 <table class="rules">
 <thead><tr><th>Phase</th><th>Documentation action</th><th>Gate</th></tr></thead><tbody>
-<tr><td>P</td><td>CONCRETIZE: write <code>00_plan.md</code> (objective, measured baseline, dependency-ordered work-phase map, risks) + research docs <code>01+</code>; decade docs for <strong>EVERY roadmap phase</strong> at <strong>diff-level precision</strong> (exact paths, NEW/MODIFY/DELETE, before/after for MODIFY) — DIFFLEVEL-ROADMAP-01</td><td>plan exists as files, not chat</td></tr>
+<tr><td>P</td><td>CONCRETIZE: write <code>000_plan.md</code> (objective, measured baseline, dependency-ordered work-phase map, risks) + research docs <code>001+</code>; decade docs for <strong>EVERY roadmap phase</strong> at <strong>diff-level precision</strong> (exact paths, NEW/MODIFY/DELETE, before/after for MODIFY) — DIFFLEVEL-ROADMAP-01</td><td>plan exists as files, not chat</td></tr>
 <tr><td>A</td><td>AUDIT THE DOCS: an independent reviewer checks the plan docs — paths/signatures real, research coverage complete, phases sized, no ownership violations, no contradictions vs research</td><td>FAIL → fix docs → re-audit</td></tr>
 <tr><td>B</td><td>Implementation cites the doc it executes; deviations are edited back into the doc BEFORE coding past them</td><td>doc and code never diverge silently</td></tr>
 <tr><td>C</td><td>Gate results (commands + tails) recorded into the unit; general SoT docs patched to match the change (SOT-SYNC-01 — recommend creating one if absent)</td><td>evidence lives next to the plan</td></tr>
-<tr><td>D</td><td>Attestation/summary appended to <code>00_plan.md</code>; on unit completion the folder moves <code>_plan/</code> → <code>_fin/</code></td><td>durable closure record</td></tr>
+<tr><td>D</td><td>Attestation/summary appended to <code>000_plan.md</code>; on unit completion the folder moves <code>_plan/</code> → <code>_fin/</code></td><td>durable closure record</td></tr>
 </tbody></table>
 <p>Multi-cycle units: one full PABCD per work-phase; ALL phase design docs are written</p>
 <p>to diff-level in the FIRST P (or the design-only Phase-0 pass) —</p>
 <p>DIFFLEVEL-ROADMAP-01. P of each later cycle re-verifies its pre-written doc against</p>
 <p>the current codebase (stale check) and amends it BEFORE building; it never writes</p>
-<p>the doc fresh mid-unit. The attestation log in <code>00_plan.md</code> is the continuity spine</p>
+<p>the doc fresh mid-unit. The attestation log in <code>000_plan.md</code> is the continuity spine</p>
 <p>— each new P quotes the previous D conclusion from it (see <code>dev-pabcd</code> §10</p>
 <p>LOOP-CONTINUITY-01).</p>
 <h3 id="mapping-to-mainstream-developer-practice-translation-table">Mapping to mainstream developer practice (translation table)</h3>

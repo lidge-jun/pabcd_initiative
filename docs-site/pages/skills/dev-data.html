@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -161,6 +162,7 @@
 <p>Production-grade data engineering patterns for building reliable data systems.</p>
 <p>Activates by change surface for data pipelines, analytics, SQL-heavy work, schema evolution, backfills, and reporting.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <h3 id="when-to-activate">When to Activate</h3>
 <ul>
 <li>Building data pipelines or ETL/ELT processes</li>
@@ -306,6 +308,13 @@
 <p>Changes to a contracted schema require <strong>versioning and consumer notification</strong>.</p>
 <p>---</p>
 <h3 id="5-analysis-reporting">5. Analysis &amp; Reporting</h3>
+<h4 id="migration-and-backfill-sequencing-data-migration-01-default">Migration and Backfill Sequencing (DATA-MIGRATION-01, DEFAULT)</h4>
+<p>Treat schema changes and data backfills as <strong>separate steps</strong>. Production evolution runs</p>
+<p>expand → backfill → dual read/write where needed → contract.</p>
+<p>Before declaring the migration complete, require three things: a <strong>dry run</strong>, an</p>
+<p><strong>idempotency proof</strong>, and <strong>reconciliation counts</strong>. Idempotency is the one that</p>
+<p>matters most in practice — a backfill is the operation most likely to be interrupted and</p>
+<p>resumed, so one that is not safe to re-run turns a retry into double-counted data.</p>
 <h4 id="always-start-with-summary-statistics">Always Start with Summary Statistics</h4>
 <p>Before any deep analysis, provide:</p>
 <table class="rules">
@@ -468,6 +477,40 @@
 <li>Data contract changes (§4 Data Contracts) must notify downstream consumers including frontend teams</li>
 </ul>
 <p>---</p>
+<h3 id="data-change-review-checklist-data-review-01-default">Data Change Review Checklist (DATA-REVIEW-01, DEFAULT)</h3>
+<p>Source: sol research (dev-skill reinforcement audit, Euler findings).</p>
+<p>When reviewing or implementing changes that affect data pipelines, schemas,</p>
+<p>or data stores, check these domain-specific concerns:</p>
+<h4 id="schema-changes">Schema Changes</h4>
+<ul>
+<li>[ ] Is the change backward-compatible? (additive fields, optional columns)</li>
+<li>[ ] Are existing consumers updated or tolerant of the new schema?</li>
+<li>[ ] Is there a migration path for existing data?</li>
+<li>[ ] Are destructive changes (DROP, RENAME, type narrowing) reversible?</li>
+<li>[ ] Is the schema change tested with representative production-scale data?</li>
+</ul>
+<h4 id="pipeline-changes">Pipeline Changes</h4>
+<ul>
+<li>[ ] Are late/out-of-order events handled correctly?</li>
+<li>[ ] Is the pipeline idempotent for replays?</li>
+<li>[ ] Are timezone/DST transitions handled (especially for daily aggregations)?</li>
+<li>[ ] Is numeric precision preserved across transforms (float → decimal)?</li>
+<li>[ ] Are nondeterministic transforms (sampling, shuffling) reproducible with seeds?</li>
+</ul>
+<h4 id="quality-gates">Quality Gates</h4>
+<ul>
+<li>[ ] Is there a before/after reconciliation report (row counts, checksums)?</li>
+<li>[ ] Are null/missing value rates within expected bounds?</li>
+<li>[ ] Are downstream consumers notified of schema or semantic changes?</li>
+<li>[ ] Is the blast radius documented (which dashboards, models, exports break)?</li>
+</ul>
+<h4 id="backfill-safety">Backfill Safety</h4>
+<ul>
+<li>[ ] Is the backfill cost estimated (compute, I/O, lock duration)?</li>
+<li>[ ] Is there a rollback plan for partial backfill failure?</li>
+<li>[ ] Are concurrent writes handled during backfill?</li>
+<li>[ ] Is the backfill window documented and approved?</li>
+</ul>
 </details>
   </div>
 </section>
