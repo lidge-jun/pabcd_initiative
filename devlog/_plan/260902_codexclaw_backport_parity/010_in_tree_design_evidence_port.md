@@ -93,8 +93,8 @@ other:
 1. `feat(dev-frontend): award-calibrated top bar, reference capture, section sourcing`
 2. `feat(dev-uiux-design): design trends, award sources, compositional patterns`
 
-Both land on `feat/skills-core-backport`, below the core back-port commits, as
-the bottom of PR 1 (000, "Stack shape").
+Both land on `docs/backport-roadmap-260902`, below this unit's roadmap commit,
+as the content half of PR 1 (000, "Stack shape").
 
 ## Verification
 

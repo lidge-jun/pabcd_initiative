@@ -163,16 +163,25 @@ verifies cross-references across everything the other phases landed.
 ## Stack shape
 
 Seven work-phases, but the dependency graph above says the stack cannot honestly
-be seven deep. Published shape — five layers, linear:
+be seven deep. Published shape — six layers, linear:
 
 ```
-feat/skills-remainder-harmonize   → PR 5 (base: PR 4 head)   060 + 070
-feat/skills-frontend-backport     → PR 4 (base: PR 3 head)   050
-feat/skills-devops-backport       → PR 3 (base: PR 2 head)   040
-feat/skills-verification-backport → PR 2 (base: PR 1 head)   030
-feat/skills-core-backport         → PR 1 (base: main)        010 + 020
+feat/skills-remainder-harmonize   → PR 6 (base: PR 5 head)   060 + 070
+feat/skills-frontend-backport     → PR 5 (base: PR 4 head)   050
+feat/skills-devops-backport       → PR 4 (base: PR 3 head)   040
+feat/skills-verification-backport → PR 3 (base: PR 2 head)   030
+feat/skills-core-backport         → PR 2 (base: PR 1 head)   020
+docs/backport-roadmap-260902      → PR 1 (base: main)        000 + 001 + 010
 ──────────────────────────────────  main
 ```
+
+PR 1 is the roadmap plus the in-tree capture, and it is a real review boundary
+rather than a formality: it is where the *convention* is agreed — additive-only,
+agent-neutral, `cli-jaw` as the source for frontend, the census script as the
+gate. Every layer above it is an application of that convention, so reviewing
+the convention after five layers of it have landed is the wrong order. It also
+means the bottom layer is reviewable and mergeable today, before the content
+work is drafted.
 
 Two decisions in that shape are worth naming, because both trade against a rule
 rather than following one:
