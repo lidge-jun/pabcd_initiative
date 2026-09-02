@@ -175,7 +175,7 @@ Principle: "flat until you can't" — start flat, sub-folder only when a folder 
 | Go files            | snake_case            | `stock_price.go`             |
 | Rust files          | snake_case            | `stock_price.rs`             |
 | devlog plan folders | `YYMMDD_slug/`        | `260510_phase_doc_naming/` |
-| devlog phase docs   | decade-prefixed `NN_slug.md`, `00_*` is the index | `00_plan.md`, `10_phase1_skill_contract.md` |
+| devlog phase docs   | decade-prefixed `NNN_slug.md`, `000_*` is the index | `000_plan.md`, `010_phase1_skill_contract.md` |
 | Functions (JS/TS)   | camelCase             | `getStockPrice()`            |
 | Functions (Python)  | snake_case            | `get_stock_price()`          |
 | Functions (Go)      | PascalCase (exported) | `GetStockPrice()`            |

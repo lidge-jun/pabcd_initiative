@@ -236,7 +236,7 @@ archives to `_fin/`, plus the mainstream design-doc/RFC translation table):
 
 **Difflevel roadmap plan (STRICT, DIFFLEVEL-ROADMAP-01):** for any multi-phase unit
 (2+ work-phases), the FIRST P — or the dedicated design-only Phase-0 pass (§5) —
-must deliver the entire roadmap concretized: `00_plan.md` (objective, constraints,
+must deliver the entire roadmap concretized: `000_plan.md` (objective, constraints,
 dependency-ordered work-phase map) PLUS every phase's decade doc written to full
 diff-level precision (exact paths, NEW/MODIFY/DELETE, before/after diffs) — each one
 a copy-paste-executable PRD, not an outline. Scaffolding empty decade files to "fill
@@ -257,29 +257,38 @@ audit.
 belongs to an implementation unit (`devlog/_plan/YYMMDD_slug/`). Ceremony scales
 with class (§9); residence does not. C0-C1 fast-path work skips the PABCD ceremony
 but MUST leave a numbered record doc in its owning unit — next free index in the
-matching decade, e.g. `40_hotfix_dropdown_crash.md` — stating what changed, why the
+matching decade, e.g. `040_hotfix_dropdown_crash.md` — stating what changed, why the
 fast path applied (class call), and the verification evidence. No owning unit →
 create a minimal unit folder holding only that record. Interview settles residence
 before P (§1).
 
-Devlog plan artifacts use decade-range numbering to separate concerns:
+Devlog plan artifacts use decade-range numbering to separate concerns. **Prefixes are
+three digits** (`000_`, `010_`, `020_`); do not mix two-digit and three-digit prefixes
+inside one repository.
 
 | Range | Purpose | Examples |
 |-------|---------|----------|
-| 00–09 | Research, specs, MOC | `00_plan.md`, `01_api-survey.md`, `02_competitor-analysis.md` |
-| 10–19 | Phase 1 | `10_phase1-auth-module.md`, `11_phase1-db-schema.md` |
-| 20–29 | Phase 2 | `20_phase2-frontend.md` |
-| 30–39 | Phase 3 | ... |
+| 000–009 | Research, specs, MOC | `000_plan.md`, `001_api-survey.md`, `002_competitor-analysis.md` |
+| 010–019 | Phase 1 | `010_phase1-auth-module.md`, `011_phase1-db-schema.md` |
+| 020–029 | Phase 2 | `020_phase2-frontend.md` |
+| 030–039 | Phase 3 | ... |
 
 Rules:
-- 00-range durable research is **mandatory for C4**, and for C3 only when state must persist
+- 000-range durable research is **mandatory for C4**, and for C3 only when state must persist
   across turns/agents, public contract or architecture decisions need durable audit, or the
   user/repo already uses devlog planning for that task; optional for C0-C2 and
   low-persistence C3 (a response-level plan is enough — but the work still leaves its
   numbered record in a unit, UNIT-RESIDENCE-01).
-- Default: sequential within decade (`00`, `01`, `02`...).
-- Overflow (>10 docs in a range): use sub-index (`00_0_name.md`, `00_1_name.md`).
+- Default: sequential within decade (`000`, `001`, `002`...).
+- Overflow (>10 docs in a range): use sub-index (`000_0_name.md`, `000_1_name.md`).
 - NEVER use bare filenames like `PLAN.md`, `DIFF_PLAN.md`, `PHASES.md`, `RCA.md`.
+
+Three digits rather than two because the range is what carries meaning, and two
+digits make the tens column do double duty: `10` reads as both "decade 1" and "tenth
+document". With three, `010` is unambiguously phase 1's first doc and `001` is
+research's first. Units already written with two-digit prefixes stay as they are —
+renaming historical documents breaks every inbound reference for no gain. The rule
+governs new units.
 
 #### §3.2 Plan-quality rules
 
