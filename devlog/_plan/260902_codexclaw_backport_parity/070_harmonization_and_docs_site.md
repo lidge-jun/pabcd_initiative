@@ -56,13 +56,19 @@ confirming the new content is actually in it rather than counting files.
 
 | Phase | Outcome |
 |---|---|
-| 010 in-tree design-evidence capture | DONE — 19 gap closures, 2 commits |
-| 020 core (`dev`, `dev-pabcd`) | DONE — 34 rules |
-| 030 verification family | DONE — 15 rules + 13 runtime references (1165 lines) |
-| 040 `dev-devops` | DONE — 17 rules + `branch-lifecycle.md` |
-| 050 frontend / UI-UX | DONE — 49 rules, `asset-requirements.md` rewritten 80 → 585 lines |
-| 060 remainder | DONE — 8 rules; `dev-architecture` reported **NOOP** (full parity, ahead on content) |
-| 070 this doc | DONE — divergence escalated, docs-site regenerated |
+| [010](./010_in_tree_design_evidence_port.md) in-tree design-evidence capture | DONE — 19 gap closures, 2 commits |
+| [020](./020_core_dev_and_pabcd.md) core (`dev`, `dev-pabcd`) | DONE — +34 rules (120 → 154) |
+| [030](./030_verification_family.md) verification family | DONE — +15 rules, 13 runtime references (1165 lines) |
+| [040](./040_devops.md) `dev-devops` | DONE — +17 rules, `branch-lifecycle.md` |
+| [050](./050_frontend_and_uiux.md) frontend / UI-UX | DONE — +42 rules, `asset-requirements.md` 80 → 585 lines |
+| [060](./060_remainder_and_noop.md) remainder | DONE — +13 rules (→ 241); `dev-architecture` **NOOP** with evidence |
+| 070 this doc | DONE — divergence escalated, docs-site regenerated, reverse census added |
+
+The per-phase counts above are measured against the branch heads with the census pattern,
+not summed from what the commit messages claimed. Two earlier figures in this table were
+wrong that way: 050 was listed as 49 rules and 060 as 8, when the real split is 42 and 13 —
+the same total, misattributed across the boundary because 060's commit sits on 050's
+branch.
 
 Terminal outcome for the skills half: **DONE.** Gap census 121 → **0**, 241 rule ids
 against codexclaw's 233 dev-family set, agent-neutrality scan clean by committed script,
@@ -137,3 +143,27 @@ Each was caught by widening the measurement rather than by rereading the reasoni
 is the practical lesson: when a drift claim rests on a comparison, check it against the
 tree — and check that the comparison answers the question being asked, because a
 well-formed measurement of the wrong quantity is the hardest kind to notice.
+
+## The unit was violating the rule it ported
+
+Until this commit, phases 020 through 060 existed only as one line each in the table above.
+There were no `020_`–`060_` documents. The work was real — the commits and PRs are there —
+but the *record* was a summary table, which is exactly what `UNIT-RESIDENCE-01` says is not
+enough:
+
+> C0-C1 fast-path work skips the PABCD ceremony but MUST leave a numbered record doc in its
+> owning unit — stating what changed, why the fast path applied, and the verification
+> evidence.
+
+This unit ported that rule, debated its scope at length in 002 and above, escalated a
+divergence about it — and did not follow it. Five phases of C2/C3 work left less residence
+than the rule demands of a one-line hotfix.
+
+Writing the five documents afterwards also surfaced the misattribution noted under the
+table: 050 and 060's rule counts had been swapped across a branch boundary, which nobody
+would have caught from a summary line. The record is not bookkeeping; producing it is what
+forces the numbers to be recomputed.
+
+The generalizable failure: **a summary table reads like a record and is not one.** It
+asserts each phase's outcome without carrying the evidence for it, and the assertions
+survive being wrong because there is nothing next to them to disagree with.
