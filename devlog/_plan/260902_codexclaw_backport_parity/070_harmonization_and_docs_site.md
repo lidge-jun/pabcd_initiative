@@ -144,6 +144,47 @@ is the practical lesson: when a drift claim rests on a comparison, check it agai
 tree — and check that the comparison answers the question being asked, because a
 well-formed measurement of the wrong quantity is the hardest kind to notice.
 
+## (b) rested on a gate that never looked for its main token
+
+Every neutrality claim in this unit came from one scan, and the scan was never tested. It
+is now, and it had a hole where its most important token should have been.
+
+The token list contained `\.codexclaw` — with a leading dot. Bare `codexclaw` was not in it
+at all. So:
+
+| Injected line | Old gate |
+|---|---|
+| `Run cxc orchestrate P` | caught |
+| `Run codexclaw orchestrate P` | **passed** |
+| `See plugins/codexclaw/skills/dev` | **passed** |
+| `Claude Code loads this automatically` | **passed** |
+| `Config lives in ~/.claude/skills/` | **passed** |
+| `The .cursor/rules directory holds these` | **passed** |
+
+The script's own comment says attribution is "allowed and deliberately not matched". That
+was not what was happening. It was not permitting provenance by design — it never looked at
+the token, so provenance and vocabulary adoption were equally invisible. A comment can
+describe a policy the code does not implement, and this one did for the whole unit.
+
+**Nothing had actually leaked.** All 20 `codexclaw` occurrences in `skills/` are attribution
+(`via codexclaw`, `codexclaw devlog`, `Lineage:`, `Source:`, `Genealogy:`) or content in the
+two cross-harness comparison files whose subject *is* which runtime shipped what. The
+`Claude Code` hit is a factual note about an external tool inside the already-exempt
+comparison file. So (b) held — but by luck, not by the gate.
+
+The gate now matches bare `codexclaw`, the host product names, and the on-disk agent paths,
+then **subtracts attribution forms afterwards**, so the two cases are distinguished instead
+of both being unseen. Attribution is matched on semantics — provenance, recorded, lineage,
+source — rather than by allowing `codexclaw` near anything: widening to a bare trailing
+`codexclaw` would have let `run codexclaw …` through at a line break, which is the exact
+case the gate exists for.
+
+`debugging-modularization.md` joins `repo-map-capability.md` as an exempt comparison file,
+on the grounds it states in its own first line.
+
+Proven non-vacuous, both directions: five vocabulary forms fail, four attribution forms
+pass, and a neutral sentence matches nothing.
+
 ## The unit was violating the rule it ported
 
 Until this commit, phases 020 through 060 existed only as one line each in the table above.

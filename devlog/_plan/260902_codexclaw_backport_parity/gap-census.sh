@@ -131,11 +131,20 @@ echo "== agent-neutrality scan =="
 # files and were only caught later by a wider sweep. A gate you retype per commit
 # checks what you remembered that day; this one is the same every time.
 #
-# Attribution is allowed and deliberately not matched: "via codexclaw", "the codexclaw
-# devlog", and a cross-runtime comparison row naming several runtimes are provenance,
-# not vocabulary. Provenance a reader cannot verify is still better than a claim with
-# no source.
-NEUTRALITY_TOKENS='\bcxc [a-z]|\bcxc-[a-z]|\.codexclaw|SubagentStop|UserPromptSubmit|PreToolUse|PLUGIN_ROOT|LOOP_ARM|spawn_agent|wait_agent|followup_task|send_input|close_agent|resume_agent|interrupt_agent|tool_search|update_plan|request_user_input|agent_type|create_goal|browser:control|chrome:control|computer-use:|agbrowse|\bima2\b|clawhub|hermes|Codexclaw-First|E1-E8|testReceiptPath|auditVerdict|auditResidual|coerceAttest'
+# Attribution is allowed: "via codexclaw", "the codexclaw devlog", a Lineage/Source line,
+# and a cross-runtime comparison row naming several runtimes are provenance, not
+# vocabulary. Provenance a reader cannot verify is still better than a claim with no source.
+#
+# That allowance is now IMPLEMENTED rather than assumed. It used to be a comment sitting
+# above a token list that did not contain `codexclaw` at all -- only `.codexclaw`, with a
+# leading dot -- so the gate was not permitting attribution by design, it simply never
+# looked. `run codexclaw orchestrate P`, which is vocabulary adoption and not provenance,
+# passed. Bare `codexclaw` is matched now, and the attribution forms are subtracted
+# afterwards, so the two cases are distinguished instead of both being invisible.
+#
+# Host product names and on-disk agent paths are matched for the same reason: an
+# agent-neutral publication should not tell a reader which harness's directory to look in.
+NEUTRALITY_TOKENS='\bcxc [a-z]|\bcxc-[a-z]|\bcodexclaw\b|Claude Code|Codex CLI|~/\.claude|~/\.codex|\.cursor/|\.agents/skills|SubagentStop|UserPromptSubmit|PreToolUse|PLUGIN_ROOT|LOOP_ARM|spawn_agent|wait_agent|followup_task|send_input|close_agent|resume_agent|interrupt_agent|tool_search|update_plan|request_user_input|agent_type|create_goal|browser:control|chrome:control|computer-use:|agbrowse|\bima2\b|clawhub|hermes|Codexclaw-First|E1-E8|testReceiptPath|auditVerdict|auditResidual|coerceAttest'
 # references/repo-map-capability.md is exempt by design. Its whole purpose is a
 # cross-harness comparison of how each downstream runtime ships the same capability, so
 # it names codexclaw's `cxc-repo-map`, cli-jaw's `repo-map`, and jawcode's search table
@@ -143,8 +152,19 @@ NEUTRALITY_TOKENS='\bcxc [a-z]|\bcxc-[a-z]|\.codexclaw|SubagentStop|UserPromptSu
 # vocabulary -- stripping those names would leave a comparison table with nothing to
 # compare. Scoped to that one file rather than to the token, so a `cxc-` reference
 # anywhere else still fails.
+# Attribution forms, subtracted after matching so provenance survives and vocabulary does
+# not. `debugging-modularization.md` is exempt on the same grounds as
+# repo-map-capability.md: it is a cross-harness comparison table whose subject IS which
+# runtime shipped what, and it says so in its own first line.
+# Matched on attribution SEMANTICS -- provenance/recorded/lineage/source -- rather than by
+# allowing `codexclaw` near anything. The last two forms exist because rg matches per line
+# and the phrase "recorded in the codexclaw / devlog unit" wraps, so a single-line
+# `codexclaw devlog` pattern misses it. Widening to a bare trailing `codexclaw` would have
+# let `run codexclaw ...` through at a line break, which is the case this gate exists for.
+ATTRIBUTION='via codexclaw|codexclaw devlog|codexclaw lineage|the codexclaw harness|^\s*(Lineage|Source|Genealogy):|codexclaw `devlog|from the codexclaw|provenance is recorded in the codexclaw|[Pp]rovenance.*codexclaw'
 hits=$(rg -n "$NEUTRALITY_TOKENS" "$PI" 2>/dev/null \
-  | rg -v 'cxc map|via codexclaw' \
+  | rg -v "$ATTRIBUTION" \
+  | rg -v 'cxc map|debugging-modularization\.md' \
   | rg -v 'repo-map-capability\.md' || true)
 if [ -z "$hits" ]; then
   echo "clean: no host-specific vocabulary in pabcd_initiative/skills"
