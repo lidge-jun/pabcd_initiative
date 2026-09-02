@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -140,6 +141,8 @@
 
 <h2 id="references">Reference Documents</h2>
 <table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-logging.html">Logging discipline — CLI, scripts, libraries</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-stacked-prs.html">Stacked Pull Requests (canonical — `DEV-STACK-*`)</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-static-analysis-gate.html">Static Analysis Gate — Toolchain Commands &amp; Rule Mapping</a></td><td>린터/타입체커/시큐리티 스캔 게이트 규칙과 CI 통합 패턴</td></tr>
 </tbody></table>
 <h2 id="sections">Sections Overview</h2>
@@ -167,6 +170,12 @@
 <details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-common-development-guidelines">Dev — Common Development Guidelines</h2>
 <p>Rules applied to every sub-agent, regardless of role.</p>
+<p>&gt; <strong>Role boundary (canonical):</strong></p>
+<p>&gt; <code>dev</code> owns universal process, evidence, and safety rules. <code>dev-uiux-design</code> owns</p>
+<p>&gt; design intent, direction, and concept judgment. <code>dev-frontend</code> owns concrete frontend</p>
+<p>&gt; implementation and rendered tell enforcement. Anti-slop has three layers: <code>dev</code> =</p>
+<p>&gt; output/process hygiene, <code>dev-uiux-design</code> = concept/taste judgment,</p>
+<p>&gt; <code>dev-frontend</code> = rendered implementation tell detection and removal.</p>
 <h3 id="0-0-work-classifier-c0-c5">§0.0 Work Classifier (C0-C5)</h3>
 <p><strong>Classify every task before choosing process depth</strong> (DEV-CLASS-01). The class selects planning, reading, and verification depth — never apply maximum process by default.</p>
 <table class="rules">
@@ -238,6 +247,9 @@
 <tr><td><code>ml</code> / <code>ai</code> / <code>llm</code> / <code>rag</code></td><td>dev-backend + dev-data + dev-testing (+dev-devops)</td><td>ML serving, RAG, pipeline, evaluation</td></tr>
 <tr><td><code>frontend_ui</code></td><td>dev-frontend + dev-uiux-design</td><td>UI/design intent or runnable prototype variant work</td></tr>
 <tr><td><code>crud_fullstack</code></td><td>dev-backend, dev-frontend, dev-testing</td><td>Boss/direct planning signal only — when delegating, prefer split roles</td></tr>
+<table class="rules">
+<tr><td><code>logging</code> (CLI / scripts / libraries)</td><td>dev <code>references/logging.md</code></td><td>What to emit and where; service instrumentation stays with dev-backend</td></tr>
+<tr><td>stacked pull requests (<code>DEV-STACK-*</code>)</td><td>dev <code>references/stacked-prs.md</code></td><td>When to stack, cascade discipline, layer shape, review scope, bottom-up merge safety</td></tr>
 </tbody></table>
 <p>Tags are normalized <code>task_tags</code>, <strong>not</strong> employee <code>role</code> values; the execution role stays</p>
 <p><code>frontend|backend|data|docs</code> (PROMPT-ROUTING-01).</p>
@@ -306,11 +318,27 @@
 <tr><td>Debugging methodology</td><td>dev-debugging</td><td>dev-code-reviewer</td></tr>
 <tr><td>Data pipeline patterns</td><td>dev-data</td><td>dev-backend</td></tr>
 <tr><td>Design intent discovery</td><td>dev-uiux-design</td><td>dev-frontend</td></tr>
-<tr><td>Project scaffolding / docs</td><td>dev-scaffolding</td><td>dev-pabcd</td></tr>
+<tr><td>Design judgment</td><td>dev-uiux-design</td><td>dev-frontend</td></tr>
 <table class="rules">
+<tr><td>Frontend implementation</td><td>dev-frontend</td><td>dev-uiux-design</td></tr>
+<tr><td>Project scaffolding / docs</td><td>dev-scaffolding</td><td>dev-pabcd</td></tr>
 <tr><td>Orchestration workflow</td><td>dev-pabcd</td><td>—</td></tr>
+<tr><td>Operational gates</td><td>dev-devops</td><td>dev-backend, dev-scaffolding</td></tr>
+<tr><td>Stacked pull requests (DEV-STACK-*)</td><td>dev refs/stacked-prs.md</td><td>dev-pabcd, dev-code-reviewer, dev-devops</td></tr>
+<tr><td>Flaky tests / CI re-run (TEST-FLAKE-*)</td><td>dev-testing refs/ci-pipeline.md §5</td><td>dev-debugging, dev-devops refs/ci-cd-deploy.md §6</td></tr>
+<table class="rules">
+<tr><td>Browse / QA tool routing</td><td>dev-testing (QA ladder), the active search skill (search ladder)</td><td>dev (routing summary)</td></tr>
+<tr><td>Manual surface QA / evidence matrix</td><td>the host&#x27;s QA capability</td><td>dev-testing (tool routing stays there)</td></tr>
+<tr><td>Anti-slop output</td><td>dev §Family Invariants</td><td>all dev-*</td></tr>
+<tr><td>file:line evidence</td><td>dev §Family Invariants</td><td>all dev-*</td></tr>
+<tr><td>Completion proof</td><td>dev §Family Invariants</td><td>dev-pabcd, all dev-*</td></tr>
 </tbody></table>
 <p>When updating a rule, update the canonical owner first, then verify stubs still point correctly.</p>
+<p><strong>Keep this table current when you add a rule area.</strong> A rule whose area is not listed here</p>
+<p>has no recorded owner, which is how the same guidance ends up written twice in two skills at</p>
+<p>two different thresholds — and a reader who finds the looser copy first can satisfy it and</p>
+<p>stop. The rows for stacked PRs, the flake policy, and browse/QA routing were added after</p>
+<p>their rules had already shipped, which is exactly the window where that happens.</p>
 <p><strong>When your task spans multiple domains</strong>, read each relevant skill file before starting.</p>
 <p>---</p>
 <h3 id="family-invariants-apply-to-every-dev-skill">Family Invariants (apply to every <code>dev-*</code> skill)</h3>
@@ -329,6 +357,35 @@
 <p>For current versions, release notes, CVEs, package/source checks, or provider behavior,</p>
 <p>read the active <code>search</code> skill and follow its query-rewrite, source-fetch, and</p>
 <p>evidence-status rules. Sub-agents are bound by this policy too — include it in dispatch prompts.</p>
+<h4 id="recall-lookup-scope-dev-recall-01-must">Recall lookup scope (DEV-RECALL-01, MUST)</h4>
+<p>When a prior term, file, or decision is unfamiliar — or context was lost to a</p>
+<p>compaction — search the durable record <strong>before</strong> asking the user: the</p>
+<p>conversation history and whatever memory store the runtime keeps. If both miss,</p>
+<p>then ask, and say what you searched for. Reporting the search terms is the part</p>
+<p>that matters: it lets the user correct the vocabulary instead of re-explaining</p>
+<p>something already on disk under a name you did not try.</p>
+<p>If the runtime has neither surface, say so once rather than silently skipping the</p>
+<p>step — &quot;I cannot search prior sessions here&quot; is information; asking as though no</p>
+<p>record could exist is not.</p>
+<h4 id="browse-and-qa-tool-routing-dev-browse-native-01-strict">Browse and QA tool routing (DEV-BROWSE-NATIVE-01, STRICT)</h4>
+<p>For ad-hoc browsing and exploratory QA — opening a page, checking a URL,</p>
+<p>eyeballing a screen, taking a screenshot — **do not install a browser-automation</p>
+<p>framework or driver.** Use the runtime&#x27;s own browser capability first. A</p>
+<p>deliberate end-to-end test suite is a different task and belongs to</p>
+<p><code>dev-testing</code>; this rule does not touch it.</p>
+<p>Two ladders exist and their orders are deliberately <strong>opposite</strong>. Start at 1 and</p>
+<p>say why when you skip a rung. What is portable here is the ordering principle, not</p>
+<p>any specific tool name — bind each rung to whatever your runtime actually has.</p>
+<table class="rules">
+<thead><tr><th>Context</th><th>Ladder</th><th>Order</th><th>Owner</th></tr></thead><tbody>
+<tr><td>Public-web proof (search, research, URL verification)</td><td><code>SEARCH-BROWSE-01</code></td><td>1. scripted HTTP/protocol fetch → 2. embedded browser → 3. full real-profile browser → 4. screen-level control</td><td>the active <code>search</code> skill</td></tr>
+<tr><td>QA of a surface you just built or served</td><td><code>QA-TOOL-LADDER-01</code></td><td>1. embedded browser → 2. full real-profile browser → 3. screen-level control → 4. scripted fetch (public-URL shape checks only)</td><td><code>dev-testing</code></td></tr>
+</tbody></table>
+<p>The inversion is the content of the rule, not an inconsistency. Proving a public</p>
+<p>claim wants the cheapest faithful read of what a server returns, so scripted fetch</p>
+<p>leads. QA of your own surface needs the thing to actually render and respond to</p>
+<p>input, so a real browser context leads and scripted fetch drops to last, where it</p>
+<p>can only confirm shape.</p>
 <p>---</p>
 <h3 id="0-intent-clarification">0. Intent Clarification</h3>
 <p>When a request has <strong>ambiguous scope or unspecified technology</strong>, clarify before coding;</p>
@@ -424,6 +481,16 @@
 <p>but might work&quot; · proposing solutions before investigating · &quot;one more attempt&quot; after</p>
 <p>2+ failures. <strong>3+ failed fixes = architectural problem</strong>: pause, question the pattern</p>
 <p>itself, and discuss with the user before further fixes.</p>
+<p><strong>Repeated-friction rule (DEV-FRICTION-01, DEFAULT).</strong> When the same command class</p>
+<p>fails twice with the same normalized error, do not retry a third time unchanged:</p>
+<p>switch approach — a different tool, different flags, or root-cause the</p>
+<p>environment. Repeated identical failures are friction evidence, not bad luck.</p>
+<p><strong>Repeated-edit-shape rule (DEV-EDIT-SHAPE-01, DEFAULT).</strong> Three same-shaped edits</p>
+<p>in a row (the same structural transform applied at different sites) mean you are</p>
+<p>hand-running a codemod: stop and switch to an AST-based rewrite tool or a scripted</p>
+<p>transform, so the remaining sites are transformed deterministically. The third</p>
+<p>identical edit is the signal — by then the transform is known, and continuing by</p>
+<p>hand is where the divergent site gets missed.</p>
 <p>---</p>
 <h3 id="3-verification-before-completion-strict">3. Verification Before Completion (STRICT)</h3>
 <p>Verify every completion claim with evidence. Run the relevant command fresh, read full output, and confirm the claim matches.</p>
@@ -468,6 +535,34 @@
 <li><strong>Handle all async errors explicitly</strong> — surface failures at a clear boundary. In JS/TS backend code, the Result pattern (<code>neverthrow</code>) may replace per-call <code>try/catch</code> when failures are surfaced at a verified boundary (see <code>dev-backend/SKILL.md</code> §3). In other cases, use <code>try/catch</code> and log with context (<code>console.error(&#x27;[module]&#x27;, error.message)</code>).</li>
 <li><strong>Confirm before destructive operations (ESCALATE)</strong> — deleting files, dropping tables, resetting state, or clearing caches require explicit user approval.</li>
 </ul>
+<h4 id="git-discipline">Git discipline</h4>
+<ul>
+<li><strong>Commit incrementally (DEV-GIT-COMMIT-01, DEFAULT)</strong> — commit working progress</li>
+</ul>
+<p>as you go during implementation. Each logically complete step (passing test,</p>
+<p>wired feature, fixed bug) gets its own commit so that progress is checkpointed</p>
+<p>on disk and recoverable after compaction or failure. Do not accumulate an entire</p>
+<p>feature as uncommitted changes. This matters most in multi-cycle work, where the</p>
+<p>transcript is not durable: committed work survives a context flush, uncommitted</p>
+<p>work does not.</p>
+<ul>
+<li><strong>Push requires explicit user approval (DEV-GIT-PUSH-01, ESCALATE)</strong> — never</li>
+</ul>
+<p>push to a remote without the user&#x27;s explicit approval in the current session.</p>
+<p>Committing locally is autonomous; pushing is an external state change the user</p>
+<p>must authorize. This holds even at completion, and it covers force-push, remote</p>
+<p>branch creation, and tag push. Approval for a named scope (&quot;push when done&quot;) is</p>
+<p>approval for that scope only.</p>
+<ul>
+<li><strong>Stack dependent work instead of one oversized PR (DEV-STACK-01, DEFAULT)</strong> —</li>
+</ul>
+<p>when a change splits into 2+ dependency-ordered parts and one PR would be too</p>
+<p>large to review, publish a bottom-up stack: each branch based on the one below,</p>
+<p>each PR&#x27;s base pointing at its parent. Editing a lower layer means cascading the</p>
+<p>rebase to every layer above before pushing (<code>DEV-STACK-02</code>, STRICT). Merging a</p>
+<p>stack is bottom-up and stays user-authorized (<code>DEV-STACK-04</code>, ESCALATE).</p>
+<p>Canonical rules, depth guidance, anti-patterns, review scope, and tooling:</p>
+<p><code>references/stacked-prs.md</code>.</p>
 <p>---</p>
 <h3 id="6-code-quality-signals-stub">6. Code Quality Signals (stub)</h3>
 <p>Anti-pattern detection (god class, long method, deep nesting, magic numbers, stringly</p>
@@ -507,6 +602,41 @@
 <p><strong>Sub-agents:</strong> each receives its own copy of injected skills — inject only what</p>
 <p>that sub-task needs.</p>
 <p>---</p>
+<h3 id="9-sub-agent-skill-injection-dev-skill-inject-01-default">9. Sub-Agent Skill Injection (DEV-SKILL-INJECT-01, DEFAULT)</h3>
+<p>Name <code>dev</code> and every relevant surface skill <strong>explicitly</strong> in the dispatch packet</p>
+<p>for any governed sub-agent. A sub-agent gets its own skill context; it does not</p>
+<p>inherit yours, and nothing infers a skill you left out. An omitted router produces</p>
+<p>an ungoverned lane, not a lighter one.</p>
+<ul>
+<li>Prefer whatever resolvable skill reference the runtime supports — a path, a link,</li>
+</ul>
+<p>a registry id. When none resolves, inline the router body into the packet rather</p>
+<p>than naming a skill the child cannot load. A name the child cannot resolve is</p>
+<p>worse than no name: it reads as governed and behaves as ungoverned.</p>
+<ul>
+<li>The external-evidence policy binds delegated agents too — restate it in the</li>
+</ul>
+<p>dispatch prompt.</p>
+<ul>
+<li>Surface-to-owner mappings are canonical in the <strong>Skill Ownership Map</strong> above.</li>
+</ul>
+<h3 id="10-skill-discovery-dev-skill-discovery-01-default">10. Skill Discovery (DEV-SKILL-DISCOVERY-01, DEFAULT)</h3>
+<p>For a capability none of the loaded skills covers, check what the runtime&#x27;s skill</p>
+<p>registry already offers before improvising a procedure or adding tooling. Load only</p>
+<p>the result you need — a speculative load costs the same tokens as a used one.</p>
+<p>Two invariants hold regardless of where a discovered skill came from:</p>
+<ul>
+<li><strong><code>dev</code> keeps authority.</strong> A loaded third-party skill supplies domain procedure; it</li>
+</ul>
+<p>does not override §0.2 rule classes, the §3 verification gate, or §5 safety rules.</p>
+<ul>
+<li><strong>The family wins name conflicts.</strong> When a discovered skill shares a rule area with</li>
+</ul>
+<p>a <code>dev-*</code> skill, the Skill Ownership Map names the canonical owner and the</p>
+<p>discovered skill is the stub.</p>
+<p>If the runtime exposes no discovery surface, say so rather than inventing a skill</p>
+<p>name — this rule governs how a discovered skill is treated, not whether discovery</p>
+<p>exists.</p>
 </details>
   </div>
 </section>

@@ -115,7 +115,7 @@ For multi-variant support, prefer SVGL or theSVG which ship separate light/dark 
 
 Assets harvested from other sites (HTML, CSS, imagery, fonts) via
 `reference-capture.md` are ANALYSIS-ONLY: they ground structure analysis and
-ima2 mockup references, and they never ship. Webfont binaries are never copied
+concept mockup references, and they never ship. Webfont binaries are never copied
 (license-restricted by default). Shippable brand assets come only from the
 channels in this file (press kits, Simple Icons/SVGL, licensed libraries), and
 nominative fair use covers shipped integration logos only. Every capture needs

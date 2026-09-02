@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stacked Pull Requests (canonical — `DEV-STACK-*`) — PABCD Initiative</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/pabcd_initiative" target="_blank" rel="noopener" title="pabcd_initiative">pabcd_initiative</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/codexclaw" target="_blank" rel="noopener" title="codexclaw">codexclaw</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/cli-jaw" target="_blank" rel="noopener" title="cli-jaw">cli-jaw</a></span>
+  <span class="right"><a href="https://github.com/lidge-jun" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+<li><a href="../../pages/analysis.html" class="">Meta Analysis</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Stacked Pull Requests (canonical — `DEV-STACK-*`)</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev/references/stacked-prs.md" target="_blank" rel="noopener">dev/references/stacked-prs.md</a></p>
+<h2 id="stacked-pull-requests-canonical-dev-stack">Stacked Pull Requests (canonical — <code>DEV-STACK-*</code>)</h2>
+<p>Canonical owner: <code>dev</code>. Other skills carry pointer stubs only. Rules here are</p>
+<p>tool-agnostic: the portable model first, CLI recipes second.</p>
+<h3 id="the-model">The model</h3>
+<p>A <strong>stack</strong> is an ordered chain of branches. The <strong>bottom</strong> branch is based on</p>
+<p>trunk (usually <code>main</code>); every branch above is based on the branch below it. Each</p>
+<p>branch gets its own PR whose base is the branch below, so each PR&#x27;s diff shows</p>
+<p>only that layer.</p>
+<pre><code>feature/ui        → PR #3 (base: feature/api)     ← top
+feature/api       → PR #2 (base: feature/schema)
+feature/schema    → PR #1 (base: main)            ← bottom
+──────────────────  main (trunk)</code></pre>
+<p>Four invariants hold across every stacking tool (GitHub <code>gh stack</code>, Graphite, Git</p>
+<p>Town, plain git). Learn these, not a vendor&#x27;s flags:</p>
+<ol>
+<li><strong>The base ref is the dependency edge.</strong> The chain is your phase map, made</li>
+</ol>
+<p>reviewable.</p>
+<ol>
+<li><strong>Editing a lower layer invalidates every layer above it</strong> — always cascade.</li>
+<li><strong>Merging is bottom-up.</strong> Out-of-order merges are the pathological case.</li>
+<li><strong>Every layer must stand alone for review</strong>: own thesis, own build, own tests.</li>
+</ol>
+<h3 id="dev-stack-01-when-to-stack-default">DEV-STACK-01 — When to stack (DEFAULT)</h3>
+<p>Stack when <strong>all</strong> of these hold:</p>
+<ul>
+<li>the work splits into 2+ parts with a real dependency order (later parts consume</li>
+</ul>
+<p>earlier parts&#x27; output), and</p>
+<ul>
+<li>shipping it as one PR would produce a diff too large to review in one sitting —</li>
+</ul>
+<p>by your repository&#x27;s own review-size convention if it has one, otherwise</p>
+<p>reviewer judgment, and</p>
+<ul>
+<li>the lower parts are mergeable on their own — they do not need the upper parts to</li>
+</ul>
+<p>be correct or safe.</p>
+<p>PABCD produces stack-shaped work by construction: a <code>dev-pabcd</code> PHASE-SPLIT-01</p>
+<p>phase map is dependency-ordered (foundations → core → integration → hardening)</p>
+<p>and each phase must close with something independently verifiable. That map <strong>is</strong></p>
+<p>a stack plan; a LOOP-UNIT-CHAIN-01 chain of work-phases under one objective is</p>
+<p>the same shape across cycles.</p>
+<p>Do <strong>not</strong> stack when:</p>
+<ul>
+<li>the change is one cohesive thesis (splitting adds review and CI surface, buys</li>
+</ul>
+<p>nothing);</p>
+<ul>
+<li>the parts are independent — open parallel PRs off trunk instead, since a stack</li>
+</ul>
+<p>imposes a false merge order;</p>
+<ul>
+<li>the lower layer is speculative and likely to be rewritten (every rewrite</li>
+</ul>
+<p>re-cascades);</p>
+<ul>
+<li>you cannot name what each layer proves on its own (that is a slicing failure —</li>
+</ul>
+<p>fix the slice before opening anything).</p>
+<p><strong>Depth (HEURISTIC — practitioner guidance, not a measured limit).</strong> Aim for 2–4</p>
+<p>layers and think hard at 5. Community practice guides suggest each layer be</p>
+<p>reviewable in roughly 10–15 minutes and report stacks becoming unwieldy past about</p>
+<p>4–5 layers; treat that as experience, not a rule. What is certain: every layer is</p>
+<p>a separate fully gated PR with its own review and its own CI, and every layer</p>
+<p>above an edit has to be re-stacked by hand or by tool. If the map is longer, ship</p>
+<p>the bottom half, land it, then stack the rest.</p>
+<p><strong>Slice by dependency, never by effort.</strong> &quot;Quick wins first&quot; produces layers whose</p>
+<p>dependency runs opposite to the merge order, so the stack cannot land bottom-up.</p>
+<p>This is <code>dev-pabcd</code> PHASE-SPLIT-01 applied to branches.</p>
+<h3 id="dev-stack-02-cascading-edits-strict">DEV-STACK-02 — Cascading edits (STRICT)</h3>
+<p>When a lower layer changes, every layer above it is based on a commit that no</p>
+<p>longer exists. Re-push the cascade before asking for review:</p>
+<ul>
+<li>Plain git (no extension): <code>git rebase --update-refs</code> force-updates any branch</li>
+</ul>
+<p>pointing at a commit inside the rebased range. Branches checked out in another</p>
+<p>worktree are not updated. Enable by default with</p>
+<p><code>git config --global rebase.updateRefs true</code>; disable per-invocation with</p>
+<p><code>--no-update-refs</code>.</p>
+<ul>
+<li><code>gh stack rebase</code> fetches origin and cascades from trunk upward; if a layer&#x27;s PR</li>
+</ul>
+<p>has already merged it switches to <code>--onto</code> mode automatically. Conflicts pause</p>
+<p>the run; resume with <code>--continue</code>, unwind everything with <code>--abort</code>. Scope with</p>
+<p><code>--downstack</code> / <code>--upstack</code> / <code>--no-trunk</code>.</p>
+<ul>
+<li>Other tools (Graphite <code>gt restack</code> / <code>gt modify</code>, Git Town <code>git town sync</code>,</li>
+</ul>
+<p><code>spr diff</code>) express the same cascade — read their own docs before using their</p>
+<p>flags.</p>
+<p>After the cascade, publish with <code>git push --force-with-lease</code> (never bare</p>
+<p><code>--force</code>) and re-check each PR&#x27;s base ref. A rebase rewrites the reviewed</p>
+<p>commits, so depending on repository settings a force-push can invalidate existing</p>
+<p>review state and leave inline comments attached to commits that no longer exist.</p>
+<p>Assume review state is stale after a cascade: say what changed and re-request</p>
+<p>review rather than expecting prior approvals to carry.</p>
+<p><strong>Verification (STRICT):</strong> a cascade is not done because the command exited 0.</p>
+<p>Confirm each upper branch actually contains the new lower-layer commit</p>
+<p>(<code>git log --oneline &lt;lower&gt;..&lt;upper&gt;</code> shows only that layer&#x27;s commits) and that</p>
+<p>each PR&#x27;s base ref still names the branch below it.</p>
+<h3 id="dev-stack-03-layer-shape-default">DEV-STACK-03 — Layer shape (DEFAULT)</h3>
+<p>Each layer:</p>
+<ul>
+<li>has one thesis, stated in its PR title;</li>
+<li>builds and passes its own tests at its own tip — do not defer a layer&#x27;s tests</li>
+</ul>
+<p>upward;</p>
+<ul>
+<li>carries a stack map in its PR body so reviewers can navigate:</li>
+</ul>
+<pre><code>**Stack** (merge bottom-up):
+| # | PR | Layer | Review focus |
+|---|----|-------|--------------|
+| 3 | #103 | UI | integration only |
+| 2 | #102 | API | endpoint behavior |
+| 1 | #101 | schema ← you are here | migration + rollback |
+
+Depends on #101. Review this PR&#x27;s diff only.</code></pre>
+<p>Mid-stack layers are <strong>not</strong> lightly gated: on GitHub, branch protection such as</p>
+<p>CODEOWNERS approval is enforced on every PR in the stack — including mid-stack PRs</p>
+<p>that do not target the default branch — and CI configured for the default branch</p>
+<p>runs for all of them, not just the bottom. Budget for that: a 5-layer stack is 5</p>
+<p>fully gated PRs, not one.</p>
+<h3 id="dev-stack-05-reviewing-a-layer-default">DEV-STACK-05 — Reviewing a layer (DEFAULT)</h3>
+<p>When you are reviewing one layer of a stack:</p>
+<ul>
+<li><strong>Review this layer&#x27;s diff only.</strong> Its base is the branch below, so the diff is</li>
+</ul>
+<p>already scoped to the layer. Do not re-litigate a lower layer&#x27;s decisions here —</p>
+<p>comment on that layer&#x27;s own PR.</p>
+<ul>
+<li><strong>Judge the layer standalone</strong> (<code>DEV-STACK-03</code>). Does it build and pass its tests</li>
+</ul>
+<p>at its own tip? &quot;Tests come in the next PR&quot; is a blocking finding, not a</p>
+<p>courtesy.</p>
+<ul>
+<li><strong>Verify the base ref.</strong> A layer whose base points at trunk instead of its</li>
+</ul>
+<p>parent, or whose branch lacks the parent&#x27;s latest commits, is a stale cascade</p>
+<p>(<code>DEV-STACK-02</code>) — block until it is re-stacked.</p>
+<ul>
+<li><strong>Re-check your findings after a force-push.</strong> A cascade rewrites commits, so</li>
+</ul>
+<p>confirm earlier findings and approvals survived rather than assuming they</p>
+<p>carried.</p>
+<ul>
+<li><strong>Approving a layer is not approval to merge the stack.</strong> Merge order and</li>
+</ul>
+<p>authorization stay with <code>DEV-STACK-04</code>.</p>
+<h3 id="dev-stack-04-merging-and-safety-escalate">DEV-STACK-04 — Merging and safety (ESCALATE)</h3>
+<ul>
+<li><strong>Merge bottom-up.</strong> On GitHub, merging the top PR brings every PR below it;</li>
+</ul>
+<p>merging a mid-stack PR merges everything below it while the PRs above stay open</p>
+<p>and re-target the stack&#x27;s base automatically.</p>
+<ul>
+<li><strong>Merging stays user-authorized.</strong> <code>DEV-GIT-PUSH-01</code> already gates pushing;</li>
+</ul>
+<p>merging a stack is a strictly larger external state change. Never merge, never</p>
+<p>enable auto-merge, and never bypass a queue on the agent&#x27;s own initiative.</p>
+<ul>
+<li><strong>Never reorder or drop a layer that has already merged</strong> — reconstruct forward</li>
+</ul>
+<p>instead.</p>
+<ul>
+<li><strong>Squash caution.</strong> Squash merging collapses a PR&#x27;s commits into one and does not</li>
+</ul>
+<p>preserve the originals. GitHub&#x27;s own guidance is that squash merging works best</p>
+<p>for short-lived branches: if you keep working on the same head branch</p>
+<p>afterwards, later PRs can include commits already squashed into the base, making</p>
+<p>conflicts more likely and forcing you to resolve the same conflict more than</p>
+<p>once. In a stack, cascade immediately after any squash merge.</p>
+<ul>
+<li><strong>Required reviews interact with shared commits.</strong> Under required reviews,</li>
+</ul>
+<p>collaborators cannot merge a PR while other open PRs have a head branch pointing</p>
+<p>at the same commit with pending or rejected reviews — a shape stacks produce</p>
+<p>easily. Resolve those first.</p>
+<ul>
+<li>Merge requirements for every PR in a GitHub stack are determined by the</li>
+</ul>
+<p><strong>bottom</strong> PR&#x27;s base branch.</p>
+<h3 id="anti-patterns">Anti-patterns</h3>
+<table class="rules">
+<thead><tr><th>Anti-pattern</th><th>Why it bites</th></tr></thead><tbody>
+<tr><td>Deep stacks (practitioner guidance: past ~4–5 layers)</td><td>Every added layer is another gated PR to review and another branch to re-stack on each cascade; practitioners report navigation cost outweighing the benefit past that range (experience, not a measured limit — see Depth above)</td></tr>
+<tr><td>Effort-bucketed layers (&quot;quick wins first&quot;)</td><td>Produces layers whose dependency runs opposite to the merge order, so the stack cannot land bottom-up</td></tr>
+<tr><td>Mid-stack rewrites without a cascade</td><td>Upper branches keep a base that no longer exists; the PR diff shows unrelated commits</td></tr>
+<tr><td>Force-push without <code>--force-with-lease</code></td><td>Overwrites collaborator work, and may invalidate existing review state</td></tr>
+<tr><td>Assuming mid-stack PRs are lightly gated</td><td>CODEOWNERS and default-branch CI apply to every layer</td></tr>
+<table class="rules">
+<tr><td>Merging the top PR expecting only that layer</td><td>It brings every PR below it</td></tr>
+<tr><td>Stacking a single cohesive change</td><td>Every layer is a separately gated PR with its own review and CI, for no parallelism gain</td></tr>
+</tbody></table>
+<h3 id="tooling">Tooling</h3>
+<p>You do not need an extension: <code>gh pr create --base &lt;branch-below&gt;</code> expresses the</p>
+<p>chain and <code>git rebase --update-refs</code> maintains it. Pass <code>--base</code> explicitly for</p>
+<p>every layer: when it is omitted, <code>gh</code> uses the <code>branch.&lt;current&gt;.gh-merge-base</code></p>
+<p>config and, if that is unset, the repository&#x27;s default branch — so a layer can</p>
+<p>silently target trunk instead of its parent.</p>
+<p>GitHub&#x27;s first-party extension is <code>gh stack</code></p>
+<p>(<code>gh extension install github/gh-stack</code>, requires <code>gh</code> v2.0+). Core verbs:</p>
+<p><code>init</code>, <code>add</code>, <code>push</code>, <code>view</code>, <code>submit</code>, <code>rebase</code>, <code>modify</code>; <code>up</code>/<code>down</code> navigate</p>
+<p>(up = away from trunk). Stack metadata lives in <code>.git/gh-stack</code> (JSON,</p>
+<p>uncommitted) and it enables <code>git rerere</code> on init so conflict resolutions replay</p>
+<p>across cascades. It also ships an agent-facing skill:</p>
+<p><code>gh skill install github/gh-stack</code>.</p>
+<p>GitHub&#x27;s native stacked-PR feature was in <strong>public preview</strong> as of 2026-08-03 —</p>
+<p>verify current status before relying on preview-only behavior.</p>
+<p>Sources for the behavioral claims above, all opened 2026-08-03: <code>git rebase</code> docs</p>
+<p>(<code>--update-refs</code>), GitHub Docs &quot;About stacked pull requests&quot;, &quot;Pull request</p>
+<p>merges&quot;, and &quot;About protected branches&quot;, the <code>gh pr create</code> manual, and the</p>
+<p><code>github/gh-stack</code> README. Claim-by-claim provenance is recorded in the codexclaw</p>
+<p>devlog unit for stacked pull requests (2026-08-03).</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

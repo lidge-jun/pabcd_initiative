@@ -35,20 +35,40 @@ So `dev-architecture` is a `NOOP` for this unit — the first work-phase that ca
 honestly report one. Everything else is a **merge**, never a replace, and 060's
 audit has to read the target side first rather than assuming staleness.
 
-## An internal contradiction to fix while porting
+## A deliberate divergence, not a contradiction
 
 codexclaw *relaxed* `UNIT-RESIDENCE-01` after this repository forked from it:
 
 - codexclaw `dev/SKILL.md:48-50` — C0 patches (typo, config, one-line fix) are
   **exempt** from numbered implementation-unit records; C1 records in the owning
   unit **only when a unit already exists**.
-- this repository, `skills/dev/SKILL.md:49-51` — the numbered record doc is
+- this repository, `skills/dev/SKILL.md` — the numbered record doc is
   "**mandatory for ALL work**".
 
-The absolute form contradicts this repository's own `dev-pabcd:256-263`, which
-says ceremony scales with work class. That is not codexclaw drift to import or
-reject; it is a live inconsistency here, and 020 fixes it while touching the same
-lines.
+**Correction.** The first version of this section called the absolute form an
+internal contradiction, on the grounds that `dev-pabcd` says ceremony scales with
+work class. Reading `dev-pabcd`'s actual `UNIT-RESIDENCE-01` statement settles it
+the other way:
+
+> Ceremony scales with class (§9); **residence does not.** C0-C1 fast-path work
+> skips the PABCD ceremony but MUST leave a numbered record doc in its owning
+> unit.
+
+So the two documents **agree**, and they agree on purpose: the sentence
+distinguishes the thing that scales from the thing that does not, which is
+exactly the distinction an "internal contradiction" reading collapses. This
+repository is internally consistent.
+
+What actually exists is a divergence between this repository and codexclaw, and
+it is one this repository states with a reason rather than by omission. Porting
+codexclaw's relaxation would therefore *weaken* a deliberate position — a
+semantic decision, not a fix. It goes to the user, not into a commit. Recorded as
+`NEEDS_HUMAN` in 070 and left unported.
+
+That makes three corrections in this unit, all from the same habit: reading two
+documents against each other and concluding, instead of reading the load-bearing
+sentence in full. The `DIVERGE-TIER-01` scoping error (001) and the two-digit
+sampling error (above) had the same shape.
 
 ## The reference-file payload is where the volume actually is
 
@@ -81,15 +101,33 @@ document prefixes (`000_`, `010_`) as STRICT, `cli-jaw`'s
 `10_phase1-auth-module.md`), and therefore "a port that carries codexclaw's
 numbering would make every existing cli-jaw devlog document a STRICT violation."
 
-Measured instead of assumed: **all 18 unit directories under `cli-jaw`'s
-`devlog/_plan/` use 3-digit prefixes, and not one file uses 2-digit.** The
-convention the skill documents is used by nothing.
+Measured instead of assumed: `cli-jaw`'s `devlog/_plan/` holds **492 three-digit
+documents against 107 two-digit ones**, and the two-digit files are concentrated
+in units from 2026-06 (`260610_*`, `260618_*`, `260621_*`) while every unit from
+2026-08 onward is three-digit. The repository migrated; the rule text did not
+follow.
 
 The finding inverts. `cli-jaw`'s skill text is stale relative to `cli-jaw`'s own
-practice, and it is the *current* text that makes every existing document a
-violation. Porting codexclaw's 3-digit rule repairs the skill instead of breaking
-the repository. This is the difference between reading two documents and reading
-a document against the tree, and it is why a drift claim needs the tree.
+practice, so porting codexclaw's 3-digit rule repairs the skill instead of
+breaking the repository. This is the difference between reading two documents and
+reading a document against the tree, and it is why a drift claim needs the tree.
+
+**Correction, recorded rather than quietly fixed.** The first version of this
+section said "all 18 unit directories use 3-digit prefixes, and not one file uses
+2-digit", and that claim reached a commit message and two pull-request bodies
+before it was rechecked. It came from a loop that listed unit directories and then
+sampled only the most recent fifteen — every one of which is three-digit — and
+generalized. The 107 two-digit files are real and sit in the units that loop never
+looked at.
+
+The conclusion survives and is better supported by the true numbers than by the
+false ones: 492-to-107 with a clean date boundary is a migration, which is a
+stronger argument for adopting three digits than "nothing uses two" would have
+been. What does not survive is the absolute form, and the reason it slipped is
+worth keeping: a per-directory loop that samples is not a census, and this is the
+second time in this unit that shape produced a wrong claim (the first was the
+`DIVERGE-TIER-01` scoping error in 001). Both times the fix was to widen the
+measurement rather than to trust the pattern.
 
 ## Recorded decisions
 

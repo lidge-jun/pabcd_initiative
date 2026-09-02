@@ -73,6 +73,11 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 | `references/stacks/astro.md`              | Astro projects                       | Islands architecture, multi-framework shell, content collections, SSG/SSR/hybrid   |
 
 Start with `anti-slop.md`, `aesthetics.md`, `responsive-viewport.md`, and `visual-verification.md`. Add domain/locale/stack references only when relevant.
+
+**Do not ship AI-default tells (FE-AI-TELL-01, DEFAULT).** The complete tell catalogs
+live in `references/core/anti-slop.md` and `references/core/layout-discipline.md`, and
+they are enforceable lists rather than inspiration — a surface that matches them reads
+as generated regardless of how deliberate each individual choice was.
 For C2 ordinary app screens (form/table/list/detail), `crud-ui.md` alone suffices; add the style references above for marketing/visual surfaces or C3+ work.
 Award-derived exceptions in these references are calibrated design evidence, not blanket permission to bypass the existing domain, accessibility, performance, or anti-slop gates.
 
@@ -233,6 +238,32 @@ Read `references/core/anti-slop.md` for full rules. Key standards:
 - Treat Korean orphan fragments ("합니다.", "화.", "입니다." alone on a line) as a slop signal — always verify Korean text breaks at target viewports
 - Treat generic stroke icons as brand logo substitutes as a slop signal — use actual brand SVGs from Simple Icons, SVGL, or press kits. See `brand-asset-sourcing.md`
 
+### Icon Implementation (FE-ICON-01, DEFAULT)
+
+- **Library route:** pick one library from the Design Read and confirm the exact package
+  and its license before installing. `@phosphor-icons/react` is a reasonable default;
+  `iconoir-react`, `@untitledui/icons`, `@hugeicons/react`, and `lucide-react` are for
+  when the read actually selects that family.
+- **Custom route:** generate the approved artwork with whatever image generation you
+  have, trace it to vector (`vtracer`), optimize the SVG (`svgo`), then convert to a
+  component (`svgr`) if the framework needs one. Preserve an editable source asset, and
+  inspect **both** the SVG and the rendered component before shipping — an SVG that
+  looks right in isolation can still render wrong at icon sizes.
+- **Layer consistency:** one library per icon layer. Do not mix one family's navigation
+  icons with another's content icons. A separate custom or premium domain layer is
+  allowed only when it is deliberately art-directed *as* a layer.
+- **Weight semantics:** `regular` is the default state, `fill` indicates selected or
+  active, and `duotone` is reserved for empty states or illustrative emphasis. Keep
+  size, optical weight, color behavior, and accessible labels consistent across the
+  layer.
+
+### Cutout Asset Generation (FE-ASSET-BG-01, STRICT)
+
+Every cutout asset MUST follow `references/core/asset-requirements.md` § Asset
+Background Strategy. Read that section before generating one; a cutout produced without
+its background strategy is the asset most likely to ship with a visible matte edge or a
+background that fights the surface it lands on.
+
 ---
 
 ## 6. Performance Guardrails
@@ -255,6 +286,21 @@ Read `references/core/anti-slop.md` for full rules. Key standards:
 - Skip link; focus never hidden by sticky headers/bars/sheets/overlays
 - Icon-only buttons need accessible names; charts/status/loading/AI-streaming states need labels or live regions
 - Do not encode meaning by color alone
+
+### A11y polish (FE-A11Y-POLISH-01, DEFAULT)
+
+The checks below are the ones a functional a11y pass passes and a careful reviewer
+still fails:
+
+- CTA text fits on one line at target breakpoints; if it wraps, shorten the label or
+  change the layout.
+- Inputs need visible boundaries against their background in default, focus, error,
+  and disabled states.
+- Duplicate CTA intent on the same screen should merge, or differ clearly by outcome.
+- Button contrast is checked during visual review, not left to palette intent.
+
+The last one is the pattern: each of these is satisfiable in the token layer and still
+wrong on the rendered page, which is why they are a review item rather than a lint.
 - Modals, menus, comboboxes, bottom sheets, command palettes: complete keyboard path —
   trap focus, restore on close, Escape; arrow-key navigation; honest `aria-expanded`/
   `aria-haspopup`/`aria-activedescendant`; tab order follows visual flow
@@ -365,6 +411,14 @@ If NO: proceed with `dev-uiux-design/references/design-system-bootstrap.md`.
 - Remove demo-only copy and unused variants
 
 For AI-native interfaces (chat, agent, copilot), design explicit states: empty → prompt ready → submitted → streaming → tool call → result → complete → feedback. Never fake streaming, citations, or tool calls.
+
+**Aesthetic honesty (FE-AESTHETIC-HONESTY-01, DEFAULT):** an aesthetic direction is not
+an official design system. Naming a look does not license inventing components for it —
+inspect the local components and follow the project's config, aliases, tokens, and
+registry. And an AI-native interface must represent **real** states: never fake
+streaming, citations, or tool calls. Faking them is the same error twice, once in the
+component layer and once in the state layer — presenting something as established when
+it was improvised.
 
 ---
 

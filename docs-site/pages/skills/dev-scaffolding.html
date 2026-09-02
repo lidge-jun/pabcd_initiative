@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -160,6 +161,7 @@
 <details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-scaffolding">Dev Scaffolding</h2>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <p>Rules for generating and auditing project structures. Create files directly following these rules. Use the audit script (§12) for verification.</p>
 <p>This skill activates by change surface: new project setup, feature/module scaffolding, structural audits, or documentation scaffolding.</p>
 <h3 id="modular-references">Modular References</h3>
@@ -192,6 +194,33 @@
 <li>Do not create <code>structure/</code>, <code>devlog/</code>, <code>docs/</code>, <code>AGENTS.md</code>, or similar project-level folders without approval.</li>
 </ol>
 <p>MUST preserve mature repo conventions over the Lidge/source-of-truth default.</p>
+<h4 id="existing-convention-first-durable-docs">Existing-Convention-First Durable Docs</h4>
+<p><strong>Rule (SCAF-SOT-01, DEFAULT):</strong> in any repository that already uses durable</p>
+<p>devlog or source-of-truth conventions, prefer the <strong>existing</strong> placement, local numbering</p>
+<p>scheme, and source-of-truth paths before proposing generic <code>docs/</code> + <code>plans/</code> folders.</p>
+<p>Keep it light:</p>
+<ul>
+<li>Cross-link scaffold docs to evidence paths (<code>path:line</code>, a plan file, an ADR, a</li>
+</ul>
+<p>current-architecture note) so a future reader can audit why each file exists.</p>
+<ul>
+<li>Follow the existing phase or decade numbering where present. **Do not flatten or</li>
+</ul>
+<p>renumber local history** — renumbering breaks every inbound reference and buys</p>
+<p>tidiness nobody asked for.</p>
+<ul>
+<li>In multi-cycle units the decade docs are authored during the docs-only first</li>
+</ul>
+<p>work-phase (<code>dev-pabcd</code> LOOP-DOCS-FIRST-01), not scaffolded empty.</p>
+<ul>
+<li>Treat source-of-truth placement as part of scaffolding <strong>completion</strong>: the final audit</li>
+</ul>
+<p>must say which durable convention was reused, or that none existed.</p>
+<ul>
+<li>Boundary and public-export decisions still route to <code>dev-architecture</code> §1</li>
+</ul>
+<p>(<code>ARCH-DECISION-01</code>, <code>ARCH-MAP-01</code>); scaffolding owns file placement and skeleton</p>
+<p>consistency.</p>
 <h3 id="2-1-lightweight-source-of-truth-implementation-unit-devlog">2.1 Lightweight Source of Truth (implementation-unit devlog)</h3>
 <p>The implementation-unit devlog routine (<code>devlog/_plan/</code> units — <code>dev-pabcd</code> §3.1,</p>
 <p>UNIT-RESIDENCE-01) is the DEFAULT for any repo you do development work in — a</p>
@@ -299,7 +328,7 @@ devlog/
 <tr><td>Rust files</td><td>snake_case</td><td><code>stock_price.rs</code></td></tr>
 <table class="rules">
 <tr><td>devlog plan folders</td><td><code>YYMMDD_slug/</code></td><td><code>260510_phase_doc_naming/</code></td></tr>
-<tr><td>devlog phase docs</td><td>decade-prefixed <code>NN_slug.md</code>, <code>00_*</code> is the index</td><td><code>00_plan.md</code>, <code>10_phase1_skill_contract.md</code></td></tr>
+<tr><td>devlog phase docs</td><td>decade-prefixed <code>NNN_slug.md</code>, <code>000_*</code> is the index</td><td><code>000_plan.md</code>, <code>010_phase1_skill_contract.md</code></td></tr>
 <tr><td>Functions (JS/TS)</td><td>camelCase</td><td><code>getStockPrice()</code></td></tr>
 <tr><td>Functions (Python)</td><td>snake_case</td><td><code>get_stock_price()</code></td></tr>
 <tr><td>Functions (Go)</td><td>PascalCase (exported)</td><td><code>GetStockPrice()</code></td></tr>
@@ -336,12 +365,13 @@ devlog/
 <p>Split smells (heuristics, not hard gates):</p>
 <table class="rules">
 <thead><tr><th>Condition</th><th>Action</th></tr></thead><tbody>
-<tr><td>File grows past ~500 lines</td><td>Split into focused modules within same folder</td></tr>
+<tr><td>File grows past &gt;400 lines</td><td>Split into focused modules within same folder</td></tr>
 <tr><td>Folder becomes hard to scan</td><td>Create sub-folders by responsibility</td></tr>
 <tr><td>Different runtime needed</td><td>Split into <code>frontend/</code> + <code>backend/</code></td></tr>
 <tr><td>3+ apps share code</td><td>Extract to <code>shared/</code> or monorepo <code>packages/</code></td></tr>
 </tbody></table>
 <h3 id="10-cross-cutting-scaffolding">10. Cross-Cutting Scaffolding</h3>
+<p>This section owns scaffold file placement only. Behavior, policy, and verification come from the owning surface skill (<code>dev-backend</code>, <code>dev-frontend</code>, <code>dev-devops</code>, <code>dev-security</code>).</p>
 <h4 id="health-endpoints">Health Endpoints</h4>
 <p>Backend scaffolds should propose health routes (skip if the mature repo already handles health checks per §2):</p>
 <ul>
@@ -391,6 +421,38 @@ devlog/
 <p>---</p>
 <h3 id="12-audit">12. Audit</h3>
 <p>Run the scaffold audit if one is available for the repo (e.g. <code>bash &lt;SKILL_DIR&gt;/scripts/scaffold-audit.sh [project-path]</code>) to check structural compliance. Audit checks should reflect the project&#x27;s own conventions — covering feature-based structure, colocation, public boundary exports (dev-architecture §5), devlog presence, <code>.env</code> safety, file length, and AGENTS.md where those apply.</p>
+<h3 id="scaffold-contract-scaffold-contract-01-default">Scaffold Contract (SCAFFOLD-CONTRACT-01, DEFAULT)</h3>
+<p>Source: sol research (microsoft/apm, HoangNguyen0403/agent-skills-standard).</p>
+<p>A scaffold operation must be deterministic and verifiable:</p>
+<ol>
+<li><strong>Manifest</strong>: before generating files, produce a list of files that will be</li>
+</ol>
+<p>created/modified with their purpose. Show it to the user or record it.</p>
+<ol>
+<li><strong>Idempotency</strong>: running the scaffold twice on the same input should not</li>
+</ol>
+<p>create duplicates or corrupt existing files.</p>
+<ol>
+<li><strong>Template provenance</strong>: record which template or pattern was used and its</li>
+</ol>
+<p>version/commit so the scaffold can be reproduced.</p>
+<ol>
+<li><strong>Dry run</strong>: for C3+ scaffolds, offer a dry-run mode that shows what would</li>
+</ol>
+<p>be created without writing files.</p>
+<h3 id="post-scaffold-verification-scaffold-verify-01-default">Post-Scaffold Verification (SCAFFOLD-VERIFY-01, DEFAULT)</h3>
+<p>After scaffolding, verify the result is usable — do not claim done from</p>
+<p>structural inspection alone:</p>
+<ol>
+<li><code>npm install</code> / <code>pip install</code> / equivalent dependency installation succeeds</li>
+<li><code>npm run build</code> / <code>cargo build</code> / equivalent build succeeds</li>
+<li><code>npm test</code> / <code>pytest</code> / equivalent test suite passes (even if only a smoke test)</li>
+<li>Linter runs clean (or with only pre-existing warnings)</li>
+<li>Dev server starts and responds (for web projects)</li>
+<li>A second scaffold run on the same input does not break the first (idempotency)</li>
+</ol>
+<p>Failures in any of these steps mean the scaffold is incomplete. Fix before</p>
+<p>claiming done.</p>
 </details>
   </div>
 </section>

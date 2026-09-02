@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -160,8 +161,15 @@
 <details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-code-reviewer-code-review-guide">Dev-Code-Reviewer — Code Review Guide</h2>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <p>&gt; <strong>Always read <code>dev/SKILL.md</code> first</strong> for project-wide conventions before applying review rules.</p>
 <p>Systematic code review patterns for finding real issues, not bikeshedding.</p>
+<table class="rules">
+<thead><tr><th>Sibling skill</th><th>Integration boundary</th></tr></thead><tbody>
+<tr><td><code>dev-testing</code></td><td>Owns test adequacy and QA execution.</td></tr>
+<tr><td><code>dev-debugging</code></td><td>Owns RCA when review discovers a runtime failure.</td></tr>
+<tr><td><code>dev-architecture</code></td><td>Owns coupling classification and boundary placement.</td></tr>
+</tbody></table>
 <h3 id="review-posture-review-posture-01">Review Posture (REVIEW-POSTURE-01)</h3>
 <p>Review as a skeptical, independent outsider. Executor claims, passing tests, AI summaries, and user-facing &quot;done&quot; prose are untrusted until you confirm them yourself. Inspect artifacts before believing them; a green run you did not read is not evidence.</p>
 <h3 id="when-to-activate">When to Activate</h3>
@@ -323,7 +331,7 @@
 </tbody></table>
 <p>---</p>
 <h3 id="3-5-security-review-quick-check">3.5 Security Review Quick-Check</h3>
-<p>For <strong>every review</strong>, scan for these OWASP-aligned red flags. Delegate to <code>dev-security/SKILL.md</code> for deep analysis.</p>
+<p>For <strong>every review</strong>, pre-scan for these OWASP-aligned red flags. This is a security review pre-scan; delegate policy and deep analysis to <code>dev-security/SKILL.md</code>.</p>
 <h4 id="must-check-every-pr">Must-Check (Every PR)</h4>
 <table class="rules">
 <thead><tr><th>Check</th><th>Red Flag</th><th>Severity</th></tr></thead><tbody>
@@ -484,6 +492,79 @@
 <p><code>dev-security</code> and map risks to the OWASP LLM Top 10 (2025) and the OWASP Top 10 for</p>
 <p>Agentic Applications 2026.</p>
 <p>---</p>
+<h3 id="changed-file-coverage-ledger-review-coverage-01-default">Changed-File Coverage Ledger (REVIEW-COVERAGE-01, DEFAULT)</h3>
+<p>Account for every changed file as <code>reviewed</code>, <code>skipped (reason)</code>, or</p>
+<p><code>out-of-scope (reason)</code> before verdict. Generated, lock, vendored, binary, and</p>
+<p>outside-domain files may be skipped only with an explicit reason. Any</p>
+<p>unaccounted file makes the verdict incomplete.</p>
+<h3 id="finding-falsification-review-falsify-01-default">Finding Falsification (REVIEW-FALSIFY-01, DEFAULT)</h3>
+<p>Before reporting a finding:</p>
+<ol>
+<li>State it as a testable claim.</li>
+<li>Search tests, guards, caller context, and docs for contradictory evidence.</li>
+<li>Downgrade or retract the claim when contradictory evidence disproves it.</li>
+<li>Retain the claim when it survives the falsification attempt.</li>
+</ol>
+<p>Every finding includes <code>verification: verified|unverified</code>. Use <code>unverified</code></p>
+<p>when the falsification attempt could not be completed or evidence is incomplete.</p>
+<h3 id="interdiff-re-review-review-interdiff-01-default">Interdiff Re-Review (REVIEW-INTERDIFF-01, DEFAULT)</h3>
+<p>Anchor the re-review to both the previous reviewed commit/range and the new head;</p>
+<p>record those anchors in the review. Review only the interdiff, preserve unresolved</p>
+<p>findings, verify each claimed fix, and process new findings normally. Revisit</p>
+<p>unchanged code when a cross-file dependency changed. If either anchor is missing,</p>
+<p>history was rewritten ambiguously, or the interdiff cannot be trusted, fall back</p>
+<p>to a full review of the current base-to-head diff.</p>
+<h3 id="guard-removal-review-guard-removal-01-default">Guard Removal (REVIEW-GUARD-REMOVAL-01, DEFAULT)</h3>
+<p>Deleting input validation or error handling at a <strong>trust boundary</strong> requires a</p>
+<p>regression test that actually <strong>exercises the deleted path</strong>. For an input-validation</p>
+<p>guard that means malformed or hostile input; for an error handler it means injecting</p>
+<p>the fault that reaches it — network timeout, connection reset, filesystem I/O failure,</p>
+<p>subprocess failure. Attaching an unrelated input test to satisfy the form does not meet</p>
+<p>this bar.</p>
+<p>Without that test, the deletion is a <strong>High</strong> blocker. In particular, the</p>
+<p>&quot;over-defense&quot; antipattern in §3 is <strong>not by itself</strong> grounds for calling a boundary</p>
+<p>guard unnecessary — that row is about defense piled up behind a boundary, not about the</p>
+<p>boundary check itself.</p>
+<p>Trust boundaries are where external input first lands: process stdin, CLI arguments,</p>
+<p>file parsing, network responses, and sub-agent output.</p>
+<p>Judge by the <strong>kind</strong> of deletion, because the expected test result inverts between</p>
+<p>them:</p>
+<ul>
+<li>A <strong>replacing or relocating</strong> deletion — the check moves to a different layer — must</li>
+</ul>
+<p>stay <strong>green</strong> after the old guard is removed, and go <strong>red</strong> only when the surviving</p>
+<p>boundary check is also removed. Green here proves the relocation worked.</p>
+<ul>
+<li>A <strong>non-replacing</strong> deletion — the check is simply gone — has a regression test that</li>
+</ul>
+<p>goes <strong>red</strong>. Red here proves the guard was load-bearing, which means the deletion</p>
+<p>should not land.</p>
+<p>Getting that inversion backwards is how a relocation gets blocked and a genuine</p>
+<p>removal gets approved.</p>
+<h3 id="retired-capability-creep-review-removed-backend-01-default">Retired-Capability Creep (REVIEW-REMOVED-BACKEND-01, DEFAULT)</h3>
+<p>A change touching a document that lists <strong>available capabilities</strong> — a search-backend</p>
+<p>list, a provider roster, a supported-runtime table, a tool ladder — gets checked for</p>
+<p>capabilities that were retired reappearing as if they were still available. A retired</p>
+<p>name may appear only in explicitly historical or non-goal framing.</p>
+<p>There is no automated check for this, and often there cannot be a useful one: the prose</p>
+<p>has no registry in code to compare against, which is exactly the</p>
+<p><code>TEST-PROMPT-SEAM-01</code> situation (<code>dev-testing</code>). A scan that reads one prose file for</p>
+<p>phrase existence breaks on rewording and proves nothing, so the protection belongs to a</p>
+<p>reviewer&#x27;s read rather than to a test. If a registry ever lands in code, revisit whether</p>
+<p>a real two-source check is possible.</p>
+<p>The upstream version of this rule names a specific list of retired backends. That list</p>
+<p>is that ecosystem&#x27;s own retirement history and is deliberately not reproduced here —</p>
+<p>what transfers is the reviewer obligation, not the names. Keep your own retired-name</p>
+<p>list wherever the retirement was decided.</p>
+<h3 id="review-worktree-review-worktree-01-default">Review Worktree (REVIEW-WORKTREE-01, DEFAULT)</h3>
+<p>Never check out another review ref in the worktree you were handed. If the review</p>
+<p>target is already checked out where the dispatcher put you, review it there; otherwise</p>
+<p>create or attach a <strong>dedicated named worktree</strong> and run the checkout, tests, and QA in</p>
+<p>that one. Record <code>pwd -P</code> and the target <code>HEAD</code> alongside the interdiff anchors above.</p>
+<p>The condition is <strong>observable state, not ownership</strong>. A reviewer — often a sub-agent —</p>
+<p>cannot know which branch the parent session considers its own, but it can always see</p>
+<p>what is checked out where it stands. Framing the rule around ownership would make it</p>
+<p>unenforceable by exactly the actor who has to follow it.</p>
 </details>
   </div>
 </section>

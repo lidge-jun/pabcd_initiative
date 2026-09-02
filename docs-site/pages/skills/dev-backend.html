@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -159,6 +160,7 @@
 <p>This skill has modular references for specialized guidance — read the relevant ones before coding.</p>
 <p>It activates by change surface whenever work primarily touches APIs, servers, services, jobs, data access, schemas, migrations, or operational backend behavior.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <h3 id="modular-references">Modular References</h3>
 <table class="rules">
 <thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
@@ -302,6 +304,20 @@ GET /jobs/j_abc123 → { status: &quot;processing&quot;, progress: 0.6 }
 <li>Repositories: abstract DB access. Services access data through repositories only.</li>
 </ul>
 <h4 id="repository-pattern-interface-abstraction">Repository Pattern (Interface Abstraction)</h4>
+<p><strong>Boundary parsing contract (BACKEND-BOUNDARY-01, DEFAULT).</strong> Parse once at</p>
+<p>ingress and trust boundaries; inside that boundary, typed values are proof. Do not</p>
+<p>duplicate schema validation, null defense, or defensive parsing in services unless the</p>
+<p>data crosses a <strong>new</strong> trust boundary. Canonical boundary-defense ownership stays with</p>
+<p><code>dev-architecture</code> §4; this is the backend stub.</p>
+<p>The reason to state it as a rule rather than a preference: duplicated validation reads as</p>
+<p>prudence and behaves as ambiguity — with two checks, neither one is the boundary, and a</p>
+<p>later change can remove whichever looks redundant.</p>
+<p><strong>Server runtime safety (BACKEND-RUNTIME-01, DEFAULT).</strong> Production server runtimes set</p>
+<p>explicit read, write, request/idle, and graceful-shutdown timeouts. Drain on SIGTERM or</p>
+<p>deploy: stop accepting new work, let in-flight work finish within the shutdown budget,</p>
+<p>then close. Propagate the request id from ingress into structured logs, traces, queued</p>
+<p>work, and outbound calls wherever the stack supports it — an id that stops at the queue</p>
+<p>boundary is the one you will miss during an incident.</p>
 <p>Use repository interfaces so services depend on abstractions, enabling mocking and swapping implementations.</p>
 <h4 id="async-task-queue-patterns">Async Task Queue Patterns</h4>
 <p>When work exceeds what an HTTP response cycle should hold open, use a queue.</p>
@@ -487,6 +503,11 @@ GET /jobs/j_abc123 → { status: &quot;processing&quot;, progress: 0.6 }
 <li>Migrations must have a rollback path (down migration or backward-compat contract).</li>
 <li>Feature flags: backend provides the flag-read API; rollout strategy is dev-devops.</li>
 <li>Health endpoints (<code>/health</code>, <code>/ready</code>) gate traffic cuts — see §12 and <code>references/core/health-checks.md</code>.</li>
+<li>Analytical data / ETL / pipeline quality: load <code>dev-data</code>.</li>
+<li>API consumer context / frontend contract alignment: load <code>dev-frontend</code>.</li>
+<li>Test strategy / verification harnesses / QA execution: load <code>dev-testing</code>.</li>
+<li>Backend failure RCA methodology: load <code>dev-debugging</code>.</li>
+<li>New project setup / file placement conventions: load <code>dev-scaffolding</code>.</li>
 </ul>
 <p>---</p>
 <h3 id="12-pre-flight-checklist">12. Pre-Flight Checklist</h3>
