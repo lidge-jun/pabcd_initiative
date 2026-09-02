@@ -70,12 +70,59 @@ and the six repository-original rules intact through every commit.
 
 One item is **NEEDS_HUMAN**: the `UNIT-RESIDENCE-01` divergence above.
 
+## The census was measuring the wrong direction for criterion (a)
+
+Criterion (a) is "every ported rule traceable to a codexclaw source file." The gap census
+answers a different question: it proves **codexclaw ⊆ target**, and a rule invented here
+satisfies that just as well as a rule that was really ported. Every green census run in
+this unit was evidence for parity and *no* evidence for provenance, and it was reported as
+though it covered both.
+
+`gap-census.sh --added <base> <head>` now checks the other direction. Results on the
+branch heads:
+
+| Repository | rules added | untraceable | verdict |
+|---|---|---|---|
+| pabcd_initiative | 141 | `FE-MOTION-EXPERIENCE-01` | repository-original, expected |
+| cli-jaw-skills | 94 | `FE-MOTION-EXPERIENCE-01`, `INTERVIEW-DIVERGE-01` | ported from this repo, authorized |
+
+Neither is an invention, and the provenance was checked rather than assumed:
+
+- **`FE-MOTION-EXPERIENCE-01`** is absent from `origin/main`'s `skills/` entirely. It
+  arrived in `9dd844f`, the commit that captured the pre-existing uncommitted design work
+  — which the objective explicitly required be committed rather than discarded. Its source
+  is the operator's own working tree.
+- **`INTERVIEW-DIVERGE-01`** was already in `origin/main`, but in
+  `devlog/_plan/260704_catalog_discovery/20_phase2_interview.md` and
+  `docs-site/assets/skill-meta.json` — planned and published as metadata, never realized
+  in the skills tree. The port realized it.
+
+So (a) holds with a stated exception rather than absolutely: **two rule ids trace to this
+repository instead of to codexclaw**, one by the objective's own instruction about the
+uncommitted files, one by the mid-task amendment authorizing bidirectional porting. The
+earlier unqualified claim was overstated.
+
+Two mechanical hazards had to be fixed before the check meant anything, and both had
+already produced a wrong answer:
+
+- macOS `grep` has no `-P`, so the reference set came back **empty** and the first run
+  declared all 141 additions inventions. The check now aborts on an empty reference set
+  instead of reporting a confident falsehood.
+- `git grep`'s default ERE has no `\b` either, so the pattern needs `--perl-regexp`.
+
+The check is proven non-vacuous: emptying the repository-original allowlist makes it report
+`FE-MOTION-EXPERIENCE-01` as untraceable and exit 1; restoring it exits 0.
+
 ## Three corrections this unit made to itself
 
 Worth keeping together, because they share one failure shape — concluding from two
 documents read against each other instead of reading the load-bearing sentence in full,
 or from a sample instead of a census.
 
+0. **The census direction** (above): every green run was read as evidence for provenance
+   when it only ever showed parity. This one is the most instructive, because the check was
+   not wrong — it was answering a question I was not asking, and the number it produced
+   looked exactly like the number I wanted.
 1. **`DIVERGE-TIER-01`** (001) read as absent from codexclaw and therefore a candidate
    for removal. It lives in codexclaw's `loop` skill, outside the dev-family scope the
    census uses. `gap-census.sh` now separates the two classes mechanically.
@@ -88,4 +135,5 @@ or from a sample instead of a census.
 
 Each was caught by widening the measurement rather than by rereading the reasoning, which
 is the practical lesson: when a drift claim rests on a comparison, check it against the
-tree.
+tree — and check that the comparison answers the question being asked, because a
+well-formed measurement of the wrong quantity is the hardest kind to notice.

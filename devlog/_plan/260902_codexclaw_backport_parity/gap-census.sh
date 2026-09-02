@@ -13,9 +13,21 @@
 # Exit:   0 always; this is a report, not a gate.
 set -uo pipefail
 
+# --added <base> <head> runs the reverse (invention) check instead of the gap census.
+MODE=gap; REV_BASE=origin/main; REV_HEAD=HEAD
+if [ "${1:-}" = "--added" ]; then
+  MODE=added; REV_BASE="${2:-origin/main}"; REV_HEAD="${3:-HEAD}"; shift 3 || shift $#
+fi
 ROOT="${1:-$HOME/Developer/new/700_projects}"
 RGX='\b[A-Z][A-Z0-9]+(-[A-Z0-9]+)+-[0-9]{2}\b'
+# PCRE form for the reverse check at the bottom: git grep's default ERE has no \b, so the
+# same intent needs --perl-regexp there.
+RULE_PCRE='\b[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+-\d{2}\b'
 CXC="$ROOT/codexclaw/plugins/codexclaw/skills"
+# The reverse check needs the WHOLE source repo, not the dev-family scope: a rule may
+# legitimately live in a codexclaw runtime skill and still be a real upstream rule, and
+# calling that an invention is the error this check exists to avoid making.
+CXC_ALL="$ROOT/codexclaw"
 PI="$ROOT/pabcd_initiative/skills"
 JW="$ROOT/cli-jaw/skills_ref"
 
@@ -150,3 +162,50 @@ for list in "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt"; do
     printf '  %-34s %s\n' "$id" "$(locate "$id")"
   done < "$list"
 done
+
+# ─── reverse direction: did anything get INVENTED? ──────────────────────────
+# The gap above proves codexclaw ⊆ target. A rule invented here satisfies that too, so it
+# cannot answer "is every ported rule traceable to codexclaw" -- the question the
+# acceptance criteria actually ask. This checks the other direction: every rule id that a
+# branch ADDS must exist somewhere in codexclaw, or be a known repository-original.
+#
+# Two mechanical hazards, both of which produced a wrong answer before being fixed:
+#   - macOS grep has no -P, so a \b pattern silently matches nothing. A reference set that
+#     comes back empty makes EVERY added rule look invented; this aborts instead.
+#   - git grep's default ERE has no \b either, so the pattern needs --perl-regexp.
+#
+# Usage: gap-census.sh --added <base-rev> <head-rev>
+if [ "$MODE" = "added" ]; then
+  base="$REV_BASE"; head="$REV_HEAD"
+  echo
+  echo "== reverse check: rules ADDED between $base and $head =="
+  git grep -ohP "$RULE_PCRE" "$base" -- 'skills/' 2>/dev/null | sort -u > "$TMP/rev_base.txt"
+  git grep -ohP "$RULE_PCRE" "$head" -- 'skills/' 2>/dev/null | sort -u > "$TMP/rev_head.txt"
+  comm -13 "$TMP/rev_base.txt" "$TMP/rev_head.txt" > "$TMP/rev_added.txt"
+  rg -oIN --pcre2 "$RULE_PCRE" "$CXC_ALL" -g '*.md' 2>/dev/null | sort -u > "$TMP/rev_cxc.txt"
+  echo "  base=$(wc -l <"$TMP/rev_base.txt"|tr -d ' ')  head=$(wc -l <"$TMP/rev_head.txt"|tr -d ' ')  added=$(wc -l <"$TMP/rev_added.txt"|tr -d ' ')  codexclaw=$(wc -l <"$TMP/rev_cxc.txt"|tr -d ' ')"
+  if [ ! -s "$TMP/rev_cxc.txt" ]; then
+    echo "  ABORT: codexclaw reference set is empty -- the result would be meaningless."
+    exit 2
+  fi
+  # Rules this repository owns. Each is here because it is genuinely absent from codexclaw
+  # and that absence is intended, not because the check was inconvenient.
+  #   FE-MOTION-EXPERIENCE-01  arrived with the pre-existing uncommitted design work the
+  #                            objective required be committed rather than discarded.
+  #   INTERVIEW-DIVERGE-01     existed in this repo's own devlog and docs metadata before
+  #                            the port; the port realized it in the skills tree.
+  OWNED='^(FAMILY-FRESH-01|FE-MOTION-EXPERIENCE-01|INTERVIEW-CLASSIFY-01|INTERVIEW-DIVERGE-01|PABCD-AUTO-01|PROMPT-ROUTING-01)$'
+  n=0
+  while read -r id; do
+    [ -z "$id" ] && continue
+    grep -qxF "$id" "$TMP/rev_cxc.txt" && continue
+    if echo "$id" | rg -q "$OWNED"; then
+      echo "  repository-original (expected): $id"
+    else
+      echo "  UNTRACEABLE -- neither in codexclaw nor a known original: $id"
+      n=$((n+1))
+    fi
+  done < "$TMP/rev_added.txt"
+  echo "  >>> unexplained additions: $n"
+  exit $([ "$n" -eq 0 ] && echo 0 || echo 1)
+fi
