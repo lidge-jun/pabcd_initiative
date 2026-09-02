@@ -29,6 +29,7 @@ Level 6 (legal/fine print): 0.75rem
 
 - Primary vs body weight difference ≥ 200 (e.g., 700 vs 400)
 - Never use weight alone to create hierarchy — pair with size
+- Display-scale exception: size contrast may replace weight contrast when a 300-400 headline is at least 3x body size and the composition passes `FE-HERO-LIGHT-CENTER-01`; the 700-800 row remains the in-content default.
 - Monospace/code blocks: weight 400-500 max
 
 ## 3. Color Emphasis

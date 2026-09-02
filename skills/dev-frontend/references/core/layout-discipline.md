@@ -14,6 +14,14 @@ The classic SaaS split hero — left bold headline + subcopy + CTA, right boxed
 product screenshot/mockup card — is the exhausted Stripe(2020)->Linear(2023)
 template lineage; "Linear Design" is now a reproducible kit/template category
 (LogRocket 2026-02-03). Treat it as a slop signal on brand/product homepages.
+**FE-HERO-SPLIT-01: never choose a split hero unprompted — build one ONLY when
+the user explicitly requests a split/2-column hero.** The one context where it
+is worth *proposing* is a conversion-focused paid-acquisition landing page
+where 5-second clarity beats brand memorability (Unbounce anatomy) — but even
+there, suggest it and let the user decide; no universal A/B evidence favors
+either shape (VWO). "This looks like a landing page" is NOT an exception.
+
+For this rule, an edge-to-edge, grid-crossing, interactive or media aperture that performs the product premise is not a "split hero."
 It stays legitimate ONLY on conversion-focused paid-acquisition landing pages
 where 5-second clarity beats brand memorability (Unbounce anatomy); no
 universal A/B evidence favors either shape — the exception is context, not
@@ -32,6 +40,31 @@ live-checked 2026-07-09):
 | Full-bleed consumer hero | centered copy over full-bleed photography/brand imagery | Toss |
 
 Rules (DEFAULT):
+- Without an explicit user request for a split hero (FE-HERO-SPLIT-01), do not
+  place a boxed screenshot, media, or device-mockup card in a right column of
+  the hero. If the product must appear in the first viewport, make it
+  full-width, background, environment, or an interactive demo surface.
+- **FE-HERO-LIGHT-CENTER-01 (DEFAULT): Light Centered Display Hero.** A centered
+  hero headline is allowed as an intentional named pattern when the headline is
+  LIGHT weight (300-400, explicitly not bold), set over a full-width real media
+  or motion backdrop (photography, generated texture, or video; never a
+  gradient wash), with generous whitespace and a minimal copy stack (FE-HERO-01
+  copy budget still applies). Evidence: OpenAI announcement grammar; aside.com
+  measured 2026-07-10 with a custom display variable font, weight 400, 36px,
+  centered, over soft sky photography. The generic centered BOLD hero plus
+  template composition remains banned. This exception exists ONLY when the
+  light-weight headline and authored-media backdrop conditions both hold.
+  A second sanctioned variant is the **Authored-Field Centered Statement**: centered
+  copy may sit over a background or proof object only when that authored field is
+  the primary content, the overlay contains no more than 3 semantic elements,
+  headline line breaks are deliberately authored, and the next section is not an
+  equal-card row. Evidence: Vectr's restrained statement over an isometric
+  landscape, Fin's serif statement over an authored canvas, and Michael Pumo's
+  statement within radical negative space. This variant does not legalize a
+  generic centered BOLD hero; without authored-field primacy and all four gates,
+  the generic composition remains banned.
+  Composition ownership lives here; type exemplar details live in
+  `aesthetics.md` / `design-isms.md`.
 - Outside the paid-LP exception above, do not place a boxed screenshot or
   device-mockup card in a right column of the hero. If the product must appear
   in the first viewport, make it full-width, background, environment, or an
@@ -56,6 +89,8 @@ stripe.com, vercel.com, raycast.com, diabrowser.com, framer.com, toss.im
 ## Section Layout Repetition Ban
 - Each layout family (3-col cards, split-text-image, full-width-quote, etc.) at most ONCE per page
 - 8-section page needs ≥4 different layout families
+- Cross-ref: aesthetics.md § Spatial Composition also bans 3-col cards and
+  centered heroes, except the named FE-HERO-LIGHT-CENTER-01 pattern above.
 - Cross-ref: aesthetics.md § Spatial Composition also bans 3-col cards and centered heroes
 
 ## Zigzag Alternation Cap

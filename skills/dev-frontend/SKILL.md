@@ -35,6 +35,7 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 | ----------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------- |
 | `references/core/crud-ui.md`              | C2 list/detail/form product screens  | State coverage (loading/empty/error/permission), forms, objective UX gates         |
 | `references/core/anti-slop.md`            | New components or UI redesign        | 2026 AI slop patterns, Korean slop, oversized text, fake assets, default UI smells |
+| `../dev-uiux-design/references/design-trends.md` | Implementing a dated trend or checking whether a technique is stable | Dated award-corpus signals, maturity, risks, and re-crawl rules |
 | `references/core/aesthetics.md`           | Implementing an established visual direction | Domain-correct visual direction, typography, color, composition, serif three-role system, expressive/functional layers, AI-brand grammar                    |
 | `references/core/product-density.md`      | Apps, tools, dashboards              | Density profiles for landing, consumer app, SaaS, ops, finance, devtools          |
 | `references/core/asset-requirements.md`   | Any public/product/visual surface    | Required screenshots, images, diagrams, charts, generated bitmaps, or 3D assets, mockup production pipeline   |
@@ -44,12 +45,15 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 | `references/core/soft-3d-asset-gates.md`  | 3D/miniature/character-like visuals  | Toss-style soft 3D vs generic cute asset slop, domain gates                        |
 | `references/core/motion.md`               | Motion/animation needed              | CSS animations, Framer Motion, scroll-driven, View Transitions, domain gates, organic bg + capsule label, product-led hero motion       |
 | `references/core/liquid-glass.md`         | Translucent materials, glass chrome, pill-chip surfaces | Liquid Glass layer discipline, regular/clear recipes, blur-free pill alternative, perf + a11y gates (verified 2026-07-07) |
+| `references/core/top-bar.md`              | Top/nav bar composition and sticky chrome | Award-calibrated geometry, slots, scroll states, hover surfaces, and mobile collapse |
 | `references/core/iterative-design.md`     | Multi-round design                   | LLM convergence problem, Diverge→Kill→Mutate process, upgrade techniques           |
 | `references/core/prototype-variants.md`   | Runnable design variants             | `?variant=` switchers, structurally distinct options, cleanup after winner selection |
 | `references/core/typography-wrapping.md`  | Heading/descriptor text changes      | `text-wrap: balance/pretty`, **short descriptor category** (`balance` not `pretty` for 1-3 line text), `ch` units, rag control, Korean orphan prevention, `-webkit-line-clamp` conflict |
 | `references/core/logo-sections.md`        | Integration/partner logo display     | Marquee CSS, static grid, orphan cell fix, grayscale treatment, no individual hover |
 | `references/core/brand-asset-sourcing.md` | Brand logos in UI                    | Simple Icons/SVGL sourcing, AI agent strategy, placeholder hierarchy, legal guide  |
+| `references/core/reference-capture.md`    | Studying third-party visual references | Analysis-only capture, provenance, legal boundaries, and never-ship gate |
 | `references/core/layout-discipline.md`    | Landing/marketing pages              | Hero, eyebrow, section repetition, bento, zigzag, **per-section responsive transforms**, hero composition grammar (2026) |
+| `references/core/section-level-sourcing.md` | Sourcing examples for a specific landing-page section | Dated gallery paths and section-type retrieval guidance |
 | `references/core/consistency-locks.md`    | Any multi-section page               | Color, shape, theme consistency per page                                             |
 | `references/core/responsive-viewport.md`  | Layout or breakpoint changes         | Canonical breakpoints, page containment, container queries, responsive images, safe area, split-screen |
 | `references/core/mobile-ux.md`            | Consumer/landing pages with mobile traffic | Thumb zone, touch targets, sticky CTA, mobile section composition, bottom sheet, portrait media |
@@ -70,6 +74,7 @@ It activates by change surface whenever the work is primarily frontend, UI, styl
 
 Start with `anti-slop.md`, `aesthetics.md`, `responsive-viewport.md`, and `visual-verification.md`. Add domain/locale/stack references only when relevant.
 For C2 ordinary app screens (form/table/list/detail), `crud-ui.md` alone suffices; add the style references above for marketing/visual surfaces or C3+ work.
+Award-derived exceptions in these references are calibrated design evidence, not blanket permission to bypass the existing domain, accessibility, performance, or anti-slop gates.
 
 - UI/rendering bug RCA: load `dev-debugging`.
 - Build pipeline, bundle config, or deployment: load `dev-devops`.

@@ -1,6 +1,7 @@
 ## 1. Design Ism Vocabulary
 
 When the user references a design style or movement, or when selecting an aesthetic direction, use this vocabulary. Each ism includes a CSS signature for rapid implementation.
+Structural composition is selected separately in `compositional-patterns.md`; dated prevalence and technique maturity live in `design-trends.md`.
 
 ### 1.1 Flat Design
 Minimalist 2D. No shadows, gradients, or textures. Bold saturated solids, clean geometry, ample whitespace.
@@ -183,3 +184,9 @@ Related: `dev-frontend` `motion.md § Soft-Focus Organic Background + Capsule
 Label`, `aesthetics.md § Expressive vs Functional Layers`.
 
 ---
+
+## Award-Research Vocabulary Boundaries
+
+**Editorial** is a parent direction organized by hierarchy, pacing, authored typography, image sequencing, and negative space. It does not require glass, serif type, magazine mimicry, or a particular rendering technology; Liquid Editorial and AI Serif Editorial remain narrower implementations above.
+
+Treatment traits describe the dominant medium and combine with an ism and compositional pattern: `photographic`, `illustrative`, `typographic`, `patterned`, and `print-like`. Tone tags describe social or emotional register rather than a movement: `luxury`, `corporate`, and a qualified `retro:<period-or-movement>`. Do not turn a broad cultural label into a generated style without a respectful, specific formal vocabulary.

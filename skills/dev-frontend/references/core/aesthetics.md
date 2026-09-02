@@ -143,6 +143,16 @@ Rotate: never the same palette twice in consecutive projects.
 
 ### Layout Diversification
 - **ANTI-CENTER BIAS**: When DESIGN_VARIANCE > 4, centered Hero/H1 is BANNED.
+  Carve-out: FE-HERO-LIGHT-CENTER-01 (canonical in `layout-discipline.md`) is
+  the sanctioned named exception at any variance when its conditions hold:
+  headline weight <= 400 plus a full-width authored real-media backdrop. Bold
+  centered heroes remain banned above variance 4.
+  A second sanctioned variant also passes at any variance (canonical in
+  `layout-discipline.md` FE-HERO-LIGHT-CENTER-01, Authored-Field Centered
+  Statement): the background or proof object is the primary authored content,
+  the centered overlay carries <= 3 semantic elements, line breaks are
+  deliberate, and no equal-card row follows. Evidence: Vectr, Fin, Michael
+  Pumo (2026-07-14 award crawl).
 - **ANTI-HERO-IN-TOOLS**: Apps, dashboards, admin, finance flows, and developer tools should not start with landing-page hero composition.
 - Force: "Split Screen" (50/50), "Left-aligned content / Right asset", "Asymmetric white-space"
 - **Grid over Flex-Math**: NEVER `w-[calc(33%-1rem)]`. ALWAYS CSS Grid.
@@ -191,6 +201,15 @@ functional layer with the expressive layer's texture; one expressive field per
 viewport. This is the same layer logic as Apple's WWDC25 capsule system
 (controls as a distinct functional layer over content) executed with opaque
 surfaces.
+
+Carve-out (FE-TOPBAR-STATE-01, canonical in `top-bar.md`): a scroll-adaptive
+top bar may run a lighter at-top material (~70-80% opacity) ONLY when the hero
+is authored with a calm bar zone (the expressive field deliberately leaves the
+bar area quiet); once content scrolls beneath, the bar returns to near-opaque
+(85-95%). All other functional-layer text keeps the opaque-container rule.
+Emphasis inside pill chrome is carried by FILLS and tints, not by nested
+capsule borders — child capsule borders/outlines at rest are banned
+(FE-PILL-NEST-01, canonical in `liquid-glass.md`).
 
 ### Glassmorphism (when used)
 Go beyond `backdrop-blur`:

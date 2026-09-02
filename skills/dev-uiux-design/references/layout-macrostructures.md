@@ -2,6 +2,16 @@
 
 Select the layout that matches the product surface. Provide the CSS grid template.
 
+## Composition Trait Vocabulary
+
+Traits modify a macrostructure; they are not complete recipes and do not replace responsive or accessibility gates.
+
+- `big-type`: type scale, crop, wrapping, or orientation materially organizes space.
+- `fullscreen`: one scene or utility owns the viewport without removing direct content access or mobile fallback.
+- `horizontal-spatial`: content is explored laterally or across a spatial field.
+- `unusual-layout`: composition departs from familiar flow without obscuring hierarchy, keyboard order, or core content.
+- `poster` and `index/roster`: route to the canonical patterns in `compositional-patterns.md`.
+
 ### Sidebar + Content (Dashboard default)
 ```css
 display: grid;

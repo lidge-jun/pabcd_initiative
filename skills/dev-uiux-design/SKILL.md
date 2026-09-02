@@ -53,12 +53,15 @@ fetch/open/text/get-dom/snapshot only after candidate URLs exist.
 | File | When to Read | What It Covers |
 |------|-------------|----------------|
 | `references/design-isms.md` | User names a style/movement | 15 design movements with CSS signatures, incl. Liquid Glass + Liquid Editorial default kit (2025-2026) + AI Serif Editorial + Organic Capsule (verified 2026-07-09) |
+| `references/design-award-sources.md` | Looking for real-world design references | Tiered award/gallery sources, retrieval strengths, and evidence boundaries |
 | `references/design-read-example.md` | Learning or reviewing Design Read format | Filled-in Design Read + dial setting example |
 | `references/product-personalities.md` | User references a product | 10 product DNA profiles with exact tokens, incl. 2026 AI-product pastel + OpenAI warm-sans organic + Anthropic serif bookish |
 | `references/layout-macrostructures.md` | Choosing page/component layout | Component layouts + page-level compositions |
+| `references/compositional-patterns.md` | Composing hero, navigation, motion, or content structure | Reusable pattern families distilled from award research |
+| `references/design-trends.md` | Checking dated prevalence or emerging techniques | Dated axis signals, maturity ledger, and re-crawl protocol |
 | `references/ux-states.md` | Building any stateful UI | Onboarding, empty, error, loading, progressive disclosure |
 | `references/color-system.md` | Generating colors/palette | OKLCH-based palette generation, dark mode, accessibility |
-| `references/design-system-bootstrap.md` | New project / design system | Token architecture, component hierarchy, **DESIGN.md format** (google-labs-code/design.md) |
+| `references/design-system-bootstrap.md` | New project / design system | Token architecture, component hierarchy, and the repository's **DESIGN.md format** |
 | `references/responsive-nav.md` | Responsive or navigation work | Breakpoints, container queries, nav patterns by density |
 | `references/ux-preflight.md` | **Before delivery** | UX state verification checklist |
 | `references/typography-line-breaks.md` | **Always for text-heavy UI** | Heading break quality, **short descriptor category** (hero subtitle, card desc — use `balance` not `pretty`), orphan prevention, `ch` units, Korean orphan criteria, `-webkit-line-clamp` conflict |
@@ -67,6 +70,8 @@ fetch/open/text/get-dom/snapshot only after candidate URLs exist.
 | `references/visual-hierarchy.md` | Any layout / composition decision | 6 levers: size scale, weight contrast, color emphasis, spacing, position, density |
 | `references/form-patterns.md` | Forms, wizards, auth, file upload | Validation timing, multi-step, password UX, file upload, search/filter |
 | `references/mobile-native-ux.md` | Native mobile app UX decisions | iOS HIG vs Material 3, gestures, deep linking, Korean privacy, app store UX |
+
+The award references are repository-local curated synthesis. Treat their examples as dated evidence and context-gated options, never as an external devlog dependency or a universal style prescription.
 
 ---
 

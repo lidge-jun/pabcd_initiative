@@ -3,8 +3,8 @@
 Implementation rules for Apple-class translucent materials ("Liquid Glass"),
 classic glassmorphism, and the cheaper pill-over-imagery alternative.
 Sources: Apple HIG Materials + aside.com rendered measurements + dcinside
-practitioner notes (verified 2026-07-07; evidence:
-`devlog/_fin/260707_liquid_glass_motion_trends/000_research.md`).
+practitioner notes (verified 2026-07-07). The award-derived navigation
+calibration below is maintained as repository-local curated synthesis.
 Design judgment (is glass domain-correct at all?) is owned by
 `dev-uiux-design` — this file owns how to build it.
 
@@ -25,6 +25,17 @@ material**, and the rule ports directly to the web:
   may momentarily adopt glass to emphasize interactivity.
 - **Use sparingly.** One glass layer class per viewport region. If two glass
   surfaces stack, the lower one loses its meaning; merge or demote one.
+
+### Award-Calibrated Navigation States (FE-LIQUID-STATE-01, DEFAULT)
+
+- `pill-at-top`: 70-80% opacity only over a deliberately calm hero bar zone.
+- `pill-scrolled`: 85-95% opacity, optionally with 12-16px blur, once content can pass beneath text-bearing chrome.
+- `media-overlay`: the more transparent regular-glass recipe, reserved for sparse media controls.
+- `clear`: tint and border without blur, reserved for sparse controls over rich media.
+
+Animate only opacity/background color between top and scrolled states; do not morph bar geometry while blurred. Menus, popovers, combobox panels, and other bar-spawned surfaces stay near-opaque and blur-free. Full composition and mobile behavior live in `top-bar.md`.
+
+Inside pill chrome, child emphasis uses fills or tints rather than nested capsule borders at rest (FE-PILL-NEST-01). Hover, active, focus, and `aria-current` states remain required and may use a visible fill or focus ring.
 - Two variants, matching HIG:
   - **regular** — blur + luminosity adjustment backing; default. Use when
     the surface carries text or many controls (headers, sidebars, popovers).

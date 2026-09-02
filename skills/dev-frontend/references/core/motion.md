@@ -1,6 +1,7 @@
 # Motion Choreography — Animation Engineering Guide
 
 Rules for meaningful, performant animation. One well-choreographed moment > 10 scattered effects.
+Award-gallery evidence broadens the expressive option set without changing the repo's task-surface gates.
 
 ---
 
@@ -15,6 +16,12 @@ Motion intensity must match the product surface:
 | Consumer apps, education, community | 3-6: guided feedback and progress |
 | Landing, campaign, editorial | 5-8: expressive but still performant |
 | Games / interactive art | domain-specific |
+
+### Award-Entry Experience Carve-Out (FE-MOTION-EXPERIENCE-01, DEFAULT)
+
+Experiential microsites, award entries, and interactive stories may use continuous authored choreography only when every scene advances narrative or state, a reduced-motion fallback exists, and the core route remains reachable without precision scrolling. Marketing and conversion pages remain governed by the landing/campaign row above; an award reference alone does not justify cinematic motion.
+
+Count repeated identical fade-ups as one motion idea, not many. Prefer one signature moment plus a small number of supporting reveals, and verify the static/reduced-motion reading order independently.
 
 Avoid cinematic page loads for repeated-work tools. Motion should clarify state, not slow the task.
 
@@ -109,8 +116,7 @@ const y = useMotionValue(0);
 2026-trend surface: floating icon-chip clusters that respond to the cursor —
 magnetic pull, dock-style magnification, proximity glow. Chip-as-content
 composition is Tier-2 observed (aside.com, 2026-07-07); the motion patterns
-below are Tier-1 pattern-survey synthesis — see
-the 260707 liquid-glass motion research (codexclaw repo devlog) §5. Use for
+below are maintained here as repository-local pattern-survey synthesis. Use for
 landing/expressive surfaces only (Domain Gates above); never inside
 repeated-work tools.
 
@@ -564,8 +570,8 @@ Use Framer for UI. Use GSAP/Three.js ONLY for isolated full-page scrolltelling o
 ## Cinematic Section Transitions (Level 8+)
 
 Full-screen "flying" transitions where one section transforms into the next:
-zoom-through, fly-through, morph, wipe, portal. Research:
-the 260708 cinematic-transitions research (codexclaw repo devlog).
+zoom-through, fly-through, morph, wipe, portal. The guidance below is adapted
+from repository-local cinematic-transition research.
 
 Domain gate: landing, campaign, editorial, and product-story surfaces only.
 Never apply cinematic section transitions to tools, dashboards, admin, auth,
@@ -888,5 +894,4 @@ buildFrames();
 addEventListener('scroll', onScroll, { passive: true });
 ```
 
-Research: 260708 scroll-driven-effects research (codexclaw repo devlog),
-incl. cinematic transitions.
+Provenance: repository-local scroll-driven-effects and cinematic-transition synthesis.

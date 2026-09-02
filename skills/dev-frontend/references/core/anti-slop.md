@@ -57,6 +57,10 @@ Gradient overuse is the top 2026 anti-slop signal. Treat every gradient as a sca
 - Radial glow washes behind dark heroes are decorative filler unless they model a real light source
 - Every gradient must encode something: depth, light, state, or one brand moment. "Empty area needed texture" is not a reason.
 
+### Material-Field Exemption
+
+A generated or filmed continuous-color field may exceed the ambient-wash default only when the changing field is the product, phenomenon, or primary media material rather than CSS decoration. Keep one such field per viewport, keep unrelated sibling cards flat, and provide a static poster or reduced-motion state. Award examples such as RISK, Sky Clock, and Augen calibrate this narrow context; opaque functional panels are never exempt.
+
 ### Opaque Functional Surfaces (FE-GRADIENT-02, DEFAULT, verified 2026-07-09)
 
 A tinted gradient wash on an OPAQUE functional panel — `background:
@@ -97,6 +101,10 @@ Full-page single-hue theming where background, borders, text accents, badges, gl
 - Generated imagery color-matched to the theme hue compounds the problem — the image must carry its own palette or add contrast, not echo the wash
 
 **Do instead**: neutral dark base (Zinc-950/`#0a0a0a`) + ONE accent applied to <10% of surface area (primary CTA, active states, key data). Imagery and charts supply the remaining color variation.
+
+### Bounded Authored Field Exemption
+
+A single-hue field is allowed for one bounded hero or chapter only when the hue is brand-semantic, contrast passes, real typography/diagram/media supplies structure, and later states introduce tonal or material variation. This is an authored brand/domain field, not permission for a generic full-page cyber wash.
 
 ## Premium-Consumer Palette Ban (MANDATORY)
 
