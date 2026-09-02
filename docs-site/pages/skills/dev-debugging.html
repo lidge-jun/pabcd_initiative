@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -137,6 +138,7 @@
 <table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
 <tr><td><a href="../../pages/skills/dev-debugging-async-debugging.html">Async Debugging Reference</a></td><td>비동기 코드의 Race condition, deadlock, floating promise 디버깅</td></tr>
 <tr><td><a href="../../pages/skills/dev-debugging-methodologies.html">Debugging Methodologies Reference</a></td><td>이분 탐색(git bisect), 구조화된 로깅, 재현 환경 구성 방법론</td></tr>
+<tr><td><a href="../../pages/skills/dev-debugging-performance-debugging.html">Performance Debugging Protocol (DEBUG-PERF-01, DEFAULT)</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-debugging-postmortem-template.html">Blameless Postmortem Template</a></td><td>사후 분석(blameless postmortem) 작성 템플릿</td></tr>
 <tr><td><a href="../../pages/skills/dev-debugging-tool-guides.html">Debugging Tool Reference</a></td><td>lldb, Chrome DevTools, strace, perf 등 디버깅 도구 가이드</td></tr>
 </tbody></table>
@@ -169,6 +171,7 @@
 <p>domain-specific context (API errors, hydration issues, query performance),</p>
 <p>consult <code>dev-backend</code> or <code>dev-frontend</code>.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <pre><code>dev-debugging = root cause methodology (the thinking)
 dev-testing   = test harness for reproducing/verifying (the tooling)
 dev §2        = summary pointer to this skill (the overview)</code></pre>
@@ -281,6 +284,17 @@ Run once → analyze evidence → identify failing layer → investigate THAT la
 <p>active <code>search</code> skill and follow its source-fetch and evidence-status rules</p>
 <p>before treating external material as proof.</p>
 <h4 id="phase-3-hypothesis-and-testing">Phase 3: Hypothesis and Testing</h4>
+<p><strong>STRICT (DEBUG-RCA-EVIDENCE-01):</strong> before investigating any single root-cause</p>
+<p>hypothesis, or making any root-cause claim, write at least three <strong>orthogonal</strong></p>
+<p>hypotheses (<code>H1</code>/<code>H2</code>/<code>H3</code>) and <strong>one falsifier for each</strong>. Collapse duplicates,</p>
+<p>test against disconfirming evidence, and do not claim a root cause until the</p>
+<p>competitors have been ruled out <strong>by evidence</strong>. If fewer than three are plausible,</p>
+<p>state why.</p>
+<p>Two words in that rule carry the weight. <strong>Orthogonal</strong> — three restatements of one</p>
+<p>theory are one hypothesis, and listing them produces the feeling of rigor with none</p>
+<p>of it. <strong>Falsifier</strong> — a hypothesis you cannot describe a disconfirming observation</p>
+<p>for is not testable, so it can never be ruled out and will still be sitting there,</p>
+<p>unexcluded, when you claim the winner.</p>
 <ol>
 <li><strong>List competing hypotheses first</strong> — write at least three plausible root-cause</li>
 </ol>
@@ -312,6 +326,16 @@ Run once → analyze evidence → identify failing layer → investigate THAT la
 </ol>
 <p>further rather than guessing. Record the open question explicitly.</p>
 <h4 id="phase-4-implementation">Phase 4: Implementation</h4>
+<p><strong>STRICT (DEBUG-TOGGLE-PROOF-01):</strong> enter implementation only after all three hold:</p>
+<p>the captured value matches the hypothesis prediction, the repro repeats, and</p>
+<p><strong>toggling the suspected cause off and on removes then restores the bug.</strong> Write one</p>
+<p>paragraph explaining the causal mechanism before patching.</p>
+<p>The toggle is the load-bearing clause, and it is the one usually skipped. A value</p>
+<p>that matches the prediction proves correlation; the bug disappearing when you disable</p>
+<p>the cause and returning when you re-enable it is what distinguishes the cause from</p>
+<p>something that merely co-occurs with it. If the suspected cause cannot be toggled,</p>
+<p>say so and treat the diagnosis as unconfirmed rather than quietly upgrading</p>
+<p>correlation to causation.</p>
 <ol>
 <li><strong>Write a failing test first</strong> — the test reproduces the bug. It should fail</li>
 </ol>
@@ -459,7 +483,28 @@ orders:repository skipped insert due service error</code></pre>
 <tr><td><code>references/async-debugging.md</code></td><td>When debugging concurrency issues</td><td>Race conditions, deadlocks, event loop blocking, promise/callback issues</td></tr>
 <tr><td><code>references/tool-guides.md</code></td><td>When you need stack-specific debugger commands</td><td>Node.js inspector, Python pdb/debugpy, Chrome DevTools, git bisect, database EXPLAIN</td></tr>
 <tr><td><code>references/postmortem-template.md</code></td><td>After resolving a significant incident</td><td>Blameless postmortem template with filled example</td></tr>
+<tr><td><code>references/performance-debugging.md</code></td><td>Latency, throughput, or memory regressions</td><td>Profiling ladder, measurement discipline</td></tr>
+<table class="rules">
+<tr><td><code>references/runtimes/node.md</code></td><td>Node.js / tsx / Bun / Deno</td><td>Phase 0 detection, tsx source-map trap, launch recipes, <code>exec()</code> patterns, silent-failure table, cleanup</td></tr>
+<tr><td><code>references/runtimes/js/nextjs-react.md</code></td><td>Next.js 16 / React 19</td><td>Server-vs-client attach split, hydration mismatch workflow, React Compiler debug, RSC silent failures</td></tr>
+<tr><td><code>references/runtimes/js/vite-vitest.md</code></td><td>Vite 8 / Vitest 4</td><td>Console forwarding to the agent, plugin-transform debug, visual regression, HMR and build-time silent failures</td></tr>
+<tr><td><code>references/runtimes/js/node-backend.md</code></td><td>Express 5 / Fastify 5 / NestJS 11</td><td>Router debug namespaces, lifecycle hooks, schema serialization drops, DI errors, AsyncLocalStorage loss</td></tr>
+<tr><td><code>references/runtimes/python.md</code></td><td>Python (CPython 3.9+)</td><td>Attach methods, pdb/ipdb/pudb, pytest, asyncio gotchas, PEP 768 safe attach, py-spy/memray, silent failures</td></tr>
+<tr><td><code>references/runtimes/rust.md</code></td><td>Rust</td><td>Hierarchy (<code>dbg!</code> → <code>RUST_LOG</code> → backtrace → gdb/lldb → tokio-console → cargo-expand), Miri UB, silent failures</td></tr>
+<table class="rules">
+<tr><td><code>references/runtimes/go.md</code></td><td>Go</td><td>Delve launch/attach, goroutine patterns, race detector, pprof, GODEBUG, silent failures</td></tr>
+<tr><td><code>references/runtimes/c-cpp.md</code></td><td>C/C++</td><td>Sanitizers (ASan/TSan/MSan/UBSan), GDB/LLDB, Valgrind, CMake debug builds, UB silent failures</td></tr>
+<tr><td><code>references/runtimes/jvm.md</code></td><td>Java/Kotlin (JVM)</td><td>jcmd live diagnostics, JFR profiling, JDWP/JDB, Kotlin coroutines, GraalVM native-image</td></tr>
+<tr><td><code>references/runtimes/swift.md</code></td><td>Swift / iOS</td><td>LLDB, Instruments, Swift concurrency, simulator CLI, crash symbolication</td></tr>
+<tr><td><code>references/runtimes/ruby.md</code></td><td>Ruby (3.2+)</td><td>debug gem/rdbg, <code>binding.irb</code>, pry, Rails tools, nil-propagation silent failures</td></tr>
+<tr><td><code>references/runtimes/beam.md</code></td><td>Elixir/Erlang (BEAM)</td><td><code>IEx.pry</code>, Observer, <code>:dbg</code>/recon, supervision hiding, mailbox/atom/binary leaks</td></tr>
+<table class="rules">
+<tr><td><code>references/tools/playwright.md</code></td><td>Browser or web-surface bugs</td><td>codegen repro, PWDEBUG, trace viewer, console/network listeners, viewport gotchas</td></tr>
 </tbody></table>
+<p>Read the runtime file for the stack you are actually debugging, not all of them. Each</p>
+<p>carries a <strong>silent-failure table</strong> for its runtime — the failures that produce no</p>
+<p>error at all — which is the part hardest to rediscover under time pressure and the</p>
+<p>main reason these are worth loading.</p>
 <p>---</p>
 <h3 id="integration-with-other-skills">Integration with Other Skills</h3>
 <table class="rules">

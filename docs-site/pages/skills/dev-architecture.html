@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -161,6 +162,7 @@
 <details><summary>Show full SKILL.md content</summary>
 <h2 id="dev-architecture-module-boundaries-structural-integrity">Dev-Architecture — Module Boundaries &amp; Structural Integrity</h2>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <p>&gt; <strong>Always read <code>dev/SKILL.md</code> first</strong> for project-wide conventions before applying architecture rules.</p>
 <p>Enforces architectural rules that prevent structural decay: circular dependencies, implicit coupling, barrel abuse, and misplaced validation. These rules are mechanical — an AI coding agent can follow them without subjective judgment.</p>
 <p>Severity mapping (dev §0.2): <code>Severity: CRITICAL</code>/<code>HIGH</code> ⇒ STRICT; <code>MEDIUM</code> ⇒ DEFAULT.</p>
@@ -427,6 +429,9 @@
 <ul>
 <li><strong>Observability</strong>: Trace emission at module boundaries is a production/long-lived-runtime concern (DEFAULT there, not universal). See <code>dev-backend/references/core/observability.md</code> for the canonical OTel setup.</li>
 <li><strong>Security</strong>: Validate at every trust/process/external boundary (HTTP entry, IPC, file/CLI input, third-party responses). Intra-trust-domain module calls follow §4 boundary-only defense — do not re-validate already-trusted data. See <code>dev-security/SKILL.md</code> for input validation and auth patterns.</li>
+<li>Coupling and boundary review: see <code>dev-code-reviewer</code>.</li>
+<li>Debugging escalation for boundary or coupling issues: see <code>dev-debugging</code>.</li>
+<li>Infrastructure architecture and deployment boundaries: see <code>dev-devops</code>.</li>
 </ul>
 <p>---</p>
 <h3 id="quick-decision-trees">Quick Decision Trees</h3>
@@ -448,6 +453,39 @@
   NO  -&gt; Is this a security-critical path?
     YES -&gt; Validate (defense in depth)
     NO  -&gt; Trust the type system, no validation needed</code></pre>
+<h3 id="structural-index-concept-arch-index-01-default">Structural Index Concept (ARCH-INDEX-01, DEFAULT)</h3>
+<p>Source: sol research (wednesday-solutions/ai-agent-skills AST dependency graph).</p>
+<p>Instead of reconstructing a module map for every task, maintain a lightweight</p>
+<p>structural index that agents can query:</p>
+<ul>
+<li>Use <code>cxc map &lt;dir&gt;</code> for on-demand symbol-level maps (already shipped).</li>
+<li>For larger repos, consider a persistent dependency graph artifact (e.g.,</li>
+</ul>
+<p><code>dependency-cruiser</code> JSON, Nx project graph, or a custom SQLite index).</p>
+<ul>
+<li>The index should track: module → exports, module → imports, symbol → callers.</li>
+<li>Freshness: re-generate on significant structural changes (new modules, moved files).</li>
+<li>Query before editing: &quot;what depends on this module?&quot; should be answerable from</li>
+</ul>
+<p>the index without a full codebase scan.</p>
+<p>This is a guidance concept, not a shipped tool. The agent should check for existing</p>
+<p>index artifacts before running ad-hoc scans.</p>
+<h3 id="architecture-conformance-tests-arch-conformance-01-default">Architecture Conformance Tests (ARCH-CONFORMANCE-01, DEFAULT)</h3>
+<p>Source: sol research (HoangNguyen0403/agent-skills-standard compliance auditing).</p>
+<p>Architecture rules that exist only as prose are invisible to CI. For C3+ work</p>
+<p>where boundary violations would cause real harm:</p>
+<ul>
+<li>Generate tool-specific configs from architecture decisions (dependency-cruiser</li>
+</ul>
+<p>rules, ESLint boundaries plugin, Nx enforce-module-boundaries, Go <code>depguard</code>).</p>
+<ul>
+<li>Include at least one allowed-edge and one forbidden-edge test fixture.</li>
+<li>The CI gate should FAIL on new violations while allowing a baselined set of</li>
+</ul>
+<p>legacy violations (ratcheting: new cycles fail, old ones are migrated).</p>
+<ul>
+<li>Return a machine-readable report (JSON or SARIF) that agents can consume.</li>
+</ul>
 </details>
   </div>
 </section>

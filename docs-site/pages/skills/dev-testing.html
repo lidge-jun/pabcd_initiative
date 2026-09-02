@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -140,6 +141,7 @@
 <tr><td><a href="../../pages/skills/dev-testing-backend-testing.html">Backend Testing Patterns</a></td><td>백엔드 테스트 패턴: 서비스 레이어, DB, API 통합 테스트</td></tr>
 <tr><td><a href="../../pages/skills/dev-testing-ci-pipeline.html">CI Pipeline Templates</a></td><td>CI 파이프라인에서의 테스트 게이트와 캐싱 전략</td></tr>
 <tr><td><a href="../../pages/skills/dev-testing-edge-first-testing.html">Edge-First Testing Workflow</a></td><td>엣지/서버리스 환경 테스트 패턴과 miniflare</td></tr>
+<tr><td><a href="../../pages/skills/dev-testing-limited-oracle-evaluation.html">Limited-Oracle / Score-Objective Evaluation</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-testing-load-testing.html">Load &amp; Performance Testing</a></td><td>부하 테스트: k6, Artillery, 성능 기준선 설정</td></tr>
 <tr><td><a href="../../pages/skills/dev-testing-ml-evaluation.html">ML Model Evaluation</a></td><td>ML 모델 평가: 메트릭, A/B 테스트, 데이터 드리프트 감지</td></tr>
 </tbody></table>
@@ -171,8 +173,16 @@
 <h2 id="testing-qa">Testing &amp; QA</h2>
 <p>Balance: ~40% Backend/API, ~40% Frontend/E2E (Playwright), ~20% Cross-cutting (CI, Security, TDD, Coverage) -- directional guidance, not a hard ratio.</p>
 <p><strong>Scope</strong>: test harnesses, fixtures, mock policy, runners, Playwright, CI gates, coverage. Root-cause analysis and debugging playbooks → <code>dev-debugging</code>.</p>
+<ul>
+<li>Review/test boundary and test adequacy findings: see <code>dev-code-reviewer</code>.</li>
+<li>CI pipeline ownership and deployment verification: see <code>dev-devops</code>.</li>
+<li>Data pipeline testing and ETL validation: see <code>dev-data</code>.</li>
+<li>Design direction context for rendered verification: see <code>dev-uiux-design</code>.</li>
+<li>Browser QA implementation and rendered UI fixes: see <code>dev-frontend</code>.</li>
+</ul>
 <p>This skill activates by change surface when work needs verification depth, regression coverage, or a reproducible test harness.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
 <h3 id="modular-references">Modular References</h3>
 <table class="rules">
 <thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
@@ -236,51 +246,6 @@
 <li><strong>STRICT (TEST-ANTI-FLAKE-01):</strong> A time-based flake is a bug. Do not use sleep-based synchronization, retry-as-fix, or green-on-retry acceptance without a deterministic cause and harness correction.</li>
 <li>Verification depth follows <code>dev</code> §3 <code>DEV-VERIFY-FLOOR-01</code>; CRUD per-operation negative coverage is owned by <code>references/core/crud-test-matrix.md</code>.</li>
 </ul>
-<h4 id="1-5a-limited-oracle-score-objective-evaluation">1.5a Limited-Oracle / Score-Objective Evaluation</h4>
-<p>Use this section when the real evaluator is scarce, paid, rate-limited, or opaque, and</p>
-<p>local tests are proxy metrics for a score/objective. These rules pair with</p>
-<p><code>dev-pabcd</code> §10 Optimization-Loop Meta-Rules (plateau discipline). They were observed in a</p>
-<p>14-discard optimization plateau where a prefix-only replay gate and hard</p>
-<p>draw-protection invariant locked a 3.5/8 score.</p>
-<ul>
-<li><strong>GATE-ORACLE-VALIDITY-01 (STRICT):</strong> When the true evaluator/oracle is</li>
-</ul>
-<p>rate-limited and local metrics are proxies, evaluator validity is a PREREQUISITE</p>
-<p>gate. Before trusting the proxy for accept/reject, quantify historical divergence:</p>
-<p>cases where the proxy said better/equal but the oracle said worse. A proxy with known</p>
-<p>optimistic bias must not be the sole acceptance evidence.</p>
-<ul>
-<li><strong>GATE-PREFIX-HORIZON-01 (DEFAULT):</strong> Replay-based evidence, such as recorded logs or</li>
-</ul>
-<p>scripted opponents, is prefix-valid only. It stops being valid as soon as the</p>
-<p>candidate diverges from the recorded trajectory. Candidates that diverge early need</p>
-<p>live adversarial evaluation with a modeled opponent/environment, not replay-only</p>
-<p>acceptance. State the divergence turn/point whenever citing replay evidence.</p>
-<ul>
-<li><strong>GATE-INVARIANT-EV-01 (DEFAULT):</strong> Every hard invariant in an acceptance gate, meaning</li>
-</ul>
-<p>a metric that must not regress, needs an expected-value justification: the value it</p>
-<p>protects versus the candidate-space it vetoes. If a hard invariant vetoes three or</p>
-<p>more consecutive candidates that target strictly larger gains, downgrade it to a</p>
-<p>soft cost and re-justify or remove it.</p>
-<ul>
-<li><strong>GATE-HOLDOUT-LEAKAGE-01 (DEFAULT):</strong> Fixed evaluation assets - recorded logs, test</li>
-</ul>
-<p>maps, sparring bots, graders, and public oracle outcomes - become training data once</p>
-<p>candidates are repeatedly tuned against them (adaptive reuse overfits the holdout</p>
-<p>itself). Rotate or expand the gate&#x27;s instance set as tuning accumulates, and reserve</p>
-<p>a blind slice (instances never used for candidate selection) as the final acceptance</p>
-<p>check. A candidate that wins only on the tuned set and not on the blind slice is</p>
-<p>gate-overfit, not improved. Grounding: Blum &amp; Hardt, &quot;The Ladder&quot;</p>
-<p>(arXiv:1502.04585); Dwork et al., &quot;The reusable holdout&quot; (arXiv:1506.02629).</p>
-<ul>
-<li><strong>GATE-AGREEMENT-STATS-01 (HEURISTIC):</strong> Calibrate a proxy against the scarce oracle</li>
-</ul>
-<p>with agreement statistics, not correlation alone: sign-discordance rate (proxy said</p>
-<p>better/equal, oracle said worse), mean and worst-case proxy-minus-oracle error, and</p>
-<p>rank agreement on paired decisions (Bland-Altman method-comparison doctrine). Track</p>
-<p>these per scenario family and re-derive them whenever the oracle returns new</p>
-<p>results.</p>
 <h4 id="1-6-property-based-mutation-testing-verified-2026-07-02">1.6 Property-Based &amp; Mutation Testing (verified 2026-07-02)</h4>
 <table class="rules">
 <thead><tr><th>Technique</th><th>Use for</th><th>Default tools</th><th>When</th></tr></thead><tbody>
@@ -700,6 +665,150 @@ pip-audit --strict --desc</code></pre>
 → contract verification
 → Playwright smoke
 → CI gate + coverage + security scan</code></pre>
+<h3 id="patch-integrity-gate-test-patch-integrity-01-default">Patch Integrity Gate (TEST-PATCH-INTEGRITY-01, DEFAULT)</h3>
+<p>Source: sol research (SWE-bench containerized evaluation, addyosmani/agent-skills).</p>
+<p>An agent that obtains green by weakening tests has not fixed the bug. Before</p>
+<p>claiming implementation complete:</p>
+<ol>
+<li><strong>Baseline</strong>: record which tests fail and their failure signatures BEFORE any</li>
+</ol>
+<p>production code change.</p>
+<ol>
+<li><strong>Implement</strong>: write the fix/feature.</li>
+<li><strong>Re-run originals</strong>: execute the ORIGINAL test suite (not the modified version)</li>
+</ol>
+<p>against the patched source. All baseline failures must now pass.</p>
+<ol>
+<li><strong>Classify test changes</strong>: every test/config change is <code>required</code> (new test for</li>
+</ol>
+<p>new behavior), <code>suspicious</code> (deleted assertion, lowered threshold, added skip,</p>
+<p>reduced coverage exclusion), or <code>unrelated</code>.</p>
+<ol>
+<li><strong>Justify suspicious changes</strong>: each suspicious change needs a stated reason.</li>
+</ol>
+<p>&quot;The test was wrong&quot; is valid only with evidence of the original test&#x27;s incorrectness.</p>
+<p>Red flags that trigger escalation:</p>
+<ul>
+<li>Deleted assertions without replacement</li>
+<li>Snapshot updates without visual/behavioral verification</li>
+<li>Coverage exclusions added in the same PR as the fix</li>
+<li><code>@skip</code> or <code>.skip()</code> added to failing tests</li>
+<li>Threshold reductions (e.g., coverage 80% → 60%)</li>
+<li>Type assertion suppressions (<code>as any</code>, <code>@ts-ignore</code>) in test files</li>
+</ul>
+<h3 id="tdd-evidence-contract-test-tdd-evidence-01-default">TDD Evidence Contract (TEST-TDD-EVIDENCE-01, DEFAULT)</h3>
+<p>When TDD is claimed, durable evidence must show:</p>
+<ul>
+<li>RED: failing test name + failure message (before production code)</li>
+<li>GREEN: same test passing (after production code)</li>
+<li>REFACTOR: full affected suite passing (after cleanup)</li>
+</ul>
+<p>A TDD claim without RED evidence is not TDD.</p>
+<p>---</p>
+<h3 id="acceptance-row-reachability-test-row-reachable-01-default">Acceptance-Row Reachability (TEST-ROW-REACHABLE-01, DEFAULT)</h3>
+<p>Every row of an acceptance-criteria table must have a <strong>constructible precondition</strong>.</p>
+<p>Before writing a row, ask: is there a call path that reaches this state? Does an</p>
+<p>earlier guard consume this condition first, so the branch under test is never entered?</p>
+<p>Does an operation that produces this value actually exist?</p>
+<p>An unreachable row is decoration, not verification — the implementer tries to write</p>
+<p>that test, cannot, and quietly drops it. This applies C-ACTIVATION-GROUNDING-01&#x27;s</p>
+<p>requirement (every conditional path names its activation scenario) to each row of the</p>
+<p>acceptance table, not just to the plan&#x27;s prose.</p>
+<p>Common unreachable shapes:</p>
+<ul>
+<li>The row asserts a rejection that an earlier, broader rule already rejects — the</li>
+</ul>
+<p>specific guard is never exercised, so the test passes even if that guard is absent.</p>
+<ul>
+<li>The row needs a state the public API cannot produce (no operation creates it).</li>
+<li>The row asserts on a call-site argument the function never receives.</li>
+<li>Two rows in the same table are mutually exclusive on the same tree (for example</li>
+</ul>
+<p>&quot;the gate reports a failure here&quot; together with &quot;the gate exits 0 overall&quot;).</p>
+<h3 id="test-oracle-integrity-default">Test Oracle Integrity (DEFAULT)</h3>
+<p>Three narrow contracts that stop false-green. No gate enforces any of them; the</p>
+<p>reviewer is the only check.</p>
+<p><strong>TEST-PROMPT-SEAM-01.</strong> Do not assert on prose. A test may read a document only when</p>
+<p>it <strong>extracts a value and compares it against a value from another source.</strong> Asserting</p>
+<p>that a phrase exists in a file is a violation no matter how many files you read or</p>
+<p>what the test&#x27;s header says it is for.</p>
+<ul>
+<li>Forbidden: <code>assert.match(readFileSync(&quot;.../SKILL.md&quot;), /prefer rg first/i)</code> — one</li>
+</ul>
+<p>source, phrase existence, breaks on harmless rewording, proves no behavior.</p>
+<ul>
+<li>Allowed: parse the frontmatter <code>description</code>, pull a token out of it, and assert that</li>
+</ul>
+<p>token appears in the runtime constant it is supposed to mirror — two sources, values</p>
+<p>compared, breaks only when they genuinely disagree.</p>
+<ul>
+<li>Outside this rule&#x27;s scope, and allowed: asserting on non-prose values — version pins,</li>
+</ul>
+<p>license names, runtime output, CLI stdout, file existence.</p>
+<p>The rule was written after two such tests were <strong>deleted rather than repaired</strong>, and</p>
+<p>the reason repair failed is the reusable part. Three designs were tried: a structured</p>
+<p>metadata field in each document compared between them (nothing at runtime reads such a</p>
+<p>field, so it becomes a third source of truth that passes whenever both copies are wrong</p>
+<p>together); promoting the prose to a behavioral test (the behavior was already covered,</p>
+<p>so this duplicated coverage while appearing to offset the deletion); and promoting a</p>
+<p>doctrine statement the same way (no runtime branch implements it, so there is nothing to</p>
+<p>compare against).</p>
+<p>What that costs is stated plainly rather than hidden: the affected doctrine has **no</p>
+<p>automated consistency check<strong> and is a human-review item. </strong>When prose has no</p>
+<p>counterpart in code, a test that reads it can only check that the words are still</p>
+<p>there.** Deleting it removes a false green; inventing a second document to compare it</p>
+<p>against removes nothing and adds a lie.</p>
+<p><strong>TEST-ORACLE-INDEPENDENCE-01.</strong> Never derive the expected value from the code under</p>
+<p>test.</p>
+<ul>
+<li>Forbidden: <code>assert.equal(fn(x), fn(x))</code>; building the expectation with a helper the</li>
+</ul>
+<p>code under test also uses; refreshing a snapshot from current output and calling that</p>
+<p>verification.</p>
+<ul>
+<li>Allowed: hardcode the expectation in the fixture, or compute it by an independent</li>
+</ul>
+<p>route — a second implementation, a hand-worked example, an external spec.</p>
+<p><strong>TEST-PRECEDENCE-FIXTURE-01.</strong> When testing override / default / fallback, the three</p>
+<p>values must all <strong>differ</strong> — otherwise the test cannot tell which path ran.</p>
+<ul>
+<li>Forbidden: override <code>&quot;x&quot;</code>, default <code>&quot;x&quot;</code>, fallback <code>&quot;x&quot;</code> — every branch passes.</li>
+<li>Allowed: override <code>&quot;from-flag&quot;</code>, default <code>&quot;from-config&quot;</code>, fallback <code>&quot;builtin&quot;</code>, with</li>
+</ul>
+<p>each case asserting the specific one.</p>
+<p>A regression test should FAIL when the defect is reintroduced. Confirm it once by</p>
+<p>mutation — break it, watch it go red, restore it, watch it go green. A regression test</p>
+<p>that has never been seen red is an assertion about the test, not about the defect.</p>
+<h3 id="ci-green-discipline-test-ci-green-01-strict">CI Green Discipline (TEST-CI-GREEN-01, STRICT)</h3>
+<p>The latest HEAD is the source of truth for whether CI is green.</p>
+<ol>
+<li><strong>Inspect before editing.</strong> Read the failing job&#x27;s log and its artifacts. A failure</li>
+</ol>
+<p>you have not read is a failure you are guessing about.</p>
+<ol>
+<li><strong>Make the minimal correct fix</strong> for that failure.</li>
+<li><strong>Re-watch the latest HEAD</strong>, not the run you were looking at when you started.</li>
+</ol>
+<p>Never blind-retry a failed job, and never push another change without new failure</p>
+<p>evidence. Both produce the same illusion — activity that looks like progress while the</p>
+<p>failure is unexamined. Re-running to measure a failure RATE is a different act and is</p>
+<p>allowed; see <code>references/ci-pipeline.md</code> §5.2.</p>
+<h3 id="exploratory-qa-tier-test-cu-qa-01-default">Exploratory QA Tier (TEST-CU-QA-01, DEFAULT)</h3>
+<p>Deterministic browser test suites and exploratory QA are different tools for different</p>
+<p>jobs, and the split is worth stating because collapsing it wastes both:</p>
+<ul>
+<li><strong>Deterministic suites</strong> own regression guarding. They are the thing you keep.</li>
+<li><strong>Exploratory QA</strong> through whatever browser or screen-control capability the runtime</li>
+</ul>
+<p>offers owns immediate proof that a surface built right now actually works.</p>
+<p>Protocol: <strong>inspect → act → re-inspect.</strong> When DOM inspection is unavailable, fall back</p>
+<p>to screenshots <strong>and read the image back</strong> — a screenshot produced but never read is</p>
+<p>not an observation.</p>
+<p>Evidence names the flow, the states traversed, the result, and the artifacts. **Promote</p>
+<p>any flow that must stay guarded into a deterministic test**; exploratory proof does not</p>
+<p>accumulate, so a flow left only in QA is a flow that will regress unnoticed.</p>
+<p>The tool ladder for this tier is <code>QA-TOOL-LADDER-01</code> in <code>dev</code> — start at the runtime&#x27;s</p>
+<p>embedded browser and escalate only with a stated reason.</p>
 </details>
   </div>
 </section>

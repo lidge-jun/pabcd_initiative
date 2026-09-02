@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -107,6 +108,15 @@
 <p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/references/color-system.md" target="_blank" rel="noopener">dev-uiux-design/references/color-system.md</a></p>
 <h3 id="1-color-palette-generation">1. Color Palette Generation</h3>
 <p>When the user provides a brand color (or you need to generate a palette from scratch), follow this method.</p>
+<h4 id="palette-modifier-vocabulary">Palette Modifier Vocabulary</h4>
+<p>Palette modifiers describe color structure, not aesthetic movements. Apply one only after domain, contrast, semantic-color, and material requirements are known.</p>
+<ul>
+<li><strong>black-and-white:</strong> Only black, white, and their opacity mixtures; name this explicitly instead of using <code>monochrome</code> when hue is absent.</li>
+<li><strong>greyscale:</strong> A multi-step neutral ramp without chromatic hue as the principal palette; semantic status colors may remain where meaning requires them.</li>
+<li><strong>monochrome:</strong> One hue family varied through lightness, chroma, and alpha; black-and-white and greyscale are related aliases in gallery retrieval but remain distinct implementation values.</li>
+<li><strong>colourful:</strong> Multiple hue families carry intentional hierarchy. This is not an alias for Memphis or gradient-led styling and does not waive the hue budget.</li>
+<li><strong>single-saturated-field:</strong> One bounded hero or chapter uses a saturated semantic brand field. It is not a full-page one-note theme and must preserve contrast, structure, and later tonal/material variation.</li>
+</ul>
 <h4 id="from-brand-color-to-full-palette">From Brand Color to Full Palette</h4>
 <ol>
 <li><strong>Start with the brand hex.</strong> Compute OKLCH values for precise perceptual steps.</li>
@@ -135,8 +145,7 @@
 <li><strong>Neutral ramp:</strong> Pick a subtle hue bias from the brand color. Apply it at very low chroma (0.005–0.01) across the gray scale. This gives &quot;warm grays&quot; or &quot;cool grays&quot; that feel cohesive with the brand.</li>
 </ol>
 <h4 id="practitioner-notes-hue-budget-tinted-neutrals-verified-2026-07-07">Practitioner Notes — Hue Budget &amp; Tinted Neutrals (verified 2026-07-07)</h4>
-<p>Field-tested extensions to the method above (Korean designer community;</p>
-<p>evidence: repo <code>devlog/_fin/260707_liquid_glass_motion_trends/000_research.md</code> §2):</p>
+<p>Field-tested extensions to the method above, adapted from Korean designer-community research and maintained here as repository-local guidance:</p>
 <ul>
 <li><strong>Hue budget:</strong> most &quot;AI-generated frontend looks off&quot; complaints trace to</li>
 </ul>

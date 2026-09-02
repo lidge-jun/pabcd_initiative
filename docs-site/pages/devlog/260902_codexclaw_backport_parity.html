@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>260902 Codexclaw Backport — Skill Parity Across the Ecosystem — PABCD Initiative</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/pabcd_initiative" target="_blank" rel="noopener" title="pabcd_initiative">pabcd_initiative</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/codexclaw" target="_blank" rel="noopener" title="codexclaw">codexclaw</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/cli-jaw" target="_blank" rel="noopener" title="cli-jaw">cli-jaw</a></span>
+  <span class="right"><a href="https://github.com/lidge-jun" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+<li><a href="../../pages/analysis.html" class="">Meta Analysis</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="active">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>260902 Codexclaw Backport — Skill Parity Across the Ecosystem</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: devlog/_plan/260902_codexclaw_backport_parity/000_plan.md</p>
+<h2 id="260902-codexclaw-backport-skill-parity-across-the-ecosystem">260902 Codexclaw Backport — Skill Parity Across the Ecosystem</h2>
+<p>Trigger: the ecosystem drifted. Skill upgrades accumulated in <code>codexclaw</code></p>
+<p>(<code>plugins/codexclaw/skills/</code>, 28 skill directories) while the two upstream</p>
+<p>homes stayed where they were — this repository&#x27;s <code>skills/</code> (13 agent-neutral</p>
+<p>skills) and <code>cli-jaw/skills_ref</code>&#x27;s <code>jaw-dev*</code> family (15 skills). The same</p>
+<p>session also refreshes <code>cli-jaw</code>&#x27;s stale model catalog from <code>opencodex</code> and</p>
+<p><code>codexclaw</code>; that half is recorded in <code>cli-jaw</code>&#x27;s own devlog unit, not here.</p>
+<p>Run as a <code>cxc-loop</code>: one work-phase per full PABCD cycle, this docs-only cycle</p>
+<p>first (LOOP-DOCS-FIRST-01), parallel read-only investigation delegated to</p>
+<p><code>grok-4.6</code> subagents, all writes and commits owned by the main session.</p>
+<h3 id="the-lineage-decides-the-direction-of-the-port">The lineage decides the direction of the port</h3>
+<p><code>README.md</code> (lines 6-9, 38-39, 48-50) fixes the ecosystem&#x27;s shape, and it is</p>
+<p>not a tree with codexclaw at the root:</p>
+<ul>
+<li><code>cli-jaw/skills_ref</code> is the <strong>live deploy source</strong>. This repository&#x27;s</li>
+</ul>
+<p><code>skills/</code> is a snapshot taken from it at the 2026-07-02 75-grade upgrade,</p>
+<p>then made agent-neutral — &quot;This is a COPY&quot;.</p>
+<ul>
+<li>This repository is the <strong>canonical methodology home</strong>: agent-neutral, no</li>
+</ul>
+<p>host-CLI commands, <code>orchestrate &lt;phase&gt;</code> left abstract so any runtime can</p>
+<p>bind it.</p>
+<ul>
+<li><code>codexclaw</code> (<code>cxc-*</code>) and <code>jawcode</code> (<code>jwc</code>) are <strong>downstream adaptations</strong>.</li>
+</ul>
+<p>&quot;Ports are adapted, never blind-copied.&quot;</p>
+<p>So the work is a <strong>back-port</strong>: content that grew in a downstream adaptation</p>
+<p>has to travel back into the canonical home and into the live deploy source.</p>
+<p>That is not the usual direction, and it is the reason the two targets need</p>
+<p>different treatment rather than the same patch:</p>
+<table class="rules">
+<thead><tr><th>Target</th><th>Vocabulary contract</th><th>Port style</th></tr></thead><tbody>
+<tr><td><code>pabcd_initiative/skills/</code></td><td>agent-neutral; no <code>cxc</code>, no <code>.codexclaw/</code>, no hook names</td><td>additive only</td></tr>
+<tr><td><code>cli-jaw/skills_ref/jaw-dev*</code></td><td>cli-jaw&#x27;s own surface (<code>jaw orchestrate</code>, <code>jaw-*</code> ids)</td><td>adapted translation</td></tr>
+</tbody></table>
+<h3 id="the-precedent-that-constrains-this-unit">The precedent that constrains this unit</h3>
+<p>This exact back-port was attempted once and reverted. On 2026-07-12, within</p>
+<p>five minutes:</p>
+<ul>
+<li><code>7d196d6</code> `sync(skills): deploy improved dev-* skills from codexclaw session</li>
+</ul>
+<p>260711-12` — a wholesale sync, 39 files, <strong>+3536 / -1188</strong>. It replaced</p>
+<p><code>SKILL.md</code> bodies rather than appending to them.</p>
+<ul>
+<li><code>ec6ae5c</code> <code>Revert &quot;sync(skills): deploy improved dev-* skills...&quot;</code> — reverted</li>
+</ul>
+<p>at 17:52.</p>
+<ul>
+<li><code>46bfa38</code> `feat(skills): port new rules from codexclaw (agent-neutral,</li>
+</ul>
+<p>additive only)` — landed at 17:57. 11 files, <strong>+376 / -0</strong>.</p>
+<p>The 1188 deleted lines are the finding. A wholesale sync overwrites the</p>
+<p>agent-neutral rewriting that is the whole point of this repository, so the</p>
+<p>accepted shape is the third commit&#x27;s: append whole named rule sections, add</p>
+<p>whole new reference files, delete nothing. <code>4e4db8e</code> and <code>56ce13a</code> then did a</p>
+<p>harmonization pass (dev-is-canonical, role boundary, bidirectional cross-refs)</p>
+<p>that later ports must not undo.</p>
+<p>Consequence for this unit: **additive only, and nothing that 46bfa38 already</p>
+<p>landed gets re-landed.** The 46bfa38 subset (+376) is far smaller than the</p>
+<p>reverted sync (+3536), so a large amount of codexclaw content is still</p>
+<p>unported — deliberately, because it needed agent-neutral rewriting first. That</p>
+<p>backlog is what the decade docs below enumerate.</p>
+<h3 id="scope-measured">Scope, measured</h3>
+<p>Full census in <code>001_rule_gap_census.md</code>, reproducible via <code>gap-census.sh</code>:</p>
+<p>codexclaw&#x27;s 13 dev-family skills carry <strong>233</strong> named rule ids;</p>
+<p><code>pabcd_initiative</code> carries 120 and is missing <strong>121</strong>; <code>cli-jaw</code>&#x27;s <code>jaw-dev*</code></p>
+<p>family carries 147 and is missing <strong>91</strong>. 86 rules are needed by both.</p>
+<p>Two census results change this roadmap rather than merely sizing it:</p>
+<ul>
+<li><strong><code>cli-jaw</code> is ahead of the canonical repository on frontend.</strong></li>
+</ul>
+<p><code>jaw-dev-frontend</code> has 71 of codexclaw&#x27;s 79 <code>FE-*</code> rules; <code>dev-frontend</code> here</p>
+<p>has 36. 33 of the 35 rules only this repository needs are frontend/UX rules</p>
+<p><code>cli-jaw</code> already shipped, and its <code>dev-debugging/references/runtimes/</code> tree</p>
+<p>exists there and not here. So <code>cli-jaw</code>, not codexclaw, is the better source</p>
+<p>for those ports: its text has already survived one adaptation and one review.</p>
+<ul>
+<li><strong><code>dev-devops</code> never travelled at all.</strong> codexclaw has 19 <code>DEVOPS-*</code> rules;</li>
+</ul>
+<p>both targets have 1. That is not drift, it is a whole skill upgrade that never</p>
+<p>left, and it earns its own work-phase below.</p>
+<h3 id="uncommitted-work-already-in-the-tree">Uncommitted work already in the tree</h3>
+<p><code>git status --porcelain</code> shows 22 files that belong to this unit, not to some</p>
+<p>other session:</p>
+<ul>
+<li>modified: <code>skills/dev-frontend/SKILL.md</code> + 8 files under</li>
+</ul>
+<p><code>skills/dev-frontend/references/core/</code></p>
+<ul>
+<li>modified: <code>skills/dev-uiux-design/SKILL.md</code> + 6 files under</li>
+</ul>
+<p><code>skills/dev-uiux-design/references/</code></p>
+<ul>
+<li>untracked: <code>dev-frontend/references/core/{reference-capture,section-level-sourcing,top-bar}.md</code>,</li>
+</ul>
+<p><code>dev-uiux-design/references/{compositional-patterns,design-award-sources,design-trends}.md</code></p>
+<p>16 modified + 6 new, <code>+164 / -13</code>. Three of the new files</p>
+<p>(<code>reference-capture.md</code>, <code>top-bar.md</code>, and the <code>dev-uiux-design</code> additions)</p>
+<p>appear in the reverted sync&#x27;s file list, so this is the same back-port resumed</p>
+<p>by hand and never committed. It is <strong>already-ported content</strong>: the gap analysis</p>
+<p>for <code>dev-frontend</code> and <code>dev-uiux-design</code> compares codexclaw against the</p>
+<p>WORKING TREE, not against <code>HEAD</code>, or the port double-applies. These files</p>
+<p>become the bottom commit of the stack.</p>
+<h3 id="the-dependency-graph-is-two-deep-and-that-is-measured">The dependency graph is two deep, and that is measured</h3>
+<p>PHASE-SPLIT-01 forbids effort buckets, so the phase order has to come from real</p>
+<p>dependency edges. The edges here are textual: a ported rule that cites another</p>
+<p>rule id dangles if the cited rule has not landed. Computed by intersecting</p>
+<p>(rules each non-core skill cites) ∩ (rules core owns) ∩ (rules still missing</p>
+<p>from the target):</p>
+<table class="rules">
+<thead><tr><th>Skill</th><th>Needs from core — <code>pabcd_initiative</code></th><th>Needs from core — <code>cli-jaw</code></th></tr></thead><tbody>
+<tr><td><code>dev-scaffolding</code></td><td><code>LOOP-DOCS-FIRST-01</code></td><td><code>LOOP-DOCS-FIRST-01</code></td></tr>
+<tr><td><code>dev-code-reviewer</code></td><td><code>AUDIT-LOOP-01</code>, <code>DEV-STACK-05</code></td><td><code>AUDIT-LOOP-01</code>, <code>DEV-STACK-05</code></td></tr>
+<tr><td><code>dev-devops</code></td><td><code>DEV-STACK-03</code></td><td><code>DEV-STACK-03</code></td></tr>
+<tr><td><code>dev-testing</code></td><td><code>QA-TOOL-LADDER-01</code></td><td>—</td></tr>
+<tr><td><code>dev-debugging</code></td><td><code>QA-TOOL-LADDER-01</code></td><td>—</td></tr>
+<table class="rules">
+<tr><td><code>dev-frontend</code></td><td><code>FE-AI-TELL-01</code></td><td>—</td></tr>
+<tr><td><code>dev-uiux-design</code></td><td><code>FE-AI-TELL-01</code></td><td>—</td></tr>
+<tr><td><code>dev-architecture</code>, <code>dev-backend</code>, <code>dev-data</code>, <code>dev-security</code></td><td>—</td><td>—</td></tr>
+</tbody></table>
+<p>Every edge points at the core (<code>dev</code> + <code>dev-pabcd</code>). **No edge runs between two</p>
+<p>non-core skills.** The genuine dependency structure is therefore two layers,</p>
+<p>not five: core, then everything else in parallel, with four skills independent</p>
+<p>even of the core.</p>
+<p>That is the finding the stack shape has to respect. Serializing</p>
+<p><code>dev-devops</code> behind <code>dev-testing</code> would be a false merge order — exactly the</p>
+<p>anti-pattern DEV-STACK-01 names — because neither consumes the other.</p>
+<h3 id="work-phase-map">Work-phase map</h3>
+<p>One decade doc = one work-phase = one full PABCD cycle. Never two in one B.</p>
+<table class="rules">
+<thead><tr><th>Doc</th><th>Work-phase</th><th>Depends on</th><th>Independently proves</th></tr></thead><tbody>
+<tr><td><code>010</code></td><td>Commit the in-tree <code>dev-frontend</code> / <code>dev-uiux-design</code> port</td><td>—</td><td>the resumed hand-port is captured and attributed</td></tr>
+<tr><td><code>020</code></td><td>Core: <code>dev</code> + <code>dev-pabcd</code> (19 + 15 rules)</td><td>010</td><td>every cited rule id in later phases resolves</td></tr>
+<tr><td><code>030</code></td><td>Verification: <code>dev-testing</code>, <code>dev-code-reviewer</code>, <code>dev-debugging</code> (15)</td><td>020</td><td>the gates the core names are checkable</td></tr>
+<tr><td><code>040</code></td><td><code>dev-devops</code> (17)</td><td>020</td><td>the never-ported CI/release family exists</td></tr>
+<tr><td><code>050</code></td><td><code>dev-frontend</code>, <code>dev-uiux-design</code> (49)</td><td>020</td><td>the largest surface, sourced from <code>cli-jaw</code></td></tr>
+<table class="rules">
+<tr><td><code>060</code></td><td><code>dev-architecture</code>, <code>dev-backend</code>, <code>dev-data</code>, <code>dev-security</code>, <code>dev-scaffolding</code> (8)</td><td>020</td><td>no dangling reference remains anywhere</td></tr>
+<tr><td><code>070</code></td><td>Harmonization + <code>docs-site</code> sync</td><td>020-060</td><td>ownership and cross-ref invariants survived</td></tr>
+</tbody></table>
+<p><code>010</code> is a separate work-phase because its provenance differs: it is</p>
+<p>pre-existing hand-written work, and folding it into <code>020</code> would leave a</p>
+<p>reviewer unable to tell which lines were hand-authored and which were</p>
+<p>back-ported in this session.</p>
+<p><code>040</code> gets its own phase despite being mechanically simple. <code>dev-devops</code> is the</p>
+<p>family most likely to carry codexclaw-specific CI details (workflow names,</p>
+<p>branch-protection specifics), so its de-codexclaw-ing needs a dedicated audit</p>
+<p>rather than a share of a mixed phase.</p>
+<p><code>070</code> is the only phase that genuinely depends on more than the core: it</p>
+<p>verifies cross-references across everything the other phases landed.</p>
+<h3 id="stack-shape">Stack shape</h3>
+<p>Seven work-phases, but the dependency graph above says the stack cannot honestly</p>
+<p>be seven deep. Published shape — six layers, linear:</p>
+<pre><code>feat/skills-remainder-harmonize   → PR 6 (base: PR 5 head)   060 + 070
+feat/skills-frontend-backport     → PR 5 (base: PR 4 head)   050
+feat/skills-devops-backport       → PR 4 (base: PR 3 head)   040
+feat/skills-verification-backport → PR 3 (base: PR 2 head)   030
+feat/skills-core-backport         → PR 2 (base: PR 1 head)   020
+docs/backport-roadmap-260902      → PR 1 (base: main)        000 + 001 + 010
+──────────────────────────────────  main</code></pre>
+<p>PR 1 is the roadmap plus the in-tree capture, and it is a real review boundary</p>
+<p>rather than a formality: it is where the *convention* is agreed — additive-only,</p>
+<p>agent-neutral, <code>cli-jaw</code> as the source for frontend, the census script as the</p>
+<p>gate. Every layer above it is an application of that convention, so reviewing</p>
+<p>the convention after five layers of it have landed is the wrong order. It also</p>
+<p>means the bottom layer is reviewable and mergeable today, before the content</p>
+<p>work is drafted.</p>
+<p>Two decisions in that shape are worth naming, because both trade against a rule</p>
+<p>rather than following one:</p>
+<p><strong>Layers 2-4 are serialized by choice, not by dependency.</strong> <code>030</code>, <code>040</code>, and</p>
+<p><code>050</code> each depend only on the core. Parallel PRs off PR 1 would be the literal</p>
+<p>DEV-STACK-01 answer. A linear stack is chosen anyway because <code>070</code> has to sit on</p>
+<p>top of all of them, and a diamond — three parallel PRs re-converging into one —</p>
+<p>has no bottom-up merge order at all. The cost is honest: merging PR 2 does not</p>
+<p>require PR 3 or PR 4, so a reviewer who wants PR 3 first can merge it and let</p>
+<p>GitHub retarget the rest. The stack expresses review order, and the PR bodies</p>
+<p>say so rather than implying a dependency that the census disproves.</p>
+<p><strong>Five layers is at the depth DEV-STACK-01 says to think hard about.</strong> Accepted</p>
+<p>because each layer is one coherent rule family with its own audit, and the</p>
+<p>alternative — landing the bottom half first, then stacking the rest — costs a</p>
+<p>second planning cycle for no reviewability gain. If any layer&#x27;s cascade turns</p>
+<p>out to be expensive, the fallback is exactly that: ship PR 1-2, land them, then</p>
+<p>re-stack.</p>
+<p>Merge stays user-authorized (DEV-STACK-04). Cascades use</p>
+<p><code>git rebase --update-refs</code> and <code>--force-with-lease</code>, never bare <code>--force</code></p>
+<p>(DEV-STACK-02).</p>
+<h3 id="out-of-scope">Out of scope</h3>
+<ul>
+<li>No changes to <code>codexclaw</code>. It is the source and is read-only for this unit.</li>
+</ul>
+<p>It currently carries its own uncommitted work (<code>ast-grep</code>,</p>
+<p><code>dev-diagram-viewer</code>) which must not be disturbed.</p>
+<ul>
+<li>No changes to <code>opencodex</code> runtime.</li>
+<li><code>jawcode</code> is a third downstream adaptation and is not in this session&#x27;s</li>
+</ul>
+<p>scope; if the back-port creates a <code>jawcode</code> obligation, it goes to</p>
+<p><code>backlog/</code>, not into this unit.</p>
+<ul>
+<li>No merges. No version bumps. No release promotion.</li>
+</ul>
+<h3 id="terminal-outcomes">Terminal outcomes</h3>
+<p><code>DONE</code> requires: every ported rule traceable to a codexclaw source file and</p>
+<p>line; no <code>cxc</code>/<code>.codexclaw</code>/hook vocabulary anywhere in <code>skills/</code>; nothing from</p>
+<p><code>46bfa38</code> re-landed; the docs-site parity check passing; stacked PRs open with</p>
+<p>correct base refs. <code>NOOP</code> per work-phase if that skill turns out to already</p>
+<p>have parity. <code>NEEDS_HUMAN</code> if a rule encodes a semantic divergence between the</p>
+<p>ecosystems rather than a wording difference — those are decisions, not ports.</p>
+<h2 id="unit-files">Other files in this unit</h2>
+<ul>
+<li>001 Rule-Id Census — What Actually Drifted <span class="refnote">(001_rule_gap_census.md)</span></li>
+<li>002 Research Consolidation and Recorded Decisions <span class="refnote">(002_research_consolidation.md)</span></li>
+<li>010 Capture the In-Tree Design-Evidence Port <span class="refnote">(010_in_tree_design_evidence_port.md)</span></li>
+<li>020 Core: `dev` and `dev-pabcd` <span class="refnote">(020_core_dev_and_pabcd.md)</span></li>
+<li>030 Verification family: debugging, testing, code review <span class="refnote">(030_verification_family.md)</span></li>
+<li>040 `dev-devops` <span class="refnote">(040_devops.md)</span></li>
+<li>050 Frontend and UI/UX <span class="refnote">(050_frontend_and_uiux.md)</span></li>
+<li>060 Remainder, and the one NOOP <span class="refnote">(060_remainder_and_noop.md)</span></li>
+<li>070 Harmonization and docs-site sync <span class="refnote">(070_harmonization_and_docs_site.md)</span></li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

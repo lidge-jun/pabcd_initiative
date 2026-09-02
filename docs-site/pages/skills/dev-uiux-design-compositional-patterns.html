@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compositional Patterns — PABCD Initiative</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/pabcd_initiative" target="_blank" rel="noopener" title="pabcd_initiative">pabcd_initiative</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/codexclaw" target="_blank" rel="noopener" title="codexclaw">codexclaw</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/cli-jaw" target="_blank" rel="noopener" title="cli-jaw">cli-jaw</a></span>
+  <span class="right"><a href="https://github.com/lidge-jun" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+<li><a href="../../pages/analysis.html" class="">Meta Analysis</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Compositional Patterns</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/references/compositional-patterns.md" target="_blank" rel="noopener">dev-uiux-design/references/compositional-patterns.md</a></p>
+<h2 id="compositional-patterns">Compositional Patterns</h2>
+<p>Compositional patterns describe what a page <strong>does structurally</strong>: its hero function, navigation model, motion model, continuation cue, or content organization. They are orthogonal to the aesthetic directions in <code>design-isms.md</code>; combine one or two patterns with a compatible ism instead of treating a pattern as a new style.</p>
+<p>Related: <code>design-isms.md</code> owns aesthetic directions and non-ism treatment/tone tags; <code>design-trends.md</code> owns dated axis prevalence and technique-level signals. This file remains canonical for the 15 pattern families, their frequencies, maturity, gates, and examples.</p>
+<p>The frequencies below come from a 2026-07-14 corpus of 45 live sites across eight gallery sources. They are design-prior evidence, not market-share estimates. Maturity follows a hybrid lifecycle:</p>
+<ul>
+<li><strong>Core:</strong> established across at least 3 galleries and useful independent of a currently fashionable rendering technique.</li>
+<li><strong>Emerging:</strong> clears the 3-site/2-gallery evidence threshold but remains concentrated in a narrow context or implementation model.</li>
+<li><strong>Signature:</strong> fewer than 3 sites or only one gallery; retain as an example under a family rather than promoting it to vocabulary.</li>
+</ul>
+<p>No pattern is an accessibility exemption. Viewport locks, hidden navigation, tiny controls, hover-only discovery, and continuous motion require semantic landmarks, keyboard-visible alternatives, 44px targets, explicit progress, reduced-motion behavior, and a non-canvas route to core content.</p>
+<h3 id="hero-patterns">Hero Patterns</h3>
+<h4 id="experiential-gate-hero">Experiential Gate Hero</h4>
+<p><strong>Description:</strong> The first viewport asks for a meaningful click, wheel gesture, consent/onboarding choice, or playful action before entering. The gate previews the experience&#x27;s governing interaction rather than delaying access with decoration.</p>
+<ul>
+<li><strong>Frequency:</strong> 7/45 sites, 4 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Liquid Editorial, Neobrutalism, Bauhaus, Memphis Design, Organic Capsule</li>
+<li><strong>Direction gate:</strong> Use for campaigns, culture, entertainment, launches, and creative portfolios where entry is part of the premise. Do not use for task software, public services, urgent information, repeat visits, or any audience that needs immediate content access; always provide skip and keyboard paths.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/motion.md</code> for interaction and reduced-motion budgets; <code>a11y-patterns.md</code> for operable entry controls.</li>
+<li><strong>Representative sites:</strong> Messenger, Don&#x27;t Board Me, 21 Hrs, Brunello, Cobloc</li>
+</ul>
+<h4 id="proof-object-hero">Proof-Object Hero</h4>
+<p><strong>Description:</strong> A believable working interface, device, visualization, or product state appears before explanatory benefits. The object demonstrates the premise instead of acting as a boxed decorative screenshot.</p>
+<ul>
+<li><strong>Frequency:</strong> 9/45 sites, 6 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Material Design, Flat Design, Swiss / International Typographic Style, Neobrutalism, Liquid Editorial, Organic Capsule</li>
+<li><strong>Direction gate:</strong> Use for software, hardware, technical products, tools, and services whose value becomes clearer through direct evidence. Do not use a generic right-side mockup, illegible fake UI, or interaction that hides the primary proposition; regulated and procurement audiences need explicit supporting copy.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/asset-requirements.md</code> for hero proof assets and <code>responsive-viewport.md</code> for responsive staging.</li>
+<li><strong>Representative sites:</strong> Igloo, Longbow, Interfere, Sky Clock, Drams</li>
+</ul>
+<h4 id="poster-hero">Poster Hero</h4>
+<p><strong>Description:</strong> One oversized, often cropped message and sparse utility text carry the viewport like a printed poster. Authored wrapping, scale, and negative space are the composition—not merely a large heading preset.</p>
+<ul>
+<li><strong>Frequency:</strong> 7/45 sites, 5 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Swiss / International Typographic Style, Bauhaus, Liquid Editorial, AI Serif Editorial, Neobrutalism</li>
+<li><strong>Direction gate:</strong> Use for editorial, fashion, culture, campaigns, type launches, and portfolios with a short, ownable statement. Do not use when users must compare features immediately, the message localizes unpredictably, or oversized type displaces operational tasks.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/typography-wrapping.md</code> for authored wraps and responsive type; <code>layout-discipline.md</code> for crop and spacing control.</li>
+<li><strong>Representative sites:</strong> PP Neue Montreal, Benjamin Hoang, Shopify Design, Materials¹</li>
+</ul>
+<h4 id="atmospheric-product-portrait">Atmospheric Product Portrait</h4>
+<p><strong>Description:</strong> A high-key or cinematic portrait/media field, minimal copy, and soft-focus or material transitions present the product as an atmosphere rather than a diagram. The media must be the subject, not generic gradient decoration.</p>
+<ul>
+<li><strong>Frequency:</strong> 5/45 sites, 4 galleries</li>
+<li><strong>Maturity:</strong> Emerging</li>
+<li><strong>Compatible isms:</strong> Organic Capsule, Liquid Editorial, AI Serif Editorial, Liquid Glass, Art Deco</li>
+<li><strong>Direction gate:</strong> Use for premium consumer, beauty, health, fashion, hospitality, and objects where material feeling influences purchase. Do not use for evidence-heavy B2B, public-service, or accessibility-critical tasks, or when stock imagery cannot carry a specific product truth.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/asset-requirements.md</code> for media production and poster states; <code>performance-budget.md</code> for cinematic asset budgets.</li>
+<li><strong>Representative sites:</strong> Augen, Sky Clock, Vero, RISK</li>
+</ul>
+<h3 id="motion-patterns">Motion Patterns</h3>
+<p>Retrieval vocabulary: <strong>transformed-scroll</strong> maps to the scroll-linked axis row in <code>design-trends.md</code> and, when native document position stays fixed, to Fixed-Canvas Wheel Navigation below; <strong>ambient-continuous</strong> maps to the ambient-motion axis row and may support Atmospheric Product Portrait or Single-Verb Motion System when those full recipes match; <strong>kinetic-type</strong> maps to the kinetic-type axis row and may support Specimen-as-Hero or Single-Verb Motion System. Loader onboarding and single-verb already have canonical families below. These aliases do not create families: the 15-family boundary stays frozen.</p>
+<h4 id="fixed-canvas-wheel-navigation">Fixed-Canvas Wheel Navigation</h4>
+<p><strong>Description:</strong> Wheel input advances WebGL, canvas, or transformed scene state while native document position remains fixed. It is a state navigator, not a more elaborate form of ordinary scroll reveal.</p>
+<ul>
+<li><strong>Frequency:</strong> 9/45 sites, 5 galleries</li>
+<li><strong>Maturity:</strong> Emerging</li>
+<li><strong>Compatible isms:</strong> Liquid Editorial, Neobrutalism, Bauhaus, Memphis Design, Organic Capsule</li>
+<li><strong>Direction gate:</strong> Use for bounded experiences, product worlds, interactive stories, and creative showcases where sequential scenes are the content. Do not use for documentation, ecommerce catalogs, long-form reading, repeated-work tools, or audiences relying on native scrolling and assistive technology; provide direct controls and a linear route.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/motion.md</code> for scroll/state choreography and reduced motion; <code>a11y-patterns.md</code> for keyboard and semantic alternatives.</li>
+<li><strong>Representative sites:</strong> RISK, Meech213, Beats in Space, Zauberberg</li>
+</ul>
+<h4 id="loader-as-system-onboarding">Loader-as-System-Onboarding</h4>
+<p><strong>Description:</strong> The loader or intro previews the site&#x27;s visual grammar and interaction rules, with explicit skip and sound controls. It earns its time by teaching the system while real assets initialize.</p>
+<ul>
+<li><strong>Frequency:</strong> 3/45 sites, 3 galleries</li>
+<li><strong>Maturity:</strong> Emerging</li>
+<li><strong>Compatible isms:</strong> Bauhaus, Swiss / International Typographic Style, Liquid Editorial, Neobrutalism, Memphis Design</li>
+<li><strong>Direction gate:</strong> Use only when a genuinely heavy experiential surface needs startup time and the onboarding explains a recurring interaction. Do not add a loader to mask avoidable performance, delay repeat visits, or gate essential content; honor reduced motion and remembered skip state.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/motion.md</code> for intro sequencing and controls; <code>performance-budget.md</code> for loading honesty.</li>
+<li><strong>Representative sites:</strong> Cobloc, SSTR, House of Honey</li>
+</ul>
+<h4 id="single-verb-motion-system">Single-Verb Motion System</h4>
+<p><strong>Description:</strong> One semantic transformation—assemble, refract, reveal, flow, or resolve—is repeated across loader, type, navigation, and content states. Repetition turns motion into product or brand meaning rather than a collection of entrance effects.</p>
+<ul>
+<li><strong>Frequency:</strong> 8/45 sites, 5 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Any ism when the verb is domain-specific; strongest with Bauhaus, Swiss / International Typographic Style, Liquid Editorial, Neobrutalism, and Liquid Glass</li>
+<li><strong>Direction gate:</strong> Use when the product, identity, or narrative has a clear action that can govern multiple states. Do not force an abstract verb onto unrelated components, mix several signature motions, or animate repeated-work tools beyond concise feedback.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/motion.md</code> for motion hierarchy, honesty, and choreography budgets.</li>
+<li><strong>Representative sites:</strong> Cobloc, SSTR, Interfere, RISK, PP Neue Montreal</li>
+</ul>
+<h3 id="navigation-patterns">Navigation Patterns</h3>
+<p>Retrieval vocabulary: <strong>hidden/minimal navigation</strong> maps to the dated hidden-nav axis row in <code>design-trends.md</code>; select Diegetic Navigation, Edge-Rail Navigation Frame, or Adaptive Overlay Chrome only when the complete family contract matches. <strong>counter/sequential navigation</strong> maps to the dated counter/sequence evidence and usually resolves to Editorial Index / Roster or Edge-Peek Continuation Cue rather than a new family. Hidden chrome never removes orientation, semantic landmarks, keyboard access, or an alternate route.</p>
+<h4 id="diegetic-navigation">Diegetic Navigation</h4>
+<p><strong>Description:</strong> Destinations and progress cues live inside the represented world or content sequence rather than in separate site chrome. A map, chapter, project row, or product object becomes the navigation surface.</p>
+<ul>
+<li><strong>Frequency:</strong> 5/45 sites, 4 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Liquid Editorial, Swiss / International Typographic Style, Bauhaus, Neobrutalism, Skeuomorphism</li>
+<li><strong>Direction gate:</strong> Use for narrative, exhibition, map, portfolio, and product-world experiences whose content supplies a clear mental model. Do not use when destinations are numerous, users must jump predictably between tasks, or meaning depends on hover or visual metaphor alone; retain landmarks and an alternate menu.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/a11y-patterns.md</code> for semantic navigation and <code>responsive-viewport.md</code> for mobile fallback.</li>
+<li><strong>Representative sites:</strong> 21 Hrs, Interfere, Medium Rare, James Walsh</li>
+</ul>
+<h4 id="edge-rail-navigation-frame">Edge-Rail Navigation Frame</h4>
+<p><strong>Description:</strong> Tiny fixed corner labels, vertical words, coordinates, or controls form a perimeter around a dominant center stage. The rail preserves orientation while allowing the main artifact to remain visually uninterrupted.</p>
+<ul>
+<li><strong>Frequency:</strong> 16/45 sites, 7 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Flat Design, Swiss / International Typographic Style, Liquid Editorial, Neobrutalism, Bauhaus</li>
+<li><strong>Direction gate:</strong> Use for portfolios, exhibitions, editorial showcases, and cinematic brand surfaces with 2–5 stable destinations. Do not use microtype or edge placement for dense product IA, touch-first audiences, localization with long labels, or controls that cannot meet target-size and contrast requirements.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/layout-discipline.md</code> for fixed perimeter geometry; <code>a11y-patterns.md</code> and <code>responsive-viewport.md</code> for targets and collapse behavior.</li>
+<li><strong>Representative sites:</strong> Benjamin Hoang, RISK, Angela Ricciardi, Cantor8, Vero</li>
+</ul>
+<h4 id="adaptive-overlay-chrome">Adaptive Overlay Chrome</h4>
+<p><strong>Description:</strong> Fixed controls keep their position and function while changing tone or contrast as underlying media changes. Adaptation protects legibility across cinematic chapters without adding a separate opaque header.</p>
+<ul>
+<li><strong>Frequency:</strong> 3/45 sites, 3 galleries</li>
+<li><strong>Maturity:</strong> Emerging</li>
+<li><strong>Compatible isms:</strong> Liquid Glass, Organic Capsule, Liquid Editorial, Flat Design, AI Serif Editorial</li>
+<li><strong>Direction gate:</strong> Use for media-led stories and full-bleed chapter systems where persistent controls must cross light and dark material. Do not use if contrast can be solved with stable tokens, if state changes flicker, or if the audience needs a conventional high-certainty header.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/top-bar.md</code> for overlay states, <code>color-system.md</code> for contrast tokens, and <code>motion.md</code> for transition restraint.</li>
+<li><strong>Representative sites:</strong> Vero, RISK, Augen</li>
+</ul>
+<h3 id="typography-patterns">Typography Patterns</h3>
+<h4 id="specimen-as-hero">Specimen-as-Hero</h4>
+<p><strong>Description:</strong> The typeface, glyph construction, or typographic system is itself the product and hero subject. Interactive specimens, character assembly, and authored glyph scale replace generic product imagery.</p>
+<ul>
+<li><strong>Frequency:</strong> 4/45 sites, 4 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Swiss / International Typographic Style, Liquid Editorial, Bauhaus, Neobrutalism, AI Serif Editorial</li>
+<li><strong>Direction gate:</strong> Use for foundries, rebrands, editorial launches, design tools, and products whose typographic system is genuine evidence. Do not use specimen theatrics when the chosen font is generic, licensing/loading is unresolved, or content comprehension and localization are more important than display behavior.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/typography-wrapping.md</code> for responsive specimen behavior; <code>performance-budget.md</code> for font loading.</li>
+<li><strong>Representative sites:</strong> PP Neue Montreal, Shopify Design, SSTR, Cobloc</li>
+</ul>
+<h3 id="content-structure-patterns">Content Structure Patterns</h3>
+<h4 id="spatial-portfolio-canvas">Spatial Portfolio Canvas</h4>
+<p><strong>Description:</strong> Pointer-led or viewport-locked discovery replaces ordinary vertical document flow while auxiliary navigation remains fixed. Projects occupy a navigable field rather than a stack of cards.</p>
+<ul>
+<li><strong>Frequency:</strong> 6/45 sites, 3 galleries</li>
+<li><strong>Maturity:</strong> Emerging</li>
+<li><strong>Compatible isms:</strong> Flat Design, Swiss / International Typographic Style, Liquid Editorial, Neobrutalism, Memphis Design</li>
+<li><strong>Direction gate:</strong> Use for small, highly visual portfolios and exhibitions where exploration is itself a selection criterion. Do not use for large archives, mobile-primary audiences, keyboard-dependent workflows, or recruiter/client tasks that need fast scanning; provide an index/list mode.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/responsive-viewport.md</code> for viewport and mobile alternatives; <code>a11y-patterns.md</code> for non-pointer access.</li>
+<li><strong>Representative sites:</strong> Meech213, Beats in Space, Zauberberg, Angela Ricciardi</li>
+</ul>
+<h4 id="editorial-index-roster">Editorial Index / Roster</h4>
+<p><strong>Description:</strong> Names, numbered rows, chapters, or disciplinary headings replace card grids and serve as both content and navigation. Hierarchy comes from sequence, type, and metadata rather than containers.</p>
+<ul>
+<li><strong>Frequency:</strong> 8/45 sites, 5 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Swiss / International Typographic Style, Liquid Editorial, Bauhaus, Flat Design, Neobrutalism, AI Serif Editorial</li>
+<li><strong>Direction gate:</strong> Use for portfolios, archives, studios, publications, annual reports, and collections where comparison and sequence matter. Do not use when items need rich visual comparison at a glance or when labels alone are ambiguous; preserve thumbnails or summaries on focus/tap, not hover only.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/layout-discipline.md</code> for list/grid rhythm; <code>typography-wrapping.md</code> for row hierarchy.</li>
+<li><strong>Representative sites:</strong> Medium Rare, James Walsh, Jacky Winter, Making Software, Foundation Labs</li>
+</ul>
+<h4 id="edge-peek-continuation-cue">Edge-Peek Continuation Cue</h4>
+<p><strong>Description:</strong> A cropped brand mark, adjacent-project sliver, or partial next chapter signals that content continues beyond the current frame. It replaces a generic arrow only when the crop clearly predicts the direction of travel.</p>
+<ul>
+<li><strong>Frequency:</strong> 4/45 sites, 3 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Liquid Editorial, Swiss / International Typographic Style, Flat Design, Organic Capsule, Neobrutalism</li>
+<li><strong>Direction gate:</strong> Use in sequential portfolios, horizontal galleries, chapter stories, and full-screen viewers where spatial continuation is central. Do not rely on it as the only control, use it where clipping looks accidental, or obscure content on small screens; pair it with labels, counters, or buttons.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/layout-discipline.md</code> for controlled overflow; <code>responsive-viewport.md</code> for mobile continuation cues.</li>
+<li><strong>Representative sites:</strong> Angela Ricciardi, RISK, Vero, SiteInspire unusual-layout portfolio examples</li>
+</ul>
+<h4 id="instrument-panel-editorial">Instrument-Panel Editorial</h4>
+<p><strong>Description:</strong> Expressive central media or type is framed by telemetry, mono labels, grids, counters, schematics, or diagnostic modules. The utility layer gives precision and context without turning the page into a generic dashboard.</p>
+<ul>
+<li><strong>Frequency:</strong> 7/45 sites, 5 galleries</li>
+<li><strong>Maturity:</strong> Core</li>
+<li><strong>Compatible isms:</strong> Swiss / International Typographic Style, Bauhaus, Neobrutalism, Liquid Editorial, Material Design</li>
+<li><strong>Direction gate:</strong> Use for engineering, architecture, research, industrial products, technical culture, and data-rich editorial stories where metadata is meaningful. Do not add fake coordinates, diagnostics, or tiny mono labels as sci-fi decoration; nonexpert audiences need plain-language interpretation and readable defaults.</li>
+<li><strong>Implementation pointer:</strong> <code>dev-frontend/references/core/layout-discipline.md</code> for grid and framing; <code>product-density.md</code> for information density; <code>typography-wrapping.md</code> for utility type.</li>
+<li><strong>Representative sites:</strong> SSTR, Longbow, Making Software, Monolog, Cantor8</li>
+</ul>
+<h3 id="composition-rule">Composition rule</h3>
+<p>Prefer one governing pattern and, at most, one supporting pattern. Repeat the same logic across type, navigation, motion, and proof. Originality usually comes from this coherent rule—not from stacking ornamental styles. Re-evaluate Emerging patterns on later crawls; future additions require 3+ sites across 2+ galleries or remain signatures beneath an existing family.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Branch Lifecycle — Cleanup, Automation, and Deletion Evidence — PABCD Initiative</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/pabcd_initiative" target="_blank" rel="noopener" title="pabcd_initiative">pabcd_initiative</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/codexclaw" target="_blank" rel="noopener" title="codexclaw">codexclaw</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/cli-jaw" target="_blank" rel="noopener" title="cli-jaw">cli-jaw</a></span>
+  <span class="right"><a href="https://github.com/lidge-jun" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+<li><a href="../../pages/analysis.html" class="">Meta Analysis</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Branch Lifecycle — Cleanup, Automation, and Deletion Evidence</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-devops/references/branch-lifecycle.md" target="_blank" rel="noopener">dev-devops/references/branch-lifecycle.md</a></p>
+<h2 id="branch-lifecycle-cleanup-automation-and-deletion-evidence">Branch Lifecycle — Cleanup, Automation, and Deletion Evidence</h2>
+<p>Last reviewed: 2026-08-26</p>
+<p>Applies to: GitHub repositories with pull-request workflows; git worktrees</p>
+<p>When to read: Stale branch/worktree cleanup, or automating branch deletion</p>
+<p>Canonical owner: dev-devops §2.9</p>
+<p>---</p>
+<h3 id="1-the-two-halves-of-branch-deletion">§1 The Two Halves of Branch Deletion</h3>
+<p>GitHub&#x27;s repository setting <code>delete_branch_on_merge</code> covers exactly one case:</p>
+<p>the head branch of a <strong>merged</strong> pull request. It does nothing for a pull request</p>
+<p>closed without merging, and nothing for a branch that never had a pull request.</p>
+<pre><code># What the host already handles
+gh api repos/OWNER/REPO --jq .delete_branch_on_merge   # true =&gt; merged heads auto-delete</code></pre>
+<table class="rules">
+<thead><tr><th>Branch origin</th><th>Handled by <code>delete_branch_on_merge</code></th><th>Needs automation</th></tr></thead><tbody>
+<tr><td>Head of a merged PR</td><td>Yes</td><td>No</td></tr>
+<tr><td>Head of a PR closed unmerged</td><td><strong>No</strong></td><td>Yes — scheduled job</td></tr>
+<tr><td>Never had a PR</td><td>No</td><td>No — human judgment, not automation</td></tr>
+</tbody></table>
+<p>The third row is deliberate. A branch with no pull request has no recorded</p>
+<p>terminal decision, so no rule can infer that its work was abandoned. Automating</p>
+<p>it deletes work that was merely parked.</p>
+<p>&gt; <strong>Verified case:</strong> a delivery repository had <code>delete_branch_on_merge</code> enabled and still</p>
+<p>&gt; accumulated 59 deletable remote branches. Enabling the setting and calling</p>
+<p>&gt; branch hygiene done is the single most common version of this mistake.</p>
+<p>---</p>
+<h3 id="2-deletion-plan-keep-rules">§2 Deletion Plan — Keep Rules</h3>
+<p>Every keep rule below exists because the opposite behavior destroys work that is</p>
+<p>still referenced. Apply them as an ordered filter over candidate branches.</p>
+<table class="rules">
+<thead><tr><th>#</th><th>Keep when</th><th>Because</th></tr></thead><tbody>
+<tr><td>1</td><td>Branch is protected (<code>main</code>, <code>dev</code>, <code>preview</code>, <code>gh-pages</code>, or host-marked protected)</td><td>Integration and release lines are never candidates</td></tr>
+<tr><td>2</td><td><strong>Any</strong> PR that ever used it as a head is merged</td><td>Reopening a PR whose head branch is gone cannot restore commits</td></tr>
+<tr><td>3</td><td><strong>Any</strong> PR that ever used it as a head is open</td><td>Deleting an open PR&#x27;s head closes the PR</td></tr>
+<tr><td>4</td><td>It is the <strong>base</strong> of an open PR</td><td>Deleting a stack parent closes the open child</td></tr>
+<tr><td>5</td><td>Any related PR is cross-repository (fork)</td><td>The ref lives in the contributor&#x27;s repository</td></tr>
+<table class="rules">
+<tr><td>6</td><td><code>closed_at</code> is missing on a related closed PR</td><td>Cannot compute eligibility; fail closed</td></tr>
+<tr><td>7</td><td>Newest <code>closed_at</code> is inside the grace period</td><td>Leaves room to reopen a mistaken close</td></tr>
+<tr><td>8</td><td>No PR ever used it as a head</td><td>No recorded terminal decision; out of automation scope</td></tr>
+</tbody></table>
+<p>Rules 2 and 3 quantify over <strong>every</strong> PR that used the branch as a head, not the</p>
+<p>most recent one. A branch reused across several PRs is common, and one merged or</p>
+<p>open PR anywhere in that set is enough to keep it.</p>
+<p>Rule 5 compares repository <strong>ids</strong>:</p>
+<pre><code>// Correct: a fork commonly reuses upstream branch names
+const isCrossRepository =
+  !pr.head || !pr.head.repo || pr.head.repo.id !== pr.base.repo.id;
+
+// Wrong: name comparison silently misclassifies same-name forks
+// const isCrossRepository = pr.head.label.startsWith(owner) === false;</code></pre>
+<p>Re-check host branch protection at delete time, not only at plan time. The plan</p>
+<p>is a snapshot; protection is authoritative.</p>
+<p>---</p>
+<h3 id="3-scheduled-automation-shape">§3 Scheduled Automation Shape</h3>
+<p>A closed-PR cleanup job is a scheduled workflow with a narrow token, and its</p>
+<p>trigger surface is a security boundary.</p>
+<table class="rules">
+<thead><tr><th>Property</th><th>Setting</th><th>Why</th></tr></thead><tbody>
+<tr><td>Trigger</td><td><code>schedule</code> only</td><td>A branch-selected <code>workflow_dispatch</code> would run *that branch&#x27;s* body with <code>contents: write</code>, bypassing default-branch review</td></tr>
+<tr><td>Workflow <code>permissions</code></td><td><code>{}</code></td><td>Grant at job level only</td></tr>
+<tr><td>Job <code>permissions</code></td><td><code>contents: write</code>, <code>pull-requests: read</code></td><td>Delete refs; read PR state the keep rules need</td></tr>
+<tr><td>Third-party actions</td><td>Full commit SHA pins + version comment</td><td>Mutable refs are a supply-chain hole</td></tr>
+<tr><td>Planning logic</td><td>Pure module, unit-tested</td><td>Keep rules must be testable without Actions or a live repository</td></tr>
+<table class="rules">
+<tr><td>Delete errors</td><td>Treat 404/422 as &quot;already gone&quot;</td><td>The ref can move between plan and delete</td></tr>
+</tbody></table>
+<p>&gt; <strong>Scheduled workflows run only from the repository default branch.</strong> Landing</p>
+<p>&gt; the workflow on an integration branch like <code>dev</code> does not start it. It begins</p>
+<p>&gt; running when the change is promoted to the default branch — say so explicitly</p>
+<p>&gt; in the PR, or the job&#x27;s silence reads as a defect.</p>
+<p>Extract the deletion plan as a pure function so the keep rules can be tested</p>
+<p>directly. Each rule in §2 deserves a test whose failure means real work is</p>
+<p>destroyed: merged head, open head, stacked base, fork head, grace period,</p>
+<p>missing timestamp, protected branch.</p>
+<p>---</p>
+<h3 id="4-manual-cleanup-procedure">§4 Manual Cleanup Procedure</h3>
+<p>For a one-time cleanup of an already-degraded repository, work in this order.</p>
+<p>Order matters: worktrees hold branches, and a held branch cannot be deleted.</p>
+<p><strong>1. Snapshot first (<code>DEVOPS-BRANCH-SNAPSHOT-01</code>).</strong></p>
+<pre><code>CLEANUP_DIR=&quot;$(mktemp -d)&quot;   # or a gitignored .tmp/ path in the worktree
+git for-each-ref --format=&#x27;%(objectname) %(refname)&#x27; refs/heads refs/remotes \
+  &gt; &quot;$CLEANUP_DIR/refs-snapshot.txt&quot;
+git worktree list --porcelain &gt; &quot;$CLEANUP_DIR/worktrees-snapshot.txt&quot;
+gh pr list --state all --limit 1000 \
+  --json number,state,headRefName,baseRefName,mergedAt,closedAt,isCrossRepository \
+  &gt; &quot;$CLEANUP_DIR/prs.json&quot;</code></pre>
+<p>Restoring a deleted remote branch needs only its SHA:</p>
+<pre><code>git push origin &lt;sha&gt;:refs/heads/&lt;name&gt;</code></pre>
+<p><strong>2. Classify every ref against live PR state</strong>, not against name patterns.</p>
+<p>Join branches to PRs by head ref, then apply §2. <code>git branch -r --merged</code> alone</p>
+<p>is insufficient: squash-merge rewrites commits, so a squash-merged branch is not</p>
+<p>an ancestor of the target and reads as unmerged.</p>
+<p><strong>3. Audit worktrees before removing them (<code>DEVOPS-WORKTREE-DIRTY-01</code>).</strong></p>
+<pre><code>git worktree list --porcelain | awk &#x27;/^worktree /{print $2}&#x27; | while read -r wt; do
+  n=&quot;$(git -C &quot;$wt&quot; status --porcelain --untracked-files=no 2&gt;/dev/null | wc -l)&quot;
+  [ &quot;$n&quot; != &quot;0&quot; ] &amp;&amp; echo &quot;DIRTY $n $wt&quot;
+done</code></pre>
+<p>A detached-HEAD worktree needs its own check: if its commit is reachable from no</p>
+<p>branch and sits ahead of the integration line, it holds unique work.</p>
+<pre><code>git branch -a --contains &lt;sha&gt;            # empty =&gt; referenced by no branch
+git rev-list --count origin/dev..&lt;sha&gt;    # &gt;0 =&gt; carries commits dev does not</code></pre>
+<p><strong>4. Delete in order:</strong> worktrees, then remote branches, then local branches.</p>
+<pre><code>git worktree remove --force &lt;path&gt;          # only after the dirty audit
+git push --no-verify origin &#x27;:branch-a&#x27; &#x27;:branch-b&#x27;
+git branch -D branch-a branch-b</code></pre>
+<p><code>--no-verify</code> is often required because a pre-push hook that assumes a pushed</p>
+<p>ref will reject a delete refspec. <code>git branch -D</code> (not <code>-d</code>) is correct for a</p>
+<p>squash-merged branch, since <code>-d</code> demands ancestry the squash destroyed — but</p>
+<p>only after §2 supplied independent evidence.</p>
+<p><strong>5. Set <code>fetch.prune</code></strong> so future upstream deletions clean local tracking refs:</p>
+<pre><code>git config fetch.prune true</code></pre>
+<p>Note that <code>git remote prune &lt;fork&gt;</code> removes only *local tracking* refs for</p>
+<p>branches already deleted upstream. It does not, and must not, touch the fork.</p>
+<p>---</p>
+<h3 id="5-anti-patterns">§5 Anti-Patterns</h3>
+<table class="rules">
+<thead><tr><th>Banned</th><th>Why</th><th>Fix</th></tr></thead><tbody>
+<tr><td><code>delete_branch_on_merge</code> alone, called done</td><td>Closed-unmerged PRs still accumulate forever</td><td>Add the scheduled closed-PR job (§3)</td></tr>
+<tr><td>Bulk-prune by name pattern</td><td>Patterns do not encode PR state, stacks, or forks</td><td>Per-branch evidence (§2)</td></tr>
+<tr><td><code>git branch -r --merged</code> as sole merge proof</td><td>Squash-merge breaks ancestry; merged branches read unmerged</td><td>Join to live PR state</td></tr>
+<tr><td>Deleting a closed stack parent</td><td>Closes the open child PR</td><td>Keep any base of an open PR</td></tr>
+<tr><td><code>git worktree remove --force</code> before a dirty check</td><td>Discards uncommitted work irrecoverably</td><td>Audit every worktree first</td></tr>
+<table class="rules">
+<tr><td>Deleting refs with no snapshot</td><td>Remote deletions are unrecoverable without the SHA</td><td><code>for-each-ref</code> snapshot first</td></tr>
+<tr><td><code>workflow_dispatch</code> on a <code>contents: write</code> cleanup job</td><td>Runs a chosen branch&#x27;s body with write scope</td><td>Schedule-only trigger</td></tr>
+<tr><td>Fork branch matching by name</td><td>Same-name forks get misclassified as local</td><td>Compare repo ids</td></tr>
+</tbody></table>
+<p>---</p>
+<h3 id="6-source">§6 Source</h3>
+<p>Measured branch and worktree cleanup, 2026-08-26. The repository carried 101</p>
+<p>remote branches, 228 local branches, and 67 worktrees; 59 remote, 177 local, and</p>
+<p>59 worktrees were removed against per-branch evidence, with open PRs, protected</p>
+<p>lines, dirty worktrees, and one unreferenced detached commit preserved.</p>
+<p>The automation gap in §1 was found during that cleanup and closed by</p>
+<p><code>.github/workflows/cleanup-closed-pr-branches.yml</code> with the plan extracted to</p>
+<p><code>.github/scripts/closed-pr-branch-cleanup.cjs</code> (lidge-jun/opencodex#2664,</p>
+<p>merged as <code>bae100aa7</code>).</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

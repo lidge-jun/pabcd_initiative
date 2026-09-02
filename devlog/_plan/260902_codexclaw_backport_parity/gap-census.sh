@@ -13,9 +13,23 @@
 # Exit:   0 always; this is a report, not a gate.
 set -uo pipefail
 
+# --added <base> <head> runs the reverse (invention) check instead of the gap census.
+MODE=gap; REV_BASE=origin/main; REV_HEAD=HEAD
+if [ "${1:-}" = "--added" ]; then
+  MODE=added; REV_BASE="${2:-origin/main}"; REV_HEAD="${3:-HEAD}"; shift 3 || shift $#
+elif [ "${1:-}" = "--refs" ]; then
+  MODE=refs; shift
+fi
 ROOT="${1:-$HOME/Developer/new/700_projects}"
 RGX='\b[A-Z][A-Z0-9]+(-[A-Z0-9]+)+-[0-9]{2}\b'
+# PCRE form for the reverse check at the bottom: git grep's default ERE has no \b, so the
+# same intent needs --perl-regexp there.
+RULE_PCRE='\b[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+-\d{2}\b'
 CXC="$ROOT/codexclaw/plugins/codexclaw/skills"
+# The reverse check needs the WHOLE source repo, not the dev-family scope: a rule may
+# legitimately live in a codexclaw runtime skill and still be a real upstream rule, and
+# calling that an invention is the error this check exists to avoid making.
+CXC_ALL="$ROOT/codexclaw"
 PI="$ROOT/pabcd_initiative/skills"
 JW="$ROOT/cli-jaw/skills_ref"
 
@@ -109,6 +123,59 @@ locate() {
 }
 
 echo
+echo "== agent-neutrality scan =="
+# Runs on the TARGET tree, not the source. Every token here is a host-specific name
+# that has no meaning in an agent-neutral publication.
+#
+# `ima2` is in this list because it got through. The 010 commit's hand-written grep
+# covered `cxc`, `.codexclaw`, `SubagentStop`, `cli-jaw` and `jaw ` -- but not the name
+# of a local image-generation CLI, so six references to it rode in with two reference
+# files and were only caught later by a wider sweep. A gate you retype per commit
+# checks what you remembered that day; this one is the same every time.
+#
+# Attribution is allowed: "via codexclaw", "the codexclaw devlog", a Lineage/Source line,
+# and a cross-runtime comparison row naming several runtimes are provenance, not
+# vocabulary. Provenance a reader cannot verify is still better than a claim with no source.
+#
+# That allowance is now IMPLEMENTED rather than assumed. It used to be a comment sitting
+# above a token list that did not contain `codexclaw` at all -- only `.codexclaw`, with a
+# leading dot -- so the gate was not permitting attribution by design, it simply never
+# looked. `run codexclaw orchestrate P`, which is vocabulary adoption and not provenance,
+# passed. Bare `codexclaw` is matched now, and the attribution forms are subtracted
+# afterwards, so the two cases are distinguished instead of both being invisible.
+#
+# Host product names and on-disk agent paths are matched for the same reason: an
+# agent-neutral publication should not tell a reader which harness's directory to look in.
+NEUTRALITY_TOKENS='\bcxc [a-z]|\bcxc-[a-z]|\bcodexclaw\b|Claude Code|Codex CLI|~/\.claude|~/\.codex|\.cursor/|\.agents/skills|SubagentStop|UserPromptSubmit|PreToolUse|PLUGIN_ROOT|LOOP_ARM|spawn_agent|wait_agent|followup_task|send_input|close_agent|resume_agent|interrupt_agent|tool_search|update_plan|request_user_input|agent_type|create_goal|browser:control|chrome:control|computer-use:|agbrowse|\bima2\b|clawhub|hermes|Codexclaw-First|E1-E8|testReceiptPath|auditVerdict|auditResidual|coerceAttest'
+# references/repo-map-capability.md is exempt by design. Its whole purpose is a
+# cross-harness comparison of how each downstream runtime ships the same capability, so
+# it names codexclaw's `cxc-repo-map`, cli-jaw's `repo-map`, and jawcode's search table
+# side by side. Naming another ecosystem's skill IN A COMPARISON is not adopting its
+# vocabulary -- stripping those names would leave a comparison table with nothing to
+# compare. Scoped to that one file rather than to the token, so a `cxc-` reference
+# anywhere else still fails.
+# Attribution forms, subtracted after matching so provenance survives and vocabulary does
+# not. `debugging-modularization.md` is exempt on the same grounds as
+# repo-map-capability.md: it is a cross-harness comparison table whose subject IS which
+# runtime shipped what, and it says so in its own first line.
+# Matched on attribution SEMANTICS -- provenance/recorded/lineage/source -- rather than by
+# allowing `codexclaw` near anything. The last two forms exist because rg matches per line
+# and the phrase "recorded in the codexclaw / devlog unit" wraps, so a single-line
+# `codexclaw devlog` pattern misses it. Widening to a bare trailing `codexclaw` would have
+# let `run codexclaw ...` through at a line break, which is the case this gate exists for.
+ATTRIBUTION='via codexclaw|codexclaw devlog|codexclaw lineage|the codexclaw harness|^\s*(Lineage|Source|Genealogy):|codexclaw `devlog|from the codexclaw|provenance is recorded in the codexclaw|[Pp]rovenance.*codexclaw'
+hits=$(rg -n "$NEUTRALITY_TOKENS" "$PI" 2>/dev/null \
+  | rg -v "$ATTRIBUTION" \
+  | rg -v 'cxc map|debugging-modularization\.md' \
+  | rg -v 'repo-map-capability\.md' || true)
+if [ -z "$hits" ]; then
+  echo "clean: no host-specific vocabulary in pabcd_initiative/skills"
+else
+  echo "$(echo "$hits" | wc -l | tr -d ' ') LEAK(S):"
+  echo "$hits" | sed 's/^/  /'
+fi
+
+echo
 echo "== gap detail: rule -> codexclaw source file:line =="
 for list in "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt"; do
   case "$list" in *gap_pi*) echo "-- pabcd_initiative --";; *) echo "-- cli-jaw --";; esac
@@ -117,3 +184,83 @@ for list in "$TMP/gap_pi.txt" "$TMP/gap_jaw.txt"; do
     printf '  %-34s %s\n' "$id" "$(locate "$id")"
   done < "$list"
 done
+
+# ─── reverse direction: did anything get INVENTED? ──────────────────────────
+# The gap above proves codexclaw ⊆ target. A rule invented here satisfies that too, so it
+# cannot answer "is every ported rule traceable to codexclaw" -- the question the
+# acceptance criteria actually ask. This checks the other direction: every rule id that a
+# branch ADDS must exist somewhere in codexclaw, or be a known repository-original.
+#
+# Two mechanical hazards, both of which produced a wrong answer before being fixed:
+#   - macOS grep has no -P, so a \b pattern silently matches nothing. A reference set that
+#     comes back empty makes EVERY added rule look invented; this aborts instead.
+#   - git grep's default ERE has no \b either, so the pattern needs --perl-regexp.
+#
+# Usage: gap-census.sh --added <base-rev> <head-rev>
+if [ "$MODE" = "added" ]; then
+  base="$REV_BASE"; head="$REV_HEAD"
+  echo
+  echo "== reverse check: rules ADDED between $base and $head =="
+  git grep -ohP "$RULE_PCRE" "$base" -- 'skills/' 2>/dev/null | sort -u > "$TMP/rev_base.txt"
+  git grep -ohP "$RULE_PCRE" "$head" -- 'skills/' 2>/dev/null | sort -u > "$TMP/rev_head.txt"
+  comm -13 "$TMP/rev_base.txt" "$TMP/rev_head.txt" > "$TMP/rev_added.txt"
+  rg -oIN --pcre2 "$RULE_PCRE" "$CXC_ALL" -g '*.md' 2>/dev/null | sort -u > "$TMP/rev_cxc.txt"
+  echo "  base=$(wc -l <"$TMP/rev_base.txt"|tr -d ' ')  head=$(wc -l <"$TMP/rev_head.txt"|tr -d ' ')  added=$(wc -l <"$TMP/rev_added.txt"|tr -d ' ')  codexclaw=$(wc -l <"$TMP/rev_cxc.txt"|tr -d ' ')"
+  if [ ! -s "$TMP/rev_cxc.txt" ]; then
+    echo "  ABORT: codexclaw reference set is empty -- the result would be meaningless."
+    exit 2
+  fi
+  # Rules this repository owns. Each is here because it is genuinely absent from codexclaw
+  # and that absence is intended, not because the check was inconvenient.
+  #   FE-MOTION-EXPERIENCE-01  arrived with the pre-existing uncommitted design work the
+  #                            objective required be committed rather than discarded.
+  #   INTERVIEW-DIVERGE-01     existed in this repo's own devlog and docs metadata before
+  #                            the port; the port realized it in the skills tree.
+  OWNED='^(FAMILY-FRESH-01|FE-MOTION-EXPERIENCE-01|INTERVIEW-CLASSIFY-01|INTERVIEW-DIVERGE-01|PABCD-AUTO-01|PROMPT-ROUTING-01)$'
+  n=0
+  while read -r id; do
+    [ -z "$id" ] && continue
+    grep -qxF "$id" "$TMP/rev_cxc.txt" && continue
+    if echo "$id" | rg -q "$OWNED"; then
+      echo "  repository-original (expected): $id"
+    else
+      echo "  UNTRACEABLE -- neither in codexclaw nor a known original: $id"
+      n=$((n+1))
+    fi
+  done < "$TMP/rev_added.txt"
+  echo "  >>> unexplained additions: $n"
+  exit $([ "$n" -eq 0 ] && echo 0 || echo 1)
+fi
+
+# ─── content parity, not just rule-id parity ────────────────────────────────
+# Rule ids are a subset of content. A skill can hold every upstream rule id and still be
+# missing a whole reference document, because a document with no rule ids in it is
+# invisible to the id census -- which is how `skill-ownership.md` and `static-analysis.md`
+# went unnoticed until a file-level diff was run by hand.
+#
+# Usage: gap-census.sh --refs
+if [ "${MODE:-gap}" = "refs" ]; then
+  echo
+  echo "== reference-file parity per skill family =="
+  printf '  %-22s %5s %5s  %s\n' SKILL cxc target MISSING
+  for pair in dev:dev dev-architecture:dev-architecture dev-backend:dev-backend \
+              dev-code-reviewer:dev-code-reviewer dev-data:dev-data \
+              dev-debugging:dev-debugging dev-devops:dev-devops dev-frontend:dev-frontend \
+              pabcd:dev-pabcd dev-scaffolding:dev-scaffolding dev-security:dev-security \
+              dev-testing:dev-testing dev-uiux-design:dev-uiux-design; do
+    c="${pair%%:*}"; t="${pair##*:}"
+    [ -d "$CXC/$c/references" ] || continue
+    a=$(cd "$CXC/$c/references" && find . -name '*.md' | sed 's|^\./||' | sort)
+    b=$(cd "$PI/$t/references" 2>/dev/null && find . -name '*.md' | sed 's|^\./||' | sort)
+    # Host-specific catalogs are not portable: skill-catalog.md documents one harness's
+    # `skill search` CLI and its community registry, so porting it would ADD a neutrality
+    # violation. Named rather than filtered by pattern, so a new unported file still shows.
+    miss=$(comm -13 <(echo "$b") <(echo "$a") | rg -v '^skill-catalog\.md$' | tr '\n' ' ')
+    printf '  %-22s %5s %5s  %s\n' "$c" "$(echo "$a"|grep -c .)" "$(echo "$b"|grep -c .)" "${miss:-—}"
+  done
+  echo
+  echo "  Note: a file present under a DIFFERENT name is not a gap. static-analysis.md ->"
+  echo "  static-analysis-gate.md and skill-ownership.md -> an inline section in dev/SKILL.md"
+  echo "  both carry the content; compare section headings before porting a whole file."
+  exit 0
+fi

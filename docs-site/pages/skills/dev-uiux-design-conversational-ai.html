@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversational AI UX — PABCD Initiative</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=4">
+<link rel="stylesheet" href="../../assets/docs.css?v=1">
+</head>
+<body>
+
+<header class="meta-bar">
+  <a href="../../index.html" style="text-decoration:none;color:inherit"><span>PABCD Initiative</span></a>
+  <span class="hide-m grow">Documentation Hub</span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/pabcd_initiative" target="_blank" rel="noopener" title="pabcd_initiative">pabcd_initiative</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/codexclaw" target="_blank" rel="noopener" title="codexclaw">codexclaw</a></span>
+  <span class="right hide-m"><a href="https://github.com/lidge-jun/cli-jaw" target="_blank" rel="noopener" title="cli-jaw">cli-jaw</a></span>
+  <span class="right"><a href="https://github.com/lidge-jun" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a></span>
+</header>
+
+<div class="docs-shell">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><a href="../../index.html">PA<span class="sq"></span><br>BCD</a></div>
+<div class="sidebar-search"><input type="text" id="docs-search" placeholder="Search docs..." autocomplete="off"><ul id="search-results" class="search-results"></ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Overview <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html" class="">Introduction</a></li>
+<li><a href="../../pages/origin.html" class="">Origin Story</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Methodology <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills.html" class="">Skill Architecture</a></li>
+<li><a href="../../pages/delegation.html" class="">Delegation Economy</a></li>
+<li><a href="../../pages/loop.html" class="">Loop Contract</a></li>
+<li><a href="../../pages/analysis.html" class="">Meta Analysis</a></li>
+</ul></div>
+<div class="nav-group ">
+<button class="nav-group-label">Skills Reference <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev.html" class="">dev</a></li>
+<li><a href="../../pages/skills/dev-architecture.html" class="">dev-architecture</a></li>
+<li><a href="../../pages/skills/dev-backend.html" class="">dev-backend</a></li>
+<li><a href="../../pages/skills/dev-code-reviewer.html" class="">dev-code-reviewer</a></li>
+<li><a href="../../pages/skills/dev-data.html" class="">dev-data</a></li>
+<li><a href="../../pages/skills/dev-debugging.html" class="">dev-debugging</a></li>
+<li><a href="../../pages/skills/dev-devops.html" class="">dev-devops</a></li>
+<li><a href="../../pages/skills/dev-frontend.html" class="">dev-frontend</a></li>
+<li><a href="../../pages/skills/dev-pabcd.html" class="">dev-pabcd</a></li>
+<li><a href="../../pages/skills/dev-scaffolding.html" class="">dev-scaffolding</a></li>
+<li><a href="../../pages/skills/dev-security.html" class="">dev-security</a></li>
+<li><a href="../../pages/skills/dev-testing.html" class="">dev-testing</a></li>
+<li><a href="../../pages/skills/dev-uiux-design.html" class="">dev-uiux-design</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Dev Guides <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/skills/dev-pabcd-debugging-modularization.html" class="">Debugging Modularization (SoT, agent-neutral)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-loop-engineering.html" class="">Loop-Engineering Alignment — Full Rules (dev-pabcd §11)</a></li>
+<li><a href="../../pages/skills/dev-pabcd-repo-map-capability.html" class="">Repo-Map Capability (SoT, agent-neutral)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Devlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/devlog/260704_catalog_discovery_design.html" class="">Catalog Discovery Mode — Design & Integration Devlog</a></li>
+<li><a href="../../pages/devlog/260707_diverge_tier_01_adoption.html" class="">DIVERGE-TIER-01 Adoption — Divergence Cost Tiers (2026-07-07)</a></li>
+<li><a href="../../pages/devlog/260708_korean_hero_typography_port.html" class="">Korean Hero / Large-Display Typography Port</a></li>
+<li><a href="../../pages/devlog/260708_scroll_motion_port.html" class="">Scroll-Driven Motion Knowledge Port</a></li>
+<li><a href="../../pages/devlog/260709_design_grammar_port.html" class="">Design Grammar Port: Hero Composition, Serif Renaissance, KR Serif, OpenAI Grammar</a></li>
+<li><a href="../../pages/devlog/260709_opaque_gradient_discipline_port.html" class="">Opaque-Surface Gradient Discipline Port</a></li>
+<li><a href="../../pages/devlog/260704_catalog_discovery.html" class="">260704_catalog_discovery: Catalog Discovery — Spec & Slice Map (design/UX-first)</a></li>
+<li><a href="../../pages/devlog/260704_catalog_port.html" class="">260704_catalog_port: Catalog Discovery Port — Spec & Slice Map</a></li>
+<li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
+<li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
+<li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
+<li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">Backlog <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../pages/backlog/260702_explore_select_research.html" class="">Explore-and-Select Loop — Research Results (2026-07-02)</a></li>
+<li><a href="../../pages/backlog/260702_loop_engineering_backlog.html" class="">Loop-Engineering Alignment Backlog — 2026-07-02</a></li>
+<li><a href="../../pages/backlog/260703_dispatch_affordance_port.html" class="">Dispatch Affordance Port Backlog — 2026-07-03</a></li>
+<li><a href="../../pages/backlog/260704_catalog_discovery_port.html" class="">Catalog Discovery Port Record — 2026-07-04</a></li>
+</ul></div>
+<div class="nav-group collapsed">
+<button class="nav-group-label">References <span class="chevron">&#9660;</span></button>
+<ul class="nav-items">
+<li><a href="../../index.html#references" class="">arXiv Claim Ledger</a></li>
+</ul></div>
+</nav>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<main class="docs-content">
+<section class="page-head">
+  <div class="band-inner">
+    <h1>Conversational AI UX</h1>
+  </div>
+</section>
+<section class="page-body">
+  <div class="band-inner">
+<p class="refnote">Source: <a href="https://github.com/lidge-jun/pabcd_initiative/blob/main/skills/dev-uiux-design/references/conversational-ai.md" target="_blank" rel="noopener">dev-uiux-design/references/conversational-ai.md</a></p>
+<h2 id="conversational-ai-ux">Conversational AI UX</h2>
+<p>Read this when designing or reviewing a turn-based AI surface: a chat, an</p>
+<p>assistant panel, a guided reading, or any flow where the user sends something,</p>
+<p>waits, and receives a generated response.</p>
+<p><code>ux-states.md</code> owns the general screen states — onboarding, empty, error,</p>
+<p>loading, progressive disclosure. This file owns what a *turn* adds on top:</p>
+<p>partial output, interruption, regeneration, and results the system cannot</p>
+<p>fully stand behind.</p>
+<h3 id="scope-and-non-goals">Scope and non-goals</h3>
+<p>In scope: the state model of one turn, what actions are available in each</p>
+<p>state, how uncertainty is expressed, and Korean copy decisions specific to</p>
+<p>generated output.</p>
+<p>Out of scope: a product&#x27;s voice, its domain vocabulary, and any rule specific</p>
+<p>to one service. Those belong in that project&#x27;s <code>DESIGN.md</code>. This file must</p>
+<p>stay usable by a support assistant, a coding tool, and a fortune-reading app</p>
+<p>alike.</p>
+<h3 id="turn-state-model">Turn state model</h3>
+<p><strong>UX-CONVERSATION-TURN-01 (STRICT):</strong> every turn state must be distinguishable</p>
+<p>on screen, and the actions available must match the state. Mechanism: name the</p>
+<p>states before styling and map each to its permitted actions. Failure: a user</p>
+<p>cannot tell whether output is finished, and presses send again on a response</p>
+<p>still arriving. Exception: none for turn-based surfaces.</p>
+<table class="rules">
+<thead><tr><th>State</th><th>What the user must be able to tell</th><th>Actions that belong here</th></tr></thead><tbody>
+<tr><td>composing</td><td>input is accepted, nothing sent yet</td><td>send, attach, clear</td></tr>
+<tr><td>queued</td><td>the request left, generation has not started</td><td>cancel</td></tr>
+<tr><td>streaming</td><td>output is arriving and is incomplete</td><td>stop</td></tr>
+<tr><td>complete</td><td>output finished on its own</td><td>regenerate, copy, follow-up</td></tr>
+<tr><td>stopped</td><td>the user interrupted; output is partial by choice</td><td>continue, regenerate, edit and resend</td></tr>
+<table class="rules">
+<tr><td>failed</td><td>the system could not finish</td><td>retry, edit and resend, escalate</td></tr>
+</tbody></table>
+<p><code>stopped</code> and <code>failed</code> are different states and must look different. Rendering</p>
+<p>a user-cancelled response as an error teaches the user that stopping breaks</p>
+<p>something.</p>
+<p>Never show a completion affordance while output is still streaming, and never</p>
+<p>leave a stop control visible after the stream ends.</p>
+<h3 id="interrupted-and-partial-responses">Interrupted and partial responses</h3>
+<p><strong>UX-CONVERSATION-RECOVERY-01 (DEFAULT):</strong> after an interruption or failure,</p>
+<p>the user&#x27;s input must survive and at least one forward action must be</p>
+<p>available. Mechanism: keep the submitted text recoverable and offer retry,</p>
+<p>regenerate, or edit-and-resend as the state allows. Failure: a failed turn</p>
+<p>discards what the user typed and the conversation dead-ends. Exception: an</p>
+<p>input the product is required not to retain, which must be stated in the UI.</p>
+<p>Partial output is not automatically worthless. A response stopped halfway</p>
+<p>through a list is often useful; deleting it on interrupt destroys work the</p>
+<p>user chose to keep. Keep it, mark it partial, and offer continuation.</p>
+<p>Do not silently retry on the user&#x27;s behalf. A retry that happens without a</p>
+<p>visible signal makes latency look like a hang.</p>
+<h3 id="regeneration-and-suggested-follow-ups">Regeneration and suggested follow-ups</h3>
+<p>Regeneration replaces or appends, and the choice is a product decision, not a</p>
+<p>default. Replacing loses a response the user may have wanted; appending grows</p>
+<p>the transcript. Whichever is chosen, the previous response must remain</p>
+<p>reachable at least until the new one completes.</p>
+<p>Suggested follow-ups earn their place only when they reduce work. Three</p>
+<p>generic prompts under every response is decoration; a suggestion that matches</p>
+<p>what the user is likely to ask next is a shortcut. Suggestions must be</p>
+<p>dismissible and must never occupy the primary action slot.</p>
+<h3 id="uncertain-conditional-and-high-stakes-results">Uncertain, conditional, and high-stakes results</h3>
+<p><strong>UX-AI-UNCERTAINTY-01 (STRICT):</strong> never present a generated result as more</p>
+<p>certain than the system can support. Mechanism: state the basis, the</p>
+<p>conditions, or the limits alongside the result; do not invent sources,</p>
+<p>citations, or progress. Failure: a user acts on a confident-sounding answer the</p>
+<p>system cannot stand behind. Exception: none.</p>
+<p>Concretely, this bans four things:</p>
+<ul>
+<li>Fake progress. A determinate bar for an indeterminate wait is a lie about</li>
+</ul>
+<p>time.</p>
+<ul>
+<li>Fabricated attribution. A citation, source list, or tool-call trace that does</li>
+</ul>
+<p>not correspond to a real one.</p>
+<ul>
+<li>Confidence theatre. Percentage scores, star ratings, or &quot;high confidence&quot;</li>
+</ul>
+<p>labels that no measurement produced.</p>
+<ul>
+<li>Silent conditionals. A result that only holds under assumptions the user</li>
+</ul>
+<p>never saw.</p>
+<p>For domains where the output is interpretive rather than factual — readings,</p>
+<p>recommendations, forecasts, creative generation — the honest framing states</p>
+<p>what the result is derived from. A product may have legal or editorial</p>
+<p>requirements beyond that; those live in the project&#x27;s own documents, not here.</p>
+<h3 id="korean-copy-decisions">Korean copy decisions</h3>
+<p><code>ux-writing-ko.md</code> owns general Korean UI copy. Two decisions are specific to</p>
+<p>generated output.</p>
+<p>State labels read better as what is happening than as what the system is:</p>
+<p>&quot;답변 생성 중&quot; over &quot;로딩 중&quot;, &quot;중단됨&quot; over &quot;실패&quot;. The distinction between</p>
+<p><code>stopped</code> and <code>failed</code> must survive into the copy, since Korean UI often</p>
+<p>collapses both into 오류.</p>
+<p>Uncertainty in Korean carries through sentence endings, and overusing</p>
+<p>추측형 endings makes every response sound evasive. Prefer naming the basis</p>
+<p>(&quot;입력한 생년월일을 기준으로&quot;) over hedging the verb. Reserve hedged endings</p>
+<p>for the specific claim that is uncertain rather than applying them to the whole</p>
+<p>response.</p>
+<h3 id="accessibility-and-reduced-motion-behaviour">Accessibility and reduced-motion behaviour</h3>
+<p>Streaming text needs a live region, but a region that announces every token is</p>
+<p>unusable. Announce on meaningful boundaries — sentence or block — and announce</p>
+<p>state transitions once each.</p>
+<p>A typing indicator is decorative motion. Under <code>prefers-reduced-motion</code> it</p>
+<p>should become a static state label, not simply disappear; the user still needs</p>
+<p>to know output is coming.</p>
+<p>Stop, retry, and regenerate must be reachable by keyboard while the stream is</p>
+<p>active. A control that only appears on hover is unreachable during the exact</p>
+<p>moment it matters.</p>
+<h3 id="design-review-checklist">Design-review checklist</h3>
+<ul>
+<li>Are all six turn states distinguishable, and does each show only its actions?</li>
+<li>Do <code>stopped</code> and <code>failed</code> look and read differently?</li>
+<li>Does the user&#x27;s input survive a failure?</li>
+<li>Is partial output kept rather than discarded on interrupt?</li>
+<li>Does any progress indicator correspond to real progress?</li>
+<li>Are citations, sources, or tool traces real?</li>
+<li>Do suggested follow-ups reduce work, or fill space?</li>
+<li>Does the stream announce on boundaries rather than per token?</li>
+<li>Are stop and retry keyboard-reachable mid-stream?</li>
+<li>Under reduced motion, does the user still know output is coming?</li>
+</ul>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/docs.js"></script>
+</body>
+</html>

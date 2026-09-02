@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -323,6 +324,36 @@ N+M    Root cause identified → permanent fix planned
 <tr><td>No error budget policy</td><td>SLO violations have no defined response</td><td>Define 3-stage policy</td></tr>
 <tr><td>Postmortem without action items</td><td>Theater; same incidents repeat</td><td>Specific, owned, tracked items</td></tr>
 </tbody></table>
+<p>---</p>
+<h3 id="7-evidence-and-operator-signals">§7 Evidence and Operator Signals</h3>
+<h4 id="7-1-process-identity-devops-stale-process-01-strict">§7.1 Process identity (<code>DEVOPS-STALE-PROCESS-01</code>, STRICT)</h4>
+<p>A live long-running process is not candidate evidence until its start time, binary,</p>
+<p>and config are proven to match the build under test.</p>
+<p>This exists because a release train had a live canary as a GO criterion, and the</p>
+<p>process listening on the expected port turned out to have been started two days</p>
+<p>earlier — the reporter&#x27;s own pre-fix build. The canary was rejected as the wrong</p>
+<p>instrument <strong>before</strong> it was run. The lesson is the identity check, not a bad</p>
+<p>measurement: the measurement never happened, because the identity check came first.</p>
+<p>Check, in this order: process start time versus the artifact&#x27;s mtime, the resolved</p>
+<p>binary path versus the one you built, and the config the process actually loaded</p>
+<p>versus the one on disk. **A matching port and a healthy health endpoint prove</p>
+<p>neither.**</p>
+<p>The same failure has been rediscovered independently elsewhere in this ecosystem: a</p>
+<p>deployment proof needed process start time compared against the installed build&#x27;s</p>
+<p>mtime, because a matching version string and a green health endpoint were both</p>
+<p>satisfied by a process still running the previous build.</p>
+<h4 id="7-2-operator-signals-devops-obs-signal-01-default">§7.2 Operator signals (<code>DEVOPS-OBS-SIGNAL-01</code>, DEFAULT)</h4>
+<p>When an operator surface is missing a signal, <strong>add the missing signal.</strong> Never flip</p>
+<p>an already-true status bit to compensate.</p>
+<p>The instructive case: a status command showed a green line for a component, and users</p>
+<p>in a degraded state called it misleading. It was not — the component was up and</p>
+<p>answering its health check, and the reporter proved that himself by querying it.</p>
+<p>Turning that line yellow would have made the one honest signal lie in order to cover</p>
+<p>for one that was never emitted. **The fix is a second line, not a corrupted first</p>
+<p>one.**</p>
+<p>The negative form of the same rule: a degraded, ineligible, or skipped verdict that</p>
+<p>can reach an operator command must carry a message. A silent &quot;ineligible&quot; is how</p>
+<p>three separate operational commands all reported success while doing nothing.</p>
   </div>
 </section>
 

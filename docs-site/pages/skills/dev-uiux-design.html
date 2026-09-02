@@ -79,6 +79,7 @@
 <li><a href="../../pages/devlog/260705_pabcd_render_grounding.html" class="">260705_pabcd_render_grounding: Render-Artifact Verification Grounding for PABCD C Phase</a></li>
 <li><a href="../../pages/devlog/260706_repomap_native_ports.html" class="">260706_repomap_native_ports: 00_spec — repo-map (structure map) tool: SoT + native ports to 3 harnesses</a></li>
 <li><a href="../../pages/devlog/260707_fugu_orchestration_adoption.html" class="">260707_fugu_orchestration_adoption: 260707 Fugu Orchestration Adoption</a></li>
+<li><a href="../../pages/devlog/260902_codexclaw_backport_parity.html" class="">260902_codexclaw_backport_parity: 260902 Codexclaw Backport — Skill Parity Across the Ecosystem</a></li>
 <li><a href="../../pages/devlog/260705_difflevel_roadmap_default.html" class="">260705_difflevel_roadmap_default: 00_plan — Implementation-unit discipline as the harness default (de-branded, strict)</a></li>
 </ul></div>
 <div class="nav-group collapsed">
@@ -135,12 +136,19 @@
 
 <h2 id="references">Reference Documents</h2>
 <table class="rules"><thead><tr><th>Document</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="../../pages/skills/dev-uiux-design-anti-rationalization.html">Anti-Rationalization Table (UX-ANTI-RATIONAL-01)</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-color-system.html">color-system</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-compositional-patterns.html">Compositional Patterns</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-conversational-ai.html">Conversational AI UX</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-design-award-sources.html">Design Award Source Guide</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-design-isms.html">design-isms</a></td><td>Bauhaus/Memphis/Brutalism/Wabi-Sabi 등 디자인 사조와 적용 조건</td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-design-read-example.html">Design Read Example</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-design-system-bootstrap.html">design-system-bootstrap</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-design-trends.html">Dated Design Trends</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-favicon-logo.html">Favicon &amp; Product Logo — Design Judgment &amp; Patterns</a></td><td>파비콘/로고 생성 규칙, 크기별 대응, 브랜드 일관성</td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-form-patterns.html">Form Design Patterns</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-intent-discovery-ladder.html">Intent Discovery Ladder</a></td><td></td></tr>
+<tr><td><a href="../../pages/skills/dev-uiux-design-korean-design-vocabulary.html">Korean Design Vocabulary</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-layout-macrostructures.html">layout-macrostructures</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-logo-trust-sections.html">Logo Trust Sections — Design Patterns &amp; Judgment</a></td><td></td></tr>
 <tr><td><a href="../../pages/skills/dev-uiux-design-mobile-native-ux.html">Mobile Native UX Conventions</a></td><td></td></tr>
@@ -194,6 +202,13 @@
 <p>follow its query-rewrite, source-fetch, and evidence-status rules. Use browser</p>
 <p>fetch/open/text/get-dom/snapshot only after candidate URLs exist.</p>
 <p>&gt; <strong>C0/C1 work (small local patches):</strong> See <code>dev</code> §0.0 Work Classifier + §0.1 Patch Fast-Path before reading references.</p>
+<p>&gt; <strong><code>dev</code> is canonical:</strong> <code>dev</code> §0.2 Rule Classes, §3 Verification Gate, and §5 Safety Rules apply to all work governed by this skill.</p>
+<p>&gt; <strong>Role boundary (canonical):</strong></p>
+<p>&gt; <code>dev</code> owns universal process, evidence, and safety rules. <code>dev-uiux-design</code> owns</p>
+<p>&gt; design intent, direction, and concept judgment. <code>dev-frontend</code> owns concrete frontend</p>
+<p>&gt; implementation and rendered tell enforcement. Anti-slop has three layers: <code>dev</code> =</p>
+<p>&gt; output/process hygiene, <code>dev-uiux-design</code> = concept/taste judgment,</p>
+<p>&gt; <code>dev-frontend</code> = rendered implementation tell detection and removal.</p>
 <p>&gt; <strong>Rule class note (UX-STYLE-01):</strong> Everything in this skill that expresses taste —</p>
 <p>&gt; product personalities, design-isms, preset tokens, aesthetic vocabulary — is</p>
 <p>&gt; <code>STYLE_SAMPLE</code>: examples to draw from, never universal requirements. Objective UX</p>
@@ -203,13 +218,20 @@
 <table class="rules">
 <thead><tr><th>File</th><th>When to Read</th><th>What It Covers</th></tr></thead><tbody>
 <tr><td><code>references/design-isms.md</code></td><td>User names a style/movement</td><td>15 design movements with CSS signatures, incl. Liquid Glass + Liquid Editorial default kit (2025-2026) + AI Serif Editorial + Organic Capsule (verified 2026-07-09)</td></tr>
+<tr><td><code>references/design-award-sources.md</code></td><td>Looking for real-world design references</td><td>Tiered award/gallery sources, retrieval strengths, and evidence boundaries</td></tr>
 <tr><td><code>references/design-read-example.md</code></td><td>Learning or reviewing Design Read format</td><td>Filled-in Design Read + dial setting example</td></tr>
 <tr><td><code>references/product-personalities.md</code></td><td>User references a product</td><td>10 product DNA profiles with exact tokens, incl. 2026 AI-product pastel + OpenAI warm-sans organic + Anthropic serif bookish</td></tr>
 <tr><td><code>references/layout-macrostructures.md</code></td><td>Choosing page/component layout</td><td>Component layouts + page-level compositions</td></tr>
+<table class="rules">
+<tr><td><code>references/compositional-patterns.md</code></td><td>Composing hero, navigation, motion, or content structure</td><td>Reusable pattern families distilled from award research</td></tr>
+<tr><td><code>references/design-trends.md</code></td><td>Checking dated prevalence or emerging techniques</td><td>Dated axis signals, maturity ledger, and re-crawl protocol</td></tr>
 <tr><td><code>references/ux-states.md</code></td><td>Building any stateful UI</td><td>Onboarding, empty, error, loading, progressive disclosure</td></tr>
+<tr><td><code>references/conversational-ai.md</code></td><td>Chat, agent, copilot, or any turn-based AI surface</td><td>Turn-state distinguishability, recovery after interruption, honest uncertainty display</td></tr>
+<tr><td><code>references/intent-discovery-ladder.md</code></td><td>The compact intent flow did not land a direction</td><td>Optional deepening path; the §1 flow stays the default</td></tr>
+<tr><td><code>references/korean-design-vocabulary.md</code></td><td>Korean design descriptors in the brief</td><td>Descriptor-to-token translation table</td></tr>
 <table class="rules">
 <tr><td><code>references/color-system.md</code></td><td>Generating colors/palette</td><td>OKLCH-based palette generation, dark mode, accessibility</td></tr>
-<tr><td><code>references/design-system-bootstrap.md</code></td><td>New project / design system</td><td>Token architecture, component hierarchy, <strong>DESIGN.md format</strong> (google-labs-code/design.md)</td></tr>
+<tr><td><code>references/design-system-bootstrap.md</code></td><td>New project / design system</td><td>Token architecture, component hierarchy, and the repository&#x27;s <strong>DESIGN.md format</strong></td></tr>
 <tr><td><code>references/responsive-nav.md</code></td><td>Responsive or navigation work</td><td>Breakpoints, container queries, nav patterns by density</td></tr>
 <tr><td><code>references/ux-preflight.md</code></td><td><strong>Before delivery</strong></td><td>UX state verification checklist</td></tr>
 <tr><td><code>references/typography-line-breaks.md</code></td><td><strong>Always for text-heavy UI</strong></td><td>Heading break quality, <strong>short descriptor category</strong> (hero subtitle, card desc — use <code>balance</code> not <code>pretty</code>), orphan prevention, <code>ch</code> units, Korean orphan criteria, <code>-webkit-line-clamp</code> conflict</td></tr>
@@ -220,6 +242,7 @@
 <tr><td><code>references/form-patterns.md</code></td><td>Forms, wizards, auth, file upload</td><td>Validation timing, multi-step, password UX, file upload, search/filter</td></tr>
 <tr><td><code>references/mobile-native-ux.md</code></td><td>Native mobile app UX decisions</td><td>iOS HIG vs Material 3, gestures, deep linking, Korean privacy, app store UX</td></tr>
 </tbody></table>
+<p>The award references are repository-local curated synthesis. Treat their examples as dated evidence and context-gated options, never as an external devlog dependency or a universal style prescription.</p>
 <p>---</p>
 <h3 id="lazy-user-gate-ux-lazy-01-default-ponytail-discipline-applied-to-ux">Lazy-User Gate (UX-LAZY-01, DEFAULT — ponytail discipline applied to UX)</h3>
 <p>Design for the cognitively frugal user: users don&#x27;t read, they scan; they satisfice;</p>
@@ -418,9 +441,127 @@ Reasoning: &lt;one sentence explaining why these values match the brief&gt;</cod
 <li>&quot;Simple&quot; in brief → decrease all three proportionally</li>
 </ul>
 <p>&quot;복잡하다&quot; = high DESIGN_VARIANCE is WRONG. Complexity means more features/data/flows, not more visual tricks (carousels, parallax, animations).</p>
+<h5 id="dial-presets-ux-dial-preset-01-style-sample">Dial Presets (UX-DIAL-PRESET-01, STYLE_SAMPLE)</h5>
+<p>Source: taste-skill v2, via codexclaw. Exact tuples for common use cases. Presets are</p>
+<p>authoritative <strong>specializations</strong> that may exceed the inference ranges above — Agency</p>
+<p>motion 8 exceeds the general landing 5-7 range on purpose. When a preset exists for the</p>
+<p>exact use case, use it directly and adjust from the Design Read.</p>
+<table class="rules">
+<thead><tr><th>Use case</th><th>Variance</th><th>Motion</th><th>Density</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Landing (SaaS mainstream)</td><td>7</td><td>6</td><td>4</td><td></td></tr>
+<tr><td>Landing (agency/creative)</td><td>9</td><td>8</td><td>3</td><td></td></tr>
+<tr><td>Landing (premium consumer)</td><td>7</td><td>6</td><td>3</td><td></td></tr>
+<tr><td>Portfolio (designer/studio)</td><td>8</td><td>7</td><td>3</td><td></td></tr>
+<tr><td>Portfolio (developer)</td><td>6</td><td>5</td><td>4</td><td></td></tr>
+<table class="rules">
+<tr><td>Editorial / blog</td><td>6</td><td>4</td><td>3</td><td></td></tr>
+<tr><td>Public-sector service</td><td>3</td><td>2</td><td>4</td><td></td></tr>
+<tr><td>Dashboard / SaaS admin</td><td>3</td><td>2</td><td>5</td><td></td></tr>
+<tr><td>Finance / ops</td><td>2</td><td>1</td><td>7</td><td>density D6-D7</td></tr>
+<tr><td>Game</td><td>8</td><td>7</td><td>4</td><td>domain-specific</td></tr>
+<tr><td>Korean consumer app</td><td>5</td><td>4</td><td>5</td><td>CJK density</td></tr>
+</tbody></table>
+<p><strong>Redesign arithmetic (DEFAULT).</strong> Score the existing surface with the preset rules</p>
+<p>first, then move from it:</p>
+<ul>
+<li>Preserve: variance = match existing, motion = match + 1, density = match existing.</li>
+<li>Overhaul: variance = existing + 2, motion = existing + 2, density = match existing.</li>
+<li>&quot;Complex&quot; in the brief increases <strong>density</strong>, never variance or motion.</li>
+<li>&quot;Simple&quot; decreases variance and motion; density stays or increases.</li>
+</ul>
+<p>Clamp all arithmetic to 1-10 and D1-D8. An existing SaaS surface at 7/6/4 preserves to</p>
+<p>7/7/4 and overhauls to 9/8/4.</p>
+<h5 id="audience-first-ownership-ux-audience-01-default">Audience-first ownership (UX-AUDIENCE-01, DEFAULT)</h5>
+<p>The <strong>audience</strong> picks the aesthetic, not the model&#x27;s taste. When audience signal and</p>
+<p>model preference conflict, audience wins. The presets above encode audience</p>
+<p>expectations — a public-sector audience expects trust-first restraint, an agency</p>
+<p>audience expects high variance — so reaching past a preset because the result feels</p>
+<p>plain is the failure this rule names. Override with stated rationale only.</p>
 <h4 id="anti-default-discipline">Anti-Default Discipline</h4>
 <p>Do not default to: warm beige backgrounds, centered hero, three equal feature cards, generic glassmorphism, Inter + slate-900, card-based everything. These are LLM defaults. Reach past them BASED ON the design read.</p>
 <p>If the brief is ambiguous, ask ONE clarifying question. Not a multi-question dump.</p>
+<h4 id="image-first-direction-discovery-ux-image-first-01-default">Image-First Direction Discovery (UX-IMAGE-FIRST-01, DEFAULT)</h4>
+<p>Fires when the brief has <strong>no</strong> named ism, product reference, or concrete design</p>
+<p>direction. Generate 5 maximally different ism directions, varying layout family,</p>
+<p>palette, type stance, material, and hero grammar. Every prompt must be detailed enough</p>
+<p>to reconstruct the layout.</p>
+<p>Compare candidates on hero composition, palette coherence, typographic voice, and</p>
+<p>density fit. <strong>Pick the winning ism, not the winning image</strong> — the render is evidence</p>
+<p>for a direction, and treating it as the deliverable is how a one-off composition becomes</p>
+<p>an accidental design system.</p>
+<p>Then synthesize rather than crowning one candidate. Build an element ledger recording,</p>
+<p>per token, which variant did it best and why:</p>
+<table class="rules">
+<thead><tr><th>Token</th><th>Best variant</th><th>Rationale</th><th>Locked value</th></tr></thead><tbody>
+<tr><td>Palette</td><td>#3</td><td>warmest coherence</td><td>primary + accent</td></tr>
+<tr><td>Hero</td><td>#1</td><td>strongest asymmetric composition</td><td>editorial offset</td></tr>
+<tr><td>Type</td><td>#2</td><td>best weight contrast</td><td>heading 300, body 400</td></tr>
+</tbody></table>
+<p><strong>The synthesis IS the direction lock</strong>: it assembles the best tokens from several</p>
+<p>candidates into one coherent set, and the lock is that assembled set rather than any</p>
+<p>single render. Refine the locked direction with 2-4 variants afterwards.</p>
+<p>When a human is in the loop they pick the ism; running unattended, state the selection</p>
+<p>reasoning in the record.</p>
+<h3 id="2-6-asset-production-handoff-ux-asset-gen-01-default">2.6 Asset Production Handoff (UX-ASSET-GEN-01, DEFAULT)</h3>
+<p>Once the concept direction is locked, asset work belongs to</p>
+<p><code>dev-frontend/references/core/asset-requirements.md</code> — generation, background removal</p>
+<p>(FE-ASSET-BG-01), batching, selection, and integration. This section exists to mark the</p>
+<p>handoff rather than to duplicate it: the direction is decided here, the assets are</p>
+<p>produced there, and blurring the two is how an unlocked direction gets 40 generated</p>
+<p>images spent on it.</p>
+<h3 id="2-7-icon-strategy-ux-icon-01-default">2.7 Icon Strategy (UX-ICON-01, DEFAULT)</h3>
+<p>Choose iconography during the Design Read, <strong>before</strong> frontend implementation. Select</p>
+<p>the domain-correct default from the density matrix; an explicit <code>DESIGN.md</code></p>
+<p><code>iconography</code> block overrides it. Do not ask the user unless icon direction is a</p>
+<p>material brand decision that cannot be inferred from the brief.</p>
+<table class="rules">
+<thead><tr><th>Density</th><th>Typical surface</th><th>Recommended library</th><th>Why</th></tr></thead><tbody>
+<tr><td>D1</td><td>Editorial, campaign, sparse portfolio</td><td>Iconoir</td><td>Airy 1.5px linework suits low-density art-directed composition</td></tr>
+<tr><td>D2</td><td>Marketing site, premium consumer landing</td><td>Phosphor or Iconoir</td><td>Phosphor adds expressive weights; Iconoir stays restrained</td></tr>
+<tr><td>D3</td><td>Consumer product, content app</td><td>Phosphor</td><td>Broad semantics plus regular/fill/duotone hierarchy</td></tr>
+<tr><td>D4</td><td>SaaS product, general app UI</td><td>Phosphor</td><td>Default balance of clarity, coverage, personality</td></tr>
+<tr><td>D5</td><td>Korean consumer app, feature-rich mobile</td><td>Phosphor + custom domain layer</td><td>System clarity plus colorful product-specific concepts</td></tr>
+<table class="rules">
+<tr><td>D6</td><td>Dense admin, B2B workflow</td><td>Hugeicons or Untitled UI</td><td>Higher coverage, neutral precise forms</td></tr>
+<tr><td>D7</td><td>Finance, ops, analytics</td><td>Untitled UI or Hugeicons</td><td>Controlled neutral geometry at high information density</td></tr>
+<tr><td>D8</td><td>Developer tool, expert control surface</td><td>Hugeicons or Lucide</td><td>Maximum coverage; Lucide only when ecosystem fit is intentional</td></tr>
+</tbody></table>
+<p>Routing:</p>
+<ol>
+<li>Set the system library from the matrix and the product&#x27;s visual language. Phosphor is</li>
+</ol>
+<p>the general default, not a universal mandate.</p>
+<ol>
+<li>Respect an explicit user choice or an existing <code>DESIGN.md</code> value over the inferred</li>
+</ol>
+<p>default.</p>
+<ol>
+<li>Use the library for routine system semantics — navigation, actions, status, search,</li>
+</ol>
+<p>disclosure, utility controls.</p>
+<ol>
+<li>Generate a custom icon when a domain concept has no clear library glyph, when forcing</li>
+</ol>
+<p>an approximate glyph would reduce comprehension, or when the brief requires a</p>
+<p>brand-specific visual style. A licensed premium set is the alternative when it</p>
+<p>already supplies a coherent domain vocabulary.</p>
+<p>Three visual layers, kept distinct:</p>
+<ul>
+<li><strong>System icons (library)</strong> — routine interface semantics, one coherent library and</li>
+</ul>
+<p>weight language.</p>
+<ul>
+<li><strong>Domain icons (custom or premium)</strong> — product concepts, categories, KPIs, services,</li>
+</ul>
+<p>objects that generic libraries cannot represent precisely.</p>
+<ul>
+<li><strong>Brand icons (custom)</strong> — identity-bearing marks, characters, mascots, signature</li>
+</ul>
+<p>illustrations. Never substitute a generic stroke icon for a logo.</p>
+<p>Korean consumer apps often carry more information and rely on colorful domain category</p>
+<p>and KPI icons for fast scanning. For D4-D6 Korean-first apps, prefer a restrained system</p>
+<p>library plus a coherent colored domain layer over forcing every concept into monochrome</p>
+<p>outline icons.</p>
 <h4 id="design-md-persistence">DESIGN.md persistence</h4>
 <p>If the project needs persistent design tokens across sessions, save the Design Read as a full <code>DESIGN.md</code> in the project root. Format spec: <code>references/design-system-bootstrap.md § DESIGN.md Format</code>.</p>
 <p>---</p>
