@@ -90,6 +90,8 @@ proof that validates the claim, with the reduced scope stated).
 | `ml` / `ai` / `llm` / `rag` | dev-backend + dev-data + dev-testing (+dev-devops) | ML serving, RAG, pipeline, evaluation |
 | `frontend_ui` | dev-frontend + dev-uiux-design | UI/design intent or runnable prototype variant work |
 | `crud_fullstack` | dev-backend, dev-frontend, dev-testing | Boss/direct planning signal only — when delegating, prefer split roles |
+| `logging` (CLI / scripts / libraries) | dev `references/logging.md` | What to emit and where; service instrumentation stays with dev-backend |
+| stacked pull requests (`DEV-STACK-*`) | dev `references/stacked-prs.md` | When to stack, cascade discipline, layer shape, review scope, bottom-up merge safety |
 
 Tags are normalized `task_tags`, **not** employee `role` values; the execution role stays
 `frontend|backend|data|docs` (PROMPT-ROUTING-01).
@@ -365,6 +367,30 @@ and **Verification** (command + result).
 - **Externalize configuration** — use config files or environment variables. Place magic strings and numbers in named constants.
 - **Handle all async errors explicitly** — surface failures at a clear boundary. In JS/TS backend code, the Result pattern (`neverthrow`) may replace per-call `try/catch` when failures are surfaced at a verified boundary (see `dev-backend/SKILL.md` §3). In other cases, use `try/catch` and log with context (`console.error('[module]', error.message)`).
 - **Confirm before destructive operations (ESCALATE)** — deleting files, dropping tables, resetting state, or clearing caches require explicit user approval.
+
+### Git discipline
+
+- **Commit incrementally (DEV-GIT-COMMIT-01, DEFAULT)** — commit working progress
+  as you go during implementation. Each logically complete step (passing test,
+  wired feature, fixed bug) gets its own commit so that progress is checkpointed
+  on disk and recoverable after compaction or failure. Do not accumulate an entire
+  feature as uncommitted changes. This matters most in multi-cycle work, where the
+  transcript is not durable: committed work survives a context flush, uncommitted
+  work does not.
+- **Push requires explicit user approval (DEV-GIT-PUSH-01, ESCALATE)** — never
+  push to a remote without the user's explicit approval in the current session.
+  Committing locally is autonomous; pushing is an external state change the user
+  must authorize. This holds even at completion, and it covers force-push, remote
+  branch creation, and tag push. Approval for a named scope ("push when done") is
+  approval for that scope only.
+- **Stack dependent work instead of one oversized PR (DEV-STACK-01, DEFAULT)** —
+  when a change splits into 2+ dependency-ordered parts and one PR would be too
+  large to review, publish a bottom-up stack: each branch based on the one below,
+  each PR's base pointing at its parent. Editing a lower layer means cascading the
+  rebase to every layer above before pushing (`DEV-STACK-02`, STRICT). Merging a
+  stack is bottom-up and stays user-authorized (`DEV-STACK-04`, ESCALATE).
+  Canonical rules, depth guidance, anti-patterns, review scope, and tooling:
+  `references/stacked-prs.md`.
 
 ---
 
