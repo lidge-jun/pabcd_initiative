@@ -281,6 +281,70 @@ Rules:
 - Overflow (>10 docs in a range): use sub-index (`00_0_name.md`, `00_1_name.md`).
 - NEVER use bare filenames like `PLAN.md`, `DIFF_PLAN.md`, `PHASES.md`, `RCA.md`.
 
+#### §3.2 Plan-quality rules
+
+Three authoring rules for P. Each is also an A blocker (§3 A, "Plan-rule checks"),
+so failing one at P costs an audit round.
+
+**PLAN-VERIFIER-REAL-01 (DEFAULT).** Before writing a verifier command into the
+plan, **run it.** A command that does not exist — missing script, missing config —
+or that does not read the change target is not a verifier. Record one line next to
+each: its exit code, and whether it actually reads this unit's change target.
+
+Prove the "reads the target" half with one of:
+
+- the target path appears as a direct argument;
+- a script or glob definition that includes it — quote the glob;
+- a config `include` / `files` entry — quote it;
+- a call chain into a sub-script that reads it — cite `file:line`.
+
+If none holds, write "this command does not observe this change" and classify that
+acceptance row as **human review**. Do not claim a gate protects it. Two traps
+recur: a command that silently checks nothing when its config file is absent, and
+naming a gate as the verifier for prose it never reads.
+
+**PLAN-FIELD-CHAIN-01 (DEFAULT).** A plan that adds a field to a type, or a value to
+an enum, must enumerate that value's whole chain in the file-change map:
+
+creation (input type, builder, CLI arg) → serialization → deserialization (reviver,
+unknown-value handling) → every consumer
+
+When adding an enum value, search three things rather than one: the type name, the
+field name, and **every existing enum value**. Then check non-comparison
+consumption — destructuring and aliases, `default` branches, generic predicates, and
+every function taking that type.
+
+Give each of the four stages a path or an explicit `N/A + reason`; a blank is
+indistinguishable from "did not check". The two failure shapes differ and both are
+silent: a missed **consumer** makes the new value a ghost state that nothing counts,
+while a missed **creation** path means the value can never be produced at all — so
+any condition depending on it never arms. That second one is
+C-ACTIVATION-GROUNDING-01's failure reached through the type system instead of
+through control flow.
+
+**PLAN-BYPASS-NAMED-01 (DEFAULT).** A plan that adds enforcement must also record
+**how to bypass it**, in five fields:
+
+1. **Enforcement strength** — on whatever tier vocabulary the repository uses. With
+   none, name the mechanism kind plainly: runtime gate, CI check, pre-commit hook, or
+   agent-followed prose.
+2. **Executing surface** — which script, job, hook, or human actually runs it.
+3. **Known bypass path** — the concrete way around it.
+4. **Residual risk** — what stays reachable once the layer is in place.
+5. **Wording downgrade** — whether the claim had to be weakened once (3) was known.
+
+A bypassable layer is called an **early warning**, never **enforcement**.
+`final layer: none` is an allowed answer: the point is to stop claiming enforcement
+that does not exist, not to manufacture an unbypassable layer. If you claim no
+bypass exists, give the evidence — that claim is usually wrong.
+
+**PLAN-TRACK-01 (DEFAULT).** When the runtime offers a live plan or todo surface,
+mirror the plan's work items into it at P and keep the statuses current through B.
+That surface is the **visibility** channel, and often the only view the user gets
+between turns. It is not the plan: the diff-level document stays the single source of
+truth, and ticking an item is never a substitute for the phase's artifact
+(ORCH-ARTIFACT-01). A runtime with no such surface loses nothing here.
+
 Present to the user:
 1. Part 1 summary (≤5 sentences) + diagram + devlog file path
 2. "Is there any business logic I must not decide alone?" and "Is this direction correct?"
@@ -308,9 +372,74 @@ Spawn a worker to audit the plan (not code). The worker verifies:
   activation scenario (C-ACTIVATION-GROUNDING-01). An unreachable-by-construction
   branch is a plan blocker, not a C-phase discovery.
 
+**Plan-rule checks.** The reviewer additionally verifies each of these, and any one
+failing is a blocker: (a) every verifier command the plan names actually exists AND
+reads the change target — the reviewer RUNS it rather than trusting the plan
+(PLAN-VERIFIER-REAL-01); (b) each new field or enum value has its full
+creation → serialization → deserialization → consumer chain enumerated, with
+`N/A + reason` where a stage does not apply (PLAN-FIELD-CHAIN-01); (c) when several
+documents reference a shared type, the field NAMES match, not just the concept;
+(d) each document's header dependency declaration matches the types its body
+actually uses; (e) any plan adding enforcement records the five bypass fields and
+either names the final enforcement layer or states `none`
+(PLAN-BYPASS-NAMED-01). All three plan rules are defined in §3.2.
+
+Instruct the reviewer to end with a normalized final line —
+`VERDICT: PASS | GO-WITH-FIXES (blockers=N) | FAIL` — followed by numbered
+blockers. No code changes.
+
+**Audit loop (STRICT, AUDIT-LOOP-01).** A is a **loop** — audit → synthesize →
+amend plan → re-audit — not a single round. Exit A→B only when the main agent
+judges the round:
+
+- **pass** — the reviewer approved; or
+- **near-pass** — every High/Critical blocker was folded into the plan as a
+  concrete amendment or explicitly rebutted with recorded rationale, and only
+  non-blocking residuals remain. `GO-WITH-FIXES; 2 blockers folded back` qualifies.
+
+A **FAIL** round never exits. Apply REVIEW-SYNTHESIS-01 (§11.3), amend the plan,
+and re-audit with the **same reviewer** so it keeps the context it already built
+(DISPATCH-ACTOR-01, §7.2). LOOP-REPAIR-01 bounds the loop: after 3 failed rounds
+return to P with a changed plan, or to Interview when human clarification is what
+is actually missing.
+
+Three details in that rule are load-bearing and easy to lose:
+
+- **The main agent is the judge, not a string parser.** `near-pass` is a judgment
+  about whether the blockers were really addressed. A reviewer's closing line is
+  evidence for that judgment, not a substitute for it — and a pasted verdict whose
+  final line says FAIL does not become a pass because the summary claims one.
+- **Same reviewer on re-audit, fresh reviewer for the final adversarial pass.** Reuse
+  preserves context across rounds; independence matters when the reviewer has
+  already shaped the fix. Those pull in opposite directions, which is why the rule
+  names both rather than one.
+- **The loop is bounded because an unbounded audit loop is a stall, not rigor.**
+  Three failed rounds means the plan is wrong in a way re-auditing cannot find.
+
+**Verification is not pinned to A (LEAN-REVIEW-01, DEFAULT).** Dispatch review lanes
+wherever they help — plan audit at A, implementation review at B, check
+verification at C — instead of treating A as the one phase that owns review. A
+review lane costs one dispatch and returns evidence you can paste into the next
+attestation.
+
+Where a runtime records reviewer verdicts, a recorded verdict is **binding**: it
+cannot be contradicted by your own attestation, spent across a re-plan, or spent on
+a plan whose files changed after approval. Where the runtime records nothing, the
+same discipline is yours to keep.
+
+What must not be built is a review gate whose failure mode traps the cycle. Recorded
+2026-08-18 in the codexclaw lineage: A→B once required a verdict only an automatic
+observer could write, so every reason that observer failed to fire — a matcher that
+missed the runtime's role vocabulary, a reviewer whose closing lines did not parse,
+a reinstall that moved the plugin root under a live session — left the cycle in a
+phase it could never leave, and the only escape was hand-feeding the gate its own
+payload. **A gate whose normal recovery is forging its own input is not a gate.**
+Apply that when designing any gate here: if the recovery path is "fabricate the
+evidence the gate wanted", the gate is worse than none.
+
 Output worker JSON for the audit. Review results when they come back.
-- If FAIL → fix the plan → output worker JSON again to re-audit
-- If PASS → report results to the user
+- If FAIL → synthesize (§11.3) → amend the plan → re-audit with the same reviewer
+- If PASS or near-pass → report results, with the residual disposition, to the user
 
 ⛔ Wait for user approval. When approved, advance with the canonical A→B attestation form in §2.1.
 
@@ -558,6 +687,82 @@ alternation, and specialist first-principles re-derivation; devlog
 an adversarial fork-debate + Tier-2 arXiv claim ledger — 10 papers, evidence
 grades recorded; codexclaw devlog `260711_dispatch_economy_docs_site`. jawcode /
 cli-jaw ports pending.)
+
+### §7.2 Dispatch packet, lane, and lifecycle
+
+§7.1 decides **whether** to dispatch. These decide **how**, and each one names a
+failure that looks like something else when you hit it.
+
+**DISPATCH-TASK-01 (DEFAULT) — the packet.** Every dispatch carries a structured
+packet with these sections, in this order:
+
+`TASK` · `SCOPE` · `MUST DO` · `MUST NOT` · `PROOF` · `RETURN FORMAT` · decision boundary
+
+- **Write scopes must be disjoint** across concurrent lanes, with explicit read
+  bounds. Two lanes that can touch one file are one lane.
+- **The plan travels with the dispatch.** Pass the concrete plan and scope; never
+  let a worker reconstruct the plan from a thin task description (§8 Context Drift).
+- **Name every required skill explicitly** — nothing infers an omitted one.
+- **Workers return evidence and unresolved judgments; the dispatching session
+  decides and integrates.** Judgment ownership never delegates
+  (DISPATCH-ECONOMY-01).
+
+**DISPATCH-AGENT-TYPE-01 (DEFAULT) — the lane.** The read-only/write-capable split
+is a **dispatch-time classification**, not a description of what the worker happens
+to do:
+
+- **read-only lane** — plan audit, research, review, verification. The default, and
+  what the A gate, the B review lane, and the C verification lane all use.
+- **write-capable lane** — a deliberate implementation slice only, with a bounded
+  write scope named in the packet (§8).
+
+Mismatching the lane to the packet is a real failure with a misleading symptom. A
+read-only packet sent down a write-capable lane produces a worker held to
+obligations it has no permission to satisfy, and what you observe is a worker
+repeating the same answer against the same directive. When you see that, check the
+lane before rewriting the prompt — it is almost always the lane.
+
+**LEAF-TOPOLOGY-01 (DEFAULT) — the topology.** A dispatched worker is a leaf: it
+does its scoped task and returns, without standing up its own orchestration layer.
+Recursion is a deliberate per-dispatch grant, never a default. A runtime whose
+workers may fan out internally should say so explicitly rather than leaving it
+ambiguous, because an unplanned second layer makes write scopes unprovable.
+
+**DISPATCH-ACTOR-01 (DEFAULT) — reuse across rounds.** Follow-up rounds in the same
+role and work context **reuse the existing worker** rather than spawning fresh. The
+point is context preservation: the reviewer or builder keeps what it already read,
+so round two argues about the change instead of re-deriving the baseline.
+
+If the runtime distinguishes "send more work" from "deliver context only", know
+which is which — using the context-only channel to request work produces a worker
+that never runs and a caller that waits forever.
+
+Do **not** justify reuse with "same provider, so the prompt cache is warm". That
+was tested and rejected in the lineage this rule comes from. Reuse is about
+context, not cost.
+
+**Carve-out.** The final adversarial pass at C — and any reviewer that has already
+shaped the fix through synthesis rounds — gets a **fresh** reviewer, or a direct
+independent `file:line` audit. Anchoring must never grade its own influence. Same
+independence argument as REVIEW-DECORRELATE-01 (§7.1), applied across rounds instead
+of across model families.
+
+**DISPATCH-RETIRE-01 (DEFAULT) — the exception to reuse.** A worker that failed —
+error, timeout, unresponsive, nonsense output — is retired, not nursed.
+
+- **At most ONE retry** against the same worker, then abandon it and spawn fresh
+  with the failure folded into the new packet.
+- A worker that has produced nothing after roughly three wait cycles is a failed
+  dispatch, and **that retirement consumes the one retry.** Silence does not earn a
+  second chance on top of the silence.
+- **Packet-failure reclaim.** When a second, distinct worker also fails the SAME
+  packet, stop blaming workers: two independent failures on one packet are evidence
+  the packet failed DISPATCH-ECONOMY-01's specifiability bar. The dispatching
+  session reclaims that slice and does the work directly rather than dispatching a
+  third copy.
+
+Both lifecycle rules are agent-followed doctrine, not runtime gates — nothing
+watches worker lifecycles for you.
 
 ## §8. Pitfalls
 
