@@ -895,3 +895,55 @@ addEventListener('scroll', onScroll, { passive: true });
 ```
 
 Provenance: repository-local scroll-driven-effects and cinematic-transition synthesis.
+
+## Motion Honesty (FE-MOTION-HONESTY-01, DEFAULT)
+
+Source: taste-skill v2, via codexclaw.
+
+The declared motion-intensity dial must match the shipped page's **actual** motion. A
+dial above 4 that ships a static page is a lie — the motion was claimed and never
+delivered.
+
+| Dial | Required motion evidence |
+|------|--------------------------|
+| 1-3 | Hover and active state transitions only. No scroll-driven motion required. |
+| 4-5 | At least one entrance animation or staggered load-in visible on first scroll. |
+| 6-7 | Scroll-driven reveals on multiple sections plus at least one signature moment. |
+| 8-10 | Choreographed scroll timeline or parallax, plus a signature moment and supporting reveals. |
+
+Verification: scroll the built page top to bottom and **count distinct motion events.**
+If the count does not match the band, either lower the dial or add the motion. Counting
+is the whole method — a dial is a claim, and this is the only check that reads the page
+instead of the intent.
+
+Honesty has a second dimension: motion must carry a semantic verb, not merely raise the
+event count. A repeated verb is communicative when the same action explains brand or
+product state across loader, navigation, and content. Generic decorative entrances
+remain disallowed as a governing system. This does not remove the 4-5 band's
+requirement for at least one entrance animation — that required entrance stays
+restrained, while a repeated system earns its place by communicating state.
+
+Any dial above 3 MUST honor `prefers-reduced-motion` by reducing to hover and active
+only. That is not optional at any dial level.
+
+## Generated Video for Motion Assets (FE-MOTION-VIDEO-01, DEFAULT)
+
+When a motion surface needs real video or animated content, use a generation pipeline
+rather than simulating motion with CSS transitions alone. The domain gates from
+FE-MOTION-BUCKET-01 still apply: video assets serve the LANDING and APP buckets, while
+TOOL-bucket surfaces use static assets with feedback-only transitions.
+
+**Image-first is the higher-quality route.** Generate a high-quality still first, then
+animate it with an image-to-video pass. The video model then has a concrete visual to
+work from rather than inferring one from text, which is why the two-step route beats a
+single text-to-video prompt for anything whose composition matters.
+
+Requirements regardless of which generator you have:
+
+- A poster still, which doubles as the `prefers-reduced-motion` fallback and the LCP
+  candidate (`performance-budget.md` FE-MEDIA-BUDGET-01).
+- A stated duration and resolution target before generating, not after.
+- Never generate the product UI itself — interface pixels must be real.
+
+If your environment has no video generation capability, say so and fall back to an
+authored still plus restrained CSS motion. Do not simulate a video pipeline.

@@ -103,3 +103,31 @@ Banned: unbounded per-component WebSockets; independent polling from multiple co
 (centralize into one subscription, fan out via state); SSE re-created on every remount
 without cleanup. Ownership: browser-side budgets live here (dev-frontend); server-side
 connection lifecycle (heartbeats, drain, registry) is `dev-backend` §1.
+
+## Motion Media Budget Exemption (FE-MEDIA-BUDGET-01, DEFAULT)
+
+On LANDING/EXPERIENCE-bucket surfaces (see `motion.md` FE-MOTION-BUCKET-01), motion
+media is exempt from the byte-cap rows above with no byte ceiling: autoplay loop
+video, scroll-scrub video, frame sequences, and large hero imagery.
+
+**Budget freedom is not correctness freedom.** The Core Web Vitals field gates remain
+supreme — LCP <= 2.5s, INP <= 200ms, CLS <= 0.1 — and the exemption applies only when
+the loading mechanics hold:
+
+- Poster-first LCP; the poster itself counts toward the hero image budget.
+- Lazy or Intersection Observer-gated loading outside first paint.
+- `prefers-reduced-motion` and `prefers-reduced-data` fallbacks to poster or still.
+- Stable layout; no CLS from the media swap.
+- The still is useful before the heavy media arrives.
+- An explicit skip or pause control for authored playback.
+- Adaptive quality selected from device, network, and reduced-data capability.
+- Primary copy and the primary CTA are never blocked on media readiness.
+- **Measured** LCP meets the field gate — do not infer it from asset size.
+- **Measured** interaction cost meets the INP field gate during choreography.
+
+The two "measured" lines are the ones that make this an exemption rather than a
+loophole. Byte size was the proxy; once you drop the proxy you owe the real
+measurement, and inferring LCP from how big the file is is how a page ships heavy
+media and a failing field gate at the same time.
+
+Heavy media still needs a product reason on top of the mechanics above.

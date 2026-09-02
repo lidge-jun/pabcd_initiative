@@ -61,6 +61,16 @@ Gradient overuse is the top 2026 anti-slop signal. Treat every gradient as a sca
 
 A generated or filmed continuous-color field may exceed the ambient-wash default only when the changing field is the product, phenomenon, or primary media material rather than CSS decoration. Keep one such field per viewport, keep unrelated sibling cards flat, and provide a static poster or reduced-motion state. Award examples such as RISK, Sky Clock, and Augen calibrate this narrow context; opaque functional panels are never exempt.
 
+
+### Material-Field Exemption
+
+A generated or filmed continuous-color field may exceed the ambient-wash
+default only when the changing field is the product, phenomenon, or primary
+media material rather than CSS decoration. RISK's fluid film, Sky Clock's sky,
+and Augen's soft-focus imagery are the evidence context. Keep one such field per
+viewport, keep unrelated sibling cards flat, and provide a static poster or
+reduced-motion state.
+
 ### Opaque Functional Surfaces (FE-GRADIENT-02, DEFAULT, verified 2026-07-09)
 
 A tinted gradient wash on an OPAQUE functional panel — `background:
@@ -80,6 +90,10 @@ Opaque + functional (repeated cards, panels, sidebars, badges, task UI)
      flat alpha/step tint | 1px accent border or ring | left/top accent bar |
      elevation shadow | semantic status token.
 ```
+
+The material-field exemption above applies only to ambient, expressive, or
+media-like fields such as the RISK, Sky Clock, and Augen evidence; an opaque
+functional panel is NEVER exempt from this rule.
 
 What premium systems do instead (measured 2026-07-09): Primer
 `--bgColor-accent-muted` flat fill + `--borderColor-accent-muted`; Radix accent
@@ -106,6 +120,17 @@ Full-page single-hue theming where background, borders, text accents, badges, gl
 
 A single-hue field is allowed for one bounded hero or chapter only when the hue is brand-semantic, contrast passes, real typography/diagram/media supplies structure, and later states introduce tonal or material variation. This is an authored brand/domain field, not permission for a generic full-page cyber wash.
 
+
+### Bounded Authored Field Exemption
+
+A single-hue field is allowed only for one bounded hero or chapter when the hue
+is brand-semantic, contrast passes, real typography/diagram/media supplies the
+structure, and later states introduce tonal or material variation. Cantor8,
+Foundation Labs, Benjamin Hoang, and 1inch demonstrate authored brand/domain
+fields rather than a default full-page theme. Generic cyber neon and a full-page
+single-hue wash remain banned; this exemption does not replace the neutral-base
+default above.
+
 ## Premium-Consumer Palette Ban (MANDATORY)
 
 For premium-consumer briefs (cookware, wellness, artisan, luxury, heritage, DTC home, travel):
@@ -127,6 +152,11 @@ For alternative palettes, see `aesthetics.md § Color & Theme`.
 ## Banned Layouts
 - Everything centered with uniform padding
 - Oversized bold hero text inside apps, tools, dashboards, admin, finance flows, or public services
+  Marketing, editorial, and portfolio first viewports are outside this bullet
+  only when type is the primary artifact, wrapping or cropping is deliberately
+  authored, and no task UI is displaced. Shopify Design, PP Neue Montreal,
+  Customer.io, and Foundation Labs are the evidence context. Apps, tools,
+  dashboards, admin, finance, and public-service surfaces remain banned.
 - 3 equal cards in a row (the "feature row" cliché)
 - Uniform rounded corners on every element (vary: tight on inner, soft on containers)
 - Centered hero with gradient background + Inter heading
@@ -208,6 +238,8 @@ Before delivering any page, read all visible text aloud (mentally). Check:
 - Cute visual assets treated as a Korean default rather than a domain decision
 - Childish copy in finance, public service, auth, payment, security, B2B, admin, or developer tools
 - Oversized ultra-bold Hangul hero: Latin-poster sizing/weight on long Korean copy (100px+ / weight 800-900 / line-height ~0.9) reads as a heavy graphic mass even on landing/campaign surfaces — Korean premium services size heroes ~56-72px / weight 700 / line-height 1.25-1.4 (see `korea-2026.md` § Korean Hero / Large Display Type)
+- Split-hero template (FE-HERO-SPLIT-01): left bold headline + right boxed screenshot/device-mockup card is the exhausted Stripe->Linear template lineage ("Linear Design" is a reproducible kit category, 2026) — never choose it unprompted; build it only on explicit user request (paid-conversion LPs are the one context to *propose* it). Default: make the product visual the stage (full-width, background, environment, or interactive demo), never a right-column card (see `layout-discipline.md` § Hero Composition Grammar)
+For this rule, an edge-to-edge, grid-crossing, interactive or media aperture that performs the product premise is not a "split hero."
 - Split-hero template: left bold headline + right boxed screenshot/device-mockup card is the exhausted Stripe->Linear template lineage ("Linear Design" is a reproducible kit category, 2026) — reserve it for conversion-focused paid landing pages only; on brand/product homepages make the product visual the stage (full-width, background, environment, or interactive demo), never a right-column card (see `layout-discipline.md` § Hero Composition Grammar)
 - "tasteslop" serif shortcut: adopting a display serif purely as an AI-premium signal, without editorial structure (long-form typography, page-like surfaces, restrained palette), is the named 2026 backlash tell — serif direction is domain-gated and must be earned, at light display weights 330-400, never pasted onto a SaaS layout (see `aesthetics.md` § Serif Discipline)
 
@@ -331,6 +363,8 @@ Each generation MUST be visually distinct from the last:
 - Alternate light/dark themes
 - Vary layout patterns (split → asymmetric → editorial → etc.)
 
+This applies to separate design rounds or concept directions, not to candidate variations within the UX-CONCEPT-GEN-01 locked-concept synthesis workflow.
+
 ---
 
 ## Redesign Fix Priority Order
@@ -344,3 +378,121 @@ When fixing an existing project, apply in this order for max impact / min risk:
 5. **Replace generic components** — swap cliché patterns
 6. **Add loading/empty/error states** — makes it feel finished
 7. **Polish typography scale** — the premium final touch
+
+---
+
+## Second-Order Reflex Test (FE-REFLEX-TEST-01, DEFAULT)
+
+Source: impeccable (40k stars, 2026-07-12 research).
+
+Anti-slop detection operates at two levels:
+
+- **First-order reflex**: can the palette and theme be guessed from the product
+  category alone? (e.g. "fintech" → dark + cyan accent → AI default)
+- **Second-order reflex**: can the *alternative* aesthetic be guessed from the
+  category plus its obvious anti-reference? (e.g. "fintech that's NOT dark" →
+  warm cream + serif → the fashionable anti-template)
+
+Both are convergence signatures. A direction that passes the first-order test but
+fails the second is still a learned template — the model replaced one default with
+its current-fashion opposite. True domain-correct design emerges from the Design
+Read's specific audience/purpose/constraint signals, not from "what's the opposite
+of the obvious choice."
+
+---
+
+## Convergence Composition Tells (FE-CONVERGENCE-01, DEFAULT)
+
+Source: impeccable detector catalog (46 rules, 8 domains) + taste-skill v2 (62k stars).
+
+These are specific multi-element compositions that are statistically overproduced
+by AI agents. A single trait may be legitimate; the convergence signature is the
+indiscriminate combination.
+
+### Visual Detail Tells
+
+- **FE-BORDER-SHADOW-01**: Hairline border (1px) + diffuse box-shadow on the same
+  element. Edge defines boundary OR elevation creates depth — not both. This is the
+  #1 generated-UI composite tell. Fix: choose one; if elevation, remove the border;
+  if boundary, remove or tighten the shadow.
+
+- **FE-ICON-TILE-01**: Rounded-square icon container (40-64px, border-radius 12-16px,
+  tinted background) stacked directly above a feature-card heading. The composition
+  is the tell, not individual icons or cards. Fix: inline the icon beside the heading,
+  use it as a list marker, or omit it if the heading is self-explanatory.
+
+- **FE-ITALIC-SERIF-HERO-01**: Oversized italic serif headline in a hero section,
+  now a major AI-premium convergence shortcut. Not the same as a general serif ban —
+  the specific italic + oversized + startup/premium hero composition is the tell.
+  Fix: if serif is the deliberate typographic direction, use roman weight at a
+  considered scale; italic serif heroes need explicit design rationale.
+
+- **FE-HERO-METRIC-01**: Giant number + small label + supporting stats row + gradient
+  accent in a hero section. This exact scaffold is a dashboard-marketing convergence
+  pattern. Fix: metrics belong in a dedicated stats section, not as hero filler.
+
+### Typography Tells
+
+- **FE-TYPO-FLOOR-01**: Typography floors (STRICT thresholds):
+  - Body line-height: >= 1.3 (1.5 preferred for readability)
+  - Body font-size: >= 12px (never smaller for readable prose)
+  - Letter-spacing: never below -0.03em (destructive tracking floor)
+  - Wide positive tracking (> 0.05em) on body copy is also a tell
+  - Single font family with no role differentiation (heading/body/code/label all
+    the same family, weight, and scale) is a flat-hierarchy signal
+
+- **FE-SERIF-DEFAULT-01**: Fraunces and Instrument Serif as unexamined creative-font
+  defaults. Random serif words embedded inside sans-serif headlines (mixed emphasis)
+  without typographic rationale. Italic descenders clipping adjacent elements.
+  Fix: choose the typographic direction deliberately; if serif, commit to it across
+  the appropriate roles.
+
+### Copy Tells
+
+- **FE-APHORISM-01**: Aphoristic rebuttal cadence — manufactured short contrasts
+  used as section headings or hero copy: "Not a feature. A platform." / "Stop
+  managing. Start leading." / "Less noise. More signal." This pattern is generated-
+  copy cadence, not concise writing. Fix: write copy that names the specific user
+  benefit without the theatrical pivot.
+
+- **FE-CONTENT-REALISM-01**: Content-data realism bans:
+  - Generic startup names: "Acme", "Nexus", "SmartFlow", "TechVault"
+  - Round vanity metrics: "10,000+", "99.9%", "500+ companies"
+  - Generic testimonial avatars and names: "Jane D.", "Alex M."
+  - Locale-inappropriate names (Latin names in Korean-first UIs)
+  - Non-specific action verbs: "Elevate", "Transform", "Unleash", "Revolutionize"
+  Fix: use locale-appropriate specific names, organic non-round numbers, and
+  concrete verbs that describe the actual product action.
+
+### Interaction Tells
+
+- **FE-IMAGE-HOVER-01**: Generic hover zoom/rotation on every card image. Reflexive
+  `transform: scale(1.05)` or `rotate(2deg)` on imagery is a default tell; hover
+  transforms belong on interactive controls that change state, not on decorative
+  images. Fix: remove image hover transforms unless the image IS the interactive
+  target (gallery, lightbox).
+
+- **FE-MARQUEE-01**: One marquee/ticker per page maximum. Two or more scrolling
+  elements on one page is repetition slop. Fix: keep the strongest one; demote
+  others to static sections.
+
+- **FE-GRADIENT-TEXT-01**: Gradient text via `background-clip: text` + gradient
+  background is now an overused AI tell. Ban as default; allow only with explicit
+  design rationale and a fallback `color` for browsers that don't support it.
+
+### Layout Tells
+
+- **FE-CLIP-OVERFLOW-01**: Clipped popover/tooltip — an `overflow: hidden` or
+  `overflow: clip` ancestor trapping a positioned child (tooltip, dropdown, popover).
+  This is a common generated-UI layout bug, not an aesthetic choice. Fix: move the
+  positioned element to a portal, or use `overflow: visible` on the clipping ancestor.
+
+- **FE-PLACEHOLDER-IMG-01**: Broken or placeholder images in shipped UI. Empty `src`,
+  `data:` URIs, `placeholder.com`, `via.placeholder.com`, `picsum.photos`, or
+  `/api/placeholder/` URLs are shipping tells. Fix: use real assets (generated via
+  ima2 or sourced from brand kits); never ship placeholder URLs.
+
+- **FE-GRADIENT-STRIPE-01**: Decorative repeating-gradient stripes or grid overlays
+  as background texture. The gradient budget (FE-GRADIENT-01) catches broad overuse;
+  this catches the specific hairline repeating-gradient/grid-background provider
+  signature. Fix: use a real texture image or remove the pattern.
