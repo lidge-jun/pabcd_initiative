@@ -201,6 +201,42 @@ For current versions, release notes, CVEs, package/source checks, or provider be
 read the active `search` skill and follow its query-rewrite, source-fetch, and
 evidence-status rules. Sub-agents are bound by this policy too — include it in dispatch prompts.
 
+### Recall lookup scope (DEV-RECALL-01, MUST)
+
+When a prior term, file, or decision is unfamiliar — or context was lost to a
+compaction — search the durable record **before** asking the user: the
+conversation history and whatever memory store the runtime keeps. If both miss,
+then ask, and say what you searched for. Reporting the search terms is the part
+that matters: it lets the user correct the vocabulary instead of re-explaining
+something already on disk under a name you did not try.
+
+If the runtime has neither surface, say so once rather than silently skipping the
+step — "I cannot search prior sessions here" is information; asking as though no
+record could exist is not.
+
+### Browse and QA tool routing (DEV-BROWSE-NATIVE-01, STRICT)
+
+For ad-hoc browsing and exploratory QA — opening a page, checking a URL,
+eyeballing a screen, taking a screenshot — **do not install a browser-automation
+framework or driver.** Use the runtime's own browser capability first. A
+deliberate end-to-end test suite is a different task and belongs to
+`dev-testing`; this rule does not touch it.
+
+Two ladders exist and their orders are deliberately **opposite**. Start at 1 and
+say why when you skip a rung. What is portable here is the ordering principle, not
+any specific tool name — bind each rung to whatever your runtime actually has.
+
+| Context | Ladder | Order | Owner |
+|---|---|---|---|
+| Public-web proof (search, research, URL verification) | `SEARCH-BROWSE-01` | 1. scripted HTTP/protocol fetch → 2. embedded browser → 3. full real-profile browser → 4. screen-level control | the active `search` skill |
+| QA of a surface you just built or served | `QA-TOOL-LADDER-01` | 1. embedded browser → 2. full real-profile browser → 3. screen-level control → 4. scripted fetch (public-URL shape checks only) | `dev-testing` |
+
+The inversion is the content of the rule, not an inconsistency. Proving a public
+claim wants the cheapest faithful read of what a server returns, so scripted fetch
+leads. QA of your own surface needs the thing to actually render and respond to
+input, so a real browser context leads and scripted fetch drops to last, where it
+can only confirm shape.
+
 ---
 
 ## 0. Intent Clarification
@@ -313,6 +349,18 @@ Full methodology (boundary instrumentation, competing hypotheses, postmortem):
 but might work" · proposing solutions before investigating · "one more attempt" after
 2+ failures. **3+ failed fixes = architectural problem**: pause, question the pattern
 itself, and discuss with the user before further fixes.
+
+**Repeated-friction rule (DEV-FRICTION-01, DEFAULT).** When the same command class
+fails twice with the same normalized error, do not retry a third time unchanged:
+switch approach — a different tool, different flags, or root-cause the
+environment. Repeated identical failures are friction evidence, not bad luck.
+
+**Repeated-edit-shape rule (DEV-EDIT-SHAPE-01, DEFAULT).** Three same-shaped edits
+in a row (the same structural transform applied at different sites) mean you are
+hand-running a codemod: stop and switch to an AST-based rewrite tool or a scripted
+transform, so the remaining sites are transformed deterministically. The third
+identical edit is the signal — by then the transform is known, and continuing by
+hand is where the divergent site gets missed.
 
 ---
 
