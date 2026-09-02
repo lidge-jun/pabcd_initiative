@@ -318,11 +318,27 @@
 <tr><td>Debugging methodology</td><td>dev-debugging</td><td>dev-code-reviewer</td></tr>
 <tr><td>Data pipeline patterns</td><td>dev-data</td><td>dev-backend</td></tr>
 <tr><td>Design intent discovery</td><td>dev-uiux-design</td><td>dev-frontend</td></tr>
-<tr><td>Project scaffolding / docs</td><td>dev-scaffolding</td><td>dev-pabcd</td></tr>
+<tr><td>Design judgment</td><td>dev-uiux-design</td><td>dev-frontend</td></tr>
 <table class="rules">
+<tr><td>Frontend implementation</td><td>dev-frontend</td><td>dev-uiux-design</td></tr>
+<tr><td>Project scaffolding / docs</td><td>dev-scaffolding</td><td>dev-pabcd</td></tr>
 <tr><td>Orchestration workflow</td><td>dev-pabcd</td><td>—</td></tr>
+<tr><td>Operational gates</td><td>dev-devops</td><td>dev-backend, dev-scaffolding</td></tr>
+<tr><td>Stacked pull requests (DEV-STACK-*)</td><td>dev refs/stacked-prs.md</td><td>dev-pabcd, dev-code-reviewer, dev-devops</td></tr>
+<tr><td>Flaky tests / CI re-run (TEST-FLAKE-*)</td><td>dev-testing refs/ci-pipeline.md §5</td><td>dev-debugging, dev-devops refs/ci-cd-deploy.md §6</td></tr>
+<table class="rules">
+<tr><td>Browse / QA tool routing</td><td>dev-testing (QA ladder), the active search skill (search ladder)</td><td>dev (routing summary)</td></tr>
+<tr><td>Manual surface QA / evidence matrix</td><td>the host&#x27;s QA capability</td><td>dev-testing (tool routing stays there)</td></tr>
+<tr><td>Anti-slop output</td><td>dev §Family Invariants</td><td>all dev-*</td></tr>
+<tr><td>file:line evidence</td><td>dev §Family Invariants</td><td>all dev-*</td></tr>
+<tr><td>Completion proof</td><td>dev §Family Invariants</td><td>dev-pabcd, all dev-*</td></tr>
 </tbody></table>
 <p>When updating a rule, update the canonical owner first, then verify stubs still point correctly.</p>
+<p><strong>Keep this table current when you add a rule area.</strong> A rule whose area is not listed here</p>
+<p>has no recorded owner, which is how the same guidance ends up written twice in two skills at</p>
+<p>two different thresholds — and a reader who finds the looser copy first can satisfy it and</p>
+<p>stop. The rows for stacked PRs, the flake policy, and browse/QA routing were added after</p>
+<p>their rules had already shipped, which is exactly the window where that happens.</p>
 <p><strong>When your task spans multiple domains</strong>, read each relevant skill file before starting.</p>
 <p>---</p>
 <h3 id="family-invariants-apply-to-every-dev-skill">Family Invariants (apply to every <code>dev-*</code> skill)</h3>

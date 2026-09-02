@@ -169,10 +169,26 @@ Each rule area has exactly one canonical owner. Other skills may contain stubs b
 | Debugging methodology | dev-debugging | dev-code-reviewer |
 | Data pipeline patterns | dev-data | dev-backend |
 | Design intent discovery | dev-uiux-design | dev-frontend |
+| Design judgment | dev-uiux-design | dev-frontend |
+| Frontend implementation | dev-frontend | dev-uiux-design |
 | Project scaffolding / docs | dev-scaffolding | dev-pabcd |
 | Orchestration workflow | dev-pabcd | — |
+| Operational gates | dev-devops | dev-backend, dev-scaffolding |
+| Stacked pull requests (DEV-STACK-*) | dev refs/stacked-prs.md | dev-pabcd, dev-code-reviewer, dev-devops |
+| Flaky tests / CI re-run (TEST-FLAKE-*) | dev-testing refs/ci-pipeline.md §5 | dev-debugging, dev-devops refs/ci-cd-deploy.md §6 |
+| Browse / QA tool routing | dev-testing (QA ladder), the active search skill (search ladder) | dev (routing summary) |
+| Manual surface QA / evidence matrix | the host's QA capability | dev-testing (tool routing stays there) |
+| Anti-slop output | dev §Family Invariants | all dev-* |
+| file:line evidence | dev §Family Invariants | all dev-* |
+| Completion proof | dev §Family Invariants | dev-pabcd, all dev-* |
 
 When updating a rule, update the canonical owner first, then verify stubs still point correctly.
+
+**Keep this table current when you add a rule area.** A rule whose area is not listed here
+has no recorded owner, which is how the same guidance ends up written twice in two skills at
+two different thresholds — and a reader who finds the looser copy first can satisfy it and
+stop. The rows for stacked PRs, the flake policy, and browse/QA routing were added after
+their rules had already shipped, which is exactly the window where that happens.
 
 **When your task spans multiple domains**, read each relevant skill file before starting.
 

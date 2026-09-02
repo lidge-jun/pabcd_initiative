@@ -142,10 +142,50 @@
 <tr><td>Complex function</td><td><code>complexity</code>, <code>max-depth</code>, <code>max-lines-per-function</code></td></tr>
 </tbody></table>
 <p>This table is not exhaustive — the project&#x27;s own config is the canonical rule set.</p>
+<h3 id="new-file-language-default">New-File Language Default</h3>
+<p>For new JavaScript/TypeScript source files, prefer TypeScript:</p>
+<ul>
+<li>Use <code>.ts</code> for logic and <code>.tsx</code> for typed UI components when the project already supports</li>
+</ul>
+<p>TypeScript or is greenfield JS/TS.</p>
+<ul>
+<li>Use <code>.js</code>/<code>.jsx</code> only when the repo is clearly JS-only, build or runtime constraints</li>
+</ul>
+<p>require JS, or the user asks for JS.</p>
+<ul>
+<li>Do not introduce TypeScript tooling, convert existing JS, or change <code>tsconfig</code> without</li>
+</ul>
+<p>user approval. Migrating a language is a decision with a cost the user is paying.</p>
+<p>New TypeScript is strict-compatible from the first patch, not after a cleanup pass:</p>
+<ul>
+<li>No implicit <code>any</code>.</li>
+<li>Explicit <code>any</code> requires a nearby justification comment.</li>
+<li>Prefer <code>unknown</code> plus narrowing over <code>any</code>.</li>
+<li>Type exported function parameters and return values.</li>
+<li>Handle null and undefined deliberately.</li>
+<li>Avoid code that only passes because <code>strict</code> is disabled — it becomes someone else&#x27;s</li>
+</ul>
+<p>failure the moment the flag is turned on.</p>
+<p>Verification: run the project&#x27;s configured typecheck when available. If TypeScript is</p>
+<p>present but no typecheck script exists, use the closest safe equivalent (<code>tsc --noEmit</code>).</p>
+<p>If strict compatibility cannot be verified, say so rather than implying it was checked.</p>
+<h3 id="escape-hatches">Escape Hatches</h3>
+<p>When bypassing the type system is unavoidable:</p>
+<ul>
+<li>Add a comment explaining why the escape is needed — not what it does.</li>
+<li>Scope it minimally: cast at the narrowest point, not the broadest.</li>
+<li>Prefer assertion functions over raw casts (<code>assertIsString(x)</code> over <code>x as string</code>).</li>
+<li>A double cast through <code>unknown</code> requires a linked issue or TODO. It defeats the checker</li>
+</ul>
+<p>entirely, so it should be traceable to a reason that can expire.</p>
+<ul>
+<li>A blanket type-checker suppression must name the specific error code it suppresses, so</li>
+</ul>
+<p>it stops applying when that error stops being the one that occurs.</p>
 <h3 id="sources">Sources</h3>
+<table class="rules">
 <thead><tr><th>Claim</th><th>Source</th><th>Checked</th></tr></thead><tbody>
 <tr><td>Biome barrel-file rule exists (<code>noBarrelFile</code>)</td><td>https://biomejs.dev/linter/rules/no-barrel-file/</td><td>2026-07-02</td></tr>
-<table class="rules">
 <tr><td>ponytail necessity-gate discipline (DEV-NECESSITY-01 source)</td><td>https://github.com/DietrichGebert/ponytail</td><td>2026-07-02</td></tr>
 </tbody></table>
   </div>

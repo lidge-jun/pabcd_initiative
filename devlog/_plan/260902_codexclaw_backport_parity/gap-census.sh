@@ -17,6 +17,8 @@ set -uo pipefail
 MODE=gap; REV_BASE=origin/main; REV_HEAD=HEAD
 if [ "${1:-}" = "--added" ]; then
   MODE=added; REV_BASE="${2:-origin/main}"; REV_HEAD="${3:-HEAD}"; shift 3 || shift $#
+elif [ "${1:-}" = "--refs" ]; then
+  MODE=refs; shift
 fi
 ROOT="${1:-$HOME/Developer/new/700_projects}"
 RGX='\b[A-Z][A-Z0-9]+(-[A-Z0-9]+)+-[0-9]{2}\b'
@@ -228,4 +230,37 @@ if [ "$MODE" = "added" ]; then
   done < "$TMP/rev_added.txt"
   echo "  >>> unexplained additions: $n"
   exit $([ "$n" -eq 0 ] && echo 0 || echo 1)
+fi
+
+# ─── content parity, not just rule-id parity ────────────────────────────────
+# Rule ids are a subset of content. A skill can hold every upstream rule id and still be
+# missing a whole reference document, because a document with no rule ids in it is
+# invisible to the id census -- which is how `skill-ownership.md` and `static-analysis.md`
+# went unnoticed until a file-level diff was run by hand.
+#
+# Usage: gap-census.sh --refs
+if [ "${MODE:-gap}" = "refs" ]; then
+  echo
+  echo "== reference-file parity per skill family =="
+  printf '  %-22s %5s %5s  %s\n' SKILL cxc target MISSING
+  for pair in dev:dev dev-architecture:dev-architecture dev-backend:dev-backend \
+              dev-code-reviewer:dev-code-reviewer dev-data:dev-data \
+              dev-debugging:dev-debugging dev-devops:dev-devops dev-frontend:dev-frontend \
+              pabcd:dev-pabcd dev-scaffolding:dev-scaffolding dev-security:dev-security \
+              dev-testing:dev-testing dev-uiux-design:dev-uiux-design; do
+    c="${pair%%:*}"; t="${pair##*:}"
+    [ -d "$CXC/$c/references" ] || continue
+    a=$(cd "$CXC/$c/references" && find . -name '*.md' | sed 's|^\./||' | sort)
+    b=$(cd "$PI/$t/references" 2>/dev/null && find . -name '*.md' | sed 's|^\./||' | sort)
+    # Host-specific catalogs are not portable: skill-catalog.md documents one harness's
+    # `skill search` CLI and its community registry, so porting it would ADD a neutrality
+    # violation. Named rather than filtered by pattern, so a new unported file still shows.
+    miss=$(comm -13 <(echo "$b") <(echo "$a") | rg -v '^skill-catalog\.md$' | tr '\n' ' ')
+    printf '  %-22s %5s %5s  %s\n' "$c" "$(echo "$a"|grep -c .)" "$(echo "$b"|grep -c .)" "${miss:-—}"
+  done
+  echo
+  echo "  Note: a file present under a DIFFERENT name is not a gap. static-analysis.md ->"
+  echo "  static-analysis-gate.md and skill-ownership.md -> an inline section in dev/SKILL.md"
+  echo "  both carry the content; compare section headings before porting a whole file."
+  exit 0
 fi

@@ -144,6 +144,41 @@ is the practical lesson: when a drift claim rests on a comparison, check it agai
 tree — and check that the comparison answers the question being asked, because a
 well-formed measurement of the wrong quantity is the hardest kind to notice.
 
+## Rule ids are a subset of content, and the census only ever counted ids
+
+Every parity claim in this unit rested on rule-id counts. A skill can hold every upstream
+rule id and still be missing an entire reference document, because a document containing no
+rule ids is **invisible to an id census**. A file-level diff found three such files in `dev`:
+
+| Upstream file | Verdict |
+|---|---|
+| `skill-catalog.md` (294 lines) | correctly not ported — it documents one harness's `skill search` CLI and its community registry, so porting it would *add* a neutrality violation |
+| `skill-ownership.md` | content is inline in `dev/SKILL.md`, but the map had **19 of 27 rows** |
+| `static-analysis.md` | content is in `static-analysis-gate.md`, but **two sections were absent** |
+
+The ownership gap is the one that matters, because of *which* rows were missing. Among them:
+`Stacked pull requests (DEV-STACK-*)`, `Flaky tests / CI re-run (TEST-FLAKE-*)`, and
+`Browse / QA tool routing` — all three are areas **this unit added rules to**. The rules
+shipped in 020 and 030; the table that tells a future reader who owns those areas was never
+updated.
+
+That is not bookkeeping. The ownership map exists to stop the same guidance being written
+twice in two skills, and this unit had already produced exactly that failure: the duplicate
+split-hero rule at two thresholds, found one section above. An unowned rule area is the
+precondition for it.
+
+Ten rows added, plus a standing instruction to keep the table current when a rule area is
+added, naming those three as the case in point. `static-analysis-gate.md` gained the
+new-file language default and the escape-hatch discipline, neutralized; coverage now matches
+upstream on every marker checked.
+
+`gap-census.sh --refs` closes the blind spot permanently. It compares reference files per
+family and names `skill-catalog.md` as the one deliberate non-port rather than filtering it
+by pattern, so a *new* unported file still shows. It also prints the caveat that a file
+present under a different name is not a gap — `static-analysis.md` and `skill-ownership.md`
+are both real content living elsewhere, and treating a filename diff as a content gap would
+have produced two redundant files.
+
 ## (b) rested on a gate that never looked for its main token
 
 Every neutrality claim in this unit came from one scan, and the scan was never tested. It
